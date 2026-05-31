@@ -37,6 +37,12 @@ and grading must accept MULTIPLE correct answers.
 - **Finnish correctness** is owned by `finnish-linguist`. Never hand-write Finnish
   forms, accepted-answer sets, or fixtures containing Finnish without routing through it.
 - Code review -> `code-reviewer`. Tests -> `test-runner`.
+- **Keep these agents warm across a feature's iterations.** Spawn `code-reviewer` with
+  name `reviewer` and `test-runner` with name `tester` the first time you need them in a
+  session; on later rounds reuse them via `SendMessage({to: "reviewer" | "tester"})`
+  instead of cold-spawning. A warm reviewer does incremental review ("did my fixes
+  address your earlier findings?"); a warm tester remembers which tests last failed.
+  Reset by re-spawning only if a session's context gets unwieldy.
 
 ## Conventions
 - TypeScript, strict mode. Learning logic (SRS + grader) lives in pure modules under
@@ -48,3 +54,7 @@ and grading must accept MULTIPLE correct answers.
 ## Definition of done for a feature
 Builds + lint passes + `test-runner` green + `code-reviewer` has no Critical findings +
 any new Finnish content verified by `finnish-linguist`.
+
+Run these as a loop on the *same* warm agents: review -> fix -> re-send the diff to
+`reviewer` and re-run `tester` -> repeat until both are clean. Reusing the warm agents
+makes each pass cheaper and lets them judge progress against what they flagged last round.

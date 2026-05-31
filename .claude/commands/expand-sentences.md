@@ -3,7 +3,15 @@ description: Generate & verify accepted-answer sets for new sentence prompts (bu
 argument-hint: [Russian prompt(s), or a theme like "daily routine"]
 ---
 
-Use the **finnish-linguist** subagent to expand `data/sentences.seed.json`.
+Expand `data/sentences.seed.json` using the **finnish-linguist** subagent.
+
+Agent reuse (do this first):
+- If a `finnish-linguist` agent named `linguist` is already running in this session,
+  send this task to it via `SendMessage({to: "linguist"})` so it keeps the dictionary
+  and gradation context it already built up this batch.
+- Otherwise spawn it with `Agent({subagent_type: "finnish-linguist", name: "linguist"})`
+  so follow-up rounds in this session can reuse it.
+- Leave it running between rounds; do not re-spawn cold per prompt.
 
 Task: $ARGUMENTS
 
