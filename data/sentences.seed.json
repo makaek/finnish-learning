@@ -28,7 +28,7 @@
         { "match": "minä menen töissä", "ru": "Нужно направление «куда?» (töihin), а не «где?» (töissä)." }
       ],
       "teaches": "illative / idiom 'töihin' + dropped pronoun",
-      "needs_review": true
+      "needs_review": false
     },
     {
       "id": "s2",
@@ -42,7 +42,7 @@
         { "match": "söin lettu", "ru": "Нужен партитив (несколько блинов): lettuja." }
       ],
       "teaches": "past tense + partitive plural object",
-      "needs_review": true
+      "needs_review": false
     },
     {
       "id": "s3",
@@ -55,7 +55,7 @@
         { "match": "join kahvia", "ru": "join — прошедшее («я пил»). Здесь настоящее: juon." }
       ],
       "teaches": "partitive object",
-      "needs_review": true
+      "needs_review": false
     },
     {
       "id": "s4",
@@ -68,7 +68,7 @@
         { "match": "asun helsinkiin", "ru": "Helsinkiin — это «куда?» (направление). «жить где?» — инессив: Helsingissä." }
       ],
       "teaches": "inessive of place",
-      "needs_review": true
+      "needs_review": false
     },
     {
       "id": "s5",
@@ -82,7 +82,7 @@
         { "match": "en puhu suomi", "ru": "Язык как объект — в партитиве: suomea." }
       ],
       "teaches": "negation verb + connegative + partitive language name",
-      "needs_review": true
+      "needs_review": false
     }
   ]
 }

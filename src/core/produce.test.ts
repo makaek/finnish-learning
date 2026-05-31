@@ -1,11 +1,6 @@
 import { describe, it, expect } from "vitest";
 import type { VocabItem } from "./dictionary";
-import {
-  normalizeFi,
-  gradeTyped,
-  buildProductionSession,
-  DEFAULT_SESSION_SIZE,
-} from "./produce";
+import { gradeTyped, buildProductionSession, DEFAULT_SESSION_SIZE } from "./produce";
 
 const pool: VocabItem[] = [
   { id: "n1", fi: "työ", ru: "работа", pos: "noun" },
@@ -15,26 +10,6 @@ const pool: VocabItem[] = [
   { id: "v2", fi: "syödä", ru: "есть", pos: "verb" },
   { id: "a1", fi: "hyvä", ru: "хороший", pos: "adj" },
 ];
-
-describe("normalizeFi", () => {
-  it("trims, lowercases, and collapses whitespace", () => {
-    expect(normalizeFi("  Menen   Töihin ")).toBe("menen töihin");
-  });
-
-  it("strips a single trailing . ? or !", () => {
-    expect(normalizeFi("työ.")).toBe("työ");
-    expect(normalizeFi("työ?")).toBe("työ");
-    expect(normalizeFi("työ!")).toBe("työ");
-  });
-
-  it("strips only one trailing punctuation mark", () => {
-    expect(normalizeFi("työ!!")).toBe("työ!");
-  });
-
-  it("preserves Finnish dotted vowels", () => {
-    expect(normalizeFi("TYÖ")).toBe("työ");
-  });
-});
 
 describe("gradeTyped", () => {
   it("accepts an exact answer (case/space insensitive)", () => {

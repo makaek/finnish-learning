@@ -12,6 +12,7 @@
 
 import type { VocabItem } from "./dictionary";
 import { makeRng, shuffle, DEFAULT_SESSION_SIZE } from "./quiz";
+import { normalizeFi } from "./normalize";
 
 export { DEFAULT_SESSION_SIZE };
 
@@ -41,19 +42,6 @@ export interface TypedGrade {
   answerFi: string;
   /** Learner-facing feedback, IN RUSSIAN. */
   feedbackRu: string;
-}
-
-/**
- * Normalize before matching. Mirrors the rules documented in grader.contract.ts: trim,
- * lowercase, collapse internal whitespace to single spaces, strip a single trailing
- * . ? or !. Pure and deterministic.
- */
-export function normalizeFi(raw: string): string {
-  return raw
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g, " ")
-    .replace(/[.?!]$/, "");
 }
 
 /**
