@@ -12,6 +12,8 @@ coverage/
 
 # Claude Code local-scope memory (do NOT check in)
 .claude/agent-memory-local/
+# Claude Code transient runtime files
+.claude/scheduled_tasks.lock
 
 # OS / editor
 .DS_Store

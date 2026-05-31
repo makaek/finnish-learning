@@ -1,25 +1,37 @@
 import { useMemo, useState } from "react";
 import { VOCAB } from "../data/dictionary";
 import { buildSession, DEFAULT_SESSION_SIZE } from "../core/quiz";
+import { buildProductionSession } from "../core/produce";
 import RecognitionCard from "./RecognitionCard";
+import ProductionCard from "./ProductionCard";
 import SessionSummary from "./SessionSummary";
 
+type Mode = "recognition" | "production";
+
 /**
- * Slice 1 root: runs one word-recognition session end-to-end. Session state is in-memory
- * only — SRS scheduling and persistence arrive in a later slice.
+ * Root: a minimal mode picker (recognition vs typed production), then one in-memory
+ * session of the chosen exercise. SRS scheduling and persistence arrive in a later slice;
+ * a dedicated design pass will turn this picker into a proper home/streak screen.
  */
 export default function App() {
+  const [mode, setMode] = useState<Mode | null>(null);
   const [seed, setSeed] = useState(() => Date.now());
-  const session = useMemo(
-    () => buildSession(VOCAB, seed, DEFAULT_SESSION_SIZE),
-    [seed],
-  );
-
   const [index, setIndex] = useState(0);
   const [score, setScore] = useState(0);
 
-  const finished = index >= session.length;
-  const current = session[index];
+  // Both are cheap (≤10 items) and reseed together; the active mode picks which to run.
+  const recognition = useMemo(() => buildSession(VOCAB, seed, DEFAULT_SESSION_SIZE), [seed]);
+  const production = useMemo(
+    () => buildProductionSession(VOCAB, seed, DEFAULT_SESSION_SIZE),
+    [seed],
+  );
+
+  function start(next: Mode) {
+    setMode(next);
+    setSeed(Date.now());
+    setIndex(0);
+    setScore(0);
+  }
 
   function handleAnswered(wasCorrect: boolean) {
     if (wasCorrect) setScore((s) => s + 1);
@@ -27,26 +39,61 @@ export default function App() {
   }
 
   function restart() {
-    setScore(0);
-    setIndex(0);
-    setSeed(Date.now());
+    if (mode) start(mode);
   }
+
+  function goHome() {
+    setMode(null);
+  }
+
+  if (mode === null) {
+    return (
+      <main className="app">
+        <section className="card card--summary">
+          <h1 className="prompt">Финский тренажёр</h1>
+          <p className="hint">Выберите упражнение:</p>
+          <div className="options">
+            <button type="button" className="option" onClick={() => start("recognition")}>
+              Узнавание слов
+            </button>
+            <button type="button" className="option" onClick={() => start("production")}>
+              Написание слов
+            </button>
+          </div>
+        </section>
+      </main>
+    );
+  }
+
+  const total = mode === "production" ? production.length : recognition.length;
+  const finished = index >= total;
 
   return (
     <main className="app">
-      {session.length === 0 ? (
+      {total === 0 ? (
         <section className="card">
           <h1 className="prompt">Словарь пуст</h1>
           <p className="hint">Нет слов для тренировки.</p>
+          <button type="button" className="next" onClick={goHome}>
+            В меню
+          </button>
         </section>
-      ) : finished || !current ? (
-        <SessionSummary score={score} total={session.length} onRestart={restart} />
+      ) : finished ? (
+        <SessionSummary score={score} total={total} onRestart={restart} onHome={goHome} />
+      ) : mode === "production" ? (
+        <ProductionCard
+          key={index}
+          question={production[index]!}
+          questionNumber={index + 1}
+          total={total}
+          onAnswered={handleAnswered}
+        />
       ) : (
         <RecognitionCard
           key={index}
-          question={current}
+          question={recognition[index]!}
           questionNumber={index + 1}
-          total={session.length}
+          total={total}
           onAnswered={handleAnswered}
         />
       )}
