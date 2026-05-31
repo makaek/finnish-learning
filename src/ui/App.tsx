@@ -85,6 +85,13 @@ export default function App() {
 
   return (
     <main className="app">
+      {/* Exit shown only while a card is on screen; the empty (total===0) and summary
+          screens carry their own "В меню" button. */}
+      {!finished && total > 0 && (
+        <button type="button" className="exit" onClick={goHome}>
+          ← В меню
+        </button>
+      )}
       {total === 0 ? (
         <section className="card">
           <h1 className="prompt">Пока пусто</h1>

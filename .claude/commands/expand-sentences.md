@@ -22,10 +22,12 @@ Rules:
 - For each new Russian prompt produce a full item matching the schema in
   `data/sentences.seed.json`:
   - `canonical` (single model answer),
-  - `accepted` (every correct phrasing: with AND without the dropped subject pronoun,
-    plus legitimate word-order variants),
+  - `accepted` (the DISTINCT correct phrasings only — e.g. genuine word-order variants.
+    Do NOT list the with/without dropped-subject-pronoun pair: the grader derives the
+    pronoun-dropped variant automatically, for both `accepted` and `wrong`),
   - `wrong` (2-4 realistic Russian-speaker mistakes — wrong case, wrong tense, missing
-    partitive, mis-conjugated negation — each with a short explanation IN RUSSIAN),
+    partitive, mis-conjugated negation — each with a short explanation IN RUSSIAN; author
+    one form per mistake, the dropped-pronoun variant is derived),
   - `uses`, `teaches`.
 - Mark every new item and any new dictionary entry `"needs_review": true` unless you are
   fully certain of every form.

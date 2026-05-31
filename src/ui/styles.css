@@ -29,6 +29,23 @@ body {
   padding: 1rem;
 }
 
+.exit {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  background: var(--card);
+  border: 1px solid #334155;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.exit:hover {
+  color: var(--text);
+}
+
 .card {
   width: 100%;
   max-width: 30rem;

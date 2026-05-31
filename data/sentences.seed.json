@@ -83,6 +83,357 @@
       ],
       "teaches": "negation verb + connegative + partitive language name",
       "needs_review": false
+    },
+    {
+      "id": "s6",
+      "ru": "Я иду домой.",
+      "uses": ["v2", "n2"],
+      "canonical": "Menen kotiin.",
+      "accepted": ["Menen kotiin.", "Minä menen kotiin."],
+      "wrong": [
+        { "match": "menen kotona", "ru": "kotona — это «дома» (где?). Здесь направление «куда?» — kotiin." },
+        { "match": "menen koti:n", "ru": "Правильная форма иллатива — kotiin (без двоеточия)." },
+        { "match": "menen koti", "ru": "Нужно направление «куда?»: kotiin, а не словарная форма koti." }
+      ],
+      "teaches": "illative direction 'kotiin' vs inessive 'kotona'",
+      "needs_review": false
+    },
+    {
+      "id": "s7",
+      "ru": "Я дома.",
+      "uses": ["v1", "n2"],
+      "canonical": "Olen kotona.",
+      "accepted": ["Olen kotona.", "Minä olen kotona."],
+      "wrong": [
+        { "match": "olen kodissa", "ru": "«Дома» — исключение: kotona, а не kodissa." },
+        { "match": "olen kotiin", "ru": "kotiin — это «домой» (куда?). Здесь «где?» — kotona." },
+        { "match": "olen koti", "ru": "«Где?» требует формы места: kotona." }
+      ],
+      "teaches": "irregular location 'kotona' (not kodissa)",
+      "needs_review": false
+    },
+    {
+      "id": "s8",
+      "ru": "Ты идёшь в магазин.",
+      "uses": ["v2", "n3"],
+      "canonical": "Menet kauppaan.",
+      "accepted": ["Menet kauppaan.", "Sinä menet kauppaan."],
+      "wrong": [
+        { "match": "menet kaupassa", "ru": "kaupassa — «в магазине» (где?). Здесь направление «куда?» — kauppaan." },
+        { "match": "menen kauppaan", "ru": "«Ты идёшь» — форма menet, а не menen («я иду»)." },
+        { "match": "menet kauppa", "ru": "Нужен иллатив «куда?»: kauppaan." }
+      ],
+      "teaches": "2sg verb + illative direction",
+      "needs_review": false
+    },
+    {
+      "id": "s9",
+      "ru": "Он в магазине.",
+      "uses": ["v1", "n3"],
+      "canonical": "Hän on kaupassa.",
+      "accepted": ["Hän on kaupassa."],
+      "wrong": [
+        { "match": "hän on kauppaan", "ru": "kauppaan — «в магазин» (куда?). Здесь «где?» — kaupassa." },
+        { "match": "hän on kauppa", "ru": "«Где?» требует инессива: kaupassa." },
+        { "match": "hän ovat kaupassa", "ru": "Для «он/она» глагол olla — on, а не ovat (это «они»)." }
+      ],
+      "teaches": "3sg 'on' + inessive location (gradation pp->p: kaupassa)",
+      "needs_review": false
+    },
+    {
+      "id": "s10",
+      "ru": "Мы едем на машине.",
+      "uses": ["v2", "n5"],
+      "canonical": "Menemme autolla.",
+      "accepted": ["Menemme autolla.", "Me menemme autolla."],
+      "wrong": [
+        { "match": "menemme auto", "ru": "«На машине» (чем?) — адессив autolla." },
+        { "match": "menemme autossa", "ru": "autossa — «в машине» (где?). «На машине» как средство — autolla." },
+        { "match": "menen autolla", "ru": "«Мы едем» — форма menemme, а не menen («я еду»)." }
+      ],
+      "teaches": "1pl verb + adessive of means 'autolla'",
+      "needs_review": false
+    },
+    {
+      "id": "s11",
+      "ru": "Они живут в городе.",
+      "uses": ["v7", "n12"],
+      "canonical": "He asuvat kaupungissa.",
+      "accepted": ["He asuvat kaupungissa."],
+      "wrong": [
+        { "match": "he asuvat kaupunki", "ru": "«Где?» требует инессива: kaupungissa (градация nk->ng)." },
+        { "match": "he asuvat kaupunkiin", "ru": "kaupunkiin — «в город» (куда?). «Жить где?» — инессив kaupungissa." },
+        { "match": "he asuu kaupungissa", "ru": "Для «они» форма asuvat, а не asuu («он живёт»)." }
+      ],
+      "teaches": "3pl verb + inessive (gradation nk->ng: kaupungissa)",
+      "needs_review": false
+    },
+    {
+      "id": "s12",
+      "ru": "Я живу в большом доме.",
+      "uses": ["v7", "a2", "n4"],
+      "canonical": "Asun isossa talossa.",
+      "accepted": ["Asun isossa talossa.", "Minä asun isossa talossa."],
+      "wrong": [
+        { "match": "asun iso talo", "ru": "И прилагательное, и существительное стоят в инессиве: isossa talossa." },
+        { "match": "asun isossa talo", "ru": "Существительное тоже в инессиве: talossa." },
+        { "match": "asun iso talossa", "ru": "Прилагательное согласуется в падеже: isossa talossa." }
+      ],
+      "teaches": "adjective-noun case agreement in inessive",
+      "needs_review": false
+    },
+    {
+      "id": "s13",
+      "ru": "Дом большой.",
+      "uses": ["v1", "n4", "a2"],
+      "canonical": "Talo on iso.",
+      "accepted": ["Talo on iso."],
+      "wrong": [
+        { "match": "talo on isoa", "ru": "Предикативное прилагательное с исчисляемым подлежащим — в номинативе: iso, не isoa." },
+        { "match": "talo iso", "ru": "Нужен глагол-связка on: «Talo on iso»." },
+        { "match": "talo ovat iso", "ru": "Подлежащее в ед. числе — глагол on, а не ovat." }
+      ],
+      "teaches": "predicative adjective in nominative + copula 'on'",
+      "needs_review": false
+    },
+    {
+      "id": "s14",
+      "ru": "Кофе хороший.",
+      "uses": ["n8", "v1", "a1"],
+      "canonical": "Kahvi on hyvää.",
+      "accepted": ["Kahvi on hyvää."],
+      "wrong": [
+        { "match": "kahvi on hyvä", "ru": "Кофе — вещественное (неисчисляемое), предикатив в партитиве: hyvää." },
+        { "match": "kahvia on hyvää", "ru": "Подлежащее в номинативе: kahvi (а не kahvia)." },
+        { "match": "kahvi hyvää", "ru": "Нужна связка on: «Kahvi on hyvää»." }
+      ],
+      "teaches": "predicative partitive with a mass-noun subject",
+      "needs_review": false
+    },
+    {
+      "id": "s15",
+      "ru": "Я не пью кофе.",
+      "uses": ["f6", "v4", "n8"],
+      "canonical": "En juo kahvia.",
+      "accepted": ["En juo kahvia.", "Minä en juo kahvia."],
+      "wrong": [
+        { "match": "en juon kahvia", "ru": "После en — коннегатив juo, без личного окончания." },
+        { "match": "ei juo kahvia", "ru": "Отрицательный глагол спрягается: для «я» — en, не ei." },
+        { "match": "en juo kahvi", "ru": "Объект после отрицания — в партитиве: kahvia." }
+      ],
+      "teaches": "negation + connegative + partitive object",
+      "needs_review": false
+    },
+    {
+      "id": "s16",
+      "ru": "Я не ем хлеб.",
+      "uses": ["f6", "v3", "n9"],
+      "canonical": "En syö leipää.",
+      "accepted": ["En syö leipää.", "Minä en syö leipää."],
+      "wrong": [
+        { "match": "en syön leipää", "ru": "После en нужен коннегатив syö, без -n." },
+        { "match": "en syö leipä", "ru": "Объект после отрицания — в партитиве: leipää." },
+        { "match": "en syö leivää", "ru": "Партитив от leipä — leipää (сильная ступень p), без градации." }
+      ],
+      "teaches": "negation + partitive object (no gradation in partitive: leipää)",
+      "needs_review": false
+    },
+    {
+      "id": "s17",
+      "ru": "Я пью воду.",
+      "uses": ["v4", "n11"],
+      "canonical": "Juon vettä.",
+      "accepted": ["Juon vettä.", "Minä juon vettä."],
+      "wrong": [
+        { "match": "juon vesi", "ru": "Вещество-объект в партитиве: vettä, не vesi." },
+        { "match": "juon vedessä", "ru": "vedessä — «в воде» (где?). Объект пьют в партитиве: vettä." },
+        { "match": "juon vettää", "ru": "Партитив от vesi — vettä (одна -ä)." }
+      ],
+      "teaches": "partitive of irregular -si noun (vesi -> vettä)",
+      "needs_review": false
+    },
+    {
+      "id": "s18",
+      "ru": "Я читаю книгу.",
+      "uses": ["v9", "n7"],
+      "canonical": "Luen kirjaa.",
+      "accepted": ["Luen kirjaa.", "Minä luen kirjaa."],
+      "wrong": [
+        { "match": "luen kirja", "ru": "Незавершённое действие — объект в партитиве: kirjaa." },
+        { "match": "lukee kirjaa", "ru": "Для «я» форма luen, а не lukee («он читает»)." },
+        { "match": "luen kirjan", "ru": "При процессе чтения предпочтителен партитив kirjaa (kirjan — результат, «прочитаю книгу целиком»)." }
+      ],
+      "teaches": "type-1 verb 1sg (luen) + partitive object of ongoing action",
+      "needs_review": false
+    },
+    {
+      "id": "s19",
+      "ru": "Он читает книгу.",
+      "uses": ["v9", "n7"],
+      "canonical": "Hän lukee kirjaa.",
+      "accepted": ["Hän lukee kirjaa."],
+      "wrong": [
+        { "match": "hän luke kirjaa", "ru": "Форма 3-го лица — lukee (с долгой -ee)." },
+        { "match": "hän luen kirjaa", "ru": "luen — это «я читаю». Для «он» — lukee." },
+        { "match": "hän lukee kirja", "ru": "Объект незавершённого действия в партитиве: kirjaa." }
+      ],
+      "teaches": "consonant gradation in type-1 verb (luen vs lukee) + partitive",
+      "needs_review": false
+    },
+    {
+      "id": "s20",
+      "ru": "Я купил книгу.",
+      "uses": ["v8", "n7"],
+      "canonical": "Ostin kirjan.",
+      "accepted": ["Ostin kirjan.", "Minä ostin kirjan."],
+      "wrong": [
+        { "match": "ostan kirjan", "ru": "ostan — настоящее («покупаю»). Прошедшее: ostin." },
+        { "match": "ostin kirja", "ru": "Завершённая покупка — объект в генитиве (тотальный объект): kirjan." },
+        { "match": "ostin kirjaa", "ru": "Покупка завершена целиком — тотальный объект kirjan, а не партитив kirjaa." }
+      ],
+      "teaches": "past tense + total (accusative=genitive form) object 'kirjan'",
+      "needs_review": false
+    },
+    {
+      "id": "s21",
+      "ru": "Мы купили новую машину.",
+      "uses": ["v8", "a4", "n5"],
+      "canonical": "Ostimme uuden auton.",
+      "accepted": ["Ostimme uuden auton.", "Me ostimme uuden auton."],
+      "wrong": [
+        { "match": "ostimme uusi auto", "ru": "Тотальный объект в прошедшем — в генитиве, и прилагательное согласуется: uuden auton." },
+        { "match": "ostimme uuden auto", "ru": "Существительное тоже в генитиве: auton." },
+        { "match": "ostamme uuden auton", "ru": "ostamme — настоящее («покупаем»). Прошедшее «мы купили» — ostimme." }
+      ],
+      "teaches": "1pl past + adjective-noun agreement in genitive object",
+      "needs_review": false
+    },
+    {
+      "id": "s22",
+      "ru": "Я хочу есть.",
+      "uses": ["v5", "v3"],
+      "canonical": "Haluan syödä.",
+      "accepted": ["Haluan syödä.", "Minä haluan syödä."],
+      "wrong": [
+        { "match": "haluan syön", "ru": "После haluta — инфинитив syödä, а не личная форма syön." },
+        { "match": "halua syödä", "ru": "Для «я» форма haluan, а не halua (это коннегатив/повелит.)." },
+        { "match": "haluaa syödä", "ru": "haluaa — это «он хочет». Для «я» — haluan." }
+      ],
+      "teaches": "haluta + infinitive",
+      "needs_review": false
+    },
+    {
+      "id": "s23",
+      "ru": "Я хочу воды.",
+      "uses": ["v5", "n11"],
+      "canonical": "Haluan vettä.",
+      "accepted": ["Haluan vettä.", "Minä haluan vettä."],
+      "wrong": [
+        { "match": "haluan vesi", "ru": "«Хочу воды» (часть вещества) — партитив vettä." },
+        { "match": "haluan veden", "ru": "Здесь нужен партитив vettä (немного воды), не генитив veden." },
+        { "match": "haluaa vettä", "ru": "Для «я» — haluan, haluaa это «он хочет»." }
+      ],
+      "teaches": "haluta + partitive mass-noun object",
+      "needs_review": false
+    },
+    {
+      "id": "s24",
+      "ru": "Ты говоришь по-фински?",
+      "uses": ["v6", "n16"],
+      "canonical": "Puhutko suomea?",
+      "accepted": ["Puhutko suomea?", "Puhutko sinä suomea?"],
+      "wrong": [
+        { "match": "puhut suomea", "ru": "В вопросе к глаголу добавляется частица -ko/-kö: Puhutko?" },
+        { "match": "puhutko suomi", "ru": "Язык как объект — в партитиве: suomea." },
+        { "match": "puhunko suomea", "ru": "Вопрос обращён к «ты»: форма puhutko, а не puhunko («говорю ли я»)." }
+      ],
+      "teaches": "yes/no question clitic -ko + partitive language",
+      "needs_review": false
+    },
+    {
+      "id": "s25",
+      "ru": "Я говорю по-фински, но он не говорит.",
+      "uses": ["v6", "f2", "f6", "n16"],
+      "canonical": "Puhun suomea, mutta hän ei puhu.",
+      "accepted": ["Puhun suomea, mutta hän ei puhu.", "Minä puhun suomea, mutta hän ei puhu."],
+      "wrong": [
+        { "match": "puhun suomea, mutta hän ei puhuu", "ru": "После ei — коннегатив puhu, без окончания (не puhuu)." },
+        { "match": "puhun suomea, mutta hän en puhu", "ru": "Для «он» отрицание ei, а не en («я»)." },
+        { "match": "puhun suomea ja hän ei puhu", "ru": "Здесь противопоставление — нужен mutta («но»), а не ja («и»)." }
+      ],
+      "teaches": "conjunction 'mutta' + 3sg negation (ei + connegative)",
+      "needs_review": false
+    },
+    {
+      "id": "s26",
+      "ru": "Я ем хлеб и пью воду.",
+      "uses": ["v3", "n9", "f1", "v4", "n11"],
+      "canonical": "Syön leipää ja juon vettä.",
+      "accepted": ["Syön leipää ja juon vettä.", "Minä syön leipää ja juon vettä."],
+      "wrong": [
+        { "match": "syön leipä ja juon vesi", "ru": "Оба объекта в партитиве: leipää, vettä." },
+        { "match": "syön leipää mutta juon vettä", "ru": "Это перечисление — нужен ja («и»), а не mutta («но»)." },
+        { "match": "syön leipää ja juo vettä", "ru": "Для «я» — juon, а не juo." }
+      ],
+      "teaches": "conjunction 'ja' linking two partitive-object clauses",
+      "needs_review": false
+    },
+    {
+      "id": "s27",
+      "ru": "Сегодня я иду в школу.",
+      "uses": ["f4", "v2", "n6"],
+      "canonical": "Tänään menen kouluun.",
+      "accepted": ["Tänään menen kouluun.", "Tänään minä menen kouluun.", "Menen tänään kouluun.", "Minä menen tänään kouluun."],
+      "wrong": [
+        { "match": "tänään menen koulussa", "ru": "koulussa — «в школе» (где?). Здесь «куда?» — kouluun." },
+        { "match": "tänään menen koulu", "ru": "Нужен иллатив «куда?»: kouluun." },
+        { "match": "huomenna menen kouluun", "ru": "«Сегодня» — tänään, а не huomenna («завтра»)." }
+      ],
+      "teaches": "time adverb 'tänään' + illative direction; flexible word order",
+      "needs_review": false
+    },
+    {
+      "id": "s28",
+      "ru": "Завтра я куплю книгу.",
+      "uses": ["f5", "v8", "n7"],
+      "canonical": "Huomenna ostan kirjan.",
+      "accepted": ["Huomenna ostan kirjan.", "Huomenna minä ostan kirjan.", "Ostan huomenna kirjan.", "Minä ostan huomenna kirjan."],
+      "wrong": [
+        { "match": "huomenna ostin kirjan", "ru": "«Завтра» — будущее, по-фински настоящее время ostan (не прошедшее ostin)." },
+        { "match": "huomenna ostan kirjaa", "ru": "Завершённая покупка — тотальный объект kirjan, а не партитив kirjaa." },
+        { "match": "tänään ostan kirjan", "ru": "«Завтра» — huomenna, а не tänään («сегодня»)." }
+      ],
+      "teaches": "future-via-present + 'huomenna' + total object",
+      "needs_review": false
+    },
+    {
+      "id": "s29",
+      "ru": "Я студент.",
+      "uses": ["v1", "n15"],
+      "canonical": "Olen opiskelija.",
+      "accepted": ["Olen opiskelija.", "Minä olen opiskelija."],
+      "wrong": [
+        { "match": "olen opiskelijaa", "ru": "Предикативное существительное-тождество — в номинативе: opiskelija, не opiskelijaa." },
+        { "match": "olen opiskelijan", "ru": "Здесь номинатив opiskelija (это не объект и не генитив)." },
+        { "match": "on opiskelija", "ru": "Для «я» — olen, а не on («он есть»)." }
+      ],
+      "teaches": "copula 'olla' + predicative nominative noun",
+      "needs_review": false
+    },
+    {
+      "id": "s30",
+      "ru": "Вчера он был дома.",
+      "uses": ["f7", "v1", "n2"],
+      "canonical": "Eilen hän oli kotona.",
+      "accepted": ["Eilen hän oli kotona.", "Hän oli eilen kotona."],
+      "wrong": [
+        { "match": "eilen hän on kotona", "ru": "«Был» — прошедшее: oli, а не on («есть»)." },
+        { "match": "eilen hän oli kotiin", "ru": "kotiin — «домой» (куда?). «Был где?» — kotona." },
+        { "match": "eilen hän oli kodissa", "ru": "«Дома» — исключение kotona, а не kodissa." },
+        { "match": "huomenna hän oli kotona", "ru": "«Вчера» — eilen (с прошедшим), а не huomenna («завтра»)." }
+      ],
+      "teaches": "time adverb 'eilen' + past tense 'oli' + irregular location 'kotona'",
+      "needs_review": false
     }
   ]
 }

@@ -79,7 +79,9 @@
     {"id":"n11","fi":"vesi","ru":"вода","pos":"noun","gen_sg":"veden","part_sg":"vettä","iness_sg":"vedessä","illat_sg":"veteen","notes":"Irregular -si type."},
     {"id":"n12","fi":"kaupunki","ru":"город","pos":"noun","gen_sg":"kaupungin","part_sg":"kaupunkia","iness_sg":"kaupungissa","illat_sg":"kaupunkiin","notes":"Gradation nk->ng."},
     {"id":"n13","fi":"ystävä","ru":"друг","pos":"noun","gen_sg":"ystävän","part_sg":"ystävää","iness_sg":"ystävässä","illat_sg":"ystävään","notes":""},
-    {"id":"n14","fi":"ruoka","ru":"еда","pos":"noun","gen_sg":"ruoan","part_sg":"ruokaa","iness_sg":"ruoassa","illat_sg":"ruokaan","notes":"Gradation k->(zero) in weak forms (ruoan, also spelled ruuan)."}
+    {"id":"n14","fi":"ruoka","ru":"еда","pos":"noun","gen_sg":"ruoan","part_sg":"ruokaa","iness_sg":"ruoassa","illat_sg":"ruokaan","notes":"Gradation k->(zero) in weak forms (ruoan, also spelled ruuan)."},
+    {"id":"n15","fi":"opiskelija","ru":"студент","pos":"noun","gen_sg":"opiskelijan","part_sg":"opiskelijaa","iness_sg":"opiskelijassa","illat_sg":"opiskelijaan","notes":"Vowel-final stem, no gradation. Predicative: 'Olen opiskelija' = Я студент.","needs_review":false},
+    {"id":"n16","fi":"suomi","ru":"финский язык / Финляндия","pos":"noun","gen_sg":"suomen","part_sg":"suomea","iness_sg":"suomessa","illat_sg":"suomeen","notes":"Stem suome-. As a LANGUAGE it is lowercase and the object is partitive: 'Puhun suomea' = Я говорю по-фински. As the country it is capitalized (Suomi/Suomessa).","needs_review":false}
   ],
 
   "adjectives": [
@@ -95,7 +97,8 @@
     {"id":"f3","fi":"nyt","ru":"сейчас","pos":"adv"},
     {"id":"f4","fi":"tänään","ru":"сегодня","pos":"adv"},
     {"id":"f5","fi":"huomenna","ru":"завтра","pos":"adv"},
-    {"id":"f6","fi":"ei","ru":"не / нет","pos":"neg_verb","forms":{"minä":"en","sinä":"et","hän":"ei","me":"emme","te":"ette","he":"eivät"},"notes":"Negation verb + connegative: 'En puhu suomea' = Я не говорю по-фински."}
+    {"id":"f6","fi":"ei","ru":"не / нет","pos":"neg_verb","forms":{"minä":"en","sinä":"et","hän":"ei","me":"emme","te":"ette","he":"eivät"},"notes":"Negation verb + connegative: 'En puhu suomea' = Я не говорю по-фински."},
+    {"id":"f7","fi":"eilen","ru":"вчера","pos":"adv","notes":"Indeclinable time adverb, pairs with past tense: 'Eilen olin kotona' = Вчера я был дома."}
   ],
 
   "example_sentences": [
