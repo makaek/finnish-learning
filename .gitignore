@@ -1,0 +1,21 @@
+# dependencies / build
+node_modules/
+dist/
+build/
+.vite/
+coverage/
+
+# env / secrets (none needed for v1, but never commit if the optional fallback is added)
+.env
+.env.*
+*.local
+
+# Claude Code local-scope memory (do NOT check in)
+.claude/agent-memory-local/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json

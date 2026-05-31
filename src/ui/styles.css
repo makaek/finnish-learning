@@ -1,0 +1,146 @@
+:root {
+  --bg: #0f172a;
+  --card: #1e293b;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --accent: #38bdf8;
+  --ok: #22c55e;
+  --no: #ef4444;
+  --radius: 14px;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.card {
+  width: 100%;
+  max-width: 30rem;
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.progress {
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.prompt {
+  margin: 0.25rem 0 0.75rem;
+  font-size: 1.6rem;
+  line-height: 1.25;
+}
+
+.hint {
+  margin: 0 0 1rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.options {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.option {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  font-size: 1.1rem;
+  text-align: left;
+  color: var(--text);
+  background: #334155;
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+
+.option:hover:not(:disabled) {
+  background: #3f4f64;
+}
+
+.option:disabled {
+  cursor: default;
+}
+
+.option--correct {
+  border-color: var(--ok);
+  background: rgba(34, 197, 94, 0.18);
+}
+
+.option--wrong {
+  border-color: var(--no);
+  background: rgba(239, 68, 68, 0.18);
+}
+
+.option--muted {
+  opacity: 0.55;
+}
+
+.feedback {
+  margin-top: 1.1rem;
+}
+
+.feedback__text {
+  font-size: 1.05rem;
+  margin: 0 0 0.9rem;
+}
+
+.feedback__text--ok {
+  color: var(--ok);
+}
+
+.feedback__text--no {
+  color: var(--no);
+}
+
+.next {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #082f49;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.next:hover {
+  filter: brightness(1.05);
+}
+
+.card--summary {
+  text-align: center;
+}
+
+.score {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
+}
+
+.score__pct {
+  font-size: 1.2rem;
+  color: var(--muted);
+  font-weight: 500;
+}

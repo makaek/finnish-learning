@@ -1,0 +1,108 @@
+{
+  "_meta": {
+    "purpose": "Seed dictionary for a Finnish-for-Russian-speakers trainer. This is a SEED: ~35 high-frequency A1 entries, hand-verified. The `finnish-linguist` subagent expands and re-verifies it.",
+    "why_the_extra_fields": "Russian->Finnish translation cannot work on dictionary forms alone. Finnish inflects nouns through ~15 cases (with consonant gradation) and conjugates verbs by person. The sentence exercise ('Я иду на работу' -> 'Menen töihin') needs these inflected forms, so each entry carries the forms the app actually has to produce or accept.",
+    "schema": {
+      "noun": ["id","fi","ru","pos","level","gen_sg","part_sg","iness_sg (in/at)","illat_sg (into/to)","notes"],
+      "verb": ["id","fi","ru","pos","level","verb_type","present (6 persons)","past_1sg","past_3sg","conneg (form used after the negation verb ei)","notes"]
+    },
+    "negation_note": "Finnish negation uses a conjugating verb ei (en, et, ei, emme, ette, eivät) + the connegative form. 'I don't go' = 'En mene'. Store `conneg` so the app can build and grade negatives.",
+    "level": "A1 unless noted"
+  },
+
+  "pronouns": [
+    {"id":"p1","fi":"minä","ru":"я","pos":"pronoun","gen":"minun","part":"minua"},
+    {"id":"p2","fi":"sinä","ru":"ты","pos":"pronoun","gen":"sinun","part":"sinua"},
+    {"id":"p3","fi":"hän","ru":"он / она","pos":"pronoun","gen":"hänen","part":"häntä"},
+    {"id":"p4","fi":"me","ru":"мы","pos":"pronoun","gen":"meidän","part":"meitä"},
+    {"id":"p5","fi":"te","ru":"вы","pos":"pronoun","gen":"teidän","part":"teitä"},
+    {"id":"p6","fi":"he","ru":"они","pos":"pronoun","gen":"heidän","part":"heitä"}
+  ],
+
+  "verbs": [
+    {"id":"v1","fi":"olla","ru":"быть","pos":"verb","verb_type":1,
+      "present":{"minä":"olen","sinä":"olet","hän":"on","me":"olemme","te":"olette","he":"ovat"},
+      "past_1sg":"olin","past_3sg":"oli","conneg":"ole",
+      "notes":"Existence/identity. 'Minä olen opiskelija' = Я студент. Subject pronoun is often dropped: 'Olen...'"},
+    {"id":"v2","fi":"mennä","ru":"идти / ехать (туда)","pos":"verb","verb_type":3,
+      "present":{"minä":"menen","sinä":"menet","hän":"menee","me":"menemme","te":"menette","he":"menevät"},
+      "past_1sg":"menin","past_3sg":"meni","conneg":"mene",
+      "notes":"Direction TO uses illative or idiom: 'Menen töihin' (go to work), 'Menen kotiin' (go home)."},
+    {"id":"v3","fi":"syödä","ru":"есть / кушать","pos":"verb","verb_type":2,
+      "present":{"minä":"syön","sinä":"syöt","hän":"syö","me":"syömme","te":"syötte","he":"syövät"},
+      "past_1sg":"söin","past_3sg":"söi","conneg":"syö",
+      "notes":"Object usually PARTITIVE: 'Syön leipää', 'Söin lettuja' (Я ел блины)."},
+    {"id":"v4","fi":"juoda","ru":"пить","pos":"verb","verb_type":2,
+      "present":{"minä":"juon","sinä":"juot","hän":"juo","me":"juomme","te":"juotte","he":"juovat"},
+      "past_1sg":"join","past_3sg":"joi","conneg":"juo",
+      "notes":"Partitive object: 'Juon kahvia' (Я пью кофе)."},
+    {"id":"v5","fi":"haluta","ru":"хотеть","pos":"verb","verb_type":4,
+      "present":{"minä":"haluan","sinä":"haluat","hän":"haluaa","me":"haluamme","te":"haluatte","he":"haluavat"},
+      "past_1sg":"halusin","past_3sg":"halusi","conneg":"halua",
+      "notes":"Often + infinitive: 'Haluan syödä' (Я хочу есть)."},
+    {"id":"v6","fi":"puhua","ru":"говорить","pos":"verb","verb_type":1,
+      "present":{"minä":"puhun","sinä":"puhut","hän":"puhuu","me":"puhumme","te":"puhutte","he":"puhuvat"},
+      "past_1sg":"puhuin","past_3sg":"puhui","conneg":"puhu",
+      "notes":"'Puhun suomea' (Я говорю по-фински) — language in partitive."},
+    {"id":"v7","fi":"asua","ru":"жить (проживать)","pos":"verb","verb_type":1,
+      "present":{"minä":"asun","sinä":"asut","hän":"asuu","me":"asumme","te":"asutte","he":"asuvat"},
+      "past_1sg":"asuin","past_3sg":"asui","conneg":"asu",
+      "notes":"Place in inessive: 'Asun Helsingissä' (Я живу в Хельсинки)."},
+    {"id":"v8","fi":"ostaa","ru":"покупать","pos":"verb","verb_type":1,
+      "present":{"minä":"ostan","sinä":"ostat","hän":"ostaa","me":"ostamme","te":"ostatte","he":"ostavat"},
+      "past_1sg":"ostin","past_3sg":"osti","conneg":"osta",
+      "notes":""},
+    {"id":"v9","fi":"lukea","ru":"читать","pos":"verb","verb_type":1,
+      "present":{"minä":"luen","sinä":"luet","hän":"lukee","me":"luemme","te":"luette","he":"lukevat"},
+      "past_1sg":"luin","past_3sg":"luki","conneg":"lue",
+      "notes":"Gradation k->(zero): luen but luKee."},
+    {"id":"v10","fi":"tehdä","ru":"делать","pos":"verb","verb_type":2,
+      "present":{"minä":"teen","sinä":"teet","hän":"tekee","me":"teemme","te":"teette","he":"tekevät"},
+      "past_1sg":"tein","past_3sg":"teki","conneg":"tee",
+      "notes":"Irregular-ish: tee- / teke-."}
+  ],
+
+  "nouns": [
+    {"id":"n1","fi":"työ","ru":"работа","pos":"noun","gen_sg":"työn","part_sg":"työtä","iness_sg":"työssä","illat_sg":"työhön",
+      "notes":"JOB idiom uses plural: töihin = на работу (направление), töissä = на работе (где). Prefer these for 'go to / be at work'."},
+    {"id":"n2","fi":"koti","ru":"дом (домой/дома)","pos":"noun","gen_sg":"kodin","part_sg":"kotia","iness_sg":"kotona","illat_sg":"kotiin",
+      "notes":"IRREGULAR: 'at home' = kotona (not kodissa). 'home(ward)' = kotiin."},
+    {"id":"n3","fi":"kauppa","ru":"магазин","pos":"noun","gen_sg":"kaupan","part_sg":"kauppaa","iness_sg":"kaupassa","illat_sg":"kauppaan",
+      "notes":"Gradation pp->p in weak forms (kaupan, kaupassa)."},
+    {"id":"n4","fi":"talo","ru":"дом (здание)","pos":"noun","gen_sg":"talon","part_sg":"taloa","iness_sg":"talossa","illat_sg":"taloon","notes":""},
+    {"id":"n5","fi":"auto","ru":"машина","pos":"noun","gen_sg":"auton","part_sg":"autoa","iness_sg":"autossa","illat_sg":"autoon","notes":""},
+    {"id":"n6","fi":"koulu","ru":"школа","pos":"noun","gen_sg":"koulun","part_sg":"koulua","iness_sg":"koulussa","illat_sg":"kouluun","notes":""},
+    {"id":"n7","fi":"kirja","ru":"книга","pos":"noun","gen_sg":"kirjan","part_sg":"kirjaa","iness_sg":"kirjassa","illat_sg":"kirjaan","notes":""},
+    {"id":"n8","fi":"kahvi","ru":"кофе","pos":"noun","gen_sg":"kahvin","part_sg":"kahvia","iness_sg":"kahvissa","illat_sg":"kahviin","notes":"Drinking it: partitive 'kahvia'."},
+    {"id":"n9","fi":"leipä","ru":"хлеб","pos":"noun","gen_sg":"leivän","part_sg":"leipää","iness_sg":"leivässä","illat_sg":"leipään","notes":"Gradation p->v (leivän)."},
+    {"id":"n10","fi":"lettu","ru":"блин","pos":"noun","gen_sg":"letun","part_sg":"lettua","part_pl":"lettuja","iness_sg":"letussa","illat_sg":"lettuun","notes":"'Я ел блины' = Söin lettuja (partitive plural). Synonyms: ohukainen, pannukakku."},
+    {"id":"n11","fi":"vesi","ru":"вода","pos":"noun","gen_sg":"veden","part_sg":"vettä","iness_sg":"vedessä","illat_sg":"veteen","notes":"Irregular -si type."},
+    {"id":"n12","fi":"kaupunki","ru":"город","pos":"noun","gen_sg":"kaupungin","part_sg":"kaupunkia","iness_sg":"kaupungissa","illat_sg":"kaupunkiin","notes":"Gradation nk->ng."},
+    {"id":"n13","fi":"ystävä","ru":"друг","pos":"noun","gen_sg":"ystävän","part_sg":"ystävää","iness_sg":"ystävässä","illat_sg":"ystävään","notes":""},
+    {"id":"n14","fi":"ruoka","ru":"еда","pos":"noun","gen_sg":"ruoan","part_sg":"ruokaa","iness_sg":"ruoassa","illat_sg":"ruokaan","notes":"Gradation k->(zero) in weak forms (ruoan, also spelled ruuan)."}
+  ],
+
+  "adjectives": [
+    {"id":"a1","fi":"hyvä","ru":"хороший","pos":"adj","part_sg":"hyvää","notes":""},
+    {"id":"a2","fi":"iso","ru":"большой","pos":"adj","part_sg":"isoa","notes":"Synonym: suuri."},
+    {"id":"a3","fi":"pieni","ru":"маленький","pos":"adj","gen_sg":"pienen","part_sg":"pientä","notes":""},
+    {"id":"a4","fi":"uusi","ru":"новый","pos":"adj","gen_sg":"uuden","part_sg":"uutta","notes":""}
+  ],
+
+  "function_words": [
+    {"id":"f1","fi":"ja","ru":"и","pos":"conj"},
+    {"id":"f2","fi":"mutta","ru":"но","pos":"conj"},
+    {"id":"f3","fi":"nyt","ru":"сейчас","pos":"adv"},
+    {"id":"f4","fi":"tänään","ru":"сегодня","pos":"adv"},
+    {"id":"f5","fi":"huomenna","ru":"завтра","pos":"adv"},
+    {"id":"f6","fi":"ei","ru":"не / нет","pos":"neg_verb","forms":{"minä":"en","sinä":"et","hän":"ei","me":"emme","te":"ette","he":"eivät"},"notes":"Negation verb + connegative: 'En puhu suomea' = Я не говорю по-фински."}
+  ],
+
+  "example_sentences": [
+    {"ru":"Я иду на работу.","fi_accepted":["Menen töihin.","Minä menen töihin."],"uses":["v2","n1"],"teaches":"illative/idiom 'töihin' + dropped pronoun"},
+    {"ru":"Я ел блины.","fi_accepted":["Söin lettuja.","Minä söin lettuja."],"uses":["v3","n10"],"teaches":"past tense + partitive plural object"},
+    {"ru":"Я пью кофе.","fi_accepted":["Juon kahvia.","Minä juon kahvia."],"uses":["v4","n8"],"teaches":"partitive object"},
+    {"ru":"Я живу в Хельсинки.","fi_accepted":["Asun Helsingissä.","Minä asun Helsingissä."],"uses":["v7"],"teaches":"inessive of place"},
+    {"ru":"Я не говорю по-фински.","fi_accepted":["En puhu suomea.","Minä en puhu suomea."],"uses":["v6","f6"],"teaches":"negation verb + connegative + partitive language name"}
+  ]
+}

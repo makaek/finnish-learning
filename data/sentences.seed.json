@@ -1,0 +1,88 @@
+{
+  "_meta": {
+    "purpose": "Precomputed grading data for the sentence builder. Each item maps a Russian prompt to the full set of ACCEPTED Finnish answers plus KNOWN-WRONG patterns with Russian explanations. The runtime grader matches the (normalized) typed answer against these — no LLM needed at runtime.",
+    "authoring": "Generate/verify new items with the finnish-linguist subagent via the /expand-sentences command. Never hand-write Finnish here.",
+    "normalization_contract": "Before matching, the grader lowercases, trims, collapses internal whitespace, and strips trailing .?! — so list accepted answers in natural form; case/punctuation differences are forgiven automatically.",
+    "schema": {
+      "id": "stable id",
+      "ru": "Russian prompt shown to the learner",
+      "uses": "dictionary entry ids this sentence draws on (gates by 'learned' words)",
+      "canonical": "the single model answer to display",
+      "accepted": "every correct phrasing (with/without dropped pronoun, word-order variants)",
+      "wrong": "known mistakes: { match: 'normalized wrong answer', ru: 'why it is wrong, in Russian' }",
+      "teaches": "the grammar point",
+      "needs_review": "true until finnish-linguist verifies"
+    }
+  },
+
+  "sentences": [
+    {
+      "id": "s1",
+      "ru": "Я иду на работу.",
+      "uses": ["v2", "n1"],
+      "canonical": "Menen töihin.",
+      "accepted": ["Menen töihin.", "Minä menen töihin."],
+      "wrong": [
+        { "match": "menen työhön", "ru": "Для «идти на работу» используется идиома töihin (множественное число). työhön грамматически возможно, но не идиоматично." },
+        { "match": "menen työssä", "ru": "töissä/työssä — это «где?» (на работе). Здесь нужно «куда?» — направление: töihin." },
+        { "match": "minä menen töissä", "ru": "Нужно направление «куда?» (töihin), а не «где?» (töissä)." }
+      ],
+      "teaches": "illative / idiom 'töihin' + dropped pronoun",
+      "needs_review": true
+    },
+    {
+      "id": "s2",
+      "ru": "Я ел блины.",
+      "uses": ["v3", "n10"],
+      "canonical": "Söin lettuja.",
+      "accepted": ["Söin lettuja.", "Minä söin lettuja."],
+      "wrong": [
+        { "match": "syön lettuja", "ru": "syön — настоящее время («я ем»). Здесь прошедшее: söin." },
+        { "match": "söin letut", "ru": "Объект во множественном партитиве: lettuja, не letut." },
+        { "match": "söin lettu", "ru": "Нужен партитив (несколько блинов): lettuja." }
+      ],
+      "teaches": "past tense + partitive plural object",
+      "needs_review": true
+    },
+    {
+      "id": "s3",
+      "ru": "Я пью кофе.",
+      "uses": ["v4", "n8"],
+      "canonical": "Juon kahvia.",
+      "accepted": ["Juon kahvia.", "Minä juon kahvia."],
+      "wrong": [
+        { "match": "juon kahvi", "ru": "Объект-вещество в партитиве: kahvia, не kahvi." },
+        { "match": "join kahvia", "ru": "join — прошедшее («я пил»). Здесь настоящее: juon." }
+      ],
+      "teaches": "partitive object",
+      "needs_review": true
+    },
+    {
+      "id": "s4",
+      "ru": "Я живу в Хельсинки.",
+      "uses": ["v7"],
+      "canonical": "Asun Helsingissä.",
+      "accepted": ["Asun Helsingissä.", "Minä asun Helsingissä."],
+      "wrong": [
+        { "match": "asun helsinki", "ru": "«в Хельсинки» = инессив Helsingissä (где?)." },
+        { "match": "asun helsinkiin", "ru": "Helsinkiin — это «куда?» (направление). «жить где?» — инессив: Helsingissä." }
+      ],
+      "teaches": "inessive of place",
+      "needs_review": true
+    },
+    {
+      "id": "s5",
+      "ru": "Я не говорю по-фински.",
+      "uses": ["v6", "f6"],
+      "canonical": "En puhu suomea.",
+      "accepted": ["En puhu suomea.", "Minä en puhu suomea."],
+      "wrong": [
+        { "match": "en puhun suomea", "ru": "После отрицания ei/en — коннегатив (puhu), без личного окончания: «En puhu»." },
+        { "match": "ei puhu suomea", "ru": "Отрицательный глагол спрягается по лицу: для «я» — en, не ei." },
+        { "match": "en puhu suomi", "ru": "Язык как объект — в партитиве: suomea." }
+      ],
+      "teaches": "negation verb + connegative + partitive language name",
+      "needs_review": true
+    }
+  ]
+}

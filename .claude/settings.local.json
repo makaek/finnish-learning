@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd /tmp)",
+      "Bash(rm -rf ft_inspect)",
+      "Bash(mkdir ft_inspect)",
+      "Bash(unzip -q D:/fun/finnish-learning/finnish-trainer.zip -d ft_inspect)",
+      "Bash(git -C D:/fun/finnish-learning rev-parse --is-inside-work-tree)"
+    ]
+  }
+}
