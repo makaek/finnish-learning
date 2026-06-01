@@ -104,13 +104,13 @@ describe("mergeByItem", () => {
     expect(a.mastered).toBe(true);
   });
 
-  it("omits items with no practiced track and sorts unmastered first", () => {
+  it("sorts mastered (hideable) items first", () => {
     const progress = mk(
       rec("recognition", "a", 5, 5),
       rec("production", "a", 5, 5),
-      rec("say_word", "a", 5, 5), // 'a' fully mastered
+      rec("say_word", "a", 5, 5), // 'a' fully mastered → on top
       rec("recognition", "b", 1, 2), // 'b' not
     );
-    expect(mergeByItem(pair, pair, progress, WORD_KINDS, 3).map((x) => x.id)).toEqual(["b", "a"]);
+    expect(mergeByItem(pair, pair, progress, WORD_KINDS, 3).map((x) => x.id)).toEqual(["a", "b"]);
   });
 });

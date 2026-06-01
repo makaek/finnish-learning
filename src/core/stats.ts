@@ -64,7 +64,8 @@ function trackRow(
  * Merge each item's progress across several tracks (e.g. a word across recognition /
  * production / say_word) into one entry, so the UI can show a single card per word/sentence
  * instead of repeating it per lesson type. Includes only items practiced in ≥1 track, with a
- * row per practiced track. Sorted unmastered-first, then most-recently practiced.
+ * row per practiced track. Sorted **mastered-first** (the hideable / already-hidden items,
+ * so they're easy to manage at the top), then most-recently practiced.
  */
 export function mergeByItem(
   items: readonly { id: string }[],
@@ -98,7 +99,9 @@ export function mergeByItem(
     out.push({ id: item.id, tracks, mastered, lastSeen });
   }
 
-  out.sort((a, b) => Number(a.mastered) - Number(b.mastered) || b.lastSeen - a.lastSeen);
+  // Mastered items (hideable / already hidden) on top so they're easy to find and hide;
+  // then the rest, each by most-recent activity.
+  out.sort((a, b) => Number(b.mastered) - Number(a.mastered) || b.lastSeen - a.lastSeen);
   return out;
 }
 
