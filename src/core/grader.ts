@@ -43,7 +43,7 @@ interface PreparedSentence {
 
 export type SentenceIndex = Map<string, PreparedSentence>;
 
-/** Finnish subject pronouns; the canonical source is the dictionary (pos === "pronoun"). */
+/** Finnish personal subject pronouns; used to derive the pronoun-dropped answer variants. */
 export type Pronouns = ReadonlySet<string>;
 
 /**

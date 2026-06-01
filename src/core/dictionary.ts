@@ -7,7 +7,16 @@
  */
 
 /** Part of speech as it appears in the seed (`pos` field). */
-export type Pos = "pronoun" | "verb" | "noun" | "adj" | "conj" | "adv" | "neg_verb";
+export type Pos =
+  | "pronoun"
+  | "verb"
+  | "noun"
+  | "adj"
+  | "conj"
+  | "adv"
+  | "neg_verb"
+  | "num"
+  | "interj";
 
 /** A single learnable word, normalized across the seed's categories. */
 export interface VocabItem {
@@ -63,6 +72,8 @@ const VALID_POS = new Set<string>([
   "conj",
   "adv",
   "neg_verb",
+  "num",
+  "interj",
 ]);
 
 function isVocabItem(

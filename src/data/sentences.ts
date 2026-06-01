@@ -25,9 +25,18 @@ if (!Array.isArray(rawSeed.sentences)) {
 }
 export const SENTENCES: SentenceItem[] = rawSeed.sentences as SentenceItem[];
 
-/** Subject pronouns drawn from the dictionary — single source of truth for expansion. */
+/**
+ * Only PERSONAL SUBJECT pronouns are droppable in Finnish ("Menen" = "Minä menen"). The
+ * dictionary's `pronoun` pos also covers interrogatives (mikä/kuka) and demonstratives
+ * (tämä/se), which must NEVER be stripped, so the drop-set is the closed personal-pronoun set.
+ */
+// Closed class by design (Finnish has exactly these 6); intersected with the dictionary
+// below so the lemmas are still validated, not invented here.
+const SUBJECT_PRONOUNS = new Set(["minä", "sinä", "hän", "me", "te", "he"]);
 const PRONOUNS: Pronouns = new Set(
-  VOCAB.filter((item) => item.pos === "pronoun").map((item) => item.fi.toLowerCase()),
+  VOCAB.filter(
+    (item) => item.pos === "pronoun" && SUBJECT_PRONOUNS.has(item.fi.toLowerCase()),
+  ).map((item) => item.fi.toLowerCase()),
 );
 
 /** Precomputed grading index (O(1) lookup by sentence id). */
