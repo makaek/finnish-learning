@@ -278,10 +278,87 @@ body {
   color: var(--ok);
 }
 
+.meter--button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.meter--button:hover .meter__label {
+  color: var(--text);
+}
+
 .testbar {
   margin: 0 0 1rem;
 }
 
 .hint--test {
   color: #fbbf24;
+}
+
+/* --- Progress details screen --- */
+.app--scroll {
+  align-items: flex-start;
+  padding-top: 3.5rem;
+  padding-bottom: 2rem;
+}
+
+.stats__heading {
+  font-size: 1.05rem;
+  margin: 1.2rem 0 0.5rem;
+  color: var(--text);
+}
+
+.stats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.statrow {
+  background: #334155;
+  border-radius: var(--radius);
+  padding: 0.6rem 0.8rem;
+}
+
+.statrow__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+.statrow__label {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.statrow__pips {
+  color: var(--ok);
+  letter-spacing: 1px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.statrow__sub {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-top: 0.15rem;
+}
+
+.statrow__metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  margin-top: 0.4rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
 }

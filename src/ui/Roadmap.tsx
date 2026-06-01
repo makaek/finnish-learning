@@ -22,6 +22,8 @@ interface RoadmapProps {
   testMode: boolean;
   ready: boolean;
   onStart: (mode: Mode) => void;
+  /** Open the read-only progress-details screen. */
+  onShowStats: () => void;
   /** Test-mode only: mark everything mastered, to exercise unlocks without grinding. */
   onTestFill: () => void;
 }
@@ -32,6 +34,7 @@ export default function Roadmap({
   testMode,
   ready,
   onStart,
+  onShowStats,
   onTestFill,
 }: RoadmapProps) {
   const { stats, unlocked, active, overall } = useMemo(() => {
@@ -57,14 +60,14 @@ export default function Roadmap({
       <section className="card card--summary">
         <h1 className="prompt">Финский тренажёр</h1>
 
-        <div className="meter" aria-label={`Выучено ${pct}%`}>
+        <button type="button" className="meter meter--button" onClick={onShowStats}>
           <div className="meter__bar">
             <div className="meter__fill" style={{ width: `${pct}%` }} />
           </div>
-          <p className="hint meter__label">
-            Выучено слов: {overall.learned} из {overall.total} ({pct}%)
-          </p>
-        </div>
+          <span className="hint meter__label">
+            Выучено слов: {overall.learned} из {overall.total} ({pct}%) · мой прогресс →
+          </span>
+        </button>
 
         <ul className="levels">
           {stats.map((s) => {

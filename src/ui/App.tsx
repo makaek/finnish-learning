@@ -16,6 +16,7 @@ import {
 } from "../core/progress";
 import { loadProgress, saveProgress } from "../data/backend";
 import Roadmap, { type Mode } from "./Roadmap";
+import ProgressDetails from "./ProgressDetails";
 import RecognitionCard from "./RecognitionCard";
 import ProductionCard from "./ProductionCard";
 import SentenceCard from "./SentenceCard";
@@ -35,6 +36,8 @@ function readTestMode(): boolean {
  */
 export default function App() {
   const [mode, setMode] = useState<Mode | null>(null);
+  // Which non-exercise screen the home shows when mode is null.
+  const [homeScreen, setHomeScreen] = useState<"roadmap" | "stats">("roadmap");
   const [seed, setSeed] = useState(() => Date.now());
   const [index, setIndex] = useState(0);
   const [score, setScore] = useState(0);
@@ -110,10 +113,11 @@ export default function App() {
   }
 
   /**
-   * Test-mode helper: mark every word and sentence mastered so unlocks can be exercised.
-   * Only the `box` is meaningful here (it drives the level gates); the counters stay zeroed
-   * since this is a fabricated record, not real history. Persists to the backend on purpose,
-   * so a tester can confirm unlocked levels survive a reload — do NOT add a no-persist guard.
+   * Test-mode helper: mark every word and sentence mastered so unlocks (and the progress
+   * screen, which lists items answered correctly at least once) can be exercised. Writes a
+   * coherent "perfect" record — MAX_BOX correct out of MAX_BOX seen — not fake history.
+   * Persists to the backend on purpose, so a tester can confirm it survives a reload — do
+   * NOT add a no-persist guard.
    */
   function fillAllMastered() {
     const now = Date.now();
@@ -123,9 +127,9 @@ export default function App() {
         kind,
         itemId: id,
         box: MAX_BOX,
-        correctStreak: 0,
-        totalCorrect: 0,
-        totalSeen: 0,
+        correctStreak: MAX_BOX,
+        totalCorrect: MAX_BOX,
+        totalSeen: MAX_BOX,
         lastSeen: now,
       };
       progressRef.current.set(progressKey(kind, id), p);
@@ -172,10 +176,22 @@ export default function App() {
   function goHome() {
     // Refresh the home view from the latest mastery before leaving the session.
     setProgressView(new Map(progressRef.current));
+    setHomeScreen("roadmap");
     setMode(null);
   }
 
   if (mode === null) {
+    if (homeScreen === "stats") {
+      return (
+        <ProgressDetails
+          vocab={VOCAB}
+          sentences={SENTENCES}
+          progress={progressView}
+          testMode={testMode}
+          onBack={() => setHomeScreen("roadmap")}
+        />
+      );
+    }
     return (
       <Roadmap
         vocab={VOCAB}
@@ -184,6 +200,7 @@ export default function App() {
         ready={ready}
         onStart={start}
         onTestFill={fillAllMastered}
+        onShowStats={() => setHomeScreen("stats")}
       />
     );
   }
