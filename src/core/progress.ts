@@ -1,13 +1,17 @@
 /**
  * progress.ts — pure model for per-item learning progress.
  *
- * Tracks, for every vocabulary word and sentence, a Leitner-style mastery box plus the
- * counters that drive selection weighting (slice 6) and level unlocks (slice 7). PURE:
- * no UI/DB/network imports — the persistence boundary lives in `src/data/backend.ts`.
+ * Tracks a Leitner-style mastery box plus the counters that drive selection weighting
+ * (slice 6) and level unlocks (slice 7). Progress is kept SEPARATELY PER EXERCISE TYPE:
+ * the same word has independent records for recognition vs. production, so "learned" is
+ * earned per skill. PURE: no UI/DB/network imports — persistence lives in `src/data/backend.ts`.
  */
 
-/** What an item id refers to: a dictionary word or a sentence prompt. */
-export type ItemKind = "vocab" | "sentence";
+/**
+ * Which exercise a progress record belongs to. The same dictionary word has distinct
+ * "recognition" and "production" records; sentences have their own "sentences" track.
+ */
+export type ItemKind = "recognition" | "production" | "sentences";
 
 /** Lowest / highest Leitner box. Box 0 = brand new / just missed; MAX_BOX = mastered. */
 export const MIN_BOX = 0;

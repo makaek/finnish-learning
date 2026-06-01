@@ -14,10 +14,22 @@
 
 import { getProgress, type ProgressMap } from "./progress";
 
-/** A word is "learned" once its Leitner box reaches this. */
-export const LEARNED_BOX = 2;
+/** A word is "learned" once its Leitner box reaches this (≈ 3 clean first-attempt answers). */
+export const LEARNED_BOX = 3;
 /** Fraction of a level's words that must be learned before the next level unlocks. */
 export const UNLOCK_FRACTION = 0.8;
+
+/**
+ * A word counts as learned (for unlocks + the sentence word-gate) once it is mastered in
+ * EITHER word exercise — recognition or production. Progress is tracked per type, so knowing
+ * a word in either skill is enough to progress.
+ */
+export function wordLearned(progress: ProgressMap, vocabId: string): boolean {
+  return (
+    getProgress(progress, "recognition", vocabId).box >= LEARNED_BOX ||
+    getProgress(progress, "production", vocabId).box >= LEARNED_BOX
+  );
+}
 
 /** Minimal shapes these functions need; real VocabItem/SentenceItem satisfy them. */
 export interface VocabLike {
@@ -55,9 +67,7 @@ export interface LevelStat {
 export function levelStats(vocab: readonly VocabLike[], progress: ProgressMap): LevelStat[] {
   return listLevels(vocab).map((level) => {
     const inLevel = vocab.filter((v) => levelOf(v) === level);
-    const learned = inLevel.filter(
-      (v) => getProgress(progress, "vocab", v.id).box >= LEARNED_BOX,
-    ).length;
+    const learned = inLevel.filter((v) => wordLearned(progress, v.id)).length;
     const total = inLevel.length;
     return { level, total, learned, fraction: total === 0 ? 1 : learned / total };
   });
@@ -108,9 +118,7 @@ export interface Progress {
 /** Overall vocab mastery across all levels. */
 export function overallProgress(vocab: readonly VocabLike[], progress: ProgressMap): Progress {
   const total = vocab.length;
-  const learned = vocab.filter(
-    (v) => getProgress(progress, "vocab", v.id).box >= LEARNED_BOX,
-  ).length;
+  const learned = vocab.filter((v) => wordLearned(progress, v.id)).length;
   return { learned, total, fraction: total === 0 ? 0 : learned / total };
 }
 
@@ -137,8 +145,7 @@ export function eligibleSentences<S extends SentenceLike>(
 ): S[] {
   if (testMode) return [...sentences];
   const unlocked = unlockedLevels(levelStats(vocab, progress));
-  const isLearned = (vocabId: string) => getProgress(progress, "vocab", vocabId).box >= LEARNED_BOX;
   return sentences.filter(
-    (s) => unlocked.has(levelOf(s)) && s.uses.every(isLearned),
+    (s) => unlocked.has(levelOf(s)) && s.uses.every((id) => wordLearned(progress, id)),
   );
 }

@@ -2,13 +2,13 @@ import { describe, expect, it } from "vitest";
 import { applyOutcome, selectionWeight } from "./srs";
 import { emptyProgress, MAX_BOX, MIN_BOX, type ItemProgress } from "./progress";
 
-const at = (box: number): ItemProgress => ({ ...emptyProgress("vocab", "v1"), box });
+const at = (box: number): ItemProgress => ({ ...emptyProgress("recognition", "v1"), box });
 
 describe("applyOutcome", () => {
   it("promotes a box, grows the streak, and bumps counters on a correct answer", () => {
-    const next = applyOutcome(emptyProgress("vocab", "v1"), true, 1000);
+    const next = applyOutcome(emptyProgress("recognition", "v1"), true, 1000);
     expect(next).toEqual({
-      kind: "vocab",
+      kind: "recognition",
       itemId: "v1",
       box: 1,
       correctStreak: 1,
@@ -20,7 +20,7 @@ describe("applyOutcome", () => {
 
   it("demotes a box and resets the streak on a wrong answer (totalCorrect unchanged)", () => {
     const prev: ItemProgress = {
-      kind: "vocab",
+      kind: "recognition",
       itemId: "v1",
       box: 3,
       correctStreak: 3,
@@ -45,13 +45,13 @@ describe("applyOutcome", () => {
   });
 
   it("does not mutate the input", () => {
-    const prev = emptyProgress("vocab", "v1");
+    const prev = emptyProgress("recognition", "v1");
     applyOutcome(prev, true, 1);
-    expect(prev).toEqual(emptyProgress("vocab", "v1"));
+    expect(prev).toEqual(emptyProgress("recognition", "v1"));
   });
 
   it("reaches box 3 after three correct in a row", () => {
-    let p = emptyProgress("vocab", "v1");
+    let p = emptyProgress("recognition", "v1");
     for (let i = 0; i < 3; i++) p = applyOutcome(p, true, i);
     expect(p.box).toBe(3);
     expect(p.correctStreak).toBe(3);

@@ -135,8 +135,11 @@ export default function App() {
       progressRef.current.set(progressKey(kind, id), p);
       rows.push(p);
     };
-    for (const v of VOCAB) mark("vocab", v.id);
-    for (const s of SENTENCES) mark("sentence", s.id);
+    for (const v of VOCAB) {
+      mark("recognition", v.id);
+      mark("production", v.id);
+    }
+    for (const s of SENTENCES) mark("sentences", s.id);
     setProgressView(new Map(progressRef.current));
     void saveProgress(rows);
   }
@@ -144,7 +147,10 @@ export default function App() {
   /** Update the current item's mastery from the answer and persist it (fire-and-forget). */
   function recordOutcome(wasCorrect: boolean) {
     if (mode === null) return;
-    const kind: ItemKind = mode === "sentences" ? "sentence" : "vocab";
+    // The exercise mode IS the progress track, so recognition/production/sentences are
+    // recorded separately. `wasCorrect` is the FIRST-attempt result (the forced-correction
+    // retry never changes it), so only first attempts count toward mastery.
+    const kind: ItemKind = mode;
     const id =
       mode === "sentences"
         ? sentences[index]?.id

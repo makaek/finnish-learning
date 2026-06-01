@@ -129,7 +129,7 @@ export function buildSession(
   const targets = progress
     ? weightedSample(
         items,
-        (item) => selectionWeight(getProgress(progress, "vocab", item.id)),
+        (item) => selectionWeight(getProgress(progress, "recognition", item.id)),
         makeRng(seed),
         size,
       )

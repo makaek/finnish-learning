@@ -42,7 +42,7 @@ function isItemProgress(value: unknown): value is ItemProgress {
   if (typeof value !== "object" || value === null) return false;
   const v = value as Record<string, unknown>;
   return (
-    (v.kind === "vocab" || v.kind === "sentence") &&
+    (v.kind === "recognition" || v.kind === "production" || v.kind === "sentences") &&
     typeof v.itemId === "string" &&
     typeof v.box === "number" &&
     v.box >= MIN_BOX &&

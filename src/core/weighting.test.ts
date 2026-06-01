@@ -45,7 +45,9 @@ function pickRate(draw: (seed: number) => string | undefined, id: string): numbe
 
 describe("mastery weighting through the session builders", () => {
   it("buildSession draws a mastered word far less than the field", () => {
-    const progress: ProgressMap = new Map([[progressKey("vocab", "n1"), mastered("vocab", "n1")]]);
+    const progress: ProgressMap = new Map([
+      [progressKey("recognition", "n1"), mastered("recognition", "n1")],
+    ]);
     const rate = pickRate(
       (seed) => buildSession(vocab, seed, 1, 4, progress)[0]?.itemId,
       "n1",
@@ -55,7 +57,9 @@ describe("mastery weighting through the session builders", () => {
   });
 
   it("buildProductionSession draws a mastered word far less than the field", () => {
-    const progress: ProgressMap = new Map([[progressKey("vocab", "n1"), mastered("vocab", "n1")]]);
+    const progress: ProgressMap = new Map([
+      [progressKey("production", "n1"), mastered("production", "n1")],
+    ]);
     const rate = pickRate(
       (seed) => buildProductionSession(vocab, seed, 1, progress)[0]?.itemId,
       "n1",
@@ -65,7 +69,7 @@ describe("mastery weighting through the session builders", () => {
 
   it("buildSentenceSession draws a mastered sentence far less than the field", () => {
     const progress: ProgressMap = new Map([
-      [progressKey("sentence", "s1"), mastered("sentence", "s1")],
+      [progressKey("sentences", "s1"), mastered("sentences", "s1")],
     ]);
     const rate = pickRate(
       (seed) => buildSentenceSession(sentences, seed, 1, undefined, progress)[0]?.id,
@@ -75,7 +79,9 @@ describe("mastery weighting through the session builders", () => {
   });
 
   it("still returns the mastered item when it is the only one left", () => {
-    const progress: ProgressMap = new Map([[progressKey("vocab", "n1"), mastered("vocab", "n1")]]);
+    const progress: ProgressMap = new Map([
+      [progressKey("recognition", "n1"), mastered("recognition", "n1")],
+    ]);
     const ids = buildSession([vocab[0]!], 1, 1, 4, progress).map((q) => q.itemId);
     expect(ids).toEqual(["n1"]);
   });

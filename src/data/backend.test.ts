@@ -15,7 +15,7 @@ describe("backend (localStorage fallback)", () => {
 
   it("round-trips saved progress through storage", async () => {
     const item: ItemProgress = {
-      kind: "vocab",
+      kind: "recognition",
       itemId: "v1",
       box: 2,
       correctStreak: 2,
@@ -25,21 +25,21 @@ describe("backend (localStorage fallback)", () => {
     };
     await saveProgress([item]);
     const loaded = await loadProgress();
-    expect(loaded.get("vocab:v1")).toEqual(item);
+    expect(loaded.get("recognition:v1")).toEqual(item);
   });
 
   it("merges successive saves, overwriting the same item and keeping others", async () => {
-    await saveProgress([emptyProgress("vocab", "v1"), emptyProgress("sentence", "s1")]);
-    await saveProgress([{ ...emptyProgress("vocab", "v1"), box: 5 }]);
+    await saveProgress([emptyProgress("recognition", "v1"), emptyProgress("sentences", "s1")]);
+    await saveProgress([{ ...emptyProgress("recognition", "v1"), box: 5 }]);
 
     const loaded = await loadProgress();
     expect(loaded.size).toBe(2);
-    expect(loaded.get("vocab:v1")?.box).toBe(5);
-    expect(loaded.get("sentence:s1")).toEqual(emptyProgress("sentence", "s1"));
+    expect(loaded.get("recognition:v1")?.box).toBe(5);
+    expect(loaded.get("sentences:s1")).toEqual(emptyProgress("sentences", "s1"));
   });
 
   it("treats an empty save as a no-op", async () => {
-    await saveProgress([emptyProgress("vocab", "v1")]);
+    await saveProgress([emptyProgress("recognition", "v1")]);
     await saveProgress([]);
     expect((await loadProgress()).size).toBe(1);
   });
@@ -53,7 +53,7 @@ describe("backend (localStorage fallback)", () => {
 describe("row mapping (Supabase schema contract)", () => {
   it("round-trips an item through row form", () => {
     const item: ItemProgress = {
-      kind: "sentence",
+      kind: "sentences",
       itemId: "s3",
       box: 4,
       correctStreak: 4,
@@ -69,7 +69,7 @@ describe("row mapping (Supabase schema contract)", () => {
   });
 
   it("maps a never-seen item's lastSeen to null and back to 0", () => {
-    const fresh = emptyProgress("vocab", "v7");
+    const fresh = emptyProgress("recognition", "v7");
     const row = progressToRow("u", fresh);
     expect(row.last_seen).toBeNull();
     expect(rowToProgress(row).lastSeen).toBe(0);

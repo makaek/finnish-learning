@@ -49,7 +49,7 @@ export function buildSentenceSession(
   const chosen = progress
     ? weightedSample(
         eligible,
-        (item) => selectionWeight(getProgress(progress, "sentence", item.id)),
+        (item) => selectionWeight(getProgress(progress, "sentences", item.id)),
         makeRng(seed),
         size,
       )

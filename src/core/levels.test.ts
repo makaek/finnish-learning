@@ -3,15 +3,17 @@ import {
   activeLevel,
   activeVocab,
   eligibleSentences,
+  LEARNED_BOX,
   levelOf,
   levelStats,
   listLevels,
   overallProgress,
   unlockedLevels,
+  wordLearned,
   type SentenceLike,
   type VocabLike,
 } from "./levels";
-import { progressKey, type ItemProgress, type ProgressMap } from "./progress";
+import { progressKey, type ItemKind, type ItemProgress, type ProgressMap } from "./progress";
 
 const vocab: VocabLike[] = [
   ...["a1", "a2", "a3", "a4", "a5"].map((id) => ({ id, level: 1 })),
@@ -28,7 +30,7 @@ function learned(ids: string[]): ProgressMap {
   const map: ProgressMap = new Map();
   for (const id of ids) {
     const p: ItemProgress = {
-      kind: "vocab",
+      kind: "recognition",
       itemId: id,
       box: 3,
       correctStreak: 3,
@@ -36,10 +38,46 @@ function learned(ids: string[]): ProgressMap {
       totalSeen: 3,
       lastSeen: 1,
     };
-    map.set(progressKey("vocab", id), p);
+    map.set(progressKey("recognition", id), p);
   }
   return map;
 }
+
+/** ProgressMap with one item at a given box in a given exercise track. */
+function box(kind: ItemKind, id: string, b: number): ProgressMap {
+  return new Map([
+    [
+      progressKey(kind, id),
+      { kind, itemId: id, box: b, correctStreak: b, totalCorrect: b, totalSeen: b, lastSeen: 1 },
+    ],
+  ]);
+}
+
+describe("wordLearned (per-type, either skill)", () => {
+  it("threshold is 3 clean answers", () => {
+    expect(LEARNED_BOX).toBe(3);
+  });
+
+  it("counts a word learned via recognition alone", () => {
+    expect(wordLearned(box("recognition", "a1", 3), "a1")).toBe(true);
+  });
+
+  it("counts a word learned via production alone", () => {
+    expect(wordLearned(box("production", "a1", 3), "a1")).toBe(true);
+  });
+
+  it("does not count a word below the threshold in either track", () => {
+    expect(wordLearned(box("recognition", "a1", 2), "a1")).toBe(false);
+    expect(wordLearned(new Map(), "a1")).toBe(false);
+  });
+
+  it("recognition and production progress are independent records", () => {
+    // Learned in recognition only: it's 'learned' for unlocks, but production stays empty.
+    const p = box("recognition", "a1", 5);
+    expect(wordLearned(p, "a1")).toBe(true);
+    expect(p.has(progressKey("production", "a1"))).toBe(false);
+  });
+});
 
 describe("levelOf / listLevels", () => {
   it("defaults missing or invalid levels to 1", () => {
