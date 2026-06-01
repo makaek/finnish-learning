@@ -4,8 +4,21 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Suomi-treeni · Финский тренажёр</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta
+      name="description"
+      content="Финский тренажёр для русскоговорящих: ежедневные упражнения по словам и предложениям."
+    />
+    <meta name="theme-color" content="#f7f1e8" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#161320" media="(prefers-color-scheme: dark)" />
+    <title>Suomi · Финский тренажёр</title>
+    <!-- Apply the saved theme before first paint to avoid a flash; "system" needs no attr. -->
+    <script>
+      try {
+        var t = localStorage.getItem("finnish-trainer/theme");
+        if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

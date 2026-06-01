@@ -13,6 +13,7 @@ import {
   type VocabLike,
 } from "../core/levels";
 import type { ProgressMap } from "../core/progress";
+import ThemeToggle from "./ThemeToggle";
 
 export type Mode = "recognition" | "production" | "sentences";
 
@@ -48,6 +49,7 @@ export default function Roadmap({
     return (
       <main className="app">
         <section className="card card--summary">
+          <ThemeToggle />
           <h1 className="prompt">Финский тренажёр</h1>
           <p className="hint">Загрузка прогресса…</p>
         </section>
@@ -58,6 +60,7 @@ export default function Roadmap({
   return (
     <main className="app">
       <section className="card card--summary">
+        <ThemeToggle />
         <h1 className="prompt">Финский тренажёр</h1>
 
         <button type="button" className="meter meter--button" onClick={onShowStats}>
