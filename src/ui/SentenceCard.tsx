@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import type { SentenceQuestion } from "../core/sentenceSession";
 import type { Grade, GradeResult } from "../core/grader.contract";
+import { useSpeechRecognition } from "./useSpeechRecognition";
 
 interface SentenceCardProps {
   question: SentenceQuestion;
@@ -9,6 +10,8 @@ interface SentenceCardProps {
   total: number;
   /** The bound grader (from data/sentences.ts). */
   grade: Grade;
+  /** Voice mode: the answer is spoken (Finnish), recognized into the same input + grader. */
+  voice?: boolean;
   /** Called once the learner has answered and chosen to continue. */
   onAnswered: (wasCorrect: boolean) => void;
 }
@@ -24,6 +27,7 @@ export default function SentenceCard({
   questionNumber,
   total,
   grade,
+  voice = false,
   onAnswered,
 }: SentenceCardProps) {
   const [value, setValue] = useState("");
@@ -38,6 +42,11 @@ export default function SentenceCard({
   // Guards against a double-click on "Next" double-scoring / skipping a question.
   const [advanced, setAdvanced] = useState(false);
   const answered = result !== null;
+  const speech = useSpeechRecognition({
+    lang: "fi-FI",
+    enabled: voice && !answered,
+    onResult: (text) => setValue(text),
+  });
 
   async function submit() {
     if (answered || grading || value.trim().length === 0) return;
@@ -79,7 +88,11 @@ export default function SentenceCard({
       <h1 className="prompt" lang="ru">
         {question.promptRu}
       </h1>
-      <p className="hint">Переведите предложение на финский:</p>
+      <p className="hint">
+        {voice
+          ? "Произнесите перевод по-фински (можно поправить вручную):"
+          : "Переведите предложение на финский:"}
+      </p>
 
       <form
         className="produce"
@@ -92,7 +105,7 @@ export default function SentenceCard({
           className="produce__input produce__input--area"
           lang="fi"
           rows={2}
-          autoFocus
+          autoFocus={!voice}
           autoComplete="off"
           autoCapitalize="off"
           autoCorrect="off"
@@ -102,6 +115,20 @@ export default function SentenceCard({
           onChange={(e) => setValue(e.target.value)}
           aria-label="Перевод на финский"
         />
+        {voice && !answered && (
+          speech.supported ? (
+            <button
+              type="button"
+              className={"mic" + (speech.listening ? " mic--on" : "")}
+              onClick={() => (speech.listening ? speech.stop() : speech.start())}
+              aria-label="Говорить"
+            >
+              {speech.listening ? "● Слушаю…" : "🎤 Говорить"}
+            </button>
+          ) : (
+            <p className="hint">Голосовой ввод недоступен в этом браузере — введите ответ вручную.</p>
+          )
+        )}
         {!answered && (
           <button
             type="submit"

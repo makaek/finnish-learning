@@ -1,12 +1,15 @@
 import { useState } from "react";
 import type { ProductionQuestion } from "../core/produce";
 import { gradeTyped, type TypedGrade } from "../core/produce";
+import { useSpeechRecognition } from "./useSpeechRecognition";
 
 interface ProductionCardProps {
   question: ProductionQuestion;
   /** 1-based position in the session, for the progress label. */
   questionNumber: number;
   total: number;
+  /** Voice mode: the answer is spoken (Finnish), recognized into the same input + grader. */
+  voice?: boolean;
   /** Called once the learner has answered and chosen to continue. */
   onAnswered: (wasCorrect: boolean) => void;
 }
@@ -20,6 +23,7 @@ export default function ProductionCard({
   question,
   questionNumber,
   total,
+  voice = false,
   onAnswered,
 }: ProductionCardProps) {
   const [value, setValue] = useState("");
@@ -29,6 +33,11 @@ export default function ProductionCard({
   // Guards against a double-click on "Next" double-scoring / skipping a question.
   const [advanced, setAdvanced] = useState(false);
   const answered = graded !== null;
+  const speech = useSpeechRecognition({
+    lang: "fi-FI",
+    enabled: voice && !answered,
+    onResult: (text) => setValue(text),
+  });
 
   function submit() {
     if (answered) return;
@@ -57,7 +66,9 @@ export default function ProductionCard({
       <h1 className="prompt" lang="ru">
         {question.promptRu}
       </h1>
-      <p className="hint">Напишите слово по-фински:</p>
+      <p className="hint">
+        {voice ? "Произнесите слово по-фински (можно поправить вручную):" : "Напишите слово по-фински:"}
+      </p>
 
       <form
         className="produce"
@@ -69,7 +80,7 @@ export default function ProductionCard({
         <input
           className="produce__input"
           lang="fi"
-          autoFocus
+          autoFocus={!voice}
           autoComplete="off"
           autoCapitalize="off"
           autoCorrect="off"
@@ -79,6 +90,20 @@ export default function ProductionCard({
           onChange={(e) => setValue(e.target.value)}
           aria-label="Ответ на финском"
         />
+        {voice && !answered && (
+          speech.supported ? (
+            <button
+              type="button"
+              className={"mic" + (speech.listening ? " mic--on" : "")}
+              onClick={() => (speech.listening ? speech.stop() : speech.start())}
+              aria-label="Говорить"
+            >
+              {speech.listening ? "● Слушаю…" : "🎤 Говорить"}
+            </button>
+          ) : (
+            <p className="hint">Голосовой ввод недоступен в этом браузере — введите ответ вручную.</p>
+          )
+        )}
         {!answered && (
           <button type="submit" className="next" disabled={value.trim().length === 0}>
             Проверить

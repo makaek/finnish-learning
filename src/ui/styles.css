@@ -275,6 +275,30 @@ body {
   line-height: 1.4;
 }
 
+.mic {
+  width: 100%;
+  min-height: 3.25rem;
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--surface);
+  border: 2px solid var(--accent);
+  border-radius: var(--pill);
+  cursor: pointer;
+  transition: background 0.14s ease, transform 0.08s ease;
+}
+
+.mic:active {
+  transform: scale(0.98);
+}
+
+.mic--on {
+  color: var(--no);
+  background: var(--no-soft);
+  border-color: var(--no);
+}
+
 /* --- Feedback --- */
 .feedback {
   margin-top: var(--s4);

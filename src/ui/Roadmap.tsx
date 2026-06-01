@@ -22,7 +22,12 @@ import {
 } from "../core/daily";
 import ThemeToggle from "./ThemeToggle";
 
-export type Mode = "recognition" | "production" | "sentences";
+export type Mode =
+  | "recognition"
+  | "production"
+  | "sentences"
+  | "say_word"
+  | "say_sentence";
 
 interface RoadmapProps {
   vocab: readonly VocabLike[];
@@ -138,6 +143,12 @@ export default function Roadmap({
           </button>
           <button type="button" className="option" onClick={() => onStart("sentences")}>
             Перевод предложений
+          </button>
+          <button type="button" className="option" onClick={() => onStart("say_word")}>
+            🎤 Скажи слово
+          </button>
+          <button type="button" className="option" onClick={() => onStart("say_sentence")}>
+            🎤 Скажи предложение
           </button>
         </div>
       </section>

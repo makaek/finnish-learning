@@ -153,16 +153,17 @@ export default function App() {
   /** Update the current item's mastery from the answer and persist it (fire-and-forget). */
   function recordOutcome(wasCorrect: boolean) {
     if (mode === null) return;
-    // The exercise mode IS the progress track, so recognition/production/sentences are
-    // recorded separately. `wasCorrect` is the FIRST-attempt result (the forced-correction
-    // retry never changes it), so only first attempts count toward mastery.
-    const kind: ItemKind = mode;
-    const id =
-      mode === "sentences"
-        ? sentences[index]?.id
-        : mode === "production"
-          ? production[index]?.itemId
-          : recognition[index]?.itemId;
+    // The voice modes reuse the existing tracks: "say a word" feeds production, "say a
+    // sentence" feeds the sentence track. `wasCorrect` is the FIRST-attempt result (the
+    // forced-correction retry never changes it), so only first attempts count.
+    const usesSentences = mode === "sentences" || mode === "say_sentence";
+    const usesProduction = mode === "production" || mode === "say_word";
+    const kind: ItemKind = usesSentences ? "sentences" : usesProduction ? "production" : "recognition";
+    const id = usesSentences
+      ? sentences[index]?.id
+      : usesProduction
+        ? production[index]?.itemId
+        : recognition[index]?.itemId;
     if (id === undefined) return; // index past the end of the session — nothing to record
     // Each card key is unique per seed+mode+index, so this tag dedupes a double-fire.
     const tag = `${mode}:${seed}:${index}`;
@@ -227,12 +228,14 @@ export default function App() {
     );
   }
 
-  const total =
-    mode === "production"
-      ? production.length
-      : mode === "sentences"
-        ? sentences.length
-        : recognition.length;
+  // Voice modes reuse the production / sentence sessions (same pool, grader, and track).
+  const usesSentences = mode === "sentences" || mode === "say_sentence";
+  const usesProduction = mode === "production" || mode === "say_word";
+  const total = usesProduction
+    ? production.length
+    : usesSentences
+      ? sentences.length
+      : recognition.length;
   const finished = index >= total;
   // An exercise card is on screen (vs. the empty/summary states). Top-align + scroll these
   // so a typed answer's submit button stays reachable above the on-screen keyboard (and its
@@ -252,7 +255,7 @@ export default function App() {
         <section className="card">
           <h1 className="prompt">Пока пусто</h1>
           <p className="hint">
-            {mode === "sentences"
+            {usesSentences
               ? "Сначала выучите больше слов — тогда откроются предложения."
               : "Нет заданий для тренировки."}
           </p>
@@ -268,21 +271,23 @@ export default function App() {
           onRestart={restart}
           onHome={goHome}
         />
-      ) : mode === "sentences" ? (
+      ) : usesSentences ? (
         <SentenceCard
           key={index}
           question={sentences[index]!}
           questionNumber={index + 1}
           total={total}
           grade={grade}
+          voice={mode === "say_sentence"}
           onAnswered={handleAnswered}
         />
-      ) : mode === "production" ? (
+      ) : usesProduction ? (
         <ProductionCard
           key={index}
           question={production[index]!}
           questionNumber={index + 1}
           total={total}
+          voice={mode === "say_word"}
           onAnswered={handleAnswered}
         />
       ) : (
