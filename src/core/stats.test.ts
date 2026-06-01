@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { masteryRows } from "./stats";
-import { progressKey, type ItemProgress, type ProgressMap } from "./progress";
+import { masteryRows, mergeByItem } from "./stats";
+import { progressKey, type ItemKind, type ItemProgress, type ProgressMap } from "./progress";
 
 const items = ["a", "b", "c", "d"].map((id) => ({ id }));
 
@@ -60,5 +60,44 @@ describe("masteryRows", () => {
     const rows = masteryRows(items, [items[1]!], progress, "recognition"); // active pool excludes 'a'
     expect(rows).toHaveLength(1);
     expect(rows[0]!.chance).toBe(0);
+  });
+});
+
+describe("mergeByItem", () => {
+  const pair = [{ id: "a" }, { id: "b" }];
+  const WORD_KINDS = ["recognition", "production", "say_word"] as const;
+  const rec = (kind: ItemKind, id: string, box: number, seen: number): ItemProgress => ({
+    kind,
+    itemId: id,
+    box,
+    correctStreak: box,
+    totalCorrect: box,
+    totalSeen: seen,
+    lastSeen: id === "a" ? 2 : 1,
+  });
+  const mk = (...rows: ItemProgress[]): ProgressMap => {
+    const m: ProgressMap = new Map();
+    for (const r of rows) m.set(progressKey(r.kind, r.itemId), r);
+    return m;
+  };
+
+  it("groups an item's practiced tracks and flags mastered", () => {
+    const progress = mk(
+      rec("recognition", "a", 3, 3),
+      rec("production", "a", 4, 5), // say_word for 'a' not practiced → skipped
+      rec("recognition", "b", 1, 2),
+    );
+    const merged = mergeByItem(pair, pair, progress, WORD_KINDS, 3);
+    const a = merged.find((x) => x.id === "a")!;
+    expect(a.tracks.map((t) => t.kind)).toEqual(["recognition", "production"]);
+    expect(a.mastered).toBe(true);
+    const b = merged.find((x) => x.id === "b")!;
+    expect(b.tracks).toHaveLength(1);
+    expect(b.mastered).toBe(false);
+  });
+
+  it("omits items with no practiced track and sorts unmastered first", () => {
+    const progress = mk(rec("recognition", "a", 5, 5), rec("recognition", "b", 1, 2));
+    expect(mergeByItem(pair, pair, progress, WORD_KINDS, 3).map((x) => x.id)).toEqual(["b", "a"]);
   });
 });

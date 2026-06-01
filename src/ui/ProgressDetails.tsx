@@ -1,19 +1,19 @@
 /**
- * ProgressDetails.tsx — read-only screen so the learner can confirm the SRS/gating per
- * exercise. Progress is tracked separately for each card type, so this shows three sections
- * (Узнавание / Написание / Предложения), each listing items answered correctly at least once
- * with mastery box, current streak, first-attempt accuracy, and live selection chance. A
- * collapsible legend explains every metric. All numbers come from pure core helpers.
+ * ProgressDetails.tsx — read-only "Мой прогресс" screen. Shows ONE card per word/sentence,
+ * with a compact line per lesson-type track it has been practiced in (so a word's recognition
+ * / writing / speaking progress sit together instead of in five separate lists). Mastered
+ * items can be hidden (persisted) to keep the list short; a toggle reveals hidden ones.
  */
 
-import { useMemo, type ReactElement } from "react";
+import { useMemo, useState } from "react";
 import type { VocabItem } from "../core/dictionary";
 import type { SentenceItem } from "../core/grader";
 import { DEFAULT_SESSION_SIZE } from "../core/quiz";
 import { activeVocab, eligibleSentences, LEARNED_BOX } from "../core/levels";
-import { masteryRows, type MasteryRow } from "../core/stats";
-import { MAX_BOX } from "../core/progress";
+import { mergeByItem, type MergedProgress } from "../core/stats";
+import { MAX_BOX, type ItemKind } from "../core/progress";
 import type { ProgressMap } from "../core/progress";
+import { hiddenKey, loadHidden, saveHidden, type Group } from "./hidden";
 
 interface ProgressDetailsProps {
   vocab: readonly VocabItem[];
@@ -22,6 +22,16 @@ interface ProgressDetailsProps {
   testMode: boolean;
   onBack: () => void;
 }
+
+const WORD_KINDS: ItemKind[] = ["recognition", "production", "say_word"];
+const SENTENCE_KINDS: ItemKind[] = ["sentences", "say_sentence"];
+const TRACK_LABEL: Record<ItemKind, string> = {
+  recognition: "Узнавание",
+  production: "Написание",
+  say_word: "🎤 Скажи",
+  sentences: "Перевод",
+  say_sentence: "🎤 Скажи",
+};
 
 function boxPips(box: number): string {
   return "●".repeat(box) + "○".repeat(Math.max(0, MAX_BOX - box));
@@ -34,54 +44,59 @@ function chanceLabel(chance: number): string {
   return pct < 1 ? "<1%" : `~${Math.round(pct)}%`;
 }
 
-function Row({ label, sub, row }: { label: string; sub?: string; row: MasteryRow }) {
-  const accuracy = row.totalSeen > 0 ? Math.round((row.totalCorrect / row.totalSeen) * 100) : 0;
-  const learned = row.box >= LEARNED_BOX;
-  return (
-    <li className="statrow">
-      <div className="statrow__head">
-        <span className="statrow__label">
-          {learned && <span className="statrow__learned" title="Выучено">✓ </span>}
-          {label}
-        </span>
-        <span className="statrow__pips" title={`Освоение ${row.box}/${MAX_BOX}`}>
-          {boxPips(row.box)}
-        </span>
-      </div>
-      {sub && <div className="statrow__sub">{sub}</div>}
-      <div className="statrow__metrics">
-        <span title="Серия верных ответов подряд (с первой попытки)">🔥 {row.streak}</span>
-        <span title="Верных с первой попытки из показов">
-          ✓ {row.totalCorrect}/{row.totalSeen} ({accuracy}%)
-        </span>
-        <span title="Примерный шанс встретить в одной сессии из 10 вопросов">
-          🎲 {chanceLabel(row.chance)}
-        </span>
-      </div>
-    </li>
-  );
-}
-
-function Section({
-  title,
-  rows,
-  render,
+function ItemCard({
+  entry,
+  label,
+  sub,
+  hidden,
+  onToggleHide,
 }: {
-  title: string;
-  rows: MasteryRow[];
-  render: (r: MasteryRow) => ReactElement;
+  entry: MergedProgress;
+  label: string;
+  sub?: string;
+  hidden: boolean;
+  onToggleHide: () => void;
 }) {
   return (
-    <>
-      <h2 className="stats__heading">
-        {title} ({rows.length})
-      </h2>
-      {rows.length === 0 ? (
-        <p className="hint">Пока нет верных ответов.</p>
-      ) : (
-        <ul className="stats">{rows.map(render)}</ul>
-      )}
-    </>
+    <li className={"icard" + (hidden ? " icard--hidden" : "")}>
+      <div className="icard__head">
+        <span className="icard__label">
+          {entry.mastered && <span className="icard__check" title="Выучено">✓ </span>}
+          {label}
+        </span>
+        {entry.mastered && (
+          <button
+            type="button"
+            className="icard__hide"
+            onClick={onToggleHide}
+            title={hidden ? "Показать в списке" : "Скрыть из списка"}
+          >
+            {hidden ? "👁" : "🙈"}
+          </button>
+        )}
+      </div>
+      {sub && <div className="icard__sub">{sub}</div>}
+      <ul className="tracks">
+        {entry.tracks.map((t) => {
+          const accuracy = t.totalSeen > 0 ? Math.round((t.totalCorrect / t.totalSeen) * 100) : 0;
+          return (
+            <li className="track" key={t.kind}>
+              <span className="track__name">{TRACK_LABEL[t.kind]}</span>
+              <span className="track__pips" title={`Освоение ${t.box}/${MAX_BOX}`}>
+                {boxPips(t.box)}
+              </span>
+              <span className="track__metrics">
+                <span title="Серия верных подряд">🔥 {t.streak}</span>
+                <span title="Верных с первой попытки из показов">
+                  ✓ {t.totalCorrect}/{t.totalSeen} ({accuracy}%)
+                </span>
+                <span title="Шанс встретить в сессии">🎲 {chanceLabel(t.chance)}</span>
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+    </li>
   );
 }
 
@@ -92,48 +107,49 @@ export default function ProgressDetails({
   testMode,
   onBack,
 }: ProgressDetailsProps) {
-  const pool = useMemo(() => activeVocab(vocab, progress, testMode), [vocab, progress, testMode]);
-  const sentencePool = useMemo(
-    () => eligibleSentences(sentences, vocab, progress, testMode),
-    [sentences, vocab, progress, testMode],
-  );
+  const [hidden, setHidden] = useState<Set<string>>(loadHidden);
+  const [showHidden, setShowHidden] = useState(false);
 
-  // One row set per exercise type — the same word has independent recognition/production rows.
-  const recognitionRows = useMemo(
-    () => masteryRows(vocab, pool, progress, "recognition"),
-    [vocab, pool, progress],
+  const words = useMemo(
+    () => mergeByItem(vocab, activeVocab(vocab, progress, testMode), progress, WORD_KINDS, LEARNED_BOX),
+    [vocab, progress, testMode],
   );
-  const productionRows = useMemo(
-    () => masteryRows(vocab, pool, progress, "production"),
-    [vocab, pool, progress],
-  );
-  const sayWordRows = useMemo(
-    () => masteryRows(vocab, pool, progress, "say_word"),
-    [vocab, pool, progress],
-  );
-  const sentenceRows = useMemo(
-    () => masteryRows(sentences, sentencePool, progress, "sentences"),
-    [sentences, sentencePool, progress],
-  );
-  const saySentenceRows = useMemo(
-    () => masteryRows(sentences, sentencePool, progress, "say_sentence"),
-    [sentences, sentencePool, progress],
+  const sentenceEntries = useMemo(
+    () =>
+      mergeByItem(
+        sentences,
+        eligibleSentences(sentences, vocab, progress, testMode),
+        progress,
+        SENTENCE_KINDS,
+        LEARNED_BOX,
+      ),
+    [sentences, vocab, progress, testMode],
   );
 
   const vocabById = useMemo(() => new Map(vocab.map((v) => [v.id, v])), [vocab]);
   const sentenceById = useMemo(() => new Map(sentences.map((s) => [s.id, s])), [sentences]);
 
-  const empty =
-    recognitionRows.length === 0 &&
-    productionRows.length === 0 &&
-    sayWordRows.length === 0 &&
-    sentenceRows.length === 0 &&
-    saySentenceRows.length === 0;
+  function toggleHide(key: string) {
+    setHidden((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      saveHidden(next);
+      return next;
+    });
+  }
 
-  const wordRow = (row: MasteryRow) => {
-    const v = vocabById.get(row.id);
-    return <Row key={`${row.kind}-${row.id}`} label={v ? `${v.fi} — ${v.ru}` : row.id} row={row} />;
-  };
+  const isHidden = (group: Group, id: string) => hidden.has(hiddenKey(group, id));
+  const hiddenCount =
+    words.filter((e) => isHidden("word", e.id)).length +
+    sentenceEntries.filter((e) => isHidden("sentence", e.id)).length;
+
+  const shownWords = showHidden ? words : words.filter((e) => !isHidden("word", e.id));
+  const shownSentences = showHidden
+    ? sentenceEntries
+    : sentenceEntries.filter((e) => !isHidden("sentence", e.id));
+
+  const empty = words.length === 0 && sentenceEntries.length === 0;
 
   return (
     <main className="app app--scroll">
@@ -143,8 +159,8 @@ export default function ProgressDetails({
       <section className="card">
         <h1 className="prompt">Мой прогресс</h1>
         <p className="hint">
-          Прогресс считается отдельно для каждого типа упражнения. Засчитывается только первая
-          попытка.
+          Один карточка на слово/предложение со всеми типами упражнений. Засчитывается только
+          первая попытка; выученное (✓) можно скрыть 🙈.
         </p>
 
         <details className="legend">
@@ -152,55 +168,69 @@ export default function ProgressDetails({
           <ul className="legend__list">
             <li>
               <b>●●●○○ — освоение</b> (0–{MAX_BOX}). «Выучено» (✓) после {LEARNED_BOX} верных
-              ответов; ошибка с первой попытки понижает уровень.
+              ответов в каждом упражнении; ошибка с первой попытки понижает уровень.
             </li>
             <li>
-              <b>🔥 — серия</b>: сколько раз подряд вы ответили верно с первой попытки.
+              <b>🔥 — серия</b> верных подряд; <b>✓ N/M</b> — верных с первой попытки из показов;
+              <b> 🎲</b> — шанс встретить в следующей сессии.
             </li>
-            <li>
-              <b>✓ N/M (%)</b>: верных ответов <b>с первой попытки</b> из показов. Если ошиблись —
-              попытка неудачная, даже если потом исправили.
-            </li>
-            <li>
-              <b>🎲 — шанс</b> встретить слово в следующей сессии (10 вопросов): чем лучше освоено,
-              тем реже показывается.
-            </li>
-            <li>Слово учится отдельно в «Узнавании» и «Написании»; для новых уровней засчитывается любой из них.</li>
+            <li>Каждый тип упражнения (узнавание/написание/речь) учится отдельно.</li>
           </ul>
         </details>
+
+        {hiddenCount > 0 && (
+          <button
+            type="button"
+            className="option showhidden"
+            onClick={() => setShowHidden((v) => !v)}
+          >
+            {showHidden ? "Скрыть выученные" : `Показать скрытые (${hiddenCount})`}
+          </button>
+        )}
 
         {empty ? (
           <p className="hint">Пока нет верных ответов — пройдите упражнение.</p>
         ) : (
           <>
-            <Section title="Узнавание слов" rows={recognitionRows} render={wordRow} />
-            <Section title="Написание слов" rows={productionRows} render={wordRow} />
-            <Section title="🎤 Скажи слово" rows={sayWordRows} render={wordRow} />
-            <Section
-              title="Перевод предложений"
-              rows={sentenceRows}
-              render={(row) => {
-                const s = sentenceById.get(row.id);
-                return (
-                  <Row key={`s-${row.id}`} label={s ? s.ru : row.id} sub={s?.canonical} row={row} />
-                );
-              }}
-            />
-            <Section
-              title="🎤 Скажи предложение"
-              rows={saySentenceRows}
-              render={(row) => {
-                const s = sentenceById.get(row.id);
-                return (
-                  <Row
-                    key={`ss-${row.id}`}
-                    label={s ? s.ru : row.id}
-                    sub={s?.canonical}
-                    row={row}
-                  />
-                );
-              }}
-            />
+            {shownWords.length > 0 && (
+              <>
+                <h2 className="stats__heading">Слова ({shownWords.length})</h2>
+                <ul className="stats">
+                  {shownWords.map((e) => {
+                    const v = vocabById.get(e.id);
+                    return (
+                      <ItemCard
+                        key={e.id}
+                        entry={e}
+                        label={v ? `${v.fi} — ${v.ru}` : e.id}
+                        hidden={isHidden("word", e.id)}
+                        onToggleHide={() => toggleHide(hiddenKey("word", e.id))}
+                      />
+                    );
+                  })}
+                </ul>
+              </>
+            )}
+            {shownSentences.length > 0 && (
+              <>
+                <h2 className="stats__heading">Предложения ({shownSentences.length})</h2>
+                <ul className="stats">
+                  {shownSentences.map((e) => {
+                    const s = sentenceById.get(e.id);
+                    return (
+                      <ItemCard
+                        key={e.id}
+                        entry={e}
+                        label={s ? s.ru : e.id}
+                        sub={s?.canonical}
+                        hidden={isHidden("sentence", e.id)}
+                        onToggleHide={() => toggleHide(hiddenKey("sentence", e.id))}
+                      />
+                    );
+                  })}
+                </ul>
+              </>
+            )}
           </>
         )}
       </section>

@@ -6,7 +6,7 @@
  * Lets the learner confirm the SRS is behaving (a high streak → low chance). PURE: no UI/DB.
  */
 
-import { getProgress, type ItemKind, type ProgressMap } from "./progress";
+import { getProgress, type ItemKind, type ItemProgress, type ProgressMap } from "./progress";
 import { selectionWeight } from "./srs";
 
 export interface MasteryRow {
@@ -24,6 +24,76 @@ export interface MasteryRow {
    * "—". This is the per-pick chance; a real session draws several distinct items.
    */
   chance: number;
+}
+
+/** One item (word or sentence) with its metrics merged across its lesson-type tracks. */
+export interface MergedProgress {
+  id: string;
+  /** Per-track metrics, only for tracks practiced (totalCorrect ≥ 1), in the given order. */
+  tracks: MasteryRow[];
+  /** Mastered = box ≥ masteredBox in every practiced track (so it can be hidden). */
+  mastered: boolean;
+  /** Most recent activity across tracks (for sorting). */
+  lastSeen: number;
+}
+
+/** Per-track selection chance for one item, mirroring `masteryRows`' definition. */
+function trackRow(
+  item: { id: string },
+  kind: ItemKind,
+  p: ItemProgress,
+  inPool: boolean,
+  totalWeight: number,
+): MasteryRow {
+  return {
+    id: item.id,
+    kind,
+    box: p.box,
+    streak: p.correctStreak,
+    totalCorrect: p.totalCorrect,
+    totalSeen: p.totalSeen,
+    chance: inPool && totalWeight > 0 ? selectionWeight(p) / totalWeight : 0,
+  };
+}
+
+/**
+ * Merge each item's progress across several tracks (e.g. a word across recognition /
+ * production / say_word) into one entry, so the UI can show a single card per word/sentence
+ * instead of repeating it per lesson type. Includes only items practiced in ≥1 track, with a
+ * row per practiced track. Sorted unmastered-first, then most-recently practiced.
+ */
+export function mergeByItem(
+  items: readonly { id: string }[],
+  pool: readonly { id: string }[],
+  progress: ProgressMap,
+  kinds: readonly ItemKind[],
+  masteredBox: number,
+): MergedProgress[] {
+  const inPool = new Set(pool.map((i) => i.id));
+  const totalWeightByKind = new Map<ItemKind, number>();
+  for (const kind of kinds) {
+    totalWeightByKind.set(
+      kind,
+      pool.reduce((sum, i) => sum + selectionWeight(getProgress(progress, kind, i.id)), 0),
+    );
+  }
+
+  const out: MergedProgress[] = [];
+  for (const item of items) {
+    const tracks: MasteryRow[] = [];
+    let lastSeen = 0;
+    for (const kind of kinds) {
+      const p = getProgress(progress, kind, item.id);
+      if (p.totalCorrect < 1) continue;
+      tracks.push(trackRow(item, kind, p, inPool.has(item.id), totalWeightByKind.get(kind) ?? 0));
+      if (p.lastSeen > lastSeen) lastSeen = p.lastSeen;
+    }
+    if (tracks.length === 0) continue;
+    out.push({ id: item.id, tracks, mastered: tracks.every((t) => t.box >= masteredBox), lastSeen });
+  }
+
+  out.sort((a, b) => Number(a.mastered) - Number(b.mastered) || b.lastSeen - a.lastSeen);
+  return out;
 }
 
 /**

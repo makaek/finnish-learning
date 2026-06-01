@@ -541,8 +541,10 @@ body {
   color: var(--text);
 }
 
-.statrow__learned {
-  color: var(--ok);
+.showhidden {
+  margin: 0 0 var(--s3);
+  text-align: center;
+  font-size: 0.9rem;
 }
 
 .stats__heading {
@@ -559,46 +561,85 @@ body {
   gap: var(--s2);
 }
 
-.statrow {
+/* Merged item card: one word/sentence with a line per practiced track. */
+.icard {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--r-sm);
-  padding: 0.7rem 0.9rem;
+  padding: 0.6rem 0.85rem;
 }
 
-.statrow__head {
+.icard--hidden {
+  opacity: 0.55;
+}
+
+.icard__head {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: var(--s2);
 }
 
-.statrow__label {
+.icard__label {
   font-size: 1rem;
   font-weight: 700;
 }
 
-.statrow__pips {
+.icard__check {
   color: var(--ok);
-  letter-spacing: 1px;
-  font-size: 0.8rem;
-  white-space: nowrap;
 }
 
-.statrow__sub {
+.icard__hide {
+  flex: none;
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0.2rem 0.4rem;
+  background: none;
+  border: none;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+}
+
+.icard__sub {
   color: var(--muted);
   font-size: 0.85rem;
   margin-top: 0.15rem;
 }
 
-.statrow__metrics {
+.tracks {
+  list-style: none;
+  margin: 0.45rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.3rem;
+}
+
+.track {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.6rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.track__name {
+  min-width: 6.2rem;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.track__pips {
+  color: var(--ok);
+  letter-spacing: 1px;
+}
+
+.track__metrics {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem 1rem;
-  margin-top: var(--s1);
-  color: var(--muted);
-  font-size: 0.85rem;
-  font-variant-numeric: tabular-nums;
+  gap: 0.25rem 0.7rem;
 }
 
 @media (prefers-reduced-motion: reduce) {
