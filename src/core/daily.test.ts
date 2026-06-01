@@ -1,13 +1,24 @@
 import { describe, expect, it } from "vitest";
 import {
-  applyActivity,
+  completeLesson,
   currentStreak,
   dateKey,
+  DAILY_LESSONS_GOAL,
   emptyState,
   goalMet,
-  todayCount,
+  recordAnswer,
+  todayAccuracy,
+  todayLessons,
   type UserState,
 } from "./daily";
+
+/** Simulate a fully qualifying day: 10 lessons + 100 answers at 90% accuracy. */
+function qualifyingDay(state: UserState, day: string): UserState {
+  let s = state;
+  for (let i = 0; i < 100; i++) s = recordAnswer(s, day, i % 10 !== 0); // 90 correct / 100
+  for (let i = 0; i < DAILY_LESSONS_GOAL; i++) s = completeLesson(s, day);
+  return s;
+}
 
 describe("dateKey", () => {
   it("formats a local calendar day as YYYY-MM-DD", () => {
@@ -15,68 +26,86 @@ describe("dateKey", () => {
   });
 });
 
-describe("applyActivity", () => {
-  it("starts a streak at 1 on the first ever answer", () => {
-    expect(applyActivity(emptyState(), "2026-01-01")).toMatchObject({
-      streak: 1,
-      bestStreak: 1,
-      lastActiveDate: "2026-01-01",
-      todayDate: "2026-01-01",
-      todayCount: 1,
-    });
+describe("qualification (10 lessons + >=80% accuracy)", () => {
+  it("does NOT qualify on activity alone", () => {
+    let s = recordAnswer(emptyState(), "2026-01-01", true);
+    s = completeLesson(s, "2026-01-01");
+    expect(currentStreak(s, "2026-01-01")).toBe(0);
+    expect(goalMet(s, "2026-01-01")).toBe(false);
   });
 
-  it("bumps only the count for more answers the same day", () => {
-    let s = applyActivity(emptyState(), "2026-01-01");
-    s = applyActivity(s, "2026-01-01");
-    expect(s.todayCount).toBe(2);
+  it("qualifies and bumps the streak once the goal is met", () => {
+    const s = qualifyingDay(emptyState(), "2026-01-01");
+    expect(goalMet(s, "2026-01-01")).toBe(true);
     expect(s.streak).toBe(1);
+    expect(s.qualified).toBe(true);
   });
 
-  it("extends the streak on a consecutive day and resets the day count", () => {
-    let s = applyActivity(emptyState(), "2026-01-01");
-    s = applyActivity(s, "2026-01-02");
-    expect(s.streak).toBe(2);
-    expect(s.todayCount).toBe(1);
-    expect(s.bestStreak).toBe(2);
+  it("does NOT qualify with 10 lessons but accuracy below 80%", () => {
+    let s = emptyState();
+    for (let i = 0; i < 100; i++) s = recordAnswer(s, "2026-01-01", i % 10 < 7); // 70%
+    for (let i = 0; i < DAILY_LESSONS_GOAL; i++) s = completeLesson(s, "2026-01-01");
+    expect(goalMet(s, "2026-01-01")).toBe(false);
+    expect(s.streak).toBe(0);
   });
 
-  it("restarts the streak after a missed day, keeping bestStreak", () => {
-    let s: UserState = { streak: 5, bestStreak: 5, lastActiveDate: "2026-01-01", todayDate: "2026-01-01", todayCount: 9 };
-    s = applyActivity(s, "2026-01-03"); // skipped the 2nd
+  it("does NOT qualify with high accuracy but fewer than 10 lessons", () => {
+    let s = emptyState();
+    for (let i = 0; i < 100; i++) s = recordAnswer(s, "2026-01-01", true);
+    for (let i = 0; i < DAILY_LESSONS_GOAL - 1; i++) s = completeLesson(s, "2026-01-01");
+    expect(goalMet(s, "2026-01-01")).toBe(false);
+    expect(s.streak).toBe(0);
+  });
+
+  it("only counts a qualifying day once", () => {
+    let s = qualifyingDay(emptyState(), "2026-01-01");
+    s = completeLesson(s, "2026-01-01"); // extra lesson, same day
+    s = recordAnswer(s, "2026-01-01", true);
     expect(s.streak).toBe(1);
-    expect(s.bestStreak).toBe(5);
   });
 });
 
-describe("currentStreak", () => {
-  const s: UserState = { streak: 4, bestStreak: 4, lastActiveDate: "2026-01-10", todayDate: "2026-01-10", todayCount: 3 };
+describe("streak across days", () => {
+  it("extends on consecutive qualifying days", () => {
+    let s = qualifyingDay(emptyState(), "2026-01-01");
+    s = qualifyingDay(s, "2026-01-02");
+    expect(s.streak).toBe(2);
+    expect(s.bestStreak).toBe(2);
+  });
 
-  it("is alive when last active today or yesterday", () => {
+  it("resets to 1 after a missed (non-qualifying) day, keeping bestStreak", () => {
+    let s = qualifyingDay(emptyState(), "2026-01-01"); // streak 1
+    s = qualifyingDay(s, "2026-01-02"); // streak 2, best 2
+    s = qualifyingDay(s, "2026-01-04"); // skipped the 3rd → streak resets
+    expect(s.streak).toBe(1);
+    expect(s.bestStreak).toBe(2);
+  });
+
+  it("rolls the per-day counters over to a new day", () => {
+    const s = qualifyingDay(emptyState(), "2026-01-01");
+    expect(todayLessons(s, "2026-01-02")).toBe(0);
+    expect(todayAccuracy(s, "2026-01-02")).toBe(0);
+  });
+});
+
+describe("currentStreak liveness", () => {
+  const s: UserState = {
+    streak: 4,
+    bestStreak: 4,
+    lastQualifiedDate: "2026-01-10",
+    todayDate: "2026-01-10",
+    lessons: 10,
+    answered: 100,
+    correct: 95,
+    qualified: true,
+  };
+
+  it("stays alive today and the day after the last qualifying day", () => {
     expect(currentStreak(s, "2026-01-10")).toBe(4);
     expect(currentStreak(s, "2026-01-11")).toBe(4);
   });
 
-  it("is 0 once two or more days have passed", () => {
+  it("drops to 0 once two days have passed", () => {
     expect(currentStreak(s, "2026-01-12")).toBe(0);
-  });
-
-  it("is 0 with no history", () => {
-    expect(currentStreak(emptyState(), "2026-01-01")).toBe(0);
-  });
-});
-
-describe("todayCount / goalMet", () => {
-  const s: UserState = { streak: 1, bestStreak: 1, lastActiveDate: "2026-01-10", todayDate: "2026-01-10", todayCount: 20 };
-
-  it("reports the count only for the current day", () => {
-    expect(todayCount(s, "2026-01-10")).toBe(20);
-    expect(todayCount(s, "2026-01-11")).toBe(0);
-  });
-
-  it("meets the goal at or above the threshold, per day", () => {
-    expect(goalMet(s, "2026-01-10", 20)).toBe(true);
-    expect(goalMet(s, "2026-01-10", 25)).toBe(false);
-    expect(goalMet(s, "2026-01-11", 20)).toBe(false);
   });
 });

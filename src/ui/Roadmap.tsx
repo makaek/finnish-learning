@@ -16,8 +16,10 @@ import type { ProgressMap } from "../core/progress";
 import {
   currentStreak,
   dateKey,
-  todayCount,
-  DAILY_GOAL,
+  goalMet,
+  todayAccuracy,
+  todayLessons,
+  DAILY_LESSONS_GOAL,
   type UserState,
 } from "../core/daily";
 import ThemeToggle from "./ThemeToggle";
@@ -61,9 +63,10 @@ export default function Roadmap({
 
   const today = dateKey();
   const streak = currentStreak(daily, today);
-  const done = todayCount(daily, today);
-  const goalPct = Math.min(100, Math.round((done / DAILY_GOAL) * 100));
-  const goalReached = done >= DAILY_GOAL;
+  const lessons = todayLessons(daily, today);
+  const accuracyPct = Math.round(todayAccuracy(daily, today) * 100);
+  const goalPct = Math.min(100, Math.round((lessons / DAILY_LESSONS_GOAL) * 100));
+  const goalReached = goalMet(daily, today);
 
   if (!ready) {
     return (
@@ -92,7 +95,9 @@ export default function Roadmap({
               <div className="daily__fill" style={{ width: `${goalPct}%` }} />
             </div>
             <span className="daily__label">
-              {goalReached ? "Цель на сегодня выполнена! 🎉" : `Сегодня: ${done} / ${DAILY_GOAL}`}
+              {goalReached
+                ? "Цель на сегодня выполнена! 🎉"
+                : `Уроки: ${lessons} / ${DAILY_LESSONS_GOAL} · точность ${accuracyPct}%`}
             </span>
           </div>
         </div>

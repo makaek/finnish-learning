@@ -1,29 +1,45 @@
 /**
- * daily.ts — pure daily-loop model: a per-day answer count and a consecutive-day streak.
+ * daily.ts — pure daily-loop model: a streak that only advances on a *qualifying* day.
  *
- * Drives the home screen's "Сегодня X/goal" ring and the 🔥 streak. PURE: no UI/DB. Dates
- * are local calendar days as "YYYY-MM-DD"; callers pass "today" (via `dateKey`) so the logic
- * is deterministic and unit-testable. Persistence lives in `src/data/backend.ts`.
+ * A day qualifies once the learner finishes at least `DAILY_LESSONS_GOAL` lessons (sessions)
+ * AND keeps the day's accuracy at or above `DAILY_ACCURACY`. The streak counts consecutive
+ * qualifying days. PURE: no UI/DB. Dates are local "YYYY-MM-DD"; callers pass "today".
  */
 
-/** Answers (any type) needed in a day to count it "done". */
-export const DAILY_GOAL = 20;
+/** Lessons (completed sessions) needed to qualify a day. */
+export const DAILY_LESSONS_GOAL = 10;
+/** Minimum share of correct first-attempt answers across the day to qualify. */
+export const DAILY_ACCURACY = 0.8;
 
 export interface UserState {
-  /** Consecutive calendar days with activity (see `currentStreak` for the live value). */
+  /** Consecutive qualifying days (see `currentStreak` for the live value). */
   streak: number;
-  /** Best streak ever reached. */
   bestStreak: number;
-  /** Last day with any activity, "YYYY-MM-DD" ("" if never). */
-  lastActiveDate: string;
-  /** The day `todayCount` belongs to, "YYYY-MM-DD". */
+  /** Last day the goal was met, "YYYY-MM-DD" ("" if never). */
+  lastQualifiedDate: string;
+  /** The day the counters below belong to, "YYYY-MM-DD". */
   todayDate: string;
-  /** Answers given on `todayDate`. */
-  todayCount: number;
+  /** Lessons (sessions) completed today. */
+  lessons: number;
+  /** Answers given today. */
+  answered: number;
+  /** Correct answers today. */
+  correct: number;
+  /** Whether today already counted toward the streak (so it only bumps once). */
+  qualified: boolean;
 }
 
 export function emptyState(): UserState {
-  return { streak: 0, bestStreak: 0, lastActiveDate: "", todayDate: "", todayCount: 0 };
+  return {
+    streak: 0,
+    bestStreak: 0,
+    lastQualifiedDate: "",
+    todayDate: "",
+    lessons: 0,
+    answered: 0,
+    correct: 0,
+    qualified: false,
+  };
 }
 
 /** Local calendar day as "YYYY-MM-DD". */
@@ -41,40 +57,70 @@ function daysBetween(a: string, b: string): number {
   return Math.round((tb - ta) / 86_400_000);
 }
 
-/**
- * Fold one answer (given on day `today`) into the state. Same-day answers just bump the
- * count; the first answer of a new day advances the streak (+1 if yesterday was active,
- * otherwise it restarts at 1) and resets the day counter.
- */
-export function applyActivity(state: UserState, today: string): UserState {
-  if (state.todayDate === today) {
-    return { ...state, todayCount: state.todayCount + 1 };
-  }
-  let streak = 1;
-  if (state.lastActiveDate) {
-    streak = daysBetween(state.lastActiveDate, today) === 1 ? state.streak + 1 : 1;
-  }
+/** Reset the per-day counters when the calendar day has rolled over. */
+function rollToToday(state: UserState, today: string): UserState {
+  if (state.todayDate === today) return state;
+  return { ...state, todayDate: today, lessons: 0, answered: 0, correct: 0, qualified: false };
+}
+
+/** Today's accuracy in [0, 1] (0 when nothing answered yet). */
+function accuracyOf(state: UserState): number {
+  return state.answered === 0 ? 0 : state.correct / state.answered;
+}
+
+/** If today now meets the goal and hasn't been counted, bump the streak (once). */
+function maybeQualify(state: UserState, today: string): UserState {
+  if (state.qualified) return state;
+  if (state.lessons < DAILY_LESSONS_GOAL || accuracyOf(state) < DAILY_ACCURACY) return state;
+  const streak = state.lastQualifiedDate
+    ? daysBetween(state.lastQualifiedDate, today) === 1
+      ? state.streak + 1
+      : 1
+    : 1;
   return {
+    ...state,
+    qualified: true,
+    lastQualifiedDate: today,
     streak,
     bestStreak: Math.max(state.bestStreak, streak),
-    lastActiveDate: today,
-    todayDate: today,
-    todayCount: 1,
   };
 }
 
-/** Live streak: the stored value if the last activity was today or yesterday, else 0 (broken). */
+/** Record one answer toward today's accuracy. May qualify the day if it tips it over. */
+export function recordAnswer(state: UserState, today: string, wasCorrect: boolean): UserState {
+  const s = rollToToday(state, today);
+  return maybeQualify(
+    { ...s, answered: s.answered + 1, correct: s.correct + (wasCorrect ? 1 : 0) },
+    today,
+  );
+}
+
+/** Record one completed lesson (session). May qualify the day if it reaches the goal. */
+export function completeLesson(state: UserState, today: string): UserState {
+  const s = rollToToday(state, today);
+  return maybeQualify({ ...s, lessons: s.lessons + 1 }, today);
+}
+
+/** Live streak: the stored value if the last qualifying day was today or yesterday, else 0. */
 export function currentStreak(state: UserState, today: string): number {
-  if (!state.lastActiveDate) return 0;
-  return daysBetween(state.lastActiveDate, today) <= 1 ? state.streak : 0;
+  if (!state.lastQualifiedDate) return 0;
+  return daysBetween(state.lastQualifiedDate, today) <= 1 ? state.streak : 0;
 }
 
-/** Answers logged for `today` (0 after the day rolls over). */
-export function todayCount(state: UserState, today: string): number {
-  return state.todayDate === today ? state.todayCount : 0;
+/** Lessons completed today (0 after the day rolls over). */
+export function todayLessons(state: UserState, today: string): number {
+  return state.todayDate === today ? state.lessons : 0;
 }
 
-/** Whether today's goal has been met. */
-export function goalMet(state: UserState, today: string, goal: number = DAILY_GOAL): boolean {
-  return todayCount(state, today) >= goal;
+/** Today's accuracy in [0, 1] (0 after the day rolls over or before any answers). */
+export function todayAccuracy(state: UserState, today: string): number {
+  return state.todayDate === today ? accuracyOf(state) : 0;
+}
+
+/** Whether today's goal (lessons + accuracy) is met. */
+export function goalMet(state: UserState, today: string): boolean {
+  return (
+    todayLessons(state, today) >= DAILY_LESSONS_GOAL &&
+    todayAccuracy(state, today) >= DAILY_ACCURACY
+  );
 }

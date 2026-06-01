@@ -6,7 +6,14 @@ import { buildProductionSession } from "../core/produce";
 import { buildSentenceSession } from "../core/sentenceSession";
 import { applyOutcome } from "../core/srs";
 import { activeVocab, eligibleSentences } from "../core/levels";
-import { applyActivity, currentStreak, dateKey, emptyState, type UserState } from "../core/daily";
+import {
+  completeLesson,
+  currentStreak,
+  dateKey,
+  emptyState,
+  recordAnswer,
+  type UserState,
+} from "../core/daily";
 import {
   getProgress,
   progressKey,
@@ -208,9 +215,20 @@ export default function App() {
     void saveProgress([next]);
   }
 
-  /** Count one answer toward today's goal and the daily streak, then persist. */
-  function bumpDaily() {
-    const next = applyActivity(dailyRef.current, dateKey());
+  /** Length of the active session — used to detect when this answer completes a lesson. */
+  function activeTotal(): number {
+    if (mode === "sentences") return sentences.length;
+    if (mode === "say_sentence") return saySentence.length;
+    if (mode === "production") return production.length;
+    if (mode === "say_word") return sayWord.length;
+    return recognition.length;
+  }
+
+  /** Record one answer toward today's goal; on the session's last answer, count a lesson. */
+  function recordDaily(wasCorrect: boolean, lessonDone: boolean) {
+    const today = dateKey();
+    let next = recordAnswer(dailyRef.current, today, wasCorrect);
+    if (lessonDone) next = completeLesson(next, today);
     dailyRef.current = next;
     setDailyView(next);
     void saveState(next);
@@ -218,7 +236,7 @@ export default function App() {
 
   function handleAnswered(wasCorrect: boolean) {
     recordOutcome(wasCorrect);
-    bumpDaily();
+    recordDaily(wasCorrect, index + 1 >= activeTotal());
     if (wasCorrect) setScore((s) => s + 1);
     setIndex((i) => i + 1);
   }

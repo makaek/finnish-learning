@@ -88,9 +88,12 @@ describe("daily state (localStorage fallback)", () => {
     const state: UserState = {
       streak: 4,
       bestStreak: 7,
-      lastActiveDate: "2026-01-10",
+      lastQualifiedDate: "2026-01-10",
       todayDate: "2026-01-10",
-      todayCount: 12,
+      lessons: 10,
+      answered: 100,
+      correct: 95,
+      qualified: true,
     };
     await saveState(state);
     expect(await loadState()).toEqual(state);

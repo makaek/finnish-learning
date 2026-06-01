@@ -85,16 +85,19 @@ function writeLocal(items: readonly ItemProgress[]): void {
   }
 }
 
-/** Guard a localStorage daily-state payload. */
+/** Guard a localStorage daily-state payload. (A stale pre-slice-15 shape fails this → reset.) */
 function isUserState(value: unknown): value is UserState {
   if (typeof value !== "object" || value === null) return false;
   const v = value as Record<string, unknown>;
   return (
     typeof v.streak === "number" &&
     typeof v.bestStreak === "number" &&
-    typeof v.lastActiveDate === "string" &&
+    typeof v.lastQualifiedDate === "string" &&
     typeof v.todayDate === "string" &&
-    typeof v.todayCount === "number"
+    typeof v.lessons === "number" &&
+    typeof v.answered === "number" &&
+    typeof v.correct === "number" &&
+    typeof v.qualified === "boolean"
   );
 }
 
@@ -186,18 +189,24 @@ export interface UserStateRow {
   user_id: string;
   streak: number;
   best_streak: number;
-  last_active_date: string | null;
+  last_qualified_date: string | null;
   today_date: string | null;
-  today_count: number;
+  lessons: number;
+  answered: number;
+  correct: number;
+  qualified: boolean;
 }
 
 export function rowToUserState(row: UserStateRow): UserState {
   return {
     streak: row.streak,
     bestStreak: row.best_streak,
-    lastActiveDate: row.last_active_date ?? "",
+    lastQualifiedDate: row.last_qualified_date ?? "",
     todayDate: row.today_date ?? "",
-    todayCount: row.today_count,
+    lessons: row.lessons,
+    answered: row.answered,
+    correct: row.correct,
+    qualified: row.qualified,
   };
 }
 
@@ -206,9 +215,12 @@ export function userStateToRow(userId: string, s: UserState): UserStateRow {
     user_id: userId,
     streak: s.streak,
     best_streak: s.bestStreak,
-    last_active_date: s.lastActiveDate || null,
+    last_qualified_date: s.lastQualifiedDate || null,
     today_date: s.todayDate || null,
-    today_count: s.todayCount,
+    lessons: s.lessons,
+    answered: s.answered,
+    correct: s.correct,
+    qualified: s.qualified,
   };
 }
 
