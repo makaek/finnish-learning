@@ -20,14 +20,29 @@ export const LEARNED_BOX = 3;
 export const UNLOCK_FRACTION = 0.8;
 
 /**
- * A word counts as learned (for unlocks + the sentence word-gate) once it is mastered in
- * EITHER word exercise — recognition or production. Progress is tracked per type, so knowing
- * a word in either skill is enough to progress.
+ * A word counts as learned (for level unlocks + overall progress) once it is mastered
+ * (>= LEARNED_BOX) in EITHER word exercise — recognition or production.
  */
 export function wordLearned(progress: ProgressMap, vocabId: string): boolean {
   return (
     getProgress(progress, "recognition", vocabId).box >= LEARNED_BOX ||
     getProgress(progress, "production", vocabId).box >= LEARNED_BOX
+  );
+}
+
+/** Gentler bar for *using* a word in a sentence: at least one net-correct answer. */
+export const SENTENCE_WORD_BOX = 1;
+
+/**
+ * Whether a word is familiar enough to appear in a sentence exercise — a lower bar than
+ * full mastery, so sentences become available as you start learning words (not only after
+ * you've mastered every one). Keeps the "build from words you know" spirit without
+ * requiring all of them to be fully mastered first.
+ */
+export function wordUsableInSentence(progress: ProgressMap, vocabId: string): boolean {
+  return (
+    getProgress(progress, "recognition", vocabId).box >= SENTENCE_WORD_BOX ||
+    getProgress(progress, "production", vocabId).box >= SENTENCE_WORD_BOX
   );
 }
 
@@ -146,6 +161,6 @@ export function eligibleSentences<S extends SentenceLike>(
   if (testMode) return [...sentences];
   const unlocked = unlockedLevels(levelStats(vocab, progress));
   return sentences.filter(
-    (s) => unlocked.has(levelOf(s)) && s.uses.every((id) => wordLearned(progress, id)),
+    (s) => unlocked.has(levelOf(s)) && s.uses.every((id) => wordUsableInSentence(progress, id)),
   );
 }
