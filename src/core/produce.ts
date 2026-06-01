@@ -12,6 +12,9 @@
 
 import type { VocabItem } from "./dictionary";
 import { makeRng, shuffle, DEFAULT_SESSION_SIZE } from "./quiz";
+import { getProgress, type ProgressMap } from "./progress";
+import { selectionWeight } from "./srs";
+import { weightedSample } from "./select";
 import { normalizeFi } from "./normalize";
 
 export { DEFAULT_SESSION_SIZE };
@@ -93,13 +96,24 @@ export function gradeTyped(answerFi: string, raw: string): TypedGrade {
  * once from `items`. Deterministic for a given numeric `seed`. (App reseeds on every mode
  * entry, so a production run never shares a seed — and thus an order — with a recognition
  * run; a future mixed-mode would need to offset the seed to keep the two decks distinct.)
+ *
+ * When `progress` is supplied, targets are drawn by mastery weight (well-known words appear
+ * far less often); without it the selection is a plain uniform shuffle (unchanged behavior).
  */
 export function buildProductionSession(
   items: readonly VocabItem[],
   seed: number,
   size: number = DEFAULT_SESSION_SIZE,
+  progress?: ProgressMap,
 ): ProductionQuestion[] {
-  const targets = shuffle(items, makeRng(seed)).slice(0, Math.min(size, items.length));
+  const targets = progress
+    ? weightedSample(
+        items,
+        (item) => selectionWeight(getProgress(progress, "vocab", item.id)),
+        makeRng(seed),
+        size,
+      )
+    : shuffle(items, makeRng(seed)).slice(0, Math.min(size, items.length));
   return targets.map((target) => ({
     itemId: target.id,
     promptRu: target.ru,

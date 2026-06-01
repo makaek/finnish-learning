@@ -9,6 +9,9 @@
 
 import type { SentenceItem } from "./grader";
 import { makeRng, shuffle, DEFAULT_SESSION_SIZE } from "./quiz";
+import { getProgress, type ProgressMap } from "./progress";
+import { selectionWeight } from "./srs";
+import { weightedSample } from "./select";
 
 export { DEFAULT_SESSION_SIZE };
 
@@ -30,14 +33,26 @@ export type IsEligible = (uses: readonly string[]) => boolean;
 /**
  * Build a session of up to `size` distinct sentence questions, drawn once each from the
  * eligible items. Deterministic for a given numeric `seed`.
+ *
+ * When `progress` is supplied, eligible sentences are drawn by mastery weight (well-known
+ * sentences appear far less often); without it the selection is a plain uniform shuffle
+ * (unchanged behavior).
  */
 export function buildSentenceSession(
   items: readonly SentenceItem[],
   seed: number,
   size: number = DEFAULT_SESSION_SIZE,
   isEligible: IsEligible = () => true,
+  progress?: ProgressMap,
 ): SentenceQuestion[] {
   const eligible = items.filter((item) => isEligible(item.uses));
-  const chosen = shuffle(eligible, makeRng(seed)).slice(0, Math.min(size, eligible.length));
+  const chosen = progress
+    ? weightedSample(
+        eligible,
+        (item) => selectionWeight(getProgress(progress, "sentence", item.id)),
+        makeRng(seed),
+        size,
+      )
+    : shuffle(eligible, makeRng(seed)).slice(0, Math.min(size, eligible.length));
   return chosen.map((item) => ({ id: item.id, promptRu: item.ru }));
 }

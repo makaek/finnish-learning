@@ -7,6 +7,9 @@
  */
 
 import type { VocabItem } from "./dictionary";
+import { getProgress, type ProgressMap } from "./progress";
+import { selectionWeight } from "./srs";
+import { weightedSample } from "./select";
 
 /** A deterministic pseudo-random generator returning floats in [0, 1). */
 export type Rng = () => number;
@@ -112,14 +115,25 @@ export function buildQuestion(
  * how many RNG draws earlier questions consumed. That keeps a single question reproducible
  * on its own (useful for a future "replay this card" feature) while the whole session
  * stays deterministic for a seed.
+ *
+ * When `progress` is supplied, targets are drawn by mastery weight (well-known words appear
+ * far less often); without it the selection is a plain uniform shuffle (unchanged behavior).
  */
 export function buildSession(
   items: readonly VocabItem[],
   seed: number,
   size: number = DEFAULT_SESSION_SIZE,
   optionCount: number = DEFAULT_OPTION_COUNT,
+  progress?: ProgressMap,
 ): RecognitionQuestion[] {
-  const targets = shuffle(items, makeRng(seed)).slice(0, Math.min(size, items.length));
+  const targets = progress
+    ? weightedSample(
+        items,
+        (item) => selectionWeight(getProgress(progress, "vocab", item.id)),
+        makeRng(seed),
+        size,
+      )
+    : shuffle(items, makeRng(seed)).slice(0, Math.min(size, items.length));
   return targets.map((target, i) =>
     buildQuestion(target, items, makeRng(seed + (i + 1) * 0x9e3779b9), optionCount),
   );

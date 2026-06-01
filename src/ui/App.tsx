@@ -1,9 +1,12 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { VOCAB } from "../data/dictionary";
 import { SENTENCES, grade } from "../data/sentences";
-import { buildSession, DEFAULT_SESSION_SIZE } from "../core/quiz";
+import { buildSession, DEFAULT_OPTION_COUNT, DEFAULT_SESSION_SIZE } from "../core/quiz";
 import { buildProductionSession } from "../core/produce";
 import { buildSentenceSession } from "../core/sentenceSession";
+import { applyOutcome } from "../core/srs";
+import { getProgress, progressKey, type ItemKind, type ProgressMap } from "../core/progress";
+import { loadProgress, saveProgress } from "../data/backend";
 import RecognitionCard from "./RecognitionCard";
 import ProductionCard from "./ProductionCard";
 import SentenceCard from "./SentenceCard";
@@ -13,8 +16,10 @@ type Mode = "recognition" | "production" | "sentences";
 
 /**
  * Root: a minimal mode picker (recognition / typed production / sentence builder), then one
- * in-memory session of the chosen exercise. SRS scheduling and persistence arrive in a later
- * slice; a dedicated design pass will turn this picker into a proper home/streak screen.
+ * in-memory session of the chosen exercise. Each answer updates the learner's mastery
+ * (Leitner box) and persists it via the backend; sessions are then weighted so well-known
+ * items recur far less. A dedicated design pass will turn this picker into a proper
+ * home/streak screen.
  */
 export default function App() {
   const [mode, setMode] = useState<Mode | null>(null);
@@ -22,14 +27,37 @@ export default function App() {
   const [index, setIndex] = useState(0);
   const [score, setScore] = useState(0);
 
-  // All cheap (≤10 items) and reseed together; the active mode picks which to run.
-  const recognition = useMemo(() => buildSession(VOCAB, seed, DEFAULT_SESSION_SIZE), [seed]);
+  // Live mastery map, held in a ref so recording an answer never reshuffles the session
+  // mid-run: builders read it only when (re)seeded on `start`. Loaded once on mount; until
+  // it resolves, `ready` gates the menu so the first session is weighted (not uniform).
+  const progressRef = useRef<ProgressMap>(new Map());
+  const [ready, setReady] = useState(false);
+  // Guards against double-recording the same card (e.g. a fast double-tap before re-render).
+  const lastRecordedRef = useRef<string | null>(null);
+  useEffect(() => {
+    let active = true;
+    void loadProgress().then((loaded) => {
+      if (!active) return;
+      progressRef.current = loaded;
+      setReady(true);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  // All cheap (≤10 items) and reseed together; the active mode picks which to run. Reading
+  // progressRef (a ref, not a dep) keeps weighting current as of the last `start`.
+  const recognition = useMemo(
+    () => buildSession(VOCAB, seed, DEFAULT_SESSION_SIZE, DEFAULT_OPTION_COUNT, progressRef.current),
+    [seed],
+  );
   const production = useMemo(
-    () => buildProductionSession(VOCAB, seed, DEFAULT_SESSION_SIZE),
+    () => buildProductionSession(VOCAB, seed, DEFAULT_SESSION_SIZE, progressRef.current),
     [seed],
   );
   const sentences = useMemo(
-    () => buildSentenceSession(SENTENCES, seed, DEFAULT_SESSION_SIZE),
+    () => buildSentenceSession(SENTENCES, seed, DEFAULT_SESSION_SIZE, undefined, progressRef.current),
     [seed],
   );
 
@@ -40,7 +68,30 @@ export default function App() {
     setScore(0);
   }
 
+  /** Update the current item's mastery from the answer and persist it (fire-and-forget). */
+  function recordOutcome(wasCorrect: boolean) {
+    if (mode === null) return;
+    const kind: ItemKind = mode === "sentences" ? "sentence" : "vocab";
+    const id =
+      mode === "sentences"
+        ? sentences[index]?.id
+        : mode === "production"
+          ? production[index]?.itemId
+          : recognition[index]?.itemId;
+    if (id === undefined) return; // index past the end of the session — nothing to record
+    // Each card key is unique per seed+mode+index, so this tag dedupes a double-fire.
+    const tag = `${mode}:${seed}:${index}`;
+    if (lastRecordedRef.current === tag) return;
+    lastRecordedRef.current = tag;
+    const next = applyOutcome(getProgress(progressRef.current, kind, id), wasCorrect, Date.now());
+    // Mutating .current directly is intentional: refs don't trigger re-renders, so the
+    // active session stays put; the next start()/reseed reads the updated mastery.
+    progressRef.current.set(progressKey(kind, id), next);
+    void saveProgress([next]);
+  }
+
   function handleAnswered(wasCorrect: boolean) {
+    recordOutcome(wasCorrect);
     if (wasCorrect) setScore((s) => s + 1);
     setIndex((i) => i + 1);
   }
@@ -58,15 +109,30 @@ export default function App() {
       <main className="app">
         <section className="card card--summary">
           <h1 className="prompt">Финский тренажёр</h1>
-          <p className="hint">Выберите упражнение:</p>
+          <p className="hint">{ready ? "Выберите упражнение:" : "Загрузка прогресса…"}</p>
           <div className="options">
-            <button type="button" className="option" onClick={() => start("recognition")}>
+            <button
+              type="button"
+              className="option"
+              disabled={!ready}
+              onClick={() => start("recognition")}
+            >
               Узнавание слов
             </button>
-            <button type="button" className="option" onClick={() => start("production")}>
+            <button
+              type="button"
+              className="option"
+              disabled={!ready}
+              onClick={() => start("production")}
+            >
               Написание слов
             </button>
-            <button type="button" className="option" onClick={() => start("sentences")}>
+            <button
+              type="button"
+              className="option"
+              disabled={!ready}
+              onClick={() => start("sentences")}
+            >
               Перевод предложений
             </button>
           </div>
