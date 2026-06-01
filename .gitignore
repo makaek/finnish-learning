@@ -5,9 +5,10 @@ build/
 .vite/
 coverage/
 
-# env / secrets (none needed for v1, but never commit if the optional fallback is added)
+# env / secrets — never commit real keys; the .env.example template is the exception
 .env
 .env.*
+!.env.example
 *.local
 
 # Claude Code local-scope memory (do NOT check in)

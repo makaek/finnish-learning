@@ -3,9 +3,31 @@
 A single-user daily web app to learn basic Finnish: vocabulary drills + a sentence
 builder that grades Russian->Finnish translations with feedback in Russian.
 
-**v1 runs at $0:** static front-end, local persistence, grading by local lookup — no
-backend, no API key, no GPU. The hard linguistic work is done at build time by a Claude
-Code subagent, not at runtime.
+**v1 runs at $0:** static front-end, grading by local lookup — no API key, no GPU. The
+hard linguistic work is done at build time by a Claude Code subagent, not at runtime.
+Progress persists to **Supabase** when configured, and falls back to the browser's
+`localStorage` otherwise, so the app works offline and with zero credentials in dev.
+
+## Deploy (Vercel + Supabase)
+The build output is a static SPA (`npm run build` -> `dist/`), so any static host works;
+these steps target the user's existing Vercel + Supabase accounts.
+
+1. **Supabase** — create/choose a project, then:
+   - Run `supabase/migrations/0001_progress.sql` (Supabase SQL editor or `supabase db push`).
+     It creates the `progress` table with row-level security.
+   - Enable **Anonymous sign-ins**: Authentication -> Providers -> Anonymous. This gives
+     every visitor a stable `user_id` with no login screen.
+   - Copy the project URL and the **anon/publishable** key (Settings -> API). The anon key
+     is public by design; RLS keeps each user to their own rows.
+2. **Local dev** — copy `.env.example` to `.env.local` and fill in `VITE_SUPABASE_URL` /
+   `VITE_SUPABASE_ANON_KEY` (or leave them blank to use the localStorage fallback).
+3. **Vercel** — import the repo (framework auto-detected as Vite; `vercel.json` is checked
+   in), set the two `VITE_SUPABASE_*` env vars, deploy, then attach the custom domain under
+   Project -> Settings -> Domains and point the DNS as Vercel instructs.
+
+**Smoke test:** open the deployed URL in a fresh browser profile (a `sb-*` auth entry
+appears in localStorage = anonymous session created), answer a few items in a later slice,
+and confirm rows land in the Supabase `progress` table.
 
 ## Start here
 1. Read `PROJECT_GUIDE.md` — the full Product -> Design -> Implementation -> Testing

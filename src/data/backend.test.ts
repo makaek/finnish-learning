@@ -1,0 +1,77 @@
+import { beforeEach, describe, expect, it } from "vitest";
+import { loadProgress, progressToRow, rowToProgress, saveProgress } from "./backend";
+import { emptyProgress, type ItemProgress } from "../core/progress";
+
+// With no VITE_SUPABASE_* env vars set (the test environment), the store falls back to
+// localStorage. These tests exercise that path end to end.
+describe("backend (localStorage fallback)", () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
+  it("loads empty progress on a fresh visitor", async () => {
+    expect((await loadProgress()).size).toBe(0);
+  });
+
+  it("round-trips saved progress through storage", async () => {
+    const item: ItemProgress = {
+      kind: "vocab",
+      itemId: "v1",
+      box: 2,
+      correctStreak: 2,
+      totalCorrect: 4,
+      totalSeen: 5,
+      lastSeen: 1234,
+    };
+    await saveProgress([item]);
+    const loaded = await loadProgress();
+    expect(loaded.get("vocab:v1")).toEqual(item);
+  });
+
+  it("merges successive saves, overwriting the same item and keeping others", async () => {
+    await saveProgress([emptyProgress("vocab", "v1"), emptyProgress("sentence", "s1")]);
+    await saveProgress([{ ...emptyProgress("vocab", "v1"), box: 5 }]);
+
+    const loaded = await loadProgress();
+    expect(loaded.size).toBe(2);
+    expect(loaded.get("vocab:v1")?.box).toBe(5);
+    expect(loaded.get("sentence:s1")).toEqual(emptyProgress("sentence", "s1"));
+  });
+
+  it("treats an empty save as a no-op", async () => {
+    await saveProgress([emptyProgress("vocab", "v1")]);
+    await saveProgress([]);
+    expect((await loadProgress()).size).toBe(1);
+  });
+
+  it("ignores corrupt or foreign localStorage payloads", async () => {
+    localStorage.setItem("finnish-trainer/progress", JSON.stringify([{ nope: true }, 42, null]));
+    expect((await loadProgress()).size).toBe(0);
+  });
+});
+
+describe("row mapping (Supabase schema contract)", () => {
+  it("round-trips an item through row form", () => {
+    const item: ItemProgress = {
+      kind: "sentence",
+      itemId: "s3",
+      box: 4,
+      correctStreak: 4,
+      totalCorrect: 9,
+      totalSeen: 11,
+      lastSeen: Date.UTC(2026, 0, 15, 12, 0, 0),
+    };
+    const row = progressToRow("user-123", item);
+    expect(row.user_id).toBe("user-123");
+    expect(row.item_id).toBe("s3");
+    expect(row.last_seen).toBe("2026-01-15T12:00:00.000Z");
+    expect(rowToProgress(row)).toEqual(item);
+  });
+
+  it("maps a never-seen item's lastSeen to null and back to 0", () => {
+    const fresh = emptyProgress("vocab", "v7");
+    const row = progressToRow("u", fresh);
+    expect(row.last_seen).toBeNull();
+    expect(rowToProgress(row).lastSeen).toBe(0);
+  });
+});
