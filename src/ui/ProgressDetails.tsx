@@ -138,9 +138,15 @@ export default function ProgressDetails({
     words.filter((e) => isHidden("word", e.id)).length +
     sentenceEntries.filter((e) => isHidden("sentence", e.id)).length;
 
-  const shownWords = showHidden ? words : words.filter((e) => !isHidden("word", e.id));
+  // When "show hidden" is on, float the hidden items to the very top; the stable sort keeps
+  // mergeByItem's mastered-first/recency order within the hidden and non-hidden groups.
+  const hiddenFirst = (entries: MergedProgress[], group: Group) =>
+    [...entries].sort((a, b) => Number(isHidden(group, b.id)) - Number(isHidden(group, a.id)));
+  const shownWords = showHidden
+    ? hiddenFirst(words, "word")
+    : words.filter((e) => !isHidden("word", e.id));
   const shownSentences = showHidden
-    ? sentenceEntries
+    ? hiddenFirst(sentenceEntries, "sentence")
     : sentenceEntries.filter((e) => !isHidden("sentence", e.id));
 
   const empty = words.length === 0 && sentenceEntries.length === 0;
