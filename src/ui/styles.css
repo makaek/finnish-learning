@@ -208,3 +208,80 @@ body {
   color: var(--muted);
   font-weight: 500;
 }
+
+/* --- Roadmap home --- */
+.meter {
+  margin: 0 0 1rem;
+}
+
+.meter__bar {
+  height: 0.6rem;
+  background: #334155;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.meter__fill {
+  height: 100%;
+  background: var(--ok);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.meter__label {
+  margin: 0.4rem 0 0;
+}
+
+.levels {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.level {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.8rem;
+  background: #334155;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  font-size: 1rem;
+}
+
+.level__badge {
+  width: 1.3rem;
+  text-align: center;
+}
+
+.level__name {
+  flex: 1;
+  text-align: left;
+}
+
+.level__count {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.level--locked {
+  opacity: 0.5;
+}
+
+.level--active {
+  border-color: var(--accent);
+}
+
+.level--done .level__badge {
+  color: var(--ok);
+}
+
+.testbar {
+  margin: 0 0 1rem;
+}
+
+.hint--test {
+  color: #fbbf24;
+}

@@ -5,32 +5,47 @@ import { buildSession, DEFAULT_OPTION_COUNT, DEFAULT_SESSION_SIZE } from "../cor
 import { buildProductionSession } from "../core/produce";
 import { buildSentenceSession } from "../core/sentenceSession";
 import { applyOutcome } from "../core/srs";
-import { getProgress, progressKey, type ItemKind, type ProgressMap } from "../core/progress";
+import { activeVocab, eligibleSentences } from "../core/levels";
+import {
+  getProgress,
+  progressKey,
+  MAX_BOX,
+  type ItemKind,
+  type ItemProgress,
+  type ProgressMap,
+} from "../core/progress";
 import { loadProgress, saveProgress } from "../data/backend";
+import Roadmap, { type Mode } from "./Roadmap";
 import RecognitionCard from "./RecognitionCard";
 import ProductionCard from "./ProductionCard";
 import SentenceCard from "./SentenceCard";
 import SessionSummary from "./SessionSummary";
 
-type Mode = "recognition" | "production" | "sentences";
+/** `?test=1` unlocks every level and treats all words as learned, to bypass the curriculum. */
+function readTestMode(): boolean {
+  if (typeof window === "undefined") return false;
+  return new URLSearchParams(window.location.search).has("test");
+}
 
 /**
- * Root: a minimal mode picker (recognition / typed production / sentence builder), then one
- * in-memory session of the chosen exercise. Each answer updates the learner's mastery
- * (Leitner box) and persists it via the backend; sessions are then weighted so well-known
- * items recur far less. A dedicated design pass will turn this picker into a proper
- * home/streak screen.
+ * Root: a level-gated home (Roadmap) plus one in-memory session of the chosen exercise.
+ * Each answer advances the learner's mastery (Leitner box) and persists it via the backend;
+ * sessions are weighted by mastery and gated by curriculum level so new words and sentences
+ * appear only as earlier ones are learned.
  */
 export default function App() {
   const [mode, setMode] = useState<Mode | null>(null);
   const [seed, setSeed] = useState(() => Date.now());
   const [index, setIndex] = useState(0);
   const [score, setScore] = useState(0);
+  const [testMode] = useState(readTestMode);
 
   // Live mastery map, held in a ref so recording an answer never reshuffles the session
-  // mid-run: builders read it only when (re)seeded on `start`. Loaded once on mount; until
-  // it resolves, `ready` gates the menu so the first session is weighted (not uniform).
+  // mid-run: builders read it only when (re)seeded on `start`. `progressView` mirrors it for
+  // the home screen (updated on load and on returning home), so the roadmap stays reactive
+  // without making the active session depend on it.
   const progressRef = useRef<ProgressMap>(new Map());
+  const [progressView, setProgressView] = useState<ProgressMap>(new Map());
   const [ready, setReady] = useState(false);
   // Guards against double-recording the same card (e.g. a fast double-tap before re-render).
   const lastRecordedRef = useRef<string | null>(null);
@@ -39,6 +54,7 @@ export default function App() {
     void loadProgress().then((loaded) => {
       if (!active) return;
       progressRef.current = loaded;
+      setProgressView(loaded);
       setReady(true);
     });
     return () => {
@@ -46,26 +62,79 @@ export default function App() {
     };
   }, []);
 
-  // All cheap (≤10 items) and reseed together; the active mode picks which to run. Reading
-  // progressRef (a ref, not a dep) keeps weighting current as of the last `start`.
+  // Sessions reseed together; the active mode picks which to run. Pools are gated by level
+  // (and the learned-words rule for sentences); reading progressRef (a ref, not a dep) keeps
+  // both gating and weighting current as of the last `start`. `testMode` is frozen at mount,
+  // so it is a dep only to satisfy the linter — it never actually changes mid-session.
   const recognition = useMemo(
-    () => buildSession(VOCAB, seed, DEFAULT_SESSION_SIZE, DEFAULT_OPTION_COUNT, progressRef.current),
-    [seed],
+    () =>
+      buildSession(
+        activeVocab(VOCAB, progressRef.current, testMode),
+        seed,
+        DEFAULT_SESSION_SIZE,
+        DEFAULT_OPTION_COUNT,
+        progressRef.current,
+      ),
+    [seed, testMode],
   );
   const production = useMemo(
-    () => buildProductionSession(VOCAB, seed, DEFAULT_SESSION_SIZE, progressRef.current),
-    [seed],
+    () =>
+      buildProductionSession(
+        activeVocab(VOCAB, progressRef.current, testMode),
+        seed,
+        DEFAULT_SESSION_SIZE,
+        progressRef.current,
+      ),
+    [seed, testMode],
   );
   const sentences = useMemo(
-    () => buildSentenceSession(SENTENCES, seed, DEFAULT_SESSION_SIZE, undefined, progressRef.current),
-    [seed],
+    () =>
+      buildSentenceSession(
+        eligibleSentences(SENTENCES, VOCAB, progressRef.current, testMode),
+        seed,
+        DEFAULT_SESSION_SIZE,
+        undefined,
+        progressRef.current,
+      ),
+    [seed, testMode],
   );
 
   function start(next: Mode) {
+    // Refresh the home view now so it's current whenever we return — covers restart(), which
+    // re-enters a mode without passing through goHome().
+    setProgressView(new Map(progressRef.current));
     setMode(next);
     setSeed(Date.now());
     setIndex(0);
     setScore(0);
+  }
+
+  /**
+   * Test-mode helper: mark every word and sentence mastered so unlocks can be exercised.
+   * Only the `box` is meaningful here (it drives the level gates); the counters stay zeroed
+   * since this is a fabricated record, not real history. Persists to the backend on purpose,
+   * so a tester can confirm unlocked levels survive a reload — do NOT add a no-persist guard.
+   */
+  function fillAllMastered() {
+    const now = Date.now();
+    const rows: ItemProgress[] = [];
+    const mark = (kind: ItemKind, id: string) => {
+      const p: ItemProgress = {
+        kind,
+        itemId: id,
+        box: MAX_BOX,
+        correctStreak: 0,
+        totalCorrect: 0,
+        totalSeen: 0,
+        lastSeen: now,
+      };
+      progressRef.current.set(progressKey(kind, id), p);
+      rows.push(p);
+    };
+    for (const v of VOCAB) mark("vocab", v.id);
+    for (const s of SENTENCES) mark("sentence", s.id);
+    setProgressView(new Map(progressRef.current));
+    void saveProgress(rows);
   }
 
   /** Update the current item's mastery from the answer and persist it (fire-and-forget). */
@@ -101,43 +170,21 @@ export default function App() {
   }
 
   function goHome() {
+    // Refresh the home view from the latest mastery before leaving the session.
+    setProgressView(new Map(progressRef.current));
     setMode(null);
   }
 
   if (mode === null) {
     return (
-      <main className="app">
-        <section className="card card--summary">
-          <h1 className="prompt">Финский тренажёр</h1>
-          <p className="hint">{ready ? "Выберите упражнение:" : "Загрузка прогресса…"}</p>
-          <div className="options">
-            <button
-              type="button"
-              className="option"
-              disabled={!ready}
-              onClick={() => start("recognition")}
-            >
-              Узнавание слов
-            </button>
-            <button
-              type="button"
-              className="option"
-              disabled={!ready}
-              onClick={() => start("production")}
-            >
-              Написание слов
-            </button>
-            <button
-              type="button"
-              className="option"
-              disabled={!ready}
-              onClick={() => start("sentences")}
-            >
-              Перевод предложений
-            </button>
-          </div>
-        </section>
-      </main>
+      <Roadmap
+        vocab={VOCAB}
+        progress={progressView}
+        testMode={testMode}
+        ready={ready}
+        onStart={start}
+        onTestFill={fillAllMastered}
+      />
     );
   }
 
@@ -161,7 +208,11 @@ export default function App() {
       {total === 0 ? (
         <section className="card">
           <h1 className="prompt">Пока пусто</h1>
-          <p className="hint">Нет заданий для тренировки.</p>
+          <p className="hint">
+            {mode === "sentences"
+              ? "Сначала выучите больше слов — тогда откроются предложения."
+              : "Нет заданий для тренировки."}
+          </p>
           <button type="button" className="next" onClick={goHome}>
             В меню
           </button>

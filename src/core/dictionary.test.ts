@@ -19,9 +19,19 @@ describe("flattenDictionary", () => {
     expect(items.map((i) => i.id)).toEqual(["p1", "v1", "n1", "n2", "a1", "f1"]);
   });
 
-  it("keeps id, fi, ru and pos for each item", () => {
+  it("keeps id, fi, ru and pos for each item, defaulting level to 1", () => {
     const [first] = flattenDictionary(sample);
-    expect(first).toEqual({ id: "p1", fi: "minä", ru: "я", pos: "pronoun" });
+    expect(first).toEqual({ id: "p1", fi: "minä", ru: "я", pos: "pronoun", level: 1 });
+  });
+
+  it("reads an explicit level and floors/clamps an invalid one", () => {
+    const raw: RawDictionary = {
+      nouns: [
+        { id: "n1", fi: "työ", ru: "работа", pos: "noun", level: 2 },
+        { id: "n2", fi: "koti", ru: "дом", pos: "noun", level: 0 },
+      ],
+    };
+    expect(flattenDictionary(raw).map((i) => i.level)).toEqual([2, 1]);
   });
 
   it("skips entries missing a usable fi or ru", () => {

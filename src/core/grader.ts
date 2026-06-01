@@ -28,6 +28,8 @@ export interface SentenceItem {
   accepted: string[];
   /** Known mistakes with a prepared Russian explanation. `match` is already normalized. */
   wrong: { match: string; ru: string }[];
+  /** Curriculum level (1-based). Defaults to 1 when absent; gated by `levels.ts`. */
+  level?: number;
   teaches?: string;
   needs_review?: boolean;
 }

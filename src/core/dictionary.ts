@@ -19,6 +19,12 @@ export interface VocabItem {
   ru: string;
   /** Part of speech (used to group same-category distractors). */
   pos: Pos;
+  /**
+   * Curriculum level (1-based); items unlock level by level. The flattener always sets it
+   * (defaulting to 1), but it stays optional so test fixtures and callers that don't care
+   * about leveling can omit it. `levels.ts` treats a missing value as level 1.
+   */
+  level?: number;
 }
 
 /** A raw entry from any category in the seed; only the fields we read are typed. */
@@ -27,6 +33,7 @@ interface RawEntry {
   fi?: unknown;
   ru?: unknown;
   pos?: unknown;
+  level?: unknown;
 }
 
 /** The shape of data/dictionary.seed.json (only the categories we flatten). */
@@ -58,7 +65,9 @@ const VALID_POS = new Set<string>([
   "neg_verb",
 ]);
 
-function isVocabItem(entry: RawEntry): entry is { id: string; fi: string; ru: string; pos: Pos } {
+function isVocabItem(
+  entry: RawEntry,
+): entry is { id: string; fi: string; ru: string; pos: Pos; level?: unknown } {
   return (
     typeof entry.id === "string" &&
     typeof entry.fi === "string" &&
@@ -81,7 +90,9 @@ export function flattenDictionary(raw: RawDictionary): VocabItem[] {
     if (!entries) continue;
     for (const entry of entries) {
       if (isVocabItem(entry)) {
-        items.push({ id: entry.id, fi: entry.fi, ru: entry.ru, pos: entry.pos });
+        const level =
+          typeof entry.level === "number" && entry.level >= 1 ? Math.floor(entry.level) : 1;
+        items.push({ id: entry.id, fi: entry.fi, ru: entry.ru, pos: entry.pos, level });
       }
     }
   }

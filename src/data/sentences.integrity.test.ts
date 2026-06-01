@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { SENTENCES, grade } from "./sentences";
 import { VOCAB } from "./dictionary";
+import { levelOf } from "../core/levels";
 
 /**
  * Data-integrity guard for the authored sentence bank. As the bank grows (via
@@ -10,6 +11,7 @@ import { VOCAB } from "./dictionary";
  */
 
 const dictIds = new Set(VOCAB.map((v) => v.id));
+const levelById = new Map(VOCAB.map((v) => [v.id, levelOf(v)]));
 
 describe("sentences.seed.json integrity", () => {
   it("has unique sentence ids", () => {
@@ -26,6 +28,17 @@ describe("sentences.seed.json integrity", () => {
       for (const u of s.uses) {
         expect(dictIds.has(u), `${s.id} uses unknown dictionary id "${u}"`).toBe(true);
       }
+    }
+  });
+
+  it("never gates a sentence behind a word from a higher level than its own", () => {
+    // The unlock ladder requires sentence.level >= max(level of every word it uses), or the
+    // sentence could never become eligible (its word stays locked in a later level).
+    for (const s of SENTENCES) {
+      const maxWordLevel = s.uses.reduce((m, u) => Math.max(m, levelById.get(u) ?? 1), 1);
+      expect(levelOf(s), `${s.id}: level ${levelOf(s)} < its words' max ${maxWordLevel}`).toBeGreaterThanOrEqual(
+        maxWordLevel,
+      );
     }
   });
 

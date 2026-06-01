@@ -20,6 +20,7 @@
       "id": "s1",
       "ru": "Я иду на работу.",
       "uses": ["v2", "n1"],
+      "level": 1,
       "canonical": "Menen töihin.",
       "accepted": ["Menen töihin.", "Minä menen töihin."],
       "wrong": [
@@ -34,6 +35,7 @@
       "id": "s2",
       "ru": "Я ел блины.",
       "uses": ["v3", "n10"],
+      "level": 2,
       "canonical": "Söin lettuja.",
       "accepted": ["Söin lettuja.", "Minä söin lettuja."],
       "wrong": [
@@ -48,6 +50,7 @@
       "id": "s3",
       "ru": "Я пью кофе.",
       "uses": ["v4", "n8"],
+      "level": 1,
       "canonical": "Juon kahvia.",
       "accepted": ["Juon kahvia.", "Minä juon kahvia."],
       "wrong": [
@@ -61,6 +64,7 @@
       "id": "s4",
       "ru": "Я живу в Хельсинки.",
       "uses": ["v7"],
+      "level": 1,
       "canonical": "Asun Helsingissä.",
       "accepted": ["Asun Helsingissä.", "Minä asun Helsingissä."],
       "wrong": [
@@ -73,7 +77,8 @@
     {
       "id": "s5",
       "ru": "Я не говорю по-фински.",
-      "uses": ["v6", "f6"],
+      "uses": ["v6", "f6", "n16"],
+      "level": 1,
       "canonical": "En puhu suomea.",
       "accepted": ["En puhu suomea.", "Minä en puhu suomea."],
       "wrong": [
@@ -88,6 +93,7 @@
       "id": "s6",
       "ru": "Я иду домой.",
       "uses": ["v2", "n2"],
+      "level": 1,
       "canonical": "Menen kotiin.",
       "accepted": ["Menen kotiin.", "Minä menen kotiin."],
       "wrong": [
@@ -102,6 +108,7 @@
       "id": "s7",
       "ru": "Я дома.",
       "uses": ["v1", "n2"],
+      "level": 1,
       "canonical": "Olen kotona.",
       "accepted": ["Olen kotona.", "Minä olen kotona."],
       "wrong": [
@@ -116,6 +123,7 @@
       "id": "s8",
       "ru": "Ты идёшь в магазин.",
       "uses": ["v2", "n3"],
+      "level": 1,
       "canonical": "Menet kauppaan.",
       "accepted": ["Menet kauppaan.", "Sinä menet kauppaan."],
       "wrong": [
@@ -130,6 +138,7 @@
       "id": "s9",
       "ru": "Он в магазине.",
       "uses": ["v1", "n3"],
+      "level": 1,
       "canonical": "Hän on kaupassa.",
       "accepted": ["Hän on kaupassa."],
       "wrong": [
@@ -144,6 +153,7 @@
       "id": "s10",
       "ru": "Мы едем на машине.",
       "uses": ["v2", "n5"],
+      "level": 2,
       "canonical": "Menemme autolla.",
       "accepted": ["Menemme autolla.", "Me menemme autolla."],
       "wrong": [
@@ -158,6 +168,7 @@
       "id": "s11",
       "ru": "Они живут в городе.",
       "uses": ["v7", "n12"],
+      "level": 2,
       "canonical": "He asuvat kaupungissa.",
       "accepted": ["He asuvat kaupungissa."],
       "wrong": [
@@ -172,6 +183,7 @@
       "id": "s12",
       "ru": "Я живу в большом доме.",
       "uses": ["v7", "a2", "n4"],
+      "level": 2,
       "canonical": "Asun isossa talossa.",
       "accepted": ["Asun isossa talossa.", "Minä asun isossa talossa."],
       "wrong": [
@@ -186,6 +198,7 @@
       "id": "s13",
       "ru": "Дом большой.",
       "uses": ["v1", "n4", "a2"],
+      "level": 2,
       "canonical": "Talo on iso.",
       "accepted": ["Talo on iso."],
       "wrong": [
@@ -200,6 +213,7 @@
       "id": "s14",
       "ru": "Кофе хороший.",
       "uses": ["n8", "v1", "a1"],
+      "level": 1,
       "canonical": "Kahvi on hyvää.",
       "accepted": ["Kahvi on hyvää."],
       "wrong": [
@@ -214,6 +228,7 @@
       "id": "s15",
       "ru": "Я не пью кофе.",
       "uses": ["f6", "v4", "n8"],
+      "level": 1,
       "canonical": "En juo kahvia.",
       "accepted": ["En juo kahvia.", "Minä en juo kahvia."],
       "wrong": [
@@ -228,6 +243,7 @@
       "id": "s16",
       "ru": "Я не ем хлеб.",
       "uses": ["f6", "v3", "n9"],
+      "level": 1,
       "canonical": "En syö leipää.",
       "accepted": ["En syö leipää.", "Minä en syö leipää."],
       "wrong": [
@@ -242,6 +258,7 @@
       "id": "s17",
       "ru": "Я пью воду.",
       "uses": ["v4", "n11"],
+      "level": 1,
       "canonical": "Juon vettä.",
       "accepted": ["Juon vettä.", "Minä juon vettä."],
       "wrong": [
@@ -256,6 +273,7 @@
       "id": "s18",
       "ru": "Я читаю книгу.",
       "uses": ["v9", "n7"],
+      "level": 2,
       "canonical": "Luen kirjaa.",
       "accepted": ["Luen kirjaa.", "Minä luen kirjaa."],
       "wrong": [
@@ -270,6 +288,7 @@
       "id": "s19",
       "ru": "Он читает книгу.",
       "uses": ["v9", "n7"],
+      "level": 2,
       "canonical": "Hän lukee kirjaa.",
       "accepted": ["Hän lukee kirjaa."],
       "wrong": [
@@ -284,6 +303,7 @@
       "id": "s20",
       "ru": "Я купил книгу.",
       "uses": ["v8", "n7"],
+      "level": 2,
       "canonical": "Ostin kirjan.",
       "accepted": ["Ostin kirjan.", "Minä ostin kirjan."],
       "wrong": [
@@ -298,6 +318,7 @@
       "id": "s21",
       "ru": "Мы купили новую машину.",
       "uses": ["v8", "a4", "n5"],
+      "level": 2,
       "canonical": "Ostimme uuden auton.",
       "accepted": ["Ostimme uuden auton.", "Me ostimme uuden auton."],
       "wrong": [
@@ -312,6 +333,7 @@
       "id": "s22",
       "ru": "Я хочу есть.",
       "uses": ["v5", "v3"],
+      "level": 2,
       "canonical": "Haluan syödä.",
       "accepted": ["Haluan syödä.", "Minä haluan syödä."],
       "wrong": [
@@ -326,6 +348,7 @@
       "id": "s23",
       "ru": "Я хочу воды.",
       "uses": ["v5", "n11"],
+      "level": 2,
       "canonical": "Haluan vettä.",
       "accepted": ["Haluan vettä.", "Minä haluan vettä."],
       "wrong": [
@@ -340,6 +363,7 @@
       "id": "s24",
       "ru": "Ты говоришь по-фински?",
       "uses": ["v6", "n16"],
+      "level": 1,
       "canonical": "Puhutko suomea?",
       "accepted": ["Puhutko suomea?", "Puhutko sinä suomea?"],
       "wrong": [
@@ -354,6 +378,7 @@
       "id": "s25",
       "ru": "Я говорю по-фински, но он не говорит.",
       "uses": ["v6", "f2", "f6", "n16"],
+      "level": 2,
       "canonical": "Puhun suomea, mutta hän ei puhu.",
       "accepted": ["Puhun suomea, mutta hän ei puhu.", "Minä puhun suomea, mutta hän ei puhu."],
       "wrong": [
@@ -368,6 +393,7 @@
       "id": "s26",
       "ru": "Я ем хлеб и пью воду.",
       "uses": ["v3", "n9", "f1", "v4", "n11"],
+      "level": 1,
       "canonical": "Syön leipää ja juon vettä.",
       "accepted": ["Syön leipää ja juon vettä.", "Minä syön leipää ja juon vettä."],
       "wrong": [
@@ -382,6 +408,7 @@
       "id": "s27",
       "ru": "Сегодня я иду в школу.",
       "uses": ["f4", "v2", "n6"],
+      "level": 2,
       "canonical": "Tänään menen kouluun.",
       "accepted": ["Tänään menen kouluun.", "Tänään minä menen kouluun.", "Menen tänään kouluun.", "Minä menen tänään kouluun."],
       "wrong": [
@@ -396,6 +423,7 @@
       "id": "s28",
       "ru": "Завтра я куплю книгу.",
       "uses": ["f5", "v8", "n7"],
+      "level": 2,
       "canonical": "Huomenna ostan kirjan.",
       "accepted": ["Huomenna ostan kirjan.", "Huomenna minä ostan kirjan.", "Ostan huomenna kirjan.", "Minä ostan huomenna kirjan."],
       "wrong": [
@@ -410,6 +438,7 @@
       "id": "s29",
       "ru": "Я студент.",
       "uses": ["v1", "n15"],
+      "level": 2,
       "canonical": "Olen opiskelija.",
       "accepted": ["Olen opiskelija.", "Minä olen opiskelija."],
       "wrong": [
@@ -424,6 +453,7 @@
       "id": "s30",
       "ru": "Вчера он был дома.",
       "uses": ["f7", "v1", "n2"],
+      "level": 2,
       "canonical": "Eilen hän oli kotona.",
       "accepted": ["Eilen hän oli kotona.", "Hän oli eilen kotona."],
       "wrong": [
