@@ -212,9 +212,13 @@ export default function App() {
         ? sentences.length
         : recognition.length;
   const finished = index >= total;
+  // An exercise card is on screen (vs. the empty/summary states). Top-align + scroll these
+  // so a typed answer's submit button stays reachable above the on-screen keyboard (and its
+  // autofill toolbar) instead of being centered behind it.
+  const showingCard = !finished && total > 0;
 
   return (
-    <main className="app">
+    <main className={showingCard ? "app app--scroll" : "app"}>
       {/* Exit shown only while a card is on screen; the empty (total===0) and summary
           screens carry their own "В меню" button. */}
       {!finished && total > 0 && (
