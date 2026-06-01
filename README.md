@@ -29,6 +29,13 @@ these steps target the user's existing Vercel + Supabase accounts.
 appears in localStorage = anonymous session created), answer a few items in a later slice,
 and confirm rows land in the Supabase `progress` table.
 
+### Install on your phone (PWA)
+The app is a Progressive Web App (via `vite-plugin-pwa`): once deployed over HTTPS, open
+the site in the phone browser and use **Add to Home Screen**. It then launches full-screen
+like a native app, and a service worker precaches the shell so it opens and runs **offline**
+(answers sync to Supabase when back online, and fall back to local storage meanwhile). The
+service worker auto-updates on the next visit after a deploy.
+
 ## Start here
 1. Read `PROJECT_GUIDE.md` — the full Product -> Design -> Implementation -> Testing
    playbook and the multi-agent / PowerShell setup.

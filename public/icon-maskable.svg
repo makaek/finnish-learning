@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Suomi">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5b86f8"/>
+      <stop offset="1" stop-color="#2d5fe0"/>
+    </linearGradient>
+  </defs>
+  <!-- Full-bleed background + centered cross kept inside the maskable safe zone (~central 60%). -->
+  <rect width="512" height="512" fill="url(#g)"/>
+  <rect x="214" y="96" width="84" height="320" rx="16" fill="#ffffff"/>
+  <rect x="96" y="214" width="320" height="84" rx="16" fill="#ffffff"/>
+</svg>
