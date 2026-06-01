@@ -14,8 +14,9 @@ these steps target the user's existing Vercel + Supabase accounts.
 
 1. **Supabase** — create/choose a project, then:
    - Run every file in `supabase/migrations/` in order (Supabase SQL editor or
-     `supabase db push`): `0001` creates the `progress` table (RLS), `0002` widens the
-     per-exercise-type `kind` values, `0003` adds the `user_state` table (streak/daily goal).
+     `supabase db push`): `0001` creates the `progress` table (RLS), `0002`/`0004` widen the
+     per-lesson-type `kind` values (incl. the two voice tracks), `0003` adds the
+     `user_state` table (streak/daily goal).
    - Enable **Anonymous sign-ins**: Authentication -> Providers -> Anonymous. This gives
      every visitor a stable `user_id` with no login screen.
    - Copy the project URL and the **anon/publishable** key (Settings -> API). The anon key

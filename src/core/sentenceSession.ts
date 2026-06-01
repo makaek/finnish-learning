@@ -9,7 +9,7 @@
 
 import type { SentenceItem } from "./grader";
 import { makeRng, shuffle, DEFAULT_SESSION_SIZE } from "./quiz";
-import { getProgress, type ProgressMap } from "./progress";
+import { getProgress, type ItemKind, type ProgressMap } from "./progress";
 import { selectionWeight } from "./srs";
 import { weightedSample } from "./select";
 
@@ -44,12 +44,13 @@ export function buildSentenceSession(
   size: number = DEFAULT_SESSION_SIZE,
   isEligible: IsEligible = () => true,
   progress?: ProgressMap,
+  weightKind: ItemKind = "sentences",
 ): SentenceQuestion[] {
   const eligible = items.filter((item) => isEligible(item.uses));
   const chosen = progress
     ? weightedSample(
         eligible,
-        (item) => selectionWeight(getProgress(progress, "sentences", item.id)),
+        (item) => selectionWeight(getProgress(progress, weightKind, item.id)),
         makeRng(seed),
         size,
       )

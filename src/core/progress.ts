@@ -8,10 +8,16 @@
  */
 
 /**
- * Which exercise a progress record belongs to. The same dictionary word has distinct
- * "recognition" and "production" records; sentences have their own "sentences" track.
+ * Which exercise a progress record belongs to — one track per lesson type. The same
+ * dictionary word has distinct records for "recognition", typed "production", and spoken
+ * "say_word"; sentences have separate typed "sentences" and spoken "say_sentence" tracks.
  */
-export type ItemKind = "recognition" | "production" | "sentences";
+export type ItemKind =
+  | "recognition"
+  | "production"
+  | "sentences"
+  | "say_word"
+  | "say_sentence";
 
 /** Lowest / highest Leitner box. Box 0 = brand new / just missed; MAX_BOX = mastered. */
 export const MIN_BOX = 0;

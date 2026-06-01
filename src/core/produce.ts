@@ -12,7 +12,7 @@
 
 import type { VocabItem } from "./dictionary";
 import { makeRng, shuffle, DEFAULT_SESSION_SIZE } from "./quiz";
-import { getProgress, type ProgressMap } from "./progress";
+import { getProgress, type ItemKind, type ProgressMap } from "./progress";
 import { selectionWeight } from "./srs";
 import { weightedSample } from "./select";
 import { normalizeFi } from "./normalize";
@@ -99,17 +99,20 @@ export function gradeTyped(answerFi: string, raw: string): TypedGrade {
  *
  * When `progress` is supplied, targets are drawn by mastery weight (well-known words appear
  * far less often); without it the selection is a plain uniform shuffle (unchanged behavior).
+ * `weightKind` selects which track the weighting reads — "production" for typing, "say_word"
+ * for the spoken variant — so each lesson type keeps its own mastery.
  */
 export function buildProductionSession(
   items: readonly VocabItem[],
   seed: number,
   size: number = DEFAULT_SESSION_SIZE,
   progress?: ProgressMap,
+  weightKind: ItemKind = "production",
 ): ProductionQuestion[] {
   const targets = progress
     ? weightedSample(
         items,
-        (item) => selectionWeight(getProgress(progress, "production", item.id)),
+        (item) => selectionWeight(getProgress(progress, weightKind, item.id)),
         makeRng(seed),
         size,
       )

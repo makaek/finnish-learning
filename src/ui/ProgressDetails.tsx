@@ -107,8 +107,16 @@ export default function ProgressDetails({
     () => masteryRows(vocab, pool, progress, "production"),
     [vocab, pool, progress],
   );
+  const sayWordRows = useMemo(
+    () => masteryRows(vocab, pool, progress, "say_word"),
+    [vocab, pool, progress],
+  );
   const sentenceRows = useMemo(
     () => masteryRows(sentences, sentencePool, progress, "sentences"),
+    [sentences, sentencePool, progress],
+  );
+  const saySentenceRows = useMemo(
+    () => masteryRows(sentences, sentencePool, progress, "say_sentence"),
     [sentences, sentencePool, progress],
   );
 
@@ -116,7 +124,11 @@ export default function ProgressDetails({
   const sentenceById = useMemo(() => new Map(sentences.map((s) => [s.id, s])), [sentences]);
 
   const empty =
-    recognitionRows.length === 0 && productionRows.length === 0 && sentenceRows.length === 0;
+    recognitionRows.length === 0 &&
+    productionRows.length === 0 &&
+    sayWordRows.length === 0 &&
+    sentenceRows.length === 0 &&
+    saySentenceRows.length === 0;
 
   const wordRow = (row: MasteryRow) => {
     const v = vocabById.get(row.id);
@@ -163,6 +175,7 @@ export default function ProgressDetails({
           <>
             <Section title="Узнавание слов" rows={recognitionRows} render={wordRow} />
             <Section title="Написание слов" rows={productionRows} render={wordRow} />
+            <Section title="🎤 Скажи слово" rows={sayWordRows} render={wordRow} />
             <Section
               title="Перевод предложений"
               rows={sentenceRows}
@@ -170,6 +183,21 @@ export default function ProgressDetails({
                 const s = sentenceById.get(row.id);
                 return (
                   <Row key={`s-${row.id}`} label={s ? s.ru : row.id} sub={s?.canonical} row={row} />
+                );
+              }}
+            />
+            <Section
+              title="🎤 Скажи предложение"
+              rows={saySentenceRows}
+              render={(row) => {
+                const s = sentenceById.get(row.id);
+                return (
+                  <Row
+                    key={`ss-${row.id}`}
+                    label={s ? s.ru : row.id}
+                    sub={s?.canonical}
+                    row={row}
+                  />
                 );
               }}
             />

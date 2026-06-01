@@ -107,6 +107,31 @@ export default function App() {
       ),
     [seed, testMode],
   );
+  // Voice variants: same pools/questions as production/sentences, but weighted by their own
+  // track so spoken practice is repeated and mastered independently.
+  const sayWord = useMemo(
+    () =>
+      buildProductionSession(
+        activeVocab(VOCAB, progressRef.current, testMode),
+        seed,
+        DEFAULT_SESSION_SIZE,
+        progressRef.current,
+        "say_word",
+      ),
+    [seed, testMode],
+  );
+  const saySentence = useMemo(
+    () =>
+      buildSentenceSession(
+        eligibleSentences(SENTENCES, VOCAB, progressRef.current, testMode),
+        seed,
+        DEFAULT_SESSION_SIZE,
+        undefined,
+        progressRef.current,
+        "say_sentence",
+      ),
+    [seed, testMode],
+  );
 
   function start(next: Mode) {
     // Refresh the home view now so it's current whenever we return — covers restart(), which
@@ -144,8 +169,12 @@ export default function App() {
     for (const v of VOCAB) {
       mark("recognition", v.id);
       mark("production", v.id);
+      mark("say_word", v.id);
     }
-    for (const s of SENTENCES) mark("sentences", s.id);
+    for (const s of SENTENCES) {
+      mark("sentences", s.id);
+      mark("say_sentence", s.id);
+    }
     setProgressView(new Map(progressRef.current));
     void saveProgress(rows);
   }
@@ -153,17 +182,20 @@ export default function App() {
   /** Update the current item's mastery from the answer and persist it (fire-and-forget). */
   function recordOutcome(wasCorrect: boolean) {
     if (mode === null) return;
-    // The voice modes reuse the existing tracks: "say a word" feeds production, "say a
-    // sentence" feeds the sentence track. `wasCorrect` is the FIRST-attempt result (the
-    // forced-correction retry never changes it), so only first attempts count.
-    const usesSentences = mode === "sentences" || mode === "say_sentence";
-    const usesProduction = mode === "production" || mode === "say_word";
-    const kind: ItemKind = usesSentences ? "sentences" : usesProduction ? "production" : "recognition";
-    const id = usesSentences
-      ? sentences[index]?.id
-      : usesProduction
-        ? production[index]?.itemId
-        : recognition[index]?.itemId;
+    // The exercise mode IS the progress track — each lesson type (incl. the two voice ones)
+    // is recorded separately. `wasCorrect` is the FIRST-attempt result (the forced-correction
+    // retry never changes it), so only first attempts count.
+    const kind: ItemKind = mode;
+    const id =
+      mode === "sentences"
+        ? sentences[index]?.id
+        : mode === "say_sentence"
+          ? saySentence[index]?.id
+          : mode === "production"
+            ? production[index]?.itemId
+            : mode === "say_word"
+              ? sayWord[index]?.itemId
+              : recognition[index]?.itemId;
     if (id === undefined) return; // index past the end of the session — nothing to record
     // Each card key is unique per seed+mode+index, so this tag dedupes a double-fire.
     const tag = `${mode}:${seed}:${index}`;
@@ -228,13 +260,16 @@ export default function App() {
     );
   }
 
-  // Voice modes reuse the production / sentence sessions (same pool, grader, and track).
+  // Each mode runs its own session; the voice modes reuse the production/sentence card +
+  // grader but have their own session (weighted by their own track).
   const usesSentences = mode === "sentences" || mode === "say_sentence";
   const usesProduction = mode === "production" || mode === "say_word";
+  const productionSession = mode === "say_word" ? sayWord : production;
+  const sentenceSession = mode === "say_sentence" ? saySentence : sentences;
   const total = usesProduction
-    ? production.length
+    ? productionSession.length
     : usesSentences
-      ? sentences.length
+      ? sentenceSession.length
       : recognition.length;
   const finished = index >= total;
   // An exercise card is on screen (vs. the empty/summary states). Top-align + scroll these
@@ -274,7 +309,7 @@ export default function App() {
       ) : usesSentences ? (
         <SentenceCard
           key={index}
-          question={sentences[index]!}
+          question={sentenceSession[index]!}
           questionNumber={index + 1}
           total={total}
           grade={grade}
@@ -284,7 +319,7 @@ export default function App() {
       ) : usesProduction ? (
         <ProductionCard
           key={index}
-          question={production[index]!}
+          question={productionSession[index]!}
           questionNumber={index + 1}
           total={total}
           voice={mode === "say_word"}
