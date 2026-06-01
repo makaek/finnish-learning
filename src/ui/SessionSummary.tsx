@@ -1,15 +1,18 @@
 interface SessionSummaryProps {
   score: number;
   total: number;
+  /** Current daily streak (days in a row); shown when > 0. */
+  streak?: number;
   onRestart: () => void;
   /** Optional "back to menu" handler; the button is shown only when provided. */
   onHome?: () => void;
 }
 
-/** End-of-session screen: score and a button to start a fresh session. */
+/** End-of-session screen: score, current streak, and a button to start a fresh session. */
 export default function SessionSummary({
   score,
   total,
+  streak = 0,
   onRestart,
   onHome,
 }: SessionSummaryProps) {
@@ -21,6 +24,11 @@ export default function SessionSummary({
       <p className="score">
         {score} / {total} <span className="score__pct">({pct}%)</span>
       </p>
+      {streak > 0 && (
+        <p className="hint">
+          🔥 Серия: {streak} {streak === 1 ? "день" : "дней"} подряд
+        </p>
+      )}
       <p className="hint">
         {pct === 100
           ? "Отлично! Все слова угаданы."

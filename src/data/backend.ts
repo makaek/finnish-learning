@@ -21,9 +21,12 @@ import {
   type ItemProgress,
   type ProgressMap,
 } from "../core/progress";
+import { emptyState, type UserState } from "../core/daily";
 
 const TABLE = "progress";
+const STATE_TABLE = "user_state";
 const LOCAL_KEY = "finnish-trainer/progress";
+const LOCAL_STATE_KEY = "finnish-trainer/state";
 
 /** Persistence contract the app codes against, regardless of backing store. */
 export interface ProgressStore {
@@ -33,6 +36,10 @@ export interface ProgressStore {
   loadProgress(): Promise<ProgressMap>;
   /** Upsert the given progress records. Never throws — degrades to local. */
   saveProgress(items: readonly ItemProgress[]): Promise<void>;
+  /** Load the user's daily-loop state (streak etc.). Never throws — degrades to local/empty. */
+  loadState(): Promise<UserState>;
+  /** Upsert the daily-loop state. Never throws — degrades to local. */
+  saveState(state: UserState): Promise<void>;
 }
 
 // --- localStorage store (fallback + offline) --------------------------------------------
@@ -74,6 +81,38 @@ function writeLocal(items: readonly ItemProgress[]): void {
   }
 }
 
+/** Guard a localStorage daily-state payload. */
+function isUserState(value: unknown): value is UserState {
+  if (typeof value !== "object" || value === null) return false;
+  const v = value as Record<string, unknown>;
+  return (
+    typeof v.streak === "number" &&
+    typeof v.bestStreak === "number" &&
+    typeof v.lastActiveDate === "string" &&
+    typeof v.todayDate === "string" &&
+    typeof v.todayCount === "number"
+  );
+}
+
+function readLocalState(): UserState {
+  try {
+    const raw = globalThis.localStorage?.getItem(LOCAL_STATE_KEY);
+    if (!raw) return emptyState();
+    const parsed: unknown = JSON.parse(raw);
+    return isUserState(parsed) ? parsed : emptyState();
+  } catch {
+    return emptyState();
+  }
+}
+
+function writeLocalState(state: UserState): void {
+  try {
+    globalThis.localStorage?.setItem(LOCAL_STATE_KEY, JSON.stringify(state));
+  } catch {
+    /* best-effort */
+  }
+}
+
 class LocalStore implements ProgressStore {
   async ensureSession(): Promise<void> {
     /* nothing to authenticate locally */
@@ -88,6 +127,14 @@ class LocalStore implements ProgressStore {
     const merged = toProgressMap(readLocal());
     for (const item of items) merged.set(progressKey(item.kind, item.itemId), item);
     writeLocal([...merged.values()]);
+  }
+
+  async loadState(): Promise<UserState> {
+    return readLocalState();
+  }
+
+  async saveState(state: UserState): Promise<void> {
+    writeLocalState(state);
   }
 }
 
@@ -127,6 +174,37 @@ export function progressToRow(userId: string, p: ItemProgress): ProgressRow {
     total_correct: p.totalCorrect,
     total_seen: p.totalSeen,
     last_seen: p.lastSeen ? new Date(p.lastSeen).toISOString() : null,
+  };
+}
+
+/** A `user_state` row (one per user); date columns are SQL `date` or null. */
+export interface UserStateRow {
+  user_id: string;
+  streak: number;
+  best_streak: number;
+  last_active_date: string | null;
+  today_date: string | null;
+  today_count: number;
+}
+
+export function rowToUserState(row: UserStateRow): UserState {
+  return {
+    streak: row.streak,
+    bestStreak: row.best_streak,
+    lastActiveDate: row.last_active_date ?? "",
+    todayDate: row.today_date ?? "",
+    todayCount: row.today_count,
+  };
+}
+
+export function userStateToRow(userId: string, s: UserState): UserStateRow {
+  return {
+    user_id: userId,
+    streak: s.streak,
+    best_streak: s.bestStreak,
+    last_active_date: s.lastActiveDate || null,
+    today_date: s.todayDate || null,
+    today_count: s.todayCount,
   };
 }
 
@@ -202,6 +280,38 @@ class SupabaseStore implements ProgressStore {
       await this.fallback.saveProgress(items);
     }
   }
+
+  async loadState(): Promise<UserState> {
+    try {
+      const uid = await this.userId();
+      if (!uid) return this.fallback.loadState();
+      const { data, error } = await this.client
+        .from(STATE_TABLE)
+        .select("*")
+        .eq("user_id", uid)
+        .maybeSingle();
+      if (error) throw error;
+      return data ? rowToUserState(data as UserStateRow) : emptyState();
+    } catch (err) {
+      console.warn("[backend] loadState fell back to local:", err);
+      return this.fallback.loadState();
+    }
+  }
+
+  async saveState(state: UserState): Promise<void> {
+    try {
+      const uid = await this.userId();
+      if (!uid) return this.fallback.saveState(state);
+      const { error } = await this.client
+        .from(STATE_TABLE)
+        .upsert(userStateToRow(uid, state), { onConflict: "user_id" });
+      if (error) throw error;
+      await this.fallback.saveState(state);
+    } catch (err) {
+      console.warn("[backend] saveState fell back to local:", err);
+      await this.fallback.saveState(state);
+    }
+  }
 }
 
 // --- store selection --------------------------------------------------------------------
@@ -226,3 +336,5 @@ export const ensureSession = (): Promise<void> => progressStore.ensureSession();
 export const loadProgress = (): Promise<ProgressMap> => progressStore.loadProgress();
 export const saveProgress = (items: readonly ItemProgress[]): Promise<void> =>
   progressStore.saveProgress(items);
+export const loadState = (): Promise<UserState> => progressStore.loadState();
+export const saveState = (state: UserState): Promise<void> => progressStore.saveState(state);

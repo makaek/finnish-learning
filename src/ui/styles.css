@@ -348,6 +348,50 @@ body {
 }
 
 /* --- Roadmap home --- */
+.daily {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin: 0 0 var(--s3);
+  padding: 0.6rem 0.85rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+}
+
+.daily__streak {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--warm);
+  white-space: nowrap;
+}
+
+.daily__goal {
+  flex: 1;
+  min-width: 0;
+}
+
+.daily__bar {
+  height: 0.55rem;
+  background: var(--surface-2);
+  border-radius: var(--pill);
+  overflow: hidden;
+}
+
+.daily__fill {
+  height: 100%;
+  background: var(--warm);
+  border-radius: var(--pill);
+  transition: width 0.4s ease;
+}
+
+.daily__label {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
 .meter {
   margin: 0 0 var(--s3);
 }

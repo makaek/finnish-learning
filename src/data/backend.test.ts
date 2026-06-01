@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { loadProgress, progressToRow, rowToProgress, saveProgress } from "./backend";
+import { loadProgress, loadState, progressToRow, rowToProgress, saveProgress, saveState } from "./backend";
 import { emptyProgress, type ItemProgress } from "../core/progress";
+import { emptyState, type UserState } from "../core/daily";
 
 // With no VITE_SUPABASE_* env vars set (the test environment), the store falls back to
 // localStorage. These tests exercise that path end to end.
@@ -73,5 +74,30 @@ describe("row mapping (Supabase schema contract)", () => {
     const row = progressToRow("u", fresh);
     expect(row.last_seen).toBeNull();
     expect(rowToProgress(row).lastSeen).toBe(0);
+  });
+});
+
+describe("daily state (localStorage fallback)", () => {
+  beforeEach(() => localStorage.clear());
+
+  it("loads an empty state for a fresh visitor", async () => {
+    expect(await loadState()).toEqual(emptyState());
+  });
+
+  it("round-trips the daily state through storage", async () => {
+    const state: UserState = {
+      streak: 4,
+      bestStreak: 7,
+      lastActiveDate: "2026-01-10",
+      todayDate: "2026-01-10",
+      todayCount: 12,
+    };
+    await saveState(state);
+    expect(await loadState()).toEqual(state);
+  });
+
+  it("ignores a corrupt stored state", async () => {
+    localStorage.setItem("finnish-trainer/state", JSON.stringify({ nope: true }));
+    expect(await loadState()).toEqual(emptyState());
   });
 });

@@ -6,6 +6,7 @@ import { buildProductionSession } from "../core/produce";
 import { buildSentenceSession } from "../core/sentenceSession";
 import { applyOutcome } from "../core/srs";
 import { activeVocab, eligibleSentences } from "../core/levels";
+import { applyActivity, currentStreak, dateKey, emptyState, type UserState } from "../core/daily";
 import {
   getProgress,
   progressKey,
@@ -14,7 +15,7 @@ import {
   type ItemProgress,
   type ProgressMap,
 } from "../core/progress";
-import { loadProgress, saveProgress } from "../data/backend";
+import { loadProgress, loadState, saveProgress, saveState } from "../data/backend";
 import Roadmap, { type Mode } from "./Roadmap";
 import ProgressDetails from "./ProgressDetails";
 import RecognitionCard from "./RecognitionCard";
@@ -52,12 +53,17 @@ export default function App() {
   const [ready, setReady] = useState(false);
   // Guards against double-recording the same card (e.g. a fast double-tap before re-render).
   const lastRecordedRef = useRef<string | null>(null);
+  // Daily-loop state (streak + today's count), same ref+view pattern as progress.
+  const dailyRef = useRef<UserState>(emptyState());
+  const [dailyView, setDailyView] = useState<UserState>(emptyState());
   useEffect(() => {
     let active = true;
-    void loadProgress().then((loaded) => {
+    void Promise.all([loadProgress(), loadState()]).then(([loadedProgress, loadedState]) => {
       if (!active) return;
-      progressRef.current = loaded;
-      setProgressView(loaded);
+      progressRef.current = loadedProgress;
+      setProgressView(loadedProgress);
+      dailyRef.current = loadedState;
+      setDailyView(loadedState);
       setReady(true);
     });
     return () => {
@@ -169,8 +175,17 @@ export default function App() {
     void saveProgress([next]);
   }
 
+  /** Count one answer toward today's goal and the daily streak, then persist. */
+  function bumpDaily() {
+    const next = applyActivity(dailyRef.current, dateKey());
+    dailyRef.current = next;
+    setDailyView(next);
+    void saveState(next);
+  }
+
   function handleAnswered(wasCorrect: boolean) {
     recordOutcome(wasCorrect);
+    bumpDaily();
     if (wasCorrect) setScore((s) => s + 1);
     setIndex((i) => i + 1);
   }
@@ -202,6 +217,7 @@ export default function App() {
       <Roadmap
         vocab={VOCAB}
         progress={progressView}
+        daily={dailyView}
         testMode={testMode}
         ready={ready}
         onStart={start}
@@ -245,7 +261,13 @@ export default function App() {
           </button>
         </section>
       ) : finished ? (
-        <SessionSummary score={score} total={total} onRestart={restart} onHome={goHome} />
+        <SessionSummary
+          score={score}
+          total={total}
+          streak={currentStreak(dailyView, dateKey())}
+          onRestart={restart}
+          onHome={goHome}
+        />
       ) : mode === "sentences" ? (
         <SentenceCard
           key={index}

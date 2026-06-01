@@ -13,6 +13,13 @@ import {
   type VocabLike,
 } from "../core/levels";
 import type { ProgressMap } from "../core/progress";
+import {
+  currentStreak,
+  dateKey,
+  todayCount,
+  DAILY_GOAL,
+  type UserState,
+} from "../core/daily";
 import ThemeToggle from "./ThemeToggle";
 
 export type Mode = "recognition" | "production" | "sentences";
@@ -20,6 +27,7 @@ export type Mode = "recognition" | "production" | "sentences";
 interface RoadmapProps {
   vocab: readonly VocabLike[];
   progress: ProgressMap;
+  daily: UserState;
   testMode: boolean;
   ready: boolean;
   onStart: (mode: Mode) => void;
@@ -32,6 +40,7 @@ interface RoadmapProps {
 export default function Roadmap({
   vocab,
   progress,
+  daily,
   testMode,
   ready,
   onStart,
@@ -44,6 +53,12 @@ export default function Roadmap({
     return { stats: s, unlocked: u, active: activeLevel(s, u), overall: overallProgress(vocab, progress) };
   }, [vocab, progress, testMode]);
   const pct = Math.round(overall.fraction * 100);
+
+  const today = dateKey();
+  const streak = currentStreak(daily, today);
+  const done = todayCount(daily, today);
+  const goalPct = Math.min(100, Math.round((done / DAILY_GOAL) * 100));
+  const goalReached = done >= DAILY_GOAL;
 
   if (!ready) {
     return (
@@ -62,6 +77,20 @@ export default function Roadmap({
       <section className="card card--summary">
         <ThemeToggle />
         <h1 className="prompt">Финский тренажёр</h1>
+
+        <div className="daily">
+          <span className="daily__streak" title="Серия дней подряд">
+            🔥 {streak}
+          </span>
+          <div className="daily__goal">
+            <div className="daily__bar">
+              <div className="daily__fill" style={{ width: `${goalPct}%` }} />
+            </div>
+            <span className="daily__label">
+              {goalReached ? "Цель на сегодня выполнена! 🎉" : `Сегодня: ${done} / ${DAILY_GOAL}`}
+            </span>
+          </div>
+        </div>
 
         <button type="button" className="meter meter--button" onClick={onShowStats}>
           <div className="meter__bar">
