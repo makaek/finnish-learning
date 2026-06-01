@@ -81,23 +81,36 @@ describe("mergeByItem", () => {
     return m;
   };
 
-  it("groups an item's practiced tracks and flags mastered", () => {
+  it("shows only practiced tracks, but is NOT mastered while a lesson type is untried", () => {
     const progress = mk(
       rec("recognition", "a", 3, 3),
-      rec("production", "a", 4, 5), // say_word for 'a' not practiced → skipped
+      rec("production", "a", 4, 5), // say_word for 'a' never tried (box 0)
       rec("recognition", "b", 1, 2),
     );
     const merged = mergeByItem(pair, pair, progress, WORD_KINDS, 3);
     const a = merged.find((x) => x.id === "a")!;
-    expect(a.tracks.map((t) => t.kind)).toEqual(["recognition", "production"]);
+    expect(a.tracks.map((t) => t.kind)).toEqual(["recognition", "production"]); // untried omitted
+    expect(a.mastered).toBe(false); // say_word untried → not fully mastered
+    expect(merged.find((x) => x.id === "b")!.mastered).toBe(false);
+  });
+
+  it("is mastered only when EVERY lesson type reaches the box", () => {
+    const progress = mk(
+      rec("recognition", "a", 3, 3),
+      rec("production", "a", 3, 3),
+      rec("say_word", "a", 5, 5),
+    );
+    const a = mergeByItem(pair, pair, progress, WORD_KINDS, 3).find((x) => x.id === "a")!;
     expect(a.mastered).toBe(true);
-    const b = merged.find((x) => x.id === "b")!;
-    expect(b.tracks).toHaveLength(1);
-    expect(b.mastered).toBe(false);
   });
 
   it("omits items with no practiced track and sorts unmastered first", () => {
-    const progress = mk(rec("recognition", "a", 5, 5), rec("recognition", "b", 1, 2));
+    const progress = mk(
+      rec("recognition", "a", 5, 5),
+      rec("production", "a", 5, 5),
+      rec("say_word", "a", 5, 5), // 'a' fully mastered
+      rec("recognition", "b", 1, 2), // 'b' not
+    );
     expect(mergeByItem(pair, pair, progress, WORD_KINDS, 3).map((x) => x.id)).toEqual(["b", "a"]);
   });
 });

@@ -31,7 +31,11 @@ export interface MergedProgress {
   id: string;
   /** Per-track metrics, only for tracks practiced (totalCorrect ≥ 1), in the given order. */
   tracks: MasteryRow[];
-  /** Mastered = box ≥ masteredBox in every practiced track (so it can be hidden). */
+  /**
+   * Mastered = box ≥ masteredBox in EVERY applicable track (incl. ones never tried, which
+   * sit at box 0). So an item is only "done" — and only hideable — once it's mastered in all
+   * its lesson types, not just the ones practiced so far.
+   */
   mastered: boolean;
   /** Most recent activity across tracks (for sorting). */
   lastSeen: number;
@@ -82,14 +86,16 @@ export function mergeByItem(
   for (const item of items) {
     const tracks: MasteryRow[] = [];
     let lastSeen = 0;
+    let mastered = true; // box >= masteredBox in EVERY kind, including untried ones (box 0)
     for (const kind of kinds) {
       const p = getProgress(progress, kind, item.id);
-      if (p.totalCorrect < 1) continue;
+      if (p.box < masteredBox) mastered = false;
+      if (p.totalCorrect < 1) continue; // untried → no track row (already counted above)
       tracks.push(trackRow(item, kind, p, inPool.has(item.id), totalWeightByKind.get(kind) ?? 0));
       if (p.lastSeen > lastSeen) lastSeen = p.lastSeen;
     }
     if (tracks.length === 0) continue;
-    out.push({ id: item.id, tracks, mastered: tracks.every((t) => t.box >= masteredBox), lastSeen });
+    out.push({ id: item.id, tracks, mastered, lastSeen });
   }
 
   out.sort((a, b) => Number(a.mastered) - Number(b.mastered) || b.lastSeen - a.lastSeen);

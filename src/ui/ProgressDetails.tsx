@@ -13,13 +13,16 @@ import { activeVocab, eligibleSentences, LEARNED_BOX } from "../core/levels";
 import { mergeByItem, type MergedProgress } from "../core/stats";
 import { MAX_BOX, type ItemKind } from "../core/progress";
 import type { ProgressMap } from "../core/progress";
-import { hiddenKey, loadHidden, saveHidden, type Group } from "./hidden";
+import { hiddenKey, type Group } from "./hidden";
 
 interface ProgressDetailsProps {
   vocab: readonly VocabItem[];
   sentences: readonly SentenceItem[];
   progress: ProgressMap;
   testMode: boolean;
+  /** Hidden item keys (owned by App, since hiding also removes items from lessons). */
+  hidden: ReadonlySet<string>;
+  onToggleHide: (key: string) => void;
   onBack: () => void;
 }
 
@@ -105,9 +108,10 @@ export default function ProgressDetails({
   sentences,
   progress,
   testMode,
+  hidden,
+  onToggleHide,
   onBack,
 }: ProgressDetailsProps) {
-  const [hidden, setHidden] = useState<Set<string>>(loadHidden);
   const [showHidden, setShowHidden] = useState(false);
 
   const words = useMemo(
@@ -129,16 +133,6 @@ export default function ProgressDetails({
   const vocabById = useMemo(() => new Map(vocab.map((v) => [v.id, v])), [vocab]);
   const sentenceById = useMemo(() => new Map(sentences.map((s) => [s.id, s])), [sentences]);
 
-  function toggleHide(key: string) {
-    setHidden((prev) => {
-      const next = new Set(prev);
-      if (next.has(key)) next.delete(key);
-      else next.add(key);
-      saveHidden(next);
-      return next;
-    });
-  }
-
   const isHidden = (group: Group, id: string) => hidden.has(hiddenKey(group, id));
   const hiddenCount =
     words.filter((e) => isHidden("word", e.id)).length +
@@ -159,8 +153,9 @@ export default function ProgressDetails({
       <section className="card">
         <h1 className="prompt">Мой прогресс</h1>
         <p className="hint">
-          Один карточка на слово/предложение со всеми типами упражнений. Засчитывается только
-          первая попытка; выученное (✓) можно скрыть 🙈.
+          Одна карточка на слово/предложение со всеми типами упражнений. Засчитывается только
+          первая попытка. Выученное во всех типах (✓) можно скрыть 🙈 — оно перестанет
+          появляться в упражнениях.
         </p>
 
         <details className="legend">
@@ -204,7 +199,7 @@ export default function ProgressDetails({
                         entry={e}
                         label={v ? `${v.fi} — ${v.ru}` : e.id}
                         hidden={isHidden("word", e.id)}
-                        onToggleHide={() => toggleHide(hiddenKey("word", e.id))}
+                        onToggleHide={() => onToggleHide(hiddenKey("word", e.id))}
                       />
                     );
                   })}
@@ -224,7 +219,7 @@ export default function ProgressDetails({
                         label={s ? s.ru : e.id}
                         sub={s?.canonical}
                         hidden={isHidden("sentence", e.id)}
-                        onToggleHide={() => toggleHide(hiddenKey("sentence", e.id))}
+                        onToggleHide={() => onToggleHide(hiddenKey("sentence", e.id))}
                       />
                     );
                   })}

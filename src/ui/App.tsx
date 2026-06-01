@@ -23,6 +23,7 @@ import {
   type ProgressMap,
 } from "../core/progress";
 import { loadProgress, loadState, saveProgress, saveState } from "../data/backend";
+import { hiddenKey, loadHidden, saveHidden } from "./hidden";
 import Roadmap, { type Mode } from "./Roadmap";
 import ProgressDetails from "./ProgressDetails";
 import RecognitionCard from "./RecognitionCard";
@@ -50,6 +51,18 @@ export default function App() {
   const [index, setIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [testMode] = useState(readTestMode);
+  // Items the learner hid (fully-mastered) — excluded from every lesson, persisted locally.
+  const [hidden, setHidden] = useState<Set<string>>(loadHidden);
+
+  function toggleHidden(key: string) {
+    setHidden((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      saveHidden(next);
+      return next;
+    });
+  }
 
   // Live mastery map, held in a ref so recording an answer never reshuffles the session
   // mid-run: builders read it only when (re)seeded on `start`. `progressView` mirrors it for
@@ -78,66 +91,76 @@ export default function App() {
     };
   }, []);
 
-  // Sessions reseed together; the active mode picks which to run. Pools are gated by level
-  // (and the learned-words rule for sentences); reading progressRef (a ref, not a dep) keeps
-  // both gating and weighting current as of the last `start`. `testMode` is frozen at mount,
-  // so it is a dep only to satisfy the linter — it never actually changes mid-session.
+  // In-play pools: gated by level (and the learned-words rule for sentences), minus items the
+  // learner has hidden (fully mastered → removed from every lesson). Reading progressRef (a
+  // ref, not a dep) keeps gating/weighting current as of the last `start`; `seed` reseeds on
+  // entry, and `hidden` makes hiding/unhiding take effect on the next session.
   const recognition = useMemo(
     () =>
       buildSession(
-        activeVocab(VOCAB, progressRef.current, testMode),
+        activeVocab(VOCAB, progressRef.current, testMode).filter(
+          (v) => !hidden.has(hiddenKey("word", v.id)),
+        ),
         seed,
         DEFAULT_SESSION_SIZE,
         DEFAULT_OPTION_COUNT,
         progressRef.current,
       ),
-    [seed, testMode],
+    [seed, testMode, hidden],
   );
   const production = useMemo(
     () =>
       buildProductionSession(
-        activeVocab(VOCAB, progressRef.current, testMode),
+        activeVocab(VOCAB, progressRef.current, testMode).filter(
+          (v) => !hidden.has(hiddenKey("word", v.id)),
+        ),
         seed,
         DEFAULT_SESSION_SIZE,
         progressRef.current,
       ),
-    [seed, testMode],
+    [seed, testMode, hidden],
   );
   const sentences = useMemo(
     () =>
       buildSentenceSession(
-        eligibleSentences(SENTENCES, VOCAB, progressRef.current, testMode),
+        eligibleSentences(SENTENCES, VOCAB, progressRef.current, testMode).filter(
+          (s) => !hidden.has(hiddenKey("sentence", s.id)),
+        ),
         seed,
         DEFAULT_SESSION_SIZE,
         undefined,
         progressRef.current,
       ),
-    [seed, testMode],
+    [seed, testMode, hidden],
   );
   // Voice variants: same pools/questions as production/sentences, but weighted by their own
   // track so spoken practice is repeated and mastered independently.
   const sayWord = useMemo(
     () =>
       buildProductionSession(
-        activeVocab(VOCAB, progressRef.current, testMode),
+        activeVocab(VOCAB, progressRef.current, testMode).filter(
+          (v) => !hidden.has(hiddenKey("word", v.id)),
+        ),
         seed,
         DEFAULT_SESSION_SIZE,
         progressRef.current,
         "say_word",
       ),
-    [seed, testMode],
+    [seed, testMode, hidden],
   );
   const saySentence = useMemo(
     () =>
       buildSentenceSession(
-        eligibleSentences(SENTENCES, VOCAB, progressRef.current, testMode),
+        eligibleSentences(SENTENCES, VOCAB, progressRef.current, testMode).filter(
+          (s) => !hidden.has(hiddenKey("sentence", s.id)),
+        ),
         seed,
         DEFAULT_SESSION_SIZE,
         undefined,
         progressRef.current,
         "say_sentence",
       ),
-    [seed, testMode],
+    [seed, testMode, hidden],
   );
 
   function start(next: Mode) {
@@ -260,6 +283,8 @@ export default function App() {
           sentences={SENTENCES}
           progress={progressView}
           testMode={testMode}
+          hidden={hidden}
+          onToggleHide={toggleHidden}
           onBack={() => setHomeScreen("roadmap")}
         />
       );
