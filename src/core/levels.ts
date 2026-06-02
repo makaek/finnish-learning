@@ -14,8 +14,8 @@
 
 import { getProgress, type ItemKind, type ProgressMap } from "./progress";
 
-/** A word is "learned" once its Leitner box reaches this (≈ 3 clean first-attempt answers). */
-export const LEARNED_BOX = 3;
+/** A word is "learned" once its Leitner box reaches this (≈ 2 clean first-attempt answers). */
+export const LEARNED_BOX = 2;
 /** Fraction of a level's words that must be learned before the next level unlocks. */
 export const UNLOCK_FRACTION = 0.8;
 

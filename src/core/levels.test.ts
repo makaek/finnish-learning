@@ -55,8 +55,8 @@ function box(kind: ItemKind, id: string, b: number): ProgressMap {
 }
 
 describe("wordLearned (per-type, either skill)", () => {
-  it("threshold is 3 clean answers", () => {
-    expect(LEARNED_BOX).toBe(3);
+  it("threshold is 2 clean answers", () => {
+    expect(LEARNED_BOX).toBe(2);
   });
 
   it("counts a word learned via recognition alone", () => {
@@ -68,7 +68,7 @@ describe("wordLearned (per-type, either skill)", () => {
   });
 
   it("does not count a word below the threshold in either track", () => {
-    expect(wordLearned(box("recognition", "a1", 2), "a1")).toBe(false);
+    expect(wordLearned(box("recognition", "a1", 1), "a1")).toBe(false);
     expect(wordLearned(new Map(), "a1")).toBe(false);
   });
 
@@ -110,7 +110,7 @@ describe("wordMastery (depth across the four word modes)", () => {
   });
 
   it("ignores sub-threshold boxes", () => {
-    expect(wordMastery(box("production", "a1", 2), "a1")).toBe(0);
+    expect(wordMastery(box("production", "a1", 1), "a1")).toBe(0);
   });
 });
 
