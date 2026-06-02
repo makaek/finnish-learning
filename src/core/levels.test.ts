@@ -10,6 +10,7 @@ import {
   overallProgress,
   unlockedLevels,
   wordLearned,
+  wordMastery,
   type SentenceLike,
   type VocabLike,
 } from "./levels";
@@ -77,6 +78,39 @@ describe("wordLearned (per-type, either skill)", () => {
     expect(wordLearned(p, "a1")).toBe(true);
     expect(p.has(progressKey("production", "a1"))).toBe(false);
   });
+
+  it("counts a word learned via speech (say_word) alone too", () => {
+    expect(wordLearned(box("say_word", "a1", 3), "a1")).toBe(true);
+  });
+});
+
+describe("wordMastery (depth across the three word modes)", () => {
+  const merge = (...maps: ProgressMap[]): ProgressMap =>
+    new Map(maps.flatMap((m) => [...m]));
+
+  it("is 0 with nothing learned", () => {
+    expect(wordMastery(new Map(), "a1")).toBe(0);
+  });
+
+  it("is 1/3 for one mastered mode, 2/3 for two", () => {
+    expect(wordMastery(box("recognition", "a1", 3), "a1")).toBeCloseTo(1 / 3);
+    expect(
+      wordMastery(merge(box("recognition", "a1", 3), box("production", "a1", 4)), "a1"),
+    ).toBeCloseTo(2 / 3);
+  });
+
+  it("is 1 only when all three word modes are mastered", () => {
+    const all = merge(
+      box("recognition", "a1", 3),
+      box("production", "a1", 3),
+      box("say_word", "a1", 5),
+    );
+    expect(wordMastery(all, "a1")).toBe(1);
+  });
+
+  it("ignores sub-threshold boxes", () => {
+    expect(wordMastery(box("production", "a1", 2), "a1")).toBe(0);
+  });
 });
 
 describe("levelOf / listLevels", () => {
@@ -93,12 +127,31 @@ describe("levelOf / listLevels", () => {
 });
 
 describe("levelStats", () => {
-  it("counts learned per level", () => {
+  it("counts learned per level (the unlock metric)", () => {
     const stats = levelStats(vocab, learned(["a1", "a2", "a3", "a4"]));
-    expect(stats).toEqual([
-      { level: 1, total: 5, learned: 4, fraction: 0.8 },
-      { level: 2, total: 5, learned: 0, fraction: 0 },
+    expect(stats.map((s) => ({ level: s.level, total: s.total, learned: s.learned }))).toEqual([
+      { level: 1, total: 5, learned: 4 },
+      { level: 2, total: 5, learned: 0 },
     ]);
+  });
+
+  it("fraction is the average mastery across modes, not just learned/total", () => {
+    // 4 of 5 L1 words learned in recognition only → each 1/3 mastered → avg = (4 * 1/3)/5.
+    const stats = levelStats(vocab, learned(["a1", "a2", "a3", "a4"]));
+    expect(stats[0]!.fraction).toBeCloseTo(4 / 3 / 5); // ≈0.267, NOT 0.8
+  });
+
+  it("fraction reaches 1 only when every word is mastered in all three modes", () => {
+    const ids = ["a1", "a2", "a3", "a4", "a5"];
+    const map: ProgressMap = new Map();
+    for (const id of ids) {
+      for (const kind of ["recognition", "production", "say_word"] as ItemKind[]) {
+        map.set(progressKey(kind, id), {
+          kind, itemId: id, box: 3, correctStreak: 3, totalCorrect: 3, totalSeen: 3, lastSeen: 1,
+        });
+      }
+    }
+    expect(levelStats(vocab, map)[0]!.fraction).toBe(1);
   });
 });
 
@@ -126,17 +179,17 @@ describe("unlockedLevels", () => {
   });
 });
 
-describe("activeLevel", () => {
-  it("is the lowest unlocked level that is not fully mastered", () => {
-    const p = learned(["a1", "a2", "a3", "a4"]); // L1 at 80%, L2 unlocked but empty progress
-    const stats = levelStats(vocab, p);
-    expect(activeLevel(stats, unlockedLevels(stats))).toBe(1); // L1 still < 100%
-  });
-
-  it("falls back to the highest unlocked level when all are mastered", () => {
-    const p = learned(["a1", "a2", "a3", "a4", "a5"]); // L1 fully mastered, L2 unlocked
+describe("activeLevel (the frontier — highest unlocked)", () => {
+  it("is the highest unlocked level, even before it's fully mastered", () => {
+    const p = learned(["a1", "a2", "a3", "a4"]); // L1 at 80% → L2 unlocked
     const stats = levelStats(vocab, p);
     expect(activeLevel(stats, unlockedLevels(stats))).toBe(2);
+  });
+
+  it("stays at level 1 until the next level unlocks", () => {
+    const p = learned(["a1", "a2", "a3"]); // L1 at 60% → L2 still locked
+    const stats = levelStats(vocab, p);
+    expect(activeLevel(stats, unlockedLevels(stats))).toBe(1);
   });
 });
 

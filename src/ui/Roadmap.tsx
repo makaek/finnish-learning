@@ -194,9 +194,11 @@ export default function Roadmap({
           <span className="ghead__bar">
             <span className="ghead__fill ghead__fill--level" style={{ width: `${levelPct}%` }} />
           </span>
-          <span className="ghead__caption">
-            Уровень {active}
-            {activeStat ? ` · ${activeStat.learned}/${activeStat.total} (${levelPct}%)` : ""}
+          <span
+            className="ghead__caption"
+            title="Среднее освоение слов уровня по всем режимам: узнавание, письмо, речь. Тренируйте разные режимы, чтобы он рос."
+          >
+            Уровень {active} · освоено {levelPct}% по всем режимам
           </span>
 
           <span className="ghead__bar">

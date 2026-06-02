@@ -12,22 +12,37 @@
  * `testMode` that bypasses all gating). No UI/DB imports — trivially unit-testable.
  */
 
-import { getProgress, type ProgressMap } from "./progress";
+import { getProgress, type ItemKind, type ProgressMap } from "./progress";
 
 /** A word is "learned" once its Leitner box reaches this (≈ 3 clean first-attempt answers). */
 export const LEARNED_BOX = 3;
 /** Fraction of a level's words that must be learned before the next level unlocks. */
 export const UNLOCK_FRACTION = 0.8;
 
+/** The three ways a single word is practised; level progress averages mastery across them. */
+export const WORD_MODES: readonly ItemKind[] = ["recognition", "production", "say_word"];
+
 /**
- * A word counts as learned (for level unlocks + overall progress) once it is mastered
- * (>= LEARNED_BOX) in EITHER word exercise — recognition or production.
+ * A word counts as learned (for level UNLOCKS + overall progress) once it is mastered
+ * (>= LEARNED_BOX) in ANY word exercise — recognition, production, or say_word. A single
+ * mastered skill is enough to keep the curriculum flowing; depth across modes is measured
+ * separately by {@link wordMastery}.
  */
 export function wordLearned(progress: ProgressMap, vocabId: string): boolean {
-  return (
-    getProgress(progress, "recognition", vocabId).box >= LEARNED_BOX ||
-    getProgress(progress, "production", vocabId).box >= LEARNED_BOX
-  );
+  return WORD_MODES.some((kind) => getProgress(progress, kind, vocabId).box >= LEARNED_BOX);
+}
+
+/**
+ * How deeply a word is mastered, in [0, 1]: the fraction of the three word modes
+ * (recognition / production / say_word) in which it's at or above LEARNED_BOX. This is what
+ * makes a level's progress bar grow as you practise DIFFERENT activities on the same words —
+ * recognition alone is 1/3, adding writing 2/3, adding speech 3/3.
+ */
+export function wordMastery(progress: ProgressMap, vocabId: string): number {
+  const mastered = WORD_MODES.filter(
+    (kind) => getProgress(progress, kind, vocabId).box >= LEARNED_BOX,
+  ).length;
+  return mastered / WORD_MODES.length;
 }
 
 /** Gentler bar for *using* a word in a sentence: at least one net-correct answer. */
@@ -72,9 +87,14 @@ export function listLevels(items: readonly { level?: number }[]): number[] {
 export interface LevelStat {
   level: number;
   total: number;
-  /** Words at or above LEARNED_BOX. */
+  /** Words learned in ≥1 word mode — the UNLOCK metric (keeps the curriculum flowing). */
   learned: number;
-  /** learned / total, or 1 for an empty level. */
+  /**
+   * Average {@link wordMastery} across the level's words, in [0, 1] (1 for an empty level) —
+   * the DISPLAY metric. Unlike `learned`, this rises as you practise more modes on the same
+   * words, so the level bar reflects ALL activities, not just the first one that "learned" a
+   * word. (Unlocks still use `learned`, so the bar can sit below 100% past an unlock.)
+   */
   fraction: number;
 }
 
@@ -82,10 +102,16 @@ export interface LevelStat {
 export function levelStats(vocab: readonly VocabLike[], progress: ProgressMap): LevelStat[] {
   return listLevels(vocab).map((level) => {
     const inLevel = vocab.filter((v) => levelOf(v) === level);
-    const learned = inLevel.filter((v) => wordLearned(progress, v.id)).length;
     const total = inLevel.length;
-    return { level, total, learned, fraction: total === 0 ? 1 : learned / total };
+    const learned = inLevel.filter((v) => wordLearned(progress, v.id)).length;
+    const masterySum = inLevel.reduce((sum, v) => sum + wordMastery(progress, v.id), 0);
+    return { level, total, learned, fraction: total === 0 ? 1 : masterySum / total };
   });
+}
+
+/** A level's unlock readiness: fraction of its words learned in ≥1 mode (1 for empty). */
+function unlockReadiness(stat: LevelStat): number {
+  return stat.total === 0 ? 1 : stat.learned / stat.total;
 }
 
 /**
@@ -103,7 +129,7 @@ export function unlockedLevels(stats: readonly LevelStat[]): Set<number> {
       continue;
     }
     const prev = ordered[i - 1]!;
-    if (unlocked.has(prev.level) && prev.fraction >= UNLOCK_FRACTION) unlocked.add(stat.level);
+    if (unlocked.has(prev.level) && unlockReadiness(prev) >= UNLOCK_FRACTION) unlocked.add(stat.level);
     else break;
   }
   return unlocked;
@@ -117,11 +143,14 @@ export function unlockedLevelsWith(
   return testMode ? new Set(stats.map((s) => s.level)) : unlockedLevels(stats);
 }
 
-/** The level to focus on: the lowest unlocked level not yet fully mastered, else the highest. */
+/**
+ * The learner's current level: the FRONTIER — the highest level they've unlocked. (Earlier
+ * levels keep growing in the background as more modes are practised, but "current level" is
+ * the furthest reached, which is what a game-style header shows.)
+ */
 export function activeLevel(stats: readonly LevelStat[], unlocked: ReadonlySet<number>): number {
-  const open = stats.filter((s) => unlocked.has(s.level)).sort((a, b) => a.level - b.level);
-  if (open.length === 0) return 1;
-  return (open.find((s) => s.fraction < 1) ?? open[open.length - 1]!).level;
+  const open = stats.filter((s) => unlocked.has(s.level)).map((s) => s.level);
+  return open.length === 0 ? 1 : Math.max(...open);
 }
 
 export interface Progress {
