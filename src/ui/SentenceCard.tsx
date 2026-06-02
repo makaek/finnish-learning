@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import type { SentenceQuestion } from "../core/sentenceSession";
 import type { Grade, GradeResult } from "../core/grader.contract";
+import { pickBestSpokenAsync } from "../core/spokenNumber";
 import { useSpeechRecognition } from "./useSpeechRecognition";
 
 interface SentenceCardProps {
@@ -43,15 +44,19 @@ export default function SentenceCard({
   const [advanced, setAdvanced] = useState(false);
   const answered = result !== null;
   // Voice mode is voice-ONLY: the answer (and the correction) can only be spoken, never typed.
+  // From the recognizer's N-best list, prefer the hypothesis the grader accepts (so a correct
+  // Finnish answer wins over an English-looking top guess; digits like "2" → "kaksi" first).
+  const accepts = (candidate: string) =>
+    grade({ sentenceId: question.id, answer: candidate }).then((g) => g.correct);
   const speech = useSpeechRecognition({
     lang: "fi-FI",
     enabled: voice && !answered,
-    onResult: (text) => setValue(text),
+    onResult: (alts) => void pickBestSpokenAsync(alts, accepts).then(setValue),
   });
   const correctionSpeech = useSpeechRecognition({
     lang: "fi-FI",
     enabled: voice && result !== null && !result.correct,
-    onResult: (text) => void checkCorrection(text),
+    onResult: (alts) => void pickBestSpokenAsync(alts, accepts).then(checkCorrection),
   });
 
   async function submit() {

@@ -54,7 +54,9 @@ export interface SpeechRecognitionApi {
 export function useSpeechRecognition(opts: {
   lang: string;
   enabled: boolean;
-  onResult: (text: string) => void;
+  /** Receives the recognizer's N-best transcripts, best-first (so the card can pick the
+   * Finnish hypothesis that actually matches the target). */
+  onResult: (alternatives: string[]) => void;
 }): SpeechRecognitionApi {
   const { lang, enabled } = opts;
   const supported = getCtor() !== undefined;
@@ -73,11 +75,20 @@ export function useSpeechRecognition(opts: {
     const rec = new Ctor();
     rec.lang = lang;
     rec.interimResults = false;
-    rec.maxAlternatives = 1;
+    // Ask for several hypotheses so the card can prefer the one matching the Finnish target
+    // (the cloud recognizer's #1 guess is sometimes an English word for a clear Finnish answer).
+    rec.maxAlternatives = 6;
     rec.continuous = false;
     rec.onresult = (e) => {
-      const text = e.results[0]?.[0]?.transcript ?? "";
-      if (text) onResultRef.current(text);
+      const first = e.results[0];
+      const alternatives: string[] = [];
+      if (first) {
+        for (let i = 0; i < first.length; i++) {
+          const t = first[i]?.transcript?.trim();
+          if (t) alternatives.push(t);
+        }
+      }
+      if (alternatives.length > 0) onResultRef.current(alternatives);
     };
     rec.onerror = (e) => setError(e.error ?? "speech-error");
     rec.onend = () => setListening(false);
