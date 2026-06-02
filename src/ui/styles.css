@@ -344,6 +344,38 @@ body {
   border-color: var(--no);
 }
 
+/* "Прослушать": a secondary action that sits beside the mic so the learner can hear the
+   correct pronunciation before re-saying it. Outlined in the muted colour so the mic stays
+   the primary affordance. */
+.voicerow {
+  display: flex;
+  gap: var(--s3);
+  align-items: stretch;
+}
+.voicerow .mic {
+  flex: 1;
+}
+.listen {
+  flex: 1;
+  min-height: 3.25rem;
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--pill);
+  cursor: pointer;
+  transition: background 0.14s ease, transform 0.08s ease;
+}
+.listen:active {
+  transform: scale(0.98);
+}
+.listen--on {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
 /* --- Feedback --- */
 .feedback {
   margin-top: var(--s4);

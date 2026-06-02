@@ -3,6 +3,7 @@ import type { ProductionQuestion } from "../core/produce";
 import { gradeTyped, type TypedGrade } from "../core/produce";
 import { pickBestSpoken } from "../core/spokenNumber";
 import { useSpeechRecognition } from "./useSpeechRecognition";
+import { useSpeechSynthesis } from "./useSpeechSynthesis";
 
 interface ProductionCardProps {
   question: ProductionQuestion;
@@ -48,6 +49,9 @@ export default function ProductionCard({
     enabled: voice && graded !== null && !graded.correct,
     onResult: (alts) => setCorrection(pickBestSpoken(alts, accepts)),
   });
+  // Lets the learner HEAR the correct word before re-saying it, so voice mode can't dead-end
+  // on a word they don't know how to pronounce.
+  const tts = useSpeechSynthesis("fi-FI");
 
   function submit() {
     if (answered) return;
@@ -147,25 +151,38 @@ export default function ProductionCard({
                 onChange={(e) => setCorrection(e.target.value)}
                 aria-label="Исправление"
               />
-              {voice &&
-                (correctionSpeech.supported ? (
-                  <button
-                    type="button"
-                    className={"mic" + (correctionSpeech.listening ? " mic--on" : "")}
-                    onClick={() =>
-                      correctionSpeech.listening ? correctionSpeech.stop() : correctionSpeech.start()
-                    }
-                    aria-label="Сказать исправление"
-                  >
-                    {correctionSpeech.listening
-                      ? "● Слушаю…"
-                      : correction
-                        ? "🎤 Сказать заново"
-                        : "🎤 Сказать"}
-                  </button>
-                ) : (
-                  <p className="hint">Голосовой ввод не поддерживается.</p>
-                ))}
+              {voice && (
+                <div className="voicerow">
+                  {tts.supported && (
+                    <button
+                      type="button"
+                      className={"listen" + (tts.speaking ? " listen--on" : "")}
+                      onClick={() => tts.speak(question.answerFi)}
+                      aria-label="Прослушать правильный ответ"
+                    >
+                      {tts.speaking ? "🔊 …" : "🔊 Прослушать"}
+                    </button>
+                  )}
+                  {correctionSpeech.supported ? (
+                    <button
+                      type="button"
+                      className={"mic" + (correctionSpeech.listening ? " mic--on" : "")}
+                      onClick={() =>
+                        correctionSpeech.listening ? correctionSpeech.stop() : correctionSpeech.start()
+                      }
+                      aria-label="Сказать исправление"
+                    >
+                      {correctionSpeech.listening
+                        ? "● Слушаю…"
+                        : correction
+                          ? "🎤 Сказать заново"
+                          : "🎤 Сказать"}
+                    </button>
+                  ) : (
+                    <p className="hint">Голосовой ввод не поддерживается.</p>
+                  )}
+                </div>
+              )}
             </>
           )}
           <button
