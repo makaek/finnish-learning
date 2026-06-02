@@ -98,7 +98,6 @@ export default function Roadmap({
     const u = unlockedLevelsWith(s, testMode);
     return { stats: s, unlocked: u, active: activeLevel(s, u), overall: overallProgress(vocab, progress) };
   }, [vocab, progress, testMode]);
-  const pct = Math.round(overall.fraction * 100);
 
   // Per-mode readiness over the in-play (unlocked, non-hidden) pools — flags neglected modes.
   const readiness = useMemo(() => {
@@ -123,6 +122,8 @@ export default function Roadmap({
   const accuracyPct = Math.round(todayAccuracy(daily, today) * 100);
   const goalPct = Math.min(100, Math.round((lessons / DAILY_LESSONS_GOAL) * 100));
   const goalReached = goalMet(daily, today);
+  const activeStat = stats.find((s) => s.level === active);
+  const levelPct = activeStat ? Math.round(activeStat.fraction * 100) : 0;
 
   if (!ready) {
     return (
@@ -142,29 +143,46 @@ export default function Roadmap({
         <ThemeToggle />
         <h1 className="prompt">Финский тренажёр</h1>
 
-        <div className="daily">
-          <span className="daily__streak" title="Серия дней подряд">
-            🔥 {streak}
-          </span>
-          <div className="daily__goal">
-            <div className="daily__bar">
-              <div className="daily__fill" style={{ width: `${goalPct}%` }} />
+        <div className="ghead">
+          <div className="ghead__stats">
+            <div className="gstat">
+              <span className="gstat__icon" aria-hidden="true">🔥</span>
+              <span className="gstat__value gstat__value--streak">{streak}</span>
+              <span className="gstat__label">серия</span>
             </div>
-            <span className="daily__label">
-              {goalReached
-                ? "Цель на сегодня выполнена! 🎉"
-                : `Уроки: ${lessons} / ${DAILY_LESSONS_GOAL} · точность ${accuracyPct}%`}
-            </span>
+            <div className="gstat">
+              <span className="gstat__icon" aria-hidden="true">🏆</span>
+              <span className="gstat__value gstat__value--level">{active}</span>
+              <span className="gstat__label">уровень</span>
+            </div>
+            <div className="gstat">
+              <span className="gstat__icon" aria-hidden="true">✦</span>
+              <span className="gstat__value gstat__value--words">{overall.learned}</span>
+              <span className="gstat__label">из {overall.total}</span>
+            </div>
           </div>
+
+          <div className="ghead__bar" title={`Уровень ${active}: ${levelPct}%`}>
+            <div className="ghead__fill ghead__fill--level" style={{ width: `${levelPct}%` }} />
+          </div>
+          <p className="ghead__caption">
+            Уровень {active}
+            {activeStat ? ` · ${activeStat.learned}/${activeStat.total} слов (${levelPct}%)` : ""}
+          </p>
+
+          <div className="ghead__bar" title={`Дневная цель: ${goalPct}%`}>
+            <div className="ghead__fill ghead__fill--daily" style={{ width: `${goalPct}%` }} />
+          </div>
+          <p className="ghead__caption">
+            🎯{" "}
+            {goalReached
+              ? "Цель на сегодня выполнена! 🎉"
+              : `Сегодня: ${lessons}/${DAILY_LESSONS_GOAL} уроков · ${accuracyPct}%`}
+          </p>
         </div>
 
-        <button type="button" className="meter meter--button" onClick={onShowStats}>
-          <div className="meter__bar">
-            <div className="meter__fill" style={{ width: `${pct}%` }} />
-          </div>
-          <span className="hint meter__label">
-            Выучено слов: {overall.learned} из {overall.total} ({pct}%) · мой прогресс →
-          </span>
+        <button type="button" className="statslink" onClick={onShowStats}>
+          📊 Мой прогресс →
         </button>
 
         <ul className="levels">
