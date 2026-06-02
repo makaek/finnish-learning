@@ -550,7 +550,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 0.25rem;
-  padding: 0.7rem 0.4rem;
+  padding: 0.7rem 0.4rem 0.95rem;
   font: inherit;
   color: var(--text);
   background: var(--surface);
@@ -601,6 +601,37 @@ body {
 .dot--none {
   background: var(--muted);
   opacity: 0.5;
+}
+
+/* Continuous readiness bar along the button's bottom edge — finer than the 3-colour dot, so
+   a few lessons visibly move it instead of the light appearing stuck. */
+.modebtn__bar {
+  position: absolute;
+  left: 0.5rem;
+  right: 0.5rem;
+  bottom: 0.4rem;
+  height: 0.28rem;
+  border-radius: 999px;
+  background: var(--surface-2);
+  overflow: hidden;
+}
+.modebtn__fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  transition: width 0.35s ease;
+}
+.modebtn__fill--green {
+  background: #22c55e;
+}
+.modebtn__fill--yellow {
+  background: #f5b400;
+}
+.modebtn__fill--red {
+  background: #ef4444;
+}
+.modebtn__fill--none {
+  background: transparent;
 }
 
 .testbar {

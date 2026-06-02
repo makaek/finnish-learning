@@ -77,6 +77,13 @@ function ModeButton({
         {icon}
       </span>
       <span className="modebtn__label">{label}</span>
+      {/* Continuous progress toward the leading mode, so a little practice visibly moves it. */}
+      <span className="modebtn__bar" aria-hidden="true" title={status}>
+        <span
+          className={`modebtn__fill modebtn__fill--${r.level}`}
+          style={{ width: `${Math.round(r.ratio * 100)}%` }}
+        />
+      </span>
     </button>
   );
 }

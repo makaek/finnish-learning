@@ -34,6 +34,8 @@ export interface ModeReadiness {
   mastered: number;
   /** Mastered count of the leading mode in the group (the relative anchor). */
   leader: number;
+  /** mastered / leader, in [0, 1] — the continuous fill for the mode's progress bar. */
+  ratio: number;
   level: Readiness;
 }
 
@@ -41,9 +43,11 @@ export interface ModeReadiness {
  * Per-mode readiness within a group of modes (e.g. a word's recognition / production /
  * say_word), RELATIVE to the most-practiced mode in the group — not to the whole deck. The
  * goal is to keep the modes BALANCED: the leader is green, and a mode that lags far behind it
- * goes yellow then red, nudging the learner to switch to it. Green ≥ 70% of the leader's
- * mastered count, yellow ≥ 30%, red below; `none` until something is mastered (or the pool
- * is empty), since there's nothing to balance yet.
+ * goes yellow then red, nudging the learner to switch to it. Thresholds are deliberately
+ * forgiving so a little practice visibly moves the light: green ≥ 50% of the leader's mastered
+ * count, yellow ≥ 15%, red below; `none` until something is mastered (or the pool is empty),
+ * since there's nothing to balance yet. The continuous `ratio` (mastered/leader) drives a
+ * progress bar so progress shows even within a colour band.
  */
 export function groupReadiness(
   pool: readonly { id: string }[],
@@ -62,13 +66,11 @@ export function groupReadiness(
   const result = new Map<ItemKind, ModeReadiness>();
   for (const kind of kinds) {
     const mastered = counts.get(kind) ?? 0;
+    const ratio = max === 0 ? 0 : mastered / max;
     let level: Readiness;
     if (pool.length === 0 || max === 0) level = "none";
-    else {
-      const ratio = mastered / max;
-      level = ratio >= 0.7 ? "green" : ratio >= 0.3 ? "yellow" : "red";
-    }
-    result.set(kind, { mastered, leader: max, level });
+    else level = ratio >= 0.5 ? "green" : ratio >= 0.15 ? "yellow" : "red";
+    result.set(kind, { mastered, leader: max, ratio, level });
   }
   return result;
 }

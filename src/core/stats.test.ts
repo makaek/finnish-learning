@@ -130,12 +130,18 @@ describe("groupReadiness (relative balance across modes)", () => {
       lastSeen: 1,
     }));
 
-  it("colours each mode relative to the leader: 10/5/2 → green/yellow/red", () => {
-    const progress = map(...masterN("recognition", 10), ...masterN("production", 5), ...masterN("say_word", 2));
+  it("colours each mode relative to the leader with forgiving bands: 10/4/1 → green/yellow/red", () => {
+    const progress = map(...masterN("recognition", 10), ...masterN("production", 4), ...masterN("say_word", 1));
     const r = groupReadiness(pool, progress, KINDS, 3);
-    expect(r.get("recognition")).toEqual({ mastered: 10, leader: 10, level: "green" }); // 10/10
-    expect(r.get("production")!.level).toBe("yellow"); // 5/10
-    expect(r.get("say_word")!.level).toBe("red"); // 2/10
+    expect(r.get("recognition")).toEqual({ mastered: 10, leader: 10, ratio: 1, level: "green" }); // 10/10
+    expect(r.get("production")!.level).toBe("yellow"); // 4/10 = 0.4 (≥0.15, <0.5)
+    expect(r.get("production")!.ratio).toBeCloseTo(0.4);
+    expect(r.get("say_word")!.level).toBe("red"); // 1/10 = 0.1 (<0.15)
+  });
+
+  it("treats half the leader's count as green (forgiving threshold)", () => {
+    const progress = map(...masterN("recognition", 10), ...masterN("production", 5));
+    expect(groupReadiness(pool, progress, KINDS, 3).get("production")!.level).toBe("green"); // 5/10
   });
 
   it("calls balanced modes all green (it's about balance, not the whole deck)", () => {
