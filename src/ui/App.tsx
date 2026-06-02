@@ -292,8 +292,10 @@ export default function App() {
     return (
       <Roadmap
         vocab={VOCAB}
+        sentences={SENTENCES}
         progress={progressView}
         daily={dailyView}
+        hidden={hidden}
         testMode={testMode}
         ready={ready}
         onStart={start}

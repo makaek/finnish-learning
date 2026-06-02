@@ -26,6 +26,38 @@ export interface MasteryRow {
   chance: number;
 }
 
+/** Traffic-light readiness for one lesson mode. `none` = nothing to practice in it yet. */
+export type Readiness = "green" | "yellow" | "red" | "none";
+
+export interface ModeReadiness {
+  /** In-play items mastered (box ≥ masteredBox) in this mode. */
+  mastered: number;
+  /** In-play items total for this mode. */
+  total: number;
+  level: Readiness;
+}
+
+/**
+ * How "done" a single mode is: the share of its in-play pool mastered in that track. Lets the
+ * home screen flag modes the learner is neglecting (a word is only fully learned once mastered
+ * in every mode). Green ≥ 70%, yellow ≥ 30%, red below; `none` when the pool is empty.
+ */
+export function modeReadiness(
+  pool: readonly { id: string }[],
+  progress: ProgressMap,
+  kind: ItemKind,
+  masteredBox: number,
+): ModeReadiness {
+  const total = pool.length;
+  if (total === 0) return { mastered: 0, total: 0, level: "none" };
+  const mastered = pool.filter(
+    (i) => getProgress(progress, kind, i.id).box >= masteredBox,
+  ).length;
+  const fraction = mastered / total;
+  const level: Readiness = fraction >= 0.7 ? "green" : fraction >= 0.3 ? "yellow" : "red";
+  return { mastered, total, level };
+}
+
 /** One item (word or sentence) with its metrics merged across its lesson-type tracks. */
 export interface MergedProgress {
   id: string;

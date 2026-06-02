@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { masteryRows, mergeByItem } from "./stats";
+import { masteryRows, mergeByItem, modeReadiness } from "./stats";
 import { progressKey, type ItemKind, type ItemProgress, type ProgressMap } from "./progress";
 
 const items = ["a", "b", "c", "d"].map((id) => ({ id }));
@@ -112,5 +112,36 @@ describe("mergeByItem", () => {
       rec("recognition", "b", 1, 2), // 'b' not
     );
     expect(mergeByItem(pair, pair, progress, WORD_KINDS, 3).map((x) => x.id)).toEqual(["a", "b"]);
+  });
+});
+
+describe("modeReadiness", () => {
+  const pool = ["a", "b", "c", "d"].map((id) => ({ id }));
+
+  it("reports 'none' for an empty pool", () => {
+    expect(modeReadiness([], new Map(), "recognition", 3).level).toBe("none");
+  });
+
+  it("is green when most of the pool is mastered, with counts", () => {
+    const progress = map(p("a", 3, 3, 3, 3), p("b", 4, 4, 4, 4), p("c", 5, 5, 5, 5)); // 3/4
+    expect(modeReadiness(pool, progress, "recognition", 3)).toEqual({
+      mastered: 3,
+      total: 4,
+      level: "green",
+    });
+  });
+
+  it("is yellow around half and red when little is mastered", () => {
+    expect(modeReadiness(pool, map(p("a", 3, 3, 3, 3), p("b", 3, 3, 3, 3)), "recognition", 3).level).toBe(
+      "yellow",
+    ); // 2/4
+    expect(modeReadiness(pool, map(p("a", 3, 3, 3, 3)), "recognition", 3).level).toBe("red"); // 1/4
+    expect(modeReadiness(pool, new Map(), "recognition", 3).level).toBe("red"); // 0/4, pool non-empty
+  });
+
+  it("counts only the requested mode's track", () => {
+    const progress = map(p("a", 5, 5, 5, 5), p("b", 5, 5, 5, 5), p("c", 5, 5, 5, 5), p("d", 5, 5, 5, 5));
+    expect(modeReadiness(pool, progress, "say_word", 3).level).toBe("red"); // none in say_word
+    expect(modeReadiness(pool, progress, "recognition", 3).level).toBe("green");
   });
 });

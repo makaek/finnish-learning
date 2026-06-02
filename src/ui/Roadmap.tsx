@@ -7,11 +7,16 @@
 import { useMemo } from "react";
 import {
   activeLevel,
+  activeVocab,
+  eligibleSentences,
   levelStats,
   overallProgress,
   unlockedLevelsWith,
+  LEARNED_BOX,
+  type SentenceLike,
   type VocabLike,
 } from "../core/levels";
+import { modeReadiness, type ModeReadiness } from "../core/stats";
 import type { ProgressMap } from "../core/progress";
 import {
   currentStreak,
@@ -22,6 +27,7 @@ import {
   DAILY_LESSONS_GOAL,
   type UserState,
 } from "../core/daily";
+import { hiddenKey } from "./hidden";
 import ThemeToggle from "./ThemeToggle";
 
 export type Mode =
@@ -33,8 +39,11 @@ export type Mode =
 
 interface RoadmapProps {
   vocab: readonly VocabLike[];
+  sentences: readonly SentenceLike[];
   progress: ProgressMap;
   daily: UserState;
+  /** Items hidden from lessons — excluded from the per-mode readiness pools. */
+  hidden: ReadonlySet<string>;
   testMode: boolean;
   ready: boolean;
   onStart: (mode: Mode) => void;
@@ -44,10 +53,40 @@ interface RoadmapProps {
   onTestFill: () => void;
 }
 
+/** One exercise button: icon + short label + a traffic-light dot for that mode's readiness. */
+function ModeButton({
+  icon,
+  label,
+  name,
+  r,
+  onClick,
+}: {
+  icon: string;
+  label: string;
+  /** Full accessible name (the short visible `label` repeats across groups). */
+  name: string;
+  r: ModeReadiness;
+  onClick: () => void;
+}) {
+  const status =
+    r.level === "none" ? "пока нечего учить" : `освоено ${r.mastered} из ${r.total}`;
+  return (
+    <button type="button" className="modebtn" aria-label={`${name}: ${status}`} onClick={onClick}>
+      <span className={`dot dot--${r.level}`} aria-hidden="true" title={status} />
+      <span className="modebtn__icon" aria-hidden="true">
+        {icon}
+      </span>
+      <span className="modebtn__label">{label}</span>
+    </button>
+  );
+}
+
 export default function Roadmap({
   vocab,
+  sentences,
   progress,
   daily,
+  hidden,
   testMode,
   ready,
   onStart,
@@ -60,6 +99,23 @@ export default function Roadmap({
     return { stats: s, unlocked: u, active: activeLevel(s, u), overall: overallProgress(vocab, progress) };
   }, [vocab, progress, testMode]);
   const pct = Math.round(overall.fraction * 100);
+
+  // Per-mode readiness over the in-play (unlocked, non-hidden) pools — flags neglected modes.
+  const readiness = useMemo(() => {
+    const wordPool = activeVocab(vocab, progress, testMode).filter(
+      (v) => !hidden.has(hiddenKey("word", v.id)),
+    );
+    const sentPool = eligibleSentences(sentences, vocab, progress, testMode).filter(
+      (s) => !hidden.has(hiddenKey("sentence", s.id)),
+    );
+    return {
+      recognition: modeReadiness(wordPool, progress, "recognition", LEARNED_BOX),
+      production: modeReadiness(wordPool, progress, "production", LEARNED_BOX),
+      say_word: modeReadiness(wordPool, progress, "say_word", LEARNED_BOX),
+      sentences: modeReadiness(sentPool, progress, "sentences", LEARNED_BOX),
+      say_sentence: modeReadiness(sentPool, progress, "say_sentence", LEARNED_BOX),
+    };
+  }, [vocab, sentences, progress, testMode, hidden]);
 
   const today = dateKey();
   const streak = currentStreak(daily, today);
@@ -138,23 +194,50 @@ export default function Roadmap({
           </div>
         )}
 
-        <p className="hint">Выберите упражнение:</p>
-        <div className="options">
-          <button type="button" className="option" onClick={() => onStart("recognition")}>
-            Узнавание слов
-          </button>
-          <button type="button" className="option" onClick={() => onStart("production")}>
-            Написание слов
-          </button>
-          <button type="button" className="option" onClick={() => onStart("sentences")}>
-            Перевод предложений
-          </button>
-          <button type="button" className="option" onClick={() => onStart("say_word")}>
-            🎤 Скажи слово
-          </button>
-          <button type="button" className="option" onClick={() => onStart("say_sentence")}>
-            🎤 Скажи предложение
-          </button>
+        <div className="modegroup">
+          <h3 className="modegroup__title">Слова</h3>
+          <div className="modegroup__row">
+            <ModeButton
+              icon="👁"
+              label="Узнавание"
+              name="Узнавание слов"
+              r={readiness.recognition}
+              onClick={() => onStart("recognition")}
+            />
+            <ModeButton
+              icon="✍️"
+              label="Написание"
+              name="Написание слов"
+              r={readiness.production}
+              onClick={() => onStart("production")}
+            />
+            <ModeButton
+              icon="🎤"
+              label="Речь"
+              name="Произношение слов"
+              r={readiness.say_word}
+              onClick={() => onStart("say_word")}
+            />
+          </div>
+        </div>
+        <div className="modegroup">
+          <h3 className="modegroup__title">Предложения</h3>
+          <div className="modegroup__row">
+            <ModeButton
+              icon="💬"
+              label="Перевод"
+              name="Перевод предложений"
+              r={readiness.sentences}
+              onClick={() => onStart("sentences")}
+            />
+            <ModeButton
+              icon="🎤"
+              label="Речь"
+              name="Произношение предложений"
+              r={readiness.say_sentence}
+              onClick={() => onStart("say_sentence")}
+            />
+          </div>
         </div>
       </section>
     </main>
