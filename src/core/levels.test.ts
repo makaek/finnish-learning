@@ -84,7 +84,7 @@ describe("wordLearned (per-type, either skill)", () => {
   });
 });
 
-describe("wordMastery (depth across the three word modes)", () => {
+describe("wordMastery (depth across the four word modes)", () => {
   const merge = (...maps: ProgressMap[]): ProgressMap =>
     new Map(maps.flatMap((m) => [...m]));
 
@@ -92,18 +92,19 @@ describe("wordMastery (depth across the three word modes)", () => {
     expect(wordMastery(new Map(), "a1")).toBe(0);
   });
 
-  it("is 1/3 for one mastered mode, 2/3 for two", () => {
-    expect(wordMastery(box("recognition", "a1", 3), "a1")).toBeCloseTo(1 / 3);
+  it("is 1/4 for one mastered mode, 2/4 for two", () => {
+    expect(wordMastery(box("recognition", "a1", 3), "a1")).toBeCloseTo(1 / 4);
     expect(
       wordMastery(merge(box("recognition", "a1", 3), box("production", "a1", 4)), "a1"),
-    ).toBeCloseTo(2 / 3);
+    ).toBeCloseTo(2 / 4);
   });
 
-  it("is 1 only when all three word modes are mastered", () => {
+  it("is 1 only when all four word modes are mastered", () => {
     const all = merge(
       box("recognition", "a1", 3),
       box("production", "a1", 3),
       box("say_word", "a1", 5),
+      box("listen_word", "a1", 4),
     );
     expect(wordMastery(all, "a1")).toBe(1);
   });
@@ -136,16 +137,16 @@ describe("levelStats", () => {
   });
 
   it("fraction is the average mastery across modes, not just learned/total", () => {
-    // 4 of 5 L1 words learned in recognition only → each 1/3 mastered → avg = (4 * 1/3)/5.
+    // 4 of 5 L1 words learned in recognition only → each 1/4 mastered → avg = (4 * 1/4)/5.
     const stats = levelStats(vocab, learned(["a1", "a2", "a3", "a4"]));
-    expect(stats[0]!.fraction).toBeCloseTo(4 / 3 / 5); // ≈0.267, NOT 0.8
+    expect(stats[0]!.fraction).toBeCloseTo(4 / 4 / 5); // = 0.2, NOT 0.8
   });
 
-  it("fraction reaches 1 only when every word is mastered in all three modes", () => {
+  it("fraction reaches 1 only when every word is mastered in all four modes", () => {
     const ids = ["a1", "a2", "a3", "a4", "a5"];
     const map: ProgressMap = new Map();
     for (const id of ids) {
-      for (const kind of ["recognition", "production", "say_word"] as ItemKind[]) {
+      for (const kind of ["recognition", "production", "say_word", "listen_word"] as ItemKind[]) {
         map.set(progressKey(kind, id), {
           kind, itemId: id, box: 3, correctStreak: 3, totalCorrect: 3, totalSeen: 3, lastSeen: 1,
         });

@@ -19,8 +19,13 @@ export const LEARNED_BOX = 3;
 /** Fraction of a level's words that must be learned before the next level unlocks. */
 export const UNLOCK_FRACTION = 0.8;
 
-/** The three ways a single word is practised; level progress averages mastery across them. */
-export const WORD_MODES: readonly ItemKind[] = ["recognition", "production", "say_word"];
+/** The four ways a single word is practised; level progress averages mastery across them. */
+export const WORD_MODES: readonly ItemKind[] = [
+  "recognition",
+  "production",
+  "say_word",
+  "listen_word",
+];
 
 /**
  * A word counts as learned (for level UNLOCKS + overall progress) once it is mastered
@@ -33,10 +38,10 @@ export function wordLearned(progress: ProgressMap, vocabId: string): boolean {
 }
 
 /**
- * How deeply a word is mastered, in [0, 1]: the fraction of the three word modes
- * (recognition / production / say_word) in which it's at or above LEARNED_BOX. This is what
+ * How deeply a word is mastered, in [0, 1]: the fraction of the four word modes (recognition /
+ * production / say_word / listen_word) in which it's at or above LEARNED_BOX. This is what
  * makes a level's progress bar grow as you practise DIFFERENT activities on the same words —
- * recognition alone is 1/3, adding writing 2/3, adding speech 3/3.
+ * each mode is worth a quarter (recognition alone 1/4, adding writing 2/4, and so on).
  */
 export function wordMastery(progress: ProgressMap, vocabId: string): number {
   const mastered = WORD_MODES.filter(

@@ -53,7 +53,9 @@ function isItemProgress(value: unknown): value is ItemProgress {
       v.kind === "production" ||
       v.kind === "sentences" ||
       v.kind === "say_word" ||
-      v.kind === "say_sentence") &&
+      v.kind === "say_sentence" ||
+      v.kind === "listen_word" ||
+      v.kind === "listen_sentence") &&
     typeof v.itemId === "string" &&
     typeof v.box === "number" &&
     v.box >= MIN_BOX &&

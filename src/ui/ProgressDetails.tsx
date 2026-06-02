@@ -26,14 +26,16 @@ interface ProgressDetailsProps {
   onBack: () => void;
 }
 
-const WORD_KINDS: ItemKind[] = ["recognition", "production", "say_word"];
-const SENTENCE_KINDS: ItemKind[] = ["sentences", "say_sentence"];
+const WORD_KINDS: ItemKind[] = ["recognition", "production", "say_word", "listen_word"];
+const SENTENCE_KINDS: ItemKind[] = ["sentences", "say_sentence", "listen_sentence"];
 const TRACK_LABEL: Record<ItemKind, string> = {
   recognition: "Узнавание",
   production: "Написание",
   say_word: "🎤 Скажи",
   sentences: "Перевод",
   say_sentence: "🎤 Скажи",
+  listen_word: "🎧 На слух",
+  listen_sentence: "🎧 На слух",
 };
 
 function boxPips(box: number): string {

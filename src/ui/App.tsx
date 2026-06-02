@@ -162,6 +162,35 @@ export default function App() {
       ),
     [seed, testMode, hidden],
   );
+  // Listening (dictation) variants: same pools as production/sentences, but the prompt is
+  // spoken Finnish (TTS) and the learner types what they hear; weighted by their own track.
+  const listenWord = useMemo(
+    () =>
+      buildProductionSession(
+        activeVocab(VOCAB, progressRef.current, testMode).filter(
+          (v) => !hidden.has(hiddenKey("word", v.id)),
+        ),
+        seed,
+        DEFAULT_SESSION_SIZE,
+        progressRef.current,
+        "listen_word",
+      ),
+    [seed, testMode, hidden],
+  );
+  const listenSentence = useMemo(
+    () =>
+      buildSentenceSession(
+        eligibleSentences(SENTENCES, VOCAB, progressRef.current, testMode).filter(
+          (s) => !hidden.has(hiddenKey("sentence", s.id)),
+        ),
+        seed,
+        DEFAULT_SESSION_SIZE,
+        undefined,
+        progressRef.current,
+        "listen_sentence",
+      ),
+    [seed, testMode, hidden],
+  );
 
   function start(next: Mode) {
     // Refresh the home view now so it's current whenever we return — covers restart(), which
@@ -200,10 +229,12 @@ export default function App() {
       mark("recognition", v.id);
       mark("production", v.id);
       mark("say_word", v.id);
+      mark("listen_word", v.id);
     }
     for (const s of SENTENCES) {
       mark("sentences", s.id);
       mark("say_sentence", s.id);
+      mark("listen_sentence", s.id);
     }
     setProgressView(new Map(progressRef.current));
     void saveProgress(rows);
@@ -221,11 +252,15 @@ export default function App() {
         ? sentences[index]?.id
         : mode === "say_sentence"
           ? saySentence[index]?.id
-          : mode === "production"
-            ? production[index]?.itemId
-            : mode === "say_word"
-              ? sayWord[index]?.itemId
-              : recognition[index]?.itemId;
+          : mode === "listen_sentence"
+            ? listenSentence[index]?.id
+            : mode === "production"
+              ? production[index]?.itemId
+              : mode === "say_word"
+                ? sayWord[index]?.itemId
+                : mode === "listen_word"
+                  ? listenWord[index]?.itemId
+                  : recognition[index]?.itemId;
     if (id === undefined) return; // index past the end of the session — nothing to record
     // Each card key is unique per seed+mode+index, so this tag dedupes a double-fire.
     const tag = `${mode}:${seed}:${index}`;
@@ -242,8 +277,10 @@ export default function App() {
   function activeTotal(): number {
     if (mode === "sentences") return sentences.length;
     if (mode === "say_sentence") return saySentence.length;
+    if (mode === "listen_sentence") return listenSentence.length;
     if (mode === "production") return production.length;
     if (mode === "say_word") return sayWord.length;
+    if (mode === "listen_word") return listenWord.length;
     return recognition.length;
   }
 
@@ -307,10 +344,13 @@ export default function App() {
 
   // Each mode runs its own session; the voice modes reuse the production/sentence card +
   // grader but have their own session (weighted by their own track).
-  const usesSentences = mode === "sentences" || mode === "say_sentence";
-  const usesProduction = mode === "production" || mode === "say_word";
-  const productionSession = mode === "say_word" ? sayWord : production;
-  const sentenceSession = mode === "say_sentence" ? saySentence : sentences;
+  const usesSentences =
+    mode === "sentences" || mode === "say_sentence" || mode === "listen_sentence";
+  const usesProduction = mode === "production" || mode === "say_word" || mode === "listen_word";
+  const productionSession =
+    mode === "say_word" ? sayWord : mode === "listen_word" ? listenWord : production;
+  const sentenceSession =
+    mode === "say_sentence" ? saySentence : mode === "listen_sentence" ? listenSentence : sentences;
   const total = usesProduction
     ? productionSession.length
     : usesSentences
@@ -359,6 +399,7 @@ export default function App() {
           total={total}
           grade={grade}
           voice={mode === "say_sentence"}
+          listen={mode === "listen_sentence"}
           onAnswered={handleAnswered}
         />
       ) : usesProduction ? (
@@ -368,6 +409,7 @@ export default function App() {
           questionNumber={index + 1}
           total={total}
           voice={mode === "say_word"}
+          listen={mode === "listen_word"}
           onAnswered={handleAnswered}
         />
       ) : (

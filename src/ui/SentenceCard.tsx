@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { SentenceQuestion } from "../core/sentenceSession";
 import type { Grade, GradeResult } from "../core/grader.contract";
 import { pickBestSpokenAsync } from "../core/spokenNumber";
@@ -14,6 +14,9 @@ interface SentenceCardProps {
   grade: Grade;
   /** Voice mode: the answer is spoken (Finnish), recognized into the same input + grader. */
   voice?: boolean;
+  /** Listen (dictation) mode: the Finnish sentence is spoken (TTS) and the learner types it;
+   * the Russian prompt is hidden until graded. Mutually exclusive with `voice`. */
+  listen?: boolean;
   /** Called once the learner has answered and chosen to continue. */
   onAnswered: (wasCorrect: boolean) => void;
 }
@@ -30,6 +33,7 @@ export default function SentenceCard({
   total,
   grade,
   voice = false,
+  listen = false,
   onAnswered,
 }: SentenceCardProps) {
   const [value, setValue] = useState("");
@@ -59,9 +63,21 @@ export default function SentenceCard({
     enabled: voice && result !== null && !result.correct,
     onResult: (alts) => void pickBestSpokenAsync(alts, accepts).then(checkCorrection),
   });
-  // Lets the learner HEAR the correct sentence before re-saying it, so voice mode can't
-  // dead-end on a sentence they don't know how to pronounce.
+  // In voice mode: hear the correct sentence before re-saying it. In listen mode: TTS speaks
+  // the sentence as the prompt (the whole exercise). Same hook serves both.
   const tts = useSpeechSynthesis("fi-FI");
+
+  // Listen mode: play the sentence once when the question appears. The card is keyed by index
+  // so a new question remounts it (resetting the guard); the ref guard makes the play strictly
+  // once-per-mount even if a dep identity changes. The play button below replays on demand.
+  const { supported: ttsSupported, speak } = tts;
+  const didAutoPlay = useRef(false);
+  useEffect(() => {
+    if (listen && ttsSupported && !didAutoPlay.current) {
+      didAutoPlay.current = true;
+      speak(question.fi);
+    }
+  }, [listen, ttsSupported, speak, question.fi]);
 
   async function submit() {
     if (answered || grading || value.trim().length === 0) return;
@@ -100,11 +116,32 @@ export default function SentenceCard({
         Вопрос {questionNumber} из {total}
       </p>
 
-      <h1 className="prompt" lang="ru">
-        {question.promptRu}
-      </h1>
+      {listen ? (
+        <div className="audioprompt">
+          {ttsSupported ? (
+            <button
+              type="button"
+              className={"play" + (tts.speaking ? " play--on" : "")}
+              onClick={() => speak(question.fi)}
+              aria-label="Прослушать предложение ещё раз"
+            >
+              🔊 Прослушать
+            </button>
+          ) : (
+            <p className="hint">Аудио не поддерживается в этом браузере.</p>
+          )}
+        </div>
+      ) : (
+        <h1 className="prompt" lang="ru">
+          {question.promptRu}
+        </h1>
+      )}
       <p className="hint">
-        {voice ? "Произнесите перевод по-фински:" : "Переведите предложение на финский:"}
+        {listen
+          ? "Прослушайте и запишите предложение по-фински:"
+          : voice
+            ? "Произнесите перевод по-фински:"
+            : "Переведите предложение на финский:"}
       </p>
 
       <form
@@ -168,6 +205,11 @@ export default function SentenceCard({
           ) : (
             <p className="hint">
               Правильный ответ: <strong lang="fi">{result.canonical}</strong>
+            </p>
+          )}
+          {listen && (
+            <p className="hint" lang="ru">
+              Перевод: {question.promptRu}
             </p>
           )}
           {mustCorrect && (

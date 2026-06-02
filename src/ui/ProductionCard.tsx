@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ProductionQuestion } from "../core/produce";
 import { gradeTyped, type TypedGrade } from "../core/produce";
 import { pickBestSpoken } from "../core/spokenNumber";
@@ -12,6 +12,9 @@ interface ProductionCardProps {
   total: number;
   /** Voice mode: the answer is spoken (Finnish), recognized into the same input + grader. */
   voice?: boolean;
+  /** Listen (dictation) mode: the Finnish word is spoken (TTS) and the learner types it; the
+   * Russian gloss is hidden until graded. Mutually exclusive with `voice`. */
+  listen?: boolean;
   /** Called once the learner has answered and chosen to continue. */
   onAnswered: (wasCorrect: boolean) => void;
 }
@@ -26,6 +29,7 @@ export default function ProductionCard({
   questionNumber,
   total,
   voice = false,
+  listen = false,
   onAnswered,
 }: ProductionCardProps) {
   const [value, setValue] = useState("");
@@ -49,9 +53,21 @@ export default function ProductionCard({
     enabled: voice && graded !== null && !graded.correct,
     onResult: (alts) => setCorrection(pickBestSpoken(alts, accepts)),
   });
-  // Lets the learner HEAR the correct word before re-saying it, so voice mode can't dead-end
-  // on a word they don't know how to pronounce.
+  // In voice mode: hear the correct word before re-saying it. In listen mode: TTS speaks the
+  // word as the prompt (the whole exercise). Same hook serves both.
   const tts = useSpeechSynthesis("fi-FI");
+
+  // Listen mode: play the word once when the question appears. The card is keyed by index so a
+  // new question remounts it (resetting the guard); the ref guard makes the play strictly
+  // once-per-mount even if a dep identity changes. The play button below replays on demand.
+  const { supported: ttsSupported, speak } = tts;
+  const didAutoPlay = useRef(false);
+  useEffect(() => {
+    if (listen && ttsSupported && !didAutoPlay.current) {
+      didAutoPlay.current = true;
+      speak(question.answerFi);
+    }
+  }, [listen, ttsSupported, speak, question.answerFi]);
 
   function submit() {
     if (answered) return;
@@ -77,11 +93,32 @@ export default function ProductionCard({
         Вопрос {questionNumber} из {total}
       </p>
 
-      <h1 className="prompt" lang="ru">
-        {question.promptRu}
-      </h1>
+      {listen ? (
+        <div className="audioprompt">
+          {ttsSupported ? (
+            <button
+              type="button"
+              className={"play" + (tts.speaking ? " play--on" : "")}
+              onClick={() => speak(question.answerFi)}
+              aria-label="Прослушать слово ещё раз"
+            >
+              🔊 Прослушать
+            </button>
+          ) : (
+            <p className="hint">Аудио не поддерживается в этом браузере.</p>
+          )}
+        </div>
+      ) : (
+        <h1 className="prompt" lang="ru">
+          {question.promptRu}
+        </h1>
+      )}
       <p className="hint">
-        {voice ? "Произнесите слово по-фински:" : "Напишите слово по-фински:"}
+        {listen
+          ? "Прослушайте и напишите слово по-фински:"
+          : voice
+            ? "Произнесите слово по-фински:"
+            : "Напишите слово по-фински:"}
       </p>
 
       <form
@@ -131,6 +168,11 @@ export default function ProductionCard({
           <p className={feedbackClass} lang="ru">
             {graded.feedbackRu}
           </p>
+          {listen && (
+            <p className="hint" lang="ru">
+              Перевод: {question.promptRu}
+            </p>
+          )}
           {mustCorrect && (
             <>
               <p className="hint">

@@ -35,7 +35,9 @@ export type Mode =
   | "production"
   | "sentences"
   | "say_word"
-  | "say_sentence";
+  | "say_sentence"
+  | "listen_word"
+  | "listen_sentence";
 
 interface RoadmapProps {
   vocab: readonly VocabLike[];
@@ -115,14 +117,26 @@ export default function Roadmap({
     const sentPool = eligibleSentences(sentences, vocab, progress, testMode).filter(
       (s) => !hidden.has(hiddenKey("sentence", s.id)),
     );
-    const w = groupReadiness(wordPool, progress, ["recognition", "production", "say_word"], LEARNED_BOX);
-    const s = groupReadiness(sentPool, progress, ["sentences", "say_sentence"], LEARNED_BOX);
+    const w = groupReadiness(
+      wordPool,
+      progress,
+      ["recognition", "production", "say_word", "listen_word"],
+      LEARNED_BOX,
+    );
+    const s = groupReadiness(
+      sentPool,
+      progress,
+      ["sentences", "say_sentence", "listen_sentence"],
+      LEARNED_BOX,
+    );
     return {
       recognition: w.get("recognition")!,
       production: w.get("production")!,
       say_word: w.get("say_word")!,
+      listen_word: w.get("listen_word")!,
       sentences: s.get("sentences")!,
       say_sentence: s.get("say_sentence")!,
+      listen_sentence: s.get("listen_sentence")!,
     };
   }, [vocab, sentences, progress, testMode, hidden]);
 
@@ -245,6 +259,13 @@ export default function Roadmap({
               r={readiness.say_word}
               onClick={() => onStart("say_word")}
             />
+            <ModeButton
+              icon="🎧"
+              label="На слух"
+              name="Аудирование слов"
+              r={readiness.listen_word}
+              onClick={() => onStart("listen_word")}
+            />
           </div>
         </div>
         <div className="modegroup">
@@ -263,6 +284,13 @@ export default function Roadmap({
               name="Произношение предложений"
               r={readiness.say_sentence}
               onClick={() => onStart("say_sentence")}
+            />
+            <ModeButton
+              icon="🎧"
+              label="На слух"
+              name="Аудирование предложений"
+              r={readiness.listen_sentence}
+              onClick={() => onStart("listen_sentence")}
             />
           </div>
         </div>

@@ -376,6 +376,33 @@ body {
   border-color: var(--accent);
 }
 
+/* Аудирование (dictation): a big primary "play" button stands in for the prompt — the learner
+   hears the Finnish and types it. */
+.audioprompt {
+  display: flex;
+  justify-content: center;
+  margin: var(--s2) 0 var(--s3);
+}
+.play {
+  min-height: 3.5rem;
+  padding: 0 var(--s5);
+  font: inherit;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--accent-ink);
+  background: var(--accent);
+  border: none;
+  border-radius: var(--pill);
+  cursor: pointer;
+  transition: transform 0.08s ease, filter 0.14s ease;
+}
+.play:active {
+  transform: scale(0.97);
+}
+.play--on {
+  filter: brightness(1.1);
+}
+
 /* --- Feedback --- */
 .feedback {
   margin-top: var(--s4);

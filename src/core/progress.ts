@@ -9,15 +9,18 @@
 
 /**
  * Which exercise a progress record belongs to — one track per lesson type. The same
- * dictionary word has distinct records for "recognition", typed "production", and spoken
- * "say_word"; sentences have separate typed "sentences" and spoken "say_sentence" tracks.
+ * dictionary word has distinct records for "recognition", typed "production", spoken
+ * "say_word", and dictation "listen_word"; sentences have separate typed "sentences", spoken
+ * "say_sentence", and dictation "listen_sentence" tracks.
  */
 export type ItemKind =
   | "recognition"
   | "production"
   | "sentences"
   | "say_word"
-  | "say_sentence";
+  | "say_sentence"
+  | "listen_word"
+  | "listen_sentence";
 
 /** Lowest / highest Leitner box. Box 0 = brand new / just missed; MAX_BOX = mastered. */
 export const MIN_BOX = 0;

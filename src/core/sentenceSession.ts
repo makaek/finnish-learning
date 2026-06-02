@@ -21,6 +21,8 @@ export interface SentenceQuestion {
   id: string;
   /** Russian sentence shown to the learner. */
   promptRu: string;
+  /** Canonical Finnish answer — used by the listening (dictation) mode to speak the prompt. */
+  fi: string;
 }
 
 /**
@@ -55,5 +57,5 @@ export function buildSentenceSession(
         size,
       )
     : shuffle(eligible, makeRng(seed)).slice(0, Math.min(size, eligible.length));
-  return chosen.map((item) => ({ id: item.id, promptRu: item.ru }));
+  return chosen.map((item) => ({ id: item.id, promptRu: item.ru, fi: item.canonical }));
 }

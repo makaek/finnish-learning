@@ -18,12 +18,14 @@ describe("buildSentenceSession", () => {
     expect(buildSentenceSession(items, 1, 100)).toHaveLength(items.length);
   });
 
-  it("draws each sentence at most once and carries the Russian prompt", () => {
+  it("draws each sentence at most once and carries the Russian prompt + Finnish canonical", () => {
     const session = buildSentenceSession(items, 7, items.length);
     const ids = session.map((q) => q.id);
     expect(new Set(ids).size).toBe(ids.length);
     for (const q of session) {
-      expect(q.promptRu).toBe(items.find((i) => i.id === q.id)?.ru);
+      const item = items.find((i) => i.id === q.id);
+      expect(q.promptRu).toBe(item?.ru);
+      expect(q.fi).toBe(item?.canonical); // listening mode speaks this
     }
   });
 
