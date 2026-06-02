@@ -129,7 +129,45 @@ body {
 }
 
 .card--summary {
+  position: relative;
   text-align: center;
+}
+
+/* Corner settings menu (theme picker tucked away). */
+.settings {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  z-index: 5;
+}
+
+.settings__btn {
+  list-style: none;
+  display: grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  font-size: 1rem;
+  border-radius: var(--pill);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+}
+
+.settings__btn::-webkit-details-marker {
+  display: none;
+}
+
+.settings__menu {
+  position: absolute;
+  top: 2.5rem;
+  right: 0;
+  padding: 0.5rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  box-shadow: var(--shadow);
 }
 
 .card--summary .option {
@@ -176,6 +214,13 @@ body {
   font-size: 1.7rem;
   line-height: 1.22;
   letter-spacing: -0.01em;
+}
+
+/* Compact home title — leaves room for the corner settings + a one-screen layout. */
+.prompt--home {
+  font-size: 1.2rem;
+  margin: 0.1rem 0 var(--s2);
+  padding: 0 2rem;
 }
 
 .hint {
@@ -371,13 +416,36 @@ body {
   font-weight: 600;
 }
 
-/* --- Roadmap home: game-style header (HUD) --- */
+/* --- Roadmap home: game-style header (HUD), tappable to open progress --- */
 .ghead {
-  margin: 0 0 var(--s2);
+  position: relative;
+  width: 100%;
+  margin: 0 0 var(--s3);
   padding: var(--s3);
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
   background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 14%, var(--surface)), var(--surface));
   border: 1px solid var(--border);
   border-radius: var(--r);
+  transition: filter 0.15s ease, transform 0.08s ease;
+}
+
+.ghead:hover {
+  filter: brightness(1.02);
+}
+
+.ghead:active {
+  transform: scale(0.995);
+}
+
+.ghead__more {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.7rem;
+  font-size: 0.8rem;
+  color: var(--muted);
 }
 
 .ghead__stats {
@@ -425,6 +493,7 @@ body {
 }
 
 .ghead__bar {
+  display: block;
   height: 0.6rem;
   background: var(--surface-2);
   border-radius: var(--pill);
@@ -432,6 +501,7 @@ body {
 }
 
 .ghead__fill {
+  display: block;
   height: 100%;
   border-radius: var(--pill);
   transition: width 0.4s ease;
@@ -446,6 +516,7 @@ body {
 }
 
 .ghead__caption {
+  display: block;
   margin: 0.3rem 0 var(--s2);
   font-size: 0.8rem;
   color: var(--muted);
@@ -453,72 +524,6 @@ body {
 
 .ghead__caption:last-child {
   margin-bottom: 0;
-}
-
-.statslink {
-  width: 100%;
-  margin: 0 0 var(--s3);
-  padding: 0.55rem;
-  font: inherit;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--accent);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r-sm);
-  cursor: pointer;
-}
-
-.statslink:hover {
-  background: var(--surface-2);
-}
-
-.levels {
-  list-style: none;
-  margin: 0 0 var(--s3);
-  padding: 0;
-  display: grid;
-  gap: var(--s1);
-}
-
-.level {
-  display: flex;
-  align-items: center;
-  gap: var(--s2);
-  padding: 0.6rem 0.85rem;
-  background: var(--surface);
-  border: 1.5px solid transparent;
-  border-radius: var(--r-sm);
-  font-size: 1rem;
-}
-
-.level__badge {
-  width: 1.4rem;
-  text-align: center;
-}
-
-.level__name {
-  flex: 1;
-  text-align: left;
-  font-weight: 600;
-}
-
-.level__count {
-  color: var(--muted);
-  font-variant-numeric: tabular-nums;
-}
-
-.level--locked {
-  opacity: 0.5;
-}
-
-.level--active {
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 9%, var(--surface));
-}
-
-.level--done .level__badge {
-  color: var(--ok);
 }
 
 /* --- Grouped exercise picker with readiness lights --- */
