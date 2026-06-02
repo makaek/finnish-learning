@@ -5,7 +5,7 @@
  * items can be hidden (persisted) to keep the list short; a toggle reveals hidden ones.
  */
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import type { VocabItem } from "../core/dictionary";
 import type { SentenceItem } from "../core/grader";
 import { DEFAULT_SESSION_SIZE } from "../core/quiz";
@@ -103,6 +103,42 @@ function ItemCard({
   );
 }
 
+/** A collapsible list section with a count in its header. */
+function Section({
+  title,
+  count,
+  open,
+  disabled,
+  onToggle,
+  children,
+}: {
+  title: string;
+  count: number;
+  open: boolean;
+  /** When true (e.g. while searching) the section is force-open and the toggle is inert. */
+  disabled?: boolean;
+  onToggle: () => void;
+  children: ReactNode;
+}) {
+  return (
+    <div className="psection">
+      <button
+        type="button"
+        className="psection__head"
+        onClick={onToggle}
+        disabled={disabled}
+        aria-expanded={open}
+      >
+        <span className="psection__chev" aria-hidden="true">
+          {open ? "▾" : "▸"}
+        </span>
+        {title} ({count})
+      </button>
+      {open && <ul className="stats">{children}</ul>}
+    </div>
+  );
+}
+
 export default function ProgressDetails({
   vocab,
   sentences,
@@ -113,6 +149,9 @@ export default function ProgressDetails({
   onBack,
 }: ProgressDetailsProps) {
   const [showHidden, setShowHidden] = useState(false);
+  const [query, setQuery] = useState("");
+  const [wordsOpen, setWordsOpen] = useState(true);
+  const [sentsOpen, setSentsOpen] = useState(true);
 
   const words = useMemo(
     () => mergeByItem(vocab, activeVocab(vocab, progress, testMode), progress, WORD_KINDS, LEARNED_BOX),
@@ -142,14 +181,36 @@ export default function ProgressDetails({
   // mergeByItem's mastered-first/recency order within the hidden and non-hidden groups.
   const hiddenFirst = (entries: MergedProgress[], group: Group) =>
     [...entries].sort((a, b) => Number(isHidden(group, b.id)) - Number(isHidden(group, a.id)));
-  const shownWords = showHidden
+  const baseWords = showHidden
     ? hiddenFirst(words, "word")
     : words.filter((e) => !isHidden("word", e.id));
-  const shownSentences = showHidden
+  const baseSentences = showHidden
     ? hiddenFirst(sentenceEntries, "sentence")
     : sentenceEntries.filter((e) => !isHidden("sentence", e.id));
 
+  // Search filters by the visible text (word fi+ru, or sentence + canonical).
+  const q = query.trim().toLowerCase();
+  const searching = q.length > 0;
+  const wordText = (e: MergedProgress) => {
+    const v = vocabById.get(e.id);
+    return (v ? `${v.fi} ${v.ru}` : e.id).toLowerCase();
+  };
+  const sentText = (e: MergedProgress) => {
+    const s = sentenceById.get(e.id);
+    return (s ? `${s.ru} ${s.canonical}` : e.id).toLowerCase();
+  };
+  const shownWords = searching ? baseWords.filter((e) => wordText(e).includes(q)) : baseWords;
+  const shownSentences = searching
+    ? baseSentences.filter((e) => sentText(e).includes(q))
+    : baseSentences;
+
+  // While searching, force sections open so matches are visible; only show a section that has
+  // anything to display.
+  const showWordsSection = searching ? shownWords.length > 0 : baseWords.length > 0;
+  const showSentSection = searching ? shownSentences.length > 0 : baseSentences.length > 0;
+
   const empty = words.length === 0 && sentenceEntries.length === 0;
+  const noResults = !empty && searching && shownWords.length === 0 && shownSentences.length === 0;
 
   return (
     <main className="app app--scroll">
@@ -157,80 +218,94 @@ export default function ProgressDetails({
         ← В меню
       </button>
       <section className="card">
-        <h1 className="prompt">Мой прогресс</h1>
-        <p className="hint">
-          Одна карточка на слово/предложение со всеми типами упражнений. Засчитывается только
-          первая попытка. Выученное во всех типах (✓) можно скрыть 🙈 — оно перестанет
-          появляться в упражнениях.
-        </p>
+        <h1 className="prompt prompt--home">Мой прогресс</h1>
 
         <details className="legend">
-          <summary>❓ Что значат метрики</summary>
+          <summary>❓ Что значат метрики · как скрывать</summary>
           <ul className="legend__list">
             <li>
               <b>●●●○○ — освоение</b> (0–{MAX_BOX}). «Выучено» (✓) после {LEARNED_BOX} верных
-              ответов в каждом упражнении; ошибка с первой попытки понижает уровень.
+              ответов в каждом типе упражнения (учатся отдельно); ошибка с первой попытки
+              понижает уровень.
             </li>
             <li>
-              <b>🔥 — серия</b> верных подряд; <b>✓ N/M</b> — верных с первой попытки из показов;
-              <b> 🎲</b> — шанс встретить в следующей сессии.
+              <b>🔥 — серия</b> верных подряд; <b>✓ N/M</b> — верных из показов; <b>🎲</b> — шанс
+              встретить в следующей сессии.
             </li>
-            <li>Каждый тип упражнения (узнавание/написание/речь) учится отдельно.</li>
+            <li>Выученное во всех типах (✓) можно скрыть 🙈 — оно исчезнет из упражнений.</li>
           </ul>
         </details>
 
-        {hiddenCount > 0 && (
-          <button
-            type="button"
-            className="option showhidden"
-            onClick={() => setShowHidden((v) => !v)}
-          >
-            {showHidden ? "Скрыть выученные" : `Показать скрытые (${hiddenCount})`}
-          </button>
-        )}
+        <div className="psearch">
+          <input
+            type="search"
+            className="psearch__input"
+            placeholder="🔍 Поиск слова или предложения…"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            aria-label="Поиск"
+          />
+          {hiddenCount > 0 && (
+            <button
+              type="button"
+              className="psearch__hidden"
+              onClick={() => setShowHidden((v) => !v)}
+            >
+              {showHidden ? "Скрыть выученные" : `Скрытые (${hiddenCount})`}
+            </button>
+          )}
+        </div>
 
         {empty ? (
           <p className="hint">Пока нет верных ответов — пройдите упражнение.</p>
+        ) : noResults ? (
+          <p className="hint">Ничего не найдено по запросу «{query.trim()}».</p>
         ) : (
           <>
-            {shownWords.length > 0 && (
-              <>
-                <h2 className="stats__heading">Слова ({shownWords.length})</h2>
-                <ul className="stats">
-                  {shownWords.map((e) => {
-                    const v = vocabById.get(e.id);
-                    return (
-                      <ItemCard
-                        key={e.id}
-                        entry={e}
-                        label={v ? `${v.fi} — ${v.ru}` : e.id}
-                        hidden={isHidden("word", e.id)}
-                        onToggleHide={() => onToggleHide(hiddenKey("word", e.id))}
-                      />
-                    );
-                  })}
-                </ul>
-              </>
+            {showWordsSection && (
+              <Section
+                title="Слова"
+                count={shownWords.length}
+                open={searching || wordsOpen}
+                disabled={searching}
+                onToggle={() => setWordsOpen((o) => !o)}
+              >
+                {shownWords.map((e) => {
+                  const v = vocabById.get(e.id);
+                  return (
+                    <ItemCard
+                      key={e.id}
+                      entry={e}
+                      label={v ? `${v.fi} — ${v.ru}` : e.id}
+                      hidden={isHidden("word", e.id)}
+                      onToggleHide={() => onToggleHide(hiddenKey("word", e.id))}
+                    />
+                  );
+                })}
+              </Section>
             )}
-            {shownSentences.length > 0 && (
-              <>
-                <h2 className="stats__heading">Предложения ({shownSentences.length})</h2>
-                <ul className="stats">
-                  {shownSentences.map((e) => {
-                    const s = sentenceById.get(e.id);
-                    return (
-                      <ItemCard
-                        key={e.id}
-                        entry={e}
-                        label={s ? s.ru : e.id}
-                        sub={s?.canonical}
-                        hidden={isHidden("sentence", e.id)}
-                        onToggleHide={() => onToggleHide(hiddenKey("sentence", e.id))}
-                      />
-                    );
-                  })}
-                </ul>
-              </>
+            {showSentSection && (
+              <Section
+                title="Предложения"
+                count={shownSentences.length}
+                open={searching || sentsOpen}
+                disabled={searching}
+                onToggle={() => setSentsOpen((o) => !o)}
+              >
+                {shownSentences.map((e) => {
+                  const s = sentenceById.get(e.id);
+                  return (
+                    <ItemCard
+                      key={e.id}
+                      entry={e}
+                      label={s ? s.ru : e.id}
+                      sub={s?.canonical}
+                      hidden={isHidden("sentence", e.id)}
+                      onToggleHide={() => onToggleHide(hiddenKey("sentence", e.id))}
+                    />
+                  );
+                })}
+              </Section>
             )}
           </>
         )}
