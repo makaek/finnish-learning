@@ -31,6 +31,14 @@ const items: SentenceItem[] = [
     accepted: ["Juon kahvia.", "Minä juon kahvia."],
     wrong: [{ match: "juon kahvi", ru: "Объект-вещество в партитиве: kahvia." }],
   },
+  {
+    id: "s3",
+    ru: "Спасибо, я не хочу кофе.",
+    uses: ["n8"],
+    canonical: "Kiitos, en halua kahvia.",
+    accepted: ["Kiitos, en halua kahvia."],
+    wrong: [],
+  },
 ];
 
 describe("expandDroppedPronoun", () => {
@@ -71,13 +79,21 @@ describe("makeGrader", () => {
     expect(r.via).toBe("exact");
   });
 
-  it("forgives case and trailing punctuation via normalization", async () => {
+  it("forgives case, spacing, and ALL punctuation via normalization", async () => {
+    // Case, extra spaces, and any number of marks are all forgiven (punctuation is dropped).
     const r = await grade({ sentenceId: "s2", answer: "  JUON   kahvia!! " });
-    // Two trailing '!' leaves one, so this is NOT exact — proves normalization is wired,
-    // not that punctuation is fully stripped. A single mark is forgiven:
-    expect(r.via).toBe("near");
-    const ok = await grade({ sentenceId: "s2", answer: "Juon kahvia!" });
-    expect(ok.correct).toBe(true);
+    expect(r.correct).toBe(true);
+    expect(r.via).toBe("exact");
+  });
+
+  it("accepts a spoken answer without the comma it can't dictate", async () => {
+    // Canonical is "Kiitos, en halua kahvia." — voice mode returns it without the comma.
+    const spoken = await grade({ sentenceId: "s3", answer: "Kiitos en halua kahvia" });
+    expect(spoken.correct).toBe(true);
+    expect(spoken.via).toBe("exact");
+    // The typed form with the comma still matches too.
+    const typed = await grade({ sentenceId: "s3", answer: "Kiitos, en halua kahvia." });
+    expect(typed.correct).toBe(true);
   });
 
   it("returns the prepared Russian explanation for a known mistake", async () => {

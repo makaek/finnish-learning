@@ -43,7 +43,9 @@ export interface GradeResult {
 
 /**
  * Normalize before matching. Implementation MUST: trim, lowercase, collapse internal
- * whitespace to single spaces, and strip a single trailing . ? or !.
+ * whitespace to single spaces, and DROP punctuation entirely (commas, periods, ? ! ; : …,
+ * quotes, brackets, dashes) — voice mode can't dictate punctuation, so a spoken answer must
+ * still match an authored one that has it. Word-internal apostrophes/hyphens are kept.
  * Pure and deterministic — unit-test this directly.
  */
 export type Normalize = (raw: string) => string;
