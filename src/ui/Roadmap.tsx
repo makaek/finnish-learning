@@ -16,7 +16,7 @@ import {
   type SentenceLike,
   type VocabLike,
 } from "../core/levels";
-import { modeReadiness, type ModeReadiness } from "../core/stats";
+import { groupReadiness, type ModeReadiness } from "../core/stats";
 import type { ProgressMap } from "../core/progress";
 import {
   currentStreak,
@@ -69,7 +69,7 @@ function ModeButton({
   onClick: () => void;
 }) {
   const status =
-    r.level === "none" ? "пока нечего учить" : `освоено ${r.mastered} из ${r.total}`;
+    r.level === "none" ? "пока нечего учить" : `освоено ${r.mastered} из ${r.leader} (лидер режима)`;
   return (
     <button type="button" className="modebtn" aria-label={`${name}: ${status}`} onClick={onClick}>
       <span className={`dot dot--${r.level}`} aria-hidden="true" title={status} />
@@ -99,7 +99,8 @@ export default function Roadmap({
     return { stats: s, active: activeLevel(s, u), overall: overallProgress(vocab, progress) };
   }, [vocab, progress, testMode]);
 
-  // Per-mode readiness over the in-play (unlocked, non-hidden) pools — flags neglected modes.
+  // Per-mode readiness, RELATIVE within each group (words / sentences) so the lights flag
+  // which mode is lagging behind the others — nudging the learner to keep them balanced.
   const readiness = useMemo(() => {
     const wordPool = activeVocab(vocab, progress, testMode).filter(
       (v) => !hidden.has(hiddenKey("word", v.id)),
@@ -107,12 +108,14 @@ export default function Roadmap({
     const sentPool = eligibleSentences(sentences, vocab, progress, testMode).filter(
       (s) => !hidden.has(hiddenKey("sentence", s.id)),
     );
+    const w = groupReadiness(wordPool, progress, ["recognition", "production", "say_word"], LEARNED_BOX);
+    const s = groupReadiness(sentPool, progress, ["sentences", "say_sentence"], LEARNED_BOX);
     return {
-      recognition: modeReadiness(wordPool, progress, "recognition", LEARNED_BOX),
-      production: modeReadiness(wordPool, progress, "production", LEARNED_BOX),
-      say_word: modeReadiness(wordPool, progress, "say_word", LEARNED_BOX),
-      sentences: modeReadiness(sentPool, progress, "sentences", LEARNED_BOX),
-      say_sentence: modeReadiness(sentPool, progress, "say_sentence", LEARNED_BOX),
+      recognition: w.get("recognition")!,
+      production: w.get("production")!,
+      say_word: w.get("say_word")!,
+      sentences: s.get("sentences")!,
+      say_sentence: s.get("say_sentence")!,
     };
   }, [vocab, sentences, progress, testMode, hidden]);
 

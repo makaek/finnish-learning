@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { masteryRows, mergeByItem, modeReadiness } from "./stats";
+import { masteryRows, mergeByItem, groupReadiness } from "./stats";
 import { progressKey, type ItemKind, type ItemProgress, type ProgressMap } from "./progress";
 
 const items = ["a", "b", "c", "d"].map((id) => ({ id }));
@@ -115,33 +115,37 @@ describe("mergeByItem", () => {
   });
 });
 
-describe("modeReadiness", () => {
-  const pool = ["a", "b", "c", "d"].map((id) => ({ id }));
+describe("groupReadiness (relative balance across modes)", () => {
+  const KINDS: ItemKind[] = ["recognition", "production", "say_word"];
+  const pool = Array.from({ length: 12 }, (_, i) => ({ id: `i${i}` }));
+  // Master `n` items of `pool` in `kind` (box 5).
+  const masterN = (kind: ItemKind, n: number): ItemProgress[] =>
+    pool.slice(0, n).map((it) => ({
+      kind,
+      itemId: it.id,
+      box: 5,
+      correctStreak: 5,
+      totalCorrect: 5,
+      totalSeen: 5,
+      lastSeen: 1,
+    }));
 
-  it("reports 'none' for an empty pool", () => {
-    expect(modeReadiness([], new Map(), "recognition", 3).level).toBe("none");
+  it("colours each mode relative to the leader: 10/5/2 → green/yellow/red", () => {
+    const progress = map(...masterN("recognition", 10), ...masterN("production", 5), ...masterN("say_word", 2));
+    const r = groupReadiness(pool, progress, KINDS, 3);
+    expect(r.get("recognition")).toEqual({ mastered: 10, leader: 10, level: "green" }); // 10/10
+    expect(r.get("production")!.level).toBe("yellow"); // 5/10
+    expect(r.get("say_word")!.level).toBe("red"); // 2/10
   });
 
-  it("is green when most of the pool is mastered, with counts", () => {
-    const progress = map(p("a", 3, 3, 3, 3), p("b", 4, 4, 4, 4), p("c", 5, 5, 5, 5)); // 3/4
-    expect(modeReadiness(pool, progress, "recognition", 3)).toEqual({
-      mastered: 3,
-      total: 4,
-      level: "green",
-    });
+  it("calls balanced modes all green (it's about balance, not the whole deck)", () => {
+    const progress = map(...masterN("recognition", 3), ...masterN("production", 3), ...masterN("say_word", 3));
+    const r = groupReadiness(pool, progress, KINDS, 3);
+    for (const k of KINDS) expect(r.get(k)!.level).toBe("green"); // 3/3/3 → all green
   });
 
-  it("is yellow around half and red when little is mastered", () => {
-    expect(modeReadiness(pool, map(p("a", 3, 3, 3, 3), p("b", 3, 3, 3, 3)), "recognition", 3).level).toBe(
-      "yellow",
-    ); // 2/4
-    expect(modeReadiness(pool, map(p("a", 3, 3, 3, 3)), "recognition", 3).level).toBe("red"); // 1/4
-    expect(modeReadiness(pool, new Map(), "recognition", 3).level).toBe("red"); // 0/4, pool non-empty
-  });
-
-  it("counts only the requested mode's track", () => {
-    const progress = map(p("a", 5, 5, 5, 5), p("b", 5, 5, 5, 5), p("c", 5, 5, 5, 5), p("d", 5, 5, 5, 5));
-    expect(modeReadiness(pool, progress, "say_word", 3).level).toBe("red"); // none in say_word
-    expect(modeReadiness(pool, progress, "recognition", 3).level).toBe("green");
+  it("is 'none' for everything until something is mastered, or for an empty pool", () => {
+    for (const k of KINDS) expect(groupReadiness(pool, new Map(), KINDS, 3).get(k)!.level).toBe("none");
+    for (const k of KINDS) expect(groupReadiness([], new Map(), KINDS, 3).get(k)!.level).toBe("none");
   });
 });

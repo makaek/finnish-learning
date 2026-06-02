@@ -26,36 +26,51 @@ export interface MasteryRow {
   chance: number;
 }
 
-/** Traffic-light readiness for one lesson mode. `none` = nothing to practice in it yet. */
+/** Traffic-light readiness for one lesson mode, RELATIVE to the leading mode in its group. */
 export type Readiness = "green" | "yellow" | "red" | "none";
 
 export interface ModeReadiness {
-  /** In-play items mastered (box ≥ masteredBox) in this mode. */
+  /** Items mastered (box ≥ masteredBox) in this mode. */
   mastered: number;
-  /** In-play items total for this mode. */
-  total: number;
+  /** Mastered count of the leading mode in the group (the relative anchor). */
+  leader: number;
   level: Readiness;
 }
 
 /**
- * How "done" a single mode is: the share of its in-play pool mastered in that track. Lets the
- * home screen flag modes the learner is neglecting (a word is only fully learned once mastered
- * in every mode). Green ≥ 70%, yellow ≥ 30%, red below; `none` when the pool is empty.
+ * Per-mode readiness within a group of modes (e.g. a word's recognition / production /
+ * say_word), RELATIVE to the most-practiced mode in the group — not to the whole deck. The
+ * goal is to keep the modes BALANCED: the leader is green, and a mode that lags far behind it
+ * goes yellow then red, nudging the learner to switch to it. Green ≥ 70% of the leader's
+ * mastered count, yellow ≥ 30%, red below; `none` until something is mastered (or the pool
+ * is empty), since there's nothing to balance yet.
  */
-export function modeReadiness(
+export function groupReadiness(
   pool: readonly { id: string }[],
   progress: ProgressMap,
-  kind: ItemKind,
+  kinds: readonly ItemKind[],
   masteredBox: number,
-): ModeReadiness {
-  const total = pool.length;
-  if (total === 0) return { mastered: 0, total: 0, level: "none" };
-  const mastered = pool.filter(
-    (i) => getProgress(progress, kind, i.id).box >= masteredBox,
-  ).length;
-  const fraction = mastered / total;
-  const level: Readiness = fraction >= 0.7 ? "green" : fraction >= 0.3 ? "yellow" : "red";
-  return { mastered, total, level };
+): Map<ItemKind, ModeReadiness> {
+  const counts = new Map<ItemKind, number>();
+  for (const kind of kinds) {
+    counts.set(
+      kind,
+      pool.filter((i) => getProgress(progress, kind, i.id).box >= masteredBox).length,
+    );
+  }
+  const max = Math.max(0, ...counts.values());
+  const result = new Map<ItemKind, ModeReadiness>();
+  for (const kind of kinds) {
+    const mastered = counts.get(kind) ?? 0;
+    let level: Readiness;
+    if (pool.length === 0 || max === 0) level = "none";
+    else {
+      const ratio = mastered / max;
+      level = ratio >= 0.7 ? "green" : ratio >= 0.3 ? "yellow" : "red";
+    }
+    result.set(kind, { mastered, leader: max, level });
+  }
+  return result;
 }
 
 /** One item (word or sentence) with its metrics merged across its lesson-type tracks. */
