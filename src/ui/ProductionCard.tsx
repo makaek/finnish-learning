@@ -33,10 +33,16 @@ export default function ProductionCard({
   // Guards against a double-click on "Next" double-scoring / skipping a question.
   const [advanced, setAdvanced] = useState(false);
   const answered = graded !== null;
+  // Voice mode is voice-ONLY: the answer (and the correction) can only be spoken, never typed.
   const speech = useSpeechRecognition({
     lang: "fi-FI",
     enabled: voice && !answered,
     onResult: (text) => setValue(text),
+  });
+  const correctionSpeech = useSpeechRecognition({
+    lang: "fi-FI",
+    enabled: voice && graded !== null && !graded.correct,
+    onResult: (text) => setCorrection(text),
   });
 
   function submit() {
@@ -67,7 +73,7 @@ export default function ProductionCard({
         {question.promptRu}
       </h1>
       <p className="hint">
-        {voice ? "Произнесите слово по-фински (можно поправить вручную):" : "Напишите слово по-фински:"}
+        {voice ? "Произнесите слово по-фински:" : "Напишите слово по-фински:"}
       </p>
 
       <form
@@ -85,6 +91,7 @@ export default function ProductionCard({
           autoCapitalize="off"
           autoCorrect="off"
           spellCheck={false}
+          readOnly={voice}
           disabled={answered}
           value={value}
           onChange={(e) => setValue(e.target.value)}
@@ -98,10 +105,10 @@ export default function ProductionCard({
               onClick={() => (speech.listening ? speech.stop() : speech.start())}
               aria-label="Говорить"
             >
-              {speech.listening ? "● Слушаю…" : "🎤 Говорить"}
+              {speech.listening ? "● Слушаю…" : value ? "🎤 Сказать заново" : "🎤 Говорить"}
             </button>
           ) : (
-            <p className="hint">Голосовой ввод недоступен в этом браузере — введите ответ вручную.</p>
+            <p className="hint">Голосовой ввод не поддерживается в этом браузере.</p>
           )
         )}
         {!answered && (
@@ -118,19 +125,43 @@ export default function ProductionCard({
           </p>
           {mustCorrect && (
             <>
-              <p className="hint">Напишите правильный ответ, чтобы продолжить:</p>
+              <p className="hint">
+                {voice
+                  ? "Произнесите правильный ответ, чтобы продолжить:"
+                  : "Напишите правильный ответ, чтобы продолжить:"}
+              </p>
               <input
                 className="produce__input"
                 lang="fi"
-                autoFocus
+                autoFocus={!voice}
                 autoComplete="off"
                 autoCapitalize="off"
                 autoCorrect="off"
                 spellCheck={false}
+                readOnly={voice}
                 value={correction}
                 onChange={(e) => setCorrection(e.target.value)}
                 aria-label="Исправление"
               />
+              {voice &&
+                (correctionSpeech.supported ? (
+                  <button
+                    type="button"
+                    className={"mic" + (correctionSpeech.listening ? " mic--on" : "")}
+                    onClick={() =>
+                      correctionSpeech.listening ? correctionSpeech.stop() : correctionSpeech.start()
+                    }
+                    aria-label="Сказать исправление"
+                  >
+                    {correctionSpeech.listening
+                      ? "● Слушаю…"
+                      : correction
+                        ? "🎤 Сказать заново"
+                        : "🎤 Сказать"}
+                  </button>
+                ) : (
+                  <p className="hint">Голосовой ввод не поддерживается.</p>
+                ))}
             </>
           )}
           <button
