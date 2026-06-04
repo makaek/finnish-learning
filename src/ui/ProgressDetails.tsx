@@ -9,7 +9,7 @@ import { useMemo, useState, type ReactNode } from "react";
 import type { VocabItem } from "../core/dictionary";
 import type { SentenceItem } from "../core/grader";
 import { DEFAULT_SESSION_SIZE, SENTENCE_SESSION_SIZE } from "../core/quiz";
-import { activeVocab, eligibleSentences, LEARNED_BOX } from "../core/levels";
+import { activeVocab, eligibleSentences, levelOf, LEARNED_BOX } from "../core/levels";
 import { mergeByItem, type MergedProgress } from "../core/stats";
 import { MAX_BOX, type ItemKind } from "../core/progress";
 import type { ProgressMap } from "../core/progress";
@@ -54,12 +54,15 @@ function ItemCard({
   entry,
   label,
   sub,
+  level,
   hidden,
   onToggleHide,
 }: {
   entry: MergedProgress;
   label: string;
   sub?: string;
+  /** Curriculum level of the word/sentence, shown as a small badge. */
+  level: number;
   hidden: boolean;
   onToggleHide: () => void;
 }) {
@@ -70,16 +73,21 @@ function ItemCard({
           {entry.mastered && <span className="icard__check" title="Выучено">✓ </span>}
           {label}
         </span>
-        {entry.mastered && (
-          <button
-            type="button"
-            className="icard__hide"
-            onClick={onToggleHide}
-            title={hidden ? "Показать в списке" : "Скрыть из списка"}
-          >
-            {hidden ? "👁" : "🙈"}
-          </button>
-        )}
+        <span className="icard__right">
+          <span className="icard__level" title={`Уровень ${level}`}>
+            Ур. {level}
+          </span>
+          {entry.mastered && (
+            <button
+              type="button"
+              className="icard__hide"
+              onClick={onToggleHide}
+              title={hidden ? "Показать в списке" : "Скрыть из списка"}
+            >
+              {hidden ? "👁" : "🙈"}
+            </button>
+          )}
+        </span>
       </div>
       {sub && <div className="icard__sub">{sub}</div>}
       <ul className="tracks">
@@ -154,6 +162,8 @@ export default function ProgressDetails({
   const [query, setQuery] = useState("");
   const [wordsOpen, setWordsOpen] = useState(true);
   const [sentsOpen, setSentsOpen] = useState(true);
+  // Optional sort: by curriculum level, lowest first (otherwise mergeByItem's mastered/recency order).
+  const [sortByLevel, setSortByLevel] = useState(false);
 
   const words = useMemo(
     () => mergeByItem(vocab, activeVocab(vocab, progress, testMode), progress, WORD_KINDS, LEARNED_BOX),
@@ -201,10 +211,20 @@ export default function ProgressDetails({
     const s = sentenceById.get(e.id);
     return (s ? `${s.ru} ${s.canonical}` : e.id).toLowerCase();
   };
-  const shownWords = searching ? baseWords.filter((e) => wordText(e).includes(q)) : baseWords;
-  const shownSentences = searching
+  const filteredWords = searching ? baseWords.filter((e) => wordText(e).includes(q)) : baseWords;
+  const filteredSentences = searching
     ? baseSentences.filter((e) => sentText(e).includes(q))
     : baseSentences;
+
+  // Level lookups + optional stable sort by level ascending (keeps the prior order within a level).
+  const wordLevelOf = (e: MergedProgress) => levelOf(vocabById.get(e.id) ?? {});
+  const sentLevelOf = (e: MergedProgress) => levelOf(sentenceById.get(e.id) ?? {});
+  const shownWords = sortByLevel
+    ? [...filteredWords].sort((a, b) => wordLevelOf(a) - wordLevelOf(b))
+    : filteredWords;
+  const shownSentences = sortByLevel
+    ? [...filteredSentences].sort((a, b) => sentLevelOf(a) - sentLevelOf(b))
+    : filteredSentences;
 
   // While searching, force sections open so matches are visible; only show a section that has
   // anything to display.
@@ -255,6 +275,17 @@ export default function ProgressDetails({
           )}
         </div>
 
+        <div className="psort">
+          <button
+            type="button"
+            className={"chip" + (sortByLevel ? " chip--on" : "")}
+            onClick={() => setSortByLevel((v) => !v)}
+            aria-pressed={sortByLevel}
+          >
+            ↕ По уровню
+          </button>
+        </div>
+
         {empty ? (
           <p className="hint">Пока нет верных ответов — пройдите упражнение.</p>
         ) : noResults ? (
@@ -276,6 +307,7 @@ export default function ProgressDetails({
                       key={e.id}
                       entry={e}
                       label={v ? `${v.fi} — ${v.ru}` : e.id}
+                      level={levelOf(v ?? {})}
                       hidden={isHidden("word", e.id)}
                       onToggleHide={() => onToggleHide(hiddenKey("word", e.id))}
                     />
@@ -299,6 +331,7 @@ export default function ProgressDetails({
                       entry={e}
                       label={s ? s.ru : e.id}
                       sub={s?.canonical}
+                      level={levelOf(s ?? {})}
                       hidden={isHidden("sentence", e.id)}
                       onToggleHide={() => onToggleHide(hiddenKey("sentence", e.id))}
                     />

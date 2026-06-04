@@ -818,6 +818,13 @@ body {
   background: var(--surface-2);
 }
 
+/* Sort control row (e.g. "по уровню"). */
+.psort {
+  display: flex;
+  gap: var(--s2);
+  margin: 0 0 var(--s3);
+}
+
 /* Collapsible section header. */
 .psection {
   margin: 0 0 var(--s2);
@@ -1021,6 +1028,24 @@ body {
 
 .icard__check {
   color: var(--ok);
+}
+
+/* Right cluster of the card head: level badge + hide toggle. */
+.icard__right {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+}
+
+.icard__level {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--muted);
+  background: var(--surface-2);
+  border-radius: var(--pill);
+  padding: 0.1rem 0.5rem;
+  white-space: nowrap;
 }
 
 .icard__hide {
