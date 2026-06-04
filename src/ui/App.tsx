@@ -35,6 +35,7 @@ import Roadmap, { type Mode } from "./Roadmap";
 import ProgressDetails from "./ProgressDetails";
 import Dashboard from "./Dashboard";
 import RulesBook from "./RulesBook";
+import Reading from "./Reading";
 import BottomNav, { type HomeScreen } from "./BottomNav";
 import RecognitionCard from "./RecognitionCard";
 import ProductionCard from "./ProductionCard";
@@ -297,6 +298,14 @@ export default function App() {
     return recognition.length;
   }
 
+  /** Reading: count a finished role-play as one lesson (no answer → accuracy untouched). */
+  function countReadingLesson() {
+    const next = completeLesson(dailyRef.current, dateKey());
+    dailyRef.current = next;
+    setDailyView(next);
+    void saveState(next);
+  }
+
   /** Record one answer toward today's goal; on the session's last answer, count a lesson. */
   function recordDaily(wasCorrect: boolean, lessonDone: boolean) {
     const today = dateKey();
@@ -340,6 +349,15 @@ export default function App() {
           testMode={testMode}
           hidden={hidden}
           onToggleHide={toggleHidden}
+        />
+      );
+    } else if (homeScreen === "reading") {
+      screen = (
+        <Reading
+          vocab={VOCAB}
+          progress={progressView}
+          testMode={testMode}
+          onLessonDone={countReadingLesson}
         />
       );
     } else if (homeScreen === "rules") {

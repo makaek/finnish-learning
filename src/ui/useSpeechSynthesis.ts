@@ -22,6 +22,8 @@ export interface SpeechSynthesisApi {
   speaking: boolean;
   /** Speak the given text (cancels anything already playing). No-op when unsupported/empty. */
   speak: (text: string) => void;
+  /** Speak several parts back-to-back, chained on each utterance's end (cancels first). */
+  speakMany: (parts: readonly string[]) => void;
   /** Stop any in-flight speech. */
   cancel: () => void;
 }
@@ -88,6 +90,45 @@ export function useSpeechSynthesis(lang = "fi-FI"): SpeechSynthesisApi {
     [lang],
   );
 
+  // Speak a list of parts in order. Reuses the same speakId generation guard as `speak`, so a
+  // later speak()/speakMany()/cancel() preempts an in-flight sequence cleanly.
+  const speakMany = useCallback(
+    (parts: readonly string[]) => {
+      const synth = getSynth();
+      const queue = parts.filter((p) => p && p.trim().length > 0);
+      if (!synth || queue.length === 0) return;
+      try {
+        synth.cancel();
+        // Reflect playback immediately — onstart can lag a few hundred ms on a long queue,
+        // and the caller's button relies on `speaking` to switch into a stop affordance.
+        setSpeaking(true);
+        const id = ++speakIdRef.current;
+        const current = () => speakIdRef.current === id;
+        let i = 0;
+        const next = () => {
+          if (!current() || i >= queue.length) {
+            if (current()) setSpeaking(false);
+            return;
+          }
+          const utterance = new SpeechSynthesisUtterance(queue[i++]!);
+          utterance.lang = lang;
+          if (voiceRef.current) utterance.voice = voiceRef.current;
+          utterance.rate = 0.95;
+          utterance.onstart = () => current() && setSpeaking(true);
+          utterance.onend = () => current() && next();
+          utterance.onerror = (e) => {
+            if (e.error !== "interrupted" && current()) setSpeaking(false);
+          };
+          synth.speak(utterance);
+        };
+        next();
+      } catch {
+        setSpeaking(false);
+      }
+    },
+    [lang],
+  );
+
   const cancel = useCallback(() => {
     try {
       getSynth()?.cancel();
@@ -97,5 +138,5 @@ export function useSpeechSynthesis(lang = "fi-FI"): SpeechSynthesisApi {
     setSpeaking(false);
   }, []);
 
-  return { supported, speaking, speak, cancel };
+  return { supported, speaking, speak, speakMany, cancel };
 }

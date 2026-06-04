@@ -1,0 +1,169 @@
+{
+  "_meta": {
+    "purpose": "Reading library: short graded Finnish texts & dialogs for a Finnish-for-Russian-speakers trainer. Authored & verified by finnish-linguist.",
+    "schema": {
+      "text": ["id", "title (RU)", "level (1-10)", "type: 'text'|'dialog'", "lines"],
+      "line": ["speaker (dialog only)", "fi", "ru"]
+    }
+  },
+  "texts": [
+    {
+      "id": "t1",
+      "title": "Знакомство",
+      "level": 1,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Anna", "fi": "Hei! Mitä kuuluu?", "ru": "Привет! Как дела?" },
+        { "speaker": "Mika", "fi": "Kiitos, hyvää. Entä sinä?", "ru": "Спасибо, хорошо. А ты?" },
+        { "speaker": "Anna", "fi": "Hyvää, kiitos.", "ru": "Хорошо, спасибо." },
+        { "speaker": "Mika", "fi": "Kuka sinä olet?", "ru": "Кто ты?" },
+        { "speaker": "Anna", "fi": "Minä olen Anna. Entä sinä?", "ru": "Я Анна. А ты?" },
+        { "speaker": "Mika", "fi": "Minä olen Mika.", "ru": "Я Мика." }
+      ]
+    },
+    {
+      "id": "t2",
+      "title": "Я студентка",
+      "level": 1,
+      "type": "text",
+      "lines": [
+        { "fi": "Hei! Minä olen Liisa.", "ru": "Привет! Я Лииса." },
+        { "fi": "Minä olen opiskelija.", "ru": "Я студентка." },
+        { "fi": "Minä puhun suomea.", "ru": "Я говорю по-фински." },
+        { "fi": "Minä asun Helsingissä.", "ru": "Я живу в Хельсинки." }
+      ]
+    },
+    {
+      "id": "t3",
+      "title": "Моя семья",
+      "level": 2,
+      "type": "text",
+      "lines": [
+        { "fi": "Minä olen Anna.", "ru": "Я Анна." },
+        { "fi": "Minulla on veli ja sisko.", "ru": "У меня есть брат и сестра." },
+        { "fi": "Äiti ja isä asuvat kaupungissa.", "ru": "Мама и папа живут в городе." },
+        { "fi": "Meillä on iso talo ja auto.", "ru": "У нас есть большой дом и машина." },
+        { "fi": "Minä rakastan perhettä.", "ru": "Я люблю семью." }
+      ]
+    },
+    {
+      "id": "t4",
+      "title": "Где ты живёшь?",
+      "level": 3,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Mika", "fi": "Missä sinä asut?", "ru": "Где ты живёшь?" },
+        { "speaker": "Liisa", "fi": "Minä asun kaupungissa. Entä sinä?", "ru": "Я живу в городе. А ты?" },
+        { "speaker": "Mika", "fi": "Minä asun talossa. Siinä on iso piha.", "ru": "Я живу в доме. Там большой двор." },
+        { "speaker": "Liisa", "fi": "Onko sinulla perhe?", "ru": "У тебя есть семья?" },
+        { "speaker": "Mika", "fi": "Kyllä, minulla on äiti, isä ja veli.", "ru": "Да, у меня есть мама, папа и брат." }
+      ]
+    },
+    {
+      "id": "t5",
+      "title": "В кафе",
+      "level": 4,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Liisa", "fi": "Hei! Saanko kahvia?", "ru": "Здравствуйте! Можно мне кофе?" },
+        { "speaker": "Anna", "fi": "Tietysti. Haluatko myös leipää?", "ru": "Конечно. Хотите также хлеб?" },
+        { "speaker": "Liisa", "fi": "Kyllä, kiitos. Paljonko se maksaa?", "ru": "Да, спасибо. Сколько это стоит?" },
+        { "speaker": "Anna", "fi": "Se maksaa viisi euroa.", "ru": "Это стоит пять евро." },
+        { "speaker": "Liisa", "fi": "Tässä. Kiitos!", "ru": "Вот, пожалуйста. Спасибо!" }
+      ]
+    },
+    {
+      "id": "t6",
+      "title": "В магазине",
+      "level": 4,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Mika", "fi": "Anteeksi, paljonko tämä kirja maksaa?", "ru": "Извините, сколько стоит эта книга?" },
+        { "speaker": "Anna", "fi": "Se maksaa kymmenen euroa.", "ru": "Она стоит десять евро." },
+        { "speaker": "Mika", "fi": "Onko se kallis. Onko teillä halpa kirja?", "ru": "Это дорого. У вас есть дешёвая книга?" },
+        { "speaker": "Anna", "fi": "Kyllä, tämä maksaa kolme euroa.", "ru": "Да, эта стоит три евро." },
+        { "speaker": "Mika", "fi": "Hyvä. Minä ostan sen.", "ru": "Хорошо. Я её покупаю." }
+      ]
+    },
+    {
+      "id": "t7",
+      "title": "Как пройти на вокзал?",
+      "level": 5,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Liisa", "fi": "Anteeksi, missä asema on?", "ru": "Извините, где вокзал?" },
+        { "speaker": "Mika", "fi": "Se on lähellä. Mene suoraan.", "ru": "Он близко. Идите прямо." },
+        { "speaker": "Liisa", "fi": "Voinko mennä bussilla?", "ru": "Я могу поехать на автобусе?" },
+        { "speaker": "Mika", "fi": "Kyllä, mutta voit myös kävellä.", "ru": "Да, но вы также можете пойти пешком." },
+        { "speaker": "Liisa", "fi": "Kiitos paljon!", "ru": "Большое спасибо!" },
+        { "speaker": "Mika", "fi": "Ei kestä. Hyvää matkaa!", "ru": "Не за что. Счастливого пути!" }
+      ]
+    },
+    {
+      "id": "t8",
+      "title": "Который час?",
+      "level": 6,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Anna", "fi": "Anteeksi, paljonko kello on?", "ru": "Извините, который час?" },
+        { "speaker": "Liisa", "fi": "Kello on kaksi.", "ru": "Сейчас два часа." },
+        { "speaker": "Anna", "fi": "Kiitos. Minun täytyy mennä töihin.", "ru": "Спасибо. Мне надо идти на работу." },
+        { "speaker": "Liisa", "fi": "Mihin aikaan sinä menet kotiin?", "ru": "Во сколько ты идёшь домой?" },
+        { "speaker": "Anna", "fi": "Illalla. Nyt minulla on kiire.", "ru": "Вечером. Сейчас я спешу." }
+      ]
+    },
+    {
+      "id": "t9",
+      "title": "Мой день",
+      "level": 6,
+      "type": "text",
+      "lines": [
+        { "fi": "Minä herään aamulla aikaisin.", "ru": "Я просыпаюсь рано утром." },
+        { "fi": "Aamulla minä juon kahvia ja syön leipää.", "ru": "Утром я пью кофе и ем хлеб." },
+        { "fi": "Sitten minä menen töihin.", "ru": "Потом я иду на работу." },
+        { "fi": "Illalla minä katson televisiota kotona.", "ru": "Вечером я смотрю телевизор дома." },
+        { "fi": "Yöllä minä nukun hyvin.", "ru": "Ночью я хорошо сплю." }
+      ]
+    },
+    {
+      "id": "t10",
+      "title": "Планы на выходные",
+      "level": 7,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Mika", "fi": "Mitä sinä teet lauantaina?", "ru": "Что ты делаешь в субботу?" },
+        { "speaker": "Anna", "fi": "Minä menen ystävän kanssa puistoon.", "ru": "Я иду с другом в парк." },
+        { "speaker": "Mika", "fi": "Kuulostaa kivalta. Voinko tulla mukaan?", "ru": "Звучит здорово. Можно мне с вами?" },
+        { "speaker": "Anna", "fi": "Tietysti! Me kävelemme ja pelaamme jalkapalloa.", "ru": "Конечно! Мы гуляем и играем в футбол." },
+        { "speaker": "Mika", "fi": "Hienoa. Nähdään lauantaina!", "ru": "Отлично. Увидимся в субботу!" }
+      ]
+    },
+    {
+      "id": "t11",
+      "title": "Путешествие на поезде",
+      "level": 8,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Liisa", "fi": "Hei! Minä matkustan huomenna junalla.", "ru": "Привет! Завтра я еду на поезде." },
+        { "speaker": "Mika", "fi": "Mihin sinä menet?", "ru": "Куда ты едешь?" },
+        { "speaker": "Liisa", "fi": "Minä menen toiseen kaupunkiin. Ostin jo lipun.", "ru": "Я еду в другой город. Я уже купила билет." },
+        { "speaker": "Mika", "fi": "Hyvä! Millainen sää siellä on?", "ru": "Хорошо! Какая там погода?" },
+        { "speaker": "Liisa", "fi": "Aurinko paistaa, mutta on kylmä.", "ru": "Солнце светит, но холодно." },
+        { "speaker": "Mika", "fi": "Hyvää matkaa! Soita minulle illalla.", "ru": "Счастливого пути! Позвони мне вечером." }
+      ]
+    },
+    {
+      "id": "t12",
+      "title": "Я люблю свой дом",
+      "level": 9,
+      "type": "text",
+      "lines": [
+        { "fi": "Minä asun pienessä talossa.", "ru": "Я живу в маленьком доме." },
+        { "fi": "Keittiössä on pöytä ja neljä tuolia.", "ru": "На кухне есть стол и четыре стула." },
+        { "fi": "Olohuoneessa on sohva ja iso ikkuna.", "ru": "В гостиной есть диван и большое окно." },
+        { "fi": "Minun makuuhuoneeni on pieni mutta mukava.", "ru": "Моя спальня маленькая, но уютная." },
+        { "fi": "Minä olen onnellinen, koska rakastan kotia.", "ru": "Я счастлива, потому что люблю свой дом." }
+      ]
+    }
+  ]
+}

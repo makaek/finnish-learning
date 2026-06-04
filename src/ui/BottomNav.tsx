@@ -6,10 +6,11 @@
  * the home shell (no bar during a lesson, which stays full-screen and focused).
  */
 
-export type HomeScreen = "roadmap" | "stats" | "rules" | "dashboard";
+export type HomeScreen = "roadmap" | "reading" | "stats" | "rules" | "dashboard";
 
 const TABS: { key: HomeScreen; icon: string; label: string }[] = [
   { key: "roadmap", icon: "🏠", label: "Главная" },
+  { key: "reading", icon: "📚", label: "Чтение" },
   { key: "stats", icon: "📈", label: "Прогресс" },
   { key: "dashboard", icon: "📊", label: "Метрики" },
   { key: "rules", icon: "📖", label: "Правила" },

@@ -1439,3 +1439,160 @@ body {
   color: var(--muted);
   font-variant-numeric: tabular-nums;
 }
+
+/* --- Reading library --- */
+.reading {
+  list-style: none;
+  margin: 0 0 var(--s2);
+  padding: 0;
+  display: grid;
+  gap: var(--s2);
+}
+.readrow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  padding: 0.7rem 0.85rem;
+  font: inherit;
+  text-align: left;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: background 0.14s ease;
+}
+.readrow:hover:not(:disabled) {
+  background: var(--surface-2);
+}
+.readrow--locked {
+  opacity: 0.55;
+  cursor: default;
+}
+.readrow__lv {
+  flex: none;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--muted);
+  background: var(--surface-2);
+  border-radius: var(--pill);
+  padding: 0.15rem 0.5rem;
+  white-space: nowrap;
+}
+.readrow__title {
+  flex: 1;
+  font-weight: 600;
+}
+.readrow__badges {
+  flex: none;
+  display: flex;
+  gap: 0.35rem;
+  font-size: 0.95rem;
+}
+.readrow__done {
+  color: var(--ok);
+  font-weight: 700;
+}
+
+/* --- Text reader --- */
+.textreader__bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+  margin: 0 0 var(--s3);
+}
+.chip {
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--pill);
+  padding: 0.4rem 0.85rem;
+  cursor: pointer;
+  transition: background 0.14s ease;
+}
+.chip:hover {
+  background: var(--surface-2);
+}
+.chip--on {
+  color: var(--accent-ink);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.lines {
+  list-style: none;
+  margin: 0 0 var(--s3);
+  padding: 0;
+  display: grid;
+  gap: var(--s2);
+}
+.line {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s2);
+  padding: 0.6rem 0.8rem;
+  background: var(--surface);
+  border-radius: var(--r-sm);
+}
+.line__who {
+  flex: none;
+  min-width: 3.4rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accent);
+  padding-top: 0.15rem;
+}
+.line__body {
+  flex: 1;
+  display: grid;
+  gap: 0.15rem;
+}
+.line__fi {
+  font-size: 1.05rem;
+}
+.line__ru {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.line__play {
+  flex: none;
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0.2rem 0.35rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.textreader__actions {
+  display: grid;
+  gap: var(--s2);
+}
+
+/* --- Dialog role-play --- */
+.rolepick {
+  display: grid;
+  gap: var(--s2);
+  margin-top: var(--s3);
+}
+.turn {
+  display: grid;
+  gap: var(--s2);
+  padding: var(--s3);
+  margin: var(--s2) 0 var(--s3);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+}
+.turn--mine {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+}
+.turn__fi {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
