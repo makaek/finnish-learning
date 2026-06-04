@@ -20,8 +20,9 @@ function getSynth(): SpeechSynthesis | undefined {
 export interface SpeechSynthesisApi {
   supported: boolean;
   speaking: boolean;
-  /** Speak the given text (cancels anything already playing). No-op when unsupported/empty. */
-  speak: (text: string) => void;
+  /** Speak the given text (cancels anything already playing). No-op when unsupported/empty.
+   * `onDone` fires only on natural completion (not when preempted by cancel/another speak). */
+  speak: (text: string, onDone?: () => void) => void;
   /** Speak several parts back-to-back, chained on each utterance's end (cancels first). */
   speakMany: (parts: readonly string[]) => void;
   /** Stop any in-flight speech. */
@@ -65,7 +66,7 @@ export function useSpeechSynthesis(lang = "fi-FI"): SpeechSynthesisApi {
   }, []);
 
   const speak = useCallback(
-    (text: string) => {
+    (text: string, onDone?: () => void) => {
       const synth = getSynth();
       if (!synth || !text) return;
       try {
@@ -77,7 +78,11 @@ export function useSpeechSynthesis(lang = "fi-FI"): SpeechSynthesisApi {
         if (voiceRef.current) utterance.voice = voiceRef.current;
         utterance.rate = 0.95; // a touch slower, easier for a learner to follow
         utterance.onstart = () => current() && setSpeaking(true);
-        utterance.onend = () => current() && setSpeaking(false);
+        utterance.onend = () => {
+          if (!current()) return;
+          setSpeaking(false);
+          onDone?.();
+        };
         utterance.onerror = (e) => {
           // "interrupted" is the cancel() of the PREVIOUS utterance — ignore it.
           if (e.error !== "interrupted" && current()) setSpeaking(false);
@@ -131,6 +136,9 @@ export function useSpeechSynthesis(lang = "fi-FI"): SpeechSynthesisApi {
 
   const cancel = useCallback(() => {
     try {
+      // Bump the id BEFORE cancelling so any in-flight utterance's onend sees current()===false
+      // and can't fire a stale onDone (which could schedule an advance after teardown).
+      speakIdRef.current++;
       getSynth()?.cancel();
     } catch {
       /* ignore */

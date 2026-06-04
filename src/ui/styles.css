@@ -1578,6 +1578,9 @@ body {
   gap: var(--s2);
   margin-top: var(--s3);
 }
+.dialog__modes {
+  justify-content: center;
+}
 .turn {
   display: grid;
   gap: var(--s2);
