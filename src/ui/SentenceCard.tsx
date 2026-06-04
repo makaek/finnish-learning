@@ -189,29 +189,18 @@ export default function SentenceCard({
           aria-label="Перевод на финский"
         />
         {voice && !answered && (
-          <div className="voicerow">
-            {speech.supported ? (
-              <button
-                type="button"
-                className={"mic" + (speech.listening ? " mic--on" : "")}
-                onClick={() => (speech.listening ? speech.stop() : speech.start())}
-                aria-label="Говорить"
-              >
-                {speech.listening ? "● Слушаю…" : value ? "🎤 Сказать заново" : "🎤 Говорить"}
-              </button>
-            ) : (
-              <p className="hint">Голосовой ввод не поддерживается в этом браузере.</p>
-            )}
+          speech.supported ? (
             <button
               type="button"
-              className="markok"
-              onClick={forceCorrect}
-              aria-label="Засчитать произношение верным"
-              title="Если голос не распознался — засчитать как верный"
+              className={"mic" + (speech.listening ? " mic--on" : "")}
+              onClick={() => (speech.listening ? speech.stop() : speech.start())}
+              aria-label="Говорить"
             >
-              ✓ Засчитать верным
+              {speech.listening ? "● Слушаю…" : value ? "🎤 Сказать заново" : "🎤 Говорить"}
             </button>
-          </div>
+          ) : (
+            <p className="hint">Голосовой ввод не поддерживается в этом браузере.</p>
+          )
         )}
         {!answered && (
           <button
