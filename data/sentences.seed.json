@@ -1394,6 +1394,486 @@
       ],
       "teaches": "conditional 'jos' + 2sg verb + total object + adessive of transport",
       "needs_review": false
+    },
+    {
+      "id": "s93",
+      "ru": "Я гуляю в лесу.",
+      "uses": ["v39", "n61"],
+      "level": 8,
+      "canonical": "Kävelen metsässä.",
+      "accepted": ["Kävelen metsässä.", "Minä kävelen metsässä."],
+      "wrong": [
+        { "match": "kävelen metsään", "ru": "metsään — «в лес» (куда?). Здесь «где?» — инессив metsässä." },
+        { "match": "kävelen metsä", "ru": "«Где?» требует инессива: metsässä." },
+        { "match": "kävelet metsässä", "ru": "kävelet — это «ты гуляешь». Для «я» — kävelen." }
+      ],
+      "teaches": "type-3 verb 1sg (kävelen) + inessive location 'metsässä'",
+      "needs_review": false
+    },
+    {
+      "id": "s94",
+      "ru": "Я плаваю в озере.",
+      "uses": ["v42", "n62"],
+      "level": 8,
+      "canonical": "Uin järvessä.",
+      "accepted": ["Uin järvessä.", "Minä uin järvessä."],
+      "wrong": [
+        { "match": "uin järveen", "ru": "järveen — «в озеро» (куда?). Здесь «где?» — järvessä." },
+        { "match": "uin järvi", "ru": "«Где?» требует инессива: järvessä." },
+        { "match": "uit järvessä", "ru": "uit — это «ты плаваешь». Для «я» — uin." }
+      ],
+      "teaches": "type-2 verb 1sg (uin) + inessive location 'järvessä'",
+      "needs_review": false
+    },
+    {
+      "id": "s95",
+      "ru": "Дети бегают в парке.",
+      "uses": ["n19", "v40", "n27"],
+      "level": 8,
+      "canonical": "Lapset juoksevat puistossa.",
+      "accepted": ["Lapset juoksevat puistossa."],
+      "wrong": [
+        { "match": "lapset juoksevat puistoon", "ru": "puistoon — «в парк» (куда?). Здесь «где?» — puistossa." },
+        { "match": "lapset juoksee puistossa", "ru": "Подлежащее множественное (lapset) — глагол juoksevat, а не juoksee («он бежит»)." },
+        { "match": "lapset juoksevat puisto", "ru": "«Где?» требует инессива: puistossa." }
+      ],
+      "teaches": "3pl verb (juoksevat) + inessive location 'puistossa'",
+      "needs_review": false
+    },
+    {
+      "id": "s96",
+      "ru": "Я уезжаю в город завтра.",
+      "uses": ["v37", "n12", "f5"],
+      "level": 8,
+      "canonical": "Lähden kaupunkiin huomenna.",
+      "accepted": ["Lähden kaupunkiin huomenna.", "Minä lähden kaupunkiin huomenna.", "Huomenna lähden kaupunkiin."],
+      "wrong": [
+        { "match": "lähden kaupungissa huomenna", "ru": "«В город» (куда?) — иллатив kaupunkiin, а не kaupungissa («в городе»)." },
+        { "match": "lähtee kaupunkiin huomenna", "ru": "lähtee — это «он уезжает». Для «я» — lähden (градация t->d)." },
+        { "match": "lähden kaupunkiin eilen", "ru": "«Завтра» — huomenna, а не eilen («вчера»)." }
+      ],
+      "teaches": "type-3 verb (lähden) + illative direction + future-via-present",
+      "needs_review": false
+    },
+    {
+      "id": "s97",
+      "ru": "Поезд прибывает на вокзал.",
+      "uses": ["n56", "v38", "n24"],
+      "level": 8,
+      "canonical": "Juna saapuu asemalle.",
+      "accepted": ["Juna saapuu asemalle."],
+      "wrong": [
+        { "match": "juna saapuu asemalla", "ru": "asemalla — «на вокзале» (где?). Прибытие «куда?» — аллатив asemalle." },
+        { "match": "juna saavun asemalle", "ru": "saavun — это «я прибываю». Для «он/поезд» — saapuu (градация p->v)." },
+        { "match": "juna saapuu asema", "ru": "Нужно направление «куда?»: asemalle." }
+      ],
+      "teaches": "verb saapuu + allative goal 'asemalle'",
+      "needs_review": false
+    },
+    {
+      "id": "s98",
+      "ru": "Я лечу в Финляндию.",
+      "uses": ["v41", "n16"],
+      "level": 8,
+      "canonical": "Lennän Suomeen.",
+      "accepted": ["Lennän Suomeen.", "Minä lennän Suomeen."],
+      "wrong": [
+        { "match": "lennän suomessa", "ru": "Suomessa — «в Финляндии» (где?). Здесь «куда?» — иллатив Suomeen." },
+        { "match": "lentää suomeen", "ru": "lentää — это «он летит». Для «я» — lennän (градация nt->nn)." },
+        { "match": "lennän suomea", "ru": "Suomea — язык (объект). Сюда нужна страна в иллативе: Suomeen." }
+      ],
+      "teaches": "verb lennän + illative direction (country) 'Suomeen'",
+      "needs_review": false
+    },
+    {
+      "id": "s99",
+      "ru": "Я покупаю билет.",
+      "uses": ["v8", "n73"],
+      "level": 8,
+      "canonical": "Ostan lipun.",
+      "accepted": ["Ostan lipun.", "Minä ostan lipun."],
+      "wrong": [
+        { "match": "ostan lippu", "ru": "Завершённая покупка — тотальный объект в генитиве: lipun (градация pp->p)." },
+        { "match": "ostan lippua", "ru": "Покупка целиком — тотальный объект lipun, а не партитив lippua." },
+        { "match": "ostat lipun", "ru": "ostat — это «ты покупаешь». Для «я» — ostan." }
+      ],
+      "teaches": "total object in genitive 'lipun' (gradation pp->p)",
+      "needs_review": false
+    },
+    {
+      "id": "s100",
+      "ru": "Я в гостинице.",
+      "uses": ["v1", "n71"],
+      "level": 8,
+      "canonical": "Olen hotellissa.",
+      "accepted": ["Olen hotellissa.", "Minä olen hotellissa."],
+      "wrong": [
+        { "match": "olen hotelliin", "ru": "hotelliin — «в гостиницу» (куда?). Здесь «где?» — hotellissa." },
+        { "match": "olen hotelli", "ru": "«Где?» требует инессива: hotellissa." },
+        { "match": "olen hotellista", "ru": "hotellista — «из гостиницы» (откуда?). Здесь «где?» — hotellissa." }
+      ],
+      "teaches": "inessive location 'hotellissa'",
+      "needs_review": false
+    },
+    {
+      "id": "s101",
+      "ru": "Солнце на небе.",
+      "uses": ["n66", "v1", "n69"],
+      "level": 8,
+      "canonical": "Aurinko on taivaalla.",
+      "accepted": ["Aurinko on taivaalla."],
+      "wrong": [
+        { "match": "aurinko on taivaassa", "ru": "«На небе» — адессив taivaalla, а не инессив taivaassa." },
+        { "match": "aurinko on taivas", "ru": "Нужна форма места «где?»: taivaalla." },
+        { "match": "aurinko ovat taivaalla", "ru": "Подлежащее в ед. числе — глагол on, а не ovat." }
+      ],
+      "teaches": "adessive of location 'taivaalla' + copula 'on'",
+      "needs_review": false
+    },
+    {
+      "id": "s102",
+      "ru": "Идёт дождь.",
+      "uses": ["v50", "n67"],
+      "level": 8,
+      "canonical": "Sataa.",
+      "accepted": ["Sataa.", "Sataa vettä."],
+      "wrong": [
+        { "match": "sade", "ru": "«Идёт дождь» — это глагол sataa, а не существительное sade." },
+        { "match": "on sade", "ru": "По-фински «идёт дождь» — безличный глагол: Sataa, а не «on sade»." },
+        { "match": "satan", "ru": "Глагол sataa безличный (3 л.): Sataa, а не личная форма satan." }
+      ],
+      "teaches": "impersonal weather verb 'sataa' (no subject)",
+      "needs_review": false
+    },
+    {
+      "id": "s103",
+      "ru": "Идёт снег.",
+      "uses": ["v50", "n68"],
+      "level": 8,
+      "canonical": "Sataa lunta.",
+      "accepted": ["Sataa lunta."],
+      "wrong": [
+        { "match": "sataa lumi", "ru": "Объект безличного sataa — в партитиве: lunta (неправильный партитив от lumi)." },
+        { "match": "sataa lumea", "ru": "Партитив от lumi — нерегулярный: lunta, а не lumea." },
+        { "match": "on lunta", "ru": "«Идёт снег» — глагол sataa: Sataa lunta." }
+      ],
+      "teaches": "impersonal 'sataa' + irregular partitive object 'lunta'",
+      "needs_review": false
+    },
+    {
+      "id": "s104",
+      "ru": "Сегодня понедельник.",
+      "uses": ["f4", "v1", "n75"],
+      "level": 8,
+      "canonical": "Tänään on maanantai.",
+      "accepted": ["Tänään on maanantai."],
+      "wrong": [
+        { "match": "tänään on maanantaita", "ru": "После «on» день недели — в номинативе: maanantai, а не партитив maanantaita." },
+        { "match": "tänään maanantai", "ru": "Нужна связка on: «Tänään on maanantai»." },
+        { "match": "huomenna on maanantai", "ru": "«Сегодня» — tänään, а не huomenna («завтра»)." }
+      ],
+      "teaches": "day of week (weekday) with copula 'on' + nominative",
+      "needs_review": false
+    },
+    {
+      "id": "s105",
+      "ru": "Завтра суббота.",
+      "uses": ["f5", "v1", "n80"],
+      "level": 8,
+      "canonical": "Huomenna on lauantai.",
+      "accepted": ["Huomenna on lauantai."],
+      "wrong": [
+        { "match": "huomenna on lauantaita", "ru": "После «on» день недели — в номинативе: lauantai, а не партитив." },
+        { "match": "huomenna lauantai", "ru": "Нужна связка on: «Huomenna on lauantai»." },
+        { "match": "tänään on lauantai", "ru": "«Завтра» — huomenna, а не tänään («сегодня»)." }
+      ],
+      "teaches": "day of week (weekday) with copula + time adverb 'huomenna'",
+      "needs_review": false
+    },
+    {
+      "id": "s106",
+      "ru": "Море большое.",
+      "uses": ["n63", "v1", "a2"],
+      "level": 8,
+      "canonical": "Meri on iso.",
+      "accepted": ["Meri on iso."],
+      "wrong": [
+        { "match": "meri on isoa", "ru": "Подлежащее исчисляемое (meri) — предикатив в номинативе: iso, а не партитив isoa." },
+        { "match": "meri iso", "ru": "Нужна связка on: «Meri on iso»." },
+        { "match": "meri on pieni", "ru": "«Большое» — iso; pieni значит «маленькое»." }
+      ],
+      "teaches": "predicative adjective nominative with countable subject (meri)",
+      "needs_review": false
+    },
+    {
+      "id": "s107",
+      "ru": "Я еду на поезде из города в гостиницу.",
+      "uses": ["v33", "n56", "n12", "n71"],
+      "level": 8,
+      "canonical": "Matkustan junalla kaupungista hotelliin.",
+      "accepted": ["Matkustan junalla kaupungista hotelliin.", "Minä matkustan junalla kaupungista hotelliin."],
+      "wrong": [
+        { "match": "matkustan junalla kaupunkiin hotelliin", "ru": "«Из города» (откуда?) — элатив kaupungista, а не kaupunkiin («в город»)." },
+        { "match": "matkustan junalla kaupungista hotellissa", "ru": "«В гостиницу» (куда?) — иллатив hotelliin, а не hotellissa («в гостинице»)." },
+        { "match": "matkustan juna kaupungista hotelliin", "ru": "«На поезде» (чем?) — адессив junalla." }
+      ],
+      "teaches": "adessive transport + elative origin 'kaupungista' + illative goal 'hotelliin'",
+      "needs_review": false
+    },
+    {
+      "id": "s108",
+      "ru": "Сегодня воскресенье, и я дома.",
+      "uses": ["f4", "v1", "n81", "f1", "n2"],
+      "level": 8,
+      "canonical": "Tänään on sunnuntai, ja olen kotona.",
+      "accepted": ["Tänään on sunnuntai, ja olen kotona.", "Tänään on sunnuntai, ja minä olen kotona."],
+      "wrong": [
+        { "match": "tänään on sunnuntaita, ja olen kotona", "ru": "После «on» день недели — в номинативе: sunnuntai, а не партитив." },
+        { "match": "tänään on sunnuntai, ja olen kotiin", "ru": "«Дома» (где?) — kotona, а не kotiin («домой»)." },
+        { "match": "tänään on sunnuntai, mutta olen kotona", "ru": "Здесь соединение — нужен ja («и»), а не mutta («но»)." }
+      ],
+      "teaches": "day of week (weekday) + copula + conjunction 'ja' + irregular location",
+      "needs_review": false
+    },
+    {
+      "id": "s109",
+      "ru": "Я спрашиваю маму.",
+      "uses": ["v43", "n17"],
+      "level": 9,
+      "canonical": "Kysyn äidiltä.",
+      "accepted": ["Kysyn äidiltä.", "Minä kysyn äidiltä."],
+      "wrong": [
+        { "match": "kysyn äiti", "ru": "«Спрашиваю у мамы» — аблатив äidiltä (от кого?), а не словарная форма äiti." },
+        { "match": "kysyn äitiä", "ru": "kysyä спрашивает у кого-то через аблатив: äidiltä, а не партитив äitiä." },
+        { "match": "kysyt äidiltä", "ru": "kysyt — это «ты спрашиваешь». Для «я» — kysyn." }
+      ],
+      "teaches": "verb kysyä + ablative of person 'äidiltä'",
+      "needs_review": false
+    },
+    {
+      "id": "s110",
+      "ru": "Я отвечаю маме.",
+      "uses": ["v44", "n17"],
+      "level": 9,
+      "canonical": "Vastaan äidille.",
+      "accepted": ["Vastaan äidille.", "Minä vastaan äidille."],
+      "wrong": [
+        { "match": "vastaan äiti", "ru": "«Отвечаю маме» — аллатив äidille (кому?), а не словарная форма äiti." },
+        { "match": "vastaan äitiä", "ru": "vastata отвечает кому-то через аллатив: äidille, а не партитив äitiä." },
+        { "match": "vastaat äidille", "ru": "vastaat — это «ты отвечаешь». Для «я» — vastaan." }
+      ],
+      "teaches": "verb vastata + allative of recipient 'äidille'",
+      "needs_review": false
+    },
+    {
+      "id": "s111",
+      "ru": "Я звоню другу.",
+      "uses": ["v45", "n13"],
+      "level": 9,
+      "canonical": "Soitan ystävälle.",
+      "accepted": ["Soitan ystävälle.", "Minä soitan ystävälle."],
+      "wrong": [
+        { "match": "soitan ystävä", "ru": "«Звоню другу» — аллатив ystävälle (кому?), а не словарная форма ystävä." },
+        { "match": "soitan ystävää", "ru": "soittaa (звонить) — кому-то в аллативе: ystävälle, а не партитив ystävää." },
+        { "match": "soittaa ystävälle", "ru": "Для «я» — soitan (градация tt->t), а не soittaa («он звонит»)." }
+      ],
+      "teaches": "verb soittaa (call) + allative of recipient 'ystävälle'",
+      "needs_review": false
+    },
+    {
+      "id": "s112",
+      "ru": "Я думаю о тебе.",
+      "uses": ["v48", "p2"],
+      "level": 9,
+      "canonical": "Ajattelen sinua.",
+      "accepted": ["Ajattelen sinua.", "Minä ajattelen sinua."],
+      "wrong": [
+        { "match": "ajattelen sinä", "ru": "«Думаю о тебе» — партитив sinua, а не sinä." },
+        { "match": "ajattelen sinusta", "ru": "ajatella управляет ПАРТИТИВОМ: ajattelen sinua, а не элативом sinusta." },
+        { "match": "ajattelet sinua", "ru": "ajattelet — это «ты думаешь». Для «я» — ajattelen." }
+      ],
+      "teaches": "verb ajatella + partitive object 'sinua'",
+      "needs_review": false
+    },
+    {
+      "id": "s113",
+      "ru": "Это хороший вопрос.",
+      "uses": ["p9", "v1", "a1", "n82"],
+      "level": 9,
+      "canonical": "Tämä on hyvä kysymys.",
+      "accepted": ["Tämä on hyvä kysymys.", "Se on hyvä kysymys."],
+      "wrong": [
+        { "match": "tämä on hyvää kysymys", "ru": "Прилагательное перед исчисляемым существительным согласуется в номинативе: hyvä kysymys." },
+        { "match": "tämä on hyvä kysymystä", "ru": "Предикативная именная группа — в номинативе: kysymys, а не партитив kysymystä." },
+        { "match": "tämä on hyvä kysymyksen", "ru": "Здесь номинатив kysymys (это не объект и не генитив)." }
+      ],
+      "teaches": "adjective-noun nominative agreement in predicate noun phrase",
+      "needs_review": false
+    },
+    {
+      "id": "s114",
+      "ru": "У меня большая проблема.",
+      "uses": ["v1", "a2", "n85"],
+      "level": 9,
+      "canonical": "Minulla on iso ongelma.",
+      "accepted": ["Minulla on iso ongelma."],
+      "wrong": [
+        { "match": "minulla on isoa ongelma", "ru": "Прилагательное перед исчисляемым существительным — в номинативе: iso ongelma." },
+        { "match": "minulla on iso ongelmaa", "ru": "Обладаемый исчисляемый предмет — в номинативе: ongelma, а не партитив ongelmaa." },
+        { "match": "minä on iso ongelma", "ru": "«У меня есть» — адессив minulla on, а не minä." }
+      ],
+      "teaches": "adjective-noun nominative agreement in possessive 'minulla on'",
+      "needs_review": false
+    },
+    {
+      "id": "s115",
+      "ru": "Я счастлив.",
+      "uses": ["v1", "a27"],
+      "level": 9,
+      "canonical": "Olen onnellinen.",
+      "accepted": ["Olen onnellinen.", "Minä olen onnellinen."],
+      "wrong": [
+        { "match": "olen onnellista", "ru": "Предикатив о человеке (исчисляемое подлежащее) — в номинативе: onnellinen, а не партитив onnellista." },
+        { "match": "on onnellinen", "ru": "Для «я» — olen, а не on («он есть»)." },
+        { "match": "olen onnellisen", "ru": "Нужна словарная форма onnellinen, а не генитив onnellisen." }
+      ],
+      "teaches": "predicative adjective nominative + copula (onnellinen)",
+      "needs_review": false
+    },
+    {
+      "id": "s116",
+      "ru": "Он грустный, но я счастлив.",
+      "uses": ["v1", "a29", "f2", "a27"],
+      "level": 9,
+      "canonical": "Hän on surullinen, mutta minä olen onnellinen.",
+      "accepted": ["Hän on surullinen, mutta minä olen onnellinen.", "Hän on surullinen, mutta olen onnellinen."],
+      "wrong": [
+        { "match": "hän on surullista, mutta minä olen onnellinen", "ru": "Предикатив о человеке — в номинативе: surullinen, а не партитив surullista." },
+        { "match": "hän on surullinen, ja minä olen onnellinen", "ru": "Здесь противопоставление — нужен mutta («но»), а не ja («и»)." },
+        { "match": "hän olen surullinen, mutta minä olen onnellinen", "ru": "Для «он» — on, а не olen («я есть»)." }
+      ],
+      "teaches": "predicative adjectives + contrast conjunction 'mutta'",
+      "needs_review": false
+    },
+    {
+      "id": "s117",
+      "ru": "Эта книга интересная.",
+      "uses": ["p9", "n7", "v1", "a31"],
+      "level": 9,
+      "canonical": "Tämä kirja on kiinnostava.",
+      "accepted": ["Tämä kirja on kiinnostava."],
+      "wrong": [
+        { "match": "tämä kirja on kiinnostavaa", "ru": "Подлежащее исчисляемое (kirja) — предикатив в номинативе: kiinnostava, а не партитив kiinnostavaa." },
+        { "match": "tämä kirja kiinnostava", "ru": "Нужна связка on: «Tämä kirja on kiinnostava»." },
+        { "match": "tämä kirja on tylsä", "ru": "«Интересная» — kiinnostava; tylsä значит «скучная»." }
+      ],
+      "teaches": "predicative adjective nominative with countable subject (kiinnostava)",
+      "needs_review": false
+    },
+    {
+      "id": "s118",
+      "ru": "Я думаю, что финский язык интересный.",
+      "uses": ["v48", "f27", "n16", "v1", "a31"],
+      "level": 9,
+      "canonical": "Ajattelen, että suomi on kiinnostavaa.",
+      "accepted": ["Ajattelen, että suomi on kiinnostavaa.", "Minä ajattelen, että suomi on kiinnostavaa."],
+      "wrong": [
+        { "match": "ajattelen, että suomi on kiinnostava", "ru": "Язык как абстрактная масса — предикатив в партитиве: kiinnostavaa." },
+        { "match": "ajattelet, että suomi on kiinnostavaa", "ru": "ajattelet — это «ты думаешь». Для «я» — ajattelen." },
+        { "match": "ajattelen, koska suomi on kiinnostavaa", "ru": "«Что» (союз) — että, а не koska («потому что»)." }
+      ],
+      "teaches": "verb ajatella + 'että' clause + mass-noun predicative partitive",
+      "needs_review": false
+    },
+    {
+      "id": "s119",
+      "ru": "Я не понимаю вопрос.",
+      "uses": ["f6", "v35", "n82"],
+      "level": 9,
+      "canonical": "En ymmärrä kysymystä.",
+      "accepted": ["En ymmärrä kysymystä.", "Minä en ymmärrä kysymystä."],
+      "wrong": [
+        { "match": "en ymmärrän kysymystä", "ru": "После en — коннегатив ymmärrä, без личного окончания." },
+        { "match": "en ymmärrä kysymys", "ru": "Объект после отрицания — в партитиве: kysymystä." },
+        { "match": "ei ymmärrä kysymystä", "ru": "Для «я» отрицание en, а не ei." }
+      ],
+      "teaches": "negation + partitive object 'kysymystä'",
+      "needs_review": false
+    },
+    {
+      "id": "s120",
+      "ru": "Поезд быстрее, чем автобус.",
+      "uses": ["n56", "v1", "a19", "f37", "n57"],
+      "level": 9,
+      "canonical": "Juna on nopeampi kuin bussi.",
+      "accepted": ["Juna on nopeampi kuin bussi."],
+      "wrong": [
+        { "match": "juna on nopea kuin bussi", "ru": "При сравнении нужна сравнительная степень: nopeampi («быстрее»), а не nopea." },
+        { "match": "juna on nopeampi mutta bussi", "ru": "«Чем» при сравнении — kuin, а не mutta («но»)." },
+        { "match": "juna on nopeampaa kuin bussi", "ru": "Предикатив с исчисляемым подлежащим — в номинативе: nopeampi, а не партитив." }
+      ],
+      "teaches": "comparative adjective 'nopeampi' + 'kuin'",
+      "needs_review": false
+    },
+    {
+      "id": "s121",
+      "ru": "Эта книга лучше.",
+      "uses": ["p9", "n7", "v1", "a1"],
+      "level": 9,
+      "canonical": "Tämä kirja on parempi.",
+      "accepted": ["Tämä kirja on parempi."],
+      "wrong": [
+        { "match": "tämä kirja on hyvä", "ru": "«Лучше» — сравнительная степень parempi (нерегулярная от hyvä), а не hyvä («хороший»)." },
+        { "match": "tämä kirja on hyvempi", "ru": "Сравнительная степень от hyvä нерегулярна: parempi, а не «hyvempi»." },
+        { "match": "tämä kirja parempi", "ru": "Нужна связка on: «Tämä kirja on parempi»." }
+      ],
+      "teaches": "irregular comparative 'parempi' (from hyvä) + copula",
+      "needs_review": false
+    },
+    {
+      "id": "s122",
+      "ru": "Брат старше, чем сестра.",
+      "uses": ["n52", "v1", "a13", "f37", "n53"],
+      "level": 9,
+      "canonical": "Veli on vanhempi kuin sisko.",
+      "accepted": ["Veli on vanhempi kuin sisko."],
+      "wrong": [
+        { "match": "veli on vanha kuin sisko", "ru": "При сравнении нужна сравнительная степень: vanhempi («старше»), а не vanha." },
+        { "match": "veli on vanhempi mutta sisko", "ru": "«Чем» при сравнении — kuin, а не mutta." },
+        { "match": "veli on vanhempi kuin siskoa", "ru": "После kuin сравниваемое слово — в номинативе: sisko, а не партитив siskoa." }
+      ],
+      "teaches": "comparative adjective 'vanhempi' + 'kuin'",
+      "needs_review": false
+    },
+    {
+      "id": "s123",
+      "ru": "Я рассказываю другу о проблеме.",
+      "uses": ["v47", "n13", "n85"],
+      "level": 9,
+      "canonical": "Kerron ystävälle ongelmasta.",
+      "accepted": ["Kerron ystävälle ongelmasta.", "Minä kerron ystävälle ongelmasta."],
+      "wrong": [
+        { "match": "kerron ystävä ongelmasta", "ru": "«Другу» (кому?) — аллатив ystävälle." },
+        { "match": "kerron ystävälle ongelma", "ru": "«О проблеме» — элатив ongelmasta (о чём?)." },
+        { "match": "kertoo ystävälle ongelmasta", "ru": "kertoo — это «он рассказывает». Для «я» — kerron (градация rt->rr)." }
+      ],
+      "teaches": "verb kertoa + allative recipient + elative topic 'ongelmasta'",
+      "needs_review": false
+    },
+    {
+      "id": "s124",
+      "ru": "Я верю, что ты счастлив.",
+      "uses": ["v49", "f27", "v1", "a27"],
+      "level": 9,
+      "canonical": "Uskon, että olet onnellinen.",
+      "accepted": ["Uskon, että olet onnellinen.", "Minä uskon, että sinä olet onnellinen.", "Uskon, että sinä olet onnellinen."],
+      "wrong": [
+        { "match": "uskon, että olen onnellinen", "ru": "«Что ты счастлив» — форма olet (ты), а не olen («я есть»)." },
+        { "match": "uskot, että olet onnellinen", "ru": "uskot — это «ты веришь». Для «я» — uskon." },
+        { "match": "uskon, että olet onnellista", "ru": "Предикатив о человеке — в номинативе: onnellinen, а не партитив onnellista." }
+      ],
+      "teaches": "verb uskoa + 'että' clause + predicative nominative",
+      "needs_review": false
     }
   ]
 }

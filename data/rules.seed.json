@@ -241,6 +241,35 @@
         "teaches": ["conjunction", "jos"],
         "pos": ["conj"]
       }
+    },
+    {
+      "id": "comparative",
+      "title": "Сравнительная степень",
+      "summary": "«более X» — суффикс -mpi: iso → isompi, kaunis → kauniimpi; «чем» = kuin.",
+      "body": "Сравнительная степень прилагательного образуется суффиксом -mpi (в основе -mma-/-mmä-): iso → isompi, vanha → vanhempi, kaunis → kauniimpi. Несколько слов нерегулярны: hyvä → parempi («лучше»). «Чем» при сравнении — это kuin: 'Juna on nopeampi kuin bussi' = Поезд быстрее автобуса. Сравнение-предикатив с исчисляемым подлежащим стоит в номинативе: 'Talo on isompi'.",
+      "examples": [
+        { "fi": "Juna on nopeampi kuin bussi.", "ru": "Поезд быстрее автобуса." },
+        { "fi": "Tämä kirja on parempi.", "ru": "Эта книга лучше." },
+        { "fi": "Veli on vanhempi kuin sisko.", "ru": "Брат старше сестры." }
+      ],
+      "match": {
+        "teaches": ["comparative", "kuin"],
+        "pos": ["adj"]
+      }
+    },
+    {
+      "id": "days-of-week",
+      "title": "Дни недели и копула",
+      "summary": "«Сегодня понедельник» — через olla: 'Tänään on maanantai' (номинатив).",
+      "body": "Названия дней недели — обычные существительные (maanantai, tiistai, keskiviikko, torstai, perjantai, lauantai, sunnuntai), пишутся со строчной буквы. Чтобы сказать «сегодня вторник», используют связку olla и номинатив: 'Tänään on tiistai'. Это та же конструкция «X on Y», что и в погоде ('Tänään on kaunis ilma'); особого падежа не нужно.",
+      "examples": [
+        { "fi": "Tänään on maanantai.", "ru": "Сегодня понедельник." },
+        { "fi": "Huomenna on tiistai.", "ru": "Завтра вторник." }
+      ],
+      "match": {
+        "teaches": ["day", "weekday"],
+        "pos": ["noun"]
+      }
     }
   ]
 }

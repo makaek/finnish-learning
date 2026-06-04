@@ -169,7 +169,65 @@
     {"id":"v36","fi":"muistaa","ru":"помнить","pos":"verb","level":7,"verb_type":1,
       "present":{"minä":"muistan","sinä":"muistat","hän":"muistaa","me":"muistamme","te":"muistatte","he":"muistavat"},
       "past_1sg":"muistin","past_3sg":"muisti","conneg":"muista",
-      "notes":"No gradation. 'Muistan nimen' = Я помню имя (тотальный объект).","needs_review":false}
+      "notes":"No gradation. 'Muistan nimen' = Я помню имя (тотальный объект).","needs_review":false},
+
+    {"id":"v37","fi":"lähteä","ru":"уходить / уезжать","pos":"verb","level":8,"verb_type":3,
+      "present":{"minä":"lähden","sinä":"lähdet","hän":"lähtee","me":"lähdemme","te":"lähdette","he":"lähtevät"},
+      "past_1sg":"lähdin","past_3sg":"lähti","conneg":"lähde",
+      "notes":"Gradation t->d: lähTee but lähDen. Origin in elative: 'Lähden kotoa' / direction 'Lähden kauppaan'. Leaving FROM a place.","needs_review":false},
+    {"id":"v38","fi":"saapua","ru":"прибывать / приезжать","pos":"verb","level":8,"verb_type":1,
+      "present":{"minä":"saavun","sinä":"saavut","hän":"saapuu","me":"saavumme","te":"saavutte","he":"saapuvat"},
+      "past_1sg":"saavuin","past_3sg":"saapui","conneg":"saavu",
+      "notes":"Gradation p->v: saaPuu but saaVun. Destination in illative/allative: 'Saavun asemalle'.","needs_review":false},
+    {"id":"v39","fi":"kävellä","ru":"идти пешком / гулять","pos":"verb","level":8,"verb_type":3,
+      "present":{"minä":"kävelen","sinä":"kävelet","hän":"kävelee","me":"kävelemme","te":"kävelette","he":"kävelevät"},
+      "past_1sg":"kävelin","past_3sg":"käveli","conneg":"kävele",
+      "notes":"Type 3 (-llä). 'Kävelen puistossa' = Я гуляю в парке.","needs_review":false},
+    {"id":"v40","fi":"juosta","ru":"бежать / бегать","pos":"verb","level":8,"verb_type":3,
+      "present":{"minä":"juoksen","sinä":"juokset","hän":"juoksee","me":"juoksemme","te":"juoksette","he":"juoksevat"},
+      "past_1sg":"juoksin","past_3sg":"juoksi","conneg":"juokse",
+      "notes":"IRREGULAR type 3, stem juokse-: juoksen. 'Juoksen puistossa'.","needs_review":false},
+    {"id":"v41","fi":"lentää","ru":"лететь","pos":"verb","level":8,"verb_type":1,
+      "present":{"minä":"lennän","sinä":"lennät","hän":"lentää","me":"lennämme","te":"lennätte","he":"lentävät"},
+      "past_1sg":"lensin","past_3sg":"lensi","conneg":"lennä",
+      "notes":"Gradation nt->nn: leNTää but leNNän. Irregular past lensi-. 'Lennän Suomeen'.","needs_review":false},
+    {"id":"v42","fi":"uida","ru":"плавать / купаться","pos":"verb","level":8,"verb_type":2,
+      "present":{"minä":"uin","sinä":"uit","hän":"ui","me":"uimme","te":"uitte","he":"uivat"},
+      "past_1sg":"uin","past_3sg":"ui","conneg":"ui",
+      "notes":"Type 2 (-da), stem ui-. Place in inessive: 'Uin järvessä' = Я плаваю в озере. Past 1sg uin same as present.","needs_review":false},
+
+    {"id":"v43","fi":"kysyä","ru":"спрашивать","pos":"verb","level":9,"verb_type":1,
+      "present":{"minä":"kysyn","sinä":"kysyt","hän":"kysyy","me":"kysymme","te":"kysytte","he":"kysyvät"},
+      "past_1sg":"kysyin","past_3sg":"kysyi","conneg":"kysy",
+      "notes":"No gradation. Object in partitive: 'Kysyn kysymyksen' (total) / 'Kysyn äidiltä' (ablative for person).","needs_review":false},
+    {"id":"v44","fi":"vastata","ru":"отвечать","pos":"verb","level":9,"verb_type":4,
+      "present":{"minä":"vastaan","sinä":"vastaat","hän":"vastaa","me":"vastaamme","te":"vastaatte","he":"vastaavat"},
+      "past_1sg":"vastasin","past_3sg":"vastasi","conneg":"vastaa",
+      "notes":"Type 4 (-ata): vasta+an -> vastaan. Governs allative for the person/thing answered: 'Vastaan kysymykseen' (illative for the question).","needs_review":false},
+    {"id":"v45","fi":"soittaa","ru":"звонить / играть (на инструменте)","pos":"verb","level":9,"verb_type":1,
+      "present":{"minä":"soitan","sinä":"soitat","hän":"soittaa","me":"soitamme","te":"soitatte","he":"soittavat"},
+      "past_1sg":"soitin","past_3sg":"soitti","conneg":"soita",
+      "notes":"Gradation tt->t: soiTTaa but soiTan. 'Soitan äidille' = Я звоню маме (allative).","needs_review":false},
+    {"id":"v46","fi":"näyttää","ru":"показывать","pos":"verb","level":9,"verb_type":1,
+      "present":{"minä":"näytän","sinä":"näytät","hän":"näyttää","me":"näytämme","te":"näytätte","he":"näyttävät"},
+      "past_1sg":"näytin","past_3sg":"näytti","conneg":"näytä",
+      "notes":"Gradation tt->t: näyTTää but näyTän. Also 'näyttää hyvältä' = выглядит хорошо.","needs_review":false},
+    {"id":"v47","fi":"kertoa","ru":"рассказывать","pos":"verb","level":9,"verb_type":1,
+      "present":{"minä":"kerron","sinä":"kerrot","hän":"kertoo","me":"kerromme","te":"kerrotte","he":"kertovat"},
+      "past_1sg":"kerroin","past_3sg":"kertoi","conneg":"kerro",
+      "notes":"Gradation rt->rr: kerTOo but kerRon. 'Kerron tarinan' / 'Kerron äidille' (allative).","needs_review":false},
+    {"id":"v48","fi":"ajatella","ru":"думать","pos":"verb","level":9,"verb_type":3,
+      "present":{"minä":"ajattelen","sinä":"ajattelet","hän":"ajattelee","me":"ajattelemme","te":"ajattelette","he":"ajattelevat"},
+      "past_1sg":"ajattelin","past_3sg":"ajatteli","conneg":"ajattele",
+      "notes":"Type 3 (-lla). Gradation t->tt in stem (ajaTella -> ajaTTelen). 'Ajattelen sinua' = Я думаю о тебе (partitive).","needs_review":false},
+    {"id":"v49","fi":"uskoa","ru":"верить / считать","pos":"verb","level":9,"verb_type":1,
+      "present":{"minä":"uskon","sinä":"uskot","hän":"uskoo","me":"uskomme","te":"uskotte","he":"uskovat"},
+      "past_1sg":"uskoin","past_3sg":"uskoi","conneg":"usko",
+      "notes":"No gradation. 'Uskon, että...' = Я верю/думаю, что... Believe in: uskoa + illative.","needs_review":false},
+    {"id":"v50","fi":"sataa","ru":"идёт дождь / снег (о погоде)","pos":"verb","level":8,"verb_type":1,
+      "present":{"minä":"sataa","sinä":"sataa","hän":"sataa","me":"sataa","te":"sataa","he":"sataa"},
+      "past_1sg":"satoi","past_3sg":"satoi","conneg":"sada",
+      "notes":"IMPERSONAL weather verb, used only in 3sg: 'Sataa' = идёт дождь; 'Sataa lunta' = идёт снег (объект в партитиве). No personal subject.","needs_review":false}
   ],
 
   "nouns": [
@@ -237,7 +295,37 @@
     {"id":"n57","fi":"bussi","ru":"автобус","pos":"noun","level":7,"gen_sg":"bussin","part_sg":"bussia","iness_sg":"bussissa","illat_sg":"bussiin","notes":"No gradation. Means in adessive: 'bussilla' = на автобусе.","needs_review":false},
     {"id":"n58","fi":"polkupyörä","ru":"велосипед","pos":"noun","level":7,"gen_sg":"polkupyörän","part_sg":"polkupyörää","iness_sg":"polkupyörässä","illat_sg":"polkupyörään","notes":"No gradation. Means in adessive: 'polkupyörällä' = на велосипеде. Short colloquial: pyörä.","needs_review":false},
     {"id":"n59","fi":"matka","ru":"поездка / путешествие","pos":"noun","level":7,"gen_sg":"matkan","part_sg":"matkaa","iness_sg":"matkassa","illat_sg":"matkaan","notes":"No gradation (gen matkan keeps -tk-). 'Hyvää matkaa!' = Счастливого пути! (partitive).","needs_review":false},
-    {"id":"n60","fi":"lääkäri","ru":"врач","pos":"noun","level":7,"gen_sg":"lääkärin","part_sg":"lääkäriä","iness_sg":"lääkärissä","illat_sg":"lääkäriin","notes":"No gradation. Front-harmony (lääkäriä, -ssä). 'Menen lääkäriin' = Я иду к врачу.","needs_review":false}
+    {"id":"n60","fi":"lääkäri","ru":"врач","pos":"noun","level":7,"gen_sg":"lääkärin","part_sg":"lääkäriä","iness_sg":"lääkärissä","illat_sg":"lääkäriin","notes":"No gradation. Front-harmony (lääkäriä, -ssä). 'Menen lääkäriin' = Я иду к врачу.","needs_review":false},
+
+    {"id":"n61","fi":"metsä","ru":"лес","pos":"noun","level":8,"gen_sg":"metsän","part_sg":"metsää","iness_sg":"metsässä","illat_sg":"metsään","notes":"No gradation. 'metsässä' = в лесу, 'metsään' = в лес.","needs_review":false},
+    {"id":"n62","fi":"järvi","ru":"озеро","pos":"noun","level":8,"gen_sg":"järven","part_sg":"järveä","iness_sg":"järvessä","illat_sg":"järveen","notes":"Stem järve-: gen järven, part järveä. No gradation.","needs_review":false},
+    {"id":"n63","fi":"meri","ru":"море","pos":"noun","level":8,"gen_sg":"meren","part_sg":"merta","iness_sg":"meressä","illat_sg":"mereen","notes":"Stem mere-: gen meren. IRREGULAR partitive merta. 'meressä' = в море.","needs_review":false},
+    {"id":"n64","fi":"puu","ru":"дерево","pos":"noun","level":8,"gen_sg":"puun","part_sg":"puuta","iness_sg":"puussa","illat_sg":"puuhun","notes":"Long vowel stem puu-. No gradation. Also 'древесина'.","needs_review":false},
+    {"id":"n65","fi":"kukka","ru":"цветок","pos":"noun","level":8,"gen_sg":"kukan","part_sg":"kukkaa","iness_sg":"kukassa","illat_sg":"kukkaan","notes":"Gradation kk->k: kuKKa but kuKan.","needs_review":false},
+    {"id":"n66","fi":"aurinko","ru":"солнце","pos":"noun","level":8,"gen_sg":"auringon","part_sg":"aurinkoa","iness_sg":"auringossa","illat_sg":"aurinkoon","notes":"Gradation nk->ng: auriNKo but auriNGon. 'Aurinko paistaa' = Солнце светит.","needs_review":false},
+    {"id":"n67","fi":"sade","ru":"дождь","pos":"noun","level":8,"gen_sg":"sateen","part_sg":"sadetta","iness_sg":"sateessa","illat_sg":"sateeseen","notes":"-e noun, stem satee-: gen sateen (t->t, no weakening shown), part sadetta. 'Sataa' = идёт дождь (отд. глагол).","needs_review":false},
+    {"id":"n68","fi":"lumi","ru":"снег","pos":"noun","level":8,"gen_sg":"lumen","part_sg":"lunta","iness_sg":"lumessa","illat_sg":"lumeen","notes":"Stem lume-: gen lumen. IRREGULAR partitive lunta. 'Sataa lunta' = идёт снег.","needs_review":false},
+    {"id":"n69","fi":"taivas","ru":"небо","pos":"noun","level":8,"gen_sg":"taivaan","part_sg":"taivasta","iness_sg":"taivaalla","illat_sg":"taivaalle","notes":"Stem taivaa-: gen taivaan, part taivasta. LOCATION uses ADESSIVE: 'taivaalla' = на небе.","needs_review":false},
+    {"id":"n70","fi":"maa","ru":"страна / земля","pos":"noun","level":8,"gen_sg":"maan","part_sg":"maata","iness_sg":"maassa","illat_sg":"maahan","notes":"Long vowel stem maa-. No gradation. 'maassa' = в стране/на земле; 'Mistä maasta?' = Из какой страны?","needs_review":false},
+    {"id":"n71","fi":"hotelli","ru":"гостиница","pos":"noun","level":8,"gen_sg":"hotellin","part_sg":"hotellia","iness_sg":"hotellissa","illat_sg":"hotelliin","notes":"No gradation. 'hotellissa' = в гостинице, 'hotelliin' = в гостиницу.","needs_review":false},
+    {"id":"n72","fi":"lentokenttä","ru":"аэропорт","pos":"noun","level":8,"gen_sg":"lentokentän","part_sg":"lentokenttää","iness_sg":"lentokentällä","illat_sg":"lentokentälle","notes":"Gradation tt->t: lentokeNTTä but lentokeNTän. LOCATION uses ADESSIVE (kenttä = поле): 'lentokentällä' = в аэропорту, 'lentokentälle' = в аэропорт.","needs_review":false},
+    {"id":"n73","fi":"lippu","ru":"билет","pos":"noun","level":8,"gen_sg":"lipun","part_sg":"lippua","iness_sg":"lipussa","illat_sg":"lippuun","notes":"Gradation pp->p: liPPu but liPun. 'Ostan lipun' = Я покупаю билет.","needs_review":false},
+    {"id":"n74","fi":"kartta","ru":"карта","pos":"noun","level":8,"gen_sg":"kartan","part_sg":"karttaa","iness_sg":"kartassa","illat_sg":"karttaan","notes":"Gradation tt->t: karTTa but karTan.","needs_review":false},
+
+    {"id":"n75","fi":"maanantai","ru":"понедельник","pos":"noun","level":8,"gen_sg":"maanantain","part_sg":"maanantaita","iness_sg":"maanantaissa","illat_sg":"maanantaihin","notes":"Day of week. Copula idiom: 'Tänään on maanantai' = Сегодня понедельник.","needs_review":false},
+    {"id":"n76","fi":"tiistai","ru":"вторник","pos":"noun","level":8,"gen_sg":"tiistain","part_sg":"tiistaita","iness_sg":"tiistaissa","illat_sg":"tiistaihin","notes":"Day of week. 'Tänään on tiistai'.","needs_review":false},
+    {"id":"n77","fi":"keskiviikko","ru":"среда","pos":"noun","level":8,"gen_sg":"keskiviikon","part_sg":"keskiviikkoa","iness_sg":"keskiviikossa","illat_sg":"keskiviikkoon","notes":"Day of week. Gradation kk->k: keskiviiKKo but keskiviiKon. 'Tänään on keskiviikko'.","needs_review":false},
+    {"id":"n78","fi":"torstai","ru":"четверг","pos":"noun","level":8,"gen_sg":"torstain","part_sg":"torstaita","iness_sg":"torstaissa","illat_sg":"torstaihin","notes":"Day of week. 'Tänään on torstai'.","needs_review":false},
+    {"id":"n79","fi":"perjantai","ru":"пятница","pos":"noun","level":8,"gen_sg":"perjantain","part_sg":"perjantaita","iness_sg":"perjantaissa","illat_sg":"perjantaihin","notes":"Day of week. 'Tänään on perjantai'.","needs_review":false},
+    {"id":"n80","fi":"lauantai","ru":"суббота","pos":"noun","level":8,"gen_sg":"lauantain","part_sg":"lauantaita","iness_sg":"lauantaissa","illat_sg":"lauantaihin","notes":"Day of week. 'Tänään on lauantai'.","needs_review":false},
+    {"id":"n81","fi":"sunnuntai","ru":"воскресенье","pos":"noun","level":8,"gen_sg":"sunnuntain","part_sg":"sunnuntaita","iness_sg":"sunnuntaissa","illat_sg":"sunnuntaihin","notes":"Day of week. 'Tänään on sunnuntai'.","needs_review":false},
+
+    {"id":"n82","fi":"kysymys","ru":"вопрос","pos":"noun","level":9,"gen_sg":"kysymyksen","part_sg":"kysymystä","iness_sg":"kysymyksessä","illat_sg":"kysymykseen","notes":"-s noun, stem kysymykse-: gen kysymyksen, part kysymystä. 'Hyvä kysymys' = Хороший вопрос.","needs_review":false},
+    {"id":"n83","fi":"vastaus","ru":"ответ","pos":"noun","level":9,"gen_sg":"vastauksen","part_sg":"vastausta","iness_sg":"vastauksessa","illat_sg":"vastaukseen","notes":"-s noun, stem vastaukse-: gen vastauksen, part vastausta.","needs_review":false},
+    {"id":"n84","fi":"asia","ru":"дело / вещь (вопрос)","pos":"noun","level":9,"gen_sg":"asian","part_sg":"asiaa","iness_sg":"asiassa","illat_sg":"asiaan","notes":"No gradation. Abstract 'дело/вопрос': 'tärkeä asia' = важное дело.","needs_review":false},
+    {"id":"n85","fi":"ongelma","ru":"проблема","pos":"noun","level":9,"gen_sg":"ongelman","part_sg":"ongelmaa","iness_sg":"ongelmassa","illat_sg":"ongelmaan","notes":"No gradation. 'iso ongelma' = большая проблема.","needs_review":false},
+    {"id":"n86","fi":"onni","ru":"счастье / удача","pos":"noun","level":9,"gen_sg":"onnen","part_sg":"onnea","iness_sg":"onnessa","illat_sg":"onneen","notes":"Stem onne-: gen onnen, part onnea. 'Onnea!' = Удачи! (партитив).","needs_review":false},
+    {"id":"n87","fi":"tunne","ru":"чувство","pos":"noun","level":9,"gen_sg":"tunteen","part_sg":"tunnetta","iness_sg":"tunteessa","illat_sg":"tunteeseen","notes":"-e noun, stem tuntee-: gen tunteen, part tunnetta. 'hyvä tunne' = хорошее чувство.","needs_review":false}
   ],
 
   "adjectives": [
@@ -268,7 +356,14 @@
     {"id":"a23","fi":"punainen","ru":"красный","pos":"adj","level":7,"gen_sg":"punaisen","part_sg":"punaista","notes":"-nen colour adj, stem punaise-: gen punaisen, part punaista. 'punainen auto' = красная машина."},
     {"id":"a24","fi":"sininen","ru":"синий / голубой","pos":"adj","level":7,"gen_sg":"sinisen","part_sg":"sinistä","notes":"-nen colour adj, stem sinise-: gen sinisen, part sinistä. Front-harmony."},
     {"id":"a25","fi":"valkoinen","ru":"белый","pos":"adj","level":7,"gen_sg":"valkoisen","part_sg":"valkoista","notes":"-nen colour adj, stem valkoise-: gen valkoisen, part valkoista."},
-    {"id":"a26","fi":"musta","ru":"чёрный","pos":"adj","level":7,"gen_sg":"mustan","part_sg":"mustaa","notes":"No gradation. 'musta kahvi' = чёрный кофе."}
+    {"id":"a26","fi":"musta","ru":"чёрный","pos":"adj","level":7,"gen_sg":"mustan","part_sg":"mustaa","notes":"No gradation. 'musta kahvi' = чёрный кофе."},
+
+    {"id":"a27","fi":"onnellinen","ru":"счастливый","pos":"adj","level":9,"gen_sg":"onnellisen","part_sg":"onnellista","notes":"-nen adj, stem onnellise-: gen onnellisen, part onnellista. 'Olen onnellinen' = Я счастлив."},
+    {"id":"a28","fi":"tyytyväinen","ru":"довольный","pos":"adj","level":9,"gen_sg":"tyytyväisen","part_sg":"tyytyväistä","notes":"-nen adj, stem tyytyväise-: gen tyytyväisen, part tyytyväistä. Often + elative: 'tyytyväinen elämään'."},
+    {"id":"a29","fi":"surullinen","ru":"грустный","pos":"adj","level":9,"gen_sg":"surullisen","part_sg":"surullista","notes":"-nen adj, stem surullise-: gen surullisen, part surullista. 'Olen surullinen' = Мне грустно."},
+    {"id":"a30","fi":"vihainen","ru":"сердитый","pos":"adj","level":9,"gen_sg":"vihaisen","part_sg":"vihaista","notes":"-nen adj, stem vihaise-: gen vihaisen, part vihaista."},
+    {"id":"a31","fi":"kiinnostava","ru":"интересный","pos":"adj","level":9,"gen_sg":"kiinnostavan","part_sg":"kiinnostavaa","notes":"No gradation. 'kiinnostava kirja' = интересная книга. Synonym: mielenkiintoinen."},
+    {"id":"a32","fi":"tylsä","ru":"скучный","pos":"adj","level":9,"gen_sg":"tylsän","part_sg":"tylsää","notes":"No gradation. 'tylsä kirja' = скучная книга. Antonym kiinnostava."}
   ],
 
   "function_words": [
@@ -312,7 +407,9 @@
     {"id":"f34","fi":"kyllä","ru":"да","pos":"interj","level":3,"notes":"'Kyllä' = Да (эмфатическое/в ответ на вопрос с -ko). Opposite ei = нет.","needs_review":false},
 
     {"id":"f35","fi":"usein","ru":"часто","pos":"adv","level":6,"notes":"Indeclinable frequency adverb. 'Katson usein televisiota' = Я часто смотрю телевизор. Free word order.","needs_review":false},
-    {"id":"f36","fi":"aina","ru":"всегда","pos":"adv","level":6,"notes":"Indeclinable frequency adverb. 'Herään aina aikaisin' (упрощённо). 'Olen aina kotona illalla'.","needs_review":false}
+    {"id":"f36","fi":"aina","ru":"всегда","pos":"adv","level":6,"notes":"Indeclinable frequency adverb. 'Herään aina aikaisin' (упрощённо). 'Olen aina kotona illalla'.","needs_review":false},
+
+    {"id":"f37","fi":"kuin","ru":"чем (при сравнении) / как","pos":"conj","level":9,"notes":"Comparison particle: 'Juna on nopeampi kuin bussi' = Поезд быстрее, чем автобус. Pairs with the comparative (-mpi).","needs_review":false}
   ],
 
   "example_sentences": [
