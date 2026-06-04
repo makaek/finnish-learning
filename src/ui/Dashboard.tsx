@@ -85,9 +85,9 @@ export default function Dashboard({ vocab, sentences, progress, daily, testMode 
 
       <section className="kpis">
         <KpiCard icon="✦" value={`${k.wordsLearned}/${k.wordsTotal}`} label="Слов выучено" sub={pct(k.wordsFraction)} />
-        <KpiCard icon="💬" value={`${k.sentencesLearned}/${k.sentencesTotal}`} label="Фраз освоено" sub={`${k.sentencesEligible} доступно`} />
-        <KpiCard icon="🏆" value={`${k.level}/${k.levelsTotal}`} label="Уровень" />
-        <KpiCard icon="🥇" value={k.fullyMastered} label="Полностью освоено" sub="по всем режимам" />
+        <KpiCard icon="💬" value={`${k.sentencesLearned}/${k.sentencesTotal}`} label="Фраз освоено" sub={`перевод · ${k.sentencesEligible} доступно`} />
+        <KpiCard icon="🏆" value={`${k.level}/${k.levelsTotal}`} label="Уровень" sub="осваиваемый" />
+        <KpiCard icon="🥇" value={k.fullyMastered} label="Полностью освоено" sub="слова и фразы, все режимы" />
         <KpiCard icon="🔥" value={k.streak} label="Серия дней" sub={`рекорд ${k.bestStreak}`} />
         <KpiCard icon="🎯" value={pct(k.accuracy)} label="Точность" sub={`${k.totalCorrect}/${k.totalReps}`} />
         <KpiCard icon="🔁" value={k.totalReps} label="Всего ответов" />

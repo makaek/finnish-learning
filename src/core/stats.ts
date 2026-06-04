@@ -22,7 +22,9 @@ export interface MasteryRow {
   /**
    * Single-draw selection probability within `activePool` (weight / Σ weights), in [0, 1].
    * 0 when the item is not currently in play (e.g. its level is locked), so the UI can show
-   * "—". This is the per-pick chance; a real session draws several distinct items.
+   * "—". This is the per-pick chance; a real session draws several distinct items. NOTE: it uses
+   * the base SRS {@link selectionWeight} only — it does NOT include the lowest-unmastered-level
+   * boost the builders apply, so it's an estimate (can under-read for a boosted level).
    */
   chance: number;
 }
@@ -129,7 +131,8 @@ export function groupReadiness(
 /** One item (word or sentence) with its metrics merged across its lesson-type tracks. */
 export interface MergedProgress {
   id: string;
-  /** Per-track metrics, only for tracks practiced (totalCorrect ≥ 1), in the given order. */
+  /** Per-track metrics, only for tracks ENCOUNTERED (totalSeen ≥ 1), in the given order — same
+   *  "seen" notion the dashboard's box/recency charts use, so the two screens agree. */
   tracks: MasteryRow[];
   /**
    * Mastered = box ≥ masteredBox in EVERY applicable track (incl. ones never tried, which
@@ -163,9 +166,10 @@ function trackRow(
 /**
  * Merge each item's progress across several tracks (e.g. a word across recognition /
  * production / say_word) into one entry, so the UI can show a single card per word/sentence
- * instead of repeating it per lesson type. Includes only items practiced in ≥1 track, with a
- * row per practiced track. Sorted **mastered-first** (the hideable / already-hidden items,
- * so they're easy to manage at the top), then most-recently practiced.
+ * instead of repeating it per lesson type. Includes only items SEEN in ≥1 track (totalSeen ≥ 1,
+ * matching the dashboard), with a row per seen track — so a word answered only-ever-wrong still
+ * appears here. Sorted **mastered-first** (the hideable / already-hidden items, so they're easy
+ * to manage at the top), then most-recently practiced.
  */
 export function mergeByItem(
   items: readonly { id: string }[],
@@ -191,7 +195,7 @@ export function mergeByItem(
     for (const kind of kinds) {
       const p = getProgress(progress, kind, item.id);
       if (p.box < masteredBox) mastered = false;
-      if (p.totalCorrect < 1) continue; // untried → no track row (already counted above)
+      if (p.totalSeen < 1) continue; // never seen in this track → no row (mastery counted above)
       tracks.push(trackRow(item, kind, p, inPool.has(item.id), totalWeightByKind.get(kind) ?? 0));
       if (p.lastSeen > lastSeen) lastSeen = p.lastSeen;
     }

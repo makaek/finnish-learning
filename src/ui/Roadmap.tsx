@@ -117,8 +117,9 @@ export default function Roadmap({
   onTestFill,
 }: RoadmapProps) {
   // "Current level" is the level being completed (lowest not fully learned), shown with a smooth
-  // 0→100% learn-progress bar that rolls over only at 100% — not the unlocked frontier, which
-  // jumped the bar to ~0% on every unlock.
+  // learn-progress bar — not the unlocked frontier, which jumped the bar to ~0% on every unlock.
+  // The bar tracks the current level, so on rollover it re-points to the next level's progress
+  // (which can be slightly >0); much smaller than the old frontier jump.
   const { active, overall } = useMemo(() => {
     const s = levelStats(vocab, progress);
     return { active: masteringLevel(s), overall: overallProgress(vocab, progress) };

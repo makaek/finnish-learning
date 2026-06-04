@@ -104,6 +104,14 @@ describe("mergeByItem", () => {
     expect(a.mastered).toBe(true);
   });
 
+  it("includes a track SEEN but never answered correctly (matches the dashboard's 'seen')", () => {
+    const progress = mk(rec("recognition", "a", 0, 2)); // seen twice, never correct (box 0)
+    const a = mergeByItem(pair, pair, progress, WORD_KINDS, 3).find((x) => x.id === "a");
+    expect(a).toBeDefined();
+    expect(a!.tracks.map((t) => t.kind)).toEqual(["recognition"]);
+    expect(a!.tracks[0]!.totalCorrect).toBe(0);
+  });
+
   it("sorts mastered (hideable) items first", () => {
     const progress = mk(
       rec("recognition", "a", 5, 5),

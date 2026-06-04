@@ -169,9 +169,12 @@ export function activeLevel(stats: readonly LevelStat[], unlocked: ReadonlySet<n
 }
 
 /**
- * Average {@link wordLearnProgress} over a level's words, in [0, 1] (1 for an empty level). This
- * is the home HUD bar: it grows smoothly toward 1 and reaches exactly 1 when every word in the
- * level is learned — i.e. precisely when {@link masteringLevel} rolls over to the next level.
+ * Average {@link wordLearnProgress} over a level's words, in [0, 1] (1 for an empty level). The
+ * home HUD bar shows this for the CURRENT {@link masteringLevel}: it grows smoothly toward 1 as
+ * the level is learned. Note the bar tracks the level being completed, so at the instant a level
+ * finishes it re-points to the NEXT level — which may already read above 0 (later-level words can
+ * carry boxes from the per-mode boost / incidental draws). So the bar need not display 100% for
+ * the just-finished level; the residual step is far smaller than the old frontier-display jump.
  */
 export function levelLearnProgress(
   vocab: readonly VocabLike[],
@@ -186,8 +189,9 @@ export function levelLearnProgress(
 /**
  * The level the learner is currently completing: the LOWEST level not yet fully learned (some
  * word still unlearned), or the highest level once all are done. Unlike {@link activeLevel} (the
- * unlocked frontier), this advances only when a level is truly finished, so the HUD bar fills
- * 0→100% and rolls over without the mid-level jump that the frontier display produced.
+ * unlocked frontier), this advances only when a level is truly finished, avoiding the mid-level
+ * jump the frontier display produced. NOTE: it is derived from `learned`, which can regress (a
+ * miss demotes a box), so a forgotten word can move this back a level — see the audit's M2.
  */
 export function masteringLevel(stats: readonly LevelStat[]): number {
   const ordered = [...stats].sort((a, b) => a.level - b.level);
@@ -200,6 +204,11 @@ export function masteringLevel(stats: readonly LevelStat[]): number {
  * given exercise `kind`, or `undefined` if every item is mastered in that kind. Drives the
  * per-mode selection boost: practising a mode pushes the EARLIEST level you're weak in there to
  * the front, so each skill is trained level-by-level (and earlier levels get finished first).
+ *
+ * Assumes `items` is already the in-play pool (callers pass `activeVocab` / `eligibleSentences`);
+ * on a raw, ungated list it could target a still-locked level. Note this "lowest weak level in
+ * THIS mode" can differ from the HUD's {@link masteringLevel} ("lowest not learned in ANY mode")
+ * — intended, so an already-"learned" level still gets its weak modes finished.
  */
 export function lowestUnmasteredLevel(
   items: readonly VocabLike[],

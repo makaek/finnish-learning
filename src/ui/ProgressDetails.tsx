@@ -41,11 +41,17 @@ function boxPips(box: number): string {
   return "●".repeat(box) + "○".repeat(Math.max(0, MAX_BOX - box));
 }
 
-/** Per-pick chance scaled to a whole session — sentence sessions are smaller than word ones. */
+/**
+ * Approximate chance of meeting an item at least once in a session. Treats the per-pick `chance`
+ * as independent draws — `1 − (1 − chance)^sessionSize` — which is far closer than the old
+ * `chance × size` (that ignored that draws are without replacement and over-counted). Still an
+ * estimate: it doesn't account for the lowest-unmastered-level boost, so it can under-read for a
+ * boosted level. Sentence sessions are smaller than word ones.
+ */
 function chanceLabel(chance: number, kind: ItemKind): string {
   if (chance <= 0) return "—";
   const sessionSize = SENTENCE_KINDS.includes(kind) ? SENTENCE_SESSION_SIZE : DEFAULT_SESSION_SIZE;
-  const pct = Math.min(1, chance * sessionSize) * 100;
+  const pct = (1 - (1 - chance) ** sessionSize) * 100;
   if (pct >= 99.5) return "~100%";
   return pct < 1 ? "<1%" : `~${Math.round(pct)}%`;
 }
@@ -104,7 +110,9 @@ function ItemCard({
                 <span title="Верных с первой попытки из показов">
                   ✓ {t.totalCorrect}/{t.totalSeen} ({accuracy}%)
                 </span>
-                <span title="Шанс встретить в сессии">🎲 {chanceLabel(t.chance, t.kind)}</span>
+                <span title="Примерный шанс встретить в сессии (оценка)">
+                  🎲 {chanceLabel(t.chance, t.kind)}
+                </span>
               </span>
             </li>
           );
