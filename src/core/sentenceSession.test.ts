@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import type { SentenceItem } from "./grader";
-import { buildSentenceSession, DEFAULT_SESSION_SIZE } from "./sentenceSession";
+import { buildSentenceSession, DEFAULT_SESSION_SIZE, SENTENCE_SESSION_SIZE } from "./sentenceSession";
 
 const items: SentenceItem[] = [
   { id: "s1", ru: "A", uses: ["v1"], canonical: "a", accepted: ["a"], wrong: [] },
@@ -52,5 +52,15 @@ describe("buildSentenceSession", () => {
     expect(buildSentenceSession(items, 1)).toHaveLength(
       Math.min(DEFAULT_SESSION_SIZE, items.length),
     );
+  });
+
+  it("exposes a smaller sentence session size (5) for the shorter sentence lessons", () => {
+    expect(SENTENCE_SESSION_SIZE).toBe(5);
+    expect(SENTENCE_SESSION_SIZE).toBeLessThan(DEFAULT_SESSION_SIZE);
+    // When asked for SENTENCE_SESSION_SIZE, it serves that many (pool-capped).
+    const big = Array.from({ length: 8 }, (_, i): SentenceItem => ({
+      id: `b${i}`, ru: `R${i}`, uses: [], canonical: `c${i}`, accepted: [`c${i}`], wrong: [],
+    }));
+    expect(buildSentenceSession(big, 1, SENTENCE_SESSION_SIZE)).toHaveLength(SENTENCE_SESSION_SIZE);
   });
 });

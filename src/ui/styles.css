@@ -662,6 +662,22 @@ body {
   opacity: 0.5;
 }
 
+/* Lifetime mastered count, top-left (the dot/bar show recency; this shows the banked total). */
+.modebtn__count {
+  position: absolute;
+  top: 0.4rem;
+  left: 0.45rem;
+  min-width: 1rem;
+  padding: 0 0.2rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1.1rem;
+  text-align: center;
+  color: var(--muted);
+  background: var(--surface-2);
+  border-radius: 999px;
+}
+
 /* Continuous readiness bar along the button's bottom edge — finer than the 3-colour dot, so
    a few lessons visibly move it instead of the light appearing stuck. */
 .modebtn__bar {

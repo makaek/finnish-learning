@@ -8,12 +8,12 @@
  */
 
 import type { SentenceItem } from "./grader";
-import { makeRng, shuffle, DEFAULT_SESSION_SIZE } from "./quiz";
+import { makeRng, shuffle, DEFAULT_SESSION_SIZE, SENTENCE_SESSION_SIZE } from "./quiz";
 import { getProgress, type ItemKind, type ProgressMap } from "./progress";
 import { selectionWeight } from "./srs";
 import { weightedSample } from "./select";
 
-export { DEFAULT_SESSION_SIZE };
+export { DEFAULT_SESSION_SIZE, SENTENCE_SESSION_SIZE };
 
 /** A single sentence question ready to render. */
 export interface SentenceQuestion {

@@ -8,6 +8,7 @@
 
 import { getProgress, type ItemKind, type ItemProgress, type ProgressMap } from "./progress";
 import { selectionWeight } from "./srs";
+import { dateKey, daysBetween } from "./daily";
 
 export interface MasteryRow {
   id: string;
@@ -26,51 +27,101 @@ export interface MasteryRow {
   chance: number;
 }
 
-/** Traffic-light readiness for one lesson mode, RELATIVE to the leading mode in its group. */
+/** Traffic-light readiness for one lesson mode, driven by RECENCY of practice in its group. */
 export type Readiness = "green" | "yellow" | "red" | "none";
 
 export interface ModeReadiness {
-  /** Items mastered (box ≥ masteredBox) in this mode. */
+  /** Items mastered (box ≥ masteredBox) in this mode — the lifetime count shown as a badge. */
   mastered: number;
-  /** Mastered count of the leading mode in the group (the relative anchor). */
+  /** Pool size for this group (badge denominator; lets the UI show "30 / 64"). */
+  total: number;
+  /** Recency-decayed activity score (Σ recently-practised items); leader of the group anchors. */
+  recentScore: number;
+  /** recentScore of the leading mode in the group (the relative anchor). */
   leader: number;
-  /** mastered / leader, in [0, 1] — the continuous fill for the mode's progress bar. */
+  /** recentScore / leader, in [0, 1] — the continuous fill for the mode's progress bar. */
   ratio: number;
   level: Readiness;
 }
 
 /**
- * Per-mode readiness within a group of modes (e.g. a word's recognition / production /
- * say_word), RELATIVE to the most-practiced mode in the group — not to the whole deck. The
- * goal is to keep the modes BALANCED: the leader is green, and a mode that lags far behind it
- * goes yellow then red, nudging the learner to switch to it. Thresholds are deliberately
- * forgiving so a little practice visibly moves the light: green ≥ 50% of the leader's mastered
- * count, yellow ≥ 15%, red below; `none` until something is mastered (or the pool is empty),
- * since there's nothing to balance yet. The continuous `ratio` (mastered/leader) drives a
- * progress bar so progress shows even within a colour band.
+ * How fast the recency weight halves: an item practised today counts ~1, and its weight halves
+ * every {@link READINESS_HALFLIFE_DAYS} days, so old practice fades toward 0. Drives the relative
+ * `recentScore` so a recent burst in one mode visibly outweighs modes touched a while ago.
+ */
+export const READINESS_HALFLIFE_DAYS = 2;
+
+/** Severity order so we can take the WORSE of two lights (lower index = worse). */
+const SEVERITY: readonly Readiness[] = ["red", "yellow", "green"];
+function worse(a: Readiness, b: Readiness): Readiness {
+  return SEVERITY.indexOf(a) <= SEVERITY.indexOf(b) ? a : b;
+}
+
+/**
+ * Per-mode readiness within a group of modes (e.g. a word's recognition / production / say_word /
+ * listen_word). Two signals combine into one light:
+ *
+ *  1. RELATIVE recency balance — each mode's `recentScore` sums its practised items, weighting
+ *     recent practice ~1 and decaying older practice (half-life {@link READINESS_HALFLIFE_DAYS}).
+ *     Coloured against the group leader: green ≥ 50%, yellow ≥ 15%, red below. So pouring a few
+ *     lessons into one mode today lifts it and lets the neglected modes slide — sensitive even
+ *     when every mode has a big lifetime count.
+ *  2. ABSOLUTE idle decay — days since the mode was last practised caps the light: 1 day → at most
+ *     yellow, ≥ 2 days → red. This is the engagement loop (practise today or fade) and turns
+ *     EVERY mode red on a fully idle stretch, which the relative signal alone cannot.
+ *
+ * A mode with nothing left to learn (every pool item mastered) stays green regardless — there's
+ * nothing to nag about. `none` when the pool is empty or no mode in the group has ever been
+ * practised. The lifetime `mastered` count is reported separately for the badge, so the achievement
+ * stays visible even when the light is amber/red. `now` is injectable for tests.
  */
 export function groupReadiness(
   pool: readonly { id: string }[],
   progress: ProgressMap,
   kinds: readonly ItemKind[],
   masteredBox: number,
+  now: number = Date.now(),
 ): Map<ItemKind, ModeReadiness> {
-  const counts = new Map<ItemKind, number>();
+  const today = dateKey(now);
+  const mastered = new Map<ItemKind, number>();
+  const scores = new Map<ItemKind, number>();
+  const idleDays = new Map<ItemKind, number>(); // whole days since the mode was last practised
   for (const kind of kinds) {
-    counts.set(
-      kind,
-      pool.filter((i) => getProgress(progress, kind, i.id).box >= masteredBox).length,
-    );
+    let count = 0;
+    let score = 0;
+    let lastSeen = 0;
+    for (const i of pool) {
+      const p = getProgress(progress, kind, i.id);
+      if (p.box >= masteredBox) count += 1;
+      if (p.totalSeen >= 1 && p.lastSeen > 0) {
+        const days = Math.max(0, (now - p.lastSeen) / 86_400_000);
+        score += 0.5 ** (days / READINESS_HALFLIFE_DAYS);
+        if (p.lastSeen > lastSeen) lastSeen = p.lastSeen;
+      }
+    }
+    mastered.set(kind, count);
+    scores.set(kind, score);
+    idleDays.set(kind, lastSeen === 0 ? Infinity : daysBetween(dateKey(lastSeen), today));
   }
-  const max = Math.max(0, ...counts.values());
+
+  const max = Math.max(0, ...scores.values());
   const result = new Map<ItemKind, ModeReadiness>();
   for (const kind of kinds) {
-    const mastered = counts.get(kind) ?? 0;
-    const ratio = max === 0 ? 0 : mastered / max;
+    const count = mastered.get(kind) ?? 0;
+    const recentScore = scores.get(kind) ?? 0;
+    const ratio = max === 0 ? 0 : recentScore / max;
     let level: Readiness;
-    if (pool.length === 0 || max === 0) level = "none";
-    else level = ratio >= 0.5 ? "green" : ratio >= 0.15 ? "yellow" : "red";
-    result.set(kind, { mastered, leader: max, ratio, level });
+    if (pool.length === 0 || max === 0) {
+      level = "none";
+    } else if (count === pool.length) {
+      level = "green"; // nothing left to practise in this mode — stay green even when idle
+    } else {
+      const base: Readiness = ratio >= 0.5 ? "green" : ratio >= 0.15 ? "yellow" : "red";
+      const days = idleDays.get(kind) ?? Infinity;
+      const cap: Readiness = days <= 0 ? "green" : days === 1 ? "yellow" : "red";
+      level = worse(base, cap);
+    }
+    result.set(kind, { mastered: count, total: pool.length, recentScore, leader: max, ratio, level });
   }
   return result;
 }

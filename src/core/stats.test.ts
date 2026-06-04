@@ -115,11 +115,13 @@ describe("mergeByItem", () => {
   });
 });
 
-describe("groupReadiness (relative balance across modes)", () => {
+describe("groupReadiness (recency-driven lights + lifetime badge)", () => {
   const KINDS: ItemKind[] = ["recognition", "production", "say_word"];
-  const pool = Array.from({ length: 12 }, (_, i) => ({ id: `i${i}` }));
-  // Master `n` items of `pool` in `kind` (box 5).
-  const masterN = (kind: ItemKind, n: number): ItemProgress[] =>
+  const pool = Array.from({ length: 40 }, (_, i) => ({ id: `i${i}` }));
+  const NOW = Date.parse("2026-06-04T12:00:00");
+  const DAY = 86_400_000;
+  // Master `n` items of `pool` in `kind`, last practised `daysAgo` days before NOW.
+  const masterN = (kind: ItemKind, n: number, daysAgo = 0): ItemProgress[] =>
     pool.slice(0, n).map((it) => ({
       kind,
       itemId: it.id,
@@ -127,31 +129,58 @@ describe("groupReadiness (relative balance across modes)", () => {
       correctStreak: 5,
       totalCorrect: 5,
       totalSeen: 5,
-      lastSeen: 1,
+      lastSeen: NOW - daysAgo * DAY,
     }));
 
-  it("colours each mode relative to the leader with forgiving bands: 10/4/1 → green/yellow/red", () => {
+  it("colours each mode relative to the freshest with forgiving bands: 10/4/1 today → green/yellow/red", () => {
     const progress = map(...masterN("recognition", 10), ...masterN("production", 4), ...masterN("say_word", 1));
-    const r = groupReadiness(pool, progress, KINDS, 3);
-    expect(r.get("recognition")).toEqual({ mastered: 10, leader: 10, ratio: 1, level: "green" }); // 10/10
+    const r = groupReadiness(pool, progress, KINDS, 3, NOW);
+    expect(r.get("recognition")).toMatchObject({ mastered: 10, total: 40, ratio: 1, level: "green" });
     expect(r.get("production")!.level).toBe("yellow"); // 4/10 = 0.4 (≥0.15, <0.5)
     expect(r.get("production")!.ratio).toBeCloseTo(0.4);
     expect(r.get("say_word")!.level).toBe("red"); // 1/10 = 0.1 (<0.15)
   });
 
-  it("treats half the leader's count as green (forgiving threshold)", () => {
-    const progress = map(...masterN("recognition", 10), ...masterN("production", 5));
-    expect(groupReadiness(pool, progress, KINDS, 3).get("production")!.level).toBe("green"); // 5/10
+  it("caps an idle mode by days since practice: today green, 1 day yellow, 3 days red", () => {
+    const progress = map(
+      ...masterN("recognition", 10, 0), // today → no cap
+      ...masterN("production", 10, 1), // yesterday → cap yellow
+      ...masterN("say_word", 10, 3), // 3 days ago → cap red
+    );
+    const r = groupReadiness(pool, progress, KINDS, 3, NOW);
+    expect(r.get("recognition")!.level).toBe("green");
+    expect(r.get("production")!.level).toBe("yellow"); // base would be green, idle-capped
+    expect(r.get("say_word")!.level).toBe("red");
   });
 
-  it("calls balanced modes all green (it's about balance, not the whole deck)", () => {
-    const progress = map(...masterN("recognition", 3), ...masterN("production", 3), ...masterN("say_word", 3));
-    const r = groupReadiness(pool, progress, KINDS, 3);
-    for (const k of KINDS) expect(r.get(k)!.level).toBe("green"); // 3/3/3 → all green
+  it("turns EVERY mode red on a fully idle stretch (≥2 days), even the balanced leader", () => {
+    const progress = map(...masterN("recognition", 10, 2), ...masterN("production", 8, 2), ...masterN("say_word", 4, 2));
+    const r = groupReadiness(pool, progress, KINDS, 3, NOW);
+    for (const k of KINDS) expect(r.get(k)!.level).toBe("red");
   });
 
-  it("is 'none' for everything until something is mastered, or for an empty pool", () => {
-    for (const k of KINDS) expect(groupReadiness(pool, new Map(), KINDS, 3).get(k)!.level).toBe("none");
-    for (const k of KINDS) expect(groupReadiness([], new Map(), KINDS, 3).get(k)!.level).toBe("none");
+  it("the user's case: 30/25/5 lifetime, only the small mode practised today — badges stay, neglected modes fall", () => {
+    const progress = map(...masterN("recognition", 30, 3), ...masterN("production", 25, 3), ...masterN("say_word", 5, 0));
+    const r = groupReadiness(pool, progress, KINDS, 3, NOW);
+    // Lifetime achievement stays visible on the badge regardless of the light.
+    expect(r.get("recognition")!.mastered).toBe(30);
+    expect(r.get("production")!.mastered).toBe(25);
+    expect(r.get("say_word")!.mastered).toBe(5);
+    // The neglected big modes go red; the freshly-practised one is better than red.
+    expect(r.get("recognition")!.level).toBe("red");
+    expect(r.get("production")!.level).toBe("red");
+    expect(r.get("say_word")!.level).not.toBe("red");
+  });
+
+  it("keeps a fully-mastered mode green even when idle (nothing left to practise)", () => {
+    const progress = map(...masterN("recognition", 40, 5), ...masterN("production", 12, 0));
+    const r = groupReadiness(pool, progress, KINDS, 3, NOW);
+    expect(r.get("recognition")).toMatchObject({ mastered: 40, total: 40, level: "green" });
+    expect(r.get("say_word")!.level).toBe("red"); // never practised while the group is active
+  });
+
+  it("is 'none' for everything until something is practised, or for an empty pool", () => {
+    for (const k of KINDS) expect(groupReadiness(pool, new Map(), KINDS, 3, NOW).get(k)!.level).toBe("none");
+    for (const k of KINDS) expect(groupReadiness([], new Map(), KINDS, 3, NOW).get(k)!.level).toBe("none");
   });
 });

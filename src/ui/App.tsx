@@ -1,7 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { VOCAB } from "../data/dictionary";
 import { SENTENCES, grade } from "../data/sentences";
-import { buildSession, DEFAULT_OPTION_COUNT, DEFAULT_SESSION_SIZE } from "../core/quiz";
+import {
+  buildSession,
+  DEFAULT_OPTION_COUNT,
+  DEFAULT_SESSION_SIZE,
+  SENTENCE_SESSION_SIZE,
+} from "../core/quiz";
 import { buildProductionSession } from "../core/produce";
 import { buildSentenceSession } from "../core/sentenceSession";
 import { applyOutcome } from "../core/srs";
@@ -127,7 +132,7 @@ export default function App() {
           (s) => !hidden.has(hiddenKey("sentence", s.id)),
         ),
         seed,
-        DEFAULT_SESSION_SIZE,
+        SENTENCE_SESSION_SIZE,
         undefined,
         progressRef.current,
       ),
@@ -155,7 +160,7 @@ export default function App() {
           (s) => !hidden.has(hiddenKey("sentence", s.id)),
         ),
         seed,
-        DEFAULT_SESSION_SIZE,
+        SENTENCE_SESSION_SIZE,
         undefined,
         progressRef.current,
         "say_sentence",
@@ -184,7 +189,7 @@ export default function App() {
           (s) => !hidden.has(hiddenKey("sentence", s.id)),
         ),
         seed,
-        DEFAULT_SESSION_SIZE,
+        SENTENCE_SESSION_SIZE,
         undefined,
         progressRef.current,
         "listen_sentence",

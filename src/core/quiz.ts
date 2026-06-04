@@ -28,6 +28,8 @@ export interface RecognitionQuestion {
 
 export const DEFAULT_OPTION_COUNT = 4;
 export const DEFAULT_SESSION_SIZE = 10;
+/** Sentence lessons are shorter than word lessons: sentences are slower to read and type. */
+export const SENTENCE_SESSION_SIZE = 5;
 
 /**
  * mulberry32 — a tiny, well-known seedable PRNG. Same seed → same sequence, which is

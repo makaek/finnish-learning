@@ -8,7 +8,7 @@
 import { useMemo, useState, type ReactNode } from "react";
 import type { VocabItem } from "../core/dictionary";
 import type { SentenceItem } from "../core/grader";
-import { DEFAULT_SESSION_SIZE } from "../core/quiz";
+import { DEFAULT_SESSION_SIZE, SENTENCE_SESSION_SIZE } from "../core/quiz";
 import { activeVocab, eligibleSentences, LEARNED_BOX } from "../core/levels";
 import { mergeByItem, type MergedProgress } from "../core/stats";
 import { MAX_BOX, type ItemKind } from "../core/progress";
@@ -42,9 +42,11 @@ function boxPips(box: number): string {
   return "●".repeat(box) + "○".repeat(Math.max(0, MAX_BOX - box));
 }
 
-function chanceLabel(chance: number): string {
+/** Per-pick chance scaled to a whole session — sentence sessions are smaller than word ones. */
+function chanceLabel(chance: number, kind: ItemKind): string {
   if (chance <= 0) return "—";
-  const pct = Math.min(1, chance * DEFAULT_SESSION_SIZE) * 100;
+  const sessionSize = SENTENCE_KINDS.includes(kind) ? SENTENCE_SESSION_SIZE : DEFAULT_SESSION_SIZE;
+  const pct = Math.min(1, chance * sessionSize) * 100;
   if (pct >= 99.5) return "~100%";
   return pct < 1 ? "<1%" : `~${Math.round(pct)}%`;
 }
@@ -95,7 +97,7 @@ function ItemCard({
                 <span title="Верных с первой попытки из показов">
                   ✓ {t.totalCorrect}/{t.totalSeen} ({accuracy}%)
                 </span>
-                <span title="Шанс встретить в сессии">🎲 {chanceLabel(t.chance)}</span>
+                <span title="Шанс встретить в сессии">🎲 {chanceLabel(t.chance, t.kind)}</span>
               </span>
             </li>
           );

@@ -51,7 +51,7 @@ export function dateKey(now: number = Date.now()): string {
 }
 
 /** Whole days from `a` to `b` (both "YYYY-MM-DD"); positive when b is later. */
-function daysBetween(a: string, b: string): number {
+export function daysBetween(a: string, b: string): number {
   const ta = new Date(`${a}T00:00:00`).getTime();
   const tb = new Date(`${b}T00:00:00`).getTime();
   return Math.round((tb - ta) / 86_400_000);

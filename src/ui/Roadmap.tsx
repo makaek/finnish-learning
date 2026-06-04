@@ -70,8 +70,16 @@ function ModeButton({
   r: ModeReadiness;
   onClick: () => void;
 }) {
+  const freshness =
+    r.level === "green"
+      ? "в форме"
+      : r.level === "yellow"
+        ? "пора повторить"
+        : r.level === "red"
+          ? "заброшено"
+          : "пока нечего учить";
   const status =
-    r.level === "none" ? "пока нечего учить" : `освоено ${r.mastered} из ${r.leader} (лидер режима)`;
+    r.level === "none" ? "пока нечего учить" : `освоено ${r.mastered} из ${r.total} · ${freshness}`;
   return (
     <button type="button" className="modebtn" aria-label={`${name}: ${status}`} onClick={onClick}>
       <span className={`dot dot--${r.level}`} aria-hidden="true" title={status} />
@@ -79,7 +87,13 @@ function ModeButton({
         {icon}
       </span>
       <span className="modebtn__label">{label}</span>
-      {/* Continuous progress toward the leading mode, so a little practice visibly moves it. */}
+      {/* Lifetime mastered count — the achievement stays visible even when the light is amber/red. */}
+      {r.level !== "none" && (
+        <span className="modebtn__count" aria-hidden="true" title={status}>
+          {r.mastered}
+        </span>
+      )}
+      {/* Continuous recency standing vs the freshest mode, so a little practice visibly moves it. */}
       <span className="modebtn__bar" aria-hidden="true" title={status}>
         <span
           className={`modebtn__fill modebtn__fill--${r.level}`}
