@@ -227,7 +227,16 @@
     {"id":"v50","fi":"sataa","ru":"идёт дождь / снег (о погоде)","pos":"verb","level":8,"verb_type":1,
       "present":{"minä":"sataa","sinä":"sataa","hän":"sataa","me":"sataa","te":"sataa","he":"sataa"},
       "past_1sg":"satoi","past_3sg":"satoi","conneg":"sada",
-      "notes":"IMPERSONAL weather verb, used only in 3sg: 'Sataa' = идёт дождь; 'Sataa lunta' = идёт снег (объект в партитиве). No personal subject.","needs_review":false}
+      "notes":"IMPERSONAL weather verb, used only in 3sg: 'Sataa' = идёт дождь; 'Sataa lunta' = идёт снег (объект в партитиве). No personal subject.","needs_review":false},
+
+    {"id":"v51","fi":"avata","ru":"открывать","pos":"verb","level":10,"verb_type":4,
+      "present":{"minä":"avaan","sinä":"avaat","hän":"avaa","me":"avaamme","te":"avaatte","he":"avaavat"},
+      "past_1sg":"avasin","past_3sg":"avasi","conneg":"avaa",
+      "notes":"Type 4 (-ata): ava+an -> avaan. Total object: 'Avaan oven' = Я открываю дверь; 'Avaan ikkunan'.","needs_review":false},
+    {"id":"v52","fi":"sulkea","ru":"закрывать","pos":"verb","level":10,"verb_type":1,
+      "present":{"minä":"suljen","sinä":"suljet","hän":"sulkee","me":"suljemme","te":"suljette","he":"sulkevat"},
+      "past_1sg":"suljin","past_3sg":"sulki","conneg":"sulje",
+      "notes":"Gradation k->j: sulKee but sulJen (special k->j between l and e). Total object: 'Suljen oven' = Я закрываю дверь.","needs_review":false}
   ],
 
   "nouns": [
@@ -325,7 +334,28 @@
     {"id":"n84","fi":"asia","ru":"дело / вещь (вопрос)","pos":"noun","level":9,"gen_sg":"asian","part_sg":"asiaa","iness_sg":"asiassa","illat_sg":"asiaan","notes":"No gradation. Abstract 'дело/вопрос': 'tärkeä asia' = важное дело.","needs_review":false},
     {"id":"n85","fi":"ongelma","ru":"проблема","pos":"noun","level":9,"gen_sg":"ongelman","part_sg":"ongelmaa","iness_sg":"ongelmassa","illat_sg":"ongelmaan","notes":"No gradation. 'iso ongelma' = большая проблема.","needs_review":false},
     {"id":"n86","fi":"onni","ru":"счастье / удача","pos":"noun","level":9,"gen_sg":"onnen","part_sg":"onnea","iness_sg":"onnessa","illat_sg":"onneen","notes":"Stem onne-: gen onnen, part onnea. 'Onnea!' = Удачи! (партитив).","needs_review":false},
-    {"id":"n87","fi":"tunne","ru":"чувство","pos":"noun","level":9,"gen_sg":"tunteen","part_sg":"tunnetta","iness_sg":"tunteessa","illat_sg":"tunteeseen","notes":"-e noun, stem tuntee-: gen tunteen, part tunnetta. 'hyvä tunne' = хорошее чувство.","needs_review":false}
+    {"id":"n87","fi":"tunne","ru":"чувство","pos":"noun","level":9,"gen_sg":"tunteen","part_sg":"tunnetta","iness_sg":"tunteessa","illat_sg":"tunteeseen","notes":"-e noun, stem tuntee-: gen tunteen, part tunnetta. 'hyvä tunne' = хорошее чувство.","needs_review":false},
+
+    {"id":"n88","fi":"keittiö","ru":"кухня","pos":"noun","level":10,"gen_sg":"keittiön","part_sg":"keittiötä","iness_sg":"keittiössä","illat_sg":"keittiöön","notes":"Front-harmony word (ö). No gradation in declension. 'keittiössä' = на кухне.","needs_review":false},
+    {"id":"n89","fi":"makuuhuone","ru":"спальня","pos":"noun","level":10,"gen_sg":"makuuhuoneen","part_sg":"makuuhuonetta","iness_sg":"makuuhuoneessa","illat_sg":"makuuhuoneeseen","notes":"-e noun (makuu + huone), stem -huonee-: gen makuuhuoneen, part makuuhuonetta, illat makuuhuoneeseen.","needs_review":false},
+    {"id":"n90","fi":"kylpyhuone","ru":"ванная","pos":"noun","level":10,"gen_sg":"kylpyhuoneen","part_sg":"kylpyhuonetta","iness_sg":"kylpyhuoneessa","illat_sg":"kylpyhuoneeseen","notes":"-e noun (kylpy + huone), stem -huonee-: gen kylpyhuoneen, part kylpyhuonetta, illat kylpyhuoneeseen.","needs_review":false},
+    {"id":"n91","fi":"olohuone","ru":"гостиная","pos":"noun","level":10,"gen_sg":"olohuoneen","part_sg":"olohuonetta","iness_sg":"olohuoneessa","illat_sg":"olohuoneeseen","notes":"-e noun (olo + huone), stem -huonee-: gen olohuoneen, part olohuonetta, illat olohuoneeseen.","needs_review":false},
+    {"id":"n92","fi":"tuoli","ru":"стул","pos":"noun","level":10,"gen_sg":"tuolin","part_sg":"tuolia","iness_sg":"tuolissa","illat_sg":"tuoliin","notes":"No gradation. 'tuolilla' (adessive) = на стуле (на поверхности).","needs_review":false},
+    {"id":"n93","fi":"sohva","ru":"диван","pos":"noun","level":10,"gen_sg":"sohvan","part_sg":"sohvaa","iness_sg":"sohvassa","illat_sg":"sohvaan","notes":"No gradation. 'sohvalla' (adessive) = на диване.","needs_review":false},
+    {"id":"n94","fi":"lamppu","ru":"лампа","pos":"noun","level":10,"gen_sg":"lampun","part_sg":"lamppua","iness_sg":"lampussa","illat_sg":"lamppuun","notes":"Gradation pp->p: laMPPu but laMPun.","needs_review":false},
+    {"id":"n95","fi":"matto","ru":"ковёр","pos":"noun","level":10,"gen_sg":"maton","part_sg":"mattoa","iness_sg":"matossa","illat_sg":"mattoon","notes":"Gradation tt->t: maTTo but maTon.","needs_review":false},
+    {"id":"n96","fi":"seinä","ru":"стена","pos":"noun","level":10,"gen_sg":"seinän","part_sg":"seinää","iness_sg":"seinässä","illat_sg":"seinään","notes":"No gradation. Front-harmony. 'seinällä' (adessive) = на стене.","needs_review":false},
+    {"id":"n97","fi":"lattia","ru":"пол","pos":"noun","level":10,"gen_sg":"lattian","part_sg":"lattiaa","iness_sg":"lattiassa","illat_sg":"lattiaan","notes":"No gradation. 'lattialla' (adessive) = на полу.","needs_review":false},
+    {"id":"n98","fi":"kaappi","ru":"шкаф","pos":"noun","level":10,"gen_sg":"kaapin","part_sg":"kaappia","iness_sg":"kaapissa","illat_sg":"kaappiin","notes":"Gradation pp->p: kaaPPi but kaaPin.","needs_review":false},
+    {"id":"n99","fi":"hylly","ru":"полка","pos":"noun","level":10,"gen_sg":"hyllyn","part_sg":"hyllyä","iness_sg":"hyllyssä","illat_sg":"hyllyyn","notes":"No gradation. Front-harmony. 'hyllyllä' (adessive) = на полке.","needs_review":false},
+    {"id":"n100","fi":"jääkaappi","ru":"холодильник","pos":"noun","level":10,"gen_sg":"jääkaapin","part_sg":"jääkaappia","iness_sg":"jääkaapissa","illat_sg":"jääkaappiin","notes":"jää + kaappi. Gradation pp->p: jääkaaPPi but jääkaaPin.","needs_review":false},
+    {"id":"n101","fi":"liesi","ru":"плита (кухонная)","pos":"noun","level":10,"gen_sg":"lieden","part_sg":"liettä","iness_sg":"liedessä","illat_sg":"lieteen","notes":"IRREGULAR -si noun, stem liede-: gen lieden, part liettä. 'liedellä' (adessive) = на плите.","needs_review":false},
+    {"id":"n102","fi":"peili","ru":"зеркало","pos":"noun","level":10,"gen_sg":"peilin","part_sg":"peiliä","iness_sg":"peilissä","illat_sg":"peiliin","notes":"No gradation. Front-harmony.","needs_review":false},
+    {"id":"n103","fi":"verho","ru":"штора / занавеска","pos":"noun","level":10,"gen_sg":"verhon","part_sg":"verhoa","iness_sg":"verhossa","illat_sg":"verhoon","notes":"No gradation. Often plural verhot = шторы.","needs_review":false},
+    {"id":"n104","fi":"avain","ru":"ключ","pos":"noun","level":10,"gen_sg":"avaimen","part_sg":"avainta","iness_sg":"avaimessa","illat_sg":"avaimeen","notes":"-in noun, stem avaime-: gen avaimen, part avainta. 'Löysin avaimen' = Я нашёл ключ.","needs_review":false},
+    {"id":"n105","fi":"piha","ru":"двор","pos":"noun","level":10,"gen_sg":"pihan","part_sg":"pihaa","iness_sg":"pihassa","illat_sg":"pihaan","notes":"No gradation. 'pihalla' (adessive) = во дворе (на улице у дома).","needs_review":false},
+    {"id":"n106","fi":"katto","ru":"потолок / крыша","pos":"noun","level":10,"gen_sg":"katon","part_sg":"kattoa","iness_sg":"katossa","illat_sg":"kattoon","notes":"Gradation tt->t: kaTTo but kaTon. 'katolla' (adessive) = на крыше.","needs_review":false},
+    {"id":"n107","fi":"valo","ru":"свет","pos":"noun","level":10,"gen_sg":"valon","part_sg":"valoa","iness_sg":"valossa","illat_sg":"valoon","notes":"No gradation. 'Valo on päällä' = Свет включён (упрощённо). Plural valot = огни/освещение.","needs_review":false}
   ],
 
   "adjectives": [
@@ -363,7 +393,10 @@
     {"id":"a29","fi":"surullinen","ru":"грустный","pos":"adj","level":9,"gen_sg":"surullisen","part_sg":"surullista","notes":"-nen adj, stem surullise-: gen surullisen, part surullista. 'Olen surullinen' = Мне грустно."},
     {"id":"a30","fi":"vihainen","ru":"сердитый","pos":"adj","level":9,"gen_sg":"vihaisen","part_sg":"vihaista","notes":"-nen adj, stem vihaise-: gen vihaisen, part vihaista."},
     {"id":"a31","fi":"kiinnostava","ru":"интересный","pos":"adj","level":9,"gen_sg":"kiinnostavan","part_sg":"kiinnostavaa","notes":"No gradation. 'kiinnostava kirja' = интересная книга. Synonym: mielenkiintoinen."},
-    {"id":"a32","fi":"tylsä","ru":"скучный","pos":"adj","level":9,"gen_sg":"tylsän","part_sg":"tylsää","notes":"No gradation. 'tylsä kirja' = скучная книга. Antonym kiinnostava."}
+    {"id":"a32","fi":"tylsä","ru":"скучный","pos":"adj","level":9,"gen_sg":"tylsän","part_sg":"tylsää","notes":"No gradation. 'tylsä kirja' = скучная книга. Antonym kiinnostava."},
+
+    {"id":"a33","fi":"puhdas","ru":"чистый","pos":"adj","level":10,"gen_sg":"puhtaan","part_sg":"puhdasta","notes":"Stem puhtaa-: gen puhtaan (t), but nominative puhdas and part puhdasta (d). 'puhdas huone' = чистая комната; 'Huone on puhdas'."},
+    {"id":"a34","fi":"likainen","ru":"грязный","pos":"adj","level":10,"gen_sg":"likaisen","part_sg":"likaista","notes":"-nen adj, stem likaise-: gen likaisen, part likaista. 'likainen lattia' = грязный пол; 'Lattia on likainen'. Antonym puhdas."}
   ],
 
   "function_words": [

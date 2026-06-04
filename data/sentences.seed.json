@@ -1874,6 +1874,246 @@
       ],
       "teaches": "verb uskoa + 'että' clause + predicative nominative",
       "needs_review": false
+    },
+    {
+      "id": "s125",
+      "ru": "У меня есть стол.",
+      "uses": ["v1", "n46"],
+      "level": 10,
+      "canonical": "Minulla on pöytä.",
+      "accepted": ["Minulla on pöytä."],
+      "wrong": [
+        { "match": "minä on pöytä", "ru": "«У меня есть» — это адессив minulla on, а не minä on." },
+        { "match": "minulla on pöytää", "ru": "Исчисляемый предмет при «есть» — в номинативе: pöytä, не партитив pöytää." },
+        { "match": "minulla on pöydän", "ru": "Здесь нужен номинатив pöytä, а не генитив pöydän." }
+      ],
+      "teaches": "adessive of possession 'minulla on' + nominative",
+      "needs_review": false
+    },
+    {
+      "id": "s126",
+      "ru": "В кухне есть окно.",
+      "uses": ["v1", "n88", "n48"],
+      "level": 10,
+      "canonical": "Keittiössä on ikkuna.",
+      "accepted": ["Keittiössä on ikkuna."],
+      "wrong": [
+        { "match": "keittiö on ikkuna", "ru": "«В кухне» — инессив keittiössä (где?), а не keittiö." },
+        { "match": "keittiöön on ikkuna", "ru": "keittiöön — это «куда?» (направление). Здесь «где?» — инессив keittiössä." },
+        { "match": "keittiössä on ikkunaa", "ru": "Исчисляемое окно — в номинативе ikkuna, а не партитив ikkunaa." }
+      ],
+      "teaches": "inessive location + existential 'on'",
+      "needs_review": false
+    },
+    {
+      "id": "s127",
+      "ru": "Я открываю дверь.",
+      "uses": ["v51", "n47"],
+      "level": 10,
+      "canonical": "Avaan oven.",
+      "accepted": ["Avaan oven.", "Minä avaan oven."],
+      "wrong": [
+        { "match": "avaan ovi", "ru": "Полный объект — в генитиве: oven, а не ovi." },
+        { "match": "avaan ovea", "ru": "Дверь открывают целиком — тотальный объект oven, а не партитив ovea." },
+        { "match": "avata oven", "ru": "avata — это инфинитив. Для «я» нужна форма avaan." }
+      ],
+      "teaches": "verb avata (type-4) + genitive total object",
+      "needs_review": false
+    },
+    {
+      "id": "s128",
+      "ru": "Я закрываю окно.",
+      "uses": ["v52", "n48"],
+      "level": 10,
+      "canonical": "Suljen ikkunan.",
+      "accepted": ["Suljen ikkunan.", "Minä suljen ikkunan."],
+      "wrong": [
+        { "match": "suljen ikkuna", "ru": "Полный объект — в генитиве: ikkunan, а не ikkuna." },
+        { "match": "sulkien ikkunan", "ru": "Форма «я» — suljen (градация k->j), а не sulkien." },
+        { "match": "sulkee ikkunan", "ru": "sulkee — это «он закрывает». Для «я» — suljen." }
+      ],
+      "teaches": "verb sulkea + gradation + genitive total object",
+      "needs_review": false
+    },
+    {
+      "id": "s129",
+      "ru": "Комната большая.",
+      "uses": ["n45", "v1", "a2"],
+      "level": 10,
+      "canonical": "Huone on iso.",
+      "accepted": ["Huone on iso."],
+      "wrong": [
+        { "match": "huone on isoa", "ru": "Предикатив об исчисляемом предмете — в номинативе: iso, а не партитив isoa." },
+        { "match": "huonetta on iso", "ru": "Подлежащее — в номинативе huone, а не партитив huonetta." },
+        { "match": "huone on ison", "ru": "Здесь нужен номинатив iso, а не генитив ison." }
+      ],
+      "teaches": "predicative nominative (countable subject)",
+      "needs_review": false
+    },
+    {
+      "id": "s130",
+      "ru": "Книга на столе.",
+      "uses": ["n7", "v1", "n46"],
+      "level": 10,
+      "canonical": "Kirja on pöydällä.",
+      "accepted": ["Kirja on pöydällä."],
+      "wrong": [
+        { "match": "kirja on pöydässä", "ru": "«На столе» (на поверхности) — адессив pöydällä, а не инессив pöydässä («внутри стола»)." },
+        { "match": "kirja on pöytä", "ru": "Нужна локативная форма «на столе»: pöydällä." },
+        { "match": "kirja on pöydälle", "ru": "pöydälle — это «куда? на стол». Здесь «где?» — pöydällä." }
+      ],
+      "teaches": "adessive of surface location 'pöydällä'",
+      "needs_review": false
+    },
+    {
+      "id": "s131",
+      "ru": "Я живу в большом доме.",
+      "uses": ["v7", "a2", "n4"],
+      "level": 10,
+      "canonical": "Asun isossa talossa.",
+      "accepted": ["Asun isossa talossa.", "Minä asun isossa talossa."],
+      "wrong": [
+        { "match": "asun iso talossa", "ru": "Прилагательное согласуется с существительным в падеже: isossa talossa." },
+        { "match": "asun isossa talo", "ru": "«В доме» — инессив talossa (где?), а не talo." },
+        { "match": "asun isoon taloon", "ru": "isoon taloon — это «куда?». «жить где?» — инессив: isossa talossa." }
+      ],
+      "teaches": "adjective agreement in inessive (case)",
+      "needs_review": false
+    },
+    {
+      "id": "s132",
+      "ru": "Кровать в спальне.",
+      "uses": ["n49", "v1", "n89"],
+      "level": 10,
+      "canonical": "Sänky on makuuhuoneessa.",
+      "accepted": ["Sänky on makuuhuoneessa."],
+      "wrong": [
+        { "match": "sänky on makuuhuone", "ru": "«В спальне» — инессив makuuhuoneessa (где?)." },
+        { "match": "sänky on makuuhuoneeseen", "ru": "makuuhuoneeseen — это «куда?». Здесь «где?» — makuuhuoneessa." },
+        { "match": "sänkyä on makuuhuoneessa", "ru": "Подлежащее — в номинативе sänky, а не партитив sänkyä." }
+      ],
+      "teaches": "inessive location of -e noun",
+      "needs_review": false
+    },
+    {
+      "id": "s133",
+      "ru": "Я иду на кухню.",
+      "uses": ["v2", "n88"],
+      "level": 10,
+      "canonical": "Menen keittiöön.",
+      "accepted": ["Menen keittiöön.", "Minä menen keittiöön."],
+      "wrong": [
+        { "match": "menen keittiössä", "ru": "Глагол движения требует «куда?» — иллатив keittiöön, а не «где?» keittiössä." },
+        { "match": "menen keittiö", "ru": "Нужно направление «куда?»: keittiöön." },
+        { "match": "menen keittiöstä", "ru": "keittiöstä — это «откуда?». Здесь «куда?» — keittiöön." }
+      ],
+      "teaches": "illative direction into a room",
+      "needs_review": false
+    },
+    {
+      "id": "s134",
+      "ru": "В гостиной есть диван.",
+      "uses": ["v1", "n91", "n93"],
+      "level": 10,
+      "canonical": "Olohuoneessa on sohva.",
+      "accepted": ["Olohuoneessa on sohva."],
+      "wrong": [
+        { "match": "olohuone on sohva", "ru": "«В гостиной» — инессив olohuoneessa (где?)." },
+        { "match": "olohuoneessa on sohvaa", "ru": "Исчисляемый диван — в номинативе sohva, а не партитив sohvaa." },
+        { "match": "olohuoneeseen on sohva", "ru": "olohuoneeseen — это «куда?». Здесь «где?» — olohuoneessa." }
+      ],
+      "teaches": "inessive location + existential 'on'",
+      "needs_review": false
+    },
+    {
+      "id": "s135",
+      "ru": "У меня есть новый холодильник.",
+      "uses": ["v1", "a4", "n100"],
+      "level": 10,
+      "canonical": "Minulla on uusi jääkaappi.",
+      "accepted": ["Minulla on uusi jääkaappi."],
+      "wrong": [
+        { "match": "minulla on uuden jääkaapin", "ru": "При «есть» исчисляемый предмет в номинативе: uusi jääkaappi, а не генитив." },
+        { "match": "minä on uusi jääkaappi", "ru": "«У меня есть» — адессив minulla on, а не minä on." },
+        { "match": "minulla on uutta jääkaappia", "ru": "Исчисляемый предмет при «есть» — в номинативе: uusi jääkaappi." }
+      ],
+      "teaches": "adessive possession + adjective agreement (nominative)",
+      "needs_review": false
+    },
+    {
+      "id": "s136",
+      "ru": "Лампа на полу.",
+      "uses": ["n94", "v1", "n97"],
+      "level": 10,
+      "canonical": "Lamppu on lattialla.",
+      "accepted": ["Lamppu on lattialla."],
+      "wrong": [
+        { "match": "lamppu on lattiassa", "ru": "«На полу» (на поверхности) — адессив lattialla, а не инессив lattiassa." },
+        { "match": "lamppu on lattialle", "ru": "lattialle — это «куда? на пол». Здесь «где?» — lattialla." },
+        { "match": "lamppua on lattialla", "ru": "Подлежащее — в номинативе lamppu, а не партитив lamppua." }
+      ],
+      "teaches": "adessive of surface location 'lattialla'",
+      "needs_review": false
+    },
+    {
+      "id": "s137",
+      "ru": "Комната чистая.",
+      "uses": ["n45", "v1", "a33"],
+      "level": 10,
+      "canonical": "Huone on puhdas.",
+      "accepted": ["Huone on puhdas."],
+      "wrong": [
+        { "match": "huone on puhdasta", "ru": "Предикатив об исчисляемой комнате — в номинативе: puhdas, а не партитив puhdasta." },
+        { "match": "huone on puhtaan", "ru": "Здесь нужен номинатив puhdas, а не генитив puhtaan." },
+        { "match": "huonetta on puhdas", "ru": "Подлежащее — в номинативе huone, а не партитив huonetta." }
+      ],
+      "teaches": "predicative nominative + adjective puhdas",
+      "needs_review": false
+    },
+    {
+      "id": "s138",
+      "ru": "Пол грязный.",
+      "uses": ["n97", "v1", "a34"],
+      "level": 10,
+      "canonical": "Lattia on likainen.",
+      "accepted": ["Lattia on likainen."],
+      "wrong": [
+        { "match": "lattia on likaista", "ru": "Предикатив об исчисляемом поле — в номинативе: likainen, а не партитив likaista." },
+        { "match": "lattia on likaisen", "ru": "Здесь нужен номинатив likainen, а не генитив likaisen." },
+        { "match": "lattiaa on likainen", "ru": "Подлежащее — в номинативе lattia, а не партитив lattiaa." }
+      ],
+      "teaches": "predicative nominative + adjective likainen",
+      "needs_review": false
+    },
+    {
+      "id": "s139",
+      "ru": "Я открываю окно на кухне.",
+      "uses": ["v51", "n48", "n88"],
+      "level": 10,
+      "canonical": "Avaan ikkunan keittiössä.",
+      "accepted": ["Avaan ikkunan keittiössä.", "Minä avaan ikkunan keittiössä.", "Keittiössä avaan ikkunan."],
+      "wrong": [
+        { "match": "avaan ikkuna keittiössä", "ru": "Полный объект — в генитиве: ikkunan, а не ikkuna." },
+        { "match": "avaan ikkunan keittiö", "ru": "«На кухне» — инессив keittiössä (где?)." },
+        { "match": "avaan ikkunan keittiöön", "ru": "keittiöön — это «куда?». Здесь «где?» (место действия) — keittiössä." }
+      ],
+      "teaches": "total object genitive + inessive location",
+      "needs_review": false
+    },
+    {
+      "id": "s140",
+      "ru": "У меня есть ключ.",
+      "uses": ["v1", "n104"],
+      "level": 10,
+      "canonical": "Minulla on avain.",
+      "accepted": ["Minulla on avain."],
+      "wrong": [
+        { "match": "minulla on avaimen", "ru": "При «есть» исчисляемый предмет — в номинативе: avain, а не генитив avaimen." },
+        { "match": "minä on avain", "ru": "«У меня есть» — адессив minulla on, а не minä on." },
+        { "match": "minulla on avainta", "ru": "Исчисляемый предмет при «есть» — в номинативе avain, а не партитив avainta." }
+      ],
+      "teaches": "adessive of possession 'minulla on' + nominative",
+      "needs_review": false
     }
   ]
 }
