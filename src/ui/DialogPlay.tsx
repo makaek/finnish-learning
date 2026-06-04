@@ -28,7 +28,8 @@ const GAP_MS = 550;
 const recallMs = (fi: string) => Math.min(6000, 1800 + fi.length * 55);
 /** Fallback timing when there's no TTS voice — how long to leave a line on screen to read. */
 const readMs = (fi: string) => Math.min(7000, 1200 + fi.length * 55);
-/** Sentinel "role" for a monologue, where every line is the learner's to recite. */
+/** Sentinel "role" for a monologue, where every line is the learner's to recite. (Reserved —
+ *  authored texts must not use "__solo__" as a speaker name.) */
 const SOLO = "__solo__";
 
 export default function DialogPlay({ text, onExit, onComplete }: DialogPlayProps) {
@@ -125,29 +126,26 @@ export default function DialogPlay({ text, onExit, onComplete }: DialogPlayProps
     return () => clearTimeout(id);
   }, [mode, started, running, mine, matched, recogSupported, listening, startListening, idx]);
 
-  // AUTO advance-on-match: once the line is said (or force-accepted), reveal + confirm, advance.
+  // AUTO advance-on-match: once the line is said (or force-accepted), briefly reveal it and move
+  // on — WITHOUT re-speaking it (the app repeating your own line just killed the rhythm).
   useEffect(() => {
     if (mode !== "auto" || !matched || !running) return;
-    const l = text.lines[idx];
     let cancelled = false;
-    let timer = 0;
     setRevealed(true);
     stopListening();
     // Clear `matched` together with the advance so the NEXT line doesn't re-trigger this effect
-    // in the same commit (which would spoil a your-turn line by revealing/speaking it early).
-    const goNext = () => {
+    // in the same commit (which would spoil a your-turn line by revealing it early).
+    const timer = window.setTimeout(() => {
       if (cancelled) return;
       setMatched(false);
       setIdx((i) => i + 1);
-    };
-    if (l && ttsSupported) speak(l.fi, () => (timer = window.setTimeout(goNext, GAP_MS)));
-    else timer = window.setTimeout(goNext, GAP_MS);
+    }, GAP_MS);
     return () => {
       cancelled = true;
-      if (timer) clearTimeout(timer);
+      clearTimeout(timer);
       cancel();
     };
-  }, [matched, mode, running, idx, text, ttsSupported, speak, cancel, stopListening]);
+  }, [matched, mode, running, cancel, stopListening]);
 
   const startAs = (role: string) => {
     setIdx(0);
