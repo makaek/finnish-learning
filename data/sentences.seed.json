@@ -914,6 +914,486 @@
       ],
       "teaches": "mass-noun predicative partitive (vaikeaa) + contrast 'mutta' + haluta + infinitive",
       "needs_review": false
+    },
+    {
+      "id": "s61",
+      "ru": "Я сплю хорошо.",
+      "uses": ["v23", "a1"],
+      "level": 6,
+      "canonical": "Nukun hyvin.",
+      "accepted": ["Nukun hyvin.", "Minä nukun hyvin."],
+      "wrong": [
+        { "match": "nukkun hyvin", "ru": "Для «я» — nukun (слабая ступень kk->k), а не nukkun." },
+        { "match": "nukkuu hyvin", "ru": "nukkuu — это «он спит». Для «я» — nukun." },
+        { "match": "nukun hyvä", "ru": "При глаголе нужно наречие hyvin («хорошо»), а не прилагательное hyvä." }
+      ],
+      "teaches": "type-1 verb 1sg with gradation kk->k (nukun)",
+      "needs_review": false
+    },
+    {
+      "id": "s62",
+      "ru": "Я просыпаюсь утром.",
+      "uses": ["v24", "n39"],
+      "level": 6,
+      "canonical": "Herään aamulla.",
+      "accepted": ["Herään aamulla.", "Minä herään aamulla."],
+      "wrong": [
+        { "match": "herään aamussa", "ru": "«Утром» (когда?) — адессив aamulla, а не инессив aamussa." },
+        { "match": "herään aamu", "ru": "Нужна форма времени «когда?»: aamulla." },
+        { "match": "heräät aamulla", "ru": "heräät — это «ты просыпаешься». Для «я» — herään." }
+      ],
+      "teaches": "type-6 verb (herätä) + adessive of time 'aamulla'",
+      "needs_review": false
+    },
+    {
+      "id": "s63",
+      "ru": "Я смотрю на часы вечером.",
+      "uses": ["v25", "n44", "n42"],
+      "level": 6,
+      "canonical": "Katson kelloa illalla.",
+      "accepted": ["Katson kelloa illalla.", "Minä katson kelloa illalla.", "Illalla katson kelloa."],
+      "wrong": [
+        { "match": "katson kello illalla", "ru": "Объект незавершённого действия — в партитиве: kelloa." },
+        { "match": "katson kelloa illassa", "ru": "«Вечером» (когда?) — адессив illalla, а не инессив illassa." },
+        { "match": "katsot kelloa illalla", "ru": "katsot — это «ты смотришь». Для «я» — katson." }
+      ],
+      "teaches": "partitive object + adessive of time 'illalla'",
+      "needs_review": false
+    },
+    {
+      "id": "s64",
+      "ru": "Я слушаю маму.",
+      "uses": ["v26", "n17"],
+      "level": 6,
+      "canonical": "Kuuntelen äitiä.",
+      "accepted": ["Kuuntelen äitiä.", "Minä kuuntelen äitiä."],
+      "wrong": [
+        { "match": "kuuntelen äiti", "ru": "Объект глагола kuunnella — в партитиве: äitiä, а не äiti." },
+        { "match": "kuuntelet äitiä", "ru": "kuuntelet — это «ты слушаешь». Для «я» — kuuntelen." },
+        { "match": "kuuntelen äidin", "ru": "kuunnella требует партитив äitiä, а не генитив äidin." }
+      ],
+      "teaches": "type-3 verb 1sg + partitive object",
+      "needs_review": false
+    },
+    {
+      "id": "s65",
+      "ru": "Он пишет книгу.",
+      "uses": ["v27", "n7"],
+      "level": 6,
+      "canonical": "Hän kirjoittaa kirjaa.",
+      "accepted": ["Hän kirjoittaa kirjaa."],
+      "wrong": [
+        { "match": "hän kirjoitan kirjaa", "ru": "kirjoitan — это «я пишу». Для «он» — kirjoittaa." },
+        { "match": "hän kirjoittaa kirja", "ru": "Незавершённое действие (пишет) — объект в партитиве: kirjaa." },
+        { "match": "hän kirjoitta kirjaa", "ru": "Форма 3-го лица — kirjoittaa (с долгой -aa)." }
+      ],
+      "teaches": "gradation tt->t in verb (kirjoitan vs kirjoittaa) + partitive object",
+      "needs_review": false
+    },
+    {
+      "id": "s66",
+      "ru": "Я помогаю маме.",
+      "uses": ["v28", "n17"],
+      "level": 6,
+      "canonical": "Autan äitiä.",
+      "accepted": ["Autan äitiä.", "Minä autan äitiä."],
+      "wrong": [
+        { "match": "autan äiti", "ru": "Глагол auttaa управляет ПАРТИТИВОМ: autan äitiä, а не словарной формой äiti." },
+        { "match": "autan äidin", "ru": "auttaa требует партитив äitiä, а не генитив äidin." },
+        { "match": "auttaa äitiä", "ru": "Для «я» — autan (слабая ступень tt->t), а не auttaa («он помогает»)." }
+      ],
+      "teaches": "verb auttaa governs partitive object 'äitiä'",
+      "needs_review": false
+    },
+    {
+      "id": "s67",
+      "ru": "Я жду автобус.",
+      "uses": ["v29", "n57"],
+      "level": 7,
+      "canonical": "Odotan bussia.",
+      "accepted": ["Odotan bussia.", "Minä odotan bussia."],
+      "wrong": [
+        { "match": "odotan bussi", "ru": "Глагол odottaa управляет ПАРТИТИВОМ: odotan bussia, а не bussi." },
+        { "match": "odotan bussin", "ru": "odottaa требует партитив bussia, а не генитив bussin." },
+        { "match": "odottaa bussia", "ru": "Для «я» — odotan (tt->t), а не odottaa («он ждёт»)." }
+      ],
+      "teaches": "verb odottaa governs partitive object 'bussia'",
+      "needs_review": false
+    },
+    {
+      "id": "s68",
+      "ru": "Я изучаю финский.",
+      "uses": ["v30", "n16"],
+      "level": 6,
+      "canonical": "Opiskelen suomea.",
+      "accepted": ["Opiskelen suomea.", "Minä opiskelen suomea."],
+      "wrong": [
+        { "match": "opiskelen suomi", "ru": "Язык как объект — в партитиве: suomea, а не suomi." },
+        { "match": "opiskelet suomea", "ru": "opiskelet — это «ты изучаешь». Для «я» — opiskelen." },
+        { "match": "opiskelen suomessa", "ru": "suomessa — «в Финляндии» (где?). Здесь объект-язык: suomea." }
+      ],
+      "teaches": "type-3 verb 1sg + partitive language object",
+      "needs_review": false
+    },
+    {
+      "id": "s69",
+      "ru": "Я часто читаю книгу вечером.",
+      "uses": ["f35", "v9", "n7", "n42"],
+      "level": 6,
+      "canonical": "Luen usein kirjaa illalla.",
+      "accepted": ["Luen usein kirjaa illalla.", "Minä luen usein kirjaa illalla.", "Usein luen kirjaa illalla."],
+      "wrong": [
+        { "match": "luen usein kirja illalla", "ru": "Объект незавершённого действия — в партитиве: kirjaa." },
+        { "match": "luen usein kirjaa illassa", "ru": "«Вечером» (когда?) — адессив illalla, а не illassa." },
+        { "match": "luen aina kirjaa illalla", "ru": "«Часто» — usein, а не aina («всегда»)." }
+      ],
+      "teaches": "frequency adverb 'usein' + partitive object + free word order",
+      "needs_review": false
+    },
+    {
+      "id": "s70",
+      "ru": "Я всегда дома вечером.",
+      "uses": ["f36", "v1", "n2", "n42"],
+      "level": 6,
+      "canonical": "Olen aina kotona illalla.",
+      "accepted": ["Olen aina kotona illalla.", "Minä olen aina kotona illalla.", "Illalla olen aina kotona."],
+      "wrong": [
+        { "match": "olen aina kotiin illalla", "ru": "«Дома» (где?) — kotona, а не kotiin («домой»)." },
+        { "match": "olen aina kodissa illalla", "ru": "«Дома» — исключение kotona, а не kodissa." },
+        { "match": "olen usein kotona illalla", "ru": "«Всегда» — aina, а не usein («часто»)." }
+      ],
+      "teaches": "frequency adverb 'aina' + irregular location 'kotona' + adessive of time",
+      "needs_review": false
+    },
+    {
+      "id": "s71",
+      "ru": "Стол старый.",
+      "uses": ["n46", "v1", "a13"],
+      "level": 6,
+      "canonical": "Pöytä on vanha.",
+      "accepted": ["Pöytä on vanha."],
+      "wrong": [
+        { "match": "pöytä on vanhaa", "ru": "Подлежащее исчисляемое (pöytä) — предикатив в номинативе: vanha, а не партитив vanhaa." },
+        { "match": "pöytä vanha", "ru": "Нужна связка on: «Pöytä on vanha»." },
+        { "match": "pöytä on nuori", "ru": "«Старый» — vanha; nuori («молодой») к столу не подходит." }
+      ],
+      "teaches": "predicative adjective in nominative with countable subject (vanha)",
+      "needs_review": false
+    },
+    {
+      "id": "s72",
+      "ru": "Я устал.",
+      "uses": ["v1", "a15"],
+      "level": 6,
+      "canonical": "Olen väsynyt.",
+      "accepted": ["Olen väsynyt.", "Minä olen väsynyt."],
+      "wrong": [
+        { "match": "olen väsynyttä", "ru": "Предикатив о человеке (исчисляемое подлежащее) — в номинативе: väsynyt, а не партитив väsynyttä." },
+        { "match": "on väsynyt", "ru": "Для «я» — olen, а не on («он есть»)." },
+        { "match": "olen väsyneen", "ru": "Нужна словарная форма väsynyt, а не генитив väsyneen." }
+      ],
+      "teaches": "predicative adjective nominative + copula (väsynyt)",
+      "needs_review": false
+    },
+    {
+      "id": "s73",
+      "ru": "Я живу в старом доме.",
+      "uses": ["v7", "a13", "n4"],
+      "level": 6,
+      "canonical": "Asun vanhassa talossa.",
+      "accepted": ["Asun vanhassa talossa.", "Minä asun vanhassa talossa."],
+      "wrong": [
+        { "match": "asun vanha talo", "ru": "И прилагательное, и существительное — в инессиве: vanhassa talossa." },
+        { "match": "asun vanhassa talo", "ru": "Существительное тоже в инессиве: talossa." },
+        { "match": "asun vanha talossa", "ru": "Прилагательное согласуется в падеже: vanhassa talossa." }
+      ],
+      "teaches": "adjective-noun case agreement in inessive (vanhassa talossa)",
+      "needs_review": false
+    },
+    {
+      "id": "s74",
+      "ru": "У меня есть телефон.",
+      "uses": ["v1", "n50"],
+      "level": 6,
+      "canonical": "Minulla on puhelin.",
+      "accepted": ["Minulla on puhelin."],
+      "wrong": [
+        { "match": "minä on puhelin", "ru": "«У меня есть» — адессив minulla on, а не minä." },
+        { "match": "minulla on puhelinta", "ru": "Обладаемый исчисляемый предмет — в номинативе: puhelin, а не партитив puhelinta." },
+        { "match": "minulla olen puhelin", "ru": "В конструкции «minulla on» глагол всегда on (3 л.)." }
+      ],
+      "teaches": "adessive possessive 'minulla on' + nominative possessed noun",
+      "needs_review": false
+    },
+    {
+      "id": "s75",
+      "ru": "Книга на столе.",
+      "uses": ["n7", "v1", "n46"],
+      "level": 6,
+      "canonical": "Kirja on pöydällä.",
+      "accepted": ["Kirja on pöydällä."],
+      "wrong": [
+        { "match": "kirja on pöytä", "ru": "«На столе» (на поверхности) — адессив pöydällä." },
+        { "match": "kirja on pöydässä", "ru": "«На поверхности стола» — адессив pöydällä, а не инессив pöydässä («внутри стола»)." },
+        { "match": "kirja on pöydälle", "ru": "pöydälle — «на стол» (куда?). Здесь «где?» — pöydällä." }
+      ],
+      "teaches": "adessive of location on a surface 'pöydällä' (gradation t->d)",
+      "needs_review": false
+    },
+    {
+      "id": "s76",
+      "ru": "Мне надо спать.",
+      "uses": ["v22", "v23"],
+      "level": 6,
+      "canonical": "Minun täytyy nukkua.",
+      "accepted": ["Minun täytyy nukkua."],
+      "wrong": [
+        { "match": "minä täytyy nukkua", "ru": "В конструкции долженствования лицо в генитиве: minun, а не minä." },
+        { "match": "minun täytyy nukun", "ru": "После täytyy — инфинитив nukkua, а не личная форма nukun." },
+        { "match": "minun täydyn nukkua", "ru": "täytyä безличный — всегда täytyy (3 л.), не спрягается." }
+      ],
+      "teaches": "impersonal necessity 'minun täytyy' + infinitive (nukkua)",
+      "needs_review": false
+    },
+    {
+      "id": "s77",
+      "ru": "Это моя семья.",
+      "uses": ["p9", "v1", "n51"],
+      "level": 7,
+      "canonical": "Tämä on minun perhe.",
+      "accepted": ["Tämä on minun perhe.", "Tämä on perheeni.", "Se on minun perhe."],
+      "wrong": [
+        { "match": "tämä on minä perhe", "ru": "«Моя» — генитив minun, а не minä («я»)." },
+        { "match": "tämä on minun perhettä", "ru": "Предикативное существительное-тождество — в номинативе: perhe, а не партитив perhettä." },
+        { "match": "tämä ovat minun perhe", "ru": "Подлежащее в ед. числе — глагол on, а не ovat." }
+      ],
+      "teaches": "genitive of possession 'minun' + nominative predicate noun (perhe)",
+      "needs_review": false
+    },
+    {
+      "id": "s78",
+      "ru": "У меня есть брат и сестра.",
+      "uses": ["v1", "n52", "f1", "n53"],
+      "level": 7,
+      "canonical": "Minulla on veli ja sisko.",
+      "accepted": ["Minulla on veli ja sisko."],
+      "wrong": [
+        { "match": "minä on veli ja sisko", "ru": "«У меня есть» — адессив minulla on, а не minä." },
+        { "match": "minulla on veljeä ja siskoa", "ru": "Обладаемые исчисляемые — в номинативе: veli, sisko (не партитив)." },
+        { "match": "minulla on veli mutta sisko", "ru": "Это перечисление — нужен ja («и»), а не mutta («но»)." }
+      ],
+      "teaches": "adessive possessive + nominative nouns linked by 'ja'",
+      "needs_review": false
+    },
+    {
+      "id": "s79",
+      "ru": "Я люблю сестру.",
+      "uses": ["v31", "n53"],
+      "level": 7,
+      "canonical": "Rakastan siskoa.",
+      "accepted": ["Rakastan siskoa.", "Minä rakastan siskoa."],
+      "wrong": [
+        { "match": "rakastan sisko", "ru": "Глагол rakastaa управляет ПАРТИТИВОМ: rakastan siskoa, а не sisko." },
+        { "match": "rakastan siskon", "ru": "rakastaa требует партитив siskoa, а не генитив siskon." },
+        { "match": "rakastaa siskoa", "ru": "Для «я» — rakastan, а не rakastaa («он любит»)." }
+      ],
+      "teaches": "verb rakastaa governs partitive object 'siskoa'",
+      "needs_review": false
+    },
+    {
+      "id": "s80",
+      "ru": "Брат и сестра играют.",
+      "uses": ["n52", "f1", "n53", "v32"],
+      "level": 7,
+      "canonical": "Veli ja sisko pelaavat.",
+      "accepted": ["Veli ja sisko pelaavat."],
+      "wrong": [
+        { "match": "veli ja sisko pelaa", "ru": "Подлежащее множественное (брат и сестра) — глагол pelaavat, а не pelaa («он играет»)." },
+        { "match": "veli ja sisko pelaan", "ru": "pelaan — это «я играю». Для «они» — pelaavat." },
+        { "match": "veli mutta sisko pelaavat", "ru": "Это перечисление — нужен ja («и»), а не mutta («но»)." }
+      ],
+      "teaches": "type-4 verb 3pl 'pelaavat' + subjects joined by 'ja'",
+      "needs_review": false
+    },
+    {
+      "id": "s81",
+      "ru": "Я еду на поезде.",
+      "uses": ["v33", "n56"],
+      "level": 7,
+      "canonical": "Matkustan junalla.",
+      "accepted": ["Matkustan junalla.", "Minä matkustan junalla."],
+      "wrong": [
+        { "match": "matkustan juna", "ru": "«На поезде» (чем?) — адессив junalla." },
+        { "match": "matkustan junassa", "ru": "junassa — «в поезде» (где?). Как средство передвижения — junalla." },
+        { "match": "matkustat junalla", "ru": "matkustat — это «ты едешь». Для «я» — matkustan." }
+      ],
+      "teaches": "adessive of means of transport 'junalla'",
+      "needs_review": false
+    },
+    {
+      "id": "s82",
+      "ru": "Мы едем на автобусе в город.",
+      "uses": ["v2", "n57", "n12"],
+      "level": 7,
+      "canonical": "Menemme bussilla kaupunkiin.",
+      "accepted": ["Menemme bussilla kaupunkiin.", "Me menemme bussilla kaupunkiin."],
+      "wrong": [
+        { "match": "menemme bussi kaupunkiin", "ru": "«На автобусе» (чем?) — адессив bussilla." },
+        { "match": "menemme bussilla kaupungissa", "ru": "«В город» (куда?) — иллатив kaupunkiin, а не kaupungissa («в городе»)." },
+        { "match": "menen bussilla kaupunkiin", "ru": "«Мы едем» — menemme, а не menen («я еду»)." }
+      ],
+      "teaches": "adessive of transport 'bussilla' + illative direction 'kaupunkiin'",
+      "needs_review": false
+    },
+    {
+      "id": "s83",
+      "ru": "Поезд быстрый.",
+      "uses": ["n56", "v1", "a19"],
+      "level": 7,
+      "canonical": "Juna on nopea.",
+      "accepted": ["Juna on nopea."],
+      "wrong": [
+        { "match": "juna on nopeaa", "ru": "Подлежащее исчисляемое (juna) — предикатив в номинативе: nopea, а не партитив nopeaa." },
+        { "match": "juna nopea", "ru": "Нужна связка on: «Juna on nopea»." },
+        { "match": "juna ovat nopea", "ru": "Подлежащее в ед. числе — on, а не ovat." }
+      ],
+      "teaches": "predicative adjective nominative with countable subject (nopea)",
+      "needs_review": false
+    },
+    {
+      "id": "s84",
+      "ru": "У меня красная машина.",
+      "uses": ["v1", "a23", "n5"],
+      "level": 7,
+      "canonical": "Minulla on punainen auto.",
+      "accepted": ["Minulla on punainen auto."],
+      "wrong": [
+        { "match": "minulla on punaista auto", "ru": "Прилагательное перед исчисляемым существительным — в номинативе: punainen auto." },
+        { "match": "minulla on punainen autoa", "ru": "Обладаемый исчисляемый предмет — в номинативе: auto, а не партитив autoa." },
+        { "match": "minä on punainen auto", "ru": "«У меня есть» — адессив minulla on, а не minä." }
+      ],
+      "teaches": "adjective-noun nominative agreement (colour) in possessive construction",
+      "needs_review": false
+    },
+    {
+      "id": "s85",
+      "ru": "Я вижу синий поезд.",
+      "uses": ["v12", "a24", "n56"],
+      "level": 7,
+      "canonical": "Näen sinisen junan.",
+      "accepted": ["Näen sinisen junan.", "Minä näen sinisen junan."],
+      "wrong": [
+        { "match": "näen sininen juna", "ru": "Тотальный объект — в генитиве, и прилагательное согласуется: sinisen junan." },
+        { "match": "näen sinisen juna", "ru": "Существительное тоже в генитиве: junan." },
+        { "match": "näen sininen junan", "ru": "Прилагательное согласуется в падеже: sinisen junan." }
+      ],
+      "teaches": "adjective-noun agreement in genitive total object (colour)",
+      "needs_review": false
+    },
+    {
+      "id": "s86",
+      "ru": "Дом белый.",
+      "uses": ["n4", "v1", "a25"],
+      "level": 7,
+      "canonical": "Talo on valkoinen.",
+      "accepted": ["Talo on valkoinen."],
+      "wrong": [
+        { "match": "talo on valkoista", "ru": "Подлежащее исчисляемое (talo) — предикатив в номинативе: valkoinen, а не партитив valkoista." },
+        { "match": "talo valkoinen", "ru": "Нужна связка on: «Talo on valkoinen»." },
+        { "match": "talo on musta", "ru": "«Белый» — valkoinen; musta значит «чёрный»." }
+      ],
+      "teaches": "predicative adjective nominative (colour valkoinen) + copula",
+      "needs_review": false
+    },
+    {
+      "id": "s87",
+      "ru": "Я люблю чёрный кофе.",
+      "uses": ["v31", "a26", "n8"],
+      "level": 7,
+      "canonical": "Rakastan mustaa kahvia.",
+      "accepted": ["Rakastan mustaa kahvia.", "Minä rakastan mustaa kahvia."],
+      "wrong": [
+        { "match": "rakastan musta kahvi", "ru": "rakastaa требует партитив, и прилагательное согласуется: mustaa kahvia." },
+        { "match": "rakastan mustaa kahvi", "ru": "Существительное тоже в партитиве: kahvia." },
+        { "match": "rakastan musta kahvia", "ru": "Прилагательное согласуется в падеже: mustaa kahvia." }
+      ],
+      "teaches": "rakastaa + adjective-noun agreement in partitive (colour mustaa kahvia)",
+      "needs_review": false
+    },
+    {
+      "id": "s88",
+      "ru": "Я не понимаю по-фински.",
+      "uses": ["f6", "v35", "n16"],
+      "level": 7,
+      "canonical": "En ymmärrä suomea.",
+      "accepted": ["En ymmärrä suomea.", "Minä en ymmärrä suomea."],
+      "wrong": [
+        { "match": "en ymmärrän suomea", "ru": "После en — коннегатив ymmärrä, без личного окончания." },
+        { "match": "ei ymmärrä suomea", "ru": "Для «я» отрицание en, а не ei." },
+        { "match": "en ymmärrä suomi", "ru": "Язык как объект — в партитиве: suomea." }
+      ],
+      "teaches": "negation + connegative + partitive language (ymmärtää)",
+      "needs_review": false
+    },
+    {
+      "id": "s89",
+      "ru": "Ты помнишь моё имя?",
+      "uses": ["v36", "n20"],
+      "level": 7,
+      "canonical": "Muistatko nimeni?",
+      "accepted": ["Muistatko nimeni?", "Muistatko sinä nimeni?", "Muistatko minun nimeni?"],
+      "wrong": [
+        { "match": "muistat nimeni", "ru": "В вопросе к глаголу добавляется частица -ko/-kö: Muistatko?" },
+        { "match": "muistanko nimeni", "ru": "Вопрос обращён к «ты»: форма muistatko, а не muistanko («помню ли я»)." },
+        { "match": "muistatko nimi", "ru": "«Моё имя» — притяжательная форма nimeni (или minun nimeni), а не словарная nimi." }
+      ],
+      "teaches": "yes/no question clitic -ko + 2sg verb (muistaa)",
+      "needs_review": false
+    },
+    {
+      "id": "s90",
+      "ru": "Я иду к врачу.",
+      "uses": ["v2", "n60"],
+      "level": 7,
+      "canonical": "Menen lääkäriin.",
+      "accepted": ["Menen lääkäriin.", "Minä menen lääkäriin."],
+      "wrong": [
+        { "match": "menen lääkärissä", "ru": "lääkärissä — «у врача» (где?). Здесь направление «куда?» — lääkäriin." },
+        { "match": "menen lääkäri", "ru": "Нужен иллатив «куда?»: lääkäriin." },
+        { "match": "menen lääkäristä", "ru": "lääkäristä — «от врача» (откуда?). Здесь «куда?» — lääkäriin." }
+      ],
+      "teaches": "illative direction to a person/place 'lääkäriin'",
+      "needs_review": false
+    },
+    {
+      "id": "s91",
+      "ru": "Дорога длинная, но поезд быстрый.",
+      "uses": ["n59", "v1", "a17", "f2", "n56", "a19"],
+      "level": 7,
+      "canonical": "Matka on pitkä, mutta juna on nopea.",
+      "accepted": ["Matka on pitkä, mutta juna on nopea."],
+      "wrong": [
+        { "match": "matka on pitkää, mutta juna on nopea", "ru": "Подлежащее исчисляемое (matka) — предикатив в номинативе: pitkä." },
+        { "match": "matka on pitkä, ja juna on nopea", "ru": "Здесь противопоставление — нужен mutta («но»), а не ja («и»)." },
+        { "match": "matka on pitkä, mutta juna on nopeaa", "ru": "Подлежащее исчисляемое (juna) — предикатив в номинативе: nopea." }
+      ],
+      "teaches": "predicative adjectives nominative + contrast conjunction 'mutta'",
+      "needs_review": false
+    },
+    {
+      "id": "s92",
+      "ru": "Если ты помнишь дорогу, мы едем на велосипеде.",
+      "uses": ["f30", "v36", "n59", "v2", "n58"],
+      "level": 7,
+      "canonical": "Jos muistat matkan, menemme polkupyörällä.",
+      "accepted": ["Jos muistat matkan, menemme polkupyörällä."],
+      "wrong": [
+        { "match": "jos muistan matkan, menemme polkupyörällä", "ru": "«Если (ты) помнишь» — muistat, а не muistan («я помню»)." },
+        { "match": "jos muistat matka, menemme polkupyörällä", "ru": "Тотальный объект (помнишь всю дорогу) — в генитиве: matkan." },
+        { "match": "jos muistat matkan, menemme polkupyörässä", "ru": "«На велосипеде» (чем?) — адессив polkupyörällä, а не инессив polkupyörässä." }
+      ],
+      "teaches": "conditional 'jos' + 2sg verb + total object + adessive of transport",
+      "needs_review": false
     }
   ]
 }

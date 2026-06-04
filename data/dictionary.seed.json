@@ -111,7 +111,65 @@
     {"id":"v22","fi":"täytyä","ru":"быть должным (надо)","pos":"verb","level":5,"verb_type":1,
       "present":{"minä":"täydyn","sinä":"täydyt","hän":"täytyy","me":"täydymme","te":"täydytte","he":"täytyvät"},
       "past_1sg":"täydyin","past_3sg":"täytyi","conneg":"täydy",
-      "notes":"Used IMPERSONALLY in 3sg: 'Minun täytyy mennä' = Мне надо идти. The person is in genitive (minun/sinun/hänen), verb stays täytyy. Gradation t->d in weak forms.","needs_review":false}
+      "notes":"Used IMPERSONALLY in 3sg: 'Minun täytyy mennä' = Мне надо идти. The person is in genitive (minun/sinun/hänen), verb stays täytyy. Gradation t->d in weak forms.","needs_review":false},
+
+    {"id":"v23","fi":"nukkua","ru":"спать","pos":"verb","level":6,"verb_type":1,
+      "present":{"minä":"nukun","sinä":"nukut","hän":"nukkuu","me":"nukumme","te":"nukutte","he":"nukkuvat"},
+      "past_1sg":"nukuin","past_3sg":"nukkui","conneg":"nuku",
+      "notes":"Gradation kk->k: nuKKuu but nuKun. 'Nukun hyvin' = Я хорошо сплю.","needs_review":false},
+    {"id":"v24","fi":"herätä","ru":"просыпаться","pos":"verb","level":6,"verb_type":6,
+      "present":{"minä":"herään","sinä":"heräät","hän":"herää","me":"heräämme","te":"heräätte","he":"heräävät"},
+      "past_1sg":"heräsin","past_3sg":"heräsi","conneg":"herää",
+      "notes":"Type 6 (-tä, stem herä-). 'Herään aamulla' = Я просыпаюсь утром.","needs_review":false},
+    {"id":"v25","fi":"katsoa","ru":"смотреть","pos":"verb","level":6,"verb_type":1,
+      "present":{"minä":"katson","sinä":"katsot","hän":"katsoo","me":"katsomme","te":"katsotte","he":"katsovat"},
+      "past_1sg":"katsoin","past_3sg":"katsoi","conneg":"katso",
+      "notes":"No gradation. Object often partitive (process): 'Katson televisiota'. 'Katson elokuvaa' = Я смотрю фильм.","needs_review":false},
+    {"id":"v26","fi":"kuunnella","ru":"слушать","pos":"verb","level":6,"verb_type":3,
+      "present":{"minä":"kuuntelen","sinä":"kuuntelet","hän":"kuuntelee","me":"kuuntelemme","te":"kuuntelette","he":"kuuntelevat"},
+      "past_1sg":"kuuntelin","past_3sg":"kuunteli","conneg":"kuuntele",
+      "notes":"Type 3 (-la). Partitive object: 'Kuuntelen musiikkia' = Я слушаю музыку.","needs_review":false},
+    {"id":"v27","fi":"kirjoittaa","ru":"писать","pos":"verb","level":6,"verb_type":1,
+      "present":{"minä":"kirjoitan","sinä":"kirjoitat","hän":"kirjoittaa","me":"kirjoitamme","te":"kirjoitatte","he":"kirjoittavat"},
+      "past_1sg":"kirjoitin","past_3sg":"kirjoitti","conneg":"kirjoita",
+      "notes":"Gradation tt->t: kirjoiTTaa but kirjoiTan. 'Kirjoitan kirjeen' = Я пишу письмо.","needs_review":false},
+    {"id":"v28","fi":"auttaa","ru":"помогать","pos":"verb","level":6,"verb_type":1,
+      "present":{"minä":"autan","sinä":"autat","hän":"auttaa","me":"autamme","te":"autatte","he":"auttavat"},
+      "past_1sg":"autoin","past_3sg":"auttoi","conneg":"auta",
+      "notes":"Gradation tt->t: auTTaa but auTan. Object in PARTITIVE: 'Autan äitiä' = Я помогаю маме (не генитив).","needs_review":false},
+    {"id":"v29","fi":"odottaa","ru":"ждать","pos":"verb","level":6,"verb_type":1,
+      "present":{"minä":"odotan","sinä":"odotat","hän":"odottaa","me":"odotamme","te":"odotatte","he":"odottavat"},
+      "past_1sg":"odotin","past_3sg":"odotti","conneg":"odota",
+      "notes":"Gradation tt->t: odoTTaa but odoTan. Object in PARTITIVE: 'Odotan bussia' = Я жду автобус.","needs_review":false},
+    {"id":"v30","fi":"opiskella","ru":"учиться / изучать","pos":"verb","level":6,"verb_type":3,
+      "present":{"minä":"opiskelen","sinä":"opiskelet","hän":"opiskelee","me":"opiskelemme","te":"opiskelette","he":"opiskelevat"},
+      "past_1sg":"opiskelin","past_3sg":"opiskeli","conneg":"opiskele",
+      "notes":"Type 3 (-la). 'Opiskelen suomea' = Я изучаю финский (объект-язык в партитиве). Related to opiskelija.","needs_review":false},
+
+    {"id":"v31","fi":"rakastaa","ru":"любить","pos":"verb","level":7,"verb_type":1,
+      "present":{"minä":"rakastan","sinä":"rakastat","hän":"rakastaa","me":"rakastamme","te":"rakastatte","he":"rakastavat"},
+      "past_1sg":"rakastin","past_3sg":"rakasti","conneg":"rakasta",
+      "notes":"No gradation. Object in PARTITIVE: 'Rakastan sinua' = Я люблю тебя; 'Rakastan kahvia'.","needs_review":false},
+    {"id":"v32","fi":"pelata","ru":"играть","pos":"verb","level":7,"verb_type":4,
+      "present":{"minä":"pelaan","sinä":"pelaat","hän":"pelaa","me":"pelaamme","te":"pelaatte","he":"pelaavat"},
+      "past_1sg":"pelasin","past_3sg":"pelasi","conneg":"pelaa",
+      "notes":"Type 4 (-ata): pela+an -> pelaan. Game in partitive: 'Pelaan jalkapalloa'. (Music: soittaa.)","needs_review":false},
+    {"id":"v33","fi":"matkustaa","ru":"путешествовать / ехать","pos":"verb","level":7,"verb_type":1,
+      "present":{"minä":"matkustan","sinä":"matkustat","hän":"matkustaa","me":"matkustamme","te":"matkustatte","he":"matkustavat"},
+      "past_1sg":"matkustin","past_3sg":"matkusti","conneg":"matkusta",
+      "notes":"No gradation. Means in adessive: 'Matkustan junalla' = Я еду на поезде.","needs_review":false},
+    {"id":"v34","fi":"löytää","ru":"находить","pos":"verb","level":7,"verb_type":1,
+      "present":{"minä":"löydän","sinä":"löydät","hän":"löytää","me":"löydämme","te":"löydätte","he":"löytävät"},
+      "past_1sg":"löysin","past_3sg":"löysi","conneg":"löydä",
+      "notes":"Gradation t->d: löyTää but löyDän. Irregular past löysi-. Total object: 'Löysin avaimen'.","needs_review":false},
+    {"id":"v35","fi":"ymmärtää","ru":"понимать","pos":"verb","level":7,"verb_type":1,
+      "present":{"minä":"ymmärrän","sinä":"ymmärrät","hän":"ymmärtää","me":"ymmärrämme","te":"ymmärrätte","he":"ymmärtävät"},
+      "past_1sg":"ymmärsin","past_3sg":"ymmärsi","conneg":"ymmärrä",
+      "notes":"Gradation rt->rr: ymmärTää but ymmärRän. Object in partitive: 'Ymmärrän suomea' = Я понимаю финский.","needs_review":false},
+    {"id":"v36","fi":"muistaa","ru":"помнить","pos":"verb","level":7,"verb_type":1,
+      "present":{"minä":"muistan","sinä":"muistat","hän":"muistaa","me":"muistamme","te":"muistatte","he":"muistavat"},
+      "past_1sg":"muistin","past_3sg":"muisti","conneg":"muista",
+      "notes":"No gradation. 'Muistan nimen' = Я помню имя (тотальный объект).","needs_review":false}
   ],
 
   "nouns": [
@@ -156,7 +214,30 @@
     {"id":"n36","fi":"sää","ru":"погода","pos":"noun","level":5,"gen_sg":"sään","part_sg":"säätä","iness_sg":"säässä","illat_sg":"säähän","notes":"Long vowel stem sää-. 'Millainen sää on?' = Какая погода?","needs_review":false},
     {"id":"n37","fi":"ilma","ru":"воздух / погода","pos":"noun","level":5,"gen_sg":"ilman","part_sg":"ilmaa","iness_sg":"ilmassa","illat_sg":"ilmaan","notes":"Also colloquially 'погода' (kaunis ilma = хорошая погода). No gradation.","needs_review":false},
     {"id":"n38","fi":"päivä","ru":"день","pos":"noun","level":5,"gen_sg":"päivän","part_sg":"päivää","iness_sg":"päivässä","illat_sg":"päivään","notes":"No gradation. Greeting 'Hyvää päivää!' = Добрый день! (partitive).","needs_review":false},
-    {"id":"n39","fi":"aamu","ru":"утро","pos":"noun","level":5,"gen_sg":"aamun","part_sg":"aamua","iness_sg":"aamussa","illat_sg":"aamuun","notes":"'aamulla' (adessive) = утром (когда?).","needs_review":false}
+    {"id":"n39","fi":"aamu","ru":"утро","pos":"noun","level":5,"gen_sg":"aamun","part_sg":"aamua","iness_sg":"aamussa","illat_sg":"aamuun","notes":"'aamulla' (adessive) = утром (когда?).","needs_review":false},
+
+    {"id":"n40","fi":"tunti","ru":"час","pos":"noun","level":6,"gen_sg":"tunnin","part_sg":"tuntia","iness_sg":"tunnissa","illat_sg":"tuntiin","notes":"Gradation nt->nn: tuNTi but tuNNin. Duration: 'tunti' = (один) час; 'kaksi tuntia' = два часа (партитив после числа).","needs_review":false},
+    {"id":"n41","fi":"viikko","ru":"неделя","pos":"noun","level":6,"gen_sg":"viikon","part_sg":"viikkoa","iness_sg":"viikossa","illat_sg":"viikkoon","notes":"Gradation kk->k: viiKKo but viiKon. 'viikossa' = за неделю / на неделе.","needs_review":false},
+    {"id":"n42","fi":"ilta","ru":"вечер","pos":"noun","level":6,"gen_sg":"illan","part_sg":"iltaa","iness_sg":"illassa","illat_sg":"iltaan","notes":"Gradation lt->ll: iLTa but iLLan. 'illalla' (adessive) = вечером (когда?). 'Hyvää iltaa!' = Добрый вечер!","needs_review":false},
+    {"id":"n43","fi":"yö","ru":"ночь","pos":"noun","level":6,"gen_sg":"yön","part_sg":"yötä","iness_sg":"yössä","illat_sg":"yöhön","notes":"Long vowel stem yö-. No gradation. 'yöllä' (adessive) = ночью (когда?). 'Hyvää yötä!' = Спокойной ночи!","needs_review":false},
+    {"id":"n44","fi":"kello","ru":"часы / время на часах","pos":"noun","level":6,"gen_sg":"kellon","part_sg":"kelloa","iness_sg":"kellossa","illat_sg":"kelloon","notes":"No gradation. Clock-time idiom: 'Kello on kaksi' = Сейчас два часа (буквально «часы — два»). 'Paljonko kello on?' = Который час?","needs_review":false},
+    {"id":"n45","fi":"huone","ru":"комната","pos":"noun","level":6,"gen_sg":"huoneen","part_sg":"huonetta","iness_sg":"huoneessa","illat_sg":"huoneeseen","notes":"-e noun, stem huonee-: gen huoneen, part huonetta, illat huoneeseen. No gradation.","needs_review":false},
+    {"id":"n46","fi":"pöytä","ru":"стол","pos":"noun","level":6,"gen_sg":"pöydän","part_sg":"pöytää","iness_sg":"pöydässä","illat_sg":"pöytään","notes":"Gradation t->d: pöyTä but pöyDän. 'pöydällä' (adessive) = на столе (на поверхности).","needs_review":false},
+    {"id":"n47","fi":"ovi","ru":"дверь","pos":"noun","level":6,"gen_sg":"oven","part_sg":"ovea","iness_sg":"ovessa","illat_sg":"oveen","notes":"Stem ove-: gen oven, part ovea. No gradation.","needs_review":false},
+    {"id":"n48","fi":"ikkuna","ru":"окно","pos":"noun","level":6,"gen_sg":"ikkunan","part_sg":"ikkunaa","iness_sg":"ikkunassa","illat_sg":"ikkunaan","notes":"No gradation in declension (kk stays). 'ikkunassa' = в окне.","needs_review":false},
+    {"id":"n49","fi":"sänky","ru":"кровать","pos":"noun","level":6,"gen_sg":"sängyn","part_sg":"sänkyä","iness_sg":"sängyssä","illat_sg":"sänkyyn","notes":"Gradation nk->ng: säNKy but säNGyn. Front-harmony word (sänkyä, -ssä).","needs_review":false},
+    {"id":"n50","fi":"puhelin","ru":"телефон","pos":"noun","level":6,"gen_sg":"puhelimen","part_sg":"puhelinta","iness_sg":"puhelimessa","illat_sg":"puhelimeen","notes":"-in noun, stem puhelime-: gen puhelimen, part puhelinta. No gradation.","needs_review":false},
+
+    {"id":"n51","fi":"perhe","ru":"семья","pos":"noun","level":7,"gen_sg":"perheen","part_sg":"perhettä","iness_sg":"perheessä","illat_sg":"perheeseen","notes":"-e noun, stem perhee-: gen perheen, part perhettä, illat perheeseen. No gradation.","needs_review":false},
+    {"id":"n52","fi":"veli","ru":"брат","pos":"noun","level":7,"gen_sg":"veljen","part_sg":"veljeä","iness_sg":"veljessä","illat_sg":"veljeen","notes":"IRREGULAR stem velje-: gen veljen, part veljeä.","needs_review":false},
+    {"id":"n53","fi":"sisko","ru":"сестра","pos":"noun","level":7,"gen_sg":"siskon","part_sg":"siskoa","iness_sg":"siskossa","illat_sg":"siskoon","notes":"No gradation. Colloquial; formal 'sisar'.","needs_review":false},
+    {"id":"n54","fi":"poika","ru":"мальчик / сын","pos":"noun","level":7,"gen_sg":"pojan","part_sg":"poikaa","iness_sg":"pojassa","illat_sg":"poikaan","notes":"Gradation k->j: poiKa but poJan (special k->j before a/o). Plural pojat = мальчики/сыновья.","needs_review":false},
+    {"id":"n55","fi":"tyttö","ru":"девочка / девушка","pos":"noun","level":7,"gen_sg":"tytön","part_sg":"tyttöä","iness_sg":"tytössä","illat_sg":"tyttöön","notes":"Gradation tt->t: tyTTö but tyTön. Front-harmony (tyttöä, -ssä).","needs_review":false},
+    {"id":"n56","fi":"juna","ru":"поезд","pos":"noun","level":7,"gen_sg":"junan","part_sg":"junaa","iness_sg":"junassa","illat_sg":"junaan","notes":"No gradation. Means in adessive: 'junalla' = на поезде.","needs_review":false},
+    {"id":"n57","fi":"bussi","ru":"автобус","pos":"noun","level":7,"gen_sg":"bussin","part_sg":"bussia","iness_sg":"bussissa","illat_sg":"bussiin","notes":"No gradation. Means in adessive: 'bussilla' = на автобусе.","needs_review":false},
+    {"id":"n58","fi":"polkupyörä","ru":"велосипед","pos":"noun","level":7,"gen_sg":"polkupyörän","part_sg":"polkupyörää","iness_sg":"polkupyörässä","illat_sg":"polkupyörään","notes":"No gradation. Means in adessive: 'polkupyörällä' = на велосипеде. Short colloquial: pyörä.","needs_review":false},
+    {"id":"n59","fi":"matka","ru":"поездка / путешествие","pos":"noun","level":7,"gen_sg":"matkan","part_sg":"matkaa","iness_sg":"matkassa","illat_sg":"matkaan","notes":"No gradation (gen matkan keeps -tk-). 'Hyvää matkaa!' = Счастливого пути! (partitive).","needs_review":false},
+    {"id":"n60","fi":"lääkäri","ru":"врач","pos":"noun","level":7,"gen_sg":"lääkärin","part_sg":"lääkäriä","iness_sg":"lääkärissä","illat_sg":"lääkäriin","notes":"No gradation. Front-harmony (lääkäriä, -ssä). 'Menen lääkäriin' = Я иду к врачу.","needs_review":false}
   ],
 
   "adjectives": [
@@ -171,7 +252,23 @@
     {"id":"a9","fi":"vaikea","ru":"трудный / сложный","pos":"adj","level":5,"part_sg":"vaikeaa","notes":"'Suomi on vaikeaa' (language as mass -> partitive) vs 'Tehtävä on vaikea' (countable -> nominative)."},
     {"id":"a10","fi":"helppo","ru":"лёгкий / простой","pos":"adj","level":5,"gen_sg":"helpon","part_sg":"helppoa","notes":"Gradation pp->p: helPPo but helPon."},
     {"id":"a11","fi":"kallis","ru":"дорогой","pos":"adj","level":4,"gen_sg":"kalliin","part_sg":"kallista","notes":"Stem kallii-: gen kalliin, part kallista. 'Auto on kallis' = Машина дорогая."},
-    {"id":"a12","fi":"halpa","ru":"дешёвый","pos":"adj","level":4,"gen_sg":"halvan","part_sg":"halpaa","notes":"Gradation p->v: halPa but halVan."}
+    {"id":"a12","fi":"halpa","ru":"дешёвый","pos":"adj","level":4,"gen_sg":"halvan","part_sg":"halpaa","notes":"Gradation p->v: halPa but halVan."},
+
+    {"id":"a13","fi":"vanha","ru":"старый","pos":"adj","level":6,"gen_sg":"vanhan","part_sg":"vanhaa","notes":"No gradation. 'vanha talo' = старый дом. Predicative: 'Talo on vanha'."},
+    {"id":"a14","fi":"nuori","ru":"молодой","pos":"adj","level":6,"gen_sg":"nuoren","part_sg":"nuorta","notes":"Stem nuore-: gen nuoren, part nuorta. 'nuori mies' = молодой человек."},
+    {"id":"a15","fi":"väsynyt","ru":"усталый","pos":"adj","level":6,"gen_sg":"väsyneen","part_sg":"väsynyttä","notes":"-nyt participle adj, stem väsynee-: gen väsyneen, part väsynyttä. 'Olen väsynyt' = Я устал."},
+    {"id":"a16","fi":"valmis","ru":"готовый","pos":"adj","level":6,"gen_sg":"valmiin","part_sg":"valmista","notes":"Stem valmii-: gen valmiin, part valmista. 'Olen valmis' = Я готов."},
+
+    {"id":"a17","fi":"pitkä","ru":"длинный / высокий","pos":"adj","level":7,"gen_sg":"pitkän","part_sg":"pitkää","notes":"No gradation (gen pitkän). 'pitkä matka' = долгая дорога; 'pitkä mies' = высокий мужчина."},
+    {"id":"a18","fi":"lyhyt","ru":"короткий","pos":"adj","level":7,"gen_sg":"lyhyen","part_sg":"lyhyttä","notes":"Stem lyhye-: gen lyhyen, part lyhyttä. Front-harmony."},
+    {"id":"a19","fi":"nopea","ru":"быстрый","pos":"adj","level":7,"gen_sg":"nopean","part_sg":"nopeaa","notes":"No gradation. 'nopea juna' = быстрый поезд."},
+    {"id":"a20","fi":"tärkeä","ru":"важный","pos":"adj","level":7,"gen_sg":"tärkeän","part_sg":"tärkeää","notes":"No gradation. 'tärkeä asia' = важное дело."},
+    {"id":"a21","fi":"mukava","ru":"приятный / удобный","pos":"adj","level":7,"gen_sg":"mukavan","part_sg":"mukavaa","notes":"No gradation. 'mukava ihminen' = приятный человек."},
+    {"id":"a22","fi":"iloinen","ru":"радостный / весёлый","pos":"adj","level":7,"gen_sg":"iloisen","part_sg":"iloista","notes":"-nen adj, stem iloise-: gen iloisen, part iloista. 'Olen iloinen' = Я рад."},
+    {"id":"a23","fi":"punainen","ru":"красный","pos":"adj","level":7,"gen_sg":"punaisen","part_sg":"punaista","notes":"-nen colour adj, stem punaise-: gen punaisen, part punaista. 'punainen auto' = красная машина."},
+    {"id":"a24","fi":"sininen","ru":"синий / голубой","pos":"adj","level":7,"gen_sg":"sinisen","part_sg":"sinistä","notes":"-nen colour adj, stem sinise-: gen sinisen, part sinistä. Front-harmony."},
+    {"id":"a25","fi":"valkoinen","ru":"белый","pos":"adj","level":7,"gen_sg":"valkoisen","part_sg":"valkoista","notes":"-nen colour adj, stem valkoise-: gen valkoisen, part valkoista."},
+    {"id":"a26","fi":"musta","ru":"чёрный","pos":"adj","level":7,"gen_sg":"mustan","part_sg":"mustaa","notes":"No gradation. 'musta kahvi' = чёрный кофе."}
   ],
 
   "function_words": [
@@ -212,7 +309,10 @@
     {"id":"f31","fi":"hei","ru":"привет","pos":"interj","level":3,"notes":"Informal greeting. Also 'moi', 'terve'. Formal: 'Hyvää päivää'.","needs_review":false},
     {"id":"f32","fi":"kiitos","ru":"спасибо","pos":"interj","level":3,"notes":"'Kiitos!' = Спасибо! 'Ei kiitos' = Нет, спасибо.","needs_review":false},
     {"id":"f33","fi":"anteeksi","ru":"извините","pos":"interj","level":3,"notes":"'Anteeksi!' = Извините! Also to get attention.","needs_review":false},
-    {"id":"f34","fi":"kyllä","ru":"да","pos":"interj","level":3,"notes":"'Kyllä' = Да (эмфатическое/в ответ на вопрос с -ko). Opposite ei = нет.","needs_review":false}
+    {"id":"f34","fi":"kyllä","ru":"да","pos":"interj","level":3,"notes":"'Kyllä' = Да (эмфатическое/в ответ на вопрос с -ko). Opposite ei = нет.","needs_review":false},
+
+    {"id":"f35","fi":"usein","ru":"часто","pos":"adv","level":6,"notes":"Indeclinable frequency adverb. 'Katson usein televisiota' = Я часто смотрю телевизор. Free word order.","needs_review":false},
+    {"id":"f36","fi":"aina","ru":"всегда","pos":"adv","level":6,"notes":"Indeclinable frequency adverb. 'Herään aina aikaisin' (упрощённо). 'Olen aina kotona illalla'.","needs_review":false}
   ],
 
   "example_sentences": [
