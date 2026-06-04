@@ -42,15 +42,15 @@ export function selectionWeight(p: ItemProgress): number {
 }
 
 /**
- * Extra weight for items at the learner's current (frontier) level. Each lesson type tracks
- * mastery separately, so starting a NEW mode resets every word to box 0 in that track — which
- * flattens the weights and lets the whole back-catalogue crowd out the newest words, making the
- * active level feel "stuck". Multiplying the frontier level's weight keeps fresh material in
- * front of the learner across every mode, so the current level fills (and unlocks) faster.
+ * Extra weight for items at the level the learner is currently completing in a mode. Each lesson
+ * type tracks mastery separately, so starting a NEW mode resets every word to box 0 in that track
+ * — which flattens the weights and lets the whole back-catalogue crowd out the words you should
+ * finish first. Multiplying the boost level's weight pushes the EARLIEST level you're still weak in
+ * (per mode) to the front, so levels (and each skill) get completed in order.
  */
-export const FRONTIER_BOOST = 4;
+export const LEVEL_BOOST = 4;
 
-/** Weight multiplier for an item, given its level and the frontier (1 when not at the frontier). */
-export function frontierMultiplier(level: number, frontierLevel?: number): number {
-  return frontierLevel !== undefined && level === frontierLevel ? FRONTIER_BOOST : 1;
+/** Weight multiplier for an item, given its level and the boost level (1 when not boosted). */
+export function levelBoostMultiplier(level: number, boostLevel?: number): number {
+  return boostLevel !== undefined && level === boostLevel ? LEVEL_BOOST : 1;
 }

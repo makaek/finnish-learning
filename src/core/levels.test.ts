@@ -4,12 +4,16 @@ import {
   activeVocab,
   eligibleSentences,
   LEARNED_BOX,
+  levelLearnProgress,
   levelOf,
   levelStats,
   listLevels,
+  lowestUnmasteredLevel,
+  masteringLevel,
   overallProgress,
   unlockedLevels,
   wordLearned,
+  wordLearnProgress,
   wordMastery,
   type SentenceLike,
   type VocabLike,
@@ -81,6 +85,56 @@ describe("wordLearned (per-type, either skill)", () => {
 
   it("counts a word learned via speech (say_word) alone too", () => {
     expect(wordLearned(box("say_word", "a1", 3), "a1")).toBe(true);
+  });
+});
+
+describe("wordLearnProgress / levelLearnProgress (smooth HUD bar)", () => {
+  it("is 0, 0.5, 1 at box 0, 1, >= LEARNED_BOX (best mode, capped)", () => {
+    expect(wordLearnProgress(new Map(), "a1")).toBe(0);
+    expect(wordLearnProgress(box("recognition", "a1", 1), "a1")).toBe(0.5);
+    expect(wordLearnProgress(box("recognition", "a1", 2), "a1")).toBe(1);
+    expect(wordLearnProgress(box("production", "a1", 5), "a1")).toBe(1);
+  });
+
+  it("averages over a level's words (1 when all learned, 0 when none)", () => {
+    expect(levelLearnProgress(vocab, new Map(), 1)).toBe(0);
+    expect(levelLearnProgress(vocab, learned(["a1", "a2", "a3", "a4", "a5"]), 1)).toBe(1);
+    // One of five at box 1 (0.5) → 0.5/5 = 0.1.
+    expect(levelLearnProgress(vocab, box("recognition", "a1", 1), 1)).toBeCloseTo(0.1);
+  });
+
+  it("is 1 for an empty level", () => {
+    expect(levelLearnProgress(vocab, new Map(), 99)).toBe(1);
+  });
+});
+
+describe("masteringLevel (the level being completed)", () => {
+  it("is the lowest level not yet fully learned", () => {
+    expect(masteringLevel(levelStats(vocab, new Map()))).toBe(1);
+    expect(masteringLevel(levelStats(vocab, learned(["a1", "a2", "a3", "a4", "a5"])))).toBe(2);
+  });
+
+  it("is the highest level once everything is learned", () => {
+    const all = learned(["a1", "a2", "a3", "a4", "a5", "b1", "b2", "b3", "b4", "b5"]);
+    expect(masteringLevel(levelStats(vocab, all))).toBe(2);
+  });
+});
+
+describe("lowestUnmasteredLevel (per-mode selection boost target)", () => {
+  it("is the lowest level with an item below mastery in that kind", () => {
+    expect(lowestUnmasteredLevel(vocab, new Map(), "recognition")).toBe(1);
+    const lvl1Done = learned(["a1", "a2", "a3", "a4", "a5"]); // box 3 in recognition
+    expect(lowestUnmasteredLevel(vocab, lvl1Done, "recognition")).toBe(2);
+  });
+
+  it("is undefined once every item is mastered in that kind", () => {
+    const all = learned(["a1", "a2", "a3", "a4", "a5", "b1", "b2", "b3", "b4", "b5"]);
+    expect(lowestUnmasteredLevel(vocab, all, "recognition")).toBeUndefined();
+  });
+
+  it("is per-kind: a word learned in recognition is still unmastered in production", () => {
+    const recOnly = learned(["a1", "a2", "a3", "a4", "a5"]);
+    expect(lowestUnmasteredLevel(vocab, recOnly, "production")).toBe(1);
   });
 });
 

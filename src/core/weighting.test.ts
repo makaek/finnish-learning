@@ -87,27 +87,26 @@ describe("mastery weighting through the session builders", () => {
   });
 });
 
-describe("frontier boost through the session builders", () => {
+describe("lowest-unmastered-level boost through the session builders", () => {
   const leveled: VocabItem[] = [
     { id: "a", fi: "a", ru: "a", pos: "noun", level: 1 },
-    { id: "b", fi: "b", ru: "b", pos: "noun", level: 2 }, // the frontier
+    { id: "b", fi: "b", ru: "b", pos: "noun", level: 2 },
   ];
 
-  it("over-samples the frontier level (≈ FRONTIER_BOOST : 1) on equal mastery", () => {
-    const rate = pickRate(
-      (seed) => buildSession(leveled, seed, 1, 4, new Map(), 2)[0]?.itemId,
-      "b",
-    );
-    // b weight 32×4 vs a 32 → expected 4/5 = 80%.
+  it("over-samples the lowest unmastered level (≈ LEVEL_BOOST : 1)", () => {
+    // Both words box 0 → the lowest unmastered level (1) is boosted → "a" (level 1) dominates.
+    const rate = pickRate((seed) => buildSession(leveled, seed, 1, 4, new Map())[0]?.itemId, "a");
+    // a weight 32×4 vs b 32 → expected 4/5 = 80%.
     expect(rate).toBeGreaterThan(0.65);
     expect(rate).toBeLessThan(0.95);
   });
 
-  it("is ≈ 50/50 when no frontier is given (unchanged behavior)", () => {
-    const rate = pickRate(
-      (seed) => buildSession(leveled, seed, 1, 4, new Map())[0]?.itemId,
-      "b",
-    );
+  it("applies no boost once every item is mastered (≈ 50/50)", () => {
+    const progress: ProgressMap = new Map([
+      [progressKey("recognition", "a"), mastered("recognition", "a")],
+      [progressKey("recognition", "b"), mastered("recognition", "b")],
+    ]);
+    const rate = pickRate((seed) => buildSession(leveled, seed, 1, 4, progress)[0]?.itemId, "a");
     expect(rate).toBeGreaterThan(0.35);
     expect(rate).toBeLessThan(0.65);
   });

@@ -6,12 +6,12 @@
 
 import { useMemo } from "react";
 import {
-  activeLevel,
   activeVocab,
   eligibleSentences,
+  levelLearnProgress,
   levelStats,
+  masteringLevel,
   overallProgress,
-  unlockedLevelsWith,
   LEARNED_BOX,
   type SentenceLike,
   type VocabLike,
@@ -116,11 +116,13 @@ export default function Roadmap({
   onShowStats,
   onTestFill,
 }: RoadmapProps) {
-  const { stats, active, overall } = useMemo(() => {
+  // "Current level" is the level being completed (lowest not fully learned), shown with a smooth
+  // 0→100% learn-progress bar that rolls over only at 100% — not the unlocked frontier, which
+  // jumped the bar to ~0% on every unlock.
+  const { active, overall } = useMemo(() => {
     const s = levelStats(vocab, progress);
-    const u = unlockedLevelsWith(s, testMode);
-    return { stats: s, active: activeLevel(s, u), overall: overallProgress(vocab, progress) };
-  }, [vocab, progress, testMode]);
+    return { active: masteringLevel(s), overall: overallProgress(vocab, progress) };
+  }, [vocab, progress]);
 
   // Per-mode readiness, RELATIVE within each group (words / sentences) so the lights flag
   // which mode is lagging behind the others — nudging the learner to keep them balanced.
@@ -160,8 +162,7 @@ export default function Roadmap({
   const accuracyPct = Math.round(todayAccuracy(daily, today) * 100);
   const goalPct = Math.min(100, Math.round((lessons / DAILY_LESSONS_GOAL) * 100));
   const goalReached = goalMet(daily, today);
-  const activeStat = stats.find((s) => s.level === active);
-  const levelPct = activeStat ? Math.round(activeStat.fraction * 100) : 0;
+  const levelPct = Math.round(levelLearnProgress(vocab, progress, active) * 100);
 
   const settings = (
     <details className="settings">

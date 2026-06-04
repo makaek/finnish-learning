@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { VOCAB } from "../data/dictionary";
 import { SENTENCES, grade } from "../data/sentences";
 import { RULES } from "../data/rules";
@@ -12,13 +12,7 @@ import {
 import { buildProductionSession } from "../core/produce";
 import { buildSentenceSession } from "../core/sentenceSession";
 import { applyOutcome } from "../core/srs";
-import {
-  activeLevel,
-  activeVocab,
-  eligibleSentences,
-  levelStats,
-  unlockedLevelsWith,
-} from "../core/levels";
+import { activeVocab, eligibleSentences } from "../core/levels";
 import {
   completeLesson,
   currentStreak,
@@ -110,14 +104,6 @@ export default function App() {
     };
   }, []);
 
-  // The learner's current (highest unlocked) level — used to over-sample fresh material so the
-  // active level fills and unlocks faster (frontier boost). Reads progressRef so it tracks the
-  // mastery as of the last reseed, like the pools below.
-  const frontierLevelNow = useCallback((): number => {
-    const s = levelStats(VOCAB, progressRef.current);
-    return activeLevel(s, unlockedLevelsWith(s, testMode));
-  }, [testMode]);
-
   // In-play pools: gated by level (and the learned-words rule for sentences), minus items the
   // learner has hidden (fully mastered → removed from every lesson). Reading progressRef (a
   // ref, not a dep) keeps gating/weighting current as of the last `start`; `seed` reseeds on
@@ -132,9 +118,8 @@ export default function App() {
         DEFAULT_SESSION_SIZE,
         DEFAULT_OPTION_COUNT,
         progressRef.current,
-        frontierLevelNow(),
       ),
-    [seed, testMode, hidden, frontierLevelNow],
+    [seed, testMode, hidden],
   );
   const production = useMemo(
     () =>
@@ -145,10 +130,8 @@ export default function App() {
         seed,
         DEFAULT_SESSION_SIZE,
         progressRef.current,
-        "production",
-        frontierLevelNow(),
       ),
-    [seed, testMode, hidden, frontierLevelNow],
+    [seed, testMode, hidden],
   );
   const sentences = useMemo(
     () =>
@@ -160,10 +143,8 @@ export default function App() {
         SENTENCE_SESSION_SIZE,
         undefined,
         progressRef.current,
-        "sentences",
-        frontierLevelNow(),
       ),
-    [seed, testMode, hidden, frontierLevelNow],
+    [seed, testMode, hidden],
   );
   // Voice variants: same pools/questions as production/sentences, but weighted by their own
   // track so spoken practice is repeated and mastered independently.
@@ -177,9 +158,8 @@ export default function App() {
         DEFAULT_SESSION_SIZE,
         progressRef.current,
         "say_word",
-        frontierLevelNow(),
       ),
-    [seed, testMode, hidden, frontierLevelNow],
+    [seed, testMode, hidden],
   );
   const saySentence = useMemo(
     () =>
@@ -192,9 +172,8 @@ export default function App() {
         undefined,
         progressRef.current,
         "say_sentence",
-        frontierLevelNow(),
       ),
-    [seed, testMode, hidden, frontierLevelNow],
+    [seed, testMode, hidden],
   );
   // Listening (dictation) variants: same pools as production/sentences, but the prompt is
   // spoken Finnish (TTS) and the learner types what they hear; weighted by their own track.
@@ -208,9 +187,8 @@ export default function App() {
         DEFAULT_SESSION_SIZE,
         progressRef.current,
         "listen_word",
-        frontierLevelNow(),
       ),
-    [seed, testMode, hidden, frontierLevelNow],
+    [seed, testMode, hidden],
   );
   const listenSentence = useMemo(
     () =>
@@ -223,9 +201,8 @@ export default function App() {
         undefined,
         progressRef.current,
         "listen_sentence",
-        frontierLevelNow(),
       ),
-    [seed, testMode, hidden, frontierLevelNow],
+    [seed, testMode, hidden],
   );
 
   function start(next: Mode) {

@@ -50,6 +50,16 @@ export function wordMastery(progress: ProgressMap, vocabId: string): number {
   return mastered / WORD_MODES.length;
 }
 
+/**
+ * Continuous learn-progress for a word, in [0, 1]: how close its BEST word-mode is to "learned"
+ * (`maxBox / LEARNED_BOX`, capped at 1). Rises with every correct answer in any mode and reaches
+ * 1 exactly when the word is {@link wordLearned}. Drives the smooth home progress bar.
+ */
+export function wordLearnProgress(progress: ProgressMap, vocabId: string): number {
+  const maxBox = Math.max(...WORD_MODES.map((kind) => getProgress(progress, kind, vocabId).box));
+  return Math.min(1, maxBox / LEARNED_BOX);
+}
+
 /** Gentler bar for *using* a word in a sentence: at least one net-correct answer. */
 export const SENTENCE_WORD_BOX = 1;
 
@@ -156,6 +166,55 @@ export function unlockedLevelsWith(
 export function activeLevel(stats: readonly LevelStat[], unlocked: ReadonlySet<number>): number {
   const open = stats.filter((s) => unlocked.has(s.level)).map((s) => s.level);
   return open.length === 0 ? 1 : Math.max(...open);
+}
+
+/**
+ * Average {@link wordLearnProgress} over a level's words, in [0, 1] (1 for an empty level). This
+ * is the home HUD bar: it grows smoothly toward 1 and reaches exactly 1 when every word in the
+ * level is learned — i.e. precisely when {@link masteringLevel} rolls over to the next level.
+ */
+export function levelLearnProgress(
+  vocab: readonly VocabLike[],
+  progress: ProgressMap,
+  level: number,
+): number {
+  const inLevel = vocab.filter((v) => levelOf(v) === level);
+  if (inLevel.length === 0) return 1;
+  return inLevel.reduce((sum, v) => sum + wordLearnProgress(progress, v.id), 0) / inLevel.length;
+}
+
+/**
+ * The level the learner is currently completing: the LOWEST level not yet fully learned (some
+ * word still unlearned), or the highest level once all are done. Unlike {@link activeLevel} (the
+ * unlocked frontier), this advances only when a level is truly finished, so the HUD bar fills
+ * 0→100% and rolls over without the mid-level jump that the frontier display produced.
+ */
+export function masteringLevel(stats: readonly LevelStat[]): number {
+  const ordered = [...stats].sort((a, b) => a.level - b.level);
+  const incomplete = ordered.find((s) => s.total > 0 && s.learned < s.total);
+  return incomplete ? incomplete.level : (ordered[ordered.length - 1]?.level ?? 1);
+}
+
+/**
+ * The lowest level among `items` that still has an item below mastery (`box < masteredBox`) in a
+ * given exercise `kind`, or `undefined` if every item is mastered in that kind. Drives the
+ * per-mode selection boost: practising a mode pushes the EARLIEST level you're weak in there to
+ * the front, so each skill is trained level-by-level (and earlier levels get finished first).
+ */
+export function lowestUnmasteredLevel(
+  items: readonly VocabLike[],
+  progress: ProgressMap,
+  kind: ItemKind,
+  masteredBox: number = LEARNED_BOX,
+): number | undefined {
+  let lowest: number | undefined;
+  for (const item of items) {
+    if (getProgress(progress, kind, item.id).box < masteredBox) {
+      const lv = levelOf(item);
+      if (lowest === undefined || lv < lowest) lowest = lv;
+    }
+  }
+  return lowest;
 }
 
 export interface Progress {

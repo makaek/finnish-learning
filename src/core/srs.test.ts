@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { applyOutcome, selectionWeight, frontierMultiplier, FRONTIER_BOOST } from "./srs";
+import { applyOutcome, selectionWeight, levelBoostMultiplier, LEVEL_BOOST } from "./srs";
 import { emptyProgress, MAX_BOX, MIN_BOX, type ItemProgress } from "./progress";
 
 const at = (box: number): ItemProgress => ({ ...emptyProgress("recognition", "v1"), box });
@@ -75,14 +75,14 @@ describe("selectionWeight", () => {
   });
 });
 
-describe("frontierMultiplier", () => {
-  it("boosts only items whose level matches the frontier", () => {
-    expect(frontierMultiplier(3, 3)).toBe(FRONTIER_BOOST);
-    expect(frontierMultiplier(2, 3)).toBe(1);
-    expect(frontierMultiplier(4, 3)).toBe(1);
+describe("levelBoostMultiplier", () => {
+  it("boosts only items whose level matches the boost level", () => {
+    expect(levelBoostMultiplier(3, 3)).toBe(LEVEL_BOOST);
+    expect(levelBoostMultiplier(2, 3)).toBe(1);
+    expect(levelBoostMultiplier(4, 3)).toBe(1);
   });
 
-  it("is a no-op when no frontier is given", () => {
-    expect(frontierMultiplier(3)).toBe(1);
+  it("is a no-op when no boost level is given", () => {
+    expect(levelBoostMultiplier(3)).toBe(1);
   });
 });

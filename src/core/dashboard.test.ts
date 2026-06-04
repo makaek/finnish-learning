@@ -54,7 +54,7 @@ describe("computeDashboard KPIs", () => {
     expect(d.kpis.wordsTotal).toBe(4);
     expect(d.kpis.sentencesLearned).toBe(1); // s1 sentences track box3
     expect(d.kpis.sentencesTotal).toBe(2);
-    expect(d.kpis.level).toBe(2); // test mode unlocks everything
+    expect(d.kpis.level).toBe(2); // masteringLevel: L1 fully learned (w1,w2), L2 not (w3,w4)
     expect(d.kpis.streak).toBe(2);
     expect(d.kpis.bestStreak).toBe(5);
   });
