@@ -33,6 +33,7 @@ import { loadProgress, loadState, saveProgress, saveState } from "../data/backen
 import { hiddenKey, loadHidden, saveHidden } from "./hidden";
 import Roadmap, { type Mode } from "./Roadmap";
 import ProgressDetails from "./ProgressDetails";
+import Dashboard from "./Dashboard";
 import RulesBook from "./RulesBook";
 import RecognitionCard from "./RecognitionCard";
 import ProductionCard from "./ProductionCard";
@@ -54,7 +55,9 @@ function readTestMode(): boolean {
 export default function App() {
   const [mode, setMode] = useState<Mode | null>(null);
   // Which non-exercise screen the home shows when mode is null.
-  const [homeScreen, setHomeScreen] = useState<"roadmap" | "stats" | "rules">("roadmap");
+  const [homeScreen, setHomeScreen] = useState<"roadmap" | "stats" | "rules" | "dashboard">(
+    "roadmap",
+  );
   // In-lesson grammar overlay: open over the current card, highlighting the relevant rules.
   const [rulesOpen, setRulesOpen] = useState(false);
   const [seed, setSeed] = useState(() => Date.now());
@@ -342,6 +345,18 @@ export default function App() {
     if (homeScreen === "rules") {
       return <RulesBook rules={RULES} onClose={() => setHomeScreen("roadmap")} />;
     }
+    if (homeScreen === "dashboard") {
+      return (
+        <Dashboard
+          vocab={VOCAB}
+          sentences={SENTENCES}
+          progress={progressView}
+          daily={dailyView}
+          testMode={testMode}
+          onBack={() => setHomeScreen("roadmap")}
+        />
+      );
+    }
     return (
       <Roadmap
         vocab={VOCAB}
@@ -355,6 +370,7 @@ export default function App() {
         onTestFill={fillAllMastered}
         onShowStats={() => setHomeScreen("stats")}
         onShowRules={() => setHomeScreen("rules")}
+        onShowDashboard={() => setHomeScreen("dashboard")}
       />
     );
   }
