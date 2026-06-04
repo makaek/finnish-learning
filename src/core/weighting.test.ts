@@ -86,3 +86,29 @@ describe("mastery weighting through the session builders", () => {
     expect(ids).toEqual(["n1"]);
   });
 });
+
+describe("frontier boost through the session builders", () => {
+  const leveled: VocabItem[] = [
+    { id: "a", fi: "a", ru: "a", pos: "noun", level: 1 },
+    { id: "b", fi: "b", ru: "b", pos: "noun", level: 2 }, // the frontier
+  ];
+
+  it("over-samples the frontier level (≈ FRONTIER_BOOST : 1) on equal mastery", () => {
+    const rate = pickRate(
+      (seed) => buildSession(leveled, seed, 1, 4, new Map(), 2)[0]?.itemId,
+      "b",
+    );
+    // b weight 32×4 vs a 32 → expected 4/5 = 80%.
+    expect(rate).toBeGreaterThan(0.65);
+    expect(rate).toBeLessThan(0.95);
+  });
+
+  it("is ≈ 50/50 when no frontier is given (unchanged behavior)", () => {
+    const rate = pickRate(
+      (seed) => buildSession(leveled, seed, 1, 4, new Map())[0]?.itemId,
+      "b",
+    );
+    expect(rate).toBeGreaterThan(0.35);
+    expect(rate).toBeLessThan(0.65);
+  });
+});

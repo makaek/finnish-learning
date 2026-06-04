@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { applyOutcome, selectionWeight } from "./srs";
+import { applyOutcome, selectionWeight, frontierMultiplier, FRONTIER_BOOST } from "./srs";
 import { emptyProgress, MAX_BOX, MIN_BOX, type ItemProgress } from "./progress";
 
 const at = (box: number): ItemProgress => ({ ...emptyProgress("recognition", "v1"), box });
@@ -72,5 +72,17 @@ describe("selectionWeight", () => {
 
   it("makes a 3-in-a-row item 8x less likely than a new one", () => {
     expect(selectionWeight(at(0)) / selectionWeight(at(3))).toBe(8);
+  });
+});
+
+describe("frontierMultiplier", () => {
+  it("boosts only items whose level matches the frontier", () => {
+    expect(frontierMultiplier(3, 3)).toBe(FRONTIER_BOOST);
+    expect(frontierMultiplier(2, 3)).toBe(1);
+    expect(frontierMultiplier(4, 3)).toBe(1);
+  });
+
+  it("is a no-op when no frontier is given", () => {
+    expect(frontierMultiplier(3)).toBe(1);
   });
 });

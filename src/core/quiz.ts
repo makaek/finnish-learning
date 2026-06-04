@@ -8,7 +8,8 @@
 
 import type { VocabItem } from "./dictionary";
 import { getProgress, type ProgressMap } from "./progress";
-import { selectionWeight } from "./srs";
+import { selectionWeight, frontierMultiplier } from "./srs";
+import { levelOf } from "./levels";
 import { weightedSample } from "./select";
 
 /** A deterministic pseudo-random generator returning floats in [0, 1). */
@@ -127,11 +128,14 @@ export function buildSession(
   size: number = DEFAULT_SESSION_SIZE,
   optionCount: number = DEFAULT_OPTION_COUNT,
   progress?: ProgressMap,
+  frontierLevel?: number,
 ): RecognitionQuestion[] {
   const targets = progress
     ? weightedSample(
         items,
-        (item) => selectionWeight(getProgress(progress, "recognition", item.id)),
+        (item) =>
+          selectionWeight(getProgress(progress, "recognition", item.id)) *
+          frontierMultiplier(levelOf(item), frontierLevel),
         makeRng(seed),
         size,
       )

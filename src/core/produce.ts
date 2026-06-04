@@ -13,7 +13,8 @@
 import type { VocabItem } from "./dictionary";
 import { makeRng, shuffle, DEFAULT_SESSION_SIZE } from "./quiz";
 import { getProgress, type ItemKind, type ProgressMap } from "./progress";
-import { selectionWeight } from "./srs";
+import { selectionWeight, frontierMultiplier } from "./srs";
+import { levelOf } from "./levels";
 import { weightedSample } from "./select";
 import { normalizeFi } from "./normalize";
 
@@ -108,11 +109,14 @@ export function buildProductionSession(
   size: number = DEFAULT_SESSION_SIZE,
   progress?: ProgressMap,
   weightKind: ItemKind = "production",
+  frontierLevel?: number,
 ): ProductionQuestion[] {
   const targets = progress
     ? weightedSample(
         items,
-        (item) => selectionWeight(getProgress(progress, weightKind, item.id)),
+        (item) =>
+          selectionWeight(getProgress(progress, weightKind, item.id)) *
+          frontierMultiplier(levelOf(item), frontierLevel),
         makeRng(seed),
         size,
       )

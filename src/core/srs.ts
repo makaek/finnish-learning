@@ -40,3 +40,17 @@ export function applyOutcome(
 export function selectionWeight(p: ItemProgress): number {
   return 2 ** (MAX_BOX - p.box);
 }
+
+/**
+ * Extra weight for items at the learner's current (frontier) level. Each lesson type tracks
+ * mastery separately, so starting a NEW mode resets every word to box 0 in that track — which
+ * flattens the weights and lets the whole back-catalogue crowd out the newest words, making the
+ * active level feel "stuck". Multiplying the frontier level's weight keeps fresh material in
+ * front of the learner across every mode, so the current level fills (and unlocks) faster.
+ */
+export const FRONTIER_BOOST = 4;
+
+/** Weight multiplier for an item, given its level and the frontier (1 when not at the frontier). */
+export function frontierMultiplier(level: number, frontierLevel?: number): number {
+  return frontierLevel !== undefined && level === frontierLevel ? FRONTIER_BOOST : 1;
+}
