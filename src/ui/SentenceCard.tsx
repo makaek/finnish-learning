@@ -19,6 +19,8 @@ interface SentenceCardProps {
   listen?: boolean;
   /** Called once the learner has answered and chosen to continue. */
   onAnswered: (wasCorrect: boolean) => void;
+  /** Open the grammar book highlighting rules relevant to this sentence. */
+  onOpenRules: () => void;
 }
 
 /**
@@ -35,6 +37,7 @@ export default function SentenceCard({
   voice = false,
   listen = false,
   onAnswered,
+  onOpenRules,
 }: SentenceCardProps) {
   const [value, setValue] = useState("");
   const [result, setResult] = useState<GradeResult | null>(null);
@@ -85,6 +88,22 @@ export default function SentenceCard({
     const graded = await grade({ sentenceId: question.id, answer: value });
     setResult(graded);
     setGrading(false);
+  }
+
+  // Voice recognition is imperfect for some answers (e.g. "Näen äidin" is reliably misheard as
+  // "Näin aidin"), leaving the learner stuck. This override marks the attempt correct so they can
+  // move on. It also fixes the FIRST-attempt score: scoring reads result.correct at advance, so
+  // overriding here (even after a wrong grade) counts the attempt as correct.
+  function forceCorrect() {
+    if (advanced) return;
+    setResult({
+      correct: true,
+      canonical: question.fi,
+      via: "exact",
+      errors: [],
+      praiseRu: "Засчитано как правильный ответ (голос мог не распознать). 🎤",
+    });
+    setUnlocked(true);
   }
 
   // Re-grade the correction field as it changes; any accepted form unlocks "Дальше".
@@ -143,6 +162,9 @@ export default function SentenceCard({
             ? "Произнесите перевод по-фински:"
             : "Переведите предложение на финский:"}
       </p>
+      <button type="button" className="ruleslink ruleslink--inline" onClick={onOpenRules}>
+        📖 Правила
+      </button>
 
       <form
         className="produce"
@@ -167,18 +189,29 @@ export default function SentenceCard({
           aria-label="Перевод на финский"
         />
         {voice && !answered && (
-          speech.supported ? (
+          <div className="voicerow">
+            {speech.supported ? (
+              <button
+                type="button"
+                className={"mic" + (speech.listening ? " mic--on" : "")}
+                onClick={() => (speech.listening ? speech.stop() : speech.start())}
+                aria-label="Говорить"
+              >
+                {speech.listening ? "● Слушаю…" : value ? "🎤 Сказать заново" : "🎤 Говорить"}
+              </button>
+            ) : (
+              <p className="hint">Голосовой ввод не поддерживается в этом браузере.</p>
+            )}
             <button
               type="button"
-              className={"mic" + (speech.listening ? " mic--on" : "")}
-              onClick={() => (speech.listening ? speech.stop() : speech.start())}
-              aria-label="Говорить"
+              className="markok"
+              onClick={forceCorrect}
+              aria-label="Засчитать произношение верным"
+              title="Если голос не распознался — засчитать как верный"
             >
-              {speech.listening ? "● Слушаю…" : value ? "🎤 Сказать заново" : "🎤 Говорить"}
+              ✓ Засчитать верным
             </button>
-          ) : (
-            <p className="hint">Голосовой ввод не поддерживается в этом браузере.</p>
-          )
+          </div>
         )}
         {!answered && (
           <button
@@ -263,6 +296,15 @@ export default function SentenceCard({
                   ) : (
                     <p className="hint">Голосовой ввод не поддерживается.</p>
                   )}
+                  <button
+                    type="button"
+                    className="markok"
+                    onClick={forceCorrect}
+                    aria-label="Засчитать произношение верным"
+                    title="Если голос не распознался — засчитать как верный"
+                  >
+                    ✓ Засчитать верным
+                  </button>
                 </div>
               )}
             </>

@@ -8,6 +8,8 @@ interface RecognitionCardProps {
   total: number;
   /** Called once the learner has answered and chosen to continue. */
   onAnswered: (wasCorrect: boolean) => void;
+  /** Open the grammar book highlighting rules relevant to this word. */
+  onOpenRules: () => void;
 }
 
 /**
@@ -19,6 +21,7 @@ export default function RecognitionCard({
   questionNumber,
   total,
   onAnswered,
+  onOpenRules,
 }: RecognitionCardProps) {
   const [selected, setSelected] = useState<string | null>(null);
   // Guards against a double-click on "Next" double-scoring / skipping a question.
@@ -43,6 +46,9 @@ export default function RecognitionCard({
         {question.promptRu}
       </h1>
       <p className="hint">Выберите перевод на финский:</p>
+      <button type="button" className="ruleslink ruleslink--inline" onClick={onOpenRules}>
+        📖 Правила
+      </button>
 
       <div className="options">
         {question.options.map((option) => (

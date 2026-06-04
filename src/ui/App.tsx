@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { VOCAB } from "../data/dictionary";
 import { SENTENCES, grade } from "../data/sentences";
+import { RULES } from "../data/rules";
+import { rulesForPos, rulesForTeaches } from "../core/rules";
 import {
   buildSession,
   DEFAULT_OPTION_COUNT,
@@ -31,6 +33,7 @@ import { loadProgress, loadState, saveProgress, saveState } from "../data/backen
 import { hiddenKey, loadHidden, saveHidden } from "./hidden";
 import Roadmap, { type Mode } from "./Roadmap";
 import ProgressDetails from "./ProgressDetails";
+import RulesBook from "./RulesBook";
 import RecognitionCard from "./RecognitionCard";
 import ProductionCard from "./ProductionCard";
 import SentenceCard from "./SentenceCard";
@@ -51,7 +54,9 @@ function readTestMode(): boolean {
 export default function App() {
   const [mode, setMode] = useState<Mode | null>(null);
   // Which non-exercise screen the home shows when mode is null.
-  const [homeScreen, setHomeScreen] = useState<"roadmap" | "stats">("roadmap");
+  const [homeScreen, setHomeScreen] = useState<"roadmap" | "stats" | "rules">("roadmap");
+  // In-lesson grammar overlay: open over the current card, highlighting the relevant rules.
+  const [rulesOpen, setRulesOpen] = useState(false);
   const [seed, setSeed] = useState(() => Date.now());
   const [index, setIndex] = useState(0);
   const [score, setScore] = useState(0);
@@ -205,6 +210,7 @@ export default function App() {
     setSeed(Date.now());
     setIndex(0);
     setScore(0);
+    setRulesOpen(false);
   }
 
   /**
@@ -304,6 +310,7 @@ export default function App() {
     recordDaily(wasCorrect, index + 1 >= activeTotal());
     if (wasCorrect) setScore((s) => s + 1);
     setIndex((i) => i + 1);
+    setRulesOpen(false); // close the grammar overlay so the next item starts clean
   }
 
   function restart() {
@@ -315,6 +322,7 @@ export default function App() {
     setProgressView(new Map(progressRef.current));
     setHomeScreen("roadmap");
     setMode(null);
+    setRulesOpen(false);
   }
 
   if (mode === null) {
@@ -331,6 +339,9 @@ export default function App() {
         />
       );
     }
+    if (homeScreen === "rules") {
+      return <RulesBook rules={RULES} onClose={() => setHomeScreen("roadmap")} />;
+    }
     return (
       <Roadmap
         vocab={VOCAB}
@@ -343,6 +354,7 @@ export default function App() {
         onStart={start}
         onTestFill={fillAllMastered}
         onShowStats={() => setHomeScreen("stats")}
+        onShowRules={() => setHomeScreen("rules")}
       />
     );
   }
@@ -366,6 +378,23 @@ export default function App() {
   // so a typed answer's submit button stays reachable above the on-screen keyboard (and its
   // autofill toolbar) instead of being centered behind it.
   const showingCard = !finished && total > 0;
+
+  // Rules relevant to the item on screen — highlighted ⭐ and pre-opened in the grammar overlay.
+  // Sentences match by their `teaches` tag; words match by part of speech.
+  const ruleHighlights: string[] = !showingCard
+    ? []
+    : usesSentences
+      ? rulesForTeaches(
+          SENTENCES.find((s) => s.id === sentenceSession[index]?.id)?.teaches,
+          RULES,
+        ).map((r) => r.id)
+      : (() => {
+          const wordId = usesProduction
+            ? productionSession[index]?.itemId
+            : recognition[index]?.itemId;
+          const word = wordId ? VOCAB.find((v) => v.id === wordId) : undefined;
+          return word ? rulesForPos(word.pos, RULES).map((r) => r.id) : [];
+        })();
 
   return (
     <main className={showingCard ? "app app--scroll" : "app"}>
@@ -406,6 +435,7 @@ export default function App() {
           voice={mode === "say_sentence"}
           listen={mode === "listen_sentence"}
           onAnswered={handleAnswered}
+          onOpenRules={() => setRulesOpen(true)}
         />
       ) : usesProduction ? (
         <ProductionCard
@@ -416,6 +446,7 @@ export default function App() {
           voice={mode === "say_word"}
           listen={mode === "listen_word"}
           onAnswered={handleAnswered}
+          onOpenRules={() => setRulesOpen(true)}
         />
       ) : (
         <RecognitionCard
@@ -424,6 +455,15 @@ export default function App() {
           questionNumber={index + 1}
           total={total}
           onAnswered={handleAnswered}
+          onOpenRules={() => setRulesOpen(true)}
+        />
+      )}
+      {rulesOpen && (
+        <RulesBook
+          rules={RULES}
+          highlightIds={ruleHighlights}
+          overlay
+          onClose={() => setRulesOpen(false)}
         />
       )}
     </main>

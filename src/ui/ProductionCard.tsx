@@ -17,6 +17,8 @@ interface ProductionCardProps {
   listen?: boolean;
   /** Called once the learner has answered and chosen to continue. */
   onAnswered: (wasCorrect: boolean) => void;
+  /** Open the grammar book highlighting rules relevant to this word. */
+  onOpenRules: () => void;
 }
 
 /**
@@ -31,6 +33,7 @@ export default function ProductionCard({
   voice = false,
   listen = false,
   onAnswered,
+  onOpenRules,
 }: ProductionCardProps) {
   const [value, setValue] = useState("");
   const [graded, setGraded] = useState<TypedGrade | null>(null);
@@ -72,6 +75,21 @@ export default function ProductionCard({
   function submit() {
     if (answered) return;
     setGraded(gradeTyped(question.answerFi, value));
+  }
+
+  // Voice recognition is imperfect for some words (e.g. "Näen äidin" is reliably misheard as
+  // "Näin aidin"), leaving the learner stuck. This override marks the attempt correct so they
+  // can move on. It also fixes the FIRST-attempt score: scoring reads graded.correct at advance,
+  // so overriding here (even after a wrong grade) counts the attempt as correct.
+  function forceCorrect() {
+    if (advanced) return;
+    setGraded({
+      correct: true,
+      via: "exact",
+      answerFi: question.answerFi,
+      feedbackRu: "Засчитано как правильный ответ (голос мог не распознать). 🎤",
+    });
+    setCorrection("");
   }
 
   // "Дальше" unlocks immediately on a correct answer; otherwise only once the learner
@@ -120,6 +138,9 @@ export default function ProductionCard({
             ? "Произнесите слово по-фински:"
             : "Напишите слово по-фински:"}
       </p>
+      <button type="button" className="ruleslink ruleslink--inline" onClick={onOpenRules}>
+        📖 Правила
+      </button>
 
       <form
         className="produce"
@@ -143,18 +164,29 @@ export default function ProductionCard({
           aria-label="Ответ на финском"
         />
         {voice && !answered && (
-          speech.supported ? (
+          <div className="voicerow">
+            {speech.supported ? (
+              <button
+                type="button"
+                className={"mic" + (speech.listening ? " mic--on" : "")}
+                onClick={() => (speech.listening ? speech.stop() : speech.start())}
+                aria-label="Говорить"
+              >
+                {speech.listening ? "● Слушаю…" : value ? "🎤 Сказать заново" : "🎤 Говорить"}
+              </button>
+            ) : (
+              <p className="hint">Голосовой ввод не поддерживается в этом браузере.</p>
+            )}
             <button
               type="button"
-              className={"mic" + (speech.listening ? " mic--on" : "")}
-              onClick={() => (speech.listening ? speech.stop() : speech.start())}
-              aria-label="Говорить"
+              className="markok"
+              onClick={forceCorrect}
+              aria-label="Засчитать произношение верным"
+              title="Если голос не распознался — засчитать как верный"
             >
-              {speech.listening ? "● Слушаю…" : value ? "🎤 Сказать заново" : "🎤 Говорить"}
+              ✓ Засчитать верным
             </button>
-          ) : (
-            <p className="hint">Голосовой ввод не поддерживается в этом браузере.</p>
-          )
+          </div>
         )}
         {!answered && (
           <button type="submit" className="next" disabled={value.trim().length === 0}>
@@ -223,6 +255,15 @@ export default function ProductionCard({
                   ) : (
                     <p className="hint">Голосовой ввод не поддерживается.</p>
                   )}
+                  <button
+                    type="button"
+                    className="markok"
+                    onClick={forceCorrect}
+                    aria-label="Засчитать произношение верным"
+                    title="Если голос не распознался — засчитать как верный"
+                  >
+                    ✓ Засчитать верным
+                  </button>
                 </div>
               )}
             </>

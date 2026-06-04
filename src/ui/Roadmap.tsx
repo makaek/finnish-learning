@@ -51,6 +51,8 @@ interface RoadmapProps {
   onStart: (mode: Mode) => void;
   /** Open the read-only progress-details screen. */
   onShowStats: () => void;
+  /** Open the grammar rules book. */
+  onShowRules: () => void;
   /** Test-mode only: mark everything mastered, to exercise unlocks without grinding. */
   onTestFill: () => void;
 }
@@ -114,6 +116,7 @@ export default function Roadmap({
   ready,
   onStart,
   onShowStats,
+  onShowRules,
   onTestFill,
 }: RoadmapProps) {
   const { stats, active, overall } = useMemo(() => {
@@ -308,6 +311,10 @@ export default function Roadmap({
             />
           </div>
         </div>
+
+        <button type="button" className="ruleslink" onClick={onShowRules}>
+          📖 Грамматика — правила финского
+        </button>
       </section>
     </main>
   );

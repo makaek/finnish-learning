@@ -349,11 +349,17 @@ body {
    the primary affordance. */
 .voicerow {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--s3);
   align-items: stretch;
 }
 .voicerow .mic {
   flex: 1;
+  min-width: 9rem;
+}
+.voicerow .markok,
+.voicerow .listen {
+  min-width: 9rem;
 }
 .listen {
   flex: 1;
@@ -374,6 +380,29 @@ body {
 .listen--on {
   color: var(--accent);
   border-color: var(--accent);
+}
+
+/* "Засчитать верным": voice-only escape hatch when recognition keeps mishearing a word. Sits
+   beside the mic, outlined in the ok colour so it reads as a positive override, not the primary
+   action. Flex so it shares the row evenly with the mic. */
+.markok {
+  flex: 1;
+  min-height: 3.25rem;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ok);
+  background: var(--surface);
+  border: 2px solid var(--ok);
+  border-radius: var(--pill);
+  cursor: pointer;
+  transition: background 0.14s ease, transform 0.08s ease;
+}
+.markok:hover {
+  background: var(--ok-soft);
+}
+.markok:active {
+  transform: scale(0.98);
 }
 
 /* Аудирование (dictation): a big primary "play" button stands in for the prompt — the learner
@@ -808,6 +837,141 @@ body {
   border: none;
   text-align: left;
   cursor: pointer;
+}
+
+/* --- Grammar rules book --- */
+
+/* Link to the book: a full-width pill on the home screen, a small inline chip inside a lesson. */
+.ruleslink {
+  width: 100%;
+  margin-top: var(--s3);
+  min-height: 2.9rem;
+  font: inherit;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--pill);
+  cursor: pointer;
+  transition: background 0.14s ease;
+}
+.ruleslink:hover {
+  background: var(--surface-2);
+}
+.ruleslink--inline {
+  width: auto;
+  margin: 0 auto var(--s2);
+  display: block;
+  min-height: 0;
+  padding: 0.3rem 0.85rem;
+  font-size: 0.85rem;
+  border-radius: var(--pill);
+}
+
+/* As a home screen the book is a plain scrollable panel; as an in-lesson overlay it's a modal. */
+.rulesbook--overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-y: auto;
+  padding: var(--s3);
+}
+.rulesbook__backdrop {
+  position: fixed;
+  inset: 0;
+  border: none;
+  background: rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+}
+.rulesbook--overlay .rulesbook__panel {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 40rem;
+  margin: auto;
+  background: var(--bg);
+  border-radius: var(--r-sm);
+  padding: var(--s3);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+.rulesbook__head {
+  margin-bottom: var(--s3);
+}
+
+.rulelist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s2);
+}
+
+.rulecard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 0.2rem 0.85rem;
+}
+.rulecard--hot {
+  border-color: var(--accent);
+  background: var(--surface-2);
+}
+.rulecard__summary {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.55rem;
+  padding: 0.7rem 0;
+  cursor: pointer;
+  list-style: none;
+}
+.rulecard__summary::-webkit-details-marker {
+  display: none;
+}
+.rulecard__star {
+  flex: none;
+}
+.rulecard__title {
+  font-weight: 700;
+  color: var(--text);
+}
+.rulecard__sub {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.rulecard__body {
+  padding: 0 0 0.75rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+.rulecard__body > p {
+  margin: 0 0 0.6rem;
+}
+.rulecard__examples {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+.rulecard__examples > li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.6rem;
+  padding: 0.4rem 0.6rem;
+  background: var(--surface-2);
+  border-radius: var(--r-sm);
+}
+.rulecard__fi {
+  font-weight: 600;
+  color: var(--accent);
+}
+.rulecard__ru {
+  color: var(--muted);
 }
 
 .psection__head:hover:not(:disabled) {

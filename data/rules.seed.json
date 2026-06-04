@@ -1,0 +1,246 @@
+{
+  "_meta": {
+    "purpose": "Short reference book of major fundamental Finnish grammar rules for the A1 trainer. Explanations in Russian. Rules are linked to words (by pos) and sentences (by matching the sentence 'teaches' tag) so the lesson can highlight the relevant ones.",
+    "authoring": "finnish-linguist. Keep rules major/fundamental and explanations short.",
+    "language": "All title/summary/body/example.ru text is in Russian; example.fi is Finnish."
+  },
+  "rules": [
+    {
+      "id": "cases-overview",
+      "title": "Падежи вместо предлогов",
+      "summary": "Финский почти не использует предлоги — смысл передают окончания (падежи).",
+      "body": "В русском «в магазин», «в магазине», «из магазина» — предлоги. В финском это одно слово kauppa с разными окончаниями: kauppaan, kaupassa, kaupasta. Падежей около 15; учите не слово, а его форму в нужной роли. Грамматического рода и артиклей в финском нет — переживать про «он/она/оно» не нужно.",
+      "examples": [
+        { "fi": "Menen kauppaan.", "ru": "Я иду в магазин." },
+        { "fi": "Olen kirjastossa.", "ru": "Я в библиотеке." }
+      ],
+      "match": {
+        "teaches": ["case", "agreement"],
+        "pos": ["noun", "pronoun"]
+      }
+    },
+    {
+      "id": "partitive",
+      "title": "Партитив",
+      "summary": "Частичный объект, вещество, количество и объект при отрицании.",
+      "body": "Партитив (-a/-ä, -ta/-tä) — это «часть», «несколько» или незавершённость, чёткого аналога в русском нет. Его берут вещественные слова (kahvia, vettä), объект при процессе (luen kirjaa), объект после отрицания и существительное после числа больше 1. Окончание подчиняется гармонии гласных: -a при a/o/u, -ä при ä/ö/y.",
+      "examples": [
+        { "fi": "Juon kahvia.", "ru": "Я пью кофе." },
+        { "fi": "Söin lettuja.", "ru": "Я ел блины." },
+        { "fi": "Se maksaa viisi euroa.", "ru": "Это стоит пять евро." }
+      ],
+      "match": {
+        "teaches": ["partitive", "clitic", "food"],
+        "pos": ["noun", "num"]
+      }
+    },
+    {
+      "id": "inside-locatives",
+      "title": "Падежи «внутри»: -ssa / -sta / -Vn",
+      "summary": "Где? -ssa/-ssä, откуда? -sta/-stä, куда? иллатив (-Vn).",
+      "body": "Тройка «внутренних» падежей отвечает на три вопроса: инессив (kaupassa = в магазине, «где?»), элатив (kaupasta = из магазина, «откуда?») и иллатив (kauppaan = в магазин, «куда?»). Иллатив ≈ русское «куда?», инессив ≈ «где?». Глаголы движения требуют «куда?», глаголы нахождения — «где?».",
+      "examples": [
+        { "fi": "Asun Helsingissä.", "ru": "Я живу в Хельсинки." },
+        { "fi": "Menen kaupasta kotiin.", "ru": "Я иду из магазина домой." },
+        { "fi": "Menen ravintolaan.", "ru": "Я иду в ресторан." }
+      ],
+      "match": {
+        "teaches": ["inessive", "illative", "elative", "location"],
+        "pos": ["noun"]
+      }
+    },
+    {
+      "id": "adessive",
+      "title": "Адессив -lla / -llä",
+      "summary": "На поверхности, средство («на машине») и обладание («у меня есть»).",
+      "body": "Адессив (-lla/-llä) значит «на/у» и «чем?» — средство действия: autolla = на машине. Этим же падежом строят обладание: minulla on = «у меня есть», и глагол всегда остаётся on. Если предмет исчисляемый, он стоит в номинативе (auto), а вещество — в партитиве (rahaa).",
+      "examples": [
+        { "fi": "Menemme autolla.", "ru": "Мы едем на машине." },
+        { "fi": "Minulla on auto.", "ru": "У меня есть машина." },
+        { "fi": "Minulla on rahaa.", "ru": "У меня есть деньги." }
+      ],
+      "match": {
+        "teaches": ["adessive"],
+        "pos": ["noun"]
+      }
+    },
+    {
+      "id": "genitive-total-object",
+      "title": "Генитив и полный объект",
+      "summary": "Принадлежность (-n) и завершённый объект целиком.",
+      "body": "Генитив на -n значит «чей?»: minun äiti = моя мама. Та же форма работает как полный (тотальный) объект, когда действие завершено целиком: ostin kirjan = «купил книгу (всю)», в отличие от партитива kirjaa (процесс). Прилагательное согласуется с существительным: uuden auton.",
+      "examples": [
+        { "fi": "Ostin kirjan.", "ru": "Я купил книгу." },
+        { "fi": "Näen äidin.", "ru": "Я вижу мать." },
+        { "fi": "Tämä on minun äiti.", "ru": "Это моя мама." }
+      ],
+      "match": {
+        "teaches": ["genitive", "total"],
+        "pos": ["noun"]
+      }
+    },
+    {
+      "id": "consonant-gradation",
+      "title": "Чередование согласных",
+      "summary": "kk/k, pp/p, tt/t, k/–, p/v, t/d, nk/ng, nt/nn… в слабых формах.",
+      "body": "При склонении и спряжении сильная пара согласных часто слабеет: kauppa→kaupassa (pp→p), kaupunki→kaupungissa (nk→ng), äiti→äidin (t→d), leipä→leivän (p→v), lukea→luen (k→исчезает). Запоминайте слово вместе с его слабой формой. Внимание: в партитиве чередования обычно нет (leipä→leipää).",
+      "examples": [
+        { "fi": "Hän on kaupassa.", "ru": "Он в магазине." },
+        { "fi": "He asuvat kaupungissa.", "ru": "Они живут в городе." },
+        { "fi": "Hän lukee kirjaa.", "ru": "Он читает книгу." }
+      ],
+      "match": {
+        "teaches": ["gradation"],
+        "pos": ["verb", "noun"]
+      }
+    },
+    {
+      "id": "verb-conjugation",
+      "title": "Спряжение глагола по лицам",
+      "summary": "Личные окончания (-n, -t, -mme, -tte…) и типы глаголов 1–6.",
+      "body": "Глагол меняется по лицу: minä menen, sinä menet, hän menee, me menemme, te menette, he menevät. Окончание -n значит «я», -t значит «ты». От типа глагола (1–6) зависит, как образуется основа; в словаре тип указан. Будущего времени нет — будущее выражают настоящим: huomenna ostan = «завтра куплю».",
+      "examples": [
+        { "fi": "Menet kauppaan.", "ru": "Ты идёшь в магазин." },
+        { "fi": "Luen kirjaa.", "ru": "Я читаю книгу." },
+        { "fi": "Huomenna ostan kirjan.", "ru": "Завтра я куплю книгу." }
+      ],
+      "match": {
+        "teaches": ["verb", "type-", "2sg", "future", "tilaan"],
+        "pos": ["verb"]
+      }
+    },
+    {
+      "id": "past-tense",
+      "title": "Прошедшее время",
+      "summary": "Признак -i- в основе: menen → menin, syön → söin.",
+      "body": "Прошедшее время образуется вставкой -i- перед личным окончанием: ostan→ostin (купил), menen→menin (пошёл). Иногда -i- меняет гласную основы: syön→söin. Прошедшее часто идёт вместе со словом eilen (вчера). Личные окончания те же, что в настоящем.",
+      "examples": [
+        { "fi": "Söin lettuja.", "ru": "Я ел блины." },
+        { "fi": "Ostimme uuden auton.", "ru": "Мы купили новую машину." },
+        { "fi": "Eilen hän oli kotona.", "ru": "Вчера он был дома." }
+      ],
+      "match": {
+        "teaches": ["past"],
+        "pos": ["verb"]
+      }
+    },
+    {
+      "id": "negation",
+      "title": "Отрицание: ei + коннегатив",
+      "summary": "Отрицает спрягаемый глагол ei (en/et/ei…) + «голая» форма глагола.",
+      "body": "В финском отрицает отдельный глагол ei, который сам спрягается по лицу: en, et, ei, emme, ette, eivät. Смысловой глагол при этом теряет личное окончание (коннегатив): en puhu, а не «en puhun». Объект после отрицания обычно в партитиве: en juo kahvia.",
+      "examples": [
+        { "fi": "En puhu suomea.", "ru": "Я не говорю по-фински." },
+        { "fi": "En syö leipää.", "ru": "Я не ем хлеб." },
+        { "fi": "Puhun suomea, mutta hän ei puhu.", "ru": "Я говорю по-фински, но он не говорит." }
+      ],
+      "match": {
+        "teaches": ["negation"],
+        "pos": ["neg_verb", "verb"]
+      }
+    },
+    {
+      "id": "dropped-pronoun",
+      "title": "Опущенное местоимение",
+      "summary": "minä/sinä/me/te можно опускать — окончание глагола уже показывает лицо.",
+      "body": "Поскольку окончание глагола однозначно указывает лицо, личные местоимения 1-го и 2-го лица обычно опускают: «Menen töihin» = «Minä menen töihin». Оба варианта правильны. А вот hän и he чаще оставляют. Порядок слов в финском свободнее, чем в русском.",
+      "examples": [
+        { "fi": "Menen töihin.", "ru": "Я иду на работу." },
+        { "fi": "Olen kotona.", "ru": "Я дома." }
+      ],
+      "match": {
+        "teaches": ["dropped pronoun", "word order"],
+        "pos": ["pronoun"]
+      }
+    },
+    {
+      "id": "questions",
+      "title": "Вопросы",
+      "summary": "Вопросительные слова (mikä, kuka, missä, mitä) и частица -ko/-kö.",
+      "body": "Вопрос «да/нет» строят частицей -ko/-kö на глаголе, вынесенном вперёд: Puhutko suomea? = «Ты говоришь по-фински?». Вопросительные слова: mikä/mitä (что), kuka (кто), missä (где), paljonko (сколько). Объект-вопрос идёт в партитиве: Mitä syöt? Гармония гласных решает -ko или -kö.",
+      "examples": [
+        { "fi": "Puhutko suomea?", "ru": "Ты говоришь по-фински?" },
+        { "fi": "Mikä tämä on?", "ru": "Что это?" },
+        { "fi": "Missä asema on?", "ru": "Где станция?" }
+      ],
+      "match": {
+        "teaches": ["interrogative", "question", "clitic"],
+        "pos": ["pronoun", "adv"]
+      }
+    },
+    {
+      "id": "modals-infinitive",
+      "title": "Модальные глаголы и долженствование + инфинитив",
+      "summary": "haluta, voida, osata + инфинитив; «надо» — minun täytyy + инфинитив.",
+      "body": "После «хотеть/мочь/уметь» идёт инфинитив (-da/-dä, -ta/-tä), а не личная форма: haluan syödä, voin tulla, osaan puhua. Различайте voida («мочь/в состоянии») и osata («уметь, владеть навыком»). Долженствование безличное: minun täytyy mennä — лицо в генитиве (minun), а täytyy не меняется.",
+      "examples": [
+        { "fi": "Haluan syödä.", "ru": "Я хочу есть." },
+        { "fi": "Osaan puhua suomea.", "ru": "Я умею говорить по-фински." },
+        { "fi": "Minun täytyy mennä.", "ru": "Мне надо идти." }
+      ],
+      "match": {
+        "teaches": ["haluta", "voida", "osata", "täytyy"],
+        "pos": ["verb"]
+      }
+    },
+    {
+      "id": "adjective-agreement",
+      "title": "Согласование прилагательного",
+      "summary": "Прилагательное повторяет падеж и число своего существительного.",
+      "body": "Прилагательное перед существительным стоит в том же падеже: isossa talossa (оба в инессиве), uuden auton (оба в генитиве). Перед исчисляемым словом согласование идёт и в номинативе: kaunis ilma. Запоминайте: меняется не только существительное, но и определение при нём.",
+      "examples": [
+        { "fi": "Asun isossa talossa.", "ru": "Я живу в большом доме." },
+        { "fi": "Ostimme uuden auton.", "ru": "Мы купили новую машину." },
+        { "fi": "Tänään on kaunis ilma.", "ru": "Сегодня хорошая погода." }
+      ],
+      "match": {
+        "teaches": ["agreement"],
+        "pos": ["adj"]
+      }
+    },
+    {
+      "id": "copula-predicative",
+      "title": "Связка olla и предикатив",
+      "summary": "«X есть Y»: исчисляемое — номинатив, вещество — партитив.",
+      "body": "В предложениях «X есть Y» нужна связка olla (on): Talo on iso. Если подлежащее исчисляемое, предикатив в номинативе (iso, kallis, opiskelija). Если подлежащее — вещество или абстракция (kahvi, vesi, suomi), предикатив в партитиве: Kahvi on hyvää, Vesi on kylmää. Существительное-тождество всегда в номинативе: Olen opiskelija.",
+      "examples": [
+        { "fi": "Talo on iso.", "ru": "Дом большой." },
+        { "fi": "Kahvi on hyvää.", "ru": "Кофе хороший." },
+        { "fi": "Olen opiskelija.", "ru": "Я студент." }
+      ],
+      "match": {
+        "teaches": ["predicative", "copula"],
+        "pos": ["adj", "verb"]
+      }
+    },
+    {
+      "id": "verb-government",
+      "title": "Управление глаголов: tulla и pitää",
+      "summary": "tulla — движение «сюда», pitää (нравиться) требует элатива (-sta).",
+      "body": "mennä — идти «отсюда туда», tulla — приходить «сюда, к говорящему»: Hän tulee kotiin. Глагол pitää в значении «нравиться» управляет элативом, а не партитивом: pidän kahvista (-sta), буквально «нравлюсь от кофе». Управление глагола нужно запоминать вместе со словом.",
+      "examples": [
+        { "fi": "Hän tulee kotiin.", "ru": "Он приходит домой." },
+        { "fi": "Pidän kahvista.", "ru": "Мне нравится кофе." }
+      ],
+      "match": {
+        "teaches": ["tulla", "pitää"],
+        "pos": ["verb"]
+      }
+    },
+    {
+      "id": "conjunctions",
+      "title": "Союзы",
+      "summary": "ja (и), mutta (но), että (что), koska (потому что), kun (когда), jos (если).",
+      "body": "Перечисление соединяет ja, противопоставление — mutta: Syön leipää ja juon vettä; …mutta hän ei puhu. Придаточные вводят että (что), koska (потому что), kun (когда, не вопрос), jos (если). Перед että и другими придаточными ставят запятую. Вопросительное «когда?» — это milloin, а союз «когда» — kun.",
+      "examples": [
+        { "fi": "Syön leipää ja juon vettä.", "ru": "Я ем хлеб и пью воду." },
+        { "fi": "Tiedän, että hän tulee.", "ru": "Я знаю, что он придёт." },
+        { "fi": "Kun olen kotona, luen kirjaa.", "ru": "Когда я дома, я читаю книгу." }
+      ],
+      "match": {
+        "teaches": ["conjunction", "jos"],
+        "pos": ["conj"]
+      }
+    }
+  ]
+}
