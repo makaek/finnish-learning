@@ -23,7 +23,6 @@ interface ProgressDetailsProps {
   /** Hidden item keys (owned by App, since hiding also removes items from lessons). */
   hidden: ReadonlySet<string>;
   onToggleHide: (key: string) => void;
-  onBack: () => void;
 }
 
 const WORD_KINDS: ItemKind[] = ["recognition", "production", "say_word", "listen_word"];
@@ -150,7 +149,6 @@ export default function ProgressDetails({
   testMode,
   hidden,
   onToggleHide,
-  onBack,
 }: ProgressDetailsProps) {
   const [showHidden, setShowHidden] = useState(false);
   const [query, setQuery] = useState("");
@@ -218,9 +216,6 @@ export default function ProgressDetails({
 
   return (
     <main className="app app--scroll">
-      <button type="button" className="exit" onClick={onBack}>
-        ← В меню
-      </button>
       <section className="card">
         <h1 className="prompt prompt--home">Мой прогресс</h1>
 

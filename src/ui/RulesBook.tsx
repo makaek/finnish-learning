@@ -15,7 +15,8 @@ interface RulesBookProps {
   highlightIds?: readonly string[];
   /** True when shown over a lesson (renders as a modal with a backdrop). */
   overlay?: boolean;
-  onClose: () => void;
+  /** Closes the in-lesson overlay; unused for the home-tab variant (the bottom nav navigates). */
+  onClose?: () => void;
 }
 
 function RuleRow({ rule, highlighted }: { rule: RuleItem; highlighted: boolean }) {
@@ -57,14 +58,14 @@ export default function RulesBook({ rules, highlightIds, overlay = false, onClos
   const panel = (
     <div className="rulesbook__panel">
       <div className="rulesbook__head">
-        <button type="button" className="exit" onClick={onClose}>
-          {overlay ? "✕ Закрыть" : "← В меню"}
-        </button>
+        {overlay && (
+          <button type="button" className="exit" onClick={onClose}>
+            ✕ Закрыть
+          </button>
+        )}
         <h1 className="prompt prompt--home">Грамматика</h1>
         <p className="hint">
-          {hot.size > 0
-            ? "Правила по теме текущего задания отмечены ⭐ и открыты."
-            : "Основные правила финского, которые встречаются в заданиях."}
+          {hot.size > 0 ? "По теме задания — отмечены ⭐." : "Основные правила финского."}
         </p>
       </div>
       <ul className="rulelist">

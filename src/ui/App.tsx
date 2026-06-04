@@ -35,6 +35,7 @@ import Roadmap, { type Mode } from "./Roadmap";
 import ProgressDetails from "./ProgressDetails";
 import Dashboard from "./Dashboard";
 import RulesBook from "./RulesBook";
+import BottomNav, { type HomeScreen } from "./BottomNav";
 import RecognitionCard from "./RecognitionCard";
 import ProductionCard from "./ProductionCard";
 import SentenceCard from "./SentenceCard";
@@ -55,9 +56,7 @@ function readTestMode(): boolean {
 export default function App() {
   const [mode, setMode] = useState<Mode | null>(null);
   // Which non-exercise screen the home shows when mode is null.
-  const [homeScreen, setHomeScreen] = useState<"roadmap" | "stats" | "rules" | "dashboard">(
-    "roadmap",
-  );
+  const [homeScreen, setHomeScreen] = useState<HomeScreen>("roadmap");
   // In-lesson grammar overlay: open over the current card, highlighting the relevant rules.
   const [rulesOpen, setRulesOpen] = useState(false);
   const [seed, setSeed] = useState(() => Date.now());
@@ -329,8 +328,11 @@ export default function App() {
   }
 
   if (mode === null) {
+    // The home shell: one of the four home screens, with the persistent bottom tab bar that
+    // navigates between them (replacing per-screen back arrows and the old text links).
+    let screen;
     if (homeScreen === "stats") {
-      return (
+      screen = (
         <ProgressDetails
           vocab={VOCAB}
           sentences={SENTENCES}
@@ -338,40 +340,41 @@ export default function App() {
           testMode={testMode}
           hidden={hidden}
           onToggleHide={toggleHidden}
-          onBack={() => setHomeScreen("roadmap")}
         />
       );
-    }
-    if (homeScreen === "rules") {
-      return <RulesBook rules={RULES} onClose={() => setHomeScreen("roadmap")} />;
-    }
-    if (homeScreen === "dashboard") {
-      return (
+    } else if (homeScreen === "rules") {
+      screen = <RulesBook rules={RULES} />;
+    } else if (homeScreen === "dashboard") {
+      screen = (
         <Dashboard
           vocab={VOCAB}
           sentences={SENTENCES}
           progress={progressView}
           daily={dailyView}
           testMode={testMode}
-          onBack={() => setHomeScreen("roadmap")}
+        />
+      );
+    } else {
+      screen = (
+        <Roadmap
+          vocab={VOCAB}
+          sentences={SENTENCES}
+          progress={progressView}
+          daily={dailyView}
+          hidden={hidden}
+          testMode={testMode}
+          ready={ready}
+          onStart={start}
+          onTestFill={fillAllMastered}
+          onShowStats={() => setHomeScreen("stats")}
         />
       );
     }
     return (
-      <Roadmap
-        vocab={VOCAB}
-        sentences={SENTENCES}
-        progress={progressView}
-        daily={dailyView}
-        hidden={hidden}
-        testMode={testMode}
-        ready={ready}
-        onStart={start}
-        onTestFill={fillAllMastered}
-        onShowStats={() => setHomeScreen("stats")}
-        onShowRules={() => setHomeScreen("rules")}
-        onShowDashboard={() => setHomeScreen("dashboard")}
-      />
+      <div className="home">
+        {screen}
+        <BottomNav active={homeScreen} onSelect={setHomeScreen} />
+      </div>
     );
   }
 

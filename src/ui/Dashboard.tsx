@@ -22,13 +22,12 @@ interface DashboardProps {
   progress: ProgressMap;
   daily: UserState;
   testMode: boolean;
-  onBack: () => void;
 }
 
 const pct = (x: number) => `${Math.round(x * 100)}%`;
 const accuracyTone = (a: number) => (a >= 0.8 ? "ok" : a >= 0.5 ? "yellow" : "no");
 
-export default function Dashboard({ vocab, sentences, progress, daily, testMode, onBack }: DashboardProps) {
+export default function Dashboard({ vocab, sentences, progress, daily, testMode }: DashboardProps) {
   const d = useMemo(
     () => computeDashboard(vocab, sentences, progress, daily, dateKey(), Date.now(), testMode),
     [vocab, sentences, progress, daily, testMode],
@@ -82,10 +81,7 @@ export default function Dashboard({ vocab, sentences, progress, daily, testMode,
 
   return (
     <main className="app app--scroll dash">
-      <button type="button" className="exit" onClick={onBack}>
-        ← В меню
-      </button>
-      <h1 className="prompt prompt--home">📊 Дашборд</h1>
+      <h1 className="prompt prompt--home">📊 Метрики</h1>
 
       <section className="kpis">
         <KpiCard icon="✦" value={`${k.wordsLearned}/${k.wordsTotal}`} label="Слов выучено" sub={pct(k.wordsFraction)} />
@@ -125,19 +121,17 @@ export default function Dashboard({ vocab, sentences, progress, daily, testMode,
 
       <section className="dash__card">
         <h2 className="dash__title">Прогресс по уровням</h2>
-        <p className="dash__sub">Среднее освоение слов уровня по всем режимам.</p>
         <BarList items={levelBars} />
       </section>
 
       <section className="dash__card">
         <h2 className="dash__title">Баланс режимов</h2>
-        <p className="dash__sub">Сколько элементов освоено в каждом режиме (слова / фразы).</p>
         <BarList items={[...wordModeBars, ...sentModeBars]} />
       </section>
 
       <section className="dash__card">
-        <h2 className="dash__title">Освоение: коробки Лейтнера</h2>
-        <p className="dash__sub">Распределение тренируемых элементов по уровню запоминания (0 — новое, 5 — мастерство).</p>
+        <h2 className="dash__title">Коробки Лейтнера</h2>
+        <p className="dash__sub">0 — новое, 5 — мастерство.</p>
         <StackedColumns
           data={columns}
           legend={[
@@ -151,7 +145,6 @@ export default function Dashboard({ vocab, sentences, progress, daily, testMode,
       {accuracyBars.length > 0 && (
         <section className="dash__card">
           <h2 className="dash__title">Точность по режимам</h2>
-          <p className="dash__sub">Доля верных ответов · число ответов.</p>
           <BarList items={accuracyBars} />
         </section>
       )}
@@ -163,9 +156,7 @@ export default function Dashboard({ vocab, sentences, progress, daily, testMode,
 
       <section className="dash__card">
         <h2 className="dash__title">Свежесть практики</h2>
-        <p className="dash__sub">
-          Когда вы в последний раз отвечали по каждому элементу ({seenTracks} затронуто).
-        </p>
+        <p className="dash__sub">Последняя практика · {seenTracks} элементов.</p>
         <Donut segments={donutSegments} centerLabel="всего" />
       </section>
     </main>

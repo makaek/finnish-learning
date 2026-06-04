@@ -49,12 +49,8 @@ interface RoadmapProps {
   testMode: boolean;
   ready: boolean;
   onStart: (mode: Mode) => void;
-  /** Open the read-only progress-details screen. */
+  /** Open the read-only progress-details screen (also reachable from the bottom nav). */
   onShowStats: () => void;
-  /** Open the grammar rules book. */
-  onShowRules: () => void;
-  /** Open the metrics dashboard. */
-  onShowDashboard: () => void;
   /** Test-mode only: mark everything mastered, to exercise unlocks without grinding. */
   onTestFill: () => void;
 }
@@ -118,8 +114,6 @@ export default function Roadmap({
   ready,
   onStart,
   onShowStats,
-  onShowRules,
-  onShowDashboard,
   onTestFill,
 }: RoadmapProps) {
   const { stats, active, overall } = useMemo(() => {
@@ -182,7 +176,7 @@ export default function Roadmap({
 
   if (!ready) {
     return (
-      <main className="app">
+      <main className="app app--home">
         <section className="card card--summary">
           {settings}
           <h1 className="prompt">Финский тренажёр</h1>
@@ -193,7 +187,7 @@ export default function Roadmap({
   }
 
   return (
-    <main className="app">
+    <main className="app app--home">
       <section className="card card--summary">
         {settings}
         <h1 className="prompt prompt--home">Финский тренажёр</h1>
@@ -232,7 +226,7 @@ export default function Roadmap({
             className="ghead__caption"
             title="Среднее освоение слов уровня по всем режимам: узнавание, письмо, речь. Тренируйте разные режимы, чтобы он рос."
           >
-            Уровень {active} · освоено {levelPct}% по всем режимам
+            Уровень {active} · {levelPct}% освоено
           </span>
 
           <span className="ghead__bar">
@@ -313,15 +307,6 @@ export default function Roadmap({
               onClick={() => onStart("listen_sentence")}
             />
           </div>
-        </div>
-
-        <div className="homelinks">
-          <button type="button" className="ruleslink" onClick={onShowDashboard}>
-            📊 Дашборд — метрики и прогресс
-          </button>
-          <button type="button" className="ruleslink" onClick={onShowRules}>
-            📖 Грамматика — правила финского
-          </button>
         </div>
       </section>
     </main>

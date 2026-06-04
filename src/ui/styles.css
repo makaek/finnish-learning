@@ -1092,10 +1092,71 @@ body {
 .tone-known { color: var(--known); }
 .tone-muted { color: var(--muted); }
 
-.homelinks {
-  margin-top: var(--s3);
-  display: grid;
-  gap: var(--s2);
+/* --- Home shell + bottom tab bar (the app's primary navigation) --- */
+
+/* Wraps the active home screen and the fixed bottom bar. The screen reserves room above the
+   bar (one rule beats .app--scroll's own padding-bottom via the child combinator). */
+.home > .app {
+  padding-bottom: calc(4.7rem + env(safe-area-inset-bottom));
+}
+
+/* Home (Roadmap) fills the viewport top-aligned, reading as a screen rather than a centred card. */
+.app--home {
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.bnav {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 20;
+  display: flex;
+  padding-bottom: env(safe-area-inset-bottom);
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.bnav__tab {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.5rem 0.25rem 0.55rem;
+  font: inherit;
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.14s ease;
+}
+
+.bnav__tab--on {
+  color: var(--accent);
+}
+
+/* Short accent bar above the active tab — the Material "selected" cue. */
+.bnav__tab--on::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 1.6rem;
+  height: 3px;
+  border-radius: 0 0 3px 3px;
+  background: var(--accent);
+}
+
+.bnav__icon {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.bnav__label {
+  font-size: 0.7rem;
+  font-weight: 600;
 }
 
 .dash {
