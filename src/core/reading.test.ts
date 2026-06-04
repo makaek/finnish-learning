@@ -4,6 +4,7 @@ import {
   isTextUnlocked,
   rolesOf,
   sortTexts,
+  spokenMatches,
   type RawReading,
   type ReadingText,
 } from "./reading";
@@ -99,5 +100,26 @@ describe("sortTexts", () => {
   it("orders by level, then id", () => {
     const out = sortTexts([mk("t3", 2), mk("t1", 2), mk("t2", 1)]);
     expect(out.map((t) => t.id)).toEqual(["t2", "t1", "t3"]);
+  });
+});
+
+describe("spokenMatches", () => {
+  it("accepts an exact match ignoring case and punctuation", () => {
+    expect(spokenMatches("Kiitos, hyvää.", "kiitos hyvää")).toBe(true);
+    expect(spokenMatches("Hei!", "hei")).toBe(true);
+  });
+
+  it("tolerates a small recognizer slip", () => {
+    expect(spokenMatches("Minä olen Antti", "minä olen antti")).toBe(true);
+    expect(spokenMatches("Minä olen Antti", "mina olen antti")).toBe(true);
+  });
+
+  it("rejects a clearly different answer", () => {
+    expect(spokenMatches("Minä olen Antti", "hei mitä kuuluu")).toBe(false);
+  });
+
+  it("rejects empty input on either side", () => {
+    expect(spokenMatches("Hei", "")).toBe(false);
+    expect(spokenMatches("", "hei")).toBe(false);
   });
 });

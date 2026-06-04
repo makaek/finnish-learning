@@ -99,11 +99,9 @@ export default function TextReader({ text, isRead, onBack, onMarkRead, onLessonD
         </ul>
 
         <div className="textreader__actions">
-          {isDialog && (
-            <button type="button" className="next" onClick={() => setPlaying(true)}>
-              🎭 Разыграть диалог
-            </button>
-          )}
+          <button type="button" className="next" onClick={() => setPlaying(true)}>
+            {isDialog ? "🎭 Разыграть диалог" : "🎙 Рассказать наизусть"}
+          </button>
           <button
             type="button"
             className="option"

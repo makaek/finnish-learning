@@ -7,6 +7,7 @@
  */
 
 import { levelOf } from "./levels";
+import { normalizeFi } from "./normalize";
 
 /** One line of a text or dialog. `speaker` is set only on dialog lines. */
 export interface ReadingLine {
@@ -82,4 +83,42 @@ export function isTextUnlocked(text: ReadingText, currentLevel: number): boolean
 /** Texts ordered for the library: by level ascending, then by id. */
 export function sortTexts(texts: readonly ReadingText[]): ReadingText[] {
   return [...texts].sort((a, b) => a.level - b.level || a.id.localeCompare(b.id));
+}
+
+/** Levenshtein edit distance between two strings (classic two-row DP). */
+function levenshtein(a: string, b: string): number {
+  const m = a.length;
+  const n = b.length;
+  if (m === 0) return n;
+  if (n === 0) return m;
+  let prev = Array.from({ length: n + 1 }, (_, j) => j);
+  let curr = new Array<number>(n + 1).fill(0);
+  for (let i = 1; i <= m; i++) {
+    curr[0] = i;
+    for (let j = 1; j <= n; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      curr[j] = Math.min(prev[j]! + 1, curr[j - 1]! + 1, prev[j - 1]! + cost);
+    }
+    [prev, curr] = [curr, prev];
+  }
+  return prev[n]!;
+}
+
+/** Similarity threshold for accepting a spoken recitation (1 = identical). */
+export const SPOKEN_MATCH_THRESHOLD = 0.8;
+
+/**
+ * Lenient match of a spoken Finnish attempt against the expected line — the auto-mode
+ * recitation gate. Both sides are normalized (lowercased, punctuation dropped), then accepted
+ * on an exact match or a high character similarity (≥ {@link SPOKEN_MATCH_THRESHOLD}), to
+ * tolerate the recognizer's small slips. Recognition stays imperfect, so the UI also offers a
+ * manual override.
+ */
+export function spokenMatches(expected: string, heard: string): boolean {
+  const a = normalizeFi(expected);
+  const b = normalizeFi(heard);
+  if (a.length === 0 || b.length === 0) return false;
+  if (a === b) return true;
+  const sim = 1 - levenshtein(a, b) / Math.max(a.length, b.length);
+  return sim >= SPOKEN_MATCH_THRESHOLD;
 }
