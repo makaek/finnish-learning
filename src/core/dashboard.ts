@@ -22,6 +22,7 @@ import {
   listLevels,
   masteringLevel,
   overallProgress,
+  readingLearned,
   unlockedLevelsWith,
   wordLearned,
   type SentenceLike,
@@ -47,6 +48,7 @@ export const MODE_LABEL: Record<ItemKind, string> = {
   sentences: "Перевод",
   say_sentence: "Речь · фразы",
   listen_sentence: "Аудио · фразы",
+  reading: "Чтение",
 };
 
 /** Russian labels for parts of speech (dictionary `pos`). */
@@ -120,6 +122,7 @@ export interface BoxBucket {
   box: number;
   words: number;
   sentences: number;
+  reading: number;
 }
 
 export interface PosStat {
@@ -210,13 +213,12 @@ export function computeDashboard(
   now: number = Date.now(),
   testMode = false,
   texts: readonly DashText[] = [],
-  completed: ReadonlySet<string> = new Set(),
 ): DashboardData {
   // Word-only stats still decide UNLOCKS (the curriculum gate is unchanged); the combined stats
   // (words + sentences + texts) drive the displayed level bars and the "current level" KPI.
   const stats = levelStats(vocab, progress);
   const unlocked = unlockedLevelsWith(stats, testMode);
-  const completionStats = levelCompletionStats(vocab, sentences, texts, progress, completed);
+  const completionStats = levelCompletionStats(vocab, sentences, texts, progress);
   const words = overallProgress(vocab, progress);
   const eligible = eligibleSentences(sentences, vocab, progress, testMode);
 
@@ -243,17 +245,23 @@ export function computeDashboard(
     box,
     words: 0,
     sentences: 0,
+    reading: 0,
   }));
   // Recency over the same seen tracks.
   const recencyCounts = { today: 0, week: 0, month: 0, older: 0 };
-  const tally = (modesList: readonly ItemKind[], pool: readonly { id: string }[], group: "word" | "sentence") => {
+  const tally = (
+    modesList: readonly ItemKind[],
+    pool: readonly { id: string }[],
+    group: "word" | "sentence" | "reading",
+  ) => {
     for (const mode of modesList) {
       for (const item of pool) {
         const p = getProgress(progress, mode, item.id);
         if (p.totalSeen < 1) continue;
         const bucket = boxes[Math.max(0, Math.min(MAX_BOX, p.box))]!;
         if (group === "word") bucket.words += 1;
-        else bucket.sentences += 1;
+        else if (group === "sentence") bucket.sentences += 1;
+        else bucket.reading += 1;
         if (p.lastSeen > 0) {
           const days = (now - p.lastSeen) / DAY_MS;
           if (days < 1) recencyCounts.today += 1;
@@ -266,6 +274,7 @@ export function computeDashboard(
   };
   tally(WORD_MODES, vocab, "word");
   tally(SENTENCE_MODES, sentences, "sentence");
+  tally(["reading"], texts, "reading");
 
   const recency: RecencyBucket[] = [
     { key: "today", label: "Сегодня", count: recencyCounts.today },
@@ -313,7 +322,7 @@ export function computeDashboard(
     totalReps,
     totalCorrect,
     fullyMastered,
-    textsDone: texts.filter((t) => completed.has(t.id)).length,
+    textsDone: texts.filter((t) => readingLearned(progress, t.id)).length,
     textsTotal: texts.length,
   };
 
@@ -326,7 +335,10 @@ export function computeDashboard(
     goalMet: goalMet(daily, today),
   };
 
-  const reading = { done: texts.filter((t) => completed.has(t.id)).length, total: texts.length };
+  const reading = {
+    done: texts.filter((t) => readingLearned(progress, t.id)).length,
+    total: texts.length,
+  };
 
   return { kpis, levels, modes, boxes, pos, recency, today: todayStat, reading };
 }

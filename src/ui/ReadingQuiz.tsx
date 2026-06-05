@@ -20,8 +20,8 @@ interface ReadingQuizProps {
   /** The bound comprehension grader (from data/texts.ts). */
   grade: Grade;
   onExit: () => void;
-  /** Called once when the learner finishes all questions. */
-  onComplete: () => void;
+  /** Called once when the learner finishes all questions; `allCorrect` = every first attempt right. */
+  onComplete: (allCorrect: boolean) => void;
 }
 
 /** One comprehension question: Finnish prompt (with revealable RU), typed-or-spoken answer. */
@@ -265,7 +265,11 @@ export default function ReadingQuiz({ text, grade, onExit, onComplete }: Reading
             Правильных ответов: {score} из {questions.length}
           </p>
           <div className="rolepick">
-            <button type="button" className="next" onClick={onComplete}>
+            <button
+              type="button"
+              className="next"
+              onClick={() => onComplete(score === questions.length)}
+            >
               Готово
             </button>
             <button

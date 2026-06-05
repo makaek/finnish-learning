@@ -23,6 +23,8 @@ interface ReadingProps {
   onMarkRead: (id: string) => void;
   /** Count a completed role-play toward today's lessons (no accuracy effect). */
   onLessonDone: () => void;
+  /** Record a finished comprehension quiz on the text's reading track. */
+  onReadingResult: (textId: string, allCorrect: boolean) => void;
 }
 
 export default function Reading({
@@ -32,6 +34,7 @@ export default function Reading({
   read,
   onMarkRead,
   onLessonDone,
+  onReadingResult,
 }: ReadingProps) {
   const [openId, setOpenId] = useState<string | null>(null);
 
@@ -51,6 +54,7 @@ export default function Reading({
         onBack={() => setOpenId(null)}
         onMarkRead={() => onMarkRead(openText.id)}
         onLessonDone={onLessonDone}
+        onReadingResult={onReadingResult}
       />
     );
   }

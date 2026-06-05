@@ -49,8 +49,6 @@ interface RoadmapProps {
   daily: UserState;
   /** Items hidden from lessons — excluded from the per-mode readiness pools. */
   hidden: ReadonlySet<string>;
-  /** Texts/dialogs finished — counted toward level completion. */
-  read: ReadonlySet<string>;
   testMode: boolean;
   ready: boolean;
   onStart: (mode: Mode) => void;
@@ -132,7 +130,6 @@ export default function Roadmap({
   progress,
   daily,
   hidden,
-  read,
   testMode,
   ready,
   onStart,
@@ -144,9 +141,9 @@ export default function Roadmap({
   // Completion now spans words + sentences + dialogs/texts, so finishing a level's phrases and
   // dialogs fills the bar and advances the level. (Unlocks stay word-driven, so nothing relocks.)
   const { active, overall } = useMemo(() => {
-    const s = levelCompletionStats(vocab, sentences, texts, progress, read);
+    const s = levelCompletionStats(vocab, sentences, texts, progress);
     return { active: masteringLevel(s), overall: overallProgress(vocab, progress) };
-  }, [vocab, sentences, texts, progress, read]);
+  }, [vocab, sentences, texts, progress]);
 
   // Per-mode readiness, RELATIVE within each group (words / sentences) so the lights flag
   // which mode is lagging behind the others — nudging the learner to keep them balanced. Also
@@ -194,7 +191,7 @@ export default function Roadmap({
   const goalPct = Math.min(100, Math.round((lessons / DAILY_LESSONS_GOAL) * 100));
   const goalReached = goalMet(daily, today);
   const levelPct = Math.round(
-    levelCompletionLearnProgress(vocab, sentences, texts, progress, read, active) * 100,
+    levelCompletionLearnProgress(vocab, sentences, texts, progress, active) * 100,
   );
 
   const settings = (

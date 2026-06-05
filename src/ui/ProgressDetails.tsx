@@ -12,7 +12,7 @@ import type { ReadingText } from "../core/reading";
 import { DEFAULT_SESSION_SIZE, SENTENCE_SESSION_SIZE } from "../core/quiz";
 import { activeVocab, eligibleSentences, levelOf, LEARNED_BOX } from "../core/levels";
 import { mergeByItem, type MergedProgress } from "../core/stats";
-import { MAX_BOX, type ItemKind } from "../core/progress";
+import { getProgress, MAX_BOX, type ItemKind } from "../core/progress";
 import type { ProgressMap } from "../core/progress";
 import { hiddenKey, type Group } from "./hidden";
 
@@ -40,6 +40,7 @@ const TRACK_LABEL: Record<ItemKind, string> = {
   say_sentence: "🎤 Скажи",
   listen_word: "🎧 На слух",
   listen_sentence: "🎧 На слух",
+  reading: "📖 Вопросы",
 };
 
 function boxPips(box: number): string {
@@ -377,12 +378,16 @@ export default function ProgressDetails({
                 onToggle={() => setTextsOpen((o) => !o)}
               >
                 {shownTexts.map((t) => {
-                  const done = read.has(t.id);
+                  const p = getProgress(progress, "reading", t.id);
+                  const learned = p.box >= LEARNED_BOX;
+                  const viewed = read.has(t.id);
+                  const accuracy =
+                    p.totalSeen > 0 ? Math.round((p.totalCorrect / p.totalSeen) * 100) : 0;
                   return (
                     <li className="icard" key={t.id}>
                       <div className="icard__head">
                         <span className="icard__label">
-                          {done && <span className="icard__check" title="Пройдено">✓ </span>}
+                          {learned && <span className="icard__check" title="Освоено">✓ </span>}
                           {t.type === "dialog" && <span title="Диалог">🎭 </span>}
                           {t.title}
                         </span>
@@ -392,7 +397,26 @@ export default function ProgressDetails({
                           </span>
                         </span>
                       </div>
-                      <div className="icard__sub">{done ? "Пройдено" : "Ещё не пройдено"}</div>
+                      {p.totalSeen > 0 ? (
+                        <ul className="tracks">
+                          <li className="track">
+                            <span className="track__name">📖 Вопросы</span>
+                            <span className="track__pips" title={`Освоение ${p.box}/${MAX_BOX}`}>
+                              {boxPips(p.box)}
+                            </span>
+                            <span className="track__metrics">
+                              <span title="Серия верных подряд">🔥 {p.correctStreak}</span>
+                              <span title="Верных прохождений из попыток">
+                                ✓ {p.totalCorrect}/{p.totalSeen} ({accuracy}%)
+                              </span>
+                            </span>
+                          </li>
+                        </ul>
+                      ) : (
+                        <div className="icard__sub">
+                          {viewed ? "Прочитано (без вопросов)" : "Ещё не пройдено"}
+                        </div>
+                      )}
                     </li>
                   );
                 })}

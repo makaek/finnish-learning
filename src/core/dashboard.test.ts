@@ -116,12 +116,21 @@ describe("computeDashboard reading metrics", () => {
     { id: "t2", level: 2, type: "text" as const },
     { id: "t3", level: 2, type: "text" as const },
   ];
-  const dr = computeDashboard(vocab, sentences, progress, daily, TODAY, NOW, true, texts, new Set(["t1"]));
+  // t1's comprehension is mastered (reading track box 2); t2/t3 untouched.
+  const readingProgress = new Map([
+    ...progress,
+    [progressKey("reading", "t1"), p("reading", "t1", 2, 2, 2, NOW)],
+  ]);
+  const dr = computeDashboard(vocab, sentences, readingProgress, daily, TODAY, NOW, true, texts);
 
-  it("counts completed texts/dialogs in the KPI and reading summary", () => {
+  it("counts comprehension-mastered texts in the KPI and reading summary", () => {
     expect(dr.kpis.textsDone).toBe(1);
     expect(dr.kpis.textsTotal).toBe(3);
     expect(dr.reading).toEqual({ done: 1, total: 3 });
+  });
+
+  it("tallies the reading track into the Leitner distribution", () => {
+    expect(dr.boxes.find((b) => b.box === 2)!.reading).toBe(1); // t1 in box 2
   });
 
   it("folds texts into the displayed level bars (combined completion)", () => {

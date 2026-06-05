@@ -13,7 +13,9 @@ import {
   lowestUnmasteredLevel,
   masteringLevel,
   overallProgress,
-  readingDone,
+  readingLearnProgress,
+  readingLearned,
+  readingMastery,
   sentenceLearned,
   sentenceMastery,
   unlockedLevels,
@@ -334,9 +336,14 @@ describe("sentence helpers (analogues of the word ones)", () => {
     expect(sentenceMastery(all, "s1")).toBe(1);
   });
 
-  it("readingDone is 1 when completed, 0 otherwise", () => {
-    expect(readingDone(new Set(["t1"]), "t1")).toBe(1);
-    expect(readingDone(new Set(["t1"]), "t2")).toBe(0);
+  it("reading helpers key off the reading track (learned at LEARNED_BOX)", () => {
+    expect(readingLearned(new Map(), "t1")).toBe(false);
+    expect(readingLearned(box("reading", "t1", 2), "t1")).toBe(true);
+    expect(readingMastery(box("reading", "t1", 1), "t1")).toBe(0); // below learned
+    expect(readingMastery(box("reading", "t1", 2), "t1")).toBe(1);
+    expect(readingLearnProgress(new Map(), "t1")).toBe(0);
+    expect(readingLearnProgress(box("reading", "t1", 1), "t1")).toBe(0.5);
+    expect(readingLearnProgress(box("reading", "t1", 5), "t1")).toBe(1); // capped
   });
 });
 
@@ -363,18 +370,19 @@ describe("levelCompletionStats / levelCompletionLearnProgress (combined completi
 
   it("folds words + sentences + texts into each level's total/learned", () => {
     // L1: words a1..a5 (5) + sentence s1 (1) + text t1 (1) = total 7.
-    const stats = levelCompletionStats(vocab, sentences, texts, new Map(), new Set());
+    const stats = levelCompletionStats(vocab, sentences, texts, new Map());
     const l1 = stats.find((s) => s.level === 1)!;
     expect(l1.total).toBe(7);
     expect(l1.learned).toBe(0);
   });
 
-  it("counts a learned word, a learned sentence, and a completed text", () => {
+  it("counts a learned word, a learned sentence, and a learned (quizzed) text", () => {
     const progress = new Map([
       ...learned(["a1"]), // a1 learned (recognition)
       ...box("sentences", "s1", 2), // s1 learned (translation)
+      ...box("reading", "t1", 2), // t1 comprehension mastered
     ]);
-    const stats = levelCompletionStats(vocab, sentences, texts, progress, new Set(["t1"]));
+    const stats = levelCompletionStats(vocab, sentences, texts, progress);
     const l1 = stats.find((s) => s.level === 1)!;
     expect(l1.learned).toBe(3); // a1 + s1 + t1
   });
@@ -390,7 +398,7 @@ describe("levelCompletionStats / levelCompletionLearnProgress (combined completi
       }
     }
     expect(levelStats(vocab, wordMap)[0]!.fraction).toBe(1); // words-only: complete
-    const combined = levelCompletionStats(vocab, sentences, texts, wordMap, new Set());
+    const combined = levelCompletionStats(vocab, sentences, texts, wordMap);
     // Now s1 (mastery 0) and t1 (0) drag the level below 1: (5*1 + 0 + 0) / 7.
     expect(combined.find((s) => s.level === 1)!.fraction).toBeCloseTo(5 / 7);
   });
@@ -399,19 +407,19 @@ describe("levelCompletionStats / levelCompletionLearnProgress (combined completi
     // L1 words all learned, but its sentence + text are not → still 'completing' L1.
     const progress = learned(["a1", "a2", "a3", "a4", "a5"]);
     expect(masteringLevel(levelStats(vocab, progress))).toBe(2); // words-only: L1 done
-    const combined = levelCompletionStats(vocab, sentences, texts, progress, new Set());
+    const combined = levelCompletionStats(vocab, sentences, texts, progress);
     expect(masteringLevel(combined)).toBe(1); // combined: L1 not done (s1/t1 pending)
   });
 
   it("learn-progress blends word/sentence/reading progress over the level", () => {
-    // Empty: 0. One text done out of 7 L1 items → 1/7.
-    expect(levelCompletionLearnProgress(vocab, sentences, texts, new Map(), new Set(), 1)).toBe(0);
+    // Empty: 0. One text quizzed-to-learned out of 7 L1 items → 1/7.
+    expect(levelCompletionLearnProgress(vocab, sentences, texts, new Map(), 1)).toBe(0);
     expect(
-      levelCompletionLearnProgress(vocab, sentences, texts, new Map(), new Set(["t1"]), 1),
+      levelCompletionLearnProgress(vocab, sentences, texts, box("reading", "t1", 2), 1),
     ).toBeCloseTo(1 / 7);
   });
 
   it("is 1 for an empty level", () => {
-    expect(levelCompletionLearnProgress(vocab, sentences, texts, new Map(), new Set(), 99)).toBe(1);
+    expect(levelCompletionLearnProgress(vocab, sentences, texts, new Map(), 99)).toBe(1);
   });
 });

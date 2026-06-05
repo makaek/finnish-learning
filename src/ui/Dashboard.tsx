@@ -23,8 +23,6 @@ interface DashboardProps {
   texts: readonly DashText[];
   progress: ProgressMap;
   daily: UserState;
-  /** Texts/dialogs finished (read or rehearsed). */
-  read: ReadonlySet<string>;
   testMode: boolean;
 }
 
@@ -37,13 +35,11 @@ export default function Dashboard({
   texts,
   progress,
   daily,
-  read,
   testMode,
 }: DashboardProps) {
   const d = useMemo(
-    () =>
-      computeDashboard(vocab, sentences, progress, daily, dateKey(), Date.now(), testMode, texts, read),
-    [vocab, sentences, texts, progress, daily, read, testMode],
+    () => computeDashboard(vocab, sentences, progress, daily, dateKey(), Date.now(), testMode, texts),
+    [vocab, sentences, texts, progress, daily, testMode],
   );
   const k = d.kpis;
 
@@ -88,8 +84,9 @@ export default function Dashboard({
     segments: [
       { key: "words", value: b.words, tone: "accent" },
       { key: "sentences", value: b.sentences, tone: "known" },
+      { key: "reading", value: b.reading, tone: "ok" },
     ],
-    caption: `Коробка ${b.box}${b.box === 5 ? " (мастерство)" : b.box === 0 ? " (новое)" : ""}: ${b.words} слов · ${b.sentences} фраз`,
+    caption: `Коробка ${b.box}${b.box === 5 ? " (мастерство)" : b.box === 0 ? " (новое)" : ""}: ${b.words} слов · ${b.sentences} фраз · ${b.reading} текстов`,
   }));
 
   const recencyTone: Record<string, string> = { today: "ok", week: "accent", month: "yellow", older: "muted" };
@@ -154,6 +151,7 @@ export default function Dashboard({
           legend={[
             { key: "words", label: "Слова", tone: "accent" },
             { key: "sentences", label: "Фразы", tone: "known" },
+            { key: "reading", label: "Тексты", tone: "ok" },
           ]}
           emptyCaption="Наведите на столбец, чтобы увидеть числа."
         />

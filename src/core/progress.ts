@@ -11,7 +11,8 @@
  * Which exercise a progress record belongs to — one track per lesson type. The same
  * dictionary word has distinct records for "recognition", typed "production", spoken
  * "say_word", and dictation "listen_word"; sentences have separate typed "sentences", spoken
- * "say_sentence", and dictation "listen_sentence" tracks.
+ * "say_sentence", and dictation "listen_sentence" tracks; a reading text/dialog has one
+ * "reading" track recording comprehension-quiz mastery.
  */
 export type ItemKind =
   | "recognition"
@@ -20,7 +21,8 @@ export type ItemKind =
   | "say_word"
   | "say_sentence"
   | "listen_word"
-  | "listen_sentence";
+  | "listen_sentence"
+  | "reading";
 
 /** Lowest / highest Leitner box. Box 0 = brand new / just missed; MAX_BOX = mastered. */
 export const MIN_BOX = 0;

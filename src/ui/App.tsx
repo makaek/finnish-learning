@@ -266,6 +266,9 @@ export default function App() {
       mark("say_sentence", s.id);
       mark("listen_sentence", s.id);
     }
+    for (const t of TEXTS) {
+      mark("reading", t.id);
+    }
     setProgressView(new Map(progressRef.current));
     void saveProgress(rows);
   }
@@ -320,6 +323,18 @@ export default function App() {
     dailyRef.current = next;
     setDailyView(next);
     void saveState(next);
+  }
+
+  /**
+   * Record a completed comprehension quiz on the text's `reading` track (one record per text).
+   * `wasCorrect` is the all-first-attempts-correct result, so a text masters after ~2 clean runs,
+   * mirroring the other tracks. Persisted; mutating the ref directly keeps any active view stable.
+   */
+  function recordReading(textId: string, wasCorrect: boolean) {
+    const next = applyOutcome(getProgress(progressRef.current, "reading", textId), wasCorrect, Date.now());
+    progressRef.current.set(progressKey("reading", textId), next);
+    setProgressView(new Map(progressRef.current));
+    void saveProgress([next]);
   }
 
   /** Record one answer toward today's goal; on the session's last answer, count a lesson. */
@@ -378,6 +393,7 @@ export default function App() {
           read={read}
           onMarkRead={markRead}
           onLessonDone={countReadingLesson}
+          onReadingResult={recordReading}
         />
       );
     } else if (homeScreen === "rules") {
@@ -390,7 +406,6 @@ export default function App() {
           texts={TEXTS}
           progress={progressView}
           daily={dailyView}
-          read={read}
           testMode={testMode}
         />
       );
@@ -403,7 +418,6 @@ export default function App() {
           progress={progressView}
           daily={dailyView}
           hidden={hidden}
-          read={read}
           testMode={testMode}
           ready={ready}
           onStart={start}

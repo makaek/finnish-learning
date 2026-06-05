@@ -22,9 +22,19 @@ interface TextReaderProps {
   onMarkRead: () => void;
   /** Count a finished role-play / quiz toward today's lessons. */
   onLessonDone: () => void;
+  /** Record a finished comprehension quiz on this text's reading track. */
+  onReadingResult: (textId: string, allCorrect: boolean) => void;
 }
 
-export default function TextReader({ text, isRead, grade, onBack, onMarkRead, onLessonDone }: TextReaderProps) {
+export default function TextReader({
+  text,
+  isRead,
+  grade,
+  onBack,
+  onMarkRead,
+  onLessonDone,
+  onReadingResult,
+}: TextReaderProps) {
   const [showRu, setShowRu] = useState(true);
   const [playing, setPlaying] = useState(false);
   const [quizzing, setQuizzing] = useState(false);
@@ -64,7 +74,8 @@ export default function TextReader({ text, isRead, grade, onBack, onMarkRead, on
         text={text}
         grade={grade}
         onExit={() => setQuizzing(false)}
-        onComplete={() => {
+        onComplete={(allCorrect) => {
+          onReadingResult(text.id, allCorrect);
           onMarkRead();
           onLessonDone();
           setQuizzing(false);

@@ -101,12 +101,25 @@ export function sentenceLearnProgress(progress: ProgressMap, sentenceId: string)
 }
 
 /**
- * Whether a text/dialog counts as done — present in the device-local "read" set. Reading mastery
- * is binary this slice (reached the end / rehearsed); a graded track is deferred. Returned as a
- * number so it composes with the [0, 1] word/sentence mastery in the combined level metric.
+ * Whether a text/dialog is "learned" — its comprehension-quiz `reading` track is at/above
+ * LEARNED_BOX. The reading analogue of {@link wordLearned}/{@link sentenceLearned} (a single
+ * track, so "learned" is the whole signal).
  */
-export function readingDone(completed: ReadonlySet<string>, textId: string): number {
-  return completed.has(textId) ? 1 : 0;
+export function readingLearned(progress: ProgressMap, textId: string): boolean {
+  return getProgress(progress, "reading", textId).box >= LEARNED_BOX;
+}
+
+/** Reading mastery for a text, in {0, 1}: learned or not (single track — no partial depth). */
+export function readingMastery(progress: ProgressMap, textId: string): number {
+  return readingLearned(progress, textId) ? 1 : 0;
+}
+
+/**
+ * Continuous reading learn-progress for a text, in [0, 1]: `box / LEARNED_BOX` capped at 1. The
+ * reading analogue of {@link wordLearnProgress}; drives the smooth combined level bar.
+ */
+export function readingLearnProgress(progress: ProgressMap, textId: string): number {
+  return Math.min(1, getProgress(progress, "reading", textId).box / LEARNED_BOX);
 }
 
 /** Gentler bar for *using* a word in a sentence: at least one net-correct answer. */
@@ -251,7 +264,6 @@ export function levelCompletionStats(
   sentences: readonly SentenceLike[],
   texts: readonly VocabLike[],
   progress: ProgressMap,
-  completed: ReadonlySet<string>,
 ): LevelStat[] {
   const levels = listLevels([...vocab, ...sentences, ...texts]);
   return levels.map((level) => {
@@ -262,11 +274,11 @@ export function levelCompletionStats(
     const learned =
       w.filter((v) => wordLearned(progress, v.id)).length +
       s.filter((x) => sentenceLearned(progress, x.id)).length +
-      t.filter((x) => completed.has(x.id)).length;
+      t.filter((x) => readingLearned(progress, x.id)).length;
     const masterySum =
       w.reduce((sum, v) => sum + wordMastery(progress, v.id), 0) +
       s.reduce((sum, x) => sum + sentenceMastery(progress, x.id), 0) +
-      t.reduce((sum, x) => sum + readingDone(completed, x.id), 0);
+      t.reduce((sum, x) => sum + readingMastery(progress, x.id), 0);
     return { level, total, learned, fraction: total === 0 ? 1 : masterySum / total };
   });
 }
@@ -282,7 +294,6 @@ export function levelCompletionLearnProgress(
   sentences: readonly SentenceLike[],
   texts: readonly VocabLike[],
   progress: ProgressMap,
-  completed: ReadonlySet<string>,
   level: number,
 ): number {
   const w = vocab.filter((v) => levelOf(v) === level);
@@ -293,7 +304,7 @@ export function levelCompletionLearnProgress(
   const sum =
     w.reduce((acc, v) => acc + wordLearnProgress(progress, v.id), 0) +
     s.reduce((acc, x) => acc + sentenceLearnProgress(progress, x.id), 0) +
-    t.reduce((acc, x) => acc + readingDone(completed, x.id), 0);
+    t.reduce((acc, x) => acc + readingLearnProgress(progress, x.id), 0);
   return sum / total;
 }
 
