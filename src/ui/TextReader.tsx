@@ -117,7 +117,7 @@ export default function TextReader({
           )}
         </div>
 
-        <p className="hint hint--quiet">Нажмите на слово — перевод; 🇷🇺 — перевод строки.</p>
+        <p className="hint hint--quiet">Нажмите на слово — перевод; 🌐 — перевод строки.</p>
         <ul className="lines">
           {text.lines.map((line, i) => {
             const showLineRu = showRu || lineRu.has(i);
@@ -162,7 +162,7 @@ export default function TextReader({
                   aria-label="Перевести строку"
                   title="Перевод строки"
                 >
-                  🇷🇺
+                  🌐
                 </button>
                 {tts.supported && (
                   <button
