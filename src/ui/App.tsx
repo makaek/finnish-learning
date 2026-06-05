@@ -13,7 +13,7 @@ import {
 import { buildProductionSession } from "../core/produce";
 import { buildSentenceSession } from "../core/sentenceSession";
 import { applyOutcome } from "../core/srs";
-import { activeVocab, eligibleSentences } from "../core/levels";
+import { activeVocab, eligibleSentences, LEARNED_BOX } from "../core/levels";
 import {
   completeLesson,
   currentStreak,
@@ -329,14 +329,14 @@ export default function App() {
 
   /**
    * Record a completed comprehension quiz on the text's `reading` track (one record per text).
-   * `wasCorrect` is the all-first-attempts-correct result. Unlike the SRS word/sentence tracks,
-   * a SINGLE fully-correct run MASTERS the text (box jumps to MAX_BOX) — answering correctly once
-   * is enough; no repeat needed. A run with any miss applies the normal demotion. Persisted;
-   * mutating the ref directly keeps any active view stable.
+   * `wasCorrect` is the all-first-attempts-correct result. A SINGLE fully-correct run marks the
+   * text PASSED — its box reaches LEARNED_BOX (so it counts as done for level completion and the
+   * library ✓), without claiming full mastery; repeated correct runs climb the box higher. A run
+   * with any miss applies the normal demotion. Persisted; the ref mutation keeps any view stable.
    */
   function recordReading(textId: string, wasCorrect: boolean) {
     let next = applyOutcome(getProgress(progressRef.current, "reading", textId), wasCorrect, Date.now());
-    if (wasCorrect) next = { ...next, box: MAX_BOX };
+    if (wasCorrect) next = { ...next, box: Math.max(next.box, LEARNED_BOX) };
     progressRef.current.set(progressKey("reading", textId), next);
     setProgressView(new Map(progressRef.current));
     void saveProgress([next]);

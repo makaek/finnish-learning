@@ -387,7 +387,7 @@ export default function ProgressDetails({
                     <li className="icard" key={t.id}>
                       <div className="icard__head">
                         <span className="icard__label">
-                          {learned && <span className="icard__check" title="Освоено">✓ </span>}
+                          {learned && <span className="icard__check" title="Пройдено">✓ </span>}
                           {t.type === "dialog" && <span title="Диалог">🎭 </span>}
                           {t.title}
                         </span>
