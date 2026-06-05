@@ -845,6 +845,151 @@
           "needs_review": false
         }
       ]
+    },
+    {
+      "id": "t25",
+      "title": "Наш дом",
+      "level": 3,
+      "type": "text",
+      "lines": [
+        { "fi": "Minä olen Mikko.", "ru": "Я Микко.", "glosses": { "minä": "я", "olen": "я есть" } },
+        { "fi": "Minulla on äiti, isä ja sisko.", "ru": "У меня есть мама, папа и сестра.", "glosses": { "minulla": "у меня", "on": "есть", "äiti": "мама", "isä": "папа", "ja": "и", "sisko": "сестра" } },
+        { "fi": "Me asumme kaupungissa.", "ru": "Мы живём в городе.", "glosses": { "me": "мы", "asumme": "мы живём", "kaupungissa": "в городе" } },
+        { "fi": "Meillä on iso talo.", "ru": "У нас большой дом.", "glosses": { "meillä": "у нас", "on": "есть", "iso": "большой", "talo": "дом" } }
+      ],
+      "questions": [
+        {
+          "id": "t25q1",
+          "q": "Missä Mikko asuu?",
+          "qRu": "Где живёт Микко?",
+          "canonical": "Kaupungissa.",
+          "accepted": ["Kaupungissa.", "Mikko asuu kaupungissa."],
+          "wrong": [{ "match": "kaupunkiin", "ru": "Нужен инессив «kaupungissa» (где?), а не иллатив «kaupunkiin» (куда?)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t25q2",
+          "q": "Millainen talo heillä on?",
+          "qRu": "Какой у них дом?",
+          "canonical": "Iso.",
+          "accepted": ["Iso.", "Talo on iso.", "Heillä on iso talo."],
+          "wrong": [{ "match": "pieni", "ru": "Дом большой («iso talo»), а не маленький." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t26",
+      "title": "В магазине",
+      "level": 4,
+      "type": "text",
+      "lines": [
+        { "fi": "Minä menen kauppaan.", "ru": "Я иду в магазин.", "glosses": { "minä": "я", "menen": "я иду", "kauppaan": "в магазин" } },
+        { "fi": "Minä ostan leipää ja kalaa.", "ru": "Я покупаю хлеб и рыбу.", "glosses": { "minä": "я", "ostan": "я покупаю", "leipää": "хлеб (партитив)", "ja": "и", "kalaa": "рыбу (партитив)" } },
+        { "fi": "Kala maksaa viisi euroa.", "ru": "Рыба стоит пять евро.", "glosses": { "kala": "рыба", "maksaa": "стоит", "viisi": "пять", "euroa": "евро (партитив после числа)" } },
+        { "fi": "Minulla on rahaa.", "ru": "У меня есть деньги.", "glosses": { "minulla": "у меня", "on": "есть", "rahaa": "деньги (партитив)" } }
+      ],
+      "questions": [
+        {
+          "id": "t26q1",
+          "q": "Minne minä menen?",
+          "qRu": "Куда я иду?",
+          "canonical": "Kauppaan.",
+          "accepted": ["Kauppaan.", "Menen kauppaan."],
+          "wrong": [{ "match": "kaupassa", "ru": "Направление «куда?» = «kauppaan» (в магазин); «kaupassa» означало бы «где? в магазине»." }],
+          "needs_review": false
+        },
+        {
+          "id": "t26q2",
+          "q": "Paljonko kala maksaa?",
+          "qRu": "Сколько стоит рыба?",
+          "canonical": "Viisi euroa.",
+          "accepted": ["Viisi euroa.", "Kala maksaa viisi euroa."],
+          "wrong": [{ "match": "viisi euro", "ru": "После числа существительное в партитиве: «viisi euroa», а не «viisi euro»." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t27",
+      "title": "Дорога на работу",
+      "level": 5,
+      "type": "text",
+      "lines": [
+        { "fi": "Aamulla minä menen töihin.", "ru": "Утром я иду на работу.", "glosses": { "aamulla": "утром", "minä": "я", "menen": "я иду", "töihin": "на работу" } },
+        { "fi": "Minä voin mennä bussilla.", "ru": "Я могу поехать на автобусе.", "glosses": { "minä": "я", "voin": "я могу", "mennä": "идти / ехать", "bussilla": "на автобусе" } },
+        { "fi": "Mutta tänään minä kävelen, koska sää on kaunis.", "ru": "Но сегодня я иду пешком, потому что погода красивая.", "glosses": { "mutta": "но", "tänään": "сегодня", "minä": "я", "kävelen": "я иду пешком", "koska": "потому что", "sää": "погода", "on": "есть", "kaunis": "красивая" } }
+      ],
+      "questions": [
+        {
+          "id": "t27q1",
+          "q": "Minne minä menen aamulla?",
+          "qRu": "Куда я иду утром?",
+          "canonical": "Töihin.",
+          "accepted": ["Töihin.", "Menen töihin."],
+          "wrong": [{ "match": "töissä", "ru": "Направление «куда?» = «töihin» (на работу); «töissä» означало бы «где? на работе»." }],
+          "needs_review": false
+        },
+        {
+          "id": "t27q2",
+          "q": "Millä minä voin mennä töihin?",
+          "qRu": "На чём я могу поехать на работу?",
+          "canonical": "Bussilla.",
+          "accepted": ["Bussilla.", "Voin mennä bussilla."],
+          "wrong": [{ "match": "junalla", "ru": "В тексте — «bussilla» (на автобусе), а не на поезде." }],
+          "needs_review": false
+        },
+        {
+          "id": "t27q3",
+          "q": "Millainen sää tänään on?",
+          "qRu": "Какая сегодня погода?",
+          "canonical": "Kaunis.",
+          "accepted": ["Kaunis.", "Sää on kaunis."],
+          "wrong": [{ "match": "kylmä", "ru": "Погода красивая («kaunis»); про холод в тексте не сказано." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t28",
+      "title": "Путешествие к морю",
+      "level": 8,
+      "type": "text",
+      "lines": [
+        { "fi": "Huomenna minä matkustan merelle.", "ru": "Завтра я еду к морю.", "glosses": { "huomenna": "завтра", "minä": "я", "matkustan": "я еду", "merelle": "к морю" } },
+        { "fi": "Minä menen junalla ja ostin jo lipun.", "ru": "Я еду на поезде и уже купил билет.", "glosses": { "minä": "я", "menen": "я еду", "junalla": "на поезде", "ja": "и", "ostin": "я купил", "jo": "уже", "lipun": "билет" } },
+        { "fi": "Siellä aurinko paistaa ja on lämmin.", "ru": "Там солнце светит и тепло.", "glosses": { "siellä": "там", "aurinko": "солнце", "paistaa": "светит", "ja": "и", "on": "есть", "lämmin": "тёпло" } },
+        { "fi": "Minä uin meressä koko päivän.", "ru": "Я плаваю в море весь день.", "glosses": { "minä": "я", "uin": "я плаваю", "meressä": "в море", "koko": "весь", "päivän": "день" } }
+      ],
+      "questions": [
+        {
+          "id": "t28q1",
+          "q": "Millä minä matkustan?",
+          "qRu": "На чём я еду?",
+          "canonical": "Junalla.",
+          "accepted": ["Junalla.", "Matkustan junalla.", "Menen junalla."],
+          "wrong": [{ "match": "bussilla", "ru": "В тексте — «junalla» (на поезде), а не на автобусе." }],
+          "needs_review": false
+        },
+        {
+          "id": "t28q2",
+          "q": "Mitä minä ostin?",
+          "qRu": "Что я купил?",
+          "canonical": "Lipun.",
+          "accepted": ["Lipun.", "Ostin lipun."],
+          "wrong": [{ "match": "lippu", "ru": "Целостный объект в винительном = генитиве: «lipun», а не «lippu»." }],
+          "needs_review": false
+        },
+        {
+          "id": "t28q3",
+          "q": "Millainen sää siellä on?",
+          "qRu": "Какая там погода?",
+          "canonical": "Lämmin.",
+          "accepted": ["Lämmin.", "On lämmin.", "Sää on lämmin."],
+          "wrong": [{ "match": "kylmä", "ru": "Там тепло («lämmin»), а не холодно." }],
+          "needs_review": false
+        }
+      ]
     }
   ]
 }

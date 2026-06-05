@@ -47,6 +47,21 @@ describe("texts.seed.json integrity", () => {
       }
     }
   });
+
+  it("every level has at least one monologue text AND one dialog", () => {
+    // The home screen offers a 📖 Тексты card and a 🎭 Диалоги card; both must have content at
+    // every level so neither is empty when the learner reaches it. Guards future content too.
+    const byLevel = new Map<number, { text: number; dialog: number }>();
+    for (const t of TEXTS) {
+      const e = byLevel.get(t.level) ?? { text: 0, dialog: 0 };
+      e[t.type] += 1;
+      byLevel.set(t.level, e);
+    }
+    for (const [level, e] of byLevel) {
+      expect(e.text, `level ${level} has no monologue text`).toBeGreaterThan(0);
+      expect(e.dialog, `level ${level} has no dialog`).toBeGreaterThan(0);
+    }
+  });
 });
 
 describe("texts.seed.json glosses + questions integrity", () => {
