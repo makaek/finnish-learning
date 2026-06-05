@@ -84,26 +84,39 @@ export default function DialogPlay({ text, onExit, onComplete }: DialogPlayProps
     const l = text.lines[idx];
     if (!l) return; // reached the end — completion screen handles it
     let cancelled = false;
-    let timer = 0;
+    const timers: number[] = [];
     const after = (ms: number, fn: () => void) => {
       if (cancelled) return;
-      timer = window.setTimeout(() => !cancelled && fn(), ms);
+      timers.push(window.setTimeout(() => !cancelled && fn(), ms));
     };
-    const goNext = () => !cancelled && setIdx((i) => i + 1);
+    // Advance at most once per line, whether triggered by TTS's onend or the fallback timer.
+    let advanced = false;
+    const goNext = () => {
+      if (cancelled || advanced) return;
+      advanced = true;
+      setIdx((i) => i + 1);
+    };
+    // Speak a line, then advance after a short gap on its onend — but ALSO arm a generous
+    // fallback timer, because a browser can drop the onend (post-cancel paused state etc.) and
+    // strand the dialog. Whichever fires first wins (goNext is idempotent).
+    const speakThenAdvance = (fi: string) => {
+      speak(fi, () => after(GAP_MS, goNext));
+      after(readMs(fi) + 2500, goNext);
+    };
 
     setHeard("");
     setMatched(false);
     const isMine = isMonologue || l.speaker === myRole;
     if (!isMine) {
       setRevealed(true);
-      if (ttsSupported) speak(l.fi, () => after(GAP_MS, goNext));
+      if (ttsSupported) speakThenAdvance(l.fi);
       else after(readMs(l.fi), goNext);
     } else if (!recogSupported) {
       // No mic: time the recall, then reveal + confirm + advance.
       setRevealed(false);
       after(recallMs(l.fi), () => {
         setRevealed(true);
-        if (ttsSupported) speak(l.fi, () => after(GAP_MS, goNext));
+        if (ttsSupported) speakThenAdvance(l.fi);
         else after(GAP_MS, goNext);
       });
     } else {
@@ -113,7 +126,7 @@ export default function DialogPlay({ text, onExit, onComplete }: DialogPlayProps
 
     return () => {
       cancelled = true;
-      if (timer) clearTimeout(timer);
+      timers.forEach((t) => clearTimeout(t));
       cancel();
     };
   }, [idx, running, mode, myRole, text, ttsSupported, speak, cancel, started, isMonologue, recogSupported]);

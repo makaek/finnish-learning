@@ -88,6 +88,11 @@ export function useSpeechSynthesis(lang = "fi-FI"): SpeechSynthesisApi {
           if (e.error !== "interrupted" && current()) setSpeaking(false);
         };
         synth.speak(utterance);
+        // Chrome quirk: a preceding cancel() can leave the engine *paused*, silently swallowing
+        // the next utterance — no audio AND no onend. That wedges callers that advance on onend
+        // (e.g. auto-dialog) and kills every later speak() until reload. resume() unsticks it and
+        // is a harmless no-op when the engine isn't paused.
+        synth.resume();
       } catch {
         setSpeaking(false);
       }
@@ -125,6 +130,7 @@ export function useSpeechSynthesis(lang = "fi-FI"): SpeechSynthesisApi {
             if (e.error !== "interrupted" && current()) setSpeaking(false);
           };
           synth.speak(utterance);
+          synth.resume(); // see speak(): unstick Chrome's post-cancel paused state
         };
         next();
       } catch {
