@@ -26,7 +26,7 @@ export const UNLOCK_FRACTION = 0.8;
  * they stay in the pools to finish later. Distinct from {@link UNLOCK_FRACTION} (content gating,
  * words only).
  */
-export const LEVEL_COMPLETE_FRACTION = 0.9;
+export const LEVEL_COMPLETE_FRACTION = 0.95;
 
 /** The four ways a single word is practised; level progress averages mastery across them. */
 export const WORD_MODES: readonly ItemKind[] = [
@@ -293,28 +293,16 @@ export function levelCompletionStats(
 }
 
 /**
- * Smooth combined learn-progress for one level, in [0, 1] (1 for an empty level): the mean of
- * {@link wordLearnProgress} / {@link sentenceLearnProgress} / reading-done over the level's items.
- * The combined analogue of {@link levelLearnProgress} — drives the home HUD bar so finishing a
- * level's sentences and dialogs visibly fills it.
+ * Progress of one level toward triggering the NEXT level, in [0, 1] (1 for an empty/absent level).
+ * It scales the level's learned-fraction so that reaching {@link LEVEL_COMPLETE_FRACTION} reads as a
+ * full 100% — i.e. the home HUD bar fills to 100% exactly when {@link masteringLevel} rolls over.
+ * Deliberately uses the SAME quantity that drives advancement (`learned / total`, not the gentler
+ * per-item learn-progress), so the bar can't over-report the true distance to the next level.
  */
-export function levelCompletionLearnProgress(
-  vocab: readonly VocabLike[],
-  sentences: readonly SentenceLike[],
-  texts: readonly VocabLike[],
-  progress: ProgressMap,
-  level: number,
-): number {
-  const w = vocab.filter((v) => levelOf(v) === level);
-  const s = sentences.filter((x) => levelOf(x) === level);
-  const t = texts.filter((x) => levelOf(x) === level);
-  const total = w.length + s.length + t.length;
-  if (total === 0) return 1;
-  const sum =
-    w.reduce((acc, v) => acc + wordLearnProgress(progress, v.id), 0) +
-    s.reduce((acc, x) => acc + sentenceLearnProgress(progress, x.id), 0) +
-    t.reduce((acc, x) => acc + readingLearnProgress(progress, x.id), 0);
-  return sum / total;
+export function levelProgressToNext(stats: readonly LevelStat[], level: number): number {
+  const s = stats.find((x) => x.level === level);
+  if (!s || s.total === 0) return 1;
+  return Math.min(1, s.learned / s.total / LEVEL_COMPLETE_FRACTION);
 }
 
 /**

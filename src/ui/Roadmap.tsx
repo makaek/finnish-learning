@@ -8,8 +8,8 @@ import { useMemo } from "react";
 import {
   activeVocab,
   eligibleSentences,
-  levelCompletionLearnProgress,
   levelCompletionStats,
+  levelProgressToNext,
   masteringLevel,
   overallProgress,
   unmasteredInLevel,
@@ -148,9 +148,16 @@ export default function Roadmap({
   // learn-progress bar — not the unlocked frontier, which jumped the bar to ~0% on every unlock.
   // Completion now spans words + sentences + dialogs/texts, so finishing a level's phrases and
   // dialogs fills the bar and advances the level. (Unlocks stay word-driven, so nothing relocks.)
-  const { active, overall } = useMemo(() => {
+  const { active, overall, levelPct } = useMemo(() => {
     const s = levelCompletionStats(vocab, sentences, texts, progress);
-    return { active: masteringLevel(s), overall: overallProgress(vocab, progress) };
+    const a = masteringLevel(s);
+    // Bar = progress toward the NEXT level: the learned-fraction scaled so the advancement
+    // threshold reads as 100% (so it fills exactly as the level ticks over, never over-reporting).
+    return {
+      active: a,
+      overall: overallProgress(vocab, progress),
+      levelPct: Math.round(levelProgressToNext(s, a) * 100),
+    };
   }, [vocab, sentences, texts, progress]);
 
   // Per-mode readiness, RELATIVE within each group (words / sentences) so the lights flag
@@ -207,9 +214,6 @@ export default function Roadmap({
   const accuracyPct = Math.round(todayAccuracy(daily, today) * 100);
   const goalPct = Math.min(100, Math.round((lessons / DAILY_LESSONS_GOAL) * 100));
   const goalReached = goalMet(daily, today);
-  const levelPct = Math.round(
-    levelCompletionLearnProgress(vocab, sentences, texts, progress, active) * 100,
-  );
 
   const settings = (
     <details className="settings">

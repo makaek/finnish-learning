@@ -4,9 +4,10 @@ import {
   activeVocab,
   eligibleSentences,
   LEARNED_BOX,
-  levelCompletionLearnProgress,
+  LEVEL_COMPLETE_FRACTION,
   levelCompletionStats,
   levelLearnProgress,
+  levelProgressToNext,
   levelOf,
   levelStats,
   listLevels,
@@ -128,10 +129,12 @@ describe("masteringLevel (the level being completed)", () => {
   });
 
   it("advances once a level is >= LEVEL_COMPLETE_FRACTION learned (stragglers don't pin it)", () => {
-    // 9/10 learned (0.9) → complete enough to move on; 8/10 (0.8) → still completing this level.
-    const stat = (level: number, learnedN: number) => ({ level, total: 10, learned: learnedN, fraction: learnedN / 10 });
-    expect(masteringLevel([stat(1, 9), stat(2, 0)])).toBe(2);
-    expect(masteringLevel([stat(1, 8), stat(2, 0)])).toBe(1);
+    // At/above the threshold → move on; clearly below → still completing this level. Uses the
+    // live constant so it tracks any tuning of LEVEL_COMPLETE_FRACTION.
+    const stat = (level: number, learnedN: number) => ({ level, total: 100, learned: learnedN, fraction: learnedN / 100 });
+    const atThreshold = Math.round(LEVEL_COMPLETE_FRACTION * 100);
+    expect(masteringLevel([stat(1, atThreshold), stat(2, 0)])).toBe(2);
+    expect(masteringLevel([stat(1, atThreshold - 10), stat(2, 0)])).toBe(1);
   });
 });
 
@@ -418,15 +421,23 @@ describe("levelCompletionStats / levelCompletionLearnProgress (combined completi
     expect(masteringLevel(combined)).toBe(1); // combined: L1 not done (s1/t1 pending)
   });
 
-  it("learn-progress blends word/sentence/reading progress over the level", () => {
-    // Empty: 0. One text quizzed-to-learned out of 7 L1 items → 1/7.
-    expect(levelCompletionLearnProgress(vocab, sentences, texts, new Map(), 1)).toBe(0);
-    expect(
-      levelCompletionLearnProgress(vocab, sentences, texts, box("reading", "t1", 2), 1),
-    ).toBeCloseTo(1 / 7);
+  it("levelProgressToNext scales the learned-fraction so the threshold reads as 100%", () => {
+    const stat = (level: number, total: number, learnedN: number) => ({
+      level,
+      total,
+      learned: learnedN,
+      fraction: total === 0 ? 1 : learnedN / total,
+    });
+    // Exactly at the advancement threshold → full bar (capped at 1), and above stays 1.
+    expect(levelProgressToNext([stat(1, 100, Math.round(LEVEL_COMPLETE_FRACTION * 100))], 1)).toBe(1);
+    expect(levelProgressToNext([stat(1, 100, 100)], 1)).toBe(1);
+    // Half-learned reads as (0.5 / threshold) — bigger than the raw 0.5 because the bar tracks
+    // distance to the threshold, not to 100% learned.
+    expect(levelProgressToNext([stat(1, 100, 50)], 1)).toBeCloseTo(0.5 / LEVEL_COMPLETE_FRACTION);
   });
 
-  it("is 1 for an empty level", () => {
-    expect(levelCompletionLearnProgress(vocab, sentences, texts, new Map(), 99)).toBe(1);
+  it("levelProgressToNext is 1 for an empty or absent level", () => {
+    expect(levelProgressToNext([{ level: 1, total: 0, learned: 0, fraction: 1 }], 1)).toBe(1);
+    expect(levelProgressToNext([], 99)).toBe(1);
   });
 });
