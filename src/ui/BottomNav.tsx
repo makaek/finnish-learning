@@ -8,9 +8,10 @@
 
 export type HomeScreen = "roadmap" | "reading" | "stats" | "rules" | "dashboard";
 
+// "reading" is intentionally NOT a tab — the library is opened from the home "Чтение" cards
+// (Тексты / Диалоги) and returns via its own back button. The footer covers the always-on screens.
 const TABS: { key: HomeScreen; icon: string; label: string }[] = [
   { key: "roadmap", icon: "🏠", label: "Главная" },
-  { key: "reading", icon: "📚", label: "Чтение" },
   { key: "stats", icon: "📈", label: "Прогресс" },
   { key: "dashboard", icon: "📊", label: "Метрики" },
   { key: "rules", icon: "📖", label: "Правила" },

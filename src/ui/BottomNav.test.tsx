@@ -5,11 +5,13 @@ import BottomNav from "./BottomNav";
 afterEach(cleanup);
 
 describe("BottomNav", () => {
-  it("renders the four home tabs", () => {
+  it("renders exactly the four home tabs (reading is not a tab)", () => {
     render(<BottomNav active="roadmap" onSelect={() => {}} />);
     for (const label of ["Главная", "Прогресс", "Метрики", "Правила"]) {
       expect(screen.getByText(label)).toBeTruthy();
     }
+    expect(screen.getAllByRole("button")).toHaveLength(4);
+    expect(screen.queryByText("Чтение")).toBeNull(); // opened from home cards, not the footer
   });
 
   it("marks only the active tab as current", () => {

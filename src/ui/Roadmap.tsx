@@ -40,11 +40,16 @@ export type Mode =
   | "listen_word"
   | "listen_sentence";
 
+/** Reading library entry the home grid needs (real ReadingText satisfies it). */
+export interface ReadingLike extends VocabLike {
+  type?: "text" | "dialog";
+}
+
 interface RoadmapProps {
   vocab: readonly VocabLike[];
   sentences: readonly SentenceLike[];
-  /** Reading texts/dialogs (levelled) — folded into the displayed level completion. */
-  texts: readonly VocabLike[];
+  /** Reading texts/dialogs (levelled) — folded into level completion AND the Чтение home cards. */
+  texts: readonly ReadingLike[];
   progress: ProgressMap;
   daily: UserState;
   /** Items hidden from lessons — excluded from the per-mode readiness pools. */
@@ -52,6 +57,8 @@ interface RoadmapProps {
   testMode: boolean;
   ready: boolean;
   onStart: (mode: Mode) => void;
+  /** Open the reading library, filtered to texts or dialogs. */
+  onOpenReading: (type: "text" | "dialog") => void;
   /** Open the read-only progress-details screen (also reachable from the bottom nav). */
   onShowStats: () => void;
   /** Test-mode only: mark everything mastered, to exercise unlocks without grinding. */
@@ -133,6 +140,7 @@ export default function Roadmap({
   testMode,
   ready,
   onStart,
+  onOpenReading,
   onShowStats,
   onTestFill,
 }: RoadmapProps) {
@@ -157,10 +165,15 @@ export default function Roadmap({
     const sentPool = eligibleSentences(sentences, vocab, progress, testMode).filter(
       (s) => !hidden.has(hiddenKey("sentence", s.id)),
     );
+    // Reading is gated only by level, not hidden/eligibility; split by type for the two cards.
+    const textPool = texts.filter((t) => t.type !== "dialog");
+    const dialogPool = texts.filter((t) => t.type === "dialog");
     const wordModes = ["recognition", "production", "say_word", "listen_word"] as const;
     const sentModes = ["sentences", "say_sentence", "listen_sentence"] as const;
     const w = groupReadiness(wordPool, progress, wordModes, LEARNED_BOX);
     const s = groupReadiness(sentPool, progress, sentModes, LEARNED_BOX);
+    const rText = groupReadiness(textPool, progress, ["reading"], LEARNED_BOX);
+    const rDialog = groupReadiness(dialogPool, progress, ["reading"], LEARNED_BOX);
     const finish = {
       recognition: unmasteredInLevel(wordPool, progress, "recognition", active),
       production: unmasteredInLevel(wordPool, progress, "production", active),
@@ -169,6 +182,8 @@ export default function Roadmap({
       sentences: unmasteredInLevel(sentPool, progress, "sentences", active),
       say_sentence: unmasteredInLevel(sentPool, progress, "say_sentence", active),
       listen_sentence: unmasteredInLevel(sentPool, progress, "listen_sentence", active),
+      text: unmasteredInLevel(textPool, progress, "reading", active),
+      dialog: unmasteredInLevel(dialogPool, progress, "reading", active),
     };
     return {
       readiness: {
@@ -179,10 +194,12 @@ export default function Roadmap({
         sentences: s.get("sentences")!,
         say_sentence: s.get("say_sentence")!,
         listen_sentence: s.get("listen_sentence")!,
+        text: rText.get("reading")!,
+        dialog: rDialog.get("reading")!,
       },
       finish,
     };
-  }, [vocab, sentences, progress, testMode, hidden, active]);
+  }, [vocab, sentences, texts, progress, testMode, hidden, active]);
 
   const today = dateKey();
   const streak = currentStreak(daily, today);
@@ -343,6 +360,27 @@ export default function Roadmap({
               r={readiness.listen_sentence}
               finishCount={finish.listen_sentence}
               onClick={() => onStart("listen_sentence")}
+            />
+          </div>
+        </div>
+        <div className="modegroup">
+          <h3 className="modegroup__title">Чтение</h3>
+          <div className="modegroup__row">
+            <ModeButton
+              icon="📖"
+              label="Тексты"
+              name="Чтение текстов"
+              r={readiness.text}
+              finishCount={finish.text}
+              onClick={() => onOpenReading("text")}
+            />
+            <ModeButton
+              icon="🎭"
+              label="Диалоги"
+              name="Чтение диалогов"
+              r={readiness.dialog}
+              finishCount={finish.dialog}
+              onClick={() => onOpenReading("dialog")}
             />
           </div>
         </div>

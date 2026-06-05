@@ -60,6 +60,8 @@ export default function App() {
   const [mode, setMode] = useState<Mode | null>(null);
   // Which non-exercise screen the home shows when mode is null.
   const [homeScreen, setHomeScreen] = useState<HomeScreen>("roadmap");
+  // When the reading library is open, which kind it shows (set by the home "Чтение" cards).
+  const [readingFilter, setReadingFilter] = useState<"text" | "dialog">("text");
   // In-lesson grammar overlay: open over the current card, highlighting the relevant rules.
   const [rulesOpen, setRulesOpen] = useState(false);
   const [seed, setSeed] = useState(() => Date.now());
@@ -394,6 +396,8 @@ export default function App() {
           onMarkRead={markRead}
           onLessonDone={countReadingLesson}
           onReadingResult={recordReading}
+          filterType={readingFilter}
+          onBack={() => setHomeScreen("roadmap")}
         />
       );
     } else if (homeScreen === "rules") {
@@ -421,6 +425,10 @@ export default function App() {
           testMode={testMode}
           ready={ready}
           onStart={start}
+          onOpenReading={(type) => {
+            setReadingFilter(type);
+            setHomeScreen("reading");
+          }}
           onTestFill={fillAllMastered}
           onShowStats={() => setHomeScreen("stats")}
         />

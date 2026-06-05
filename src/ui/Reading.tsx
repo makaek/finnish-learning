@@ -1,9 +1,9 @@
 /**
- * Reading.tsx — the "Чтение" tab: a level-sorted library of texts & dialogs.
+ * Reading.tsx — the reading library, a level-sorted list of texts & dialogs.
  *
- * Browsing + difficulty gating only; the actual reading and role-play live in TextReader /
- * DialogPlay. Reading owns the device-local "finished" set and which text is open. It sits at
- * the home-screen layer, fully separate from the word/sentence quiz system.
+ * Browsing + difficulty gating only; the actual reading, comprehension quiz, and role-play live
+ * in TextReader. Reached from the home "Чтение" cards (Тексты / Диалоги), so it takes a
+ * `filterType` to show one kind and an `onBack` to return home (it's no longer a footer tab).
  */
 
 import { useMemo, useState } from "react";
@@ -25,6 +25,10 @@ interface ReadingProps {
   onLessonDone: () => void;
   /** Record a finished comprehension quiz on the text's reading track. */
   onReadingResult: (textId: string, allCorrect: boolean) => void;
+  /** Show only this kind ("text" monologues or "dialog"s); both when omitted. */
+  filterType?: "text" | "dialog";
+  /** Return to the home grid (the library is opened from there, not the footer). */
+  onBack: () => void;
 }
 
 export default function Reading({
@@ -35,6 +39,8 @@ export default function Reading({
   onMarkRead,
   onLessonDone,
   onReadingResult,
+  filterType,
+  onBack,
 }: ReadingProps) {
   const [openId, setOpenId] = useState<string | null>(null);
 
@@ -42,6 +48,9 @@ export default function Reading({
     const s = levelStats(vocab, progress);
     return activeLevel(s, unlockedLevelsWith(s, testMode));
   }, [vocab, progress, testMode]);
+
+  const shown = filterType ? TEXTS.filter((t) => (t.type ?? "text") === filterType) : TEXTS;
+  const title = filterType === "dialog" ? "🎭 Диалоги" : filterType === "text" ? "📖 Тексты" : "📚 Чтение";
 
   const openText = openId ? TEXTS.find((t) => t.id === openId) : undefined;
   if (openText) {
@@ -61,12 +70,15 @@ export default function Reading({
 
   return (
     <main className="app app--scroll">
+      <button type="button" className="exit" onClick={onBack}>
+        ← Главная
+      </button>
       <section className="card">
-        <h1 className="prompt prompt--home">📚 Чтение</h1>
-        <p className="hint">Тексты и диалоги — от простого к сложному.</p>
+        <h1 className="prompt prompt--home">{title}</h1>
+        <p className="hint">От простого к сложному — открываются по мере роста уровня.</p>
 
         <ul className="reading">
-          {TEXTS.map((t) => {
+          {shown.map((t) => {
             const unlocked = testMode || isTextUnlocked(t, currentLevel);
             return (
               <li key={t.id}>
@@ -89,7 +101,8 @@ export default function Reading({
             );
           })}
         </ul>
-        {!testMode && currentLevel < Math.max(...TEXTS.map((t) => t.level)) && (
+        {shown.length === 0 && <p className="hint">Здесь пока пусто.</p>}
+        {!testMode && shown.length > 0 && currentLevel < Math.max(...shown.map((t) => t.level)) && (
           <p className="hint">Новые тексты открываются по мере роста уровня.</p>
         )}
       </section>
