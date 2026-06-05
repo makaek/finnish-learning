@@ -329,11 +329,14 @@ export default function App() {
 
   /**
    * Record a completed comprehension quiz on the text's `reading` track (one record per text).
-   * `wasCorrect` is the all-first-attempts-correct result, so a text masters after ~2 clean runs,
-   * mirroring the other tracks. Persisted; mutating the ref directly keeps any active view stable.
+   * `wasCorrect` is the all-first-attempts-correct result. Unlike the SRS word/sentence tracks,
+   * a SINGLE fully-correct run MASTERS the text (box jumps to MAX_BOX) — answering correctly once
+   * is enough; no repeat needed. A run with any miss applies the normal demotion. Persisted;
+   * mutating the ref directly keeps any active view stable.
    */
   function recordReading(textId: string, wasCorrect: boolean) {
-    const next = applyOutcome(getProgress(progressRef.current, "reading", textId), wasCorrect, Date.now());
+    let next = applyOutcome(getProgress(progressRef.current, "reading", textId), wasCorrect, Date.now());
+    if (wasCorrect) next = { ...next, box: MAX_BOX };
     progressRef.current.set(progressKey("reading", textId), next);
     setProgressView(new Map(progressRef.current));
     void saveProgress([next]);
