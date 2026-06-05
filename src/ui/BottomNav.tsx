@@ -6,6 +6,9 @@
  * the home shell (no bar during a lesson, which stays full-screen and focused).
  */
 
+// "reading" is a valid home screen but intentionally has NO footer tab — the library is opened
+// from the home "Чтение" cards and exits via its own back button, so while it's active no tab is
+// highlighted (by design). The other four values each map to a tab below.
 export type HomeScreen = "roadmap" | "reading" | "stats" | "rules" | "dashboard";
 
 // "reading" is intentionally NOT a tab — the library is opened from the home "Чтение" cards

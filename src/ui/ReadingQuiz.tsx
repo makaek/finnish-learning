@@ -211,17 +211,10 @@ function QuestionCard({
                 <button
                   type="button"
                   className="markok"
-                  onClick={() => {
-                    // Escape hatch for voice mis-recognition: count the attempt correct (matches
-                    // SentenceCard.forceCorrect). The score is cosmetic here — completion marks the
-                    // text read regardless — so being lenient is fine.
-                    if (advanced) return;
-                    setResult({ ...result, correct: true });
-                    setUnlocked(true);
-                  }}
-                  title="Если ответ верный, но не распознался — засчитать верным"
+                  onClick={() => setUnlocked(true)}
+                  title="Пропустить вопрос (не засчитывается как верный)"
                 >
-                  ✓ Засчитать верным
+                  ⏭ Пропустить
                 </button>
               </div>
             </>

@@ -75,6 +75,8 @@ export default function TextReader({
         grade={grade}
         onExit={() => setQuizzing(false)}
         onComplete={(allCorrect) => {
+          // Two intentional writes: the graded `reading` track (level completion + dashboard) and
+          // the device-local read-set (library ✓ + the "Прочитано без вопросов" fallback label).
           onReadingResult(text.id, allCorrect);
           onMarkRead();
           onLessonDone();
