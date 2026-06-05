@@ -19,6 +19,15 @@ export const LEARNED_BOX = 2;
 /** Fraction of a level's words that must be learned before the next level unlocks. */
 export const UNLOCK_FRACTION = 0.8;
 
+/**
+ * Fraction of a level's items (words + sentences + texts) that must be learned for it to count as
+ * "complete" when advancing the DISPLAYED level ({@link masteringLevel}). Below 1 on purpose: the
+ * last few stragglers shouldn't pin the header/bar at the old level or keep nagging 🎯 badges —
+ * they stay in the pools to finish later. Distinct from {@link UNLOCK_FRACTION} (content gating,
+ * words only).
+ */
+export const LEVEL_COMPLETE_FRACTION = 0.9;
+
 /** The four ways a single word is practised; level progress averages mastery across them. */
 export const WORD_MODES: readonly ItemKind[] = [
   "recognition",
@@ -309,15 +318,19 @@ export function levelCompletionLearnProgress(
 }
 
 /**
- * The level the learner is currently completing: the LOWEST level not yet fully learned (some
- * word still unlearned), or the highest level once all are done. Unlike {@link activeLevel} (the
- * unlocked frontier), this advances only when a level is truly finished, avoiding the mid-level
- * jump the frontier display produced. NOTE: it is derived from `learned`, which can regress (a
- * miss demotes a box), so a forgotten word can move this back a level — see the audit's M2.
+ * The level the learner is currently completing: the LOWEST level not yet "complete enough" —
+ * fewer than {@link LEVEL_COMPLETE_FRACTION} of its items learned — or the highest level once all
+ * are done. Using a <100% threshold means a couple of stragglers no longer pin the displayed level
+ * (the learner advances without grinding every last item in every mode). Unlike {@link activeLevel}
+ * (the unlocked frontier), this advances only when a level is largely finished, avoiding the
+ * mid-level jump the frontier display produced. NOTE: derived from `learned`, which can regress (a
+ * miss demotes a box), so forgetting enough items can move this back a level.
  */
 export function masteringLevel(stats: readonly LevelStat[]): number {
   const ordered = [...stats].sort((a, b) => a.level - b.level);
-  const incomplete = ordered.find((s) => s.total > 0 && s.learned < s.total);
+  const incomplete = ordered.find(
+    (s) => s.total > 0 && s.learned / s.total < LEVEL_COMPLETE_FRACTION,
+  );
   return incomplete ? incomplete.level : (ordered[ordered.length - 1]?.level ?? 1);
 }
 

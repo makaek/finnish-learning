@@ -126,6 +126,13 @@ describe("masteringLevel (the level being completed)", () => {
     const all = learned(["a1", "a2", "a3", "a4", "a5", "b1", "b2", "b3", "b4", "b5"]);
     expect(masteringLevel(levelStats(vocab, all))).toBe(2);
   });
+
+  it("advances once a level is >= LEVEL_COMPLETE_FRACTION learned (stragglers don't pin it)", () => {
+    // 9/10 learned (0.9) → complete enough to move on; 8/10 (0.8) → still completing this level.
+    const stat = (level: number, learnedN: number) => ({ level, total: 10, learned: learnedN, fraction: learnedN / 10 });
+    expect(masteringLevel([stat(1, 9), stat(2, 0)])).toBe(2);
+    expect(masteringLevel([stat(1, 8), stat(2, 0)])).toBe(1);
+  });
 });
 
 describe("lowestUnmasteredLevel (per-mode selection boost target)", () => {
