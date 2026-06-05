@@ -62,9 +62,13 @@ export function expandDroppedPronoun(normForm: string, pronouns: Pronouns): stri
   return normForm.slice(spaceIndex + 1);
 }
 
-/** Build the grading index from authored sentence items + the dictionary's pronoun set. */
+/** The minimum an item needs to be graded — shared by SentenceItem and reading questions, so
+ *  both feed the same index/grader. */
+export type GradableItem = Pick<SentenceItem, "id" | "canonical" | "accepted" | "wrong">;
+
+/** Build the grading index from authored gradable items + the dictionary's pronoun set. */
 export function makeSentenceIndex(
-  items: readonly SentenceItem[],
+  items: readonly GradableItem[],
   pronouns: Pronouns,
 ): SentenceIndex {
   const index: SentenceIndex = new Map();

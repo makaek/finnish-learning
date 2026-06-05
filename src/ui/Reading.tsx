@@ -10,7 +10,7 @@ import { useMemo, useState } from "react";
 import { activeLevel, levelStats, unlockedLevelsWith, type VocabLike } from "../core/levels";
 import type { ProgressMap } from "../core/progress";
 import { isTextUnlocked } from "../core/reading";
-import { TEXTS } from "../data/texts";
+import { TEXTS, gradeQuestion } from "../data/texts";
 import TextReader from "./TextReader";
 
 interface ReadingProps {
@@ -44,8 +44,10 @@ export default function Reading({
   if (openText) {
     return (
       <TextReader
+        key={openText.id}
         text={openText}
         isRead={read.has(openText.id)}
+        grade={gradeQuestion}
         onBack={() => setOpenId(null)}
         onMarkRead={() => onMarkRead(openText.id)}
         onLessonDone={onLessonDone}

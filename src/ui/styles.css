@@ -229,6 +229,10 @@ body {
   font-size: 0.95rem;
   line-height: 1.45;
 }
+.hint--quiet {
+  font-size: 0.82rem;
+  opacity: 0.85;
+}
 
 .progress {
   margin: 0 0 var(--s2);
@@ -1585,6 +1589,26 @@ body {
 }
 .line__fi {
   font-size: 1.05rem;
+}
+/* Tappable Finnish word that has a Russian gloss (click-to-translate). */
+.word {
+  font: inherit;
+  color: inherit;
+  padding: 0 0.05rem;
+  background: none;
+  border: none;
+  border-bottom: 1px dotted var(--accent);
+  cursor: pointer;
+}
+.word--on {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  border-radius: var(--r-xs, 4px);
+}
+/* The revealed word gloss, shown under its line. */
+.line__gloss {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--accent);
 }
 .line__ru {
   font-size: 0.9rem;

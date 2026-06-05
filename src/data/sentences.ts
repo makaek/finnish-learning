@@ -33,7 +33,8 @@ export const SENTENCES: SentenceItem[] = rawSeed.sentences as SentenceItem[];
 // Closed class by design (Finnish has exactly these 6); intersected with the dictionary
 // below so the lemmas are still validated, not invented here.
 const SUBJECT_PRONOUNS = new Set(["minä", "sinä", "hän", "me", "te", "he"]);
-const PRONOUNS: Pronouns = new Set(
+/** Exported so the reading-comprehension grader (data/texts.ts) reuses the same drop-set. */
+export const PRONOUNS: Pronouns = new Set(
   VOCAB.filter(
     (item) => item.pos === "pronoun" && SUBJECT_PRONOUNS.has(item.fi.toLowerCase()),
   ).map((item) => item.fi.toLowerCase()),

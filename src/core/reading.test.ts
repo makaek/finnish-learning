@@ -1,10 +1,12 @@
 import { describe, it, expect } from "vitest";
 import {
   flattenTexts,
+  glossKey,
   isTextUnlocked,
   rolesOf,
   sortTexts,
   spokenMatches,
+  tokenizeLine,
   type RawReading,
   type ReadingText,
 } from "./reading";
@@ -64,6 +66,63 @@ describe("flattenTexts", () => {
       texts: [{ id: "t1", title: "x", type: "weird", lines: [{ fi: "a", ru: "b" }] }],
     });
     expect(out[0]!.type).toBe("text");
+  });
+});
+
+describe("glossKey / tokenizeLine (click-to-translate)", () => {
+  it("strips edge punctuation and lowercases for the gloss key", () => {
+    expect(glossKey("Hei!")).toBe("hei");
+    expect(glossKey("kuuluu?")).toBe("kuuluu");
+    expect(glossKey("Helsingissä")).toBe("helsingissä"); // keeps ä
+    expect(glossKey("«Moi»")).toBe("moi");
+    expect(glossKey("...")).toBe(""); // all punctuation → empty
+  });
+
+  it("splits a line into whitespace tokens, keeping punctuation for display", () => {
+    expect(tokenizeLine("Hei! Mitä kuuluu?")).toEqual(["Hei!", "Mitä", "kuuluu?"]);
+    expect(tokenizeLine("  Minä   olen ")).toEqual(["Minä", "olen"]);
+  });
+});
+
+describe("flattenTexts — glosses & questions", () => {
+  it("parses line glosses (normalized keys) and comprehension questions", () => {
+    const out = flattenTexts({
+      texts: [
+        {
+          id: "t1",
+          title: "T1",
+          type: "text",
+          lines: [{ fi: "Minä asun Helsingissä.", ru: "Я живу в Хельсинки.", glosses: { "Asun": "я живу", "helsingissä.": "в Хельсинки" } }],
+          questions: [
+            { id: "t1q1", q: "Missä?", qRu: "Где?", canonical: "Helsingissä", accepted: ["Helsingissä"], wrong: [{ match: "helsinki", ru: "нужен инессив" }] },
+          ],
+        },
+      ],
+    });
+    const line = out[0]!.lines[0]!;
+    // Keys are normalized via glossKey, so "Asun"→"asun" and "helsingissä."→"helsingissä".
+    expect(line.glosses).toEqual({ asun: "я живу", helsingissä: "в Хельсинки" });
+    expect(out[0]!.questions).toHaveLength(1);
+    expect(out[0]!.questions![0]).toMatchObject({ id: "t1q1", q: "Missä?", canonical: "Helsingissä" });
+  });
+
+  it("drops malformed questions and omits empty glosses/questions", () => {
+    const out = flattenTexts({
+      texts: [
+        {
+          id: "t1",
+          title: "T1",
+          type: "text",
+          lines: [{ fi: "Minä", ru: "Я", glosses: { minä: 5 } }], // non-string gloss → dropped
+          questions: [
+            { id: "q1", q: "x", qRu: "y", canonical: "z", accepted: [] }, // no accepted → dropped
+            { id: "q2", qRu: "y", canonical: "z", accepted: ["z"] }, // no q → dropped
+          ],
+        },
+      ],
+    });
+    expect(out[0]!.lines[0]!.glosses).toBeUndefined();
+    expect(out[0]!.questions).toBeUndefined();
   });
 });
 

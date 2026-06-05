@@ -14,6 +14,32 @@ export interface ReadingLine {
   speaker?: string;
   fi: string;
   ru: string;
+  /**
+   * Optional per-word Russian glosses for click-to-translate, keyed by {@link glossKey} of the
+   * surface token (lowercased, edge punctuation stripped). Authored at build time — Finnish is
+   * too inflected to gloss surface forms from the dictionary at runtime.
+   */
+  glosses?: Record<string, string>;
+}
+
+/**
+ * One comprehension question about a text/dialog. Shares the gradable shape of a sentence item
+ * ({@link SentenceItem}: id/canonical/accepted/wrong) so the SAME grader can score it; adds the
+ * Finnish question `q` and its Russian translation `qRu`. Answers are graded locally.
+ */
+export interface ReadingQuestion {
+  id: string;
+  /** The question, in Finnish. */
+  q: string;
+  /** Russian translation of the question (revealable help). */
+  qRu: string;
+  /** Single model answer to display. */
+  canonical: string;
+  /** Every correct phrasing the linguist authored (pronoun-drop variants are derived). */
+  accepted: string[];
+  /** Known mistakes with a prepared Russian explanation. `match` is already normalized. */
+  wrong: { match: string; ru: string }[];
+  needs_review?: boolean;
 }
 
 /** A readable piece: a monologue ("text") or a multi-speaker "dialog". */
@@ -24,6 +50,8 @@ export interface ReadingText {
   level: number;
   type: "text" | "dialog";
   lines: ReadingLine[];
+  /** Optional comprehension questions, shown after reading/rehearsing (any `type`). */
+  questions?: ReadingQuestion[];
 }
 
 /** Shape of the raw seed file (validated by {@link flattenTexts}). */
@@ -35,13 +63,68 @@ function isNonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
 }
 
+/** Strip non-letter/digit edges and lowercase, so "Hei!" and "hei" share a gloss key. */
+export function glossKey(token: string): string {
+  return token.toLowerCase().replace(/^[^\p{L}\p{N}]+/u, "").replace(/[^\p{L}\p{N}]+$/u, "");
+}
+
+/** Split a Finnish line into whitespace-separated surface tokens (punctuation kept for display). */
+export function tokenizeLine(fi: string): string[] {
+  return fi.split(/\s+/).filter((t) => t.length > 0);
+}
+
+/** Parse an authored gloss map into normalized keys, dropping non-string entries. */
+function parseGlosses(raw: unknown): Record<string, string> | undefined {
+  if (typeof raw !== "object" || raw === null) return undefined;
+  const out: Record<string, string> = {};
+  for (const [key, value] of Object.entries(raw as Record<string, unknown>)) {
+    if (isNonEmptyString(value)) {
+      const k = glossKey(key);
+      if (k.length > 0) out[k] = value;
+    }
+  }
+  return Object.keys(out).length > 0 ? out : undefined;
+}
+
 function parseLine(raw: unknown): ReadingLine | null {
   if (typeof raw !== "object" || raw === null) return null;
   const r = raw as Record<string, unknown>;
   if (!isNonEmptyString(r.fi) || !isNonEmptyString(r.ru)) return null;
   const line: ReadingLine = { fi: r.fi, ru: r.ru };
   if (isNonEmptyString(r.speaker)) line.speaker = r.speaker;
+  const glosses = parseGlosses(r.glosses);
+  if (glosses) line.glosses = glosses;
   return line;
+}
+
+function parseWrong(raw: unknown): { match: string; ru: string } | null {
+  if (typeof raw !== "object" || raw === null) return null;
+  const r = raw as Record<string, unknown>;
+  if (!isNonEmptyString(r.match) || !isNonEmptyString(r.ru)) return null;
+  return { match: r.match, ru: r.ru };
+}
+
+function parseQuestion(raw: unknown): ReadingQuestion | null {
+  if (typeof raw !== "object" || raw === null) return null;
+  const r = raw as Record<string, unknown>;
+  if (
+    !isNonEmptyString(r.id) ||
+    !isNonEmptyString(r.q) ||
+    !isNonEmptyString(r.qRu) ||
+    !isNonEmptyString(r.canonical)
+  ) {
+    return null;
+  }
+  const accepted = Array.isArray(r.accepted)
+    ? r.accepted.filter((a): a is string => isNonEmptyString(a))
+    : [];
+  if (accepted.length === 0) return null;
+  const wrong = Array.isArray(r.wrong)
+    ? r.wrong.map(parseWrong).filter((w): w is { match: string; ru: string } => w !== null)
+    : [];
+  const question: ReadingQuestion = { id: r.id, q: r.q, qRu: r.qRu, canonical: r.canonical, accepted, wrong };
+  if (r.needs_review === true) question.needs_review = true;
+  return question;
 }
 
 function parseText(raw: unknown): ReadingText | null {
@@ -53,7 +136,12 @@ function parseText(raw: unknown): ReadingText | null {
     ? r.lines.map(parseLine).filter((l): l is ReadingLine => l !== null)
     : [];
   if (lines.length === 0) return null;
-  return { id: r.id, title: r.title, level: levelOf(r as { level?: number }), type, lines };
+  const text: ReadingText = { id: r.id, title: r.title, level: levelOf(r as { level?: number }), type, lines };
+  const questions = Array.isArray(r.questions)
+    ? r.questions.map(parseQuestion).filter((q): q is ReadingQuestion => q !== null)
+    : [];
+  if (questions.length > 0) text.questions = questions;
+  return text;
 }
 
 /** Flatten + validate the seed into typed texts, dropping malformed entries. */
