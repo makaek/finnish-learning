@@ -27,6 +27,13 @@ export const WORD_MODES: readonly ItemKind[] = [
   "listen_word",
 ];
 
+/** The three ways a single sentence is practised — the sentence analogue of {@link WORD_MODES}. */
+export const SENTENCE_MODES: readonly ItemKind[] = [
+  "sentences",
+  "say_sentence",
+  "listen_sentence",
+];
+
 /**
  * A word counts as learned (for level UNLOCKS + overall progress) once it is mastered
  * (>= LEARNED_BOX) in ANY word exercise — recognition, production, or say_word. A single
@@ -58,6 +65,48 @@ export function wordMastery(progress: ProgressMap, vocabId: string): number {
 export function wordLearnProgress(progress: ProgressMap, vocabId: string): number {
   const maxBox = Math.max(...WORD_MODES.map((kind) => getProgress(progress, kind, vocabId).box));
   return Math.min(1, maxBox / LEARNED_BOX);
+}
+
+/**
+ * Whether a sentence is "learned" — its typed-translation track is at/above LEARNED_BOX. A single
+ * mastered skill (the core translation) is enough, mirroring {@link wordLearned}; depth across the
+ * spoken/dictation tracks is measured by {@link sentenceMastery}.
+ */
+export function sentenceLearned(progress: ProgressMap, sentenceId: string): boolean {
+  return getProgress(progress, "sentences", sentenceId).box >= LEARNED_BOX;
+}
+
+/**
+ * How deeply a sentence is mastered, in [0, 1]: the fraction of the three sentence modes
+ * (translation / spoken / dictation) at or above LEARNED_BOX. The sentence analogue of
+ * {@link wordMastery} — each mode is worth a third.
+ */
+export function sentenceMastery(progress: ProgressMap, sentenceId: string): number {
+  const mastered = SENTENCE_MODES.filter(
+    (kind) => getProgress(progress, kind, sentenceId).box >= LEARNED_BOX,
+  ).length;
+  return mastered / SENTENCE_MODES.length;
+}
+
+/**
+ * Continuous learn-progress for a sentence, in [0, 1]: how close its BEST sentence-mode is to
+ * "learned" (`maxBox / LEARNED_BOX`, capped at 1). The sentence analogue of
+ * {@link wordLearnProgress}; drives the smooth combined level bar.
+ */
+export function sentenceLearnProgress(progress: ProgressMap, sentenceId: string): number {
+  const maxBox = Math.max(
+    ...SENTENCE_MODES.map((kind) => getProgress(progress, kind, sentenceId).box),
+  );
+  return Math.min(1, maxBox / LEARNED_BOX);
+}
+
+/**
+ * Whether a text/dialog counts as done — present in the device-local "read" set. Reading mastery
+ * is binary this slice (reached the end / rehearsed); a graded track is deferred. Returned as a
+ * number so it composes with the [0, 1] word/sentence mastery in the combined level metric.
+ */
+export function readingDone(completed: ReadonlySet<string>, textId: string): number {
+  return completed.has(textId) ? 1 : 0;
 }
 
 /** Gentler bar for *using* a word in a sentence: at least one net-correct answer. */
@@ -187,6 +236,68 @@ export function levelLearnProgress(
 }
 
 /**
+ * Per-level COMBINED completion: words + sentences + texts/dialogs, each item weighted equally.
+ *
+ * Unlike {@link levelStats} (words only, which drives unlocks and must NOT change), this folds in
+ * the level's sentences and reading texts so the home header level and progress bar reflect ALL
+ * the level's content. A level's `total` = its words + sentences + texts; `learned` = learned
+ * words ({@link wordLearned}) + learned sentences ({@link sentenceLearned}) + completed texts;
+ * `fraction` = mean per-item mastery (word→{@link wordMastery}, sentence→{@link sentenceMastery},
+ * text→done 0/1). Empty groups simply contribute nothing (an empty level → fraction 1, as in
+ * {@link levelStats}). Pass the result to {@link masteringLevel} for the combined "current level".
+ */
+export function levelCompletionStats(
+  vocab: readonly VocabLike[],
+  sentences: readonly SentenceLike[],
+  texts: readonly VocabLike[],
+  progress: ProgressMap,
+  completed: ReadonlySet<string>,
+): LevelStat[] {
+  const levels = listLevels([...vocab, ...sentences, ...texts]);
+  return levels.map((level) => {
+    const w = vocab.filter((v) => levelOf(v) === level);
+    const s = sentences.filter((x) => levelOf(x) === level);
+    const t = texts.filter((x) => levelOf(x) === level);
+    const total = w.length + s.length + t.length;
+    const learned =
+      w.filter((v) => wordLearned(progress, v.id)).length +
+      s.filter((x) => sentenceLearned(progress, x.id)).length +
+      t.filter((x) => completed.has(x.id)).length;
+    const masterySum =
+      w.reduce((sum, v) => sum + wordMastery(progress, v.id), 0) +
+      s.reduce((sum, x) => sum + sentenceMastery(progress, x.id), 0) +
+      t.reduce((sum, x) => sum + readingDone(completed, x.id), 0);
+    return { level, total, learned, fraction: total === 0 ? 1 : masterySum / total };
+  });
+}
+
+/**
+ * Smooth combined learn-progress for one level, in [0, 1] (1 for an empty level): the mean of
+ * {@link wordLearnProgress} / {@link sentenceLearnProgress} / reading-done over the level's items.
+ * The combined analogue of {@link levelLearnProgress} — drives the home HUD bar so finishing a
+ * level's sentences and dialogs visibly fills it.
+ */
+export function levelCompletionLearnProgress(
+  vocab: readonly VocabLike[],
+  sentences: readonly SentenceLike[],
+  texts: readonly VocabLike[],
+  progress: ProgressMap,
+  completed: ReadonlySet<string>,
+  level: number,
+): number {
+  const w = vocab.filter((v) => levelOf(v) === level);
+  const s = sentences.filter((x) => levelOf(x) === level);
+  const t = texts.filter((x) => levelOf(x) === level);
+  const total = w.length + s.length + t.length;
+  if (total === 0) return 1;
+  const sum =
+    w.reduce((acc, v) => acc + wordLearnProgress(progress, v.id), 0) +
+    s.reduce((acc, x) => acc + sentenceLearnProgress(progress, x.id), 0) +
+    t.reduce((acc, x) => acc + readingDone(completed, x.id), 0);
+  return sum / total;
+}
+
+/**
  * The level the learner is currently completing: the LOWEST level not yet fully learned (some
  * word still unlearned), or the highest level once all are done. Unlike {@link activeLevel} (the
  * unlocked frontier), this advances only when a level is truly finished, avoiding the mid-level
@@ -224,6 +335,28 @@ export function lowestUnmasteredLevel(
     }
   }
   return lowest;
+}
+
+/**
+ * How many pool items at a given `level` are NOT yet mastered (`box < masteredBox`) in `kind`.
+ * Drives the home mode-card "finish-the-level" badge: a positive count flags a mode that still
+ * holds current-level items to complete. Assumes `items` is the in-play pool (callers pass
+ * `activeVocab` / `eligibleSentences`).
+ */
+export function unmasteredInLevel(
+  items: readonly VocabLike[],
+  progress: ProgressMap,
+  kind: ItemKind,
+  level: number,
+  masteredBox: number = LEARNED_BOX,
+): number {
+  let count = 0;
+  for (const item of items) {
+    if (levelOf(item) === level && getProgress(progress, kind, item.id).box < masteredBox) {
+      count += 1;
+    }
+  }
+  return count;
 }
 
 export interface Progress {

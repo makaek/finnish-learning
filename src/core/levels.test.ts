@@ -4,6 +4,8 @@ import {
   activeVocab,
   eligibleSentences,
   LEARNED_BOX,
+  levelCompletionLearnProgress,
+  levelCompletionStats,
   levelLearnProgress,
   levelOf,
   levelStats,
@@ -11,7 +13,11 @@ import {
   lowestUnmasteredLevel,
   masteringLevel,
   overallProgress,
+  readingDone,
+  sentenceLearned,
+  sentenceMastery,
   unlockedLevels,
+  unmasteredInLevel,
   wordLearned,
   wordLearnProgress,
   wordMastery,
@@ -306,5 +312,106 @@ describe("eligibleSentences", () => {
     ]);
     expect(wordLearned(p, "a1")).toBe(false); // not mastered for level unlocks
     expect(eligibleSentences(sentences, vocab, p).map((s) => s.id)).toEqual(["s1"]);
+  });
+});
+
+describe("sentence helpers (analogues of the word ones)", () => {
+  it("sentenceLearned keys off the typed translation track at LEARNED_BOX", () => {
+    expect(sentenceLearned(box("sentences", "s1", 2), "s1")).toBe(true);
+    expect(sentenceLearned(box("sentences", "s1", 1), "s1")).toBe(false);
+    // A spoken/dictation box alone does NOT make it 'learned' (mirrors the dashboard).
+    expect(sentenceLearned(box("say_sentence", "s1", 5), "s1")).toBe(false);
+  });
+
+  it("sentenceMastery is the fraction of the three sentence modes mastered", () => {
+    expect(sentenceMastery(new Map(), "s1")).toBe(0);
+    expect(sentenceMastery(box("sentences", "s1", 2), "s1")).toBeCloseTo(1 / 3);
+    const all = new Map([
+      ...box("sentences", "s1", 2),
+      ...box("say_sentence", "s1", 3),
+      ...box("listen_sentence", "s1", 4),
+    ]);
+    expect(sentenceMastery(all, "s1")).toBe(1);
+  });
+
+  it("readingDone is 1 when completed, 0 otherwise", () => {
+    expect(readingDone(new Set(["t1"]), "t1")).toBe(1);
+    expect(readingDone(new Set(["t1"]), "t2")).toBe(0);
+  });
+});
+
+describe("unmasteredInLevel (mode-card finish badge)", () => {
+  it("counts pool items at a level still below mastery in that kind", () => {
+    expect(unmasteredInLevel(vocab, new Map(), "recognition", 1)).toBe(5);
+    const lvl1Rec = learned(["a1", "a2", "a3"]); // box 3 recognition for 3 of L1
+    expect(unmasteredInLevel(vocab, lvl1Rec, "recognition", 1)).toBe(2);
+    expect(unmasteredInLevel(vocab, lvl1Rec, "recognition", 2)).toBe(5); // none of L2 touched
+  });
+
+  it("is per-kind and per-level", () => {
+    const recOnly = learned(["a1", "a2", "a3", "a4", "a5"]); // L1 done in recognition
+    expect(unmasteredInLevel(vocab, recOnly, "recognition", 1)).toBe(0);
+    expect(unmasteredInLevel(vocab, recOnly, "production", 1)).toBe(5); // production untouched
+  });
+});
+
+describe("levelCompletionStats / levelCompletionLearnProgress (combined completion)", () => {
+  const texts: VocabLike[] = [
+    { id: "t1", level: 1 },
+    { id: "t2", level: 2 },
+  ];
+
+  it("folds words + sentences + texts into each level's total/learned", () => {
+    // L1: words a1..a5 (5) + sentence s1 (1) + text t1 (1) = total 7.
+    const stats = levelCompletionStats(vocab, sentences, texts, new Map(), new Set());
+    const l1 = stats.find((s) => s.level === 1)!;
+    expect(l1.total).toBe(7);
+    expect(l1.learned).toBe(0);
+  });
+
+  it("counts a learned word, a learned sentence, and a completed text", () => {
+    const progress = new Map([
+      ...learned(["a1"]), // a1 learned (recognition)
+      ...box("sentences", "s1", 2), // s1 learned (translation)
+    ]);
+    const stats = levelCompletionStats(vocab, sentences, texts, progress, new Set(["t1"]));
+    const l1 = stats.find((s) => s.level === 1)!;
+    expect(l1.learned).toBe(3); // a1 + s1 + t1
+  });
+
+  it("adding sentences/texts lowers a level previously 100% by words alone", () => {
+    // All L1 words fully mastered in all four modes → words-only fraction would be 1.
+    const wordMap: ProgressMap = new Map();
+    for (const id of ["a1", "a2", "a3", "a4", "a5"]) {
+      for (const kind of ["recognition", "production", "say_word", "listen_word"] as ItemKind[]) {
+        wordMap.set(progressKey(kind, id), {
+          kind, itemId: id, box: 3, correctStreak: 3, totalCorrect: 3, totalSeen: 3, lastSeen: 1,
+        });
+      }
+    }
+    expect(levelStats(vocab, wordMap)[0]!.fraction).toBe(1); // words-only: complete
+    const combined = levelCompletionStats(vocab, sentences, texts, wordMap, new Set());
+    // Now s1 (mastery 0) and t1 (0) drag the level below 1: (5*1 + 0 + 0) / 7.
+    expect(combined.find((s) => s.level === 1)!.fraction).toBeCloseTo(5 / 7);
+  });
+
+  it("masteringLevel over combined stats waits for sentences/texts too", () => {
+    // L1 words all learned, but its sentence + text are not → still 'completing' L1.
+    const progress = learned(["a1", "a2", "a3", "a4", "a5"]);
+    expect(masteringLevel(levelStats(vocab, progress))).toBe(2); // words-only: L1 done
+    const combined = levelCompletionStats(vocab, sentences, texts, progress, new Set());
+    expect(masteringLevel(combined)).toBe(1); // combined: L1 not done (s1/t1 pending)
+  });
+
+  it("learn-progress blends word/sentence/reading progress over the level", () => {
+    // Empty: 0. One text done out of 7 L1 items → 1/7.
+    expect(levelCompletionLearnProgress(vocab, sentences, texts, new Map(), new Set(), 1)).toBe(0);
+    expect(
+      levelCompletionLearnProgress(vocab, sentences, texts, new Map(), new Set(["t1"]), 1),
+    ).toBeCloseTo(1 / 7);
+  });
+
+  it("is 1 for an empty level", () => {
+    expect(levelCompletionLearnProgress(vocab, sentences, texts, new Map(), new Set(), 99)).toBe(1);
   });
 });

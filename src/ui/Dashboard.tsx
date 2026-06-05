@@ -13,24 +13,37 @@ import type { SentenceItem } from "../core/grader";
 import type { ProgressMap } from "../core/progress";
 import type { UserState } from "../core/daily";
 import { dateKey } from "../core/daily";
-import { computeDashboard } from "../core/dashboard";
+import { computeDashboard, type DashText } from "../core/dashboard";
 import { BarList, Donut, KpiCard, RingGauge, StackedColumns, type BarDatum } from "./charts";
 
 interface DashboardProps {
   vocab: readonly VocabItem[];
   sentences: readonly SentenceItem[];
+  /** Reading texts/dialogs — folded into level completion and the reading metrics. */
+  texts: readonly DashText[];
   progress: ProgressMap;
   daily: UserState;
+  /** Texts/dialogs finished (read or rehearsed). */
+  read: ReadonlySet<string>;
   testMode: boolean;
 }
 
 const pct = (x: number) => `${Math.round(x * 100)}%`;
 const accuracyTone = (a: number) => (a >= 0.8 ? "ok" : a >= 0.5 ? "yellow" : "no");
 
-export default function Dashboard({ vocab, sentences, progress, daily, testMode }: DashboardProps) {
+export default function Dashboard({
+  vocab,
+  sentences,
+  texts,
+  progress,
+  daily,
+  read,
+  testMode,
+}: DashboardProps) {
   const d = useMemo(
-    () => computeDashboard(vocab, sentences, progress, daily, dateKey(), Date.now(), testMode),
-    [vocab, sentences, progress, daily, testMode],
+    () =>
+      computeDashboard(vocab, sentences, progress, daily, dateKey(), Date.now(), testMode, texts, read),
+    [vocab, sentences, texts, progress, daily, read, testMode],
   );
   const k = d.kpis;
 
@@ -48,6 +61,10 @@ export default function Dashboard({ vocab, sentences, progress, daily, testMode 
   const sentModeBars: BarDatum[] = d.modes
     .filter((m) => m.group === "sentence")
     .map((m) => ({ label: m.label, value: m.mastered, max: m.total, tone: "known" }));
+  const readingBar: BarDatum[] =
+    d.reading.total > 0
+      ? [{ label: "Чтение", value: d.reading.done, max: d.reading.total, tone: "ok" }]
+      : [];
 
   const accuracyBars: BarDatum[] = d.modes
     .filter((m) => m.reps > 0)
@@ -91,7 +108,7 @@ export default function Dashboard({ vocab, sentences, progress, daily, testMode 
         <KpiCard icon="🔥" value={k.streak} label="Серия дней" sub={`рекорд ${k.bestStreak}`} />
         <KpiCard icon="🎯" value={pct(k.accuracy)} label="Точность" sub={`${k.totalCorrect}/${k.totalReps}`} />
         <KpiCard icon="🔁" value={k.totalReps} label="Всего ответов" />
-        <KpiCard icon="📚" value={k.sentencesEligible} label="Фраз доступно" />
+        <KpiCard icon="📖" value={`${k.textsDone}/${k.textsTotal}`} label="Тексты пройдено" sub="чтение и диалоги" />
       </section>
 
       <section className="dash__card">
@@ -126,7 +143,7 @@ export default function Dashboard({ vocab, sentences, progress, daily, testMode 
 
       <section className="dash__card">
         <h2 className="dash__title">Баланс режимов</h2>
-        <BarList items={[...wordModeBars, ...sentModeBars]} />
+        <BarList items={[...wordModeBars, ...sentModeBars, ...readingBar]} />
       </section>
 
       <section className="dash__card">

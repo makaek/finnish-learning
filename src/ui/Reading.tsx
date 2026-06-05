@@ -11,35 +11,34 @@ import { activeLevel, levelStats, unlockedLevelsWith, type VocabLike } from "../
 import type { ProgressMap } from "../core/progress";
 import { isTextUnlocked } from "../core/reading";
 import { TEXTS } from "../data/texts";
-import { loadRead, saveRead } from "./readingState";
 import TextReader from "./TextReader";
 
 interface ReadingProps {
   vocab: readonly VocabLike[];
   progress: ProgressMap;
   testMode: boolean;
+  /** Texts/dialogs finished so far (owned by App, since it folds into level completion). */
+  read: ReadonlySet<string>;
+  /** Mark a text/dialog as finished. */
+  onMarkRead: (id: string) => void;
   /** Count a completed role-play toward today's lessons (no accuracy effect). */
   onLessonDone: () => void;
 }
 
-export default function Reading({ vocab, progress, testMode, onLessonDone }: ReadingProps) {
-  const [read, setRead] = useState<Set<string>>(loadRead);
+export default function Reading({
+  vocab,
+  progress,
+  testMode,
+  read,
+  onMarkRead,
+  onLessonDone,
+}: ReadingProps) {
   const [openId, setOpenId] = useState<string | null>(null);
 
   const currentLevel = useMemo(() => {
     const s = levelStats(vocab, progress);
     return activeLevel(s, unlockedLevelsWith(s, testMode));
   }, [vocab, progress, testMode]);
-
-  function markRead(id: string) {
-    setRead((prev) => {
-      if (prev.has(id)) return prev;
-      const next = new Set(prev);
-      next.add(id);
-      saveRead(next);
-      return next;
-    });
-  }
 
   const openText = openId ? TEXTS.find((t) => t.id === openId) : undefined;
   if (openText) {
@@ -48,7 +47,7 @@ export default function Reading({ vocab, progress, testMode, onLessonDone }: Rea
         text={openText}
         isRead={read.has(openText.id)}
         onBack={() => setOpenId(null)}
-        onMarkRead={() => markRead(openText.id)}
+        onMarkRead={() => onMarkRead(openText.id)}
         onLessonDone={onLessonDone}
       />
     );

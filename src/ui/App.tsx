@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { VOCAB } from "../data/dictionary";
 import { SENTENCES, grade } from "../data/sentences";
 import { RULES } from "../data/rules";
+import { TEXTS } from "../data/texts";
 import { rulesForPos, rulesForTeaches } from "../core/rules";
 import {
   buildSession,
@@ -31,6 +32,7 @@ import {
 } from "../core/progress";
 import { loadProgress, loadState, saveProgress, saveState } from "../data/backend";
 import { hiddenKey, loadHidden, saveHidden } from "./hidden";
+import { loadRead, saveRead } from "./readingState";
 import Roadmap, { type Mode } from "./Roadmap";
 import ProgressDetails from "./ProgressDetails";
 import Dashboard from "./Dashboard";
@@ -66,6 +68,10 @@ export default function App() {
   const [testMode] = useState(readTestMode);
   // Items the learner hid (fully-mastered) — excluded from every lesson, persisted locally.
   const [hidden, setHidden] = useState<Set<string>>(loadHidden);
+  // Texts/dialogs the learner has finished (read or rehearsed). Lifted here from Reading so the
+  // home/dashboard/progress screens can fold reading into level completion. Device-local, like
+  // `hidden` — same persistence rationale (a view marker, not graded data).
+  const [read, setRead] = useState<Set<string>>(loadRead);
 
   function toggleHidden(key: string) {
     setHidden((prev) => {
@@ -73,6 +79,16 @@ export default function App() {
       if (next.has(key)) next.delete(key);
       else next.add(key);
       saveHidden(next);
+      return next;
+    });
+  }
+
+  function markRead(id: string) {
+    setRead((prev) => {
+      if (prev.has(id)) return prev;
+      const next = new Set(prev);
+      next.add(id);
+      saveRead(next);
       return next;
     });
   }
@@ -345,9 +361,11 @@ export default function App() {
         <ProgressDetails
           vocab={VOCAB}
           sentences={SENTENCES}
+          texts={TEXTS}
           progress={progressView}
           testMode={testMode}
           hidden={hidden}
+          read={read}
           onToggleHide={toggleHidden}
         />
       );
@@ -357,6 +375,8 @@ export default function App() {
           vocab={VOCAB}
           progress={progressView}
           testMode={testMode}
+          read={read}
+          onMarkRead={markRead}
           onLessonDone={countReadingLesson}
         />
       );
@@ -367,8 +387,10 @@ export default function App() {
         <Dashboard
           vocab={VOCAB}
           sentences={SENTENCES}
+          texts={TEXTS}
           progress={progressView}
           daily={dailyView}
+          read={read}
           testMode={testMode}
         />
       );
@@ -377,9 +399,11 @@ export default function App() {
         <Roadmap
           vocab={VOCAB}
           sentences={SENTENCES}
+          texts={TEXTS}
           progress={progressView}
           daily={dailyView}
           hidden={hidden}
+          read={read}
           testMode={testMode}
           ready={ready}
           onStart={start}

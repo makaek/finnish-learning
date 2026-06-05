@@ -707,6 +707,14 @@ body {
   border-radius: 999px;
 }
 
+/* When the current level still has items to finish in this mode, the top-left slot turns into an
+   actionable 🎯 call-out (accent, not muted) so it reads as "do these to reach the next level". */
+.modebtn__count--finish {
+  color: var(--accent-ink);
+  background: var(--accent);
+  font-weight: 800;
+}
+
 /* Continuous readiness bar along the button's bottom edge — finer than the 3-colour dot, so
    a few lessons visibly move it instead of the light appearing stuck. */
 .modebtn__bar {

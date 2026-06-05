@@ -109,3 +109,25 @@ describe("computeDashboard charts", () => {
     expect(d.today.goalMet).toBe(false);
   });
 });
+
+describe("computeDashboard reading metrics", () => {
+  const texts = [
+    { id: "t1", level: 1, type: "dialog" as const },
+    { id: "t2", level: 2, type: "text" as const },
+    { id: "t3", level: 2, type: "text" as const },
+  ];
+  const dr = computeDashboard(vocab, sentences, progress, daily, TODAY, NOW, true, texts, new Set(["t1"]));
+
+  it("counts completed texts/dialogs in the KPI and reading summary", () => {
+    expect(dr.kpis.textsDone).toBe(1);
+    expect(dr.kpis.textsTotal).toBe(3);
+    expect(dr.reading).toEqual({ done: 1, total: 3 });
+  });
+
+  it("folds texts into the displayed level bars (combined completion)", () => {
+    // L2 now has w3, w4, s2, t2, t3 = 5 items; none learned → fraction 0, total 5.
+    const l2 = dr.levels.find((l) => l.level === 2)!;
+    expect(l2.total).toBe(5);
+    expect(l2.learned).toBe(0);
+  });
+});

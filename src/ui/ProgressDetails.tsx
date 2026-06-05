@@ -8,6 +8,7 @@
 import { useMemo, useState, type ReactNode } from "react";
 import type { VocabItem } from "../core/dictionary";
 import type { SentenceItem } from "../core/grader";
+import type { ReadingText } from "../core/reading";
 import { DEFAULT_SESSION_SIZE, SENTENCE_SESSION_SIZE } from "../core/quiz";
 import { activeVocab, eligibleSentences, levelOf, LEARNED_BOX } from "../core/levels";
 import { mergeByItem, type MergedProgress } from "../core/stats";
@@ -18,10 +19,14 @@ import { hiddenKey, type Group } from "./hidden";
 interface ProgressDetailsProps {
   vocab: readonly VocabItem[];
   sentences: readonly SentenceItem[];
+  /** Reading texts/dialogs, listed with their done state in their own section. */
+  texts: readonly ReadingText[];
   progress: ProgressMap;
   testMode: boolean;
   /** Hidden item keys (owned by App, since hiding also removes items from lessons). */
   hidden: ReadonlySet<string>;
+  /** Texts/dialogs finished (read or rehearsed). */
+  read: ReadonlySet<string>;
   onToggleHide: (key: string) => void;
 }
 
@@ -161,15 +166,18 @@ function Section({
 export default function ProgressDetails({
   vocab,
   sentences,
+  texts,
   progress,
   testMode,
   hidden,
+  read,
   onToggleHide,
 }: ProgressDetailsProps) {
   const [showHidden, setShowHidden] = useState(false);
   const [query, setQuery] = useState("");
   const [wordsOpen, setWordsOpen] = useState(true);
   const [sentsOpen, setSentsOpen] = useState(true);
+  const [textsOpen, setTextsOpen] = useState(true);
   // Optional sort: by curriculum level, lowest first (otherwise mergeByItem's mastered/recency order).
   const [sortByLevel, setSortByLevel] = useState(false);
 
@@ -234,13 +242,26 @@ export default function ProgressDetails({
     ? [...filteredSentences].sort((a, b) => sentLevelOf(a) - sentLevelOf(b))
     : filteredSentences;
 
+  // Reading texts/dialogs: a flat list (no per-track mastery — completion is binary), filtered by
+  // title and optionally sorted by level. Always level-ascending by default (matches the library).
+  const filteredTexts = searching ? texts.filter((t) => t.title.toLowerCase().includes(q)) : texts;
+  const shownTexts = sortByLevel
+    ? [...filteredTexts].sort((a, b) => a.level - b.level)
+    : filteredTexts;
+
   // While searching, force sections open so matches are visible; only show a section that has
   // anything to display.
   const showWordsSection = searching ? shownWords.length > 0 : baseWords.length > 0;
   const showSentSection = searching ? shownSentences.length > 0 : baseSentences.length > 0;
+  const showTextsSection = searching ? shownTexts.length > 0 : texts.length > 0;
 
-  const empty = words.length === 0 && sentenceEntries.length === 0;
-  const noResults = !empty && searching && shownWords.length === 0 && shownSentences.length === 0;
+  const empty = words.length === 0 && sentenceEntries.length === 0 && texts.length === 0;
+  const noResults =
+    !empty &&
+    searching &&
+    shownWords.length === 0 &&
+    shownSentences.length === 0 &&
+    shownTexts.length === 0;
 
   return (
     <main className="app app--scroll">
@@ -343,6 +364,36 @@ export default function ProgressDetails({
                       hidden={isHidden("sentence", e.id)}
                       onToggleHide={() => onToggleHide(hiddenKey("sentence", e.id))}
                     />
+                  );
+                })}
+              </Section>
+            )}
+            {showTextsSection && (
+              <Section
+                title="Тексты и диалоги"
+                count={shownTexts.length}
+                open={searching || textsOpen}
+                disabled={searching}
+                onToggle={() => setTextsOpen((o) => !o)}
+              >
+                {shownTexts.map((t) => {
+                  const done = read.has(t.id);
+                  return (
+                    <li className="icard" key={t.id}>
+                      <div className="icard__head">
+                        <span className="icard__label">
+                          {done && <span className="icard__check" title="Пройдено">✓ </span>}
+                          {t.type === "dialog" && <span title="Диалог">🎭 </span>}
+                          {t.title}
+                        </span>
+                        <span className="icard__right">
+                          <span className="icard__level" title={`Уровень ${t.level}`}>
+                            Ур. {t.level}
+                          </span>
+                        </span>
+                      </div>
+                      <div className="icard__sub">{done ? "Пройдено" : "Ещё не пройдено"}</div>
+                    </li>
                   );
                 })}
               </Section>

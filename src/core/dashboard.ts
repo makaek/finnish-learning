@@ -13,8 +13,10 @@
 import { getProgress, MAX_BOX, type ItemKind, type ProgressMap } from "./progress";
 import {
   LEARNED_BOX,
+  SENTENCE_MODES,
   WORD_MODES,
   eligibleSentences,
+  levelCompletionStats,
   levelOf,
   levelStats,
   listLevels,
@@ -34,7 +36,6 @@ import {
   type UserState,
 } from "./daily";
 
-export const SENTENCE_MODES: readonly ItemKind[] = ["sentences", "say_sentence", "listen_sentence"];
 export const ALL_MODES: readonly ItemKind[] = [...WORD_MODES, ...SENTENCE_MODES];
 
 /** Russian labels for each lesson mode, for chart axes. */
@@ -66,6 +67,11 @@ export interface DashVocab extends VocabLike {
   pos: string;
 }
 
+/** Minimal reading-text shape the dashboard needs (real ReadingText satisfies it). */
+export interface DashText extends VocabLike {
+  type?: "text" | "dialog";
+}
+
 export interface Kpis {
   wordsLearned: number;
   wordsTotal: number;
@@ -84,6 +90,9 @@ export interface Kpis {
   totalCorrect: number;
   /** Items mastered in EVERY applicable track (words across 4 modes, sentences across 3). */
   fullyMastered: number;
+  /** Texts/dialogs completed (read or rehearsed). */
+  textsDone: number;
+  textsTotal: number;
 }
 
 export interface LevelBar {
@@ -143,6 +152,8 @@ export interface DashboardData {
   pos: PosStat[];
   recency: RecencyBucket[];
   today: TodayStat;
+  /** Reading library completion, for the mode-balance "Чтение" row. */
+  reading: { done: number; total: number };
 }
 
 const DAY_MS = 86_400_000;
@@ -198,16 +209,21 @@ export function computeDashboard(
   today: string,
   now: number = Date.now(),
   testMode = false,
+  texts: readonly DashText[] = [],
+  completed: ReadonlySet<string> = new Set(),
 ): DashboardData {
+  // Word-only stats still decide UNLOCKS (the curriculum gate is unchanged); the combined stats
+  // (words + sentences + texts) drive the displayed level bars and the "current level" KPI.
   const stats = levelStats(vocab, progress);
   const unlocked = unlockedLevelsWith(stats, testMode);
+  const completionStats = levelCompletionStats(vocab, sentences, texts, progress, completed);
   const words = overallProgress(vocab, progress);
   const eligible = eligibleSentences(sentences, vocab, progress, testMode);
 
-  // Per-level bars (words drive the fraction; sentence counts shown alongside).
+  // Per-level bars: combined word+sentence+text completion, with sentence counts shown alongside.
   const sentencesByLevel = new Map<number, number>();
   for (const s of sentences) sentencesByLevel.set(levelOf(s), (sentencesByLevel.get(levelOf(s)) ?? 0) + 1);
-  const levels: LevelBar[] = stats.map((s) => ({
+  const levels: LevelBar[] = completionStats.map((s) => ({
     level: s.level,
     learned: s.learned,
     total: s.total,
@@ -289,14 +305,16 @@ export function computeDashboard(
     sentencesLearned: sentences.filter((s) => sentenceLearned(progress, s.id)).length,
     sentencesTotal: sentences.length,
     sentencesEligible: eligible.length,
-    level: masteringLevel(stats),
-    levelsTotal: listLevels(vocab).length,
+    level: masteringLevel(completionStats),
+    levelsTotal: listLevels([...vocab, ...sentences, ...texts]).length,
     streak: currentStreak(daily, today),
     bestStreak: daily.bestStreak,
     accuracy: totalReps === 0 ? 0 : totalCorrect / totalReps,
     totalReps,
     totalCorrect,
     fullyMastered,
+    textsDone: texts.filter((t) => completed.has(t.id)).length,
+    textsTotal: texts.length,
   };
 
   const todayStat: TodayStat = {
@@ -308,5 +326,7 @@ export function computeDashboard(
     goalMet: goalMet(daily, today),
   };
 
-  return { kpis, levels, modes, boxes, pos, recency, today: todayStat };
+  const reading = { done: texts.filter((t) => completed.has(t.id)).length, total: texts.length };
+
+  return { kpis, levels, modes, boxes, pos, recency, today: todayStat, reading };
 }
