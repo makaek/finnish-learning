@@ -77,12 +77,13 @@ export function wordLearnProgress(progress: ProgressMap, vocabId: string): numbe
 }
 
 /**
- * Whether a sentence is "learned" — its typed-translation track is at/above LEARNED_BOX. A single
- * mastered skill (the core translation) is enough, mirroring {@link wordLearned}; depth across the
- * spoken/dictation tracks is measured by {@link sentenceMastery}.
+ * Whether a sentence is "learned" — mastered (>= LEARNED_BOX) in ANY of its three modes
+ * (translation / spoken / dictation), mirroring {@link wordLearned}. A single mastered skill is
+ * enough to keep the curriculum flowing, so practising a sentence in any mode counts toward level
+ * completion; depth across the modes is measured separately by {@link sentenceMastery}.
  */
 export function sentenceLearned(progress: ProgressMap, sentenceId: string): boolean {
-  return getProgress(progress, "sentences", sentenceId).box >= LEARNED_BOX;
+  return SENTENCE_MODES.some((kind) => getProgress(progress, kind, sentenceId).box >= LEARNED_BOX);
 }
 
 /**
@@ -290,6 +291,34 @@ export function levelCompletionStats(
       t.reduce((sum, x) => sum + readingMastery(progress, x.id), 0);
     return { level, total, learned, fraction: total === 0 ? 1 : masterySum / total };
   });
+}
+
+/** Per-group counts of a level's items not yet learned — what's left to reach the next level. */
+export interface LevelRemaining {
+  words: number;
+  sentences: number;
+  texts: number;
+}
+
+/**
+ * How many of a level's items are still NOT learned, split by group (words / sentences / texts).
+ * Uses the same per-item predicates that drive level completion ({@link wordLearned},
+ * {@link sentenceLearned}, {@link readingLearned}), so the home "to next level" hint names exactly
+ * what's between the learner and advancement. Pure; mirrors {@link levelCompletionStats}'s grouping.
+ */
+export function remainingForLevel(
+  vocab: readonly VocabLike[],
+  sentences: readonly SentenceLike[],
+  texts: readonly VocabLike[],
+  progress: ProgressMap,
+  level: number,
+): LevelRemaining {
+  return {
+    words: vocab.filter((v) => levelOf(v) === level && !wordLearned(progress, v.id)).length,
+    sentences: sentences.filter((s) => levelOf(s) === level && !sentenceLearned(progress, s.id))
+      .length,
+    texts: texts.filter((t) => levelOf(t) === level && !readingLearned(progress, t.id)).length,
+  };
 }
 
 /**

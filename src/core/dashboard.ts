@@ -23,6 +23,7 @@ import {
   masteringLevel,
   overallProgress,
   readingLearned,
+  sentenceLearned,
   unlockedLevelsWith,
   wordLearned,
   type SentenceLike,
@@ -164,11 +165,6 @@ const DAY_MS = 86_400_000;
 /** Whether an item is mastered (>= LEARNED_BOX) in EVERY mode of the group. */
 function masteredInAll(progress: ProgressMap, id: string, modes: readonly ItemKind[]): boolean {
   return modes.every((m) => getProgress(progress, m, id).box >= LEARNED_BOX);
-}
-
-/** A sentence counts as "learned" once its typed-translation track reaches LEARNED_BOX. */
-function sentenceLearned(progress: ProgressMap, id: string): boolean {
-  return getProgress(progress, "sentences", id).box >= LEARNED_BOX;
 }
 
 /** Per-mode mastered count + accuracy over a pool. */

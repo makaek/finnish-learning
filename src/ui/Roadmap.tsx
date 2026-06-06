@@ -12,6 +12,7 @@ import {
   levelProgressToNext,
   masteringLevel,
   overallProgress,
+  remainingForLevel,
   unmasteredInLevel,
   LEARNED_BOX,
   type SentenceLike,
@@ -65,6 +66,16 @@ interface RoadmapProps {
   onTestFill: () => void;
 }
 
+/** Russian plural picker: `one` for 1, `few` for 2–4, `many` for 0 and 5+ (handles the teens). */
+function plural(n: number, one: string, few: string, many: string): string {
+  const mod100 = n % 100;
+  const mod10 = n % 10;
+  if (mod100 >= 11 && mod100 <= 14) return many;
+  if (mod10 === 1) return one;
+  if (mod10 >= 2 && mod10 <= 4) return few;
+  return many;
+}
+
 /** One exercise button: icon + short label + a traffic-light dot for that mode's readiness. */
 function ModeButton({
   icon,
@@ -79,7 +90,7 @@ function ModeButton({
   /** Full accessible name (the short visible `label` repeats across groups). */
   name: string;
   r: ModeReadiness;
-  /** Unmastered items of the CURRENT level in this mode — shows a 🎯 "finish-the-level" badge. */
+  /** Unmastered items of the CURRENT level in this mode — shown as a per-mode "still to master" count. */
   finishCount: number;
   onClick: () => void;
 }) {
@@ -91,22 +102,23 @@ function ModeButton({
         : r.level === "red"
           ? "заброшено"
           : "пока нечего учить";
-  const finishHint = finishCount > 0 ? ` · 🎯 ещё ${finishCount} в текущем уровне` : "";
+  const finishHint = finishCount > 0 ? ` · ещё ${finishCount} в этом режиме на текущем уровне` : "";
   const status =
     (r.level === "none" ? "пока нечего учить" : `освоено ${r.mastered} из ${r.total} · ${freshness}`) +
     finishHint;
   return (
     <button type="button" className="modebtn" aria-label={`${name}: ${status}`} onClick={onClick}>
       <span className={`dot dot--${r.level}`} aria-hidden="true" title={status} />
-      {/* Top-left slot: the actionable 🎯 "finish the current level" count takes priority; when
-          there's nothing left to finish here, it falls back to the lifetime mastered total. */}
+      {/* Top-left slot: the count of current-level items still to master IN THIS MODE takes
+          priority (a per-mode depth nudge — the authoritative "to next level" guidance lives in the
+          header); when there's nothing left here, it falls back to the lifetime mastered total. */}
       {finishCount > 0 ? (
         <span
           className="modebtn__count modebtn__count--finish"
           aria-hidden="true"
-          title={`Осталось ${finishCount} в текущем уровне — закройте, чтобы перейти на следующий`}
+          title={`Ещё ${finishCount} на текущем уровне в этом режиме`}
         >
-          🎯 {finishCount}
+          {finishCount}
         </span>
       ) : (
         r.level !== "none" && (
@@ -148,7 +160,7 @@ export default function Roadmap({
   // learn-progress bar — not the unlocked frontier, which jumped the bar to ~0% on every unlock.
   // Completion now spans words + sentences + dialogs/texts, so finishing a level's phrases and
   // dialogs fills the bar and advances the level. (Unlocks stay word-driven, so nothing relocks.)
-  const { active, overall, levelPct } = useMemo(() => {
+  const { active, overall, levelPct, remaining, isLastLevel } = useMemo(() => {
     const s = levelCompletionStats(vocab, sentences, texts, progress);
     const a = masteringLevel(s);
     // Bar = progress toward the NEXT level: the learned-fraction scaled so the advancement
@@ -157,8 +169,27 @@ export default function Roadmap({
       active: a,
       overall: overallProgress(vocab, progress),
       levelPct: Math.round(levelProgressToNext(s, a) * 100),
+      // What's actually left to reach the next level, named per group (the "additional info").
+      remaining: remainingForLevel(vocab, sentences, texts, progress, a),
+      isLastLevel: s.length === 0 || a >= Math.max(...s.map((x) => x.level)),
     };
   }, [vocab, sentences, texts, progress]);
+
+  // Plain-language "what's left to level up", built from the same predicates that gate advancement.
+  const remainingLabel = useMemo(() => {
+    const parts: string[] = [];
+    if (remaining.words > 0) parts.push(`${remaining.words} ${plural(remaining.words, "слово", "слова", "слов")}`);
+    if (remaining.sentences > 0)
+      parts.push(`${remaining.sentences} ${plural(remaining.sentences, "предложение", "предложения", "предложений")}`);
+    if (remaining.texts > 0) parts.push(`${remaining.texts} ${plural(remaining.texts, "текст", "текста", "текстов")}`);
+    if (parts.length === 0) {
+      return isLastLevel ? "Все уровни пройдены! 🎉" : "Почти готово — уровень вот-вот откроется!";
+    }
+    // No "next level" to name once you're finishing the final level — just list what's left.
+    return isLastLevel
+      ? `На последнем уровне осталось: ${parts.join(" · ")}`
+      : `До уровня ${active + 1}: ещё ${parts.join(" · ")}`;
+  }, [remaining, active, isLastLevel]);
 
   // Per-mode readiness, RELATIVE within each group (words / sentences) so the lights flag
   // which mode is lagging behind the others — nudging the learner to keep them balanced. Also
@@ -276,10 +307,11 @@ export default function Roadmap({
           </span>
           <span
             className="ghead__caption"
-            title="Среднее освоение уровня: слова (все режимы), предложения и диалоги/тексты. Закрывайте режимы с 🎯, чтобы перейти на следующий уровень."
+            title="Освоение уровня: слова, предложения и тексты/диалоги. Уровень открывается, когда освоено почти всё его содержимое."
           >
             Уровень {active} · {levelPct}% освоено
           </span>
+          <span className="ghead__caption ghead__caption--remaining">{remainingLabel}</span>
 
           <span className="ghead__bar">
             <span className="ghead__fill ghead__fill--daily" style={{ width: `${goalPct}%` }} />

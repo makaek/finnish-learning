@@ -618,6 +618,14 @@ body {
   margin-bottom: 0;
 }
 
+/* The actionable "what's left to reach the next level" line — sits tight under the % and stands
+   out from the muted captions so the learner sees exactly what to do next. */
+.ghead__caption--remaining {
+  margin-top: calc(-1 * var(--s2) + 0.1rem);
+  color: var(--accent);
+  font-weight: 600;
+}
+
 /* --- Grouped exercise picker with readiness lights --- */
 .modegroup {
   margin: 0 0 var(--s3);
@@ -711,8 +719,9 @@ body {
   border-radius: 999px;
 }
 
-/* When the current level still has items to finish in this mode, the top-left slot turns into an
-   actionable 🎯 call-out (accent, not muted) so it reads as "do these to reach the next level". */
+/* When the current level still has items to master in this mode, the top-left count turns into an
+   accent call-out (not muted) so it reads as "still to do here". (What's needed to reach the next
+   level is named explicitly in the home header, not implied by this per-mode count.) */
 .modebtn__count--finish {
   color: var(--accent-ink);
   background: var(--accent);
@@ -1529,6 +1538,10 @@ body {
 }
 .readrow__done {
   color: var(--ok);
+  font-weight: 700;
+}
+/* Fully completed (comprehension quiz passed — counts toward the level), distinct from a plain ✓. */
+.readrow__mastered {
   font-weight: 700;
 }
 

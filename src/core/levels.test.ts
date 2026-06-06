@@ -17,6 +17,7 @@ import {
   readingLearnProgress,
   readingLearned,
   readingMastery,
+  remainingForLevel,
   sentenceLearned,
   sentenceMastery,
   unlockedLevels,
@@ -328,11 +329,14 @@ describe("eligibleSentences", () => {
 });
 
 describe("sentence helpers (analogues of the word ones)", () => {
-  it("sentenceLearned keys off the typed translation track at LEARNED_BOX", () => {
+  it("sentenceLearned is mastery in ANY sentence mode at LEARNED_BOX (mirrors wordLearned)", () => {
     expect(sentenceLearned(box("sentences", "s1", 2), "s1")).toBe(true);
     expect(sentenceLearned(box("sentences", "s1", 1), "s1")).toBe(false);
-    // A spoken/dictation box alone does NOT make it 'learned' (mirrors the dashboard).
-    expect(sentenceLearned(box("say_sentence", "s1", 5), "s1")).toBe(false);
+    // A spoken or dictation box alone is now enough — any mode counts toward leveling.
+    expect(sentenceLearned(box("say_sentence", "s1", 5), "s1")).toBe(true);
+    expect(sentenceLearned(box("listen_sentence", "s1", 2), "s1")).toBe(true);
+    expect(sentenceLearned(box("listen_sentence", "s1", 1), "s1")).toBe(false);
+    expect(sentenceLearned(new Map(), "s1")).toBe(false);
   });
 
   it("sentenceMastery is the fraction of the three sentence modes mastered", () => {
@@ -439,5 +443,25 @@ describe("levelCompletionStats / levelCompletionLearnProgress (combined completi
   it("levelProgressToNext is 1 for an empty or absent level", () => {
     expect(levelProgressToNext([{ level: 1, total: 0, learned: 0, fraction: 1 }], 1)).toBe(1);
     expect(levelProgressToNext([], 99)).toBe(1);
+  });
+
+  it("remainingForLevel counts not-yet-learned items per group at a level", () => {
+    // Nothing learned: all L1 items remain (5 words, 1 sentence, 1 text).
+    expect(remainingForLevel(vocab, sentences, texts, new Map(), 1)).toEqual({
+      words: 5,
+      sentences: 1,
+      texts: 1,
+    });
+    // Learn one word (any mode), the sentence (via dictation — any mode counts), and the text.
+    const progress = new Map([
+      ...learned(["a1"]),
+      ...box("listen_sentence", "s1", 2),
+      ...box("reading", "t1", 2),
+    ]);
+    expect(remainingForLevel(vocab, sentences, texts, progress, 1)).toEqual({
+      words: 4,
+      sentences: 0,
+      texts: 0,
+    });
   });
 });

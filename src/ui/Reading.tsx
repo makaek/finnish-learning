@@ -7,7 +7,13 @@
  */
 
 import { useMemo, useState } from "react";
-import { activeLevel, levelStats, unlockedLevelsWith, type VocabLike } from "../core/levels";
+import {
+  activeLevel,
+  levelStats,
+  readingLearned,
+  unlockedLevelsWith,
+  type VocabLike,
+} from "../core/levels";
 import type { ProgressMap } from "../core/progress";
 import { isTextUnlocked } from "../core/reading";
 import { TEXTS, gradeQuestion } from "../data/texts";
@@ -80,6 +86,10 @@ export default function Reading({
         <ul className="reading">
           {shown.map((t) => {
             const unlocked = testMode || isTextUnlocked(t, currentLevel);
+            // "Fully done" = comprehension quiz passed (counts toward the level); for question-less
+            // texts there's no quiz, so being marked read is the whole completion signal.
+            const hasQuestions = (t.questions?.length ?? 0) > 0;
+            const done = hasQuestions ? readingLearned(progress, t.id) : read.has(t.id);
             return (
               <li key={t.id}>
                 <button
@@ -87,12 +97,25 @@ export default function Reading({
                   className={"readrow" + (unlocked ? "" : " readrow--locked")}
                   disabled={!unlocked}
                   onClick={() => setOpenId(t.id)}
-                  aria-label={`${t.title}, уровень ${t.level}${unlocked ? "" : " — закрыто"}`}
+                  aria-label={`${t.title}, уровень ${t.level}${done ? " — выполнено" : ""}${unlocked ? "" : " — закрыто"}`}
                 >
                   <span className="readrow__lv">Ур. {t.level}</span>
                   <span className="readrow__title">{t.title}</span>
                   <span className="readrow__badges" aria-hidden="true">
-                    {read.has(t.id) && <span className="readrow__done">✓</span>}
+                    {done ? (
+                      <span
+                        className="readrow__mastered"
+                        title={hasQuestions ? "Задание выполнено — вопросы пройдены" : "Выполнено"}
+                      >
+                        🏆
+                      </span>
+                    ) : (
+                      read.has(t.id) && (
+                        <span className="readrow__done" title="Прочитано">
+                          ✓
+                        </span>
+                      )
+                    )}
                     {t.type === "dialog" && <span title="Диалог">🎭</span>}
                     {!unlocked && <span title={`Откройте уровень ${t.level}`}>🔒</span>}
                   </span>
