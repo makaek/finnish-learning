@@ -670,28 +670,12 @@ body {
   font-weight: 600;
 }
 
-/* Lifetime mastered count, top-left (the bar shows recency; this shows the banked total). */
+/* Top-left corner: how many current-level items practising this card can still add to the level
+   progress bar. Accent pill so it reads as the actionable "do these to fill the bar" count. */
 .modebtn__count {
   position: absolute;
   top: 0.4rem;
   left: 0.45rem;
-  min-width: 1rem;
-  padding: 0 0.2rem;
-  font-size: 0.7rem;
-  font-weight: 700;
-  line-height: 1.1rem;
-  text-align: center;
-  color: var(--muted);
-  background: var(--surface-2);
-  border-radius: 999px;
-}
-
-/* Top-right corner: how many current-level items are still left to do in this mode. Accent pill
-   so it reads as the actionable "to finish this level" count, distinct from the muted banked total. */
-.modebtn__left {
-  position: absolute;
-  top: 0.4rem;
-  right: 0.45rem;
   min-width: 1.1rem;
   padding: 0 0.25rem;
   font-size: 0.7rem;

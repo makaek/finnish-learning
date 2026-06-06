@@ -9,11 +9,14 @@ import {
   activeVocab,
   eligibleSentences,
   levelCompletionStats,
+  levelOf,
   levelProgressToNext,
   masteringLevel,
   overallProgress,
+  readingLearned,
   remainingForLevel,
-  unmasteredInLevel,
+  sentenceLearned,
+  wordLearned,
   LEARNED_BOX,
   type SentenceLike,
   type VocabLike,
@@ -66,14 +69,15 @@ interface RoadmapProps {
   onTestFill: () => void;
 }
 
-/** One exercise button: icon + short label, a corner count of current-level items still to do,
- *  and a continuous readiness bar (the bar replaced the old traffic-light dot). */
+/** One exercise button: icon + short label, a top-left count of current-level items practising
+ *  this card could still add to the level bar, and a continuous readiness bar (which replaced the
+ *  old traffic-light dot). */
 function ModeButton({
   icon,
   label,
   name,
   r,
-  finishCount,
+  levelLeft,
   onClick,
 }: {
   icon: string;
@@ -81,8 +85,9 @@ function ModeButton({
   /** Full accessible name (the short visible `label` repeats across groups). */
   name: string;
   r: ModeReadiness;
-  /** Unmastered items of the CURRENT level in this mode — shown as a per-mode "still to master" count. */
-  finishCount: number;
+  /** Current-level items in this group not yet learned — how many this card can still add to the
+   *  level progress bar (0 ⇒ this group no longer moves the bar). */
+  levelLeft: number;
   onClick: () => void;
 }) {
   const freshness =
@@ -93,26 +98,20 @@ function ModeButton({
         : r.level === "red"
           ? "заброшено"
           : "пока нечего учить";
-  const finishHint = finishCount > 0 ? ` · ещё ${finishCount} в этом режиме на текущем уровне` : "";
+  const leftHint = levelLeft > 0 ? ` · ещё ${levelLeft} для прогресса уровня` : "";
   const status =
     (r.level === "none" ? "пока нечего учить" : `освоено ${r.mastered} из ${r.total} · ${freshness}`) +
-    finishHint;
+    leftHint;
   return (
     <button type="button" className="modebtn" aria-label={`${name}: ${status}`} onClick={onClick}>
-      {/* Top-left: lifetime mastered total (the banked count). */}
-      {r.level !== "none" && (
-        <span className="modebtn__count" aria-hidden="true" title={status}>
-          {r.mastered}
-        </span>
-      )}
-      {/* Top-right: how many CURRENT-level items are still left to do in this mode. */}
-      {finishCount > 0 && (
+      {/* Top-left: how many current-level items this card can still add to the level progress bar. */}
+      {levelLeft > 0 && (
         <span
-          className="modebtn__left"
+          className="modebtn__count"
           aria-hidden="true"
-          title={`Осталось на текущем уровне: ${finishCount}`}
+          title={`Ещё ${levelLeft} для прогресса текущего уровня`}
         >
-          {finishCount}
+          {levelLeft}
         </span>
       )}
       <span className="modebtn__icon" aria-hidden="true">
@@ -165,12 +164,13 @@ export default function Roadmap({
     };
   }, [vocab, sentences, texts, progress]);
 
-  // Per-mode readiness, RELATIVE within each group (words / sentences) so the lights flag
-  // which mode is lagging behind the others — nudging the learner to keep them balanced. Also
-  // the per-mode count of CURRENT-level items still unmastered, driving the 🎯 finish-the-level
-  // badge (so the learner can see exactly which modes hold the items between them and the next
-  // level).
-  const { readiness, finish } = useMemo(() => {
+  // Per-mode readiness, RELATIVE within each group (words / sentences) so the bar flags which
+  // mode is lagging behind the others — nudging the learner to keep them balanced. Also `affects`:
+  // how many CURRENT-level items in each group are not yet LEARNED — i.e. how many items practising
+  // this card could still push into the level's progress bar. An item learned in ANY mode no longer
+  // moves the bar, so this is per-GROUP (same for every word card, every sentence card), matching
+  // the bar's learned/total maths exactly.
+  const { readiness, affects } = useMemo(() => {
     const wordPool = activeVocab(vocab, progress, testMode).filter(
       (v) => !hidden.has(hiddenKey("word", v.id)),
     );
@@ -186,17 +186,17 @@ export default function Roadmap({
     const s = groupReadiness(sentPool, progress, sentModes, LEARNED_BOX);
     const rText = groupReadiness(textPool, progress, ["reading"], LEARNED_BOX);
     const rDialog = groupReadiness(dialogPool, progress, ["reading"], LEARNED_BOX);
-    const finish = {
-      recognition: unmasteredInLevel(wordPool, progress, "recognition", active),
-      production: unmasteredInLevel(wordPool, progress, "production", active),
-      say_word: unmasteredInLevel(wordPool, progress, "say_word", active),
-      listen_word: unmasteredInLevel(wordPool, progress, "listen_word", active),
-      sentences: unmasteredInLevel(sentPool, progress, "sentences", active),
-      say_sentence: unmasteredInLevel(sentPool, progress, "say_sentence", active),
-      listen_sentence: unmasteredInLevel(sentPool, progress, "listen_sentence", active),
-      text: unmasteredInLevel(textPool, progress, "reading", active),
-      dialog: unmasteredInLevel(dialogPool, progress, "reading", active),
-    };
+    // Count over the raw level lists (not the hidden/eligibility pools) so it tracks the bar.
+    const words = vocab.filter((v) => levelOf(v) === active && !wordLearned(progress, v.id)).length;
+    const sents = sentences.filter(
+      (x) => levelOf(x) === active && !sentenceLearned(progress, x.id),
+    ).length;
+    const text = textPool.filter(
+      (t) => levelOf(t) === active && !readingLearned(progress, t.id),
+    ).length;
+    const dialog = dialogPool.filter(
+      (t) => levelOf(t) === active && !readingLearned(progress, t.id),
+    ).length;
     return {
       readiness: {
         recognition: w.get("recognition")!,
@@ -209,7 +209,17 @@ export default function Roadmap({
         text: rText.get("reading")!,
         dialog: rDialog.get("reading")!,
       },
-      finish,
+      affects: {
+        recognition: words,
+        production: words,
+        say_word: words,
+        listen_word: words,
+        sentences: sents,
+        say_sentence: sents,
+        listen_sentence: sents,
+        text,
+        dialog,
+      },
     };
   }, [vocab, sentences, texts, progress, testMode, hidden, active]);
 
@@ -314,7 +324,7 @@ export default function Roadmap({
               label="Узнавание"
               name="Узнавание слов"
               r={readiness.recognition}
-              finishCount={finish.recognition}
+              levelLeft={affects.recognition}
               onClick={() => onStart("recognition")}
             />
             <ModeButton
@@ -322,7 +332,7 @@ export default function Roadmap({
               label="Написание"
               name="Написание слов"
               r={readiness.production}
-              finishCount={finish.production}
+              levelLeft={affects.production}
               onClick={() => onStart("production")}
             />
             <ModeButton
@@ -330,7 +340,7 @@ export default function Roadmap({
               label="Речь"
               name="Произношение слов"
               r={readiness.say_word}
-              finishCount={finish.say_word}
+              levelLeft={affects.say_word}
               onClick={() => onStart("say_word")}
             />
             <ModeButton
@@ -338,7 +348,7 @@ export default function Roadmap({
               label="На слух"
               name="Аудирование слов"
               r={readiness.listen_word}
-              finishCount={finish.listen_word}
+              levelLeft={affects.listen_word}
               onClick={() => onStart("listen_word")}
             />
           </div>
@@ -351,7 +361,7 @@ export default function Roadmap({
               label="Перевод"
               name="Перевод предложений"
               r={readiness.sentences}
-              finishCount={finish.sentences}
+              levelLeft={affects.sentences}
               onClick={() => onStart("sentences")}
             />
             <ModeButton
@@ -359,7 +369,7 @@ export default function Roadmap({
               label="Речь"
               name="Произношение предложений"
               r={readiness.say_sentence}
-              finishCount={finish.say_sentence}
+              levelLeft={affects.say_sentence}
               onClick={() => onStart("say_sentence")}
             />
             <ModeButton
@@ -367,7 +377,7 @@ export default function Roadmap({
               label="На слух"
               name="Аудирование предложений"
               r={readiness.listen_sentence}
-              finishCount={finish.listen_sentence}
+              levelLeft={affects.listen_sentence}
               onClick={() => onStart("listen_sentence")}
             />
           </div>
@@ -380,7 +390,7 @@ export default function Roadmap({
               label="Тексты"
               name="Чтение текстов"
               r={readiness.text}
-              finishCount={finish.text}
+              levelLeft={affects.text}
               onClick={() => onOpenReading("text")}
             />
             <ModeButton
@@ -388,7 +398,7 @@ export default function Roadmap({
               label="Диалоги"
               name="Чтение диалогов"
               r={readiness.dialog}
-              finishCount={finish.dialog}
+              levelLeft={affects.dialog}
               onClick={() => onOpenReading("dialog")}
             />
           </div>
