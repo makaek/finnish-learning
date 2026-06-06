@@ -79,6 +79,21 @@ function QuestionCard({
     setUnlocked(graded.correct);
   }
 
+  // Voice recognition mishears some answers, leaving the learner stuck on the correction step.
+  // This override marks the attempt correct (mirrors ProductionCard/SentenceCard) — scoring reads
+  // result.correct at advance, so it also counts the question toward the score / text mastery.
+  function forceCorrect() {
+    if (advanced) return;
+    setResult({
+      correct: true,
+      canonical: result?.canonical ?? "",
+      via: "exact",
+      errors: [],
+      praiseRu: "Засчитано как правильный ответ (голос мог не распознать). 🎤",
+    });
+    setUnlocked(true);
+  }
+
   const mustCorrect = result !== null && !result.correct;
   const canAdvance = result !== null && (result.correct || unlocked);
   const feedbackClass = result?.correct
@@ -211,10 +226,11 @@ function QuestionCard({
                 <button
                   type="button"
                   className="markok"
-                  onClick={() => setUnlocked(true)}
-                  title="Пропустить вопрос (не засчитывается как верный)"
+                  onClick={forceCorrect}
+                  aria-label="Засчитать ответ верным"
+                  title="Если голос не распознался — засчитать как верный"
                 >
-                  ⏭ Пропустить
+                  ✓ Засчитать верным
                 </button>
               </div>
             </>

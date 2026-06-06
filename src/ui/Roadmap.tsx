@@ -66,17 +66,8 @@ interface RoadmapProps {
   onTestFill: () => void;
 }
 
-/** Russian plural picker: `one` for 1, `few` for 2–4, `many` for 0 and 5+ (handles the teens). */
-function plural(n: number, one: string, few: string, many: string): string {
-  const mod100 = n % 100;
-  const mod10 = n % 10;
-  if (mod100 >= 11 && mod100 <= 14) return many;
-  if (mod10 === 1) return one;
-  if (mod10 >= 2 && mod10 <= 4) return few;
-  return many;
-}
-
-/** One exercise button: icon + short label + a traffic-light dot for that mode's readiness. */
+/** One exercise button: icon + short label, a corner count of current-level items still to do,
+ *  and a continuous readiness bar (the bar replaced the old traffic-light dot). */
 function ModeButton({
   icon,
   label,
@@ -108,24 +99,21 @@ function ModeButton({
     finishHint;
   return (
     <button type="button" className="modebtn" aria-label={`${name}: ${status}`} onClick={onClick}>
-      <span className={`dot dot--${r.level}`} aria-hidden="true" title={status} />
-      {/* Top-left slot: the count of current-level items still to master IN THIS MODE takes
-          priority (a per-mode depth nudge — the authoritative "to next level" guidance lives in the
-          header); when there's nothing left here, it falls back to the lifetime mastered total. */}
-      {finishCount > 0 ? (
+      {/* Top-left: lifetime mastered total (the banked count). */}
+      {r.level !== "none" && (
+        <span className="modebtn__count" aria-hidden="true" title={status}>
+          {r.mastered}
+        </span>
+      )}
+      {/* Top-right: how many CURRENT-level items are still left to do in this mode. */}
+      {finishCount > 0 && (
         <span
-          className="modebtn__count modebtn__count--finish"
+          className="modebtn__left"
           aria-hidden="true"
-          title={`Ещё ${finishCount} на текущем уровне в этом режиме`}
+          title={`Осталось на текущем уровне: ${finishCount}`}
         >
           {finishCount}
         </span>
-      ) : (
-        r.level !== "none" && (
-          <span className="modebtn__count" aria-hidden="true" title={status}>
-            {r.mastered}
-          </span>
-        )
       )}
       <span className="modebtn__icon" aria-hidden="true">
         {icon}
@@ -160,40 +148,22 @@ export default function Roadmap({
   // learn-progress bar — not the unlocked frontier, which jumped the bar to ~0% on every unlock.
   // Completion now spans words + sentences + dialogs/texts, so finishing a level's phrases and
   // dialogs fills the bar and advances the level. (Unlocks stay word-driven, so nothing relocks.)
-  const { active, overall, levelPct, remaining, isLastLevel } = useMemo(() => {
+  const { active, overall, levelPct } = useMemo(() => {
     const s = levelCompletionStats(vocab, sentences, texts, progress);
     const a = masteringLevel(s);
     const rem = remainingForLevel(vocab, sentences, texts, progress, a);
     const itemsLeft = rem.words + rem.sentences + rem.texts;
     // Bar = progress toward completing the level (= learned fraction, since completion needs 100%).
     // Cap below 100 while anything remains so the bar can't round up to "done" with items left —
-    // 100% is shown only when nothing's left, keeping the bar, the level, and the hint consistent.
+    // 100% is shown only when nothing's left, keeping the bar and the level consistent. (What's
+    // left per mode is shown as a corner count on each card, not as a header line.)
     const pct = Math.round(levelProgressToNext(s, a) * 100);
     return {
       active: a,
       overall: overallProgress(vocab, progress),
       levelPct: itemsLeft === 0 ? 100 : Math.min(99, pct),
-      // What's actually left to reach the next level, named per group (the "additional info").
-      remaining: rem,
-      isLastLevel: s.length === 0 || a >= Math.max(...s.map((x) => x.level)),
     };
   }, [vocab, sentences, texts, progress]);
-
-  // Plain-language "what's left to level up", built from the same predicates that gate advancement.
-  const remainingLabel = useMemo(() => {
-    const parts: string[] = [];
-    if (remaining.words > 0) parts.push(`${remaining.words} ${plural(remaining.words, "слово", "слова", "слов")}`);
-    if (remaining.sentences > 0)
-      parts.push(`${remaining.sentences} ${plural(remaining.sentences, "предложение", "предложения", "предложений")}`);
-    if (remaining.texts > 0) parts.push(`${remaining.texts} ${plural(remaining.texts, "текст", "текста", "текстов")}`);
-    if (parts.length === 0) {
-      return isLastLevel ? "Все уровни пройдены! 🎉" : "Почти готово — уровень вот-вот откроется!";
-    }
-    // No "next level" to name once you're finishing the final level — just list what's left.
-    return isLastLevel
-      ? `На последнем уровне осталось: ${parts.join(" · ")}`
-      : `До уровня ${active + 1}: ещё ${parts.join(" · ")}`;
-  }, [remaining, active, isLastLevel]);
 
   // Per-mode readiness, RELATIVE within each group (words / sentences) so the lights flag
   // which mode is lagging behind the others — nudging the learner to keep them balanced. Also
@@ -315,7 +285,6 @@ export default function Roadmap({
           >
             Уровень {active} · {levelPct}% освоено
           </span>
-          <span className="ghead__caption ghead__caption--remaining">{remainingLabel}</span>
 
           <span className="ghead__bar">
             <span className="ghead__fill ghead__fill--daily" style={{ width: `${goalPct}%` }} />

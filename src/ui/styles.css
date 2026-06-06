@@ -618,14 +618,6 @@ body {
   margin-bottom: 0;
 }
 
-/* The actionable "what's left to reach the next level" line — sits tight under the % and stands
-   out from the muted captions so the learner sees exactly what to do next. */
-.ghead__caption--remaining {
-  margin-top: calc(-1 * var(--s2) + 0.1rem);
-  color: var(--accent);
-  font-weight: 600;
-}
-
 /* --- Grouped exercise picker with readiness lights --- */
 .modegroup {
   margin: 0 0 var(--s3);
@@ -678,32 +670,7 @@ body {
   font-weight: 600;
 }
 
-.dot {
-  position: absolute;
-  top: 0.45rem;
-  right: 0.45rem;
-  width: 0.6rem;
-  height: 0.6rem;
-  border-radius: 50%;
-  box-shadow: 0 0 0 2px var(--surface);
-}
-
-/* Vivid traffic-light colours (dots aren't text, so not bound by the WCAG text tokens). */
-.dot--green {
-  background: #22c55e;
-}
-.dot--yellow {
-  background: #f5b400;
-}
-.dot--red {
-  background: #ef4444;
-}
-.dot--none {
-  background: var(--muted);
-  opacity: 0.5;
-}
-
-/* Lifetime mastered count, top-left (the dot/bar show recency; this shows the banked total). */
+/* Lifetime mastered count, top-left (the bar shows recency; this shows the banked total). */
 .modebtn__count {
   position: absolute;
   top: 0.4rem;
@@ -719,13 +686,21 @@ body {
   border-radius: 999px;
 }
 
-/* When the current level still has items to master in this mode, the top-left count turns into an
-   accent call-out (not muted) so it reads as "still to do here". (What's needed to reach the next
-   level is named explicitly in the home header, not implied by this per-mode count.) */
-.modebtn__count--finish {
+/* Top-right corner: how many current-level items are still left to do in this mode. Accent pill
+   so it reads as the actionable "to finish this level" count, distinct from the muted banked total. */
+.modebtn__left {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.45rem;
+  min-width: 1.1rem;
+  padding: 0 0.25rem;
+  font-size: 0.7rem;
+  font-weight: 800;
+  line-height: 1.1rem;
+  text-align: center;
   color: var(--accent-ink);
   background: var(--accent);
-  font-weight: 800;
+  border-radius: 999px;
 }
 
 /* Continuous readiness bar along the button's bottom edge — finer than the 3-colour dot, so
@@ -1647,9 +1622,6 @@ body {
   display: grid;
   gap: var(--s2);
   margin-top: var(--s3);
-}
-.dialog__modes {
-  justify-content: center;
 }
 .turn {
   display: grid;
