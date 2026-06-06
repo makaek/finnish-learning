@@ -16,6 +16,7 @@ import {
   readingLearned,
   remainingForLevel,
   sentenceLearned,
+  unmasteredInLevel,
   wordLearned,
   LEARNED_BOX,
   type SentenceLike,
@@ -69,15 +70,14 @@ interface RoadmapProps {
   onTestFill: () => void;
 }
 
-/** One exercise button: icon + short label, a top-left count of current-level items practising
- *  this card could still add to the level bar, and a continuous readiness bar (which replaced the
- *  old traffic-light dot). */
+/** One exercise button: icon + short label, a top-left count of current-level items still
+ *  unmastered IN THIS MODE, and a continuous readiness bar (which replaced the traffic-light dot). */
 function ModeButton({
   icon,
   label,
   name,
   r,
-  levelLeft,
+  modeLeft,
   onClick,
 }: {
   icon: string;
@@ -85,9 +85,8 @@ function ModeButton({
   /** Full accessible name (the short visible `label` repeats across groups). */
   name: string;
   r: ModeReadiness;
-  /** Current-level items in this group not yet learned — how many this card can still add to the
-   *  level progress bar (0 ⇒ this group no longer moves the bar). */
-  levelLeft: number;
+  /** Current-level items still unmastered in THIS mode (box below LEARNED_BOX). */
+  modeLeft: number;
   onClick: () => void;
 }) {
   const freshness =
@@ -98,20 +97,20 @@ function ModeButton({
         : r.level === "red"
           ? "заброшено"
           : "пока нечего учить";
-  const leftHint = levelLeft > 0 ? ` · ещё ${levelLeft} для прогресса уровня` : "";
+  const leftHint = modeLeft > 0 ? ` · ещё ${modeLeft} в этом режиме на текущем уровне` : "";
   const status =
     (r.level === "none" ? "пока нечего учить" : `освоено ${r.mastered} из ${r.total} · ${freshness}`) +
     leftHint;
   return (
     <button type="button" className="modebtn" aria-label={`${name}: ${status}`} onClick={onClick}>
-      {/* Top-left: how many current-level items this card can still add to the level progress bar. */}
-      {levelLeft > 0 && (
+      {/* Top-left: current-level items still unmastered in this specific mode. */}
+      {modeLeft > 0 && (
         <span
           className="modebtn__count"
           aria-hidden="true"
-          title={`Ещё ${levelLeft} для прогресса текущего уровня`}
+          title={`Не освоено в этом режиме на текущем уровне: ${modeLeft}`}
         >
-          {levelLeft}
+          {modeLeft}
         </span>
       )}
       <span className="modebtn__icon" aria-hidden="true">
@@ -126,6 +125,23 @@ function ModeButton({
         />
       </span>
     </button>
+  );
+}
+
+/** Section heading with the count of current-level items in this group still moving the level bar
+ *  (not yet learned in any mode). The count lives here, not per card, because it's the same across
+ *  a group's modes. */
+function GroupTitle({ title, left }: { title: string; left: number }) {
+  return (
+    <h3 className="modegroup__title">
+      {title}
+      {left > 0 && (
+        <span className="modegroup__count" title="Осталось освоить на этом уровне">
+          {" "}
+          ({left})
+        </span>
+      )}
+    </h3>
   );
 }
 
@@ -164,13 +180,14 @@ export default function Roadmap({
     };
   }, [vocab, sentences, texts, progress]);
 
-  // Per-mode readiness, RELATIVE within each group (words / sentences) so the bar flags which
-  // mode is lagging behind the others — nudging the learner to keep them balanced. Also `affects`:
-  // how many CURRENT-level items in each group are not yet LEARNED — i.e. how many items practising
-  // this card could still push into the level's progress bar. An item learned in ANY mode no longer
-  // moves the bar, so this is per-GROUP (same for every word card, every sentence card), matching
-  // the bar's learned/total maths exactly.
-  const { readiness, affects } = useMemo(() => {
+  // Per-mode readiness, RELATIVE within each group (words / sentences) so the bar flags which mode
+  // is lagging behind the others. Two count families:
+  //   - `finish`: per-CARD count of current-level items still unmastered IN THAT MODE (box below
+  //     LEARNED_BOX) — what the card itself still has to drill.
+  //   - `groupLeft`: per-GROUP count of current-level items not yet LEARNED (in ANY mode) — the
+  //     items still moving the level bar. Shown once on the section heading (the per-mode card
+  //     counts duplicate across a group, but the bar advances on any-mode learned).
+  const { readiness, finish, groupLeft } = useMemo(() => {
     const wordPool = activeVocab(vocab, progress, testMode).filter(
       (v) => !hidden.has(hiddenKey("word", v.id)),
     );
@@ -186,15 +203,13 @@ export default function Roadmap({
     const s = groupReadiness(sentPool, progress, sentModes, LEARNED_BOX);
     const rText = groupReadiness(textPool, progress, ["reading"], LEARNED_BOX);
     const rDialog = groupReadiness(dialogPool, progress, ["reading"], LEARNED_BOX);
-    // Count over the raw level lists (not the hidden/eligibility pools) so it tracks the bar.
+    // Group totals: count over the raw level lists (not the hidden/eligibility pools) so they track
+    // the bar's learned/total maths exactly. Reading group = texts + dialogs combined.
     const words = vocab.filter((v) => levelOf(v) === active && !wordLearned(progress, v.id)).length;
     const sents = sentences.filter(
       (x) => levelOf(x) === active && !sentenceLearned(progress, x.id),
     ).length;
-    const text = textPool.filter(
-      (t) => levelOf(t) === active && !readingLearned(progress, t.id),
-    ).length;
-    const dialog = dialogPool.filter(
+    const reading = texts.filter(
       (t) => levelOf(t) === active && !readingLearned(progress, t.id),
     ).length;
     return {
@@ -209,17 +224,18 @@ export default function Roadmap({
         text: rText.get("reading")!,
         dialog: rDialog.get("reading")!,
       },
-      affects: {
-        recognition: words,
-        production: words,
-        say_word: words,
-        listen_word: words,
-        sentences: sents,
-        say_sentence: sents,
-        listen_sentence: sents,
-        text,
-        dialog,
+      finish: {
+        recognition: unmasteredInLevel(wordPool, progress, "recognition", active),
+        production: unmasteredInLevel(wordPool, progress, "production", active),
+        say_word: unmasteredInLevel(wordPool, progress, "say_word", active),
+        listen_word: unmasteredInLevel(wordPool, progress, "listen_word", active),
+        sentences: unmasteredInLevel(sentPool, progress, "sentences", active),
+        say_sentence: unmasteredInLevel(sentPool, progress, "say_sentence", active),
+        listen_sentence: unmasteredInLevel(sentPool, progress, "listen_sentence", active),
+        text: unmasteredInLevel(textPool, progress, "reading", active),
+        dialog: unmasteredInLevel(dialogPool, progress, "reading", active),
       },
+      groupLeft: { words, sentences: sents, reading },
     };
   }, [vocab, sentences, texts, progress, testMode, hidden, active]);
 
@@ -293,7 +309,7 @@ export default function Roadmap({
             className="ghead__caption"
             title="Освоение уровня: слова, предложения и тексты/диалоги. Уровень открывается, когда освоено почти всё его содержимое."
           >
-            Уровень {active} · {levelPct}% освоено
+            Уровень {active} · {levelPct}%
           </span>
 
           <span className="ghead__bar">
@@ -317,14 +333,14 @@ export default function Roadmap({
         )}
 
         <div className="modegroup">
-          <h3 className="modegroup__title">Слова</h3>
+          <GroupTitle title="Слова" left={groupLeft.words} />
           <div className="modegroup__row">
             <ModeButton
               icon="👁"
               label="Узнавание"
               name="Узнавание слов"
               r={readiness.recognition}
-              levelLeft={affects.recognition}
+              modeLeft={finish.recognition}
               onClick={() => onStart("recognition")}
             />
             <ModeButton
@@ -332,7 +348,7 @@ export default function Roadmap({
               label="Написание"
               name="Написание слов"
               r={readiness.production}
-              levelLeft={affects.production}
+              modeLeft={finish.production}
               onClick={() => onStart("production")}
             />
             <ModeButton
@@ -340,7 +356,7 @@ export default function Roadmap({
               label="Речь"
               name="Произношение слов"
               r={readiness.say_word}
-              levelLeft={affects.say_word}
+              modeLeft={finish.say_word}
               onClick={() => onStart("say_word")}
             />
             <ModeButton
@@ -348,20 +364,20 @@ export default function Roadmap({
               label="На слух"
               name="Аудирование слов"
               r={readiness.listen_word}
-              levelLeft={affects.listen_word}
+              modeLeft={finish.listen_word}
               onClick={() => onStart("listen_word")}
             />
           </div>
         </div>
         <div className="modegroup">
-          <h3 className="modegroup__title">Предложения</h3>
+          <GroupTitle title="Предложения" left={groupLeft.sentences} />
           <div className="modegroup__row">
             <ModeButton
               icon="💬"
               label="Перевод"
               name="Перевод предложений"
               r={readiness.sentences}
-              levelLeft={affects.sentences}
+              modeLeft={finish.sentences}
               onClick={() => onStart("sentences")}
             />
             <ModeButton
@@ -369,7 +385,7 @@ export default function Roadmap({
               label="Речь"
               name="Произношение предложений"
               r={readiness.say_sentence}
-              levelLeft={affects.say_sentence}
+              modeLeft={finish.say_sentence}
               onClick={() => onStart("say_sentence")}
             />
             <ModeButton
@@ -377,20 +393,20 @@ export default function Roadmap({
               label="На слух"
               name="Аудирование предложений"
               r={readiness.listen_sentence}
-              levelLeft={affects.listen_sentence}
+              modeLeft={finish.listen_sentence}
               onClick={() => onStart("listen_sentence")}
             />
           </div>
         </div>
         <div className="modegroup">
-          <h3 className="modegroup__title">Чтение</h3>
+          <GroupTitle title="Чтение" left={groupLeft.reading} />
           <div className="modegroup__row">
             <ModeButton
               icon="📖"
               label="Тексты"
               name="Чтение текстов"
               r={readiness.text}
-              levelLeft={affects.text}
+              modeLeft={finish.text}
               onClick={() => onOpenReading("text")}
             />
             <ModeButton
@@ -398,7 +414,7 @@ export default function Roadmap({
               label="Диалоги"
               name="Чтение диалогов"
               r={readiness.dialog}
-              levelLeft={affects.dialog}
+              modeLeft={finish.dialog}
               onClick={() => onOpenReading("dialog")}
             />
           </div>

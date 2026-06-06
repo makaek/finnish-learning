@@ -630,6 +630,13 @@ body {
   color: var(--muted);
 }
 
+/* Count of current-level items in this group still moving the level bar — accent so it reads as
+   "this much left in this section". */
+.modegroup__count {
+  color: var(--accent);
+  font-weight: 700;
+}
+
 .modegroup__row {
   display: flex;
   gap: var(--s2);
