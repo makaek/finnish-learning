@@ -21,12 +21,14 @@ export const UNLOCK_FRACTION = 0.8;
 
 /**
  * Fraction of a level's items (words + sentences + texts) that must be learned for it to count as
- * "complete" when advancing the DISPLAYED level ({@link masteringLevel}). Below 1 on purpose: the
- * last few stragglers shouldn't pin the header/bar at the old level or keep nagging 🎯 badges —
- * they stay in the pools to finish later. Distinct from {@link UNLOCK_FRACTION} (content gating,
- * words only).
+ * "complete" when advancing the DISPLAYED level ({@link masteringLevel}). Kept at 1 so the three
+ * home signals stay consistent: the level advances, the progress bar reads 100%, and the "ещё N до
+ * уровня" hint hits zero all at the SAME moment — finishing every item. (An earlier <1 value let
+ * the bar round to 100% while items still remained; now the explicit per-group remaining hint
+ * names exactly what's left, so full completion is navigable, not a vague straggler problem.)
+ * Distinct from {@link UNLOCK_FRACTION} (content gating, words only), which stays below 1.
  */
-export const LEVEL_COMPLETE_FRACTION = 0.95;
+export const LEVEL_COMPLETE_FRACTION = 1;
 
 /** The four ways a single word is practised; level progress averages mastery across them. */
 export const WORD_MODES: readonly ItemKind[] = [

@@ -129,13 +129,13 @@ describe("masteringLevel (the level being completed)", () => {
     expect(masteringLevel(levelStats(vocab, all))).toBe(2);
   });
 
-  it("advances once a level is >= LEVEL_COMPLETE_FRACTION learned (stragglers don't pin it)", () => {
-    // At/above the threshold → move on; clearly below → still completing this level. Uses the
-    // live constant so it tracks any tuning of LEVEL_COMPLETE_FRACTION.
+  it("advances once a level is >= LEVEL_COMPLETE_FRACTION learned", () => {
+    // At/above the threshold → move on; below → still completing this level. Uses the live
+    // constant so it tracks any tuning of LEVEL_COMPLETE_FRACTION (currently 1 = full completion).
     const stat = (level: number, learnedN: number) => ({ level, total: 100, learned: learnedN, fraction: learnedN / 100 });
     const atThreshold = Math.round(LEVEL_COMPLETE_FRACTION * 100);
     expect(masteringLevel([stat(1, atThreshold), stat(2, 0)])).toBe(2);
-    expect(masteringLevel([stat(1, atThreshold - 10), stat(2, 0)])).toBe(1);
+    expect(masteringLevel([stat(1, atThreshold - 1), stat(2, 0)])).toBe(1);
   });
 });
 

@@ -163,14 +163,18 @@ export default function Roadmap({
   const { active, overall, levelPct, remaining, isLastLevel } = useMemo(() => {
     const s = levelCompletionStats(vocab, sentences, texts, progress);
     const a = masteringLevel(s);
-    // Bar = progress toward the NEXT level: the learned-fraction scaled so the advancement
-    // threshold reads as 100% (so it fills exactly as the level ticks over, never over-reporting).
+    const rem = remainingForLevel(vocab, sentences, texts, progress, a);
+    const itemsLeft = rem.words + rem.sentences + rem.texts;
+    // Bar = progress toward completing the level (= learned fraction, since completion needs 100%).
+    // Cap below 100 while anything remains so the bar can't round up to "done" with items left —
+    // 100% is shown only when nothing's left, keeping the bar, the level, and the hint consistent.
+    const pct = Math.round(levelProgressToNext(s, a) * 100);
     return {
       active: a,
       overall: overallProgress(vocab, progress),
-      levelPct: Math.round(levelProgressToNext(s, a) * 100),
+      levelPct: itemsLeft === 0 ? 100 : Math.min(99, pct),
       // What's actually left to reach the next level, named per group (the "additional info").
-      remaining: remainingForLevel(vocab, sentences, texts, progress, a),
+      remaining: rem,
       isLastLevel: s.length === 0 || a >= Math.max(...s.map((x) => x.level)),
     };
   }, [vocab, sentences, texts, progress]);
