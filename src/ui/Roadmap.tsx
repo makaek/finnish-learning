@@ -376,20 +376,9 @@ export default function Roadmap({
         <BalanceRing balance={balance} left={ringLeft} onPick={startById} />
 
         <div className="bstats">
-          <div className="bstat">
-            <div className="bstat__v">
-              {balance.score}
-              <small>%</small>
-            </div>
-            <div className="bstat__l">баланс</div>
-          </div>
-          <div className="bstats__sep" />
-          <div className="bstat">
-            <div className="bstat__v">
-              {overall.learned}
-              <small>/{overall.total}</small>
-            </div>
-            <div className="bstat__l">слов выучено</div>
+          <div className="bstat__v">
+            ✦ {overall.learned}
+            <small>/{overall.total}</small>
           </div>
         </div>
 

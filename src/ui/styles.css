@@ -664,11 +664,14 @@ body {
   background: var(--weak-wash);
   border-color: var(--weak-line);
 }
-/* Микс — accent action. */
+/* Микс — light with a subtle accent tint + dark text (tokens flip for dark theme automatically). */
 .actbtn--mix {
-  color: var(--accent-ink);
-  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-  border-color: var(--accent-strong);
+  color: var(--text);
+  background: color-mix(in srgb, var(--accent) 12%, var(--card));
+  border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
+}
+.actbtn--mix b {
+  color: var(--accent);
 }
 
 /* --- Grouped exercise picker with readiness lights --- */
@@ -1186,10 +1189,22 @@ body {
   padding-bottom: calc(4.7rem + env(safe-area-inset-bottom));
 }
 
-/* Home (Roadmap) fills the viewport top-aligned, reading as a screen rather than a centred card. */
+/* Home (Roadmap) fills the viewport top-aligned, reading as a screen rather than a centred card.
+   Locked to the viewport height with overflow hidden so the main page never scrolls — the
+   ring-centric home is built to fit. (Other screens keep their own scrolling.) */
 .app--home {
   align-items: stretch;
   justify-content: flex-start;
+  height: 100svh;
+  overflow: hidden;
+}
+
+/* Compact the summary card on the (non-scrolling) home so everything fits the viewport. */
+.app--home .card--summary {
+  padding: var(--s3);
+}
+.app--home .ghead--slim {
+  margin-bottom: var(--s2);
 }
 
 .bnav {
@@ -1730,7 +1745,7 @@ body {
 .bring {
   display: block;
   width: 100%;
-  max-width: 19rem;
+  max-width: 16rem;
   margin: 0 auto;
 }
 .bring__guide {
@@ -1795,16 +1810,11 @@ body {
 .bring__chipg.is-tappable { cursor: pointer; }
 .bring__chipg.is-tappable:active { transform: scale(0.96); transform-box: fill-box; transform-origin: center; }
 
-/* Header secondary stats under the ring (баланс % · слов выучено). */
+/* Words-learned figure under the ring. */
 .bstats {
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: var(--s4);
-  margin-top: 0.3rem;
+  margin-top: 0.2rem;
 }
-.bstat { text-align: center; }
-.bstat__v { font-size: 1.35rem; font-weight: 800; line-height: 1.1; }
+.bstat__v { font-size: 1.3rem; font-weight: 800; line-height: 1.1; }
 .bstat__v small { font-size: 0.85rem; color: var(--muted); font-weight: 700; }
-.bstat__l { font-size: 0.72rem; color: var(--muted); font-weight: 600; }
-.bstats__sep { width: 1px; height: 1.9rem; background: var(--border); }
