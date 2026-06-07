@@ -1,191 +1,223 @@
 /**
- * BalanceRing.tsx — the home-screen "Кольцо баланса".
+ * BalanceRing.tsx — the home-screen "Кольцо баланса" (direction C, with legend).
  *
- * One SVG that shows every mode at once: each spoke's length = that mode's mastery,
- * colour = its state (red ≤30%, yellow <100%, green at 100%), and an emoji chip at the tip
- * names it with a small badge of how many current-level items still need mastering in that
- * mode. Group arcs + labels wrap the outside (Слова / Предложения / Чтение). The dashed inner
- * circle is the level ceiling (= the weakest mode). EVERY spoke is tappable — even a finished
- * or empty mode starts (it just reviews already-mastered items, SRS-weighted).
+ * Ported from the approved mock, reconciled with this app's settled behaviour:
+ *   • 9 spokes from the hub; spoke LENGTH = mode mastery (0..1), with a minimum stub so a
+ *     near-zero mode never collapses into the hub.
+ *   • the mode ICON (monoline) is glued to the spoke TIP (distance from centre = mastery).
+ *   • spoke COLOUR = a continuous red→green gradient (mid lands yellow-green).
+ *   • EVERY spoke is startable and shows its remaining-count badge (sourced from `left`, the
+ *     same hidden/eligibility-filtered count the home computes — no lock/pause here).
+ *   • the weakest mode gets a red halo + a red badge; other badges use the accent.
+ *   • coloured group arcs wrap the outside; group NAMES live in a legend below the ring.
+ *   • dashed inner disc = the level gate (ceiling = weakest mastery).
  *
- * Pure presentation over core/balance.ts — no learning logic here. Colours come from the
- * existing token set (--ok / --known / --no) so it tracks light/dark for free.
+ * Presentation only. All balance maths is in core/balance.ts. Semantic colours (green/red/
+ * gradient/group hues) are literal so they read identically in light & dark; the structural
+ * colours (ink/sub/card/line) use the theme tokens so the ring tracks light/dark.
  */
 
-import type { Balance, ModeCell } from "../core/balance";
+import type { Balance, BalanceGroup } from "../core/balance";
 
-const GROUP_LABEL: Record<ModeCell["group"], string> = {
+/* ====================================================================== icons
+ * Monoline, 24×24 viewBox, stroke = currentColor. Keys match ModeInput.icon. */
+export type IconName = "eye" | "pen" | "mic" | "phones" | "chat" | "book" | "masks";
+
+const ICONS: Record<IconName, JSX.Element> = {
+  eye: (<><circle cx="12" cy="12" r="3.2" /><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" /></>),
+  pen: (<><path d="M4 20h4L19 9a2 2 0 0 0 0-3l-1-1a2 2 0 0 0-3 0L4 16v4Z" /><path d="M14 7l3 3" /></>),
+  mic: (<><rect x="9" y="3" width="6" height="11" rx="3" /><path d="M5 11a7 7 0 0 0 14 0M12 18v3" /></>),
+  phones: (<><path d="M4 13v-1a8 8 0 0 1 16 0v1" /><rect x="3" y="13" width="4" height="6" rx="1.6" /><rect x="17" y="13" width="4" height="6" rx="1.6" /></>),
+  chat: (<><path d="M4 5h16v11H9l-4 4v-4H4V5Z" /></>),
+  book: (<><path d="M12 6S9.5 4 4 4v14c5.5 0 8 2 8 2s2.5-2 8-2V4c-5.5 0-8 2-8 2Z" /><path d="M12 6v14" /></>),
+  masks: (<><path d="M3.5 5h8v6a4 4 0 0 1-8 0V5Z" /><path d="M12.5 9h8v6a4 4 0 0 1-8 0" /><path d="M5.5 8.5h1M8.5 8.5h1M14.5 12h1M17.5 12h1" /></>),
+};
+
+/** Standalone monoline icon (reused by the home's "слабое звено" button). */
+export function ModeIcon({ name, size = 24 }: { name: IconName; size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.9}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {ICONS[name]}
+    </svg>
+  );
+}
+
+/* ===================================================================== colour */
+const COL = {
+  // structural — theme tokens, so the ring follows light/dark
+  ink: "var(--text)",
+  sub: "var(--muted)",
+  card: "var(--card)",
+  line: "var(--border)",
+  // semantic — literal so the meaning reads the same in both themes
+  green: "#3B9C6E",
+  red: "#CE6A57",
+};
+const BADGE = "var(--accent)"; // non-weak badge fill (weak badges are red)
+const GROUP_HUE: Record<BalanceGroup, string> = {
+  words: "#5B53C6",
+  sent: "#1B8E84",
+  read: "#BB6A39",
+};
+const GROUP_LABEL: Record<BalanceGroup, string> = {
   words: "Слова",
   sent: "Предложения",
   read: "Чтение",
 };
 
-const STATE_COLOR: Record<ModeCell["state"], string> = {
-  weak: "var(--no)", //   red — ≤ 30% mastered in this mode at this level
-  ok: "var(--known)", //  yellow — > 30% but < 100%
-  done: "var(--ok)", //   green — 100% (or nothing left to drill)
-};
+/** Continuous red→green ramp. Mid mastery lands yellow-green (calmer than orange). */
+function spokeColor(mastery: number): string {
+  if (mastery >= 1) return COL.green;
+  if (mastery <= 0) return COL.red;
+  const h = 8 + mastery * 134; // 8° red → 142° green
+  return `hsl(${Math.round(h)}, 48%, 47%)`;
+}
 
-const cellColor = (c: ModeCell): string => STATE_COLOR[c.state];
-
-/* geometry */
-const VB = 364;
+/* =================================================================== geometry */
+const VB_W = 364;
+const VB_H = 372;
 const CX = 182;
 const CY = 184;
-const R0 = 46; // inner hub radius
-const R = 120; // max spoke radius
-const CHIP_R = R + 30; // emoji chip ring
-const LABEL_R = R + 56; // group labels
+const R0 = 46; // hub radius
+const RR = 128; // max spoke radius (mastery = 1)
+const ARC = 150; // group-arc radius
+const MIN_STUB = 0.26; // floor on spoke length so weak modes stay visible
 
-function polar(r: number, deg: number): [number, number] {
-  const a = (deg * Math.PI) / 180;
-  return [CX + Math.cos(a) * r, CY + Math.sin(a) * r];
-}
+const rad = (deg: number) => (deg * Math.PI) / 180;
+const pol = (r: number, deg: number): [number, number] => [CX + Math.cos(rad(deg)) * r, CY + Math.sin(rad(deg)) * r];
 function arcPath(r: number, a0: number, a1: number): string {
-  const [x0, y0] = polar(r, a0);
-  const [x1, y1] = polar(r, a1);
-  const large = a1 - a0 > 180 ? 1 : 0;
-  return `M${x0.toFixed(1)} ${y0.toFixed(1)} A ${r} ${r} 0 ${large} 1 ${x1.toFixed(1)} ${y1.toFixed(1)}`;
+  const [x0, y0] = pol(r, a0);
+  const [x1, y1] = pol(r, a1);
+  return `M${x0.toFixed(1)} ${y0.toFixed(1)} A ${r} ${r} 0 ${a1 - a0 > 180 ? 1 : 0} 1 ${x1.toFixed(1)} ${y1.toFixed(1)}`;
+}
+const tipRadius = (m: number) => R0 + Math.max(m, MIN_STUB) * (RR - R0);
+
+/* ======================================================================= chip */
+function Chip({ x, y, color, icon, weak, badge }: {
+  x: number; y: number; color: string; icon: IconName; weak: boolean; badge: number | null;
+}) {
+  const rr = weak ? 18 : 16; // chip radius
+  const isz = weak ? 25 : 23; // icon box
+  return (
+    <g>
+      {weak && <circle cx={x} cy={y} r={rr + 5} fill="none" stroke={COL.red} strokeWidth={2.5} opacity={0.5} />}
+      <circle cx={x} cy={y} r={rr} fill={COL.card} stroke={color} strokeWidth={2.3} />
+      <svg x={x - isz / 2} y={y - isz / 2} width={isz} height={isz} viewBox="0 0 24 24" fill="none"
+        stroke={color} strokeWidth={1.9} strokeLinecap="round" strokeLinejoin="round">
+        {ICONS[icon]}
+      </svg>
+      {badge != null && (
+        <g>
+          <circle cx={x + rr - 1} cy={y - rr + 1} r={8.5} fill={weak ? COL.red : BADGE} stroke={COL.card} strokeWidth={1.4} />
+          <text x={x + rr - 1} y={y - rr + 1.5} textAnchor="middle" dominantBaseline="central"
+            fontWeight={700} fontSize={10} fill="#fff">{badge}</text>
+        </g>
+      )}
+    </g>
+  );
 }
 
-export default function BalanceRing({
-  balance,
-  left,
-  onPick,
-}: {
+/* ======================================================================= ring */
+export default function BalanceRing({ balance, left, onPick }: {
   balance: Balance;
-  /**
-   * Per-mode leftover count (mode id → items still to master at this level), sourced from the same
-   * hidden/eligibility-filtered pools the session draws from — so the badge matches what tapping
-   * actually drills. Falls back to the raw `total - mastered` when not supplied.
-   */
+  /** Per-mode leftover count (id → items still to master), matching what tapping the spoke opens. */
   left?: Record<string, number>;
-  /** Start a mode by its ModeInput.id — every spoke fires (finished modes review their items). */
+  /** Start a mode by ModeCell.id — every spoke fires (finished modes just review their items). */
   onPick: (id: string) => void;
 }) {
   const cells = balance.cells;
-  const n = cells.length;
-  const step = 360 / n;
-  const gateR = R0 + balance.gate * (R - R0);
+  const step = 360 / cells.length; // 9 modes → 40°, first at top (-90°)
+  const gateR = R0 + balance.gate * (RR - R0);
 
   // contiguous angular span per group (cells are pre-ordered words→sent→read)
-  const spans = new Map<ModeCell["group"], { a: number; b: number }>();
+  const spans = new Map<BalanceGroup, [number, number]>();
   cells.forEach((c, i) => {
-    const s = spans.get(c.group) ?? { a: i, b: i };
-    s.a = Math.min(s.a, i);
-    s.b = Math.max(s.b, i);
-    spans.set(c.group, s);
+    const s = spans.get(c.group);
+    if (s) s[1] = i;
+    else spans.set(c.group, [i, i]);
   });
 
   return (
-    <svg
-      className="bring"
-      viewBox={`0 0 ${VB} ${VB + 8}`}
-      role="img"
-      aria-label={`Баланс режимов ${balance.score}%. Слабое звено: ${balance.weakest?.label ?? "нет"}.`}
-    >
-      {/* group arcs + labels */}
-      {[...spans.entries()].map(([g, { a, b }]) => {
-        const a0 = -90 + a * step - step / 2 + 4;
-        const a1 = -90 + b * step + step / 2 - 4;
-        const [lx, ly] = polar(LABEL_R, -90 + ((a + b) / 2) * step);
-        return (
-          <g key={g}>
-            <path className={`bring__arc bring__arc--${g}`} d={arcPath(R + 9, a0, a1)} />
-            <text className={`bring__glabel bring__glabel--${g}`} x={lx} y={ly}>
-              {GROUP_LABEL[g]}
-            </text>
-          </g>
-        );
-      })}
+    <div className="bring">
+      <svg viewBox={`0 0 ${VB_W} ${VB_H}`} className="bring__svg"
+        role="img" aria-label={`Баланс ${balance.score}%. Слабое звено: ${balance.weakest?.label ?? "нет"}.`}>
+        {/* group arcs (names are in the legend, not on the ring) */}
+        {[...spans.entries()].map(([g, [a, b]]) => {
+          const a0 = -90 + a * step - step / 2 + 4;
+          const a1 = -90 + b * step + step / 2 - 4;
+          return <path key={g} d={arcPath(ARC, a0, a1)} stroke={GROUP_HUE[g]} strokeWidth={3} fill="none" strokeLinecap="round" opacity={0.9} />;
+        })}
 
-      {/* guide rings + spokes */}
-      <circle className="bring__guide" cx={CX} cy={CY} r={(R0 + R) / 2} />
-      <circle className="bring__guide" cx={CX} cy={CY} r={R} />
-      {cells.map((_, i) => {
-        const [x1, y1] = polar(R0, -90 + i * step);
-        const [x2, y2] = polar(R, -90 + i * step);
-        return <line key={`g${i}`} className="bring__guide" x1={x1} y1={y1} x2={x2} y2={y2} />;
-      })}
+        {/* level gate = weakest mastery */}
+        <circle cx={CX} cy={CY} r={gateR} fill={COL.red} opacity={0.05} />
+        <circle cx={CX} cy={CY} r={gateR} fill="none" stroke={COL.red} strokeWidth={1.3} strokeDasharray="2 4" opacity={0.45} />
 
-      {/* level ceiling = weakest mastery */}
-      <circle className="bring__gate" cx={CX} cy={CY} r={gateR} />
+        {/* outer guide */}
+        <circle cx={CX} cy={CY} r={RR} fill="none" stroke={COL.line} strokeWidth={1} />
 
-      {/* petals */}
-      {cells.map((c, i) => {
-        const ang = -90 + i * step;
-        const [x1, y1] = polar(R0 + 2, ang);
-        const [x2, y2] = polar(R0 + c.mastery * (R - R0), ang);
-        return (
-          <line
-            key={`p${i}`}
-            x1={x1}
-            y1={y1}
-            x2={x2}
-            y2={y2}
-            stroke={cellColor(c)}
-            strokeWidth={c.weakest ? 16 : 14}
-            strokeLinecap="round"
-            opacity={c.weakest ? 1 : 0.92}
-          />
-        );
-      })}
+        {/* spokes: hub → chip centre, so the icon sits glued on the tip */}
+        {cells.map((c, i) => {
+          const ang = -90 + i * step;
+          const end = tipRadius(c.mastery);
+          const [x1, y1] = pol(R0 + 2, ang);
+          const [x2, y2] = pol(end, ang);
+          return <line key={`s${i}`} x1={x1} y1={y1} x2={x2} y2={y2}
+            stroke={spokeColor(c.mastery)} strokeWidth={c.weakest ? 16 : 14}
+            strokeLinecap="round" opacity={0.95} />;
+        })}
 
-      {/* emoji chips (identity + tap target). Every spoke is startable; a corner badge shows how
-          many current-level items still need mastering in that mode (like the old card count). */}
-      {cells.map((c, i) => {
-        const [cx, cy] = polar(CHIP_R, -90 + i * step);
-        const col = cellColor(c);
-        const rr = c.weakest ? 16 : 14;
-        // Prefer the filtered leftover count (matches the session); fall back to the raw cell math.
-        const leftN = left?.[c.id] ?? Math.max(0, c.total - c.mastered);
-        return (
-          <g
-            key={`c${i}`}
-            className="bring__chipg is-tappable"
-            onClick={() => onPick(c.id)}
-            // Keep the spoke reachable by keyboard: an SVG <g> isn't natively focusable, so
-            // role="button" alone would promise an interaction keyboard users can't trigger.
-            // tabIndex + Enter/Space deliver it.
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                onPick(c.id);
-              }
-            }}
-            role="button"
-            tabIndex={0}
-            aria-label={
-              leftN > 0
+        {/* chips at the tips (every one a tap target) */}
+        {cells.map((c, i) => {
+          const ang = -90 + i * step;
+          const [x, y] = pol(tipRadius(c.mastery), ang);
+          const leftN = left?.[c.id] ?? Math.max(0, c.total - c.mastered);
+          return (
+            <g key={`c${i}`} className="bring__tap"
+              onClick={() => onPick(c.id)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  onPick(c.id);
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label={leftN > 0
                 ? `${c.label}: освоено ${Math.round(c.mastery * 100)}%, осталось ${leftN}`
-                : `${c.label}: освоено`
-            }
-          >
-            {c.weakest && <circle cx={cx} cy={cy} r={rr + 4.5} fill="none" stroke={col} strokeWidth="2" opacity="0.4" />}
-            <circle cx={cx} cy={cy} r={rr} fill="var(--card)" stroke={col} strokeWidth="2.2" />
-            <text className="bring__emoji" x={cx} y={cy + 0.5}>
-              {c.icon}
-            </text>
-            {leftN > 0 && (
-              <>
-                <circle cx={cx + 11} cy={cy - 11} r="8.5" fill="var(--accent)" stroke="var(--card)" strokeWidth="1.5" />
-                <text className="bring__count" x={cx + 11} y={cy - 10.5}>
-                  {leftN}
-                </text>
-              </>
-            )}
-          </g>
-        );
-      })}
+                : `${c.label}: освоено`}>
+              <Chip x={x} y={y} color={spokeColor(c.mastery)} icon={c.icon as IconName}
+                weak={c.weakest} badge={leftN > 0 ? leftN : null} />
+            </g>
+          );
+        })}
 
-      {/* centre: current level */}
-      <circle cx={CX} cy={CY} r={R0 - 4} fill="var(--card)" stroke="var(--border)" strokeWidth="1.4" />
-      <text className="bring__level" x={CX} y={CY - 4}>
-        {balance.level}
-      </text>
-      <text className="bring__levellabel" x={CX} y={CY + 16}>
-        УРОВЕНЬ
-      </text>
-    </svg>
+        {/* centre: current level */}
+        <circle cx={CX} cy={CY} r={R0 - 4} fill={COL.card} stroke={COL.line} strokeWidth={1.4} />
+        <text x={CX} y={CY - 4} textAnchor="middle" dominantBaseline="central"
+          fontWeight={800} fontSize={34} fill={COL.ink}>{balance.level}</text>
+        <text x={CX} y={CY + 16} textAnchor="middle" dominantBaseline="central"
+          fontWeight={600} fontSize={12} letterSpacing="0.06em" fill={COL.sub}>УРОВЕНЬ</text>
+      </svg>
+
+      {/* legend (replaces the long curved words on the ring) */}
+      <div className="bring__legend">
+        {(Object.keys(GROUP_LABEL) as BalanceGroup[]).map((g) => (
+          <span key={g} className="bring__leg">
+            <span className="bring__legdot" style={{ background: GROUP_HUE[g] }} />
+            {GROUP_LABEL[g]}
+          </span>
+        ))}
+      </div>
+    </div>
   );
 }

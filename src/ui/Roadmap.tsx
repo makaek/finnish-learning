@@ -33,21 +33,22 @@ import {
   type UserState,
 } from "../core/daily";
 import { hiddenKey } from "./hidden";
-import BalanceRing from "./BalanceRing";
+import BalanceRing, { ModeIcon, type IconName } from "./BalanceRing";
 import ThemeToggle from "./ThemeToggle";
 
-/** UI label + icon for each ring spoke, keyed by the `LevelModeStat.id` core produces. The core
- *  supplies the per-level {mastered,total,group}; the Roadmap owns the (Russian) presentation. */
-const RING_MODES: Record<string, { label: string; icon: string }> = {
-  recognition: { label: "Узнавание", icon: "👁" },
-  production: { label: "Написание", icon: "✍️" },
-  say_word: { label: "Речь", icon: "🎤" },
-  listen_word: { label: "На слух", icon: "🎧" },
-  sentences: { label: "Перевод", icon: "💬" },
-  say_sentence: { label: "Речь", icon: "🎤" },
-  listen_sentence: { label: "На слух", icon: "🎧" },
-  "read:text": { label: "Тексты", icon: "📖" },
-  "read:dialog": { label: "Диалоги", icon: "🎭" },
+/** UI label + monoline icon key for each ring spoke, keyed by the `LevelModeStat.id` core produces.
+ *  The core supplies the per-level {mastered,total,group}; the Roadmap owns the presentation. Icon
+ *  keys map to the monoline paths in BalanceRing's ICONS (eye|pen|mic|phones|chat|book|masks). */
+const RING_MODES: Record<string, { label: string; icon: IconName }> = {
+  recognition: { label: "Узнавание", icon: "eye" },
+  production: { label: "Написание", icon: "pen" },
+  say_word: { label: "Речь", icon: "mic" },
+  listen_word: { label: "На слух", icon: "phones" },
+  sentences: { label: "Перевод", icon: "chat" },
+  say_sentence: { label: "Речь", icon: "mic" },
+  listen_sentence: { label: "На слух", icon: "phones" },
+  "read:text": { label: "Тексты", icon: "book" },
+  "read:dialog": { label: "Диалоги", icon: "masks" },
 };
 
 export type Mode =
@@ -394,7 +395,7 @@ export default function Roadmap({
                 title={`Слабое звено: ${balance.weakest.label}`}
               >
                 <span className="actbtn__icon" aria-hidden="true">
-                  {balance.weakest.icon}
+                  <ModeIcon name={balance.weakest.icon as IconName} size={20} />
                 </span>
                 <span className="actbtn__text">Слабое звено</span>
               </button>

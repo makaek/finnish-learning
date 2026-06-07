@@ -652,8 +652,14 @@ body {
   transform: scale(0.98);
 }
 .actbtn__icon {
+  display: inline-flex;
   font-size: 1.2rem;
   line-height: 1;
+}
+/* The слабое-звено icon is a monoline SVG (currentColor → the button's text colour). */
+.actbtn__icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
 }
 .actbtn__text b {
   font-weight: 800;
@@ -1728,87 +1734,54 @@ body {
  * ==========================================================================*/
 
 :root {
-  /* Group hues for the ring arcs/labels — distinct from the --ok/--known/--no
-     state colours so "which group" and "how mastered" never collide. */
-  --g-words: light-dark(#4f46e5, #9aa0ff);
-  --g-sent: light-dark(#0e8f86, #4fd0c4);
-  --g-read: light-dark(#c2570e, #f0a35a);
-
-  /* Weak-link card: a calm clay wash + a muted-coral action (focus, not alarm). */
+  /* "Слабое звено" action button: a calm clay wash + muted-coral icon (focus, not alarm). */
   --weak-wash: color-mix(in srgb, var(--no) 7%, var(--card));
   --weak-line: color-mix(in srgb, var(--no) 24%, var(--border));
   --weak-ink: color-mix(in srgb, var(--no) 55%, var(--text));
-  --weak-btn: color-mix(in srgb, var(--no) 72%, var(--text) 6%);
 }
 
-/* --- The ring SVG --- */
+/* --- The ring (direction C): inline SVG with mostly literal colours; this styles the wrapper,
+   the tap affordance, and the group legend below. --- */
 .bring {
-  display: block;
   width: 100%;
-  max-width: 26rem; /* fill the card width — the empty side gaps were wasted space */
+  max-width: 26rem; /* fill the card width */
   margin: 0 auto;
 }
-.bring__guide {
-  fill: none;
-  stroke: var(--border);
-  stroke-width: 1;
+.bring__svg {
+  display: block;
+  width: 100%;
+  height: auto;
 }
-.bring__gate {
-  fill: none;
-  stroke: var(--text);
-  stroke-width: 1.4;
-  stroke-dasharray: 3 5;
-  opacity: 0.45;
+.bring__tap {
+  cursor: pointer;
 }
-.bring__arc {
-  fill: none;
-  stroke-width: 3;
-  stroke-linecap: round;
-  opacity: 0.9;
+.bring__tap:active {
+  transform: scale(0.96);
+  transform-box: fill-box;
+  transform-origin: center;
 }
-.bring__arc--words { stroke: var(--g-words); }
-.bring__arc--sent { stroke: var(--g-sent); }
-.bring__arc--read { stroke: var(--g-read); }
 
-.bring__glabel {
-  text-anchor: middle;
-  dominant-baseline: central;
-  font-size: 13px;
-  font-weight: 700;
+/* Group legend (names live here, not on the ring). */
+.bring__legend {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.125rem;
+  margin-top: 0.25rem;
 }
-.bring__glabel--words { fill: var(--g-words); }
-.bring__glabel--sent { fill: var(--g-sent); }
-.bring__glabel--read { fill: var(--g-read); }
-
-.bring__emoji {
-  text-anchor: middle;
-  dominant-baseline: central;
-  font-size: 17px;
-}
-.bring__count {
-  text-anchor: middle;
-  dominant-baseline: central;
-  font-size: 10px;
-  font-weight: 800;
-  fill: var(--accent-ink);
-}
-.bring__level {
-  text-anchor: middle;
-  dominant-baseline: central;
-  font-size: 34px;
-  font-weight: 800;
-  fill: var(--text);
-}
-.bring__levellabel {
-  text-anchor: middle;
-  dominant-baseline: central;
-  font-size: 12px;
+.bring__leg {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  letter-spacing: 0.06em;
-  fill: var(--muted);
+  color: var(--muted);
 }
-.bring__chipg.is-tappable { cursor: pointer; }
-.bring__chipg.is-tappable:active { transform: scale(0.96); transform-box: fill-box; transform-origin: center; }
+.bring__legdot {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+}
 
 /* Words-learned figure under the ring. */
 .bstats {
