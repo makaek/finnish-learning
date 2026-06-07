@@ -1745,7 +1745,7 @@ body {
 .bring {
   display: block;
   width: 100%;
-  max-width: 16rem;
+  max-width: 26rem; /* fill the card width — the empty side gaps were wasted space */
   margin: 0 auto;
 }
 .bring__guide {
