@@ -20,7 +20,7 @@ import {
   levelOf,
   levelStats,
   listLevels,
-  masteringLevel,
+  masteringLevelGated,
   overallProgress,
   readingLearned,
   sentenceLearned,
@@ -310,7 +310,9 @@ export function computeDashboard(
     sentencesLearned: sentences.filter((s) => sentenceLearned(progress, s.id)).length,
     sentencesTotal: sentences.length,
     sentencesEligible: eligible.length,
-    level: masteringLevel(completionStats),
+    // The displayed "current level" is balance-gated (same as the home), so a lopsided level
+    // doesn't read as complete here while the home still holds it. Unlocks stay word-driven.
+    level: masteringLevelGated(vocab, sentences, texts, progress),
     levelsTotal: listLevels([...vocab, ...sentences, ...texts]).length,
     streak: currentStreak(daily, today),
     bestStreak: daily.bestStreak,

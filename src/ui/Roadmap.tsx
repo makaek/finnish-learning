@@ -9,9 +9,10 @@ import {
   activeVocab,
   eligibleSentences,
   levelCompletionStats,
+  levelModeStats,
   levelOf,
   levelProgressToNext,
-  masteringLevel,
+  masteringLevelGated,
   overallProgress,
   readingLearned,
   remainingForLevel,
@@ -23,7 +24,7 @@ import {
   type VocabLike,
 } from "../core/levels";
 import { groupReadiness, type ModeReadiness } from "../core/stats";
-import { computeBalance, type ModeInput } from "../core/balance";
+import { computeBalance, isLevelBalanced, type ModeInput } from "../core/balance";
 import type { ProgressMap } from "../core/progress";
 import {
   currentStreak,
@@ -38,8 +39,19 @@ import { hiddenKey } from "./hidden";
 import BalanceRing from "./BalanceRing";
 import ThemeToggle from "./ThemeToggle";
 
-/** Reduce a per-mode readiness to the two figures the balance ring needs. */
-const pick = (m: ModeReadiness) => ({ mastered: m.mastered, total: m.total });
+/** UI label + icon for each ring spoke, keyed by the `LevelModeStat.id` core produces. The core
+ *  supplies the per-level {mastered,total,group}; the Roadmap owns the (Russian) presentation. */
+const RING_MODES: Record<string, { label: string; icon: string }> = {
+  recognition: { label: "Узнавание", icon: "👁" },
+  production: { label: "Написание", icon: "✍️" },
+  say_word: { label: "Речь", icon: "🎤" },
+  listen_word: { label: "На слух", icon: "🎧" },
+  sentences: { label: "Перевод", icon: "💬" },
+  say_sentence: { label: "Речь", icon: "🎤" },
+  listen_sentence: { label: "На слух", icon: "🎧" },
+  "read:text": { label: "Тексты", icon: "📖" },
+  "read:dialog": { label: "Диалоги", icon: "🎭" },
+};
 
 export type Mode =
   | "recognition"
@@ -83,6 +95,7 @@ function ModeButton({
   name,
   r,
   modeLeft,
+  paused = false,
   onClick,
 }: {
   icon: string;
@@ -92,6 +105,8 @@ function ModeButton({
   r: ModeReadiness;
   /** Current-level items still unmastered in THIS mode (box below LEARNED_BOX). */
   modeLeft: number;
+  /** Runaway leader: ran too far ahead of its group → paused (greyed, not startable). */
+  paused?: boolean;
   onClick: () => void;
 }) {
   const freshness =
@@ -103,19 +118,32 @@ function ModeButton({
           ? "заброшено"
           : "пока нечего учить";
   const leftHint = modeLeft > 0 ? ` · ещё ${modeLeft} в этом режиме на текущем уровне` : "";
-  const status =
-    (r.level === "none" ? "пока нечего учить" : `освоено ${r.mastered} из ${r.total} · ${freshness}`) +
-    leftHint;
+  const status = paused
+    ? "на паузе — сначала подтяни отстающие режимы"
+    : (r.level === "none" ? "пока нечего учить" : `освоено ${r.mastered} из ${r.total} · ${freshness}`) +
+      leftHint;
   return (
-    <button type="button" className="modebtn" aria-label={`${name}: ${status}`} onClick={onClick}>
+    <button
+      type="button"
+      className={`modebtn${paused ? " modebtn--paused" : ""}`}
+      aria-label={`${name}: ${status}`}
+      aria-disabled={paused || undefined}
+      // Keep the leader focusable for its explanatory label, but a no-op so it can't be started.
+      onClick={paused ? undefined : onClick}
+    >
       {/* Top-left: current-level items still unmastered in this specific mode. */}
-      {modeLeft > 0 && (
+      {modeLeft > 0 && !paused && (
         <span
           className="modebtn__count"
           aria-hidden="true"
           title={`Не освоено в этом режиме на текущем уровне: ${modeLeft}`}
         >
           {modeLeft}
+        </span>
+      )}
+      {paused && (
+        <span className="modebtn__lock" aria-hidden="true" title={status}>
+          🔒
         </span>
       )}
       <span className="modebtn__icon" aria-hidden="true">
@@ -168,20 +196,36 @@ export default function Roadmap({
   // learn-progress bar — not the unlocked frontier, which jumped the bar to ~0% on every unlock.
   // Completion now spans words + sentences + dialogs/texts, so finishing a level's phrases and
   // dialogs fills the bar and advances the level. (Unlocks stay word-driven, so nothing relocks.)
-  const { active, overall, levelPct } = useMemo(() => {
+  const { active, overall, levelPct, balance, maxLevel, nextLevel } = useMemo(() => {
     const s = levelCompletionStats(vocab, sentences, texts, progress);
-    const a = masteringLevel(s);
+    // Gated current level: advances only once a level is both learned-enough AND balanced across
+    // every mode (the Кольцо-баланса gate). Content unlocks stay word-driven, so nothing relocks.
+    const a = masteringLevelGated(vocab, sentences, texts, progress);
+    // The ring/gate are driven by CURRENT-LEVEL mastery: per mode, items mastered (box ≥
+    // LEARNED_BOX) over the items that mode drills at level `a`. Core gives {mastered,total,group};
+    // the Roadmap attaches the label/icon.
+    const modes: ModeInput[] = levelModeStats(vocab, sentences, texts, progress, a).map((m) => ({
+      ...m,
+      label: RING_MODES[m.id]?.label ?? m.id,
+      icon: RING_MODES[m.id]?.icon ?? "•",
+    }));
+    const bal = computeBalance(modes, a);
     const rem = remainingForLevel(vocab, sentences, texts, progress, a);
     const itemsLeft = rem.words + rem.sentences + rem.texts;
-    // Bar = progress toward completing the level (= learned fraction, since completion needs 100%).
-    // Cap below 100 while anything remains so the bar can't round up to "done" with items left —
-    // 100% is shown only when nothing's left, keeping the bar and the level consistent. (What's
-    // left per mode is shown as a corner count on each card, not as a header line.)
+    // Bar = progress toward completing the level. It reads 100% only when the level truly finishes
+    // — every item learned AND the ring balanced — so it never shows "done" while the balance gate
+    // still holds the level (keeps bar ↔ level ↔ ring consistent). What's left per mode is the
+    // ring's weakest spoke + each card's corner count.
     const pct = Math.round(levelProgressToNext(s, a) * 100);
     return {
       active: a,
       overall: overallProgress(vocab, progress),
-      levelPct: itemsLeft === 0 ? 100 : Math.min(99, pct),
+      levelPct: itemsLeft === 0 && isLevelBalanced(bal) ? 100 : Math.min(99, pct),
+      balance: bal,
+      maxLevel: s[s.length - 1]?.level ?? a,
+      // The real next level from the data — level numbers aren't guaranteed contiguous, so don't
+      // assume a+1 (a content gap would mislabel the gate hint).
+      nextLevel: s.find((x) => x.level > a)?.level ?? a,
     };
   }, [vocab, sentences, texts, progress]);
 
@@ -244,25 +288,9 @@ export default function Roadmap({
     };
   }, [vocab, sentences, texts, progress, testMode, hidden, active]);
 
-  // Кольцо баланса: one signal showing how evenly every mode is developed. Driven by the
-  // lifetime mastery the home already computes (ModeReadiness.mastered / .total) — no new
-  // learning logic, no storage. The ring routes taps back through the same handlers the
-  // mode grid uses; the grid stays the primary entry point (read-only ring, no gating yet).
-  const balance = useMemo(() => {
-    const r = readiness;
-    const modes: ModeInput[] = [
-      { id: "recognition", group: "words", label: "Узнавание", icon: "👁", ...pick(r.recognition) },
-      { id: "production", group: "words", label: "Написание", icon: "✍️", ...pick(r.production) },
-      { id: "say_word", group: "words", label: "Речь", icon: "🎤", ...pick(r.say_word) },
-      { id: "listen_word", group: "words", label: "На слух", icon: "🎧", ...pick(r.listen_word) },
-      { id: "sentences", group: "sent", label: "Перевод", icon: "💬", ...pick(r.sentences) },
-      { id: "say_sentence", group: "sent", label: "Речь", icon: "🎤", ...pick(r.say_sentence) },
-      { id: "listen_sentence", group: "sent", label: "На слух", icon: "🎧", ...pick(r.listen_sentence) },
-      { id: "read:text", group: "read", label: "Тексты", icon: "📖", ...pick(r.text) },
-      { id: "read:dialog", group: "read", label: "Диалоги", icon: "🎭", ...pick(r.dialog) },
-    ];
-    return computeBalance(modes, active);
-  }, [readiness, active]);
+  // Leader modes that have run too far ahead of their group are paused (not startable) — the
+  // anti-grind nudge. The ring greys them itself; we also gate the grid buttons below.
+  const pausedModes = new Set(balance.cells.filter((c) => c.paused).map((c) => c.id));
 
   // Single router shared by the ring spokes and the weak-link card (reading ids open the
   // library; the rest map 1:1 onto the Mode union the grid already starts).
@@ -350,6 +378,13 @@ export default function Roadmap({
           </button>
         )}
 
+        {balance.weakest && active < maxLevel && (
+          <span className="bgate">
+            🔒 До <b>уровня {nextLevel}</b> — выровняй кольцо. Уровень растёт по самому слабому
+            режиму.
+          </span>
+        )}
+
         <button
           type="button"
           className="ghead"
@@ -416,6 +451,7 @@ export default function Roadmap({
               name="Узнавание слов"
               r={readiness.recognition}
               modeLeft={finish.recognition}
+              paused={pausedModes.has("recognition")}
               onClick={() => onStart("recognition")}
             />
             <ModeButton
@@ -424,6 +460,7 @@ export default function Roadmap({
               name="Написание слов"
               r={readiness.production}
               modeLeft={finish.production}
+              paused={pausedModes.has("production")}
               onClick={() => onStart("production")}
             />
             <ModeButton
@@ -432,6 +469,7 @@ export default function Roadmap({
               name="Произношение слов"
               r={readiness.say_word}
               modeLeft={finish.say_word}
+              paused={pausedModes.has("say_word")}
               onClick={() => onStart("say_word")}
             />
             <ModeButton
@@ -440,6 +478,7 @@ export default function Roadmap({
               name="Аудирование слов"
               r={readiness.listen_word}
               modeLeft={finish.listen_word}
+              paused={pausedModes.has("listen_word")}
               onClick={() => onStart("listen_word")}
             />
           </div>
@@ -453,6 +492,7 @@ export default function Roadmap({
               name="Перевод предложений"
               r={readiness.sentences}
               modeLeft={finish.sentences}
+              paused={pausedModes.has("sentences")}
               onClick={() => onStart("sentences")}
             />
             <ModeButton
@@ -461,6 +501,7 @@ export default function Roadmap({
               name="Произношение предложений"
               r={readiness.say_sentence}
               modeLeft={finish.say_sentence}
+              paused={pausedModes.has("say_sentence")}
               onClick={() => onStart("say_sentence")}
             />
             <ModeButton
@@ -469,6 +510,7 @@ export default function Roadmap({
               name="Аудирование предложений"
               r={readiness.listen_sentence}
               modeLeft={finish.listen_sentence}
+              paused={pausedModes.has("listen_sentence")}
               onClick={() => onStart("listen_sentence")}
             />
           </div>
@@ -482,6 +524,7 @@ export default function Roadmap({
               name="Чтение текстов"
               r={readiness.text}
               modeLeft={finish.text}
+              paused={pausedModes.has("read:text")}
               onClick={() => onOpenReading("text")}
             />
             <ModeButton
@@ -490,6 +533,7 @@ export default function Roadmap({
               name="Чтение диалогов"
               r={readiness.dialog}
               modeLeft={finish.dialog}
+              paused={pausedModes.has("read:dialog")}
               onClick={() => onOpenReading("dialog")}
             />
           </div>

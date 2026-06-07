@@ -725,6 +725,27 @@ body {
   background: transparent;
 }
 
+/* Paused leader: ran too far ahead of its group, so it's greyed and not startable until the
+   laggards catch up (the anti-grind nudge). Kept focusable but visibly inert. */
+.modebtn--paused {
+  cursor: not-allowed;
+  opacity: 0.55;
+  filter: grayscale(0.4);
+}
+.modebtn--paused:hover {
+  background: var(--surface);
+}
+.modebtn--paused:active {
+  transform: none;
+}
+.modebtn__lock {
+  position: absolute;
+  top: 0.4rem;
+  left: 0.45rem;
+  font-size: 0.78rem;
+  line-height: 1;
+}
+
 .testbar {
   margin: 0 0 var(--s3);
 }

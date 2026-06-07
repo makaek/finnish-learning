@@ -6,10 +6,13 @@ import {
   LEARNED_BOX,
   LEVEL_COMPLETE_FRACTION,
   levelCompletionStats,
+  levelGate,
   levelLearnProgress,
+  levelModeStats,
   levelProgressToNext,
   levelOf,
   levelStats,
+  masteringLevelGated,
   listLevels,
   lowestUnmasteredLevel,
   masteringLevel,
@@ -463,5 +466,96 @@ describe("levelCompletionStats / levelCompletionLearnProgress (combined completi
       sentences: 0,
       texts: 0,
     });
+  });
+});
+
+describe("levelModeStats / levelGate / masteringLevelGated (balance-to-progress gate)", () => {
+  const v: VocabLike[] = [
+    { id: "w1", level: 1 },
+    { id: "w2", level: 1 },
+    { id: "x1", level: 2 },
+  ];
+  const sents: SentenceLike[] = [{ id: "s1", level: 1, uses: ["w1"] }];
+  const txts = [
+    { id: "t1", level: 1, type: "text" as const },
+    { id: "d1", level: 1, type: "dialog" as const },
+  ];
+
+  /** ProgressMap from [kind, id, box] rows. */
+  const mk = (...rows: [ItemKind, string, number][]): ProgressMap => {
+    const m: ProgressMap = new Map();
+    for (const [kind, id, b] of rows) {
+      m.set(progressKey(kind, id), {
+        kind,
+        itemId: id,
+        box: b,
+        correctStreak: b,
+        totalCorrect: b,
+        totalSeen: b,
+        lastSeen: 1,
+      });
+    }
+    return m;
+  };
+
+  it("reports per-mode mastered/total for the level, reading split into text/dialog", () => {
+    const p = mk(
+      ["recognition", "w1", LEARNED_BOX],
+      ["recognition", "w2", LEARNED_BOX], // both mastered in recognition
+      ["production", "w1", LEARNED_BOX], //  one in production
+      ["reading", "t1", LEARNED_BOX], //     the text passed, the dialog not
+    );
+    const by = Object.fromEntries(levelModeStats(v, sents, txts, p, 1).map((s) => [s.id, s]));
+    expect(by.recognition).toMatchObject({ group: "words", mastered: 2, total: 2 });
+    expect(by.production).toMatchObject({ mastered: 1, total: 2 });
+    expect(by.say_word).toMatchObject({ mastered: 0, total: 2 });
+    expect(by.sentences).toMatchObject({ group: "sent", mastered: 0, total: 1 });
+    expect(by["read:text"]).toMatchObject({ group: "read", mastered: 1, total: 1 });
+    expect(by["read:dialog"]).toMatchObject({ mastered: 0, total: 1 });
+  });
+
+  it("levelGate = weakest mode's mastery; modes with no items at the level don't drag it", () => {
+    // L2 holds only the word x1 — no sentences/texts there, so those modes are total 0.
+    const oneMode = mk(["recognition", "x1", LEARNED_BOX]); // mastered in recognition only
+    expect(levelGate(levelModeStats(v, sents, txts, oneMode, 2))).toBe(0); // say/listen/production 0
+    const allWordModes = mk(
+      ["recognition", "x1", LEARNED_BOX],
+      ["production", "x1", LEARNED_BOX],
+      ["say_word", "x1", LEARNED_BOX],
+      ["listen_word", "x1", LEARNED_BOX],
+    );
+    expect(levelGate(levelModeStats(v, sents, txts, allWordModes, 2))).toBe(1);
+  });
+
+  it("levelGate is 1 for a level with nothing to drill", () => {
+    expect(levelGate(levelModeStats(v, sents, txts, new Map(), 99))).toBe(1);
+  });
+
+  it("masteringLevelGated holds a learned-but-lopsided level until it's balanced", () => {
+    // Every L1 item is "learned" (≥ LEARNED_BOX in SOME mode) → L1 is complete by the old rule…
+    const learnedNotBalanced = mk(
+      ["recognition", "w1", LEARNED_BOX],
+      ["recognition", "w2", LEARNED_BOX],
+      ["sentences", "s1", LEARNED_BOX],
+      ["reading", "t1", LEARNED_BOX],
+      ["reading", "d1", LEARNED_BOX],
+    );
+    // …but say_word/listen_word/say_sentence/… sit at 0, so the gate holds the level at 1.
+    expect(masteringLevelGated(v, sents, txts, learnedNotBalanced)).toBe(1);
+  });
+
+  it("masteringLevelGated advances once the weakest mode reaches the target", () => {
+    const balanced = mk(
+      ["recognition", "w1", LEARNED_BOX], ["recognition", "w2", LEARNED_BOX],
+      ["production", "w1", LEARNED_BOX], ["production", "w2", LEARNED_BOX],
+      ["say_word", "w1", LEARNED_BOX], ["say_word", "w2", LEARNED_BOX],
+      ["listen_word", "w1", LEARNED_BOX], ["listen_word", "w2", LEARNED_BOX],
+      ["sentences", "s1", LEARNED_BOX],
+      ["say_sentence", "s1", LEARNED_BOX],
+      ["listen_sentence", "s1", LEARNED_BOX],
+      ["reading", "t1", LEARNED_BOX], ["reading", "d1", LEARNED_BOX],
+    );
+    // L1 complete AND balanced → the displayed level rolls on to L2 (where x1 is untouched).
+    expect(masteringLevelGated(v, sents, txts, balanced)).toBe(2);
   });
 });

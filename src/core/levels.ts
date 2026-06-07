@@ -13,6 +13,7 @@
  */
 
 import { getProgress, type ItemKind, type ProgressMap } from "./progress";
+import { GATE_TARGET, type BalanceGroup } from "./balance";
 
 /** A word is "learned" once its Leitner box reaches this (≈ 2 clean first-attempt answers). */
 export const LEARNED_BOX = 2;
@@ -350,6 +351,97 @@ export function masteringLevel(stats: readonly LevelStat[]): number {
     (s) => s.total > 0 && s.learned / s.total < LEVEL_COMPLETE_FRACTION,
   );
   return incomplete ? incomplete.level : (ordered[ordered.length - 1]?.level ?? 1);
+}
+
+/** A reading-style content item that may carry a text/dialog tag (real ReadingText satisfies it). */
+export interface TypedItem extends VocabLike {
+  type?: "text" | "dialog";
+}
+
+/**
+ * Per-mode, CURRENT-LEVEL mastery — the nine home-ring spokes for one level. For each mode,
+ * `total` = the level's items that mode drills and `mastered` = those at/above {@link LEARNED_BOX}
+ * (≈2 clean answers) in that mode's track. Reading is split into текст/диалог (both on the single
+ * `reading` track) to mirror the two home cards. A group with no items at the level yields
+ * `total: 0` (→ the ring/gate treat it as "nothing to do here", not as a drag). The shape matches
+ * core/balance.ts's `ModeInput` minus the UI label/icon, which the Roadmap attaches.
+ */
+export interface LevelModeStat {
+  id: string;
+  group: BalanceGroup;
+  mastered: number;
+  total: number;
+}
+
+const masteredIn = (
+  items: readonly { id: string }[],
+  progress: ProgressMap,
+  kind: ItemKind,
+): number => items.filter((i) => getProgress(progress, kind, i.id).box >= LEARNED_BOX).length;
+
+export function levelModeStats(
+  vocab: readonly VocabLike[],
+  sentences: readonly SentenceLike[],
+  texts: readonly TypedItem[],
+  progress: ProgressMap,
+  level: number,
+): LevelModeStat[] {
+  const w = vocab.filter((v) => levelOf(v) === level);
+  const s = sentences.filter((x) => levelOf(x) === level);
+  const t = texts.filter((x) => levelOf(x) === level && x.type !== "dialog");
+  const d = texts.filter((x) => levelOf(x) === level && x.type === "dialog");
+  return [
+    { id: "recognition", group: "words", mastered: masteredIn(w, progress, "recognition"), total: w.length },
+    { id: "production", group: "words", mastered: masteredIn(w, progress, "production"), total: w.length },
+    { id: "say_word", group: "words", mastered: masteredIn(w, progress, "say_word"), total: w.length },
+    { id: "listen_word", group: "words", mastered: masteredIn(w, progress, "listen_word"), total: w.length },
+    { id: "sentences", group: "sent", mastered: masteredIn(s, progress, "sentences"), total: s.length },
+    { id: "say_sentence", group: "sent", mastered: masteredIn(s, progress, "say_sentence"), total: s.length },
+    { id: "listen_sentence", group: "sent", mastered: masteredIn(s, progress, "listen_sentence"), total: s.length },
+    { id: "read:text", group: "read", mastered: masteredIn(t, progress, "reading"), total: t.length },
+    { id: "read:dialog", group: "read", mastered: masteredIn(d, progress, "reading"), total: d.length },
+  ];
+}
+
+/**
+ * The level "ceiling": the weakest mode's current-level mastery, in [0, 1] (1 when the level has
+ * nothing left to drill in any mode). This is exactly `computeBalance(...).gate`, recomputed here
+ * without the UI layer so {@link masteringLevelGated} can gate advancement on it.
+ */
+export function levelGate(stats: readonly LevelModeStat[]): number {
+  let min = 1;
+  let any = false;
+  for (const m of stats) {
+    if (m.total === 0) continue;
+    any = true;
+    min = Math.min(min, m.mastered / m.total);
+  }
+  return any ? min : 1;
+}
+
+/**
+ * Like {@link masteringLevel}, but a level only counts as complete when it is ALSO balanced — its
+ * weakest mode's mastery has reached {@link GATE_TARGET} (the "balance to progress" rule). The
+ * content-UNLOCK gate is untouched ({@link unlockedLevels}/{@link levelStats} still drive what's in
+ * play), so nothing relocks: this only ever DELAYS the displayed current level past a level that's
+ * learned-enough but lopsided, until its laggard modes catch up. Returns the lowest such level, or
+ * the highest level once every level is both learned-enough and balanced.
+ */
+export function masteringLevelGated(
+  vocab: readonly VocabLike[],
+  sentences: readonly SentenceLike[],
+  texts: readonly TypedItem[],
+  progress: ProgressMap,
+): number {
+  const ordered = [...levelCompletionStats(vocab, sentences, texts, progress)].sort(
+    (a, b) => a.level - b.level,
+  );
+  const blocked = ordered.find((s) => {
+    if (s.total === 0) return false;
+    if (s.learned / s.total < LEVEL_COMPLETE_FRACTION) return true; // not learned enough yet
+    return levelGate(levelModeStats(vocab, sentences, texts, progress, s.level)) < GATE_TARGET;
+  });
+  return blocked ? blocked.level : (ordered[ordered.length - 1]?.level ?? 1);
 }
 
 /**
