@@ -23,6 +23,7 @@ import {
   type VocabLike,
 } from "../core/levels";
 import { groupReadiness, type ModeReadiness } from "../core/stats";
+import { computeBalance, type ModeInput } from "../core/balance";
 import type { ProgressMap } from "../core/progress";
 import {
   currentStreak,
@@ -34,7 +35,11 @@ import {
   type UserState,
 } from "../core/daily";
 import { hiddenKey } from "./hidden";
+import BalanceRing from "./BalanceRing";
 import ThemeToggle from "./ThemeToggle";
+
+/** Reduce a per-mode readiness to the two figures the balance ring needs. */
+const pick = (m: ModeReadiness) => ({ mastered: m.mastered, total: m.total });
 
 export type Mode =
   | "recognition"
@@ -239,6 +244,34 @@ export default function Roadmap({
     };
   }, [vocab, sentences, texts, progress, testMode, hidden, active]);
 
+  // Кольцо баланса: one signal showing how evenly every mode is developed. Driven by the
+  // lifetime mastery the home already computes (ModeReadiness.mastered / .total) — no new
+  // learning logic, no storage. The ring routes taps back through the same handlers the
+  // mode grid uses; the grid stays the primary entry point (read-only ring, no gating yet).
+  const balance = useMemo(() => {
+    const r = readiness;
+    const modes: ModeInput[] = [
+      { id: "recognition", group: "words", label: "Узнавание", icon: "👁", ...pick(r.recognition) },
+      { id: "production", group: "words", label: "Написание", icon: "✍️", ...pick(r.production) },
+      { id: "say_word", group: "words", label: "Речь", icon: "🎤", ...pick(r.say_word) },
+      { id: "listen_word", group: "words", label: "На слух", icon: "🎧", ...pick(r.listen_word) },
+      { id: "sentences", group: "sent", label: "Перевод", icon: "💬", ...pick(r.sentences) },
+      { id: "say_sentence", group: "sent", label: "Речь", icon: "🎤", ...pick(r.say_sentence) },
+      { id: "listen_sentence", group: "sent", label: "На слух", icon: "🎧", ...pick(r.listen_sentence) },
+      { id: "read:text", group: "read", label: "Тексты", icon: "📖", ...pick(r.text) },
+      { id: "read:dialog", group: "read", label: "Диалоги", icon: "🎭", ...pick(r.dialog) },
+    ];
+    return computeBalance(modes, active);
+  }, [readiness, active]);
+
+  // Single router shared by the ring spokes and the weak-link card (reading ids open the
+  // library; the rest map 1:1 onto the Mode union the grid already starts).
+  const startById = (id: string) => {
+    if (id === "read:text") return onOpenReading("text");
+    if (id === "read:dialog") return onOpenReading("dialog");
+    return onStart(id as Mode);
+  };
+
   const today = dateKey();
   const streak = currentStreak(daily, today);
   const lessons = todayLessons(daily, today);
@@ -274,6 +307,48 @@ export default function Roadmap({
       <section className="card card--summary">
         {settings}
         <h1 className="prompt prompt--home">Финский тренажёр</h1>
+
+        {/* Кольцо баланса — the hero signal: every mode at once, tap a spoke to start it.
+            Interactive, so it sits as a sibling of (never nested in) the ghead button. */}
+        <BalanceRing balance={balance} onPick={startById} />
+
+        <div className="bstats">
+          <div className="bstat">
+            <div className="bstat__v">
+              {balance.score}
+              <small>%</small>
+            </div>
+            <div className="bstat__l">баланс</div>
+          </div>
+          <div className="bstats__sep" />
+          <div className="bstat">
+            <div className="bstat__v">
+              {overall.learned}
+              <small>/{overall.total}</small>
+            </div>
+            <div className="bstat__l">слов выучено</div>
+          </div>
+        </div>
+
+        {balance.weakest && (
+          <button
+            type="button"
+            className="weaklink"
+            onClick={() => startById(balance.weakest!.id)}
+          >
+            <span className="weaklink__icon" aria-hidden="true">
+              {balance.weakest.icon}
+            </span>
+            <span className="weaklink__body">
+              <span className="weaklink__kicker">Слабое звено</span>
+              <span className="weaklink__title">{balance.weakest.label}</span>
+              <span className="weaklink__sub">тянет уровень вниз</span>
+            </span>
+            <span className="weaklink__go" aria-hidden="true">
+              ▶
+            </span>
+          </button>
+        )}
 
         <button
           type="button"
