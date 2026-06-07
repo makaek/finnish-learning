@@ -22,18 +22,27 @@ describe("computeBalance — mastery", () => {
     expect(empty.state).toBe("done");
   });
 
-  it("colour states track the thresholds (weak < .45 ≤ ok < .7 ≤ strong, full = done)", () => {
+  it("colour states: red ≤30%, yellow >30% & <100%, green at 100% (or nothing to drill)", () => {
     const b = computeBalance(
       [
-        mode("weak", "words", 2, 10), // .2
-        mode("ok", "words", 5, 10), //   .5
-        mode("strong", "words", 8, 10), // .8
-        mode("done", "words", 10, 10), // 1
+        mode("red", "words", 3, 10), //    .3 → weak (boundary is inclusive)
+        mode("red2", "words", 1, 10), //   .1 → weak
+        mode("yellow", "words", 4, 10), // .4 → ok
+        mode("yellow2", "words", 9, 10), // .9 → ok (no more "strong")
+        mode("green", "words", 10, 10), // 1  → done
+        mode("empty", "words", 0, 0), //   nothing → done
       ],
       1,
     );
     const s = Object.fromEntries(b.cells.map((c) => [c.id, c.state]));
-    expect(s).toEqual({ weak: "weak", ok: "ok", strong: "strong", done: "done" });
+    expect(s).toEqual({
+      red: "weak",
+      red2: "weak",
+      yellow: "ok",
+      yellow2: "ok",
+      green: "done",
+      empty: "done",
+    });
   });
 });
 

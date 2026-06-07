@@ -30,7 +30,7 @@ export interface ModeInput {
   total: number;
 }
 
-export type ModeState = "strong" | "ok" | "weak" | "done";
+export type ModeState = "ok" | "weak" | "done";
 
 export interface ModeCell extends ModeInput {
   /** 0..1. A mode with nothing to learn (total === 0) counts as fully done (1). */
@@ -59,19 +59,18 @@ export interface Balance {
 export const PAUSE_GAP = 0.3;
 /** The weakest mode must reach this mastery before the level may complete. */
 export const GATE_TARGET = 0.8;
-/** Colour thresholds (match the ring + the old traffic-light intent). */
-const WEAK_MAX = 0.45; // below → "weak" (red)
-const OK_MAX = 0.7; //   below → "ok" (amber), at/above → "strong" (green)
+/** Colour threshold: at/below this mastery a mode is "weak" (red). Above it but below 100% is
+ *  "ok" (yellow); only a fully-finished mode (100%, or nothing to drill) is "done" (green). */
+const WEAK_MAX = 0.3;
 
 /* ------------------------------------------------------------------- helpers */
 
 const masteryOf = (m: ModeInput): number => (m.total > 0 ? m.mastered / m.total : 1);
 
 function stateOf(mastery: number, total: number): ModeState {
-  if (total === 0 || mastery >= 1) return "done";
-  if (mastery < WEAK_MAX) return "weak";
-  if (mastery < OK_MAX) return "ok";
-  return "strong";
+  if (total === 0 || mastery >= 1) return "done"; // green — 100% (or nothing to do)
+  if (mastery <= WEAK_MAX) return "weak"; //          red — ≤ 30%
+  return "ok"; //                                     yellow — > 30% but < 100%
 }
 
 /** Coefficient of variation → evenness. 100 = perfectly balanced, 0 = maximally skewed. */

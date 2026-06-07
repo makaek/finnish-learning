@@ -2,13 +2,14 @@
  * BalanceRing.tsx — the home-screen "Кольцо баланса".
  *
  * One SVG that shows every mode at once: each spoke's length = that mode's mastery,
- * colour = its state, and an emoji chip at the tip names it. Group arcs + labels wrap
- * the outside (Слова / Предложения / Чтение). The dashed inner circle is the level
- * ceiling (= the weakest mode). Tapping a spoke starts that mode; paused leaders show a
- * 🔒 and aren't startable.
+ * colour = its state (red ≤30%, yellow <100%, green at 100%), and an emoji chip at the tip
+ * names it with a small badge of how many current-level items still need mastering in that
+ * mode. Group arcs + labels wrap the outside (Слова / Предложения / Чтение). The dashed inner
+ * circle is the level ceiling (= the weakest mode). EVERY spoke is tappable — even a finished
+ * or empty mode starts (it just reviews already-mastered items, SRS-weighted).
  *
  * Pure presentation over core/balance.ts — no learning logic here. Colours come from the
- * existing token set (--ok / --known / --no / --muted) so it tracks light/dark for free.
+ * existing token set (--ok / --known / --no) so it tracks light/dark for free.
  */
 
 import type { Balance, ModeCell } from "../core/balance";
@@ -20,14 +21,12 @@ const GROUP_LABEL: Record<ModeCell["group"], string> = {
 };
 
 const STATE_COLOR: Record<ModeCell["state"], string> = {
-  strong: "var(--ok)",
-  ok: "var(--known)",
-  weak: "var(--no)",
-  done: "var(--ok)", // 100% done reads as green (a completed mode is a win, not a greyed-out one)
+  weak: "var(--no)", //   red — ≤ 30% mastered in this mode at this level
+  ok: "var(--known)", //  yellow — > 30% but < 100%
+  done: "var(--ok)", //   green — 100% (or nothing left to drill)
 };
 
-// Paused leaders are greyed; everything else takes its state colour (done = green).
-const cellColor = (c: ModeCell): string => (c.paused ? "var(--muted)" : STATE_COLOR[c.state]);
+const cellColor = (c: ModeCell): string => STATE_COLOR[c.state];
 
 /* geometry */
 const VB = 364;
@@ -51,10 +50,17 @@ function arcPath(r: number, a0: number, a1: number): string {
 
 export default function BalanceRing({
   balance,
+  left,
   onPick,
 }: {
   balance: Balance;
-  /** Start a mode by its ModeInput.id (paused/done spokes don't fire). */
+  /**
+   * Per-mode leftover count (mode id → items still to master at this level), sourced from the same
+   * hidden/eligibility-filtered pools the session draws from — so the badge matches what tapping
+   * actually drills. Falls back to the raw `total - mastered` when not supplied.
+   */
+  left?: Record<string, number>;
+  /** Start a mode by its ModeInput.id — every spoke fires (finished modes review their items). */
   onPick: (id: string) => void;
 }) {
   const cells = balance.cells;
@@ -125,44 +131,46 @@ export default function BalanceRing({
         );
       })}
 
-      {/* emoji chips (identity + tap target) */}
+      {/* emoji chips (identity + tap target). Every spoke is startable; a corner badge shows how
+          many current-level items still need mastering in that mode (like the old card count). */}
       {cells.map((c, i) => {
         const [cx, cy] = polar(CHIP_R, -90 + i * step);
         const col = cellColor(c);
         const rr = c.weakest ? 16 : 14;
-        const startable = !c.paused && c.state !== "done";
+        // Prefer the filtered leftover count (matches the session); fall back to the raw cell math.
+        const leftN = left?.[c.id] ?? Math.max(0, c.total - c.mastered);
         return (
           <g
             key={`c${i}`}
-            className={`bring__chipg${startable ? " is-tappable" : ""}`}
-            onClick={startable ? () => onPick(c.id) : undefined}
+            className="bring__chipg is-tappable"
+            onClick={() => onPick(c.id)}
             // Keep the spoke reachable by keyboard: an SVG <g> isn't natively focusable, so
             // role="button" alone would promise an interaction keyboard users can't trigger.
             // tabIndex + Enter/Space deliver it.
-            onKeyDown={
-              startable
-                ? (e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      onPick(c.id);
-                    }
-                  }
-                : undefined
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onPick(c.id);
+              }
+            }}
+            role="button"
+            tabIndex={0}
+            aria-label={
+              leftN > 0
+                ? `${c.label}: освоено ${Math.round(c.mastery * 100)}%, осталось ${leftN}`
+                : `${c.label}: освоено`
             }
-            role={startable ? "button" : undefined}
-            tabIndex={startable ? 0 : undefined}
-            aria-label={startable ? `${c.label}: освоено ${Math.round(c.mastery * 100)}%` : undefined}
           >
             {c.weakest && <circle cx={cx} cy={cy} r={rr + 4.5} fill="none" stroke={col} strokeWidth="2" opacity="0.4" />}
             <circle cx={cx} cy={cy} r={rr} fill="var(--card)" stroke={col} strokeWidth="2.2" />
             <text className="bring__emoji" x={cx} y={cy + 0.5}>
               {c.icon}
             </text>
-            {c.paused && (
+            {leftN > 0 && (
               <>
-                <circle cx={cx + 10} cy={cy - 10} r="7.5" fill="var(--card)" stroke="var(--muted)" strokeWidth="1.3" />
-                <text className="bring__lock" x={cx + 10} y={cy - 9.5}>
-                  🔒
+                <circle cx={cx + 11} cy={cy - 11} r="8.5" fill="var(--accent)" stroke="var(--card)" strokeWidth="1.5" />
+                <text className="bring__count" x={cx + 11} y={cy - 10.5}>
+                  {leftN}
                 </text>
               </>
             )}

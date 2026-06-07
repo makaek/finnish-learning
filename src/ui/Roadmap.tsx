@@ -8,7 +8,6 @@ import { useMemo } from "react";
 import {
   activeVocab,
   eligibleSentences,
-  levelCompletionStats,
   levelModeStats,
   levelOf,
   masteringLevelGated,
@@ -197,8 +196,7 @@ export default function Roadmap({
   // learn-progress bar — not the unlocked frontier, which jumped the bar to ~0% on every unlock.
   // Completion now spans words + sentences + dialogs/texts, so finishing a level's phrases and
   // dialogs fills the bar and advances the level. (Unlocks stay word-driven, so nothing relocks.)
-  const { active, overall, balance, maxLevel, nextLevel } = useMemo(() => {
-    const s = levelCompletionStats(vocab, sentences, texts, progress);
+  const { active, overall, balance } = useMemo(() => {
     // Gated current level: advances only once a level is both learned-enough AND balanced across
     // every mode (the Кольцо-баланса gate). Content unlocks stay word-driven, so nothing relocks.
     const a = masteringLevelGated(vocab, sentences, texts, progress);
@@ -215,10 +213,6 @@ export default function Roadmap({
       active: a,
       overall: overallProgress(vocab, progress),
       balance: computeBalance(modes, a),
-      maxLevel: s[s.length - 1]?.level ?? a,
-      // The real next level from the data — level numbers aren't guaranteed contiguous, so don't
-      // assume a+1 (a content gap would mislabel the gate hint).
-      nextLevel: s.find((x) => x.level > a)?.level ?? a,
     };
   }, [vocab, sentences, texts, progress]);
 
@@ -296,6 +290,21 @@ export default function Roadmap({
     finish.say_sentence +
     finish.listen_sentence;
 
+  // Per-spoke leftover counts for the ring badges, keyed by ModeInput.id. Sourced from `finish`
+  // (the same hidden/eligibility-filtered counts the cards used), so a badge always matches what
+  // tapping that spoke actually opens — not the raw level totals the ring colour/length use.
+  const ringLeft: Record<string, number> = {
+    recognition: finish.recognition,
+    production: finish.production,
+    say_word: finish.say_word,
+    listen_word: finish.listen_word,
+    sentences: finish.sentences,
+    say_sentence: finish.say_sentence,
+    listen_sentence: finish.listen_sentence,
+    "read:text": finish.text,
+    "read:dialog": finish.dialog,
+  };
+
   // Single router shared by the ring spokes and the weak-link card (reading ids open the
   // library; the rest map 1:1 onto the Mode union the grid already starts).
   const startById = (id: string) => {
@@ -340,71 +349,8 @@ export default function Roadmap({
         {settings}
         <h1 className="prompt prompt--home">Финский тренажёр</h1>
 
-        {/* Кольцо баланса — the hero signal: every mode at once, tap a spoke to start it.
-            Interactive, so it sits as a sibling of (never nested in) the ghead button. */}
-        <BalanceRing balance={balance} onPick={startById} />
-
-        <div className="bstats">
-          <div className="bstat">
-            <div className="bstat__v">
-              {balance.score}
-              <small>%</small>
-            </div>
-            <div className="bstat__l">баланс</div>
-          </div>
-          <div className="bstats__sep" />
-          <div className="bstat">
-            <div className="bstat__v">
-              {overall.learned}
-              <small>/{overall.total}</small>
-            </div>
-            <div className="bstat__l">слов выучено</div>
-          </div>
-        </div>
-
-        {balance.weakest && (
-          <button
-            type="button"
-            className="weaklink"
-            onClick={() => startById(balance.weakest!.id)}
-          >
-            <span className="weaklink__icon" aria-hidden="true">
-              {balance.weakest.icon}
-            </span>
-            <span className="weaklink__body">
-              <span className="weaklink__kicker">Слабое звено</span>
-              <span className="weaklink__title">{balance.weakest.label}</span>
-              <span className="weaklink__sub">тянет уровень вниз</span>
-            </span>
-            <span className="weaklink__go" aria-hidden="true">
-              ▶
-            </span>
-          </button>
-        )}
-
-        {balance.weakest && active < maxLevel && (
-          <span className="bgate">
-            🔒 До <b>уровня {nextLevel}</b> — выровняй кольцо. Уровень растёт по самому слабому
-            режиму.
-          </span>
-        )}
-
-        {/* Микс — добить уровень: one run over every word/sentence mode's current-level leftovers
-            (no reading), so the ring evens out and the level can advance. Shown only when there's
-            something left to clear. */}
-        {mixLeft > 0 && (
-          <button type="button" className="mixbtn" onClick={() => onStart("mix")}>
-            <span className="mixbtn__icon" aria-hidden="true">🧩</span>
-            <span className="mixbtn__body">
-              <span className="mixbtn__title">Микс — добить уровень</span>
-              <span className="mixbtn__sub">всё подряд из не освоенного · осталось {mixLeft}</span>
-            </span>
-            <span className="mixbtn__go" aria-hidden="true">▶</span>
-          </button>
-        )}
-
-        {/* Streak / daily-goal bar — the "did I show up today" loop. The level, words, and level
-            bar moved to the ring above, so this is all that remains here. Tap → мой прогресс. */}
+        {/* Streak / daily-goal bar — pinned to the top: the "did I show up today" loop. Tap → мой
+            прогресс. (Level/words moved into the ring below.) */}
         <button
           type="button"
           className="ghead ghead--slim"
@@ -425,6 +371,63 @@ export default function Roadmap({
           </span>
         </button>
 
+        {/* Кольцо баланса — the hero signal: every mode at once, tap a spoke to start it.
+            Interactive, so it sits as a sibling of (never nested in) the ghead button. */}
+        <BalanceRing balance={balance} left={ringLeft} onPick={startById} />
+
+        <div className="bstats">
+          <div className="bstat">
+            <div className="bstat__v">
+              {balance.score}
+              <small>%</small>
+            </div>
+            <div className="bstat__l">баланс</div>
+          </div>
+          <div className="bstats__sep" />
+          <div className="bstat">
+            <div className="bstat__v">
+              {overall.learned}
+              <small>/{overall.total}</small>
+            </div>
+            <div className="bstat__l">слов выучено</div>
+          </div>
+        </div>
+
+        {/* Compact action row: tackle the слабое звено, or run the Микс over current-level
+            leftovers — both icon-first, side by side. Each appears only when relevant. */}
+        {(balance.weakest || mixLeft > 0) && (
+          <div className="actrow">
+            {balance.weakest && (
+              <button
+                type="button"
+                className="actbtn actbtn--weak"
+                onClick={() => startById(balance.weakest!.id)}
+                title={`Слабое звено: ${balance.weakest.label}`}
+              >
+                <span className="actbtn__icon" aria-hidden="true">
+                  {balance.weakest.icon}
+                </span>
+                <span className="actbtn__text">Слабое звено</span>
+              </button>
+            )}
+            {mixLeft > 0 && (
+              <button
+                type="button"
+                className="actbtn actbtn--mix"
+                onClick={() => onStart("mix")}
+                title="Микс — добить уровень (всё не освоенное подряд)"
+              >
+                <span className="actbtn__icon" aria-hidden="true">
+                  🧩
+                </span>
+                <span className="actbtn__text">
+                  Микс <b>{mixLeft}</b>
+                </span>
+              </button>
+            )}
+          </div>
+        )}
+
         {testMode && (
           <div className="testbar">
             <p className="hint hint--test">🔧 Тестовый режим: все уровни открыты</p>
@@ -434,6 +437,10 @@ export default function Roadmap({
           </div>
         )}
 
+        {/* Per-mode cards — HIDDEN for now (kept in code) while the ring becomes the single entry
+            point. The ring's spokes already start every mode; these will be removed once that's
+            confirmed. `hidden` keeps them out of view + the a11y tree without deleting them. */}
+        <div className="modegroups" hidden>
         <div className="modegroup">
           <GroupTitle title="Слова" left={groupLeft.words} />
           <div className="modegroup__row">
@@ -529,6 +536,7 @@ export default function Roadmap({
               onClick={() => onOpenReading("dialog")}
             />
           </div>
+        </div>
         </div>
       </section>
     </main>
