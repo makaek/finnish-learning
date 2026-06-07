@@ -12,8 +12,14 @@ import {
 } from "../core/quiz";
 import { buildProductionSession } from "../core/produce";
 import { buildSentenceSession } from "../core/sentenceSession";
+import { buildMixedSession, MIX_SESSION_SIZE, type MixQuestion } from "../core/mixed";
 import { applyOutcome } from "../core/srs";
-import { activeVocab, eligibleSentences, LEARNED_BOX } from "../core/levels";
+import {
+  activeVocab,
+  eligibleSentences,
+  masteringLevelGated,
+  LEARNED_BOX,
+} from "../core/levels";
 import {
   completeLesson,
   currentStreak,
@@ -222,6 +228,19 @@ export default function App() {
       ),
     [seed, testMode, hidden],
   );
+  // Микс ("добить уровень"): one run interleaving every word/sentence mode's NOT-yet-mastered
+  // items at the current (gated) level — no reading. Each question carries the track it records,
+  // so it routes to the right card + progress kind. Same pools/gating as the dedicated modes.
+  const mixed = useMemo(() => {
+    const level = masteringLevelGated(VOCAB, SENTENCES, TEXTS, progressRef.current);
+    const words = activeVocab(VOCAB, progressRef.current, testMode).filter(
+      (v) => !hidden.has(hiddenKey("word", v.id)),
+    );
+    const sents = eligibleSentences(SENTENCES, VOCAB, progressRef.current, testMode).filter(
+      (s) => !hidden.has(hiddenKey("sentence", s.id)),
+    );
+    return buildMixedSession(words, sents, progressRef.current, level, seed, MIX_SESSION_SIZE);
+  }, [seed, testMode, hidden]);
 
   function start(next: Mode) {
     // Refresh the home view now so it's current whenever we return — covers restart(), which
@@ -280,10 +299,17 @@ export default function App() {
     if (mode === null) return;
     // The exercise mode IS the progress track — each lesson type (incl. the two voice ones)
     // is recorded separately. `wasCorrect` is the FIRST-attempt result (the forced-correction
-    // retry never changes it), so only first attempts count.
-    const kind: ItemKind = mode;
-    const id =
-      mode === "sentences"
+    // retry never changes it), so only first attempts count. The mix run is the exception: each
+    // question carries its OWN kind (the track it drills), so we read that per-question. When
+    // mode === "mix", mixItem is always defined here — recordOutcome only fires while a card is on
+    // screen (index < total === mixed.length) — so the kind/id always come from it.
+    const mixItem = mode === "mix" ? mixed[index] : undefined;
+    const kind: ItemKind = mixItem ? mixItem.kind : (mode as ItemKind);
+    const id = mixItem
+      ? mixItem.card === "sentence"
+        ? mixItem.q.id
+        : mixItem.q.itemId
+      : mode === "sentences"
         ? sentences[index]?.id
         : mode === "say_sentence"
           ? saySentence[index]?.id
@@ -310,6 +336,7 @@ export default function App() {
 
   /** Length of the active session — used to detect when this answer completes a lesson. */
   function activeTotal(): number {
+    if (mode === "mix") return mixed.length;
     if (mode === "sentences") return sentences.length;
     if (mode === "say_sentence") return saySentence.length;
     if (mode === "listen_sentence") return listenSentence.length;
@@ -454,33 +481,85 @@ export default function App() {
     mode === "say_word" ? sayWord : mode === "listen_word" ? listenWord : production;
   const sentenceSession =
     mode === "say_sentence" ? saySentence : mode === "listen_sentence" ? listenSentence : sentences;
-  const total = usesProduction
-    ? productionSession.length
-    : usesSentences
-      ? sentenceSession.length
-      : recognition.length;
+  // The mix run carries its card type + track per question; everything else is a homogeneous mode.
+  const mixItem = mode === "mix" ? mixed[index] : undefined;
+  const total =
+    mode === "mix"
+      ? mixed.length
+      : usesProduction
+        ? productionSession.length
+        : usesSentences
+          ? sentenceSession.length
+          : recognition.length;
   const finished = index >= total;
   // An exercise card is on screen (vs. the empty/summary states). Top-align + scroll these
   // so a typed answer's submit button stays reachable above the on-screen keyboard (and its
   // autofill toolbar) instead of being centered behind it.
   const showingCard = !finished && total > 0;
 
+  /** The Russian word/sentence whose grammar rules to surface, given a card's source id. */
+  const wordRules = (wordId?: string): string[] => {
+    const word = wordId ? VOCAB.find((v) => v.id === wordId) : undefined;
+    return word ? rulesForPos(word.pos, RULES).map((r) => r.id) : [];
+  };
+  const sentenceRules = (sentenceId?: string): string[] =>
+    rulesForTeaches(SENTENCES.find((s) => s.id === sentenceId)?.teaches, RULES).map((r) => r.id);
+
   // Rules relevant to the item on screen — highlighted ⭐ and pre-opened in the grammar overlay.
-  // Sentences match by their `teaches` tag; words match by part of speech.
+  // Sentences match by their `teaches` tag; words match by part of speech. The mix run resolves
+  // from the current tagged question; the homogeneous modes from their session.
   const ruleHighlights: string[] = !showingCard
     ? []
-    : usesSentences
-      ? rulesForTeaches(
-          SENTENCES.find((s) => s.id === sentenceSession[index]?.id)?.teaches,
-          RULES,
-        ).map((r) => r.id)
-      : (() => {
-          const wordId = usesProduction
-            ? productionSession[index]?.itemId
-            : recognition[index]?.itemId;
-          const word = wordId ? VOCAB.find((v) => v.id === wordId) : undefined;
-          return word ? rulesForPos(word.pos, RULES).map((r) => r.id) : [];
-        })();
+    : mixItem
+      ? mixItem.card === "sentence"
+        ? sentenceRules(mixItem.q.id)
+        : wordRules(mixItem.q.itemId)
+      : usesSentences
+        ? sentenceRules(sentenceSession[index]?.id)
+        : wordRules(usesProduction ? productionSession[index]?.itemId : recognition[index]?.itemId);
+
+  /** Render the active mix question on its matching card (each is tagged with its card + track). */
+  const renderMix = (m: MixQuestion) => {
+    if (m.card === "sentence") {
+      return (
+        <SentenceCard
+          key={index}
+          question={m.q}
+          questionNumber={index + 1}
+          total={total}
+          grade={grade}
+          voice={m.voice}
+          listen={m.listen}
+          onAnswered={handleAnswered}
+          onOpenRules={() => setRulesOpen(true)}
+        />
+      );
+    }
+    if (m.card === "production") {
+      return (
+        <ProductionCard
+          key={index}
+          question={m.q}
+          questionNumber={index + 1}
+          total={total}
+          voice={m.voice}
+          listen={m.listen}
+          onAnswered={handleAnswered}
+          onOpenRules={() => setRulesOpen(true)}
+        />
+      );
+    }
+    return (
+      <RecognitionCard
+        key={index}
+        question={m.q}
+        questionNumber={index + 1}
+        total={total}
+        onAnswered={handleAnswered}
+        onOpenRules={() => setRulesOpen(true)}
+      />
+    );
+  };
 
   return (
     <main className={showingCard ? "app app--scroll" : "app"}>
@@ -511,6 +590,8 @@ export default function App() {
           onRestart={restart}
           onHome={goHome}
         />
+      ) : mixItem ? (
+        renderMix(mixItem)
       ) : usesSentences ? (
         <SentenceCard
           key={index}

@@ -618,6 +618,72 @@ body {
   margin-bottom: 0;
 }
 
+/* Slim header: now just the streak / daily-goal bar (level + words moved to the ring). */
+.ghead--slim {
+  padding: 0.7rem 0.85rem;
+  background: var(--surface);
+}
+
+/* Микс CTA — "добить уровень": a prominent accent action that clears the current level's
+   per-mode leftovers (every word/sentence mode, no reading) so the ring evens out. */
+.mixbtn {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  width: 100%;
+  margin: 0 0 var(--s3);
+  padding: 0.8rem 0.85rem;
+  text-align: left;
+  font: inherit;
+  color: var(--accent-ink);
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  border: 1px solid var(--accent-strong);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.08s ease;
+}
+.mixbtn:hover {
+  filter: brightness(1.04);
+}
+.mixbtn:active {
+  transform: scale(0.99);
+}
+.mixbtn__icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.7rem;
+  height: 2.7rem;
+  font-size: 1.4rem;
+  background: color-mix(in srgb, #ffffff 18%, transparent);
+  border-radius: var(--r-sm);
+}
+.mixbtn__body {
+  flex: 1;
+  min-width: 0;
+}
+.mixbtn__title {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.mixbtn__sub {
+  display: block;
+  font-size: 0.78rem;
+  opacity: 0.88;
+  margin-top: 0.05rem;
+}
+.mixbtn__go {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  font-size: 1rem;
+  background: color-mix(in srgb, #ffffff 16%, transparent);
+  border-radius: var(--pill);
+}
+
 /* --- Grouped exercise picker with readiness lights --- */
 .modegroup {
   margin: 0 0 var(--s3);

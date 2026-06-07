@@ -23,9 +23,10 @@ const STATE_COLOR: Record<ModeCell["state"], string> = {
   strong: "var(--ok)",
   ok: "var(--known)",
   weak: "var(--no)",
-  done: "var(--muted)",
+  done: "var(--ok)", // 100% done reads as green (a completed mode is a win, not a greyed-out one)
 };
 
+// Paused leaders are greyed; everything else takes its state colour (done = green).
 const cellColor = (c: ModeCell): string => (c.paused ? "var(--muted)" : STATE_COLOR[c.state]);
 
 /* geometry */

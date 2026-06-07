@@ -11,11 +11,9 @@ import {
   levelCompletionStats,
   levelModeStats,
   levelOf,
-  levelProgressToNext,
   masteringLevelGated,
   overallProgress,
   readingLearned,
-  remainingForLevel,
   sentenceLearned,
   unmasteredInLevel,
   wordLearned,
@@ -24,7 +22,7 @@ import {
   type VocabLike,
 } from "../core/levels";
 import { groupReadiness, type ModeReadiness } from "../core/stats";
-import { computeBalance, isLevelBalanced, type ModeInput } from "../core/balance";
+import { computeBalance, type ModeInput } from "../core/balance";
 import type { ProgressMap } from "../core/progress";
 import {
   currentStreak,
@@ -60,7 +58,10 @@ export type Mode =
   | "say_word"
   | "say_sentence"
   | "listen_word"
-  | "listen_sentence";
+  | "listen_sentence"
+  // The mixed "добить уровень" run — interleaves the modes above for current-level leftovers.
+  // Not a ring spoke and not a progress track of its own; each question records its own kind.
+  | "mix";
 
 /** Reading library entry the home grid needs (real ReadingText satisfies it). */
 export interface ReadingLike extends VocabLike {
@@ -196,32 +197,24 @@ export default function Roadmap({
   // learn-progress bar — not the unlocked frontier, which jumped the bar to ~0% on every unlock.
   // Completion now spans words + sentences + dialogs/texts, so finishing a level's phrases and
   // dialogs fills the bar and advances the level. (Unlocks stay word-driven, so nothing relocks.)
-  const { active, overall, levelPct, balance, maxLevel, nextLevel } = useMemo(() => {
+  const { active, overall, balance, maxLevel, nextLevel } = useMemo(() => {
     const s = levelCompletionStats(vocab, sentences, texts, progress);
     // Gated current level: advances only once a level is both learned-enough AND balanced across
     // every mode (the Кольцо-баланса gate). Content unlocks stay word-driven, so nothing relocks.
     const a = masteringLevelGated(vocab, sentences, texts, progress);
     // The ring/gate are driven by CURRENT-LEVEL mastery: per mode, items mastered (box ≥
     // LEARNED_BOX) over the items that mode drills at level `a`. Core gives {mastered,total,group};
-    // the Roadmap attaches the label/icon.
+    // the Roadmap attaches the label/icon. The ring itself is now the level-progress display
+    // (center = level, dashed ceiling = the gate), so the old header level bar is gone.
     const modes: ModeInput[] = levelModeStats(vocab, sentences, texts, progress, a).map((m) => ({
       ...m,
       label: RING_MODES[m.id]?.label ?? m.id,
       icon: RING_MODES[m.id]?.icon ?? "•",
     }));
-    const bal = computeBalance(modes, a);
-    const rem = remainingForLevel(vocab, sentences, texts, progress, a);
-    const itemsLeft = rem.words + rem.sentences + rem.texts;
-    // Bar = progress toward completing the level. It reads 100% only when the level truly finishes
-    // — every item learned AND the ring balanced — so it never shows "done" while the balance gate
-    // still holds the level (keeps bar ↔ level ↔ ring consistent). What's left per mode is the
-    // ring's weakest spoke + each card's corner count.
-    const pct = Math.round(levelProgressToNext(s, a) * 100);
     return {
       active: a,
       overall: overallProgress(vocab, progress),
-      levelPct: itemsLeft === 0 && isLevelBalanced(bal) ? 100 : Math.min(99, pct),
-      balance: bal,
+      balance: computeBalance(modes, a),
       maxLevel: s[s.length - 1]?.level ?? a,
       // The real next level from the data — level numbers aren't guaranteed contiguous, so don't
       // assume a+1 (a content gap would mislabel the gate hint).
@@ -291,6 +284,17 @@ export default function Roadmap({
   // Leader modes that have run too far ahead of their group are paused (not startable) — the
   // anti-grind nudge. The ring greys them itself; we also gate the grid buttons below.
   const pausedModes = new Set(balance.cells.filter((c) => c.paused).map((c) => c.id));
+
+  // Current-level leftovers across every word & sentence mode (NOT reading) — the work the Микс
+  // run would drill. Same per-mode `finish` counts the cards show, summed.
+  const mixLeft =
+    finish.recognition +
+    finish.production +
+    finish.say_word +
+    finish.listen_word +
+    finish.sentences +
+    finish.say_sentence +
+    finish.listen_sentence;
 
   // Single router shared by the ring spokes and the weak-link card (reading ids open the
   // library; the rest map 1:1 onto the Mode union the grid already starts).
@@ -385,51 +389,39 @@ export default function Roadmap({
           </span>
         )}
 
+        {/* Микс — добить уровень: one run over every word/sentence mode's current-level leftovers
+            (no reading), so the ring evens out and the level can advance. Shown only when there's
+            something left to clear. */}
+        {mixLeft > 0 && (
+          <button type="button" className="mixbtn" onClick={() => onStart("mix")}>
+            <span className="mixbtn__icon" aria-hidden="true">🧩</span>
+            <span className="mixbtn__body">
+              <span className="mixbtn__title">Микс — добить уровень</span>
+              <span className="mixbtn__sub">всё подряд из не освоенного · осталось {mixLeft}</span>
+            </span>
+            <span className="mixbtn__go" aria-hidden="true">▶</span>
+          </button>
+        )}
+
+        {/* Streak / daily-goal bar — the "did I show up today" loop. The level, words, and level
+            bar moved to the ring above, so this is all that remains here. Tap → мой прогресс. */}
         <button
           type="button"
-          className="ghead"
+          className="ghead ghead--slim"
           onClick={onShowStats}
           aria-label="Открыть мой прогресс"
         >
           <span className="ghead__more" aria-hidden="true">
             📊&nbsp;›
           </span>
-          <span className="ghead__stats">
-            <span className="gstat">
-              <span className="gstat__icon" aria-hidden="true">🔥</span>
-              <span className="gstat__value gstat__value--streak">{streak}</span>
-              <span className="gstat__label">серия</span>
-            </span>
-            <span className="gstat">
-              <span className="gstat__icon" aria-hidden="true">🏆</span>
-              <span className="gstat__value gstat__value--level">{active}</span>
-              <span className="gstat__label">уровень</span>
-            </span>
-            <span className="gstat">
-              <span className="gstat__icon" aria-hidden="true">✦</span>
-              <span className="gstat__value gstat__value--words">{overall.learned}</span>
-              <span className="gstat__label">из {overall.total}</span>
-            </span>
-          </span>
-
-          <span className="ghead__bar">
-            <span className="ghead__fill ghead__fill--level" style={{ width: `${levelPct}%` }} />
-          </span>
-          <span
-            className="ghead__caption"
-            title="Освоение уровня: слова, предложения и тексты/диалоги. Уровень открывается, когда освоено почти всё его содержимое."
-          >
-            Уровень {active} · {levelPct}%
-          </span>
-
           <span className="ghead__bar">
             <span className="ghead__fill ghead__fill--daily" style={{ width: `${goalPct}%` }} />
           </span>
           <span className="ghead__caption">
-            🎯{" "}
+            🔥 {streak} ·{" "}
             {goalReached
-              ? "Цель выполнена! 🎉"
-              : `Сегодня: ${lessons}/${DAILY_LESSONS_GOAL} · ${accuracyPct}%`}
+              ? "цель выполнена! 🎉"
+              : `сегодня ${lessons}/${DAILY_LESSONS_GOAL} · ${accuracyPct}%`}
           </span>
         </button>
 
