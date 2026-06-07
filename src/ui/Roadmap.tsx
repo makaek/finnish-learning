@@ -11,7 +11,6 @@ import {
   levelModeStats,
   levelOf,
   masteringLevelGated,
-  overallProgress,
   readingLearned,
   sentenceLearned,
   unmasteredInLevel,
@@ -197,7 +196,7 @@ export default function Roadmap({
   // learn-progress bar — not the unlocked frontier, which jumped the bar to ~0% on every unlock.
   // Completion now spans words + sentences + dialogs/texts, so finishing a level's phrases and
   // dialogs fills the bar and advances the level. (Unlocks stay word-driven, so nothing relocks.)
-  const { active, overall, balance } = useMemo(() => {
+  const { active, balance } = useMemo(() => {
     // Gated current level: advances only once a level is both learned-enough AND balanced across
     // every mode (the Кольцо-баланса gate). Content unlocks stay word-driven, so nothing relocks.
     const a = masteringLevelGated(vocab, sentences, texts, progress);
@@ -212,7 +211,6 @@ export default function Roadmap({
     }));
     return {
       active: a,
-      overall: overallProgress(vocab, progress),
       balance: computeBalance(modes, a),
     };
   }, [vocab, sentences, texts, progress]);
@@ -375,13 +373,6 @@ export default function Roadmap({
         {/* Кольцо баланса — the hero signal: every mode at once, tap a spoke to start it.
             Interactive, so it sits as a sibling of (never nested in) the ghead button. */}
         <BalanceRing balance={balance} left={ringLeft} onPick={startById} />
-
-        <div className="bstats">
-          <div className="bstat__v">
-            ✦ {overall.learned}
-            <small>/{overall.total}</small>
-          </div>
-        </div>
 
         {/* Compact action row: tackle the слабое звено, or run the Микс over current-level
             leftovers — both icon-first, side by side. Each appears only when relevant. */}
