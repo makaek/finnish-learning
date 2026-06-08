@@ -8,10 +8,11 @@ import { useMemo } from "react";
 import {
   activeVocab,
   eligibleSentences,
+  hasComprehensionQuiz,
   levelModeStats,
   levelOf,
   masteringLevelGated,
-  readingLearned,
+  readingMastered,
   sentenceLearned,
   unmasteredInLevel,
   wordLearned,
@@ -255,8 +256,10 @@ export default function Roadmap({
     const sents = sentences.filter(
       (x) => levelOf(x) === active && !sentenceLearned(progress, x.id),
     ).length;
+    // Reading counts use the full two-part mastery (quiz + recite all roles), matching the
+    // recite-aware ring/gate — a quiz-passed-but-not-recited text still counts as "left".
     const reading = texts.filter(
-      (t) => levelOf(t) === active && !readingLearned(progress, t.id),
+      (t) => levelOf(t) === active && !readingMastered(progress, t.id, hasComprehensionQuiz(t)),
     ).length;
     return {
       readiness: {
@@ -278,8 +281,12 @@ export default function Roadmap({
         sentences: unmasteredInLevel(sentPool, progress, "sentences", active),
         say_sentence: unmasteredInLevel(sentPool, progress, "say_sentence", active),
         listen_sentence: unmasteredInLevel(sentPool, progress, "listen_sentence", active),
-        text: unmasteredInLevel(textPool, progress, "reading", active),
-        dialog: unmasteredInLevel(dialogPool, progress, "reading", active),
+        text: textPool.filter(
+          (t) => levelOf(t) === active && !readingMastered(progress, t.id, hasComprehensionQuiz(t)),
+        ).length,
+        dialog: dialogPool.filter(
+          (t) => levelOf(t) === active && !readingMastered(progress, t.id, hasComprehensionQuiz(t)),
+        ).length,
       },
       groupLeft: { words, sentences: sents, reading },
     };

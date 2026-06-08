@@ -119,10 +119,12 @@ describe("computeDashboard reading metrics", () => {
     { id: "t2", level: 2, type: "text" as const },
     { id: "t3", level: 2, type: "text" as const },
   ];
-  // t1's comprehension is mastered (reading track box 2); t2/t3 untouched.
+  // t1 is fully «Прочитано»: comprehension quiz mastered (reading box 2) AND recited in all
+  // roles (the recite aggregate flag). t2/t3 untouched.
   const readingProgress = new Map([
     ...progress,
     [progressKey("reading", "t1"), p("reading", "t1", 2, 2, 2, NOW)],
+    [progressKey("recite", "t1"), p("recite", "t1", 2, 2, 2, NOW)],
   ]);
   const dr = computeDashboard(vocab, sentences, readingProgress, daily, TODAY, NOW, true, texts);
 

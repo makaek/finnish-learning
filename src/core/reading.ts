@@ -6,7 +6,8 @@
  * derives a dialog's roles, and gates texts by curriculum level. No UI/DB imports.
  */
 
-import { levelOf } from "./levels";
+import { LEARNED_BOX, levelOf } from "./levels";
+import { getProgress, type ProgressMap } from "./progress";
 import { normalizeFi } from "./normalize";
 
 /** One line of a text or dialog. `speaker` is set only on dialog lines. */
@@ -148,6 +149,37 @@ function parseText(raw: unknown): ReadingText | null {
 export function flattenTexts(raw: RawReading): ReadingText[] {
   if (!Array.isArray(raw.texts)) return [];
   return raw.texts.map(parseText).filter((t): t is ReadingText => t !== null);
+}
+
+/**
+ * Sentinel "role" for a monologue, where reciting the whole thing once satisfies "all roles".
+ * Reserved — authored texts must not use "__solo__" as a speaker name.
+ */
+export const SOLO_ROLE = "__solo__";
+
+/**
+ * The roles a learner must recite by memory to MASTER a text (the "наизусть за все роли" set):
+ * a dialog's distinct speakers, or a single {@link SOLO_ROLE} for a monologue (a "dialog" that
+ * turns out to have <2 speakers is treated as a monologue too).
+ */
+export function reciteRoles(text: ReadingText): string[] {
+  const roles = rolesOf(text);
+  return roles.length >= 2 ? roles : [SOLO_ROLE];
+}
+
+/** Progress `itemId` for one recited role of a text (the per-role `recite` track record). */
+export function reciteRoleId(textId: string, role: string): string {
+  return `${textId}::${role}`;
+}
+
+/** Whether a single role of a text has been recited by memory (its per-role `recite` record is set). */
+export function reciteRoleDone(progress: ProgressMap, textId: string, role: string): boolean {
+  return getProgress(progress, "recite", reciteRoleId(textId, role)).box >= LEARNED_BOX;
+}
+
+/** How many of a text's roles have been recited so far (drives the «N/total» recite progress). */
+export function recitedRoleCount(progress: ProgressMap, text: ReadingText): number {
+  return reciteRoles(text).filter((r) => reciteRoleDone(progress, text.id, r)).length;
 }
 
 /** Distinct speakers of a text, in first-appearance order (empty for a monologue). */

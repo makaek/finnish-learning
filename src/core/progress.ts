@@ -12,7 +12,8 @@
  * dictionary word has distinct records for "recognition", typed "production", spoken
  * "say_word", and dictation "listen_word"; sentences have separate typed "sentences", spoken
  * "say_sentence", and dictation "listen_sentence" tracks; a reading text/dialog has one
- * "reading" track recording comprehension-quiz mastery.
+ * "reading" track recording comprehension-quiz mastery, plus a "recite" track recording
+ * by-memory recitation (one record per role, plus an aggregate when every role is done).
  */
 export type ItemKind =
   | "recognition"
@@ -22,7 +23,8 @@ export type ItemKind =
   | "say_sentence"
   | "listen_word"
   | "listen_sentence"
-  | "reading";
+  | "reading"
+  | "recite";
 
 /** Lowest / highest Leitner box. Box 0 = brand new / just missed; MAX_BOX = mastered. */
 export const MIN_BOX = 0;

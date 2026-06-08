@@ -1256,8 +1256,10 @@ body {
 }
 
 .bnav__icon {
-  font-size: 1.3rem;
-  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.45rem;
 }
 
 .bnav__label {

@@ -1,8 +1,13 @@
 import { describe, it, expect } from "vitest";
 import {
+  SOLO_ROLE,
   flattenTexts,
   glossKey,
   isTextUnlocked,
+  reciteRoleDone,
+  reciteRoleId,
+  reciteRoles,
+  recitedRoleCount,
   rolesOf,
   sortTexts,
   spokenMatches,
@@ -10,6 +15,7 @@ import {
   type RawReading,
   type ReadingText,
 } from "./reading";
+import { progressKey, type ItemProgress, type ProgressMap } from "./progress";
 
 const mk = (id: string, level: number, type: "text" | "dialog" = "text"): ReadingText => ({
   id,
@@ -180,5 +186,53 @@ describe("spokenMatches", () => {
   it("rejects empty input on either side", () => {
     expect(spokenMatches("Hei", "")).toBe(false);
     expect(spokenMatches("", "hei")).toBe(false);
+  });
+});
+
+describe("recite roles (наизусть mastery targets)", () => {
+  const dialog = (): ReadingText => ({
+    id: "d",
+    title: "d",
+    level: 1,
+    type: "dialog",
+    lines: [
+      { speaker: "Pekka", fi: "Hei", ru: "Привет" },
+      { speaker: "Liisa", fi: "Moi", ru: "Здравствуй" },
+    ],
+  });
+  const recited = (textId: string, ...roles: string[]): ProgressMap => {
+    const m: ProgressMap = new Map();
+    for (const r of roles) {
+      const itemId = reciteRoleId(textId, r);
+      const rec: ItemProgress = {
+        kind: "recite",
+        itemId,
+        box: 5,
+        correctStreak: 1,
+        totalCorrect: 1,
+        totalSeen: 1,
+        lastSeen: 1,
+      };
+      m.set(progressKey("recite", itemId), rec);
+    }
+    return m;
+  };
+
+  it("a monologue's only recite target is the solo role", () => {
+    expect(reciteRoles(mk("m", 1, "text"))).toEqual([SOLO_ROLE]);
+  });
+
+  it("a dialog's recite targets are its distinct speakers", () => {
+    expect(reciteRoles(dialog())).toEqual(["Pekka", "Liisa"]);
+  });
+
+  it("tracks per-role done and the recited-role count", () => {
+    const d = dialog();
+    expect(recitedRoleCount(new Map(), d)).toBe(0);
+    const p1 = recited("d", "Pekka");
+    expect(reciteRoleDone(p1, "d", "Pekka")).toBe(true);
+    expect(reciteRoleDone(p1, "d", "Liisa")).toBe(false);
+    expect(recitedRoleCount(p1, d)).toBe(1);
+    expect(recitedRoleCount(recited("d", "Pekka", "Liisa"), d)).toBe(2);
   });
 });

@@ -9,14 +9,15 @@
 
 import { useEffect, useMemo, useState } from "react";
 import type { ReadingText } from "../core/reading";
-import { rolesOf, spokenMatches } from "../core/reading";
+import { SOLO_ROLE, rolesOf, spokenMatches } from "../core/reading";
 import { useSpeechSynthesis } from "./useSpeechSynthesis";
 import { useSpeechRecognition } from "./useSpeechRecognition";
 
 interface DialogPlayProps {
   text: ReadingText;
   onExit: () => void;
-  onComplete: () => void;
+  /** Called when a role is fully recited; `role` is the speaker (or {@link SOLO_ROLE} for a monologue). */
+  onComplete: (role: string) => void;
 }
 
 // Pacing (ms). Recall scales with line length; gaps make the exchange feel natural.
@@ -24,9 +25,9 @@ const GAP_MS = 550;
 const recallMs = (fi: string) => Math.min(6000, 1800 + fi.length * 55);
 /** Fallback timing when there's no TTS voice — how long to leave a line on screen to read. */
 const readMs = (fi: string) => Math.min(7000, 1200 + fi.length * 55);
-/** Sentinel "role" for a monologue, where every line is the learner's to recite. (Reserved —
- *  authored texts must not use "__solo__" as a speaker name.) */
-const SOLO = "__solo__";
+/** Sentinel "role" for a monologue, where every line is the learner's to recite (shared with the
+ *  recite-mastery model so a completed monologue records the same role it counts). */
+const SOLO = SOLO_ROLE;
 
 export default function DialogPlay({ text, onExit, onComplete }: DialogPlayProps) {
   const roles = useMemo(() => rolesOf(text), [text]);
@@ -198,7 +199,7 @@ export default function DialogPlay({ text, onExit, onComplete }: DialogPlayProps
             {isMonologue ? "Вы рассказали текст." : `Вы прошли диалог в роли «${myRole}».`}
           </p>
           <div className="rolepick">
-            <button type="button" className="next" onClick={onComplete}>
+            <button type="button" className="next" onClick={() => onComplete(myRole ?? SOLO)}>
               Готово
             </button>
             <button

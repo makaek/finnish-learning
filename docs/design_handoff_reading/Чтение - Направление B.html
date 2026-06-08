@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Чтение — Направление B (поток освоения)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #EDEAE3; font-family: "Golos Text", system-ui, sans-serif; }
+  * { box-sizing: border-box; }
+  .phone { border-radius: 40px; overflow: hidden; box-shadow: 0 22px 60px rgba(40,30,20,.22), 0 0 0 9px #15110d, 0 0 0 11px #2c2620; }
+  .phone *::-webkit-scrollbar { width: 0; height: 0; display: none; }
+  .phone * { scrollbar-width: none; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <rect width="100" height="100" fill="#BB6A39"/>
+    <g transform="translate(50,50) scale(0.62)" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M-26 -20h22a4 4 0 0 1 4 4v30l-9-7h-17Z"/>
+      <path d="M4 -8h22v26h-17l-9 7v-18"/>
+    </g>
+  </svg>
+</template>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="kit.jsx"></script>
+<script type="text/babel" src="data.jsx"></script>
+<script type="text/babel" src="reading.jsx"></script>
+
+<script type="text/babel">
+const W = 390, H = 844;
+const Board = ({ children }) => <div className="phone">{children}</div>;
+
+function App() {
+  return (
+    <DesignCanvas>
+      <DCSection id="lib" title="Библиотека"
+        subtitle="«Прочитано» = вопросы ✓ + наизусть за все роли ✓. В строке видно, что начато, а что освоено.">
+        <DCArtboard id="lib-d" label="Диалоги" width={W} height={H}><Board><LibR kind="dialog" /></Board></DCArtboard>
+        <DCArtboard id="lib-t" label="Тексты" width={W} height={H}><Board><LibR kind="text" /></Board></DCArtboard>
+      </DCSection>
+
+      <DCSection id="flow" title="Освоение диалога «Который час?»"
+        subtitle="Путь к «Прочитано» из двух шагов — он виден в нижней панели читателя на каждом этапе.">
+        <DCArtboard id="r0" label="1 · Читатель — 0 / 2" width={W} height={H}><Board><ReaderR data={DIALOG_READER} done={{ quiz: false, recite: [] }} /></Board></DCArtboard>
+        <DCArtboard id="quiz" label="2 · Шаг «Вопросы»" width={W} height={H}><Board><QuizR /></Board></DCArtboard>
+        <DCArtboard id="qdone" label="3 · Вопросы пройдены (1 / 2)" width={W} height={H}><Board><QuizDoneR /></Board></DCArtboard>
+        <DCArtboard id="r1" label="4 · Читатель — 1 / 2" width={W} height={H}><Board><ReaderR data={DIALOG_READER} done={{ quiz: true, recite: [] }} /></Board></DCArtboard>
+        <DCArtboard id="roles" label="5 · Наизусть — за все роли" width={W} height={H}><Board><RolesR data={DIALOG_READER} recited={['Pekka']} /></Board></DCArtboard>
+        <DCArtboard id="recite" label="6 · Наизусть — реплика" width={W} height={H}><Board><ReciteR /></Board></DCArtboard>
+        <DCArtboard id="master" label="7 · Прочитано!" width={W} height={H}><Board><MasteredR data={DIALOG_READER} /></Board></DCArtboard>
+        <DCArtboard id="rmaster" label="8 · Читатель — освоено (2 / 2)" width={W} height={H}><Board><ReaderR data={DIALOG_READER} done={{ quiz: true, recite: ['Pekka', 'Liisa'] }} /></Board></DCArtboard>
+      </DCSection>
+    </DesignCanvas>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

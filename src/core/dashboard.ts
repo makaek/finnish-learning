@@ -16,13 +16,14 @@ import {
   SENTENCE_MODES,
   WORD_MODES,
   eligibleSentences,
+  hasComprehensionQuiz,
   levelCompletionStats,
   levelOf,
   levelStats,
   listLevels,
   masteringLevelGated,
   overallProgress,
-  readingLearned,
+  readingMastered,
   sentenceLearned,
   unlockedLevelsWith,
   wordLearned,
@@ -50,6 +51,7 @@ export const MODE_LABEL: Record<ItemKind, string> = {
   say_sentence: "Речь · фразы",
   listen_sentence: "Аудио · фразы",
   reading: "Чтение",
+  recite: "Наизусть",
 };
 
 /** Russian labels for parts of speech (dictionary `pos`). */
@@ -73,6 +75,8 @@ export interface DashVocab extends VocabLike {
 /** Minimal reading-text shape the dashboard needs (real ReadingText satisfies it). */
 export interface DashText extends VocabLike {
   type?: "text" | "dialog";
+  /** Comprehension questions (only the count matters — whether the quiz part of mastery applies). */
+  questions?: readonly unknown[];
 }
 
 export interface Kpis {
@@ -320,7 +324,7 @@ export function computeDashboard(
     totalReps,
     totalCorrect,
     fullyMastered,
-    textsDone: texts.filter((t) => readingLearned(progress, t.id)).length,
+    textsDone: texts.filter((t) => readingMastered(progress, t.id, hasComprehensionQuiz(t))).length,
     textsTotal: texts.length,
   };
 
@@ -334,7 +338,7 @@ export function computeDashboard(
   };
 
   const reading = {
-    done: texts.filter((t) => readingLearned(progress, t.id)).length,
+    done: texts.filter((t) => readingMastered(progress, t.id, hasComprehensionQuiz(t))).length,
     total: texts.length,
   };
 

@@ -24,6 +24,8 @@ interface TextReaderProps {
   onLessonDone: () => void;
   /** Record a finished comprehension quiz on this text's reading track. */
   onReadingResult: (textId: string, allCorrect: boolean) => void;
+  /** Record that this text was recited наизусть in one role (the second part of mastery). */
+  onRecited: (textId: string, role: string) => void;
 }
 
 export default function TextReader({
@@ -34,6 +36,7 @@ export default function TextReader({
   onMarkRead,
   onLessonDone,
   onReadingResult,
+  onRecited,
 }: TextReaderProps) {
   const [showRu, setShowRu] = useState(true);
   const [playing, setPlaying] = useState(false);
@@ -59,7 +62,8 @@ export default function TextReader({
       <DialogPlay
         text={text}
         onExit={() => setPlaying(false)}
-        onComplete={() => {
+        onComplete={(role) => {
+          onRecited(text.id, role);
           onMarkRead();
           onLessonDone();
           setPlaying(false);

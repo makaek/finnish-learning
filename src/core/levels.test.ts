@@ -19,7 +19,9 @@ import {
   overallProgress,
   readingLearnProgress,
   readingLearned,
+  readingMastered,
   readingMastery,
+  reciteComplete,
   remainingForLevel,
   sentenceLearned,
   sentenceMastery,
@@ -353,14 +355,29 @@ describe("sentence helpers (analogues of the word ones)", () => {
     expect(sentenceMastery(all, "s1")).toBe(1);
   });
 
-  it("reading helpers key off the reading track (learned at LEARNED_BOX)", () => {
+  it("readingLearned/readingLearnProgress key off the comprehension-quiz reading track", () => {
     expect(readingLearned(new Map(), "t1")).toBe(false);
     expect(readingLearned(box("reading", "t1", 2), "t1")).toBe(true);
-    expect(readingMastery(box("reading", "t1", 1), "t1")).toBe(0); // below learned
-    expect(readingMastery(box("reading", "t1", 2), "t1")).toBe(1);
     expect(readingLearnProgress(new Map(), "t1")).toBe(0);
     expect(readingLearnProgress(box("reading", "t1", 1), "t1")).toBe(0.5);
     expect(readingLearnProgress(box("reading", "t1", 5), "t1")).toBe(1); // capped
+  });
+
+  it("readingMastered is the two-part rule: quiz passed AND all roles recited", () => {
+    const quizOnly = box("reading", "t1", 2);
+    const reciteOnly = box("recite", "t1", 2); // aggregate "all roles recited" flag
+    const both = new Map([...quizOnly, ...reciteOnly]);
+    // A text WITH questions needs both parts.
+    expect(reciteComplete(new Map(), "t1")).toBe(false);
+    expect(reciteComplete(reciteOnly, "t1")).toBe(true);
+    expect(readingMastered(quizOnly, "t1", true)).toBe(false); // recite missing
+    expect(readingMastered(reciteOnly, "t1", true)).toBe(false); // quiz missing
+    expect(readingMastered(both, "t1", true)).toBe(true);
+    expect(readingMastery(both, "t1", true)).toBe(1);
+    expect(readingMastery(quizOnly, "t1", true)).toBe(0);
+    // A text WITHOUT questions has its quiz part vacuously satisfied → recite alone masters it.
+    expect(readingMastered(reciteOnly, "t1", false)).toBe(true);
+    expect(readingMastered(new Map(), "t1", false)).toBe(false);
   });
 });
 
@@ -393,11 +410,13 @@ describe("levelCompletionStats / levelCompletionLearnProgress (combined completi
     expect(l1.learned).toBe(0);
   });
 
-  it("counts a learned word, a learned sentence, and a learned (quizzed) text", () => {
+  it("counts a learned word, a learned sentence, and a mastered text", () => {
+    // t1 has no questions here, so its quiz part is vacuous — reciting it (the aggregate flag)
+    // is what masters it for level completion.
     const progress = new Map([
       ...learned(["a1"]), // a1 learned (recognition)
       ...box("sentences", "s1", 2), // s1 learned (translation)
-      ...box("reading", "t1", 2), // t1 comprehension mastered
+      ...box("recite", "t1", 2), // t1 recited (all roles) → mastered
     ]);
     const stats = levelCompletionStats(vocab, sentences, texts, progress);
     const l1 = stats.find((s) => s.level === 1)!;
@@ -459,7 +478,7 @@ describe("levelCompletionStats / levelCompletionLearnProgress (combined completi
     const progress = new Map([
       ...learned(["a1"]),
       ...box("listen_sentence", "s1", 2),
-      ...box("reading", "t1", 2),
+      ...box("recite", "t1", 2), // t1 (no questions) mastered via recitation
     ]);
     expect(remainingForLevel(vocab, sentences, texts, progress, 1)).toEqual({
       words: 4,
@@ -499,11 +518,12 @@ describe("levelModeStats / levelGate / masteringLevelGated (balance-to-progress 
   };
 
   it("reports per-mode mastered/total for the level, reading split into text/dialog", () => {
+    // t1/d1 have no questions, so reciting (the aggregate flag) masters them on the read spokes.
     const p = mk(
       ["recognition", "w1", LEARNED_BOX],
       ["recognition", "w2", LEARNED_BOX], // both mastered in recognition
       ["production", "w1", LEARNED_BOX], //  one in production
-      ["reading", "t1", LEARNED_BOX], //     the text passed, the dialog not
+      ["recite", "t1", LEARNED_BOX], //      the text recited, the dialog not
     );
     const by = Object.fromEntries(levelModeStats(v, sents, txts, p, 1).map((s) => [s.id, s]));
     expect(by.recognition).toMatchObject({ group: "words", mastered: 2, total: 2 });
@@ -537,8 +557,8 @@ describe("levelModeStats / levelGate / masteringLevelGated (balance-to-progress 
       ["recognition", "w1", LEARNED_BOX],
       ["recognition", "w2", LEARNED_BOX],
       ["sentences", "s1", LEARNED_BOX],
-      ["reading", "t1", LEARNED_BOX],
-      ["reading", "d1", LEARNED_BOX],
+      ["recite", "t1", LEARNED_BOX], // t1/d1 have no questions → recited = mastered
+      ["recite", "d1", LEARNED_BOX],
     );
     // …but say_word/listen_word/say_sentence/… sit at 0, so the gate holds the level at 1.
     expect(masteringLevelGated(v, sents, txts, learnedNotBalanced)).toBe(1);
@@ -553,7 +573,7 @@ describe("levelModeStats / levelGate / masteringLevelGated (balance-to-progress 
       ["sentences", "s1", LEARNED_BOX],
       ["say_sentence", "s1", LEARNED_BOX],
       ["listen_sentence", "s1", LEARNED_BOX],
-      ["reading", "t1", LEARNED_BOX], ["reading", "d1", LEARNED_BOX],
+      ["recite", "t1", LEARNED_BOX], ["recite", "d1", LEARNED_BOX], // recited (no questions)
     );
     // L1 complete AND balanced → the displayed level rolls on to L2 (where x1 is untouched).
     expect(masteringLevelGated(v, sents, txts, balanced)).toBe(2);

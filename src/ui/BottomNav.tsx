@@ -6,6 +6,8 @@
  * the home shell (no bar during a lesson, which stays full-screen and focused).
  */
 
+import { UiIcon, type UiIconName } from "./icons";
+
 // "reading" is a valid home screen but intentionally has NO footer tab — the library is opened
 // from the home "Чтение" cards and exits via its own back button, so while it's active no tab is
 // highlighted (by design). The other four values each map to a tab below.
@@ -13,11 +15,12 @@ export type HomeScreen = "roadmap" | "reading" | "stats" | "rules" | "dashboard"
 
 // "reading" is intentionally NOT a tab — the library is opened from the home "Чтение" cards
 // (Тексты / Диалоги) and returns via its own back button. The footer covers the always-on screens.
-const TABS: { key: HomeScreen; icon: string; label: string }[] = [
-  { key: "roadmap", icon: "🏠", label: "Главная" },
-  { key: "stats", icon: "📈", label: "Прогресс" },
-  { key: "dashboard", icon: "📊", label: "Метрики" },
-  { key: "rules", icon: "📖", label: "Правила" },
+// Icons are monoline SVGs (UiIcon), matching the home/reading design system — no emoji.
+const TABS: { key: HomeScreen; icon: UiIconName; label: string }[] = [
+  { key: "roadmap", icon: "home", label: "Главная" },
+  { key: "stats", icon: "chart", label: "Прогресс" },
+  { key: "dashboard", icon: "grid", label: "Метрики" },
+  { key: "rules", icon: "rules", label: "Правила" },
 ];
 
 export default function BottomNav({
@@ -40,7 +43,7 @@ export default function BottomNav({
             onClick={() => onSelect(t.key)}
           >
             <span className="bnav__icon" aria-hidden="true">
-              {t.icon}
+              <UiIcon name={t.icon} size={23} strokeWidth={on ? 2 : 1.7} />
             </span>
             <span className="bnav__label">{t.label}</span>
           </button>

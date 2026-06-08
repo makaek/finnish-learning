@@ -41,6 +41,7 @@ const TRACK_LABEL: Record<ItemKind, string> = {
   listen_word: "🎧 На слух",
   listen_sentence: "🎧 На слух",
   reading: "📖 Вопросы",
+  recite: "🎤 Наизусть",
 };
 
 function boxPips(box: number): string {

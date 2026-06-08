@@ -121,9 +121,34 @@ export function readingLearned(progress: ProgressMap, textId: string): boolean {
   return getProgress(progress, "reading", textId).box >= LEARNED_BOX;
 }
 
-/** Reading mastery for a text, in {0, 1}: learned or not (single track — no partial depth). */
-export function readingMastery(progress: ProgressMap, textId: string): number {
-  return readingLearned(progress, textId) ? 1 : 0;
+/**
+ * Whether a text's by-memory recitation is complete — the aggregate `recite` record (written
+ * once EVERY role has been recited) is at/above LEARNED_BOX. The per-role records live under
+ * `recite:${textId}::${role}` (see {@link reciteRoleId}); this reads only the role-agnostic
+ * aggregate so the level math needs no knowledge of a text's roles.
+ */
+export function reciteComplete(progress: ProgressMap, textId: string): boolean {
+  return getProgress(progress, "recite", textId).box >= LEARNED_BOX;
+}
+
+/**
+ * Whether a text/dialog is MASTERED («Прочитано») — the two-part rule: its comprehension quiz is
+ * passed ({@link readingLearned}) AND it has been recited наизусть in every role
+ * ({@link reciteComplete}). A text with no comprehension questions has its quiz part vacuously
+ * satisfied, so recitation alone masters it. THIS is what counts toward level completion.
+ */
+export function readingMastered(
+  progress: ProgressMap,
+  textId: string,
+  hasQuestions: boolean,
+): boolean {
+  const quizDone = hasQuestions ? readingLearned(progress, textId) : true;
+  return quizDone && reciteComplete(progress, textId);
+}
+
+/** Reading mastery for a text, in {0, 1}: fully mastered (quiz + recite) or not. */
+export function readingMastery(progress: ProgressMap, textId: string, hasQuestions: boolean): number {
+  return readingMastered(progress, textId, hasQuestions) ? 1 : 0;
 }
 
 /**
@@ -159,6 +184,20 @@ export interface SentenceLike {
   id: string;
   level?: number;
   uses: readonly string[];
+}
+/**
+ * Minimal reading-item shape for the level math: a text/dialog tag plus its comprehension
+ * questions (only the count is read, to know whether the quiz part of mastery applies). Real
+ * {@link ReadingText} satisfies it.
+ */
+export interface ReadingLike extends VocabLike {
+  type?: "text" | "dialog";
+  questions?: readonly unknown[];
+}
+
+/** Whether a reading item carries a comprehension quiz (so the quiz part of mastery applies). */
+export function hasComprehensionQuiz(text: ReadingLike): boolean {
+  return (text.questions?.length ?? 0) > 0;
 }
 
 /** Level of an item, defaulting to 1 when unset or invalid. */
@@ -274,7 +313,7 @@ export function levelLearnProgress(
 export function levelCompletionStats(
   vocab: readonly VocabLike[],
   sentences: readonly SentenceLike[],
-  texts: readonly VocabLike[],
+  texts: readonly ReadingLike[],
   progress: ProgressMap,
 ): LevelStat[] {
   const levels = listLevels([...vocab, ...sentences, ...texts]);
@@ -286,11 +325,11 @@ export function levelCompletionStats(
     const learned =
       w.filter((v) => wordLearned(progress, v.id)).length +
       s.filter((x) => sentenceLearned(progress, x.id)).length +
-      t.filter((x) => readingLearned(progress, x.id)).length;
+      t.filter((x) => readingMastered(progress, x.id, hasComprehensionQuiz(x))).length;
     const masterySum =
       w.reduce((sum, v) => sum + wordMastery(progress, v.id), 0) +
       s.reduce((sum, x) => sum + sentenceMastery(progress, x.id), 0) +
-      t.reduce((sum, x) => sum + readingMastery(progress, x.id), 0);
+      t.reduce((sum, x) => sum + readingMastery(progress, x.id, hasComprehensionQuiz(x)), 0);
     return { level, total, learned, fraction: total === 0 ? 1 : masterySum / total };
   });
 }
@@ -311,7 +350,7 @@ export interface LevelRemaining {
 export function remainingForLevel(
   vocab: readonly VocabLike[],
   sentences: readonly SentenceLike[],
-  texts: readonly VocabLike[],
+  texts: readonly ReadingLike[],
   progress: ProgressMap,
   level: number,
 ): LevelRemaining {
@@ -319,7 +358,9 @@ export function remainingForLevel(
     words: vocab.filter((v) => levelOf(v) === level && !wordLearned(progress, v.id)).length,
     sentences: sentences.filter((s) => levelOf(s) === level && !sentenceLearned(progress, s.id))
       .length,
-    texts: texts.filter((t) => levelOf(t) === level && !readingLearned(progress, t.id)).length,
+    texts: texts.filter(
+      (t) => levelOf(t) === level && !readingMastered(progress, t.id, hasComprehensionQuiz(t)),
+    ).length,
   };
 }
 
@@ -353,10 +394,8 @@ export function masteringLevel(stats: readonly LevelStat[]): number {
   return incomplete ? incomplete.level : (ordered[ordered.length - 1]?.level ?? 1);
 }
 
-/** A reading-style content item that may carry a text/dialog tag (real ReadingText satisfies it). */
-export interface TypedItem extends VocabLike {
-  type?: "text" | "dialog";
-}
+/** A reading-style content item with a text/dialog tag (real ReadingText satisfies it). */
+export type TypedItem = ReadingLike;
 
 /**
  * Per-mode, CURRENT-LEVEL mastery — the nine home-ring spokes for one level. For each mode,
@@ -390,6 +429,10 @@ export function levelModeStats(
   const s = sentences.filter((x) => levelOf(x) === level);
   const t = texts.filter((x) => levelOf(x) === level && x.type !== "dialog");
   const d = texts.filter((x) => levelOf(x) === level && x.type === "dialog");
+  // Reading spokes use the full two-part mastery (quiz + recite all roles), not the quiz track
+  // alone, so the ring/gate only credit a text once it's truly «Прочитано».
+  const masteredReading = (items: readonly ReadingLike[]): number =>
+    items.filter((i) => readingMastered(progress, i.id, hasComprehensionQuiz(i))).length;
   return [
     { id: "recognition", group: "words", mastered: masteredIn(w, progress, "recognition"), total: w.length },
     { id: "production", group: "words", mastered: masteredIn(w, progress, "production"), total: w.length },
@@ -398,8 +441,8 @@ export function levelModeStats(
     { id: "sentences", group: "sent", mastered: masteredIn(s, progress, "sentences"), total: s.length },
     { id: "say_sentence", group: "sent", mastered: masteredIn(s, progress, "say_sentence"), total: s.length },
     { id: "listen_sentence", group: "sent", mastered: masteredIn(s, progress, "listen_sentence"), total: s.length },
-    { id: "read:text", group: "read", mastered: masteredIn(t, progress, "reading"), total: t.length },
-    { id: "read:dialog", group: "read", mastered: masteredIn(d, progress, "reading"), total: d.length },
+    { id: "read:text", group: "read", mastered: masteredReading(t), total: t.length },
+    { id: "read:dialog", group: "read", mastered: masteredReading(d), total: d.length },
   ];
 }
 

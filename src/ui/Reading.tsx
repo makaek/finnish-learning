@@ -10,7 +10,7 @@ import { useMemo, useState } from "react";
 import {
   activeLevel,
   levelStats,
-  readingLearned,
+  readingMastered,
   unlockedLevelsWith,
   type VocabLike,
 } from "../core/levels";
@@ -31,6 +31,8 @@ interface ReadingProps {
   onLessonDone: () => void;
   /** Record a finished comprehension quiz on the text's reading track. */
   onReadingResult: (textId: string, allCorrect: boolean) => void;
+  /** Record that the text was recited наизусть in one role (drives the second part of mastery). */
+  onRecited: (textId: string, role: string) => void;
   /** Show only this kind ("text" monologues or "dialog"s); both when omitted. */
   filterType?: "text" | "dialog";
   /** Return to the home grid (the library is opened from there, not the footer). */
@@ -45,6 +47,7 @@ export default function Reading({
   onMarkRead,
   onLessonDone,
   onReadingResult,
+  onRecited,
   filterType,
   onBack,
 }: ReadingProps) {
@@ -70,6 +73,7 @@ export default function Reading({
         onMarkRead={() => onMarkRead(openText.id)}
         onLessonDone={onLessonDone}
         onReadingResult={onReadingResult}
+        onRecited={onRecited}
       />
     );
   }
@@ -86,10 +90,11 @@ export default function Reading({
         <ul className="reading">
           {shown.map((t) => {
             const unlocked = testMode || isTextUnlocked(t, currentLevel);
-            // "Fully done" = comprehension quiz passed (counts toward the level); for question-less
-            // texts there's no quiz, so being marked read is the whole completion signal.
+            // «Прочитано» (the 🏆) = the two-part mastery that counts toward the level: comprehension
+            // quiz passed (if any) AND recited наизусть in every role. The ✓ below is the lighter
+            // "opened/read at least once" marker (read-set), a distinct, partial state.
             const hasQuestions = (t.questions?.length ?? 0) > 0;
-            const done = hasQuestions ? readingLearned(progress, t.id) : read.has(t.id);
+            const done = readingMastered(progress, t.id, hasQuestions);
             return (
               <li key={t.id}>
                 <button

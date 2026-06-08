@@ -36,6 +36,7 @@ import {
   type ItemProgress,
   type ProgressMap,
 } from "../core/progress";
+import { reciteRoleDone, reciteRoleId, reciteRoles } from "../core/reading";
 import { loadProgress, loadState, saveProgress, saveState } from "../data/backend";
 import { hiddenKey, loadHidden, saveHidden } from "./hidden";
 import { loadRead, saveRead } from "./readingState";
@@ -389,6 +390,42 @@ export default function App() {
     void saveProgress([next]);
   }
 
+  /**
+   * Record that a text/dialog was recited наизусть in one `role` (SOLO_ROLE for a monologue). Writes
+   * the per-role `recite` record, and — once EVERY role has been recited — the role-agnostic
+   * aggregate `recite:${textId}` that {@link readingMastered} reads. The aggregate is the second of
+   * the two parts (with the comprehension quiz) that mark a text «Прочитано» / count it to its level.
+   */
+  function recordRecite(textId: string, role: string) {
+    const text = TEXTS.find((t) => t.id === textId);
+    if (!text) return;
+    const now = Date.now();
+    const writes: ItemProgress[] = [];
+    const roleId = reciteRoleId(textId, role);
+    const prevRole = getProgress(progressRef.current, "recite", roleId);
+    const roleRec: ItemProgress = {
+      ...prevRole,
+      kind: "recite",
+      itemId: roleId,
+      box: MAX_BOX,
+      correctStreak: prevRole.correctStreak + 1,
+      totalCorrect: prevRole.totalCorrect + 1,
+      totalSeen: prevRole.totalSeen + 1,
+      lastSeen: now,
+    };
+    progressRef.current.set(progressKey("recite", roleId), roleRec);
+    writes.push(roleRec);
+    // Promote to the aggregate "all roles recited" flag once every role's record is set.
+    if (reciteRoles(text).every((r) => reciteRoleDone(progressRef.current, textId, r))) {
+      const prevAgg = getProgress(progressRef.current, "recite", textId);
+      const aggRec: ItemProgress = { ...prevAgg, kind: "recite", itemId: textId, box: MAX_BOX, lastSeen: now };
+      progressRef.current.set(progressKey("recite", textId), aggRec);
+      writes.push(aggRec);
+    }
+    setProgressView(new Map(progressRef.current));
+    void saveProgress(writes);
+  }
+
   /** Record one answer toward today's goal; on the session's last answer, count a lesson. */
   function recordDaily(wasCorrect: boolean, lessonDone: boolean) {
     const today = dateKey();
@@ -446,6 +483,7 @@ export default function App() {
           onMarkRead={markRead}
           onLessonDone={countReadingLesson}
           onReadingResult={recordReading}
+          onRecited={recordRecite}
           filterType={readingFilter}
           onBack={() => setHomeScreen("roadmap")}
         />
