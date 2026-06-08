@@ -4147,6 +4147,1002 @@
       ],
       "teaches": "month nominative (joulukuu) + copula",
       "needs_review": false
+    },
+
+    {
+      "id": "s285",
+      "ru": "Я иду в кафе.",
+      "uses": ["v2", "n188"],
+      "level": 4,
+      "canonical": "Menen kahvilaan.",
+      "accepted": ["Menen kahvilaan.", "Minä menen kahvilaan."],
+      "wrong": [
+        { "match": "menen kahvilassa", "ru": "Направление «куда?» — иллатив kahvilaan, а не kahvilassa (где?)." },
+        { "match": "menen kahvilasta", "ru": "kahvilasta = из кафе (откуда?). «В кафе» — kahvilaan." }
+      ],
+      "teaches": "illative direction (kahvila)",
+      "needs_review": false
+    },
+    {
+      "id": "s286",
+      "ru": "Магазин на дороге.",
+      "uses": ["n3", "v1", "n186"],
+      "level": 4,
+      "canonical": "Kauppa on tiellä.",
+      "accepted": ["Kauppa on tiellä."],
+      "wrong": [
+        { "match": "kauppa on tiessä", "ru": "«На дороге» — адессив tiellä, а не инессив tiessä." },
+        { "match": "kauppa on tielle", "ru": "tielle = на дорогу (куда?). «На дороге» (где?) — tiellä." }
+      ],
+      "teaches": "adessive location (tie)",
+      "needs_review": false
+    },
+    {
+      "id": "s287",
+      "ru": "Я стою на мосту.",
+      "uses": ["v67", "n187"],
+      "level": 7,
+      "canonical": "Seison sillalla.",
+      "accepted": ["Seison sillalla.", "Minä seison sillalla."],
+      "wrong": [
+        { "match": "seison sillassa", "ru": "«На мосту» — адессив sillalla, а не инессив sillassa." },
+        { "match": "seison siltalla", "ru": "Чередование lt->ll в слабой форме: sillalla, а не siltalla." }
+      ],
+      "teaches": "adessive location (silta) + gradation",
+      "needs_review": false
+    },
+    {
+      "id": "s288",
+      "ru": "Бабушка живёт в деревне.",
+      "uses": ["n174", "v7", "n189"],
+      "level": 7,
+      "canonical": "Isoäiti asuu kylässä.",
+      "accepted": ["Isoäiti asuu kylässä."],
+      "wrong": [
+        { "match": "isoäiti asuu kylään", "ru": "«В деревне» (где?) — инессив kylässä, а не kylään (куда?)." },
+        { "match": "isoäiti asun kylässä", "ru": "3 л. ед. ч.: asuu, а не asun (я)." }
+      ],
+      "teaches": "inessive location (kylä)",
+      "needs_review": false
+    },
+    {
+      "id": "s289",
+      "ru": "Дети играют на пляже.",
+      "uses": ["n19", "v68", "n191"],
+      "level": 8,
+      "canonical": "Lapset leikkivät rannalla.",
+      "accepted": ["Lapset leikkivät rannalla."],
+      "wrong": [
+        { "match": "lapset leikkivät rannassa", "ru": "«На пляже» — адессив rannalla, а не инессив rannassa." },
+        { "match": "lapset leikkii rannalla", "ru": "Подлежащее мн. ч. — глагол в 3 л. мн.: leikkivät, а не leikkii." }
+      ],
+      "teaches": "adessive location (ranta)",
+      "needs_review": false
+    },
+    {
+      "id": "s290",
+      "ru": "Птица поёт.",
+      "uses": ["n192", "v79"],
+      "level": 8,
+      "canonical": "Lintu laulaa.",
+      "accepted": ["Lintu laulaa."],
+      "wrong": [
+        { "match": "lintu laulan", "ru": "3 л. ед. ч.: laulaa, а не laulan (я)." },
+        { "match": "linnut laulaa", "ru": "Если подлежащее мн. ч. (linnut), глагол laulavat." }
+      ],
+      "teaches": "laulaa present action (3rd person)",
+      "needs_review": false
+    },
+    {
+      "id": "s291",
+      "ru": "На небе звёзды и луна.",
+      "uses": ["n69", "v1", "n193", "f1", "n194"],
+      "level": 8,
+      "canonical": "Taivaalla on tähtiä ja kuu.",
+      "accepted": ["Taivaalla on tähtiä ja kuu."],
+      "wrong": [
+        { "match": "taivaassa on tähtiä ja kuu", "ru": "«На небе» — адессив taivaalla, а не инессив taivaassa." },
+        { "match": "taivaalla on tähdet ja kuu", "ru": "Неопределённое множество — партитив множественного: tähtiä, не tähdet." }
+      ],
+      "teaches": "adessive location (taivas) + partitive plural",
+      "needs_review": false
+    },
+    {
+      "id": "s292",
+      "ru": "Мы плаваем у острова.",
+      "uses": ["v42", "n195"],
+      "level": 8,
+      "canonical": "Uimme saaressa.",
+      "accepted": ["Uimme saaressa.", "Me uimme saaressa."],
+      "wrong": [
+        { "match": "uimme saareen", "ru": "«У/в острова» (где?) — инессив saaressa, а не saareen (куда?)." },
+        { "match": "uin saaressa", "ru": "«Мы» — uimme, а не uin (я)." }
+      ],
+      "teaches": "inessive location (saari)",
+      "needs_review": false
+    },
+    {
+      "id": "s293",
+      "ru": "Дом на горе.",
+      "uses": ["n4", "v1", "n196"],
+      "level": 8,
+      "canonical": "Talo on vuorella.",
+      "accepted": ["Talo on vuorella."],
+      "wrong": [
+        { "match": "talo on vuoressa", "ru": "«На горе» — адессив vuorella, а не инессив vuoressa." },
+        { "match": "talo on vuorelle", "ru": "vuorelle = на гору (куда?). «На горе» (где?) — vuorella." }
+      ],
+      "teaches": "adessive location (vuori)",
+      "needs_review": false
+    },
+    {
+      "id": "s294",
+      "ru": "У меня есть очки.",
+      "uses": ["n197"],
+      "level": 11,
+      "canonical": "Minulla on silmälasit.",
+      "accepted": ["Minulla on silmälasit."],
+      "wrong": [
+        { "match": "minulla on silmälasi", "ru": "Это слово только во мн. ч.: silmälasit." },
+        { "match": "minulla on silmälaseja", "ru": "Конкретный предмет (целиком) — номинатив мн.: silmälasit, не партитив." }
+      ],
+      "teaches": "plurale tantum object case (silmälasit)",
+      "needs_review": false
+    },
+    {
+      "id": "s295",
+      "ru": "У меня болит зуб.",
+      "uses": ["n198", "v74"],
+      "level": 12,
+      "canonical": "Hammasta särkee.",
+      "accepted": ["Hammasta särkee."],
+      "wrong": [
+        { "match": "hammas särkee", "ru": "Часть тела при боли — партитив: hammasta särkee, а не hammas." },
+        { "match": "hammasta särjen", "ru": "Глагол боли безличный, 3 л.: särkee, а не särjen." }
+      ],
+      "teaches": "särkeä impersonal pain + partitive (hammas)",
+      "needs_review": false
+    },
+    {
+      "id": "s296",
+      "ru": "У меня болит ухо.",
+      "uses": ["n199", "v73"],
+      "level": 12,
+      "canonical": "Korvaan sattuu.",
+      "accepted": ["Korvaan sattuu.", "Korvaani sattuu."],
+      "wrong": [
+        { "match": "korva sattuu", "ru": "С sattua место боли в иллативе: korvaan sattuu, а не korva." },
+        { "match": "korvaan satun", "ru": "Глагол боли безличный, 3 л.: sattuu, а не satun." }
+      ],
+      "teaches": "sattua impersonal pain + illative (korva)",
+      "needs_review": false
+    },
+    {
+      "id": "s297",
+      "ru": "У меня болит спина.",
+      "uses": ["n202", "v74"],
+      "level": 12,
+      "canonical": "Selkää särkee.",
+      "accepted": ["Selkää särkee."],
+      "wrong": [
+        { "match": "selkä särkee", "ru": "Часть тела при боли — партитив: selkää särkee, а не selkä." },
+        { "match": "selkää särjen", "ru": "Глагол боли безличный, 3 л.: särkee, а не särjen." }
+      ],
+      "teaches": "särkeä impersonal pain + partitive (selkä)",
+      "needs_review": false
+    },
+    {
+      "id": "s298",
+      "ru": "У ребёнка маленький нос и большой рот.",
+      "uses": ["n19", "v1", "a3", "n200", "f1", "a2", "n201"],
+      "level": 12,
+      "canonical": "Lapsella on pieni nenä ja iso suu.",
+      "accepted": ["Lapsella on pieni nenä ja iso suu."],
+      "wrong": [
+        { "match": "lapsella on pientä nenää ja isoa suuta", "ru": "Исчисляемые предметы во владении — номинатив: pieni nenä, iso suu." },
+        { "match": "lapsi on pieni nenä ja iso suu", "ru": "Обладание: lapsella on, а не lapsi on." }
+      ],
+      "teaches": "adjective agreement + adessive possession (body)",
+      "needs_review": false
+    },
+    {
+      "id": "s299",
+      "ru": "У меня доброе сердце.",
+      "uses": ["a1", "n203"],
+      "level": 12,
+      "canonical": "Minulla on hyvä sydän.",
+      "accepted": ["Minulla on hyvä sydän."],
+      "wrong": [
+        { "match": "minulla on hyvää sydäntä", "ru": "Исчисляемый предмет во владении — номинатив: hyvä sydän." },
+        { "match": "minulla on hyvä sydämen", "ru": "В номинативе sydän, а не генитив sydämen." }
+      ],
+      "teaches": "adessive possession (sydän)",
+      "needs_review": false
+    },
+    {
+      "id": "s300",
+      "ru": "Я пью сок.",
+      "uses": ["v4", "n205"],
+      "level": 4,
+      "canonical": "Juon mehua.",
+      "accepted": ["Juon mehua.", "Minä juon mehua."],
+      "wrong": [
+        { "match": "juon mehu", "ru": "Напиток-вещество в партитиве: mehua, не mehu." },
+        { "match": "juon mehussa", "ru": "Объект в партитиве mehua, а не инессив mehussa." }
+      ],
+      "teaches": "partitive object (mehu)",
+      "needs_review": false
+    },
+    {
+      "id": "s301",
+      "ru": "Я хочу холодный напиток.",
+      "uses": ["v5", "a5", "n204"],
+      "level": 5,
+      "canonical": "Haluan kylmän juoman.",
+      "accepted": ["Haluan kylmän juoman.", "Minä haluan kylmän juoman.", "Haluan kylmää juomaa."],
+      "wrong": [
+        { "match": "haluan kylmä juoma", "ru": "Объект нужен в падеже: kylmän juoman (целиком) или kylmää juomaa (партитив)." },
+        { "match": "haluan kylmän juoma", "ru": "Прилагательное согласуется с существительным: kylmän juoman (оба в генитиве)." }
+      ],
+      "teaches": "adjective agreement + total object (juoma)",
+      "needs_review": false
+    },
+    {
+      "id": "s302",
+      "ru": "Я ем суп и салат.",
+      "uses": ["v3", "n206", "f1", "n207"],
+      "level": 4,
+      "canonical": "Syön keittoa ja salaattia.",
+      "accepted": ["Syön keittoa ja salaattia.", "Minä syön keittoa ja salaattia."],
+      "wrong": [
+        { "match": "syön keitto ja salaatti", "ru": "Еда-объект в партитиве: keittoa, salaattia." },
+        { "match": "syön keittoa ja salaatti", "ru": "Оба объекта в партитиве: salaattia, не salaatti." }
+      ],
+      "teaches": "food partitive (keitto/salaatti)",
+      "needs_review": false
+    },
+    {
+      "id": "s303",
+      "ru": "На десерт я ем мороженое и торт.",
+      "uses": ["v3", "n208", "f1", "n209"],
+      "level": 4,
+      "canonical": "Syön jäätelöä ja kakkua.",
+      "accepted": ["Syön jäätelöä ja kakkua.", "Minä syön jäätelöä ja kakkua."],
+      "wrong": [
+        { "match": "syön jäätelö ja kakku", "ru": "Еда-объект в партитиве: jäätelöä, kakkua." },
+        { "match": "syön jäätelöä ja kakku", "ru": "Оба объекта в партитиве: kakkua, не kakku." }
+      ],
+      "teaches": "food partitive (jäätelö/kakku)",
+      "needs_review": false
+    },
+    {
+      "id": "s304",
+      "ru": "Я покупаю яйца.",
+      "uses": ["v8", "n210"],
+      "level": 4,
+      "canonical": "Ostan munia.",
+      "accepted": ["Ostan munia.", "Minä ostan munia."],
+      "wrong": [
+        { "match": "ostan muna", "ru": "Неопределённое количество — партитив множественного: munia." },
+        { "match": "ostan munat", "ru": "Неопределённое количество — партитив munia, а не номинатив мн. munat." }
+      ],
+      "teaches": "partitive plural object (muna)",
+      "needs_review": false
+    },
+    {
+      "id": "s305",
+      "ru": "Я беру кофе.",
+      "uses": ["v75", "n8"],
+      "level": 4,
+      "canonical": "Otan kahvin.",
+      "accepted": ["Otan kahvin.", "Minä otan kahvin.", "Otan kahvia."],
+      "wrong": [
+        { "match": "otan kahvi", "ru": "Объект нужен в падеже: kahvin (целиком) или kahvia (партитив), не kahvi." },
+        { "match": "ottaa kahvin", "ru": "1 л. ед. ч.: otan, а не ottaa (он берёт)." }
+      ],
+      "teaches": "ottaa + object case (kahvi)",
+      "needs_review": false
+    },
+    {
+      "id": "s306",
+      "ru": "Я приношу кофе другу.",
+      "uses": ["v76", "n8", "n13"],
+      "level": 7,
+      "canonical": "Tuon kahvia ystävälle.",
+      "accepted": ["Tuon kahvia ystävälle.", "Minä tuon kahvia ystävälle."],
+      "wrong": [
+        { "match": "tuon kahvia ystävällä", "ru": "Получатель в аллативе (-lle): ystävälle, а не адессив ystävällä." },
+        { "match": "vien kahvia ystävälle", "ru": "tuoda = приносить (сюда); viedä = уносить (туда)." }
+      ],
+      "teaches": "tuoda + allative recipient",
+      "needs_review": false
+    },
+    {
+      "id": "s307",
+      "ru": "Я отношу книгу в библиотеку.",
+      "uses": ["v77", "n7", "n25"],
+      "level": 7,
+      "canonical": "Vien kirjan kirjastoon.",
+      "accepted": ["Vien kirjan kirjastoon.", "Minä vien kirjan kirjastoon."],
+      "wrong": [
+        { "match": "vien kirjan kirjastossa", "ru": "Направление «куда?» — иллатив kirjastoon, а не kirjastossa." },
+        { "match": "tuon kirjan kirjastoon", "ru": "viedä = уносить (туда); tuoda = приносить (сюда)." }
+      ],
+      "teaches": "viedä + illative + total object",
+      "needs_review": false
+    },
+    {
+      "id": "s308",
+      "ru": "Я забыл ключ.",
+      "uses": ["v78", "n104"],
+      "level": 10,
+      "canonical": "Unohdin avaimen.",
+      "accepted": ["Unohdin avaimen.", "Minä unohdin avaimen."],
+      "wrong": [
+        { "match": "unohtin avaimen", "ru": "Чередование t->d в прошедшем 1 л.: unohdin, а не unohtin." },
+        { "match": "muistin avaimen", "ru": "muistin = я помнил. «Забыл» — unohdin." }
+      ],
+      "teaches": "unohtaa past + total object",
+      "needs_review": false
+    },
+    {
+      "id": "s309",
+      "ru": "Девочка смеётся, а мальчик плачет.",
+      "uses": ["n55", "v81", "f2", "n54", "v82"],
+      "level": 7,
+      "canonical": "Tyttö nauraa, mutta poika itkee.",
+      "accepted": ["Tyttö nauraa, mutta poika itkee."],
+      "wrong": [
+        { "match": "tyttö nauran, mutta poika itkee", "ru": "3 л. ед. ч.: nauraa, а не nauran (я)." },
+        { "match": "tyttö nauraa, mutta poika itken", "ru": "3 л. ед. ч.: itkee, а не itken (я)." }
+      ],
+      "teaches": "nauraa/itkeä present action (3rd person)",
+      "needs_review": false
+    },
+    {
+      "id": "s310",
+      "ru": "Я встаю рано.",
+      "uses": ["v83", "f83"],
+      "level": 6,
+      "canonical": "Nousen aikaisin.",
+      "accepted": ["Nousen aikaisin.", "Minä nousen aikaisin."],
+      "wrong": [
+        { "match": "nousen myöhään", "ru": "myöhään = поздно. «Рано» — aikaisin." },
+        { "match": "nousin aikaisin", "ru": "Настоящее время: nousen, а не прошедшее nousin." }
+      ],
+      "teaches": "nousta + time adverb (aikaisin)",
+      "needs_review": false
+    },
+    {
+      "id": "s311",
+      "ru": "Я сажусь на стул.",
+      "uses": ["v84", "n92"],
+      "level": 10,
+      "canonical": "Istuudun tuolille.",
+      "accepted": ["Istuudun tuolille.", "Minä istuudun tuolille."],
+      "wrong": [
+        { "match": "istuutun tuolille", "ru": "Чередование t->d в 1 л.: istuudun, а не istuutun." },
+        { "match": "istuudun tuolilla", "ru": "Действие «сесть на» — аллатив tuolille (куда?), а не адессив tuolilla." }
+      ],
+      "teaches": "istuutua + allative direction",
+      "needs_review": false
+    },
+    {
+      "id": "s312",
+      "ru": "Я мою машину.",
+      "uses": ["v85", "n5"],
+      "level": 7,
+      "canonical": "Pesen auton.",
+      "accepted": ["Pesen auton.", "Minä pesen auton.", "Pesen autoa."],
+      "wrong": [
+        { "match": "pesen auto", "ru": "Объект нужен в падеже: auton (целиком) или autoa (процесс), не auto." },
+        { "match": "peset auton", "ru": "1 л. ед. ч.: pesen, а не peset (ты)." }
+      ],
+      "teaches": "pestä + object case",
+      "needs_review": false
+    },
+    {
+      "id": "s313",
+      "ru": "Я убираю комнату.",
+      "uses": ["v86", "n45"],
+      "level": 8,
+      "canonical": "Siivoan huoneen.",
+      "accepted": ["Siivoan huoneen.", "Minä siivoan huoneen."],
+      "wrong": [
+        { "match": "siivoan huone", "ru": "Полный объект в генитиве: huoneen, не huone." },
+        { "match": "siivon huoneen", "ru": "Тип 4: siivo+an -> siivoan, а не siivon." }
+      ],
+      "teaches": "siivota + total object",
+      "needs_review": false
+    },
+    {
+      "id": "s314",
+      "ru": "Мама готовит еду.",
+      "uses": ["n17", "v87", "n14"],
+      "level": 7,
+      "canonical": "Äiti laittaa ruokaa.",
+      "accepted": ["Äiti laittaa ruokaa."],
+      "wrong": [
+        { "match": "äiti laittaa ruoka", "ru": "Объект-процесс в партитиве: ruokaa, не ruoka." },
+        { "match": "äiti laitan ruokaa", "ru": "3 л. ед. ч.: laittaa, а не laitan (я)." }
+      ],
+      "teaches": "laittaa + partitive object",
+      "needs_review": false
+    },
+    {
+      "id": "s315",
+      "ru": "Они строят дом.",
+      "uses": ["p6", "v88", "n4"],
+      "level": 9,
+      "canonical": "He rakentavat talon.",
+      "accepted": ["He rakentavat talon."],
+      "wrong": [
+        { "match": "he rakennat talon", "ru": "3 л. мн.: rakentavat, а не rakennat." },
+        { "match": "he rakentavat talo", "ru": "Полный объект в генитиве: talon, не talo." }
+      ],
+      "teaches": "rakentaa + total object (plural)",
+      "needs_review": false
+    },
+    {
+      "id": "s316",
+      "ru": "Папа чинит велосипед.",
+      "uses": ["n18", "v89", "n58"],
+      "level": 9,
+      "canonical": "Isä korjaa polkupyörän.",
+      "accepted": ["Isä korjaa polkupyörän."],
+      "wrong": [
+        { "match": "isä korjaa polkupyörä", "ru": "Полный объект в генитиве: polkupyörän, не polkupyörä." },
+        { "match": "isä korjaan polkupyörän", "ru": "3 л. ед. ч.: korjaa, а не korjaan (я)." }
+      ],
+      "teaches": "korjata + total object",
+      "needs_review": false
+    },
+    {
+      "id": "s317",
+      "ru": "Я продаю машину.",
+      "uses": ["v90", "n5"],
+      "level": 7,
+      "canonical": "Myyn auton.",
+      "accepted": ["Myyn auton.", "Minä myyn auton."],
+      "wrong": [
+        { "match": "myyn auto", "ru": "Полный объект в генитиве: auton, не auto." },
+        { "match": "ostan auton", "ru": "myydä = продавать; ostaa = покупать." }
+      ],
+      "teaches": "myydä + total object",
+      "needs_review": false
+    },
+    {
+      "id": "s318",
+      "ru": "Урок начинается в восемь.",
+      "uses": ["n40", "v94", "f22"],
+      "level": 8,
+      "canonical": "Tunti alkaa kahdeksalta.",
+      "accepted": ["Tunti alkaa kahdeksalta."],
+      "wrong": [
+        { "match": "tunti alan kahdeksalta", "ru": "3 л. ед. ч.: alkaa, а не alan (я начинаю)." },
+        { "match": "tunti alkaa kahdeksan", "ru": "«В восемь» — аблатив kahdeksalta, а не kahdeksan." }
+      ],
+      "teaches": "alkaa + time (clock)",
+      "needs_review": false
+    },
+    {
+      "id": "s319",
+      "ru": "Урок заканчивается в три.",
+      "uses": ["n40", "v95", "f17"],
+      "level": 8,
+      "canonical": "Tunti loppuu kolmelta.",
+      "accepted": ["Tunti loppuu kolmelta."],
+      "wrong": [
+        { "match": "tunti lopun kolmelta", "ru": "3 л. ед. ч.: loppuu, а не lopun (я)." },
+        { "match": "tunti loppuu kolme", "ru": "«В три» — аблатив kolmelta, а не kolme." }
+      ],
+      "teaches": "loppua + time (clock)",
+      "needs_review": false
+    },
+    {
+      "id": "s320",
+      "ru": "Поезд медленный, а машина быстрая.",
+      "uses": ["n56", "v1", "a50", "f2", "n5", "a19"],
+      "level": 7,
+      "canonical": "Juna on hidas, mutta auto on nopea.",
+      "accepted": ["Juna on hidas, mutta auto on nopea."],
+      "wrong": [
+        { "match": "juna on hidasta, mutta auto on nopeaa", "ru": "Подлежащие исчисляемые — предикатив в номинативе: hidas, nopea." },
+        { "match": "juna on hitas, mutta auto on nopea", "ru": "Правильно «медленный» — hidas (nom)." }
+      ],
+      "teaches": "predicative nominative (hidas/nopea)",
+      "needs_review": false
+    },
+    {
+      "id": "s321",
+      "ru": "Книга весёлая.",
+      "uses": ["n7", "v1", "a51"],
+      "level": 7,
+      "canonical": "Kirja on hauska.",
+      "accepted": ["Kirja on hauska."],
+      "wrong": [
+        { "match": "kirja on hauskaa", "ru": "Подлежащее исчисляемое — предикатив в номинативе: hauska, не hauskaa." },
+        { "match": "kirja hauska", "ru": "Нужна связка on: 'Kirja on hauska'." }
+      ],
+      "teaches": "predicative nominative (hauska)",
+      "needs_review": false
+    },
+    {
+      "id": "s322",
+      "ru": "Дом некрасивый, но большой.",
+      "uses": ["n4", "v1", "a52", "f2", "a2"],
+      "level": 7,
+      "canonical": "Talo on ruma, mutta iso.",
+      "accepted": ["Talo on ruma, mutta iso."],
+      "wrong": [
+        { "match": "talo on rumaa, mutta isoa", "ru": "Подлежащее исчисляемое — предикатив в номинативе: ruma, iso." },
+        { "match": "talo on kaunis, mutta iso", "ru": "ruma = некрасивый; kaunis = красивый." }
+      ],
+      "teaches": "predicative nominative (ruma)",
+      "needs_review": false
+    },
+    {
+      "id": "s323",
+      "ru": "Земля мокрая, а воздух сухой.",
+      "uses": ["n70", "v1", "a53", "f2", "n37", "a54"],
+      "level": 8,
+      "canonical": "Maa on märkä, mutta ilma on kuiva.",
+      "accepted": ["Maa on märkä, mutta ilma on kuiva."],
+      "wrong": [
+        { "match": "maa on märkää, mutta ilma on kuivaa", "ru": "Подлежащие исчисляемые — предикатив в номинативе: märkä, kuiva." },
+        { "match": "maa on kuiva, mutta ilma on märkä", "ru": "Перепутаны: земля мокрая (märkä), воздух сухой (kuiva)." }
+      ],
+      "teaches": "predicative nominative (märkä/kuiva)",
+      "needs_review": false
+    },
+    {
+      "id": "s324",
+      "ru": "Шкаф полный, а холодильник пустой.",
+      "uses": ["n98", "v1", "a55", "f2", "n100", "a56"],
+      "level": 10,
+      "canonical": "Kaappi on täysi, mutta jääkaappi on tyhjä.",
+      "accepted": ["Kaappi on täysi, mutta jääkaappi on tyhjä."],
+      "wrong": [
+        { "match": "kaappi on täyttä, mutta jääkaappi on tyhjää", "ru": "Подлежащие исчисляемые — предикатив в номинативе: täysi, tyhjä." },
+        { "match": "kaappi on tyhjä, mutta jääkaappi on täysi", "ru": "Перепутаны: шкаф полный (täysi), холодильник пустой (tyhjä)." }
+      ],
+      "teaches": "predicative nominative (täysi/tyhjä)",
+      "needs_review": false
+    },
+    {
+      "id": "s325",
+      "ru": "Стул свободен?",
+      "uses": ["n92", "v1", "a57"],
+      "level": 10,
+      "canonical": "Onko tuoli vapaa?",
+      "accepted": ["Onko tuoli vapaa?"],
+      "wrong": [
+        { "match": "on tuoli vapaa", "ru": "Вопрос «да/нет» с частицей -ko: 'Onko tuoli vapaa?'." },
+        { "match": "onko tuoli vapaata", "ru": "Подлежащее исчисляемое — предикатив в номинативе: vapaa, не vapaata." }
+      ],
+      "teaches": "predicative nominative + question (vapaa)",
+      "needs_review": false
+    },
+    {
+      "id": "s326",
+      "ru": "У меня зелёная сумка.",
+      "uses": ["a58", "n222"],
+      "level": 7,
+      "canonical": "Minulla on vihreä laukku.",
+      "accepted": ["Minulla on vihreä laukku."],
+      "wrong": [
+        { "match": "minulla on vihreää laukkua", "ru": "Исчисляемый предмет во владении — номинатив: vihreä laukku." },
+        { "match": "minulla on vihreä laukkua", "ru": "Прилагательное и существительное в одном падеже (номинатив): vihreä laukku." }
+      ],
+      "teaches": "adjective agreement (vihreä/laukku)",
+      "needs_review": false
+    },
+    {
+      "id": "s327",
+      "ru": "У меня жёлтая ручка и коричневая сумка.",
+      "uses": ["a59", "n157", "f1", "a60", "n222"],
+      "level": 7,
+      "canonical": "Minulla on keltainen kynä ja ruskea laukku.",
+      "accepted": ["Minulla on keltainen kynä ja ruskea laukku."],
+      "wrong": [
+        { "match": "minulla on keltaista kynää ja ruskeaa laukkua", "ru": "Исчисляемые во владении — номинатив: keltainen kynä, ruskea laukku." },
+        { "match": "minulla on keltainen kynää ja ruskea laukku", "ru": "Прилагательное и существительное в одном падеже: keltainen kynä." }
+      ],
+      "teaches": "adjective agreement (keltainen/ruskea)",
+      "needs_review": false
+    },
+    {
+      "id": "s328",
+      "ru": "Небо серое.",
+      "uses": ["n69", "v1", "a61"],
+      "level": 8,
+      "canonical": "Taivas on harmaa.",
+      "accepted": ["Taivas on harmaa."],
+      "wrong": [
+        { "match": "taivas on harmaata", "ru": "Подлежащее исчисляемое — предикатив в номинативе: harmaa, не harmaata." },
+        { "match": "taivas harmaa", "ru": "Нужна связка on: 'Taivas on harmaa'." }
+      ],
+      "teaches": "predicative nominative (harmaa)",
+      "needs_review": false
+    },
+    {
+      "id": "s329",
+      "ru": "Он богатый, а я бедный.",
+      "uses": ["p3", "v1", "a63", "f2", "a64"],
+      "level": 9,
+      "canonical": "Hän on rikas, mutta minä olen köyhä.",
+      "accepted": ["Hän on rikas, mutta minä olen köyhä."],
+      "wrong": [
+        { "match": "hän on rikasta, mutta minä olen köyhää", "ru": "Подлежащие исчисляемые — предикатив в номинативе: rikas, köyhä." },
+        { "match": "hän on köyhä, mutta minä olen rikas", "ru": "Перепутаны: он богатый (rikas), я бедный (köyhä)." }
+      ],
+      "teaches": "predicative nominative (rikas/köyhä)",
+      "needs_review": false
+    },
+    {
+      "id": "s330",
+      "ru": "Кофе крепкий, а чай слабый.",
+      "uses": ["n8", "v1", "a65", "f2", "n32", "a66"],
+      "level": 9,
+      "canonical": "Kahvi on vahva, mutta tee on heikko.",
+      "accepted": ["Kahvi on vahva, mutta tee on heikko."],
+      "wrong": [
+        { "match": "kahvi on vahvaa, mutta tee on heikkoa", "ru": "Здесь подлежащие трактуются как исчисляемые сорта — предикатив в номинативе: vahva, heikko." },
+        { "match": "kahvi on heikko, mutta tee on vahva", "ru": "Перепутаны: кофе крепкий (vahva), чай слабый (heikko)." }
+      ],
+      "teaches": "predicative nominative (vahva/heikko)",
+      "needs_review": false
+    },
+
+    {
+      "id": "s331",
+      "ru": "Мы танцуем вместе.",
+      "uses": ["v80", "f89"],
+      "level": 6,
+      "canonical": "Tanssimme yhdessä.",
+      "accepted": ["Tanssimme yhdessä.", "Me tanssimme yhdessä."],
+      "wrong": [
+        { "match": "tanssimme yhdessa", "ru": "Гармония гласных: yhdessä (с ä), не yhdessa." },
+        { "match": "tanssin yhdessä", "ru": "«Мы» — tanssimme, а не tanssin (я)." }
+      ],
+      "teaches": "tanssia present action + yhdessä",
+      "needs_review": false
+    },
+    {
+      "id": "s332",
+      "ru": "Я иду на работу рано.",
+      "uses": ["v2", "n1", "f83"],
+      "level": 6,
+      "canonical": "Menen töihin aikaisin.",
+      "accepted": ["Menen töihin aikaisin.", "Minä menen töihin aikaisin."],
+      "wrong": [
+        { "match": "menen töissä aikaisin", "ru": "Направление «куда?» — töihin, а не töissä (где?)." },
+        { "match": "menen töihin myöhään", "ru": "myöhään = поздно. «Рано» — aikaisin." }
+      ],
+      "teaches": "illative idiom + time adverb (aikaisin)",
+      "needs_review": false
+    },
+    {
+      "id": "s333",
+      "ru": "Я работаю в офисе.",
+      "uses": ["v7", "n212"],
+      "level": 7,
+      "canonical": "Olen töissä toimistossa.",
+      "accepted": ["Olen töissä toimistossa.", "Minä olen töissä toimistossa."],
+      "wrong": [
+        { "match": "olen töissä toimistoon", "ru": "«В офисе» (где?) — инессив toimistossa, а не toimistoon (куда?)." },
+        { "match": "olen töissä toimisto", "ru": "Нужна падежная форма места: toimistossa." }
+      ],
+      "teaches": "inessive location (toimisto)",
+      "needs_review": false
+    },
+    {
+      "id": "s334",
+      "ru": "Моё место работы далеко.",
+      "uses": ["n211", "v1", "a35"],
+      "level": 11,
+      "canonical": "Työpaikkani on kaukana.",
+      "accepted": ["Työpaikkani on kaukana.", "Minun työpaikkani on kaukana."],
+      "wrong": [
+        { "match": "minun työpaikka on kaukana", "ru": "«Моё место работы» с суффиксом: työpaikkani (или minun työpaikkani)." },
+        { "match": "työpaikkani on lähellä", "ru": "kaukana = далеко; lähellä = близко." }
+      ],
+      "teaches": "possessive suffix (työpaikka)",
+      "needs_review": false
+    },
+    {
+      "id": "s335",
+      "ru": "Я получаю хорошую зарплату.",
+      "uses": ["v20", "a1", "n214"],
+      "level": 9,
+      "canonical": "Saan hyvää palkkaa.",
+      "accepted": ["Saan hyvää palkkaa.", "Minä saan hyvää palkkaa."],
+      "wrong": [
+        { "match": "saan hyvä palkka", "ru": "Объект-зарплата в партитиве: hyvää palkkaa." },
+        { "match": "saan hyvää palkka", "ru": "Прилагательное согласуется: hyvää palkkaa (оба в партитиве)." }
+      ],
+      "teaches": "partitive object + agreement (palkka)",
+      "needs_review": false
+    },
+    {
+      "id": "s336",
+      "ru": "В часе шестьдесят минут.",
+      "uses": ["n40", "f61", "n216"],
+      "level": 6,
+      "canonical": "Tunnissa on kuusikymmentä minuuttia.",
+      "accepted": ["Tunnissa on kuusikymmentä minuuttia."],
+      "wrong": [
+        { "match": "tunnissa on kuusikymmentä minuutti", "ru": "После числа считаемое слово в партитиве: minuuttia." },
+        { "match": "tunnissa on kuusikymmentä minuutteja", "ru": "После числа нужен партитив ЕДИНСТВЕННОГО числа: minuuttia, не minuutteja." }
+      ],
+      "teaches": "tens + partitive (minuutti)",
+      "needs_review": false
+    },
+    {
+      "id": "s337",
+      "ru": "Мне двадцать лет.",
+      "uses": ["v1", "f25", "n217"],
+      "level": 4,
+      "canonical": "Olen kaksikymmentä vuotta.",
+      "accepted": ["Olen kaksikymmentä vuotta.", "Minä olen kaksikymmentä vuotta."],
+      "wrong": [
+        { "match": "olen kaksikymmentä vuosi", "ru": "После числа считаемое слово в партитиве: vuotta, не vuosi." },
+        { "match": "olen kaksikymmentä vuotia", "ru": "Партитив ед. ч. от vuosi — vuotta." }
+      ],
+      "teaches": "number + partitive (vuosi)",
+      "needs_review": false
+    },
+    {
+      "id": "s338",
+      "ru": "Я живу здесь два месяца.",
+      "uses": ["v7", "f42", "f16", "n218"],
+      "level": 4,
+      "canonical": "Asun täällä kaksi kuukautta.",
+      "accepted": ["Asun täällä kaksi kuukautta.", "Minä asun täällä kaksi kuukautta."],
+      "wrong": [
+        { "match": "asun täällä kaksi kuukausi", "ru": "После числа считаемое слово в партитиве: kuukautta, не kuukausi." },
+        { "match": "asun siellä kaksi kuukautta", "ru": "täällä = здесь; siellä = там." }
+      ],
+      "teaches": "number + partitive (kuukausi)",
+      "needs_review": false
+    },
+    {
+      "id": "s339",
+      "ru": "Мой коллега — мой сосед.",
+      "uses": ["n219", "v1", "n220"],
+      "level": 7,
+      "canonical": "Työkaverini on naapurini.",
+      "accepted": ["Työkaverini on naapurini.", "Minun työkaverini on naapurini."],
+      "wrong": [
+        { "match": "minun työkaveri on naapuri", "ru": "С притяжательным значением нужны суффиксы: työkaverini, naapurini." },
+        { "match": "työkaverini on naapuria", "ru": "Тождество в номинативе: naapurini, не партитив." }
+      ],
+      "teaches": "possessive suffix (työkaveri/naapuri)",
+      "needs_review": false
+    },
+    {
+      "id": "s340",
+      "ru": "Я покупаю новую одежду.",
+      "uses": ["v8", "a4", "n221"],
+      "level": 11,
+      "canonical": "Ostan uusia vaatteita.",
+      "accepted": ["Ostan uusia vaatteita.", "Minä ostan uusia vaatteita."],
+      "wrong": [
+        { "match": "ostan uusi vaate", "ru": "«Одежда» обычно во мн. ч., неопределённое количество — партитив мн.: uusia vaatteita." },
+        { "match": "ostan uudet vaatteet", "ru": "Неопределённое количество — партитив uusia vaatteita, а не номинатив мн." }
+      ],
+      "teaches": "partitive plural + agreement (vaate)",
+      "needs_review": false
+    },
+    {
+      "id": "s341",
+      "ru": "На улице туман.",
+      "uses": ["n28", "v1", "n224"],
+      "level": 12,
+      "canonical": "Kadulla on sumua.",
+      "accepted": ["Kadulla on sumua."],
+      "wrong": [
+        { "match": "kadulla on sumu", "ru": "Безличная погода — партитив: on sumua, а не sumu." },
+        { "match": "kadulla on aurinko", "ru": "sumua = туман; aurinko = солнце." }
+      ],
+      "teaches": "weather partitive (sumu)",
+      "needs_review": false
+    },
+    {
+      "id": "s342",
+      "ru": "Озеро подо льдом.",
+      "uses": ["n62", "v1", "n225"],
+      "level": 12,
+      "canonical": "Järvi on jäässä.",
+      "accepted": ["Järvi on jäässä."],
+      "wrong": [
+        { "match": "järvi on jää", "ru": "Идиома «подо льдом» — инессив jäässä, а не jää." },
+        { "match": "järvi on jäätä", "ru": "Здесь нужна форма места jäässä (быть подо льдом), а не партитив jäätä." }
+      ],
+      "teaches": "inessive idiom (jää)",
+      "needs_review": false
+    },
+    {
+      "id": "s343",
+      "ru": "Иногда я хожу в кафе, но редко в ресторан.",
+      "uses": ["f81", "v63", "n188", "f2", "f82", "n23"],
+      "level": 12,
+      "canonical": "Joskus käyn kahvilassa, mutta harvoin ravintolassa.",
+      "accepted": ["Joskus käyn kahvilassa, mutta harvoin ravintolassa."],
+      "wrong": [
+        { "match": "joskus käyn kahvilaan, mutta harvoin ravintolaan", "ru": "При käydä место в инессиве: kahvilassa, ravintolassa." },
+        { "match": "aina käyn kahvilassa, mutta usein ravintolassa", "ru": "joskus = иногда; harvoin = редко." }
+      ],
+      "teaches": "käydä + inessive + frequency adverbs (joskus/harvoin)",
+      "needs_review": false
+    },
+    {
+      "id": "s344",
+      "ru": "Я говорю медленно, но хорошо.",
+      "uses": ["v6", "f86", "f2", "f87"],
+      "level": 7,
+      "canonical": "Puhun hitaasti, mutta hyvin.",
+      "accepted": ["Puhun hitaasti, mutta hyvin.", "Minä puhun hitaasti, mutta hyvin."],
+      "wrong": [
+        { "match": "puhun hidas, mutta hyvä", "ru": "Нужны наречия: hitaasti (медленно), hyvin (хорошо), а не прилагательные." },
+        { "match": "puhun nopeasti, mutta hyvin", "ru": "hitaasti = медленно; nopeasti = быстро." }
+      ],
+      "teaches": "manner adverbs (hitaasti/hyvin)",
+      "needs_review": false
+    },
+    {
+      "id": "s345",
+      "ru": "Я бегаю быстро, но плохо.",
+      "uses": ["v40", "f85", "f2", "f88"],
+      "level": 8,
+      "canonical": "Juoksen nopeasti, mutta huonosti.",
+      "accepted": ["Juoksen nopeasti, mutta huonosti.", "Minä juoksen nopeasti, mutta huonosti."],
+      "wrong": [
+        { "match": "juoksen nopea, mutta huono", "ru": "Нужны наречия: nopeasti, huonosti." },
+        { "match": "juoksen hitaasti, mutta huonosti", "ru": "nopeasti = быстро; hitaasti = медленно." }
+      ],
+      "teaches": "manner adverbs (nopeasti/huonosti)",
+      "needs_review": false
+    },
+    {
+      "id": "s346",
+      "ru": "Я тоже хочу кофе.",
+      "uses": ["f90", "v5", "n8"],
+      "level": 5,
+      "canonical": "Haluan myös kahvia.",
+      "accepted": ["Haluan myös kahvia.", "Minä haluan myös kahvia."],
+      "wrong": [
+        { "match": "haluan myös kahvi", "ru": "Объект-вещество в партитиве: kahvia, не kahvi." },
+        { "match": "haluan myös kahvi a", "ru": "Слитно: kahvia." }
+      ],
+      "teaches": "myös + partitive object",
+      "needs_review": false
+    },
+    {
+      "id": "s347",
+      "ru": "Я уже готов.",
+      "uses": ["f92", "v1", "a16"],
+      "level": 6,
+      "canonical": "Olen jo valmis.",
+      "accepted": ["Olen jo valmis.", "Minä olen jo valmis."],
+      "wrong": [
+        { "match": "olen jo valmista", "ru": "Подлежащее исчисляемое (я) — предикатив в номинативе: valmis, не valmista." },
+        { "match": "olen vielä valmis", "ru": "jo = уже; vielä = ещё." }
+      ],
+      "teaches": "jo + predicative (valmis)",
+      "needs_review": false
+    },
+    {
+      "id": "s348",
+      "ru": "Я ещё дома.",
+      "uses": ["f91", "n2"],
+      "level": 6,
+      "canonical": "Olen vielä kotona.",
+      "accepted": ["Olen vielä kotona.", "Minä olen vielä kotona."],
+      "wrong": [
+        { "match": "olen vielä kotoa", "ru": "«Дома» (где?) — kotona, а не kotoa (из дома)." },
+        { "match": "olen jo kotona", "ru": "vielä = ещё; jo = уже." }
+      ],
+      "teaches": "vielä + location (koti)",
+      "needs_review": false
+    },
+    {
+      "id": "s349",
+      "ru": "У меня только один евро.",
+      "uses": ["f93", "f15", "n31"],
+      "level": 5,
+      "canonical": "Minulla on vain yksi euro.",
+      "accepted": ["Minulla on vain yksi euro."],
+      "wrong": [
+        { "match": "minulla on vain yksi euroa", "ru": "После «один» (yksi) — номинатив: euro, не euroa." },
+        { "match": "minulla on vai yksi euro", "ru": "«Только» — vain, а не vai (или, в вопросе)." }
+      ],
+      "teaches": "vain + number (euro nominative after yksi)",
+      "needs_review": false
+    },
+    {
+      "id": "s350",
+      "ru": "Сначала я ем, потом читаю.",
+      "uses": ["f96", "v3", "f95", "v9"],
+      "level": 5,
+      "canonical": "Ensin syön, sitten luen.",
+      "accepted": ["Ensin syön, sitten luen.", "Ensin minä syön, sitten luen."],
+      "wrong": [
+        { "match": "sitten syön, ensin luen", "ru": "ensin = сначала; sitten = потом. Порядок перепутан." },
+        { "match": "ensin syön, sitten luet", "ru": "1 л. ед. ч.: luen, а не luet (ты)." }
+      ],
+      "teaches": "sequence adverbs (ensin/sitten)",
+      "needs_review": false
+    },
+    {
+      "id": "s351",
+      "ru": "Ты пьёшь чай или кофе?",
+      "uses": ["v4", "n32", "f98", "n8"],
+      "level": 6,
+      "canonical": "Juotko teetä vai kahvia?",
+      "accepted": ["Juotko teetä vai kahvia?", "Juotko sinä teetä vai kahvia?"],
+      "wrong": [
+        { "match": "juotko teetä tai kahvia", "ru": "В вопросе с выбором — vai, а не tai." },
+        { "match": "juotko tee vai kahvi", "ru": "Напитки-объекты в партитиве: teetä, kahvia." }
+      ],
+      "teaches": "vai in questions + partitive",
+      "needs_review": false
+    },
+    {
+      "id": "s352",
+      "ru": "Я пью чай или сок.",
+      "uses": ["v4", "n32", "f97", "n205"],
+      "level": 6,
+      "canonical": "Juon teetä tai mehua.",
+      "accepted": ["Juon teetä tai mehua.", "Minä juon teetä tai mehua."],
+      "wrong": [
+        { "match": "juon teetä vai mehua", "ru": "В утверждении «или» — tai, а не vai (vai — в вопросе)." },
+        { "match": "juon tee tai mehu", "ru": "Напитки-объекты в партитиве: teetä, mehua." }
+      ],
+      "teaches": "tai in statements + partitive",
+      "needs_review": false
+    },
+    {
+      "id": "s353",
+      "ru": "Я иду в кафе с другом.",
+      "uses": ["v2", "n188", "n13", "f99"],
+      "level": 7,
+      "canonical": "Menen kahvilaan ystävän kanssa.",
+      "accepted": ["Menen kahvilaan ystävän kanssa.", "Minä menen kahvilaan ystävän kanssa."],
+      "wrong": [
+        { "match": "menen kahvilaan ystävä kanssa", "ru": "kanssa управляет генитивом: ystävän kanssa." },
+        { "match": "menen kahvilaan kanssa ystävän", "ru": "kanssa ставится ПОСЛЕ слова: ystävän kanssa." }
+      ],
+      "teaches": "kanssa + genitive",
+      "needs_review": false
+    },
+    {
+      "id": "s354",
+      "ru": "Я пью кофе без сахара.",
+      "uses": ["v4", "n8", "f100", "n170"],
+      "level": 8,
+      "canonical": "Juon kahvia ilman sokeria.",
+      "accepted": ["Juon kahvia ilman sokeria.", "Minä juon kahvia ilman sokeria."],
+      "wrong": [
+        { "match": "juon kahvia ilman sokeri", "ru": "ilman управляет партитивом: ilman sokeria." },
+        { "match": "juon kahvia sokeria ilman", "ru": "ilman ставится ПЕРЕД словом: ilman sokeria." }
+      ],
+      "teaches": "ilman + partitive",
+      "needs_review": false
+    },
+    {
+      "id": "s355",
+      "ru": "Кофе очень хороший.",
+      "uses": ["n8", "v1", "f94", "a1"],
+      "level": 6,
+      "canonical": "Kahvi on tosi hyvää.",
+      "accepted": ["Kahvi on tosi hyvää.", "Kahvi on hyvin hyvää."],
+      "wrong": [
+        { "match": "kahvi on tosi hyvä", "ru": "Подлежащее-вещество (kahvi) — предикатив в партитиве: hyvää." },
+        { "match": "kahvi on tosi hyvaa", "ru": "Гармония гласных: hyvää (с ä)." }
+      ],
+      "teaches": "intensifier tosi + predicative partitive (mass)",
+      "needs_review": false
     }
   ]
 }

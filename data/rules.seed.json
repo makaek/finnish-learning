@@ -345,6 +345,21 @@
         "teaches": ["nationality", "language"],
         "pos": ["adj", "noun"]
       }
+    },
+    {
+      "id": "adverbs",
+      "title": "Наречия",
+      "summary": "Наречие образа действия на -sti (nopeasti); частотные (usein/joskus) и порядковые (ensin/sitten) — отдельные слова.",
+      "body": "Наречие образа действия часто образуется от прилагательного суффиксом -sti: nopea → nopeasti (быстро), hidas → hitaasti (медленно), huono → huonosti (плохо). Отдельные наречия: hyvin (хорошо), yhdessä (вместе). Частотные наречия (usein, joskus, harvoin, aina) и порядковые/временные (ensin «сначала», sitten «потом», jo «уже», vielä «ещё») — это самостоятельные слова со свободным порядком. Важно: при глаголе ставят наречие (nopeasti), а не прилагательное (nopea).",
+      "examples": [
+        { "fi": "Puhun hitaasti.", "ru": "Я говорю медленно." },
+        { "fi": "Ensin syön, sitten luen.", "ru": "Сначала ем, потом читаю." },
+        { "fi": "Joskus käyn kahvilassa.", "ru": "Иногда я хожу в кафе." }
+      ],
+      "match": {
+        "teaches": ["adverb", "manner adverb", "sequence", "frequency"],
+        "pos": ["adv"]
+      }
     }
   ]
 }

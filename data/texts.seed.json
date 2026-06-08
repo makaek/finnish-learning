@@ -2878,6 +2878,259 @@
           "needs_review": false
         }
       ]
+    },
+    {
+      "id": "t67",
+      "title": "Kaupungissa",
+      "titleRu": "В городе",
+      "level": 7,
+      "type": "text",
+      "lines": [
+        { "fi": "Asun pienessä kaupungissa.", "ru": "Я живу в маленьком городе.", "glosses": { "asun": "я живу", "pienessä": "в маленьком", "kaupungissa": "в городе" } },
+        { "fi": "Kahvila on tiellä lähellä kotia.", "ru": "Кафе на дороге рядом с домом.", "glosses": { "kahvila": "кафе", "on": "находится", "tiellä": "на дороге", "lähellä": "рядом", "kotia": "дома (рядом с)" } },
+        { "fi": "Sillalla on kaunis näkymä.", "ru": "С моста красивый вид.", "glosses": { "sillalla": "на мосту", "on": "есть", "kaunis": "красивый", "näkymä": "вид" } },
+        { "fi": "Joskus käyn kahvilassa ystävän kanssa.", "ru": "Иногда я хожу в кафе с другом.", "glosses": { "joskus": "иногда", "käyn": "я захожу", "kahvilassa": "в кафе", "ystävän": "друга", "kanssa": "с" } }
+      ],
+      "questions": [
+        {
+          "id": "t67q1",
+          "q": "Missä kahvila on?",
+          "qRu": "Где кафе?",
+          "canonical": "Tiellä.",
+          "accepted": ["Tiellä.", "Kahvila on tiellä.", "Lähellä kotia."],
+          "wrong": [{ "match": "sillalla", "ru": "Кафе на дороге (tiellä); красивый вид — с моста (sillalla)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t67q2",
+          "q": "Millainen kaupunki on?",
+          "qRu": "Какой это город?",
+          "canonical": "Pieni.",
+          "accepted": ["Pieni.", "Kaupunki on pieni."],
+          "wrong": [{ "match": "iso", "ru": "Город маленький (pieni)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t67q3",
+          "q": "Kenen kanssa käyn kahvilassa?",
+          "qRu": "С кем я хожу в кафе?",
+          "canonical": "Ystävän kanssa.",
+          "accepted": ["Ystävän kanssa.", "Ystävän."],
+          "wrong": [{ "match": "äidin kanssa", "ru": "Я хожу в кафе с другом (ystävän kanssa)." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t68",
+      "title": "Luonnossa",
+      "titleRu": "На природе",
+      "level": 8,
+      "type": "text",
+      "lines": [
+        { "fi": "Kesällä menen rannalle.", "ru": "Летом я иду на пляж.", "glosses": { "kesällä": "летом", "menen": "я иду", "rannalle": "на пляж" } },
+        { "fi": "Järvi on lähellä, ja vesi on lämmintä.", "ru": "Озеро рядом, и вода тёплая.", "glosses": { "järvi": "озеро", "on": "находится", "lähellä": "рядом", "ja": "и", "vesi": "вода", "lämmintä": "тёплая" } },
+        { "fi": "Lintu laulaa puussa.", "ru": "Птица поёт на дереве.", "glosses": { "lintu": "птица", "laulaa": "поёт", "puussa": "на дереве" } },
+        { "fi": "Illalla taivaalla on tähtiä ja kuu.", "ru": "Вечером на небе звёзды и луна.", "glosses": { "illalla": "вечером", "taivaalla": "на небе", "on": "есть", "tähtiä": "звёзды", "ja": "и", "kuu": "луна" } }
+      ],
+      "questions": [
+        {
+          "id": "t68q1",
+          "q": "Mihin menen kesällä?",
+          "qRu": "Куда я иду летом?",
+          "canonical": "Rannalle.",
+          "accepted": ["Rannalle.", "Menen rannalle."],
+          "wrong": [{ "match": "rannalla", "ru": "Направление «куда?» — rannalle, а не rannalla (где?)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t68q2",
+          "q": "Missä lintu laulaa?",
+          "qRu": "Где поёт птица?",
+          "canonical": "Puussa.",
+          "accepted": ["Puussa.", "Lintu laulaa puussa."],
+          "wrong": [{ "match": "järvessä", "ru": "Птица поёт на дереве (puussa), а не в озере." }],
+          "needs_review": false
+        },
+        {
+          "id": "t68q3",
+          "q": "Mitä taivaalla on illalla?",
+          "qRu": "Что на небе вечером?",
+          "canonical": "Tähtiä ja kuu.",
+          "accepted": ["Tähtiä ja kuu.", "Tähtiä."],
+          "wrong": [{ "match": "aurinko", "ru": "Вечером на небе звёзды и луна (tähtiä ja kuu)." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t69",
+      "title": "Kahvilassa",
+      "titleRu": "В кафе",
+      "level": 6,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Tarjoilija", "fi": "Hei! Mitä saa olla?", "ru": "Здравствуйте! Что желаете?", "glosses": { "hei": "здравствуйте", "mitä": "что", "saa": "можно", "olla": "быть" } },
+        { "speaker": "Asiakas", "fi": "Otan kahvin ja palan kakkua.", "ru": "Я возьму кофе и кусок торта.", "glosses": { "otan": "я беру", "kahvin": "кофе (объект)", "ja": "и", "palan": "кусок (объект)", "kakkua": "торта (партитив)" } },
+        { "speaker": "Tarjoilija", "fi": "Haluatko kahvin sokerin kanssa?", "ru": "Хотите кофе с сахаром?", "glosses": { "haluatko": "хотите ли", "kahvin": "кофе (объект)", "sokerin": "сахара", "kanssa": "с" } },
+        { "speaker": "Asiakas", "fi": "Ei kiitos, juon kahvia ilman sokeria.", "ru": "Нет, спасибо, я пью кофе без сахара.", "glosses": { "ei": "нет", "kiitos": "спасибо", "juon": "я пью", "kahvia": "кофе (партитив)", "ilman": "без", "sokeria": "сахара (партитив)" } },
+        { "speaker": "Tarjoilija", "fi": "Selvä. Se maksaa kahdeksan euroa.", "ru": "Хорошо. Это стоит восемь евро.", "glosses": { "selvä": "ясно/хорошо", "se": "это", "maksaa": "стоит", "kahdeksan": "восемь", "euroa": "евро (партитив)" } }
+      ],
+      "questions": [
+        {
+          "id": "t69q1",
+          "q": "Mitä asiakas ottaa?",
+          "qRu": "Что берёт клиент?",
+          "canonical": "Kahvin ja kakkua.",
+          "accepted": ["Kahvin ja kakkua.", "Kahvin ja palan kakkua."],
+          "wrong": [{ "match": "teetä", "ru": "Клиент берёт кофе и торт (kahvin ja kakkua)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t69q2",
+          "q": "Juoko asiakas kahvia sokerin kanssa?",
+          "qRu": "Клиент пьёт кофе с сахаром?",
+          "canonical": "Ei.",
+          "accepted": ["Ei.", "Ei, ilman sokeria.", "Ilman sokeria."],
+          "wrong": [{ "match": "kyllä", "ru": "Нет — клиент пьёт кофе без сахара (ilman sokeria)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t69q3",
+          "q": "Paljonko se maksaa?",
+          "qRu": "Сколько это стоит?",
+          "canonical": "Kahdeksan euroa.",
+          "accepted": ["Kahdeksan euroa.", "Se maksaa kahdeksan euroa."],
+          "wrong": [{ "match": "kahdeksan euro", "ru": "После числа считаемое слово в партитиве: euroa." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t70",
+      "title": "Minun aamuni",
+      "titleRu": "Моё утро",
+      "level": 8,
+      "type": "text",
+      "lines": [
+        { "fi": "Nousen aikaisin kuudelta.", "ru": "Я встаю рано в шесть.", "glosses": { "nousen": "я встаю", "aikaisin": "рано", "kuudelta": "в шесть часов" } },
+        { "fi": "Ensin peseydyn, sitten pukeudun.", "ru": "Сначала моюсь, потом одеваюсь.", "glosses": { "ensin": "сначала", "peseydyn": "я моюсь", "sitten": "потом", "pukeudun": "я одеваюсь" } },
+        { "fi": "Laitan ruokaa ja syön munia.", "ru": "Я готовлю еду и ем яйца.", "glosses": { "laitan": "я готовлю", "ruokaa": "еду (партитив)", "ja": "и", "syön": "я ем", "munia": "яйца (партитив)" } },
+        { "fi": "Sitten menen töihin nopeasti.", "ru": "Потом я быстро иду на работу.", "glosses": { "sitten": "потом", "menen": "я иду", "töihin": "на работу", "nopeasti": "быстро" } }
+      ],
+      "questions": [
+        {
+          "id": "t70q1",
+          "q": "Mihin aikaan nousen?",
+          "qRu": "Во сколько я встаю?",
+          "canonical": "Kuudelta.",
+          "accepted": ["Kuudelta.", "Aikaisin kuudelta.", "Kello kuudelta."],
+          "wrong": [{ "match": "kahdeksalta", "ru": "Я встаю в шесть (kuudelta)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t70q2",
+          "q": "Mitä syön aamulla?",
+          "qRu": "Что я ем утром?",
+          "canonical": "Munia.",
+          "accepted": ["Munia.", "Syön munia."],
+          "wrong": [{ "match": "kalaa", "ru": "Утром я ем яйца (munia)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t70q3",
+          "q": "Mitä teen ensin?",
+          "qRu": "Что я делаю сначала?",
+          "canonical": "Peseydyn.",
+          "accepted": ["Peseydyn.", "Ensin peseydyn."],
+          "wrong": [{ "match": "pukeudun", "ru": "Сначала моюсь (peseydyn), потом одеваюсь." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t71",
+      "title": "Junalla Helsinkiin",
+      "titleRu": "На поезде в Хельсинки",
+      "level": 8,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Pavel", "fi": "Mihin sinä matkustat?", "ru": "Куда ты едешь?", "glosses": { "mihin": "куда", "sinä": "ты", "matkustat": "ты едешь" } },
+        { "speaker": "Anna", "fi": "Matkustan Helsinkiin junalla.", "ru": "Я еду в Хельсинки на поезде.", "glosses": { "matkustan": "я еду", "helsinkiin": "в Хельсинки", "junalla": "на поезде" } },
+        { "speaker": "Pavel", "fi": "Milloin juna lähtee?", "ru": "Когда отправляется поезд?", "glosses": { "milloin": "когда", "juna": "поезд", "lähtee": "отправляется" } },
+        { "speaker": "Anna", "fi": "Juna lähtee kahdelta. Ostin jo lipun.", "ru": "Поезд отправляется в два. Я уже купила билет.", "glosses": { "juna": "поезд", "lähtee": "отправляется", "kahdelta": "в два часа", "ostin": "я купила", "jo": "уже", "lipun": "билет (объект)" } }
+      ],
+      "questions": [
+        {
+          "id": "t71q1",
+          "q": "Mihin Anna matkustaa?",
+          "qRu": "Куда едет Анна?",
+          "canonical": "Helsinkiin.",
+          "accepted": ["Helsinkiin.", "Hän matkustaa Helsinkiin.", "Anna matkustaa Helsinkiin."],
+          "wrong": [{ "match": "helsingissä", "ru": "Направление «куда?» — Helsinkiin, а не Helsingissä (где?)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t71q2",
+          "q": "Millä Anna matkustaa?",
+          "qRu": "На чём едет Анна?",
+          "canonical": "Junalla.",
+          "accepted": ["Junalla.", "Hän matkustaa junalla."],
+          "wrong": [{ "match": "bussilla", "ru": "Анна едет на поезде (junalla)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t71q3",
+          "q": "Milloin juna lähtee?",
+          "qRu": "Когда отправляется поезд?",
+          "canonical": "Kahdelta.",
+          "accepted": ["Kahdelta.", "Juna lähtee kahdelta.", "Kello kahdelta."],
+          "wrong": [{ "match": "kolmelta", "ru": "Поезд отправляется в два (kahdelta)." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t72",
+      "title": "Vuodenajat",
+      "titleRu": "Времена года",
+      "level": 9,
+      "type": "text",
+      "lines": [
+        { "fi": "Talvella on kylmä ja maa on valkoinen.", "ru": "Зимой холодно и земля белая.", "glosses": { "talvella": "зимой", "on": "есть", "kylmä": "холодно", "ja": "и", "maa": "земля", "valkoinen": "белая" } },
+        { "fi": "Keväällä lumi sulaa ja maa on märkä.", "ru": "Весной снег тает и земля мокрая.", "glosses": { "keväällä": "весной", "lumi": "снег", "sulaa": "тает", "ja": "и", "maa": "земля", "märkä": "мокрая" } },
+        { "fi": "Kesällä on lämmin ja ilma on kuiva.", "ru": "Летом тепло и воздух сухой.", "glosses": { "kesällä": "летом", "on": "есть", "lämmin": "тепло", "ja": "и", "ilma": "воздух", "kuiva": "сухой" } },
+        { "fi": "Syksyllä sataa usein ja taivas on harmaa.", "ru": "Осенью часто идёт дождь и небо серое.", "glosses": { "syksyllä": "осенью", "sataa": "идёт дождь", "usein": "часто", "ja": "и", "taivas": "небо", "harmaa": "серое" } }
+      ],
+      "questions": [
+        {
+          "id": "t72q1",
+          "q": "Millainen maa on keväällä?",
+          "qRu": "Какая земля весной?",
+          "canonical": "Märkä.",
+          "accepted": ["Märkä.", "Maa on märkä."],
+          "wrong": [{ "match": "kuiva", "ru": "Весной земля мокрая (märkä); сухой воздух — летом." }],
+          "needs_review": false
+        },
+        {
+          "id": "t72q2",
+          "q": "Millainen ilma on kesällä?",
+          "qRu": "Какой воздух летом?",
+          "canonical": "Kuiva.",
+          "accepted": ["Kuiva.", "Ilma on kuiva."],
+          "wrong": [{ "match": "märkä", "ru": "Летом воздух сухой (kuiva)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t72q3",
+          "q": "Millainen taivas on syksyllä?",
+          "qRu": "Какое небо осенью?",
+          "canonical": "Harmaa.",
+          "accepted": ["Harmaa.", "Taivas on harmaa."],
+          "wrong": [{ "match": "sininen", "ru": "Осенью небо серое (harmaa)." }],
+          "needs_review": false
+        }
+      ]
     }
   ]
 }

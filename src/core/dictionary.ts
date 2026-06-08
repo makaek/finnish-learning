@@ -14,6 +14,7 @@ export type Pos =
   | "adj"
   | "conj"
   | "adv"
+  | "adp"
   | "neg_verb"
   | "num"
   | "interj";
@@ -71,6 +72,7 @@ const VALID_POS = new Set<string>([
   "adj",
   "conj",
   "adv",
+  "adp",
   "neg_verb",
   "num",
   "interj",

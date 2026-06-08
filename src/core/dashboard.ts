@@ -62,6 +62,7 @@ export const POS_LABEL: Record<string, string> = {
   adj: "Прилагательные",
   conj: "Союзы",
   adv: "Наречия",
+  adp: "Послелоги",
   neg_verb: "Отрицание",
   num: "Числа",
   interj: "Междометия",
