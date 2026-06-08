@@ -2532,6 +2532,1621 @@
       ],
       "teaches": "käydä + inessive (visiting)",
       "needs_review": false
+    },
+
+    {
+      "id": "s170",
+      "ru": "У меня двадцать пять евро.",
+      "uses": ["f25", "f19", "n31"],
+      "level": 4,
+      "canonical": "Minulla on kaksikymmentäviisi euroa.",
+      "accepted": ["Minulla on kaksikymmentäviisi euroa."],
+      "wrong": [
+        { "match": "minulla on kaksikymmentäviisi euro", "ru": "После числа больше 1 считаемое слово в партитиве ед. ч.: euroa, а не euro." },
+        { "match": "minulla on kaksikymmentäviisi euroja", "ru": "После числа нужен партитив ЕДИНСТВЕННОГО числа: euroa, не euroja." },
+        { "match": "minulla on kaksikymmentä viisi euroa", "ru": "Составное число пишется одним словом: kaksikymmentäviisi." }
+      ],
+      "teaches": "compound number + partitive after number",
+      "needs_review": false
+    },
+    {
+      "id": "s171",
+      "ru": "Это стоит пятнадцать евро.",
+      "uses": ["v16", "f53", "n31", "p10"],
+      "level": 4,
+      "canonical": "Se maksaa viisitoista euroa.",
+      "accepted": ["Se maksaa viisitoista euroa."],
+      "wrong": [
+        { "match": "se maksaa viisitoista euro", "ru": "После числа считаемое слово в партитиве: euroa." },
+        { "match": "se maksaa viisi toista euroa", "ru": "Число 15 пишется одним словом: viisitoista." },
+        { "match": "se maksaa viisikymmentä euroa", "ru": "viisikymmentä = 50. «Пятнадцать» — viisitoista." }
+      ],
+      "teaches": "number 11-19 (toista) + price partitive",
+      "needs_review": false
+    },
+    {
+      "id": "s172",
+      "ru": "В магазине тридцать яблок.",
+      "uses": ["n3", "f58", "n164"],
+      "level": 4,
+      "canonical": "Kaupassa on kolmekymmentä omenaa.",
+      "accepted": ["Kaupassa on kolmekymmentä omenaa.", "Kaupassa on kolmekymmentä omenoita."],
+      "wrong": [
+        { "match": "kaupassa on kolmekymmentä omena", "ru": "После числа больше 1 нужен партитив: omenaa." },
+        { "match": "kaupassa on kolme kymmentä omenaa", "ru": "Число 30 пишется одним словом: kolmekymmentä." }
+      ],
+      "teaches": "tens (kymmentä) + partitive after number",
+      "needs_review": false
+    },
+    {
+      "id": "s173",
+      "ru": "Сегодня третий день.",
+      "uses": ["f4", "v1", "f68", "n38"],
+      "level": 5,
+      "canonical": "Tänään on kolmas päivä.",
+      "accepted": ["Tänään on kolmas päivä."],
+      "wrong": [
+        { "match": "tänään on kolme päivä", "ru": "Нужно ПОРЯДКОВОЕ числительное «третий»: kolmas, а не kolme (три)." },
+        { "match": "tänään on kolmas päivää", "ru": "В конструкции «X on Y» предикатив-существительное в номинативе: päivä, не päivää." }
+      ],
+      "teaches": "ordinal number (kolmas) + copula",
+      "needs_review": false
+    },
+    {
+      "id": "s174",
+      "ru": "Это мой первый раз.",
+      "uses": ["p9", "v1", "f66"],
+      "level": 5,
+      "canonical": "Tämä on ensimmäinen kerta.",
+      "accepted": ["Tämä on ensimmäinen kerta.", "Tämä on minun ensimmäinen kertani."],
+      "wrong": [
+        { "match": "tämä on yksi kerta", "ru": "«Первый» — порядковое ensimmäinen, а не yksi (один)." },
+        { "match": "tämä on ensimmäinen kertaa", "ru": "Предикатив-существительное в номинативе: kerta." }
+      ],
+      "teaches": "ordinal number ensimmäinen",
+      "needs_review": false
+    },
+    {
+      "id": "s175",
+      "ru": "Который час?",
+      "uses": ["f12", "n44", "v1"],
+      "level": 5,
+      "canonical": "Paljonko kello on?",
+      "accepted": ["Paljonko kello on?", "Mitä kello on?"],
+      "wrong": [
+        { "match": "paljonko kello", "ru": "Нужна связка on: «Paljonko kello on?»." },
+        { "match": "missä kello on", "ru": "missä = где. «Который час» спрашивают через paljonko/mitä." }
+      ],
+      "teaches": "telling time question (clock)",
+      "needs_review": false
+    },
+    {
+      "id": "s176",
+      "ru": "Половина третьего.",
+      "uses": ["n44", "v1", "f74", "f17"],
+      "level": 5,
+      "canonical": "Kello on puoli kolme.",
+      "accepted": ["Kello on puoli kolme.", "Puoli kolme."],
+      "wrong": [
+        { "match": "kello on puoli kaksi", "ru": "Ловушка! puoli kolme = 2:30 («половина ДО трёх»). puoli kaksi = 1:30." },
+        { "match": "kello on kaksi ja puoli", "ru": "По-фински «половина третьего» — это 'puoli kolme', без ja." }
+      ],
+      "teaches": "telling time puoli (half-to)",
+      "needs_review": false
+    },
+    {
+      "id": "s177",
+      "ru": "Я приду в два часа.",
+      "uses": ["v11", "n44", "f16"],
+      "level": 5,
+      "canonical": "Tulen kello kahdelta.",
+      "accepted": ["Tulen kello kahdelta.", "Minä tulen kello kahdelta.", "Tulen kahdelta."],
+      "wrong": [
+        { "match": "tulen kello kaksi", "ru": "«В два часа» — kello kahdelta (аблатив -lta), а не kaksi." },
+        { "match": "tulen kahdessa", "ru": "Время «во столько-то» — аблатив kahdelta, не инессив kahdessa." }
+      ],
+      "teaches": "telling time at X o'clock (clock)",
+      "needs_review": false
+    },
+    {
+      "id": "s178",
+      "ru": "Откуда ты?",
+      "uses": ["f79", "v1"],
+      "level": 4,
+      "canonical": "Mistä sinä olet?",
+      "accepted": ["Mistä sinä olet?", "Mistä olet?"],
+      "wrong": [
+        { "match": "missä sinä olet", "ru": "missä = где (нахождение). «Откуда» — mistä." },
+        { "match": "mihin sinä olet", "ru": "mihin = куда (направление). «Откуда» — mistä." }
+      ],
+      "teaches": "mistä question word",
+      "needs_review": false
+    },
+    {
+      "id": "s179",
+      "ru": "Я из России.",
+      "uses": ["v1", "n149"],
+      "level": 4,
+      "canonical": "Olen Venäjältä.",
+      "accepted": ["Olen Venäjältä.", "Minä olen Venäjältä."],
+      "wrong": [
+        { "match": "olen venäjässä", "ru": "«Откуда» для стран — аблатив Venäjältä (-ltä), а не инессив Venäjässä." },
+        { "match": "olen venäjään", "ru": "Venäjään = в Россию (куда?). «Из России» — Venäjältä." }
+      ],
+      "teaches": "mistä origin + ablative country",
+      "needs_review": false
+    },
+    {
+      "id": "s180",
+      "ru": "Куда ты идёшь?",
+      "uses": ["f78", "v2"],
+      "level": 4,
+      "canonical": "Mihin sinä menet?",
+      "accepted": ["Mihin sinä menet?", "Mihin menet?"],
+      "wrong": [
+        { "match": "missä sinä menet", "ru": "missä = где. Для направления движения нужен mihin (куда?)." },
+        { "match": "mistä sinä menet", "ru": "mistä = откуда. «Куда идёшь» — mihin." }
+      ],
+      "teaches": "mihin question word",
+      "needs_review": false
+    },
+    {
+      "id": "s181",
+      "ru": "Я иду в магазин.",
+      "uses": ["v2", "n3"],
+      "level": 4,
+      "canonical": "Menen kauppaan.",
+      "accepted": ["Menen kauppaan.", "Minä menen kauppaan."],
+      "wrong": [
+        { "match": "menen kaupassa", "ru": "kaupassa = в магазине (где?). Для направления нужен иллатив kauppaan (куда?)." },
+        { "match": "menen kaupasta", "ru": "kaupasta = из магазина (откуда?). «В магазин» — kauppaan." }
+      ],
+      "teaches": "mihin answer + illative",
+      "needs_review": false
+    },
+    {
+      "id": "s182",
+      "ru": "Я русский.",
+      "uses": ["v1", "a45"],
+      "level": 4,
+      "canonical": "Olen venäläinen.",
+      "accepted": ["Olen venäläinen.", "Minä olen venäläinen."],
+      "wrong": [
+        { "match": "olen venäjä", "ru": "Венäjä — это язык/страна. Национальность «русский» — venäläinen." },
+        { "match": "olen venäläistä", "ru": "Существительное-тождество в номинативе: venäläinen, не партитив." }
+      ],
+      "teaches": "nationality predicative",
+      "needs_review": false
+    },
+    {
+      "id": "s183",
+      "ru": "Он финн.",
+      "uses": ["p3", "v1", "a44"],
+      "level": 4,
+      "canonical": "Hän on suomalainen.",
+      "accepted": ["Hän on suomalainen."],
+      "wrong": [
+        { "match": "hän on suomi", "ru": "Suomi — язык/страна. Национальность «финн» — suomalainen." },
+        { "match": "hän on suomalaista", "ru": "Тождество в номинативе: suomalainen." }
+      ],
+      "teaches": "nationality predicative (hän)",
+      "needs_review": false
+    },
+    {
+      "id": "s184",
+      "ru": "На каком языке ты говоришь?",
+      "uses": ["v6", "n147"],
+      "level": 4,
+      "canonical": "Mitä kieltä sinä puhut?",
+      "accepted": ["Mitä kieltä sinä puhut?", "Mitä kieltä puhut?"],
+      "wrong": [
+        { "match": "mikä kieli sinä puhut", "ru": "Объект-вопрос в партитиве: 'Mitä kieltä?', а не номинатив 'Mikä kieli?'." },
+        { "match": "mitä kieli sinä puhut", "ru": "Нужен партитив существительного: kieltä, а не kieli." }
+      ],
+      "teaches": "language question + partitive",
+      "needs_review": false
+    },
+    {
+      "id": "s185",
+      "ru": "Я говорю по-русски и немного по-фински.",
+      "uses": ["v6", "n149", "f1", "f43", "n16"],
+      "level": 4,
+      "canonical": "Puhun venäjää ja vähän suomea.",
+      "accepted": ["Puhun venäjää ja vähän suomea.", "Minä puhun venäjää ja vähän suomea."],
+      "wrong": [
+        { "match": "puhun venäjä ja vähän suomi", "ru": "Язык после puhua в партитиве: venäjää, suomea." },
+        { "match": "puhun venäjällä ja vähän suomella", "ru": "Язык-объект в партитиве (venäjää/suomea), не адессив." }
+      ],
+      "teaches": "language partitive + nationality/language",
+      "needs_review": false
+    },
+    {
+      "id": "s186",
+      "ru": "Я говорю по-английски.",
+      "uses": ["v6", "n148"],
+      "level": 4,
+      "canonical": "Puhun englantia.",
+      "accepted": ["Puhun englantia.", "Minä puhun englantia."],
+      "wrong": [
+        { "match": "puhun englanti", "ru": "Язык после puhua в партитиве: englantia, не englanti." },
+        { "match": "puhun englannissa", "ru": "Язык-объект в партитиве englantia, а не инессив." }
+      ],
+      "teaches": "language partitive (englanti)",
+      "needs_review": false
+    },
+    {
+      "id": "s187",
+      "ru": "Я сижу на стуле.",
+      "uses": ["v66", "n92"],
+      "level": 10,
+      "canonical": "Istun tuolilla.",
+      "accepted": ["Istun tuolilla.", "Minä istun tuolilla."],
+      "wrong": [
+        { "match": "istun tuolissa", "ru": "На поверхности стула — адессив tuolilla (-lla), а не инессив tuolissa." },
+        { "match": "seison tuolilla", "ru": "seison = стою. «Сижу» — istun." }
+      ],
+      "teaches": "istua + adessive",
+      "needs_review": false
+    },
+    {
+      "id": "s188",
+      "ru": "Ребёнок играет.",
+      "uses": ["n19", "v68"],
+      "level": 5,
+      "canonical": "Lapsi leikkii.",
+      "accepted": ["Lapsi leikkii."],
+      "wrong": [
+        { "match": "lapsi leikii", "ru": "В 3 л. ед. ч. сильная ступень kk: leikkii, а не leikii." },
+        { "match": "lapsi pelaa", "ru": "pelaa — об игре-спорте. О детях используется leikkiä: leikkii." }
+      ],
+      "teaches": "leikkiä present action",
+      "needs_review": false
+    },
+    {
+      "id": "s189",
+      "ru": "Мы смотрим телевизор.",
+      "uses": ["v25", "n155"],
+      "level": 6,
+      "canonical": "Katsomme televisiota.",
+      "accepted": ["Katsomme televisiota.", "Me katsomme televisiota."],
+      "wrong": [
+        { "match": "katsomme televisio", "ru": "Объект-процесс в партитиве: televisiota, не televisio." },
+        { "match": "katson televisiota", "ru": "«Мы» — katsomme, а не katson (я)." }
+      ],
+      "teaches": "katsoa + partitive (televisio)",
+      "needs_review": false
+    },
+    {
+      "id": "s190",
+      "ru": "Это моя сестра.",
+      "uses": ["p9", "v1", "n53"],
+      "level": 7,
+      "canonical": "Tämä on siskoni.",
+      "accepted": ["Tämä on siskoni.", "Tämä on minun siskoni."],
+      "wrong": [
+        { "match": "tämä on minun sisko", "ru": "С притяжательным местоимением нужен суффикс: minun siskoni (или просто siskoni)." },
+        { "match": "tämä on sisko", "ru": "«Моя сестра» — siskoni (с притяжательным суффиксом -ni)." }
+      ],
+      "teaches": "possessive suffix -ni",
+      "needs_review": false
+    },
+    {
+      "id": "s191",
+      "ru": "Моя семья большая.",
+      "uses": ["n51", "v1", "a2"],
+      "level": 7,
+      "canonical": "Perheeni on iso.",
+      "accepted": ["Perheeni on iso.", "Minun perheeni on iso."],
+      "wrong": [
+        { "match": "minun perhe on iso", "ru": "«Моя семья» с притяжательным суффиксом: perheeni (или minun perheeni)." },
+        { "match": "perheeni on isoa", "ru": "Подлежащее исчисляемое — предикатив в номинативе: iso, не isoa." }
+      ],
+      "teaches": "possessive suffix -ni (perheeni)",
+      "needs_review": false
+    },
+    {
+      "id": "s192",
+      "ru": "Где твоя комната?",
+      "uses": ["f8", "n45", "v1"],
+      "level": 7,
+      "canonical": "Missä huoneesi on?",
+      "accepted": ["Missä huoneesi on?", "Missä on huoneesi?"],
+      "wrong": [
+        { "match": "missä sinun huone on", "ru": "«Твоя комната» с суффиксом: huoneesi (или sinun huoneesi)." },
+        { "match": "mihin huoneesi on", "ru": "mihin = куда. Здесь «где?» — missä." }
+      ],
+      "teaches": "possessive suffix -si (huoneesi)",
+      "needs_review": false
+    },
+    {
+      "id": "s193",
+      "ru": "Я ем хлеб, сыр и огурец.",
+      "uses": ["v3", "n9", "n161", "f1", "n163"],
+      "level": 4,
+      "canonical": "Syön leipää, juustoa ja kurkkua.",
+      "accepted": ["Syön leipää, juustoa ja kurkkua.", "Minä syön leipää, juustoa ja kurkkua."],
+      "wrong": [
+        { "match": "syön leipä, juusto ja kurkku", "ru": "Объект-еда (вещество) в партитиве: leipää, juustoa, kurkkua." },
+        { "match": "syön leipää, juustoa ja kurkku", "ru": "Все объекты в партитиве: kurkkua, не kurkku." }
+      ],
+      "teaches": "food listing + partitive object",
+      "needs_review": false
+    },
+    {
+      "id": "s194",
+      "ru": "Я покупаю яблоки и картошку.",
+      "uses": ["v8", "n164", "f1", "n165"],
+      "level": 4,
+      "canonical": "Ostan omenoita ja perunoita.",
+      "accepted": ["Ostan omenoita ja perunoita.", "Minä ostan omenoita ja perunoita."],
+      "wrong": [
+        { "match": "ostan omenat ja perunat", "ru": "Неопределённое количество — партитив множественного: omenoita, perunoita." },
+        { "match": "ostan omena ja peruna", "ru": "Нужен партитив множественного: omenoita, perunoita." }
+      ],
+      "teaches": "food listing + partitive plural object",
+      "needs_review": false
+    },
+    {
+      "id": "s195",
+      "ru": "Как дела?",
+      "uses": ["v72"],
+      "level": 3,
+      "canonical": "Mitä kuuluu?",
+      "accepted": ["Mitä kuuluu?"],
+      "wrong": [
+        { "match": "mitä kuulut", "ru": "Идиома безличная, в 3 л.: 'Mitä kuuluu?', а не kuulut." },
+        { "match": "mikä kuuluu", "ru": "Идиома закреплена с mitä: 'Mitä kuuluu?'." }
+      ],
+      "teaches": "small-talk kuulua",
+      "needs_review": false
+    },
+    {
+      "id": "s196",
+      "ru": "Спасибо, хорошо.",
+      "uses": ["f32", "a1"],
+      "level": 3,
+      "canonical": "Kiitos, hyvää.",
+      "accepted": ["Kiitos, hyvää."],
+      "wrong": [
+        { "match": "kiitos, hyvä", "ru": "В ответе на 'Mitä kuuluu?' закреплён партитив hyvää, не hyvä." },
+        { "match": "kiitos, huonoa", "ru": "huonoa = плохо. Здесь «хорошо» — hyvää." }
+      ],
+      "teaches": "small-talk answer (kuuluu reply)",
+      "needs_review": false
+    },
+    {
+      "id": "s197",
+      "ru": "Я хочу записаться на приём.",
+      "uses": ["v5", "v71", "n183"],
+      "level": 5,
+      "canonical": "Haluan varata ajan.",
+      "accepted": ["Haluan varata ajan.", "Minä haluan varata ajan."],
+      "wrong": [
+        { "match": "haluan varata aika", "ru": "Полный объект в генитиве: ajan (aika -> ajan, чередование k->j)." },
+        { "match": "haluan varaan ajan", "ru": "После haluta идёт ИНФИНИТИВ varata, а не личная форма varaan." }
+      ],
+      "teaches": "appointment booking (varata) + haluta infinitive",
+      "needs_review": false
+    },
+    {
+      "id": "s198",
+      "ru": "У меня запись на два.",
+      "uses": ["n183", "f16"],
+      "level": 5,
+      "canonical": "Minulla on aika kahdelta.",
+      "accepted": ["Minulla on aika kahdelta."],
+      "wrong": [
+        { "match": "minulla on aika kaksi", "ru": "«На два часа» — аблатив kahdelta, а не kaksi." },
+        { "match": "minulla on aikaa kahdelta", "ru": "Здесь aika = приём (исчисляемое), в номинативе: aika, не партитив aikaa." }
+      ],
+      "teaches": "appointment time (clock)",
+      "needs_review": false
+    },
+
+    {
+      "id": "s199",
+      "ru": "У меня есть кошка и собака.",
+      "uses": ["n153", "f1", "n154"],
+      "level": 2,
+      "canonical": "Minulla on kissa ja koira.",
+      "accepted": ["Minulla on kissa ja koira."],
+      "wrong": [
+        { "match": "minulla on kissaa ja koiraa", "ru": "Исчисляемые предметы во владении — номинатив: kissa, koira (не партитив)." },
+        { "match": "minä on kissa ja koira", "ru": "Обладание строится через minulla on, а не minä on." }
+      ],
+      "teaches": "adessive possession (kissa/koira)",
+      "needs_review": false
+    },
+    {
+      "id": "s200",
+      "ru": "Собака большая.",
+      "uses": ["n154", "v1", "a2"],
+      "level": 2,
+      "canonical": "Koira on iso.",
+      "accepted": ["Koira on iso."],
+      "wrong": [
+        { "match": "koira on isoa", "ru": "Подлежащее исчисляемое — предикатив в номинативе: iso, не isoa." },
+        { "match": "koira iso", "ru": "Нужна связка on: 'Koira on iso'." }
+      ],
+      "teaches": "predicative nominative (koira)",
+      "needs_review": false
+    },
+    {
+      "id": "s201",
+      "ru": "У меня есть компьютер.",
+      "uses": ["n156"],
+      "level": 5,
+      "canonical": "Minulla on tietokone.",
+      "accepted": ["Minulla on tietokone."],
+      "wrong": [
+        { "match": "minulla on tietokonetta", "ru": "Исчисляемый предмет во владении — номинатив: tietokone, не партитив tietokonetta." },
+        { "match": "minä on tietokone", "ru": "Обладание: minulla on, а не minä on." }
+      ],
+      "teaches": "adessive possession (tietokone)",
+      "needs_review": false
+    },
+    {
+      "id": "s202",
+      "ru": "Я пишу ручкой на бумаге.",
+      "uses": ["v27", "n157", "n158"],
+      "level": 6,
+      "canonical": "Kirjoitan kynällä paperille.",
+      "accepted": ["Kirjoitan kynällä paperille.", "Minä kirjoitan kynällä paperille."],
+      "wrong": [
+        { "match": "kirjoitan kynä paperille", "ru": "Средство (чем?) — адессив kynällä." },
+        { "match": "kirjoitan kynällä paperissa", "ru": "«На бумагу» — аллатив paperille (на поверхность), а не инессив paperissa." }
+      ],
+      "teaches": "adessive instrument + allative surface",
+      "needs_review": false
+    },
+    {
+      "id": "s203",
+      "ru": "Я читаю газету.",
+      "uses": ["v9", "n159"],
+      "level": 4,
+      "canonical": "Luen lehteä.",
+      "accepted": ["Luen lehteä.", "Minä luen lehteä."],
+      "wrong": [
+        { "match": "luen lehti", "ru": "Объект-процесс в партитиве: lehteä, не lehti." },
+        { "match": "luen lehden", "ru": "Незавершённое чтение — партитив lehteä, а не тотальный объект lehden." }
+      ],
+      "teaches": "partitive process object (lehti)",
+      "needs_review": false
+    },
+    {
+      "id": "s204",
+      "ru": "Я смотрю на фотографию.",
+      "uses": ["v25", "n160"],
+      "level": 4,
+      "canonical": "Katson kuvaa.",
+      "accepted": ["Katson kuvaa.", "Minä katson kuvaa."],
+      "wrong": [
+        { "match": "katson kuva", "ru": "Объект-процесс в партитиве: kuvaa, не kuva." },
+        { "match": "katson kuvassa", "ru": "Объект «смотреть на фото» — партитив kuvaa, а не инессив kuvassa." }
+      ],
+      "teaches": "katsoa + partitive (kuva)",
+      "needs_review": false
+    },
+    {
+      "id": "s205",
+      "ru": "Я ем мясо и рис.",
+      "uses": ["v3", "n166", "f1", "n168"],
+      "level": 4,
+      "canonical": "Syön lihaa ja riisiä.",
+      "accepted": ["Syön lihaa ja riisiä.", "Minä syön lihaa ja riisiä."],
+      "wrong": [
+        { "match": "syön liha ja riisi", "ru": "Еда-вещество в партитиве: lihaa, riisiä." },
+        { "match": "syön lihaa ja riisi", "ru": "Оба объекта в партитиве: riisiä, не riisi." }
+      ],
+      "teaches": "food partitive (liha/riisi)",
+      "needs_review": false
+    },
+    {
+      "id": "s206",
+      "ru": "Я покупаю курицу и колбасу.",
+      "uses": ["v8", "n167", "f1", "n169"],
+      "level": 4,
+      "canonical": "Ostan kanaa ja makkaraa.",
+      "accepted": ["Ostan kanaa ja makkaraa.", "Minä ostan kanaa ja makkaraa."],
+      "wrong": [
+        { "match": "ostan kana ja makkara", "ru": "Неопределённое количество еды — партитив: kanaa, makkaraa." },
+        { "match": "ostan kanan ja makkaran", "ru": "Здесь количество не целое — партитив kanaa/makkaraa, а не тотальный объект." }
+      ],
+      "teaches": "food partitive (kana/makkara)",
+      "needs_review": false
+    },
+    {
+      "id": "s207",
+      "ru": "Я беру сахар и соль.",
+      "uses": ["v20", "n170", "f1", "n171"],
+      "level": 5,
+      "canonical": "Otan sokeria ja suolaa.",
+      "accepted": ["Otan sokeria ja suolaa.", "Minä otan sokeria ja suolaa."],
+      "wrong": [
+        { "match": "otan sokeri ja suola", "ru": "Вещество в партитиве: sokeria, suolaa." },
+        { "match": "saan sokeria ja suolaa", "ru": "«Беру» — otan (ottaa). saan = получаю." }
+      ],
+      "teaches": "food partitive (sokeri/suola)",
+      "needs_review": false
+    },
+    {
+      "id": "s208",
+      "ru": "Я ем масло.",
+      "uses": ["v3", "n162"],
+      "level": 4,
+      "canonical": "Syön voita.",
+      "accepted": ["Syön voita.", "Minä syön voita."],
+      "wrong": [
+        { "match": "syön voi", "ru": "Вещество в партитиве: voita, не voi." },
+        { "match": "syön voissa", "ru": "Объект в партитиве voita, а не инессив voissa." }
+      ],
+      "teaches": "food partitive (voi)",
+      "needs_review": false
+    },
+    {
+      "id": "s209",
+      "ru": "Я ем фрукты и овощи.",
+      "uses": ["v3", "n172", "f1", "n173"],
+      "level": 5,
+      "canonical": "Syön hedelmiä ja vihanneksia.",
+      "accepted": ["Syön hedelmiä ja vihanneksia.", "Minä syön hedelmiä ja vihanneksia."],
+      "wrong": [
+        { "match": "syön hedelmät ja vihannekset", "ru": "Неопределённое количество — партитив множественного: hedelmiä, vihanneksia." },
+        { "match": "syön hedelmä ja vihannes", "ru": "Нужен партитив множественного: hedelmiä, vihanneksia." }
+      ],
+      "teaches": "food partitive plural (hedelmä/vihannes)",
+      "needs_review": false
+    },
+    {
+      "id": "s210",
+      "ru": "У меня есть бабушка и дедушка.",
+      "uses": ["n174", "f1", "n175"],
+      "level": 7,
+      "canonical": "Minulla on isoäiti ja isoisä.",
+      "accepted": ["Minulla on isoäiti ja isoisä."],
+      "wrong": [
+        { "match": "minulla on isoäitiä ja isoisää", "ru": "Исчисляемые во владении — номинатив: isoäiti, isoisä." },
+        { "match": "minä on isoäiti ja isoisä", "ru": "Обладание: minulla on." }
+      ],
+      "teaches": "adessive possession (family extras)",
+      "needs_review": false
+    },
+    {
+      "id": "s211",
+      "ru": "Это моя жена.",
+      "uses": ["p9", "v1", "n176"],
+      "level": 7,
+      "canonical": "Tämä on vaimoni.",
+      "accepted": ["Tämä on vaimoni.", "Tämä on minun vaimoni."],
+      "wrong": [
+        { "match": "tämä on minun vaimo", "ru": "«Моя жена» с притяжательным суффиксом: vaimoni (или minun vaimoni)." },
+        { "match": "tämä on vaimo", "ru": "Нужен притяжательный суффикс: vaimoni." }
+      ],
+      "teaches": "possessive suffix -ni (vaimo)",
+      "needs_review": false
+    },
+    {
+      "id": "s212",
+      "ru": "У меня есть дочь.",
+      "uses": ["n177"],
+      "level": 7,
+      "canonical": "Minulla on tytär.",
+      "accepted": ["Minulla on tytär."],
+      "wrong": [
+        { "match": "minulla on tytärtä", "ru": "Исчисляемое во владении — номинатив: tytär, не партитив tytärtä." },
+        { "match": "minulla on poika", "ru": "poika = сын. «Дочь» — tytär." }
+      ],
+      "teaches": "adessive possession (tytär)",
+      "needs_review": false
+    },
+    {
+      "id": "s213",
+      "ru": "Мои родители живут в Хельсинки.",
+      "uses": ["n178", "v7"],
+      "level": 7,
+      "canonical": "Vanhempani asuvat Helsingissä.",
+      "accepted": ["Vanhempani asuvat Helsingissä.", "Minun vanhempani asuvat Helsingissä."],
+      "wrong": [
+        { "match": "vanhempani asuu helsingissä", "ru": "Родители — мн. ч., глагол в 3 л. мн.: asuvat, а не asuu." },
+        { "match": "minun vanhemmat asuvat helsingissä", "ru": "«Мои родители» с суффиксом: vanhempani (или minun vanhempani)." }
+      ],
+      "teaches": "possessive suffix + plural verb (vanhemmat)",
+      "needs_review": false
+    },
+    {
+      "id": "s214",
+      "ru": "Я покупаю брюки и носки.",
+      "uses": ["v8", "n179", "f1", "n181"],
+      "level": 11,
+      "canonical": "Ostan housut ja sukat.",
+      "accepted": ["Ostan housut ja sukat.", "Minä ostan housut ja sukat."],
+      "wrong": [
+        { "match": "ostan housun ja sukan", "ru": "Эти слова — только во мн. ч.: housut, sukat." },
+        { "match": "ostan housuja ja sukkia", "ru": "Конкретная покупка (целиком) — номинатив мн.: housut, sukat." }
+      ],
+      "teaches": "plurale tantum clothing + object case (housut/sukat)",
+      "needs_review": false
+    },
+    {
+      "id": "s215",
+      "ru": "У меня красное платье.",
+      "uses": ["a23", "n182"],
+      "level": 11,
+      "canonical": "Minulla on punainen mekko.",
+      "accepted": ["Minulla on punainen mekko."],
+      "wrong": [
+        { "match": "minulla on punaista mekkoa", "ru": "Исчисляемый предмет во владении — номинатив: punainen mekko." },
+        { "match": "minulla on punainen mekkoa", "ru": "Прилагательное и существительное в одном падеже (номинатив): punainen mekko." }
+      ],
+      "teaches": "adjective agreement (mekko)",
+      "needs_review": false
+    },
+    {
+      "id": "s216",
+      "ru": "У меня есть шляпа.",
+      "uses": ["n180"],
+      "level": 11,
+      "canonical": "Minulla on hattu.",
+      "accepted": ["Minulla on hattu."],
+      "wrong": [
+        { "match": "minulla on hattua", "ru": "Исчисляемый предмет во владении — номинатив: hattu, не партитив hattua." },
+        { "match": "minulla on hatun", "ru": "Во владении предмет в номинативе hattu, а не генитив hatun." }
+      ],
+      "teaches": "adessive possession (hattu)",
+      "needs_review": false
+    },
+    {
+      "id": "s217",
+      "ru": "Я одеваюсь утром.",
+      "uses": ["v69", "n39"],
+      "level": 6,
+      "canonical": "Pukeudun aamulla.",
+      "accepted": ["Pukeudun aamulla.", "Minä pukeudun aamulla."],
+      "wrong": [
+        { "match": "pukeutun aamulla", "ru": "Чередование t->d в 1 л.: pukeudun, а не pukeutun." },
+        { "match": "pukeudun aamussa", "ru": "«Утром» (когда?) — адессив aamulla, а не инессив aamussa." }
+      ],
+      "teaches": "pukeutua + adessive time",
+      "needs_review": false
+    },
+    {
+      "id": "s218",
+      "ru": "Я моюсь вечером.",
+      "uses": ["v70", "n42"],
+      "level": 6,
+      "canonical": "Peseydyn illalla.",
+      "accepted": ["Peseydyn illalla.", "Minä peseydyn illalla."],
+      "wrong": [
+        { "match": "peseytyn illalla", "ru": "Чередование t->d в 1 л.: peseydyn, а не peseytyn." },
+        { "match": "peseydyn illassa", "ru": "«Вечером» (когда?) — адессив illalla." }
+      ],
+      "teaches": "peseytyä + adessive time",
+      "needs_review": false
+    },
+    {
+      "id": "s219",
+      "ru": "Я стою на улице.",
+      "uses": ["v67", "n28"],
+      "level": 4,
+      "canonical": "Seison kadulla.",
+      "accepted": ["Seison kadulla.", "Minä seison kadulla."],
+      "wrong": [
+        { "match": "seison kadussa", "ru": "«На улице» — адессив kadulla, а не инессив kadussa." },
+        { "match": "istun kadulla", "ru": "istun = сижу. «Стою» — seison." }
+      ],
+      "teaches": "seisoa + adessive",
+      "needs_review": false
+    },
+    {
+      "id": "s220",
+      "ru": "У меня болит голова.",
+      "uses": ["n120", "v74"],
+      "level": 12,
+      "canonical": "Päätä särkee.",
+      "accepted": ["Päätä särkee."],
+      "wrong": [
+        { "match": "pää särkee", "ru": "Часть тела при боли — партитив: päätä särkee, а не pää." },
+        { "match": "päätä särjen", "ru": "Глагол боли безличный, 3 л.: särkee, а не личная форма särjen." }
+      ],
+      "teaches": "särkeä impersonal pain + partitive",
+      "needs_review": false
+    },
+    {
+      "id": "s221",
+      "ru": "У меня болит живот.",
+      "uses": ["n124", "v73"],
+      "level": 12,
+      "canonical": "Vatsaan sattuu.",
+      "accepted": ["Vatsaan sattuu.", "Vatsaani sattuu."],
+      "wrong": [
+        { "match": "vatsa sattuu", "ru": "С sattua место боли в иллативе: vatsaan sattuu, а не vatsa." },
+        { "match": "vatsaan satun", "ru": "Глагол боли безличный, 3 л.: sattuu, а не satun." }
+      ],
+      "teaches": "sattua impersonal pain + illative",
+      "needs_review": false
+    },
+    {
+      "id": "s222",
+      "ru": "Сколько евро?",
+      "uses": ["f80", "n31"],
+      "level": 4,
+      "canonical": "Montako euroa?",
+      "accepted": ["Montako euroa?", "Kuinka monta euroa?"],
+      "wrong": [
+        { "match": "montako euro", "ru": "После montako считаемое слово в партитиве ед. ч.: euroa." },
+        { "match": "montako euroja", "ru": "Нужен партитив ЕДИНСТВЕННОГО числа: euroa, не euroja." }
+      ],
+      "teaches": "montako number question + partitive",
+      "needs_review": false
+    },
+    {
+      "id": "s223",
+      "ru": "Можно чек и пакет?",
+      "uses": ["v20", "n184", "f1", "n185"],
+      "level": 11,
+      "canonical": "Saanko kuitin ja pussin?",
+      "accepted": ["Saanko kuitin ja pussin?"],
+      "wrong": [
+        { "match": "saanko kuitti ja pussi", "ru": "Полный объект при saada — генитив: kuitin, pussin." },
+        { "match": "saan kuitin ja pussin", "ru": "Вежливая просьба с частицей -ko: 'Saanko...?'." }
+      ],
+      "teaches": "saada + total object (kuitti/pussi)",
+      "needs_review": false
+    },
+    {
+      "id": "s224",
+      "ru": "Сегодня второе марта.",
+      "uses": ["f4", "v1", "f67", "n137"],
+      "level": 5,
+      "canonical": "Tänään on toinen maaliskuuta.",
+      "accepted": ["Tänään on toinen maaliskuuta."],
+      "wrong": [
+        { "match": "tänään on kaksi maaliskuuta", "ru": "В дате нужно порядковое «второе»: toinen, а не kaksi." },
+        { "match": "tänään on toinen maaliskuu", "ru": "Месяц в дате стоит в партитиве: maaliskuuta." }
+      ],
+      "teaches": "ordinal date + month partitive",
+      "needs_review": false
+    },
+    {
+      "id": "s225",
+      "ru": "В июне тепло.",
+      "uses": ["n140", "v1", "a7"],
+      "level": 5,
+      "canonical": "Kesäkuussa on lämmin.",
+      "accepted": ["Kesäkuussa on lämmin.", "Kesäkuussa on lämmintä."],
+      "wrong": [
+        { "match": "kesäkuu on lämmin", "ru": "«В июне» — инессив kesäkuussa (когда?), а не kesäkuu." },
+        { "match": "kesäkuuhun on lämmin", "ru": "kesäkuuhun = в июнь (куда?). «В июне» — kesäkuussa." }
+      ],
+      "teaches": "month inessive (kesäkuu)",
+      "needs_review": false
+    },
+    {
+      "id": "s226",
+      "ru": "В декабре идёт снег.",
+      "uses": ["n146", "v50", "n68"],
+      "level": 8,
+      "canonical": "Joulukuussa sataa lunta.",
+      "accepted": ["Joulukuussa sataa lunta."],
+      "wrong": [
+        { "match": "joulukuussa sataa lumi", "ru": "Объект погодного глагола в партитиве: lunta, не lumi." },
+        { "match": "joulukuuhun sataa lunta", "ru": "«В декабре» (когда?) — инессив joulukuussa, а не joulukuuhun." }
+      ],
+      "teaches": "month inessive + weather sataa",
+      "needs_review": false
+    },
+    {
+      "id": "s227",
+      "ru": "Это стоит тысячу евро.",
+      "uses": ["v16", "f65", "n31", "p10"],
+      "level": 4,
+      "canonical": "Se maksaa tuhat euroa.",
+      "accepted": ["Se maksaa tuhat euroa."],
+      "wrong": [
+        { "match": "se maksaa tuhat euro", "ru": "После числа считаемое слово в партитиве: euroa." },
+        { "match": "se maksaa sata euroa", "ru": "sata = 100. «Тысяча» — tuhat." }
+      ],
+      "teaches": "number tuhat + partitive",
+      "needs_review": false
+    },
+    {
+      "id": "s228",
+      "ru": "Четверть третьего.",
+      "uses": ["f75", "f76", "f17"],
+      "level": 5,
+      "canonical": "Vartin yli kaksi.",
+      "accepted": ["Vartin yli kaksi.", "Kello on vartin yli kaksi."],
+      "wrong": [
+        { "match": "vartti yli kaksi", "ru": "В этой идиоме vartti стоит в генитиве: vartin yli kaksi." },
+        { "match": "vartin yli kolme", "ru": "«Четверть третьего» = 2:15 = vartin yli kaksi (после двух), а не kolme." }
+      ],
+      "teaches": "telling time vartti/yli (clock)",
+      "needs_review": false
+    },
+    {
+      "id": "s229",
+      "ru": "Без четверти два.",
+      "uses": ["f75", "f77", "f16"],
+      "level": 5,
+      "canonical": "Varttia vaille kaksi.",
+      "accepted": ["Varttia vaille kaksi.", "Kello on varttia vaille kaksi."],
+      "wrong": [
+        { "match": "vartti vaille kaksi", "ru": "В этой идиоме vartti в партитиве: varttia vaille kaksi." },
+        { "match": "varttia yli kaksi", "ru": "«Без четверти» — vaille (до), а не yli (после)." }
+      ],
+      "teaches": "telling time vaille (clock)",
+      "needs_review": false
+    },
+    {
+      "id": "s230",
+      "ru": "Он американец.",
+      "uses": ["p3", "v1", "a48"],
+      "level": 4,
+      "canonical": "Hän on amerikkalainen.",
+      "accepted": ["Hän on amerikkalainen."],
+      "wrong": [
+        { "match": "hän on amerikkalaista", "ru": "Тождество-национальность в номинативе: amerikkalainen." },
+        { "match": "hän on amerikka", "ru": "Национальность образуется суффиксом -lainen: amerikkalainen." }
+      ],
+      "teaches": "nationality predicative (amerikkalainen)",
+      "needs_review": false
+    },
+    {
+      "id": "s231",
+      "ru": "Ты швед?",
+      "uses": ["v1", "a47"],
+      "level": 4,
+      "canonical": "Oletko sinä ruotsalainen?",
+      "accepted": ["Oletko sinä ruotsalainen?", "Oletko ruotsalainen?"],
+      "wrong": [
+        { "match": "olet sinä ruotsalainen", "ru": "Вопрос «да/нет» строится частицей -ko на глаголе: Oletko." },
+        { "match": "oletko sinä ruotsi", "ru": "Национальность «швед» — ruotsalainen, а не ruotsi (язык/страна)." }
+      ],
+      "teaches": "nationality question (ruotsalainen)",
+      "needs_review": false
+    },
+    {
+      "id": "s232",
+      "ru": "Я понимаю английский, но не говорю по-немецки.",
+      "uses": ["v35", "n148", "f2", "f6", "v6", "n152"],
+      "level": 7,
+      "canonical": "Ymmärrän englantia, mutta en puhu saksaa.",
+      "accepted": ["Ymmärrän englantia, mutta en puhu saksaa.", "Minä ymmärrän englantia, mutta en puhu saksaa."],
+      "wrong": [
+        { "match": "ymmärrän englantia, mutta en puhun saksaa", "ru": "После отрицания en — коннегатив без окончания: en puhu, а не en puhun." },
+        { "match": "ymmärrän englanti, mutta en puhu saksaa", "ru": "Язык-объект в партитиве: englantia." }
+      ],
+      "teaches": "negation + language partitive (saksa)",
+      "needs_review": false
+    },
+    {
+      "id": "s233",
+      "ru": "Я учу французский язык.",
+      "uses": ["v30", "n151"],
+      "level": 6,
+      "canonical": "Opiskelen ranskaa.",
+      "accepted": ["Opiskelen ranskaa.", "Minä opiskelen ranskaa."],
+      "wrong": [
+        { "match": "opiskelen ranska", "ru": "Язык-объект в партитиве: ranskaa, не ranska." },
+        { "match": "opiskelen ranskassa", "ru": "Изучаемый язык — партитив ranskaa, а не инессив ranskassa." }
+      ],
+      "teaches": "language partitive (ranska)",
+      "needs_review": false
+    },
+    {
+      "id": "s234",
+      "ru": "Я говорю на двух языках.",
+      "uses": ["v6", "f16", "n147"],
+      "level": 5,
+      "canonical": "Puhun kahta kieltä.",
+      "accepted": ["Puhun kahta kieltä.", "Minä puhun kahta kieltä."],
+      "wrong": [
+        { "match": "puhun kaksi kieltä", "ru": "После числа как объекта глагола число тоже в партитиве: kahta kieltä." },
+        { "match": "puhun kahta kieli", "ru": "После числа считаемое слово в партитиве: kieltä, не kieli." }
+      ],
+      "teaches": "number + partitive object (kieli)",
+      "needs_review": false
+    },
+
+    {
+      "id": "s235",
+      "ru": "У меня одиннадцать евро.",
+      "uses": ["f49", "n31"],
+      "level": 4,
+      "canonical": "Minulla on yksitoista euroa.",
+      "accepted": ["Minulla on yksitoista euroa."],
+      "wrong": [
+        { "match": "minulla on yksitoista euro", "ru": "После числа считаемое слово в партитиве: euroa." },
+        { "match": "minulla on yksi toista euroa", "ru": "Число 11 пишется одним словом: yksitoista." }
+      ],
+      "teaches": "number 11-19 (yksitoista)",
+      "needs_review": false
+    },
+    {
+      "id": "s236",
+      "ru": "У меня двенадцать книг.",
+      "uses": ["f50", "n7"],
+      "level": 4,
+      "canonical": "Minulla on kaksitoista kirjaa.",
+      "accepted": ["Minulla on kaksitoista kirjaa."],
+      "wrong": [
+        { "match": "minulla on kaksitoista kirja", "ru": "После числа считаемое слово в партитиве: kirjaa." },
+        { "match": "minulla on kaksitoista kirjoja", "ru": "После числа нужен партитив ЕДИНСТВЕННОГО числа: kirjaa, не kirjoja." }
+      ],
+      "teaches": "number 11-19 + partitive (kaksitoista)",
+      "needs_review": false
+    },
+    {
+      "id": "s237",
+      "ru": "Здесь шестнадцать студентов.",
+      "uses": ["f42", "f54", "n15"],
+      "level": 4,
+      "canonical": "Täällä on kuusitoista opiskelijaa.",
+      "accepted": ["Täällä on kuusitoista opiskelijaa."],
+      "wrong": [
+        { "match": "täällä on kuusitoista opiskelija", "ru": "После числа считаемое слово в партитиве: opiskelijaa." },
+        { "match": "siellä on kuusitoista opiskelijaa", "ru": "täällä = здесь; siellä = там." }
+      ],
+      "teaches": "number 11-19 (kuusitoista)",
+      "needs_review": false
+    },
+    {
+      "id": "s238",
+      "ru": "В городе сорок улиц.",
+      "uses": ["n12", "f59", "n28"],
+      "level": 4,
+      "canonical": "Kaupungissa on neljäkymmentä katua.",
+      "accepted": ["Kaupungissa on neljäkymmentä katua."],
+      "wrong": [
+        { "match": "kaupungissa on neljäkymmentä katu", "ru": "После числа считаемое слово в партитиве: katua." },
+        { "match": "kaupunkiin on neljäkymmentä katua", "ru": "«В городе» (где?) — инессив kaupungissa, а не kaupunkiin." }
+      ],
+      "teaches": "tens (neljäkymmentä)",
+      "needs_review": false
+    },
+    {
+      "id": "s239",
+      "ru": "Это стоит пятьдесят евро.",
+      "uses": ["v16", "f60", "n31", "p10"],
+      "level": 4,
+      "canonical": "Se maksaa viisikymmentä euroa.",
+      "accepted": ["Se maksaa viisikymmentä euroa."],
+      "wrong": [
+        { "match": "se maksaa viisikymmentä euro", "ru": "После числа считаемое слово в партитиве: euroa." },
+        { "match": "se maksaa viisitoista euroa", "ru": "viisitoista = 15. «Пятьдесят» — viisikymmentä." }
+      ],
+      "teaches": "tens (viisikymmentä) + price",
+      "needs_review": false
+    },
+    {
+      "id": "s240",
+      "ru": "Ему семьдесят лет.",
+      "uses": ["p3", "v1", "f62"],
+      "level": 4,
+      "canonical": "Hän on seitsemänkymmentä vuotta.",
+      "accepted": ["Hän on seitsemänkymmentä vuotta."],
+      "wrong": [
+        { "match": "hän on seitsemänkymmentä vuosi", "ru": "После числа считаемое слово в партитиве: vuotta." },
+        { "match": "hän on seitsemäntoista vuotta", "ru": "seitsemäntoista = 17. «Семьдесят» — seitsemänkymmentä." }
+      ],
+      "teaches": "tens (seitsemänkymmentä) + age",
+      "needs_review": false
+    },
+    {
+      "id": "s241",
+      "ru": "В магазине восемьдесят яблок.",
+      "uses": ["n3", "f63", "n164"],
+      "level": 4,
+      "canonical": "Kaupassa on kahdeksankymmentä omenaa.",
+      "accepted": ["Kaupassa on kahdeksankymmentä omenaa."],
+      "wrong": [
+        { "match": "kaupassa on kahdeksankymmentä omena", "ru": "После числа считаемое слово в партитиве: omenaa." },
+        { "match": "kaupassa on kahdeksantoista omenaa", "ru": "kahdeksantoista = 18. «Восемьдесят» — kahdeksankymmentä." }
+      ],
+      "teaches": "tens (kahdeksankymmentä)",
+      "needs_review": false
+    },
+    {
+      "id": "s242",
+      "ru": "Девяносто евро — это дорого.",
+      "uses": ["f64", "n31", "v1", "a11"],
+      "level": 4,
+      "canonical": "Yhdeksänkymmentä euroa on kallista.",
+      "accepted": ["Yhdeksänkymmentä euroa on kallista.", "Yhdeksänkymmentä euroa on kallis."],
+      "wrong": [
+        { "match": "yhdeksänkymmentä euro on kallista", "ru": "После числа считаемое слово в партитиве: euroa." },
+        { "match": "yhdeksäntoista euroa on kallista", "ru": "yhdeksäntoista = 19. «Девяносто» — yhdeksänkymmentä." }
+      ],
+      "teaches": "tens (yhdeksänkymmentä) + predicative",
+      "needs_review": false
+    },
+    {
+      "id": "s243",
+      "ru": "Сегодня тринадцатое число.",
+      "uses": ["f4", "v1", "f51"],
+      "level": 5,
+      "canonical": "Tänään on kolmastoista.",
+      "accepted": ["Tänään on kolmastoista.", "Tänään on kolmastoista päivä."],
+      "wrong": [
+        { "match": "tänään on kolmetoista", "ru": "Дата числа требует порядкового: kolmastoista (тринадцатое), а не kolmetoista (13)." },
+        { "match": "tänään on kolmas", "ru": "kolmas = третье. «Тринадцатое» — kolmastoista." }
+      ],
+      "teaches": "ordinal date (kolmastoista)",
+      "needs_review": false
+    },
+    {
+      "id": "s244",
+      "ru": "Это мой четвёртый день в Хельсинки.",
+      "uses": ["p9", "v1", "f69", "n38"],
+      "level": 5,
+      "canonical": "Tämä on neljäs päivä Helsingissä.",
+      "accepted": ["Tämä on neljäs päivä Helsingissä."],
+      "wrong": [
+        { "match": "tämä on neljä päivä helsingissä", "ru": "Нужно порядковое «четвёртый»: neljäs, а не neljä (четыре)." },
+        { "match": "tämä on neljäs päivä helsinkiin", "ru": "«В Хельсинки» (где?) — инессив Helsingissä, а не Helsinkiin." }
+      ],
+      "teaches": "ordinal (neljäs) + inessive",
+      "needs_review": false
+    },
+    {
+      "id": "s245",
+      "ru": "Это пятый раз.",
+      "uses": ["p9", "v1", "f70"],
+      "level": 5,
+      "canonical": "Tämä on viides kerta.",
+      "accepted": ["Tämä on viides kerta."],
+      "wrong": [
+        { "match": "tämä on viisi kerta", "ru": "Нужно порядковое «пятый»: viides, а не viisi (пять)." },
+        { "match": "tämä on viides kertaa", "ru": "Предикатив-существительное в номинативе: kerta." }
+      ],
+      "teaches": "ordinal (viides)",
+      "needs_review": false
+    },
+    {
+      "id": "s246",
+      "ru": "Десять минут третьего.",
+      "uses": ["f24", "f76", "f17"],
+      "level": 5,
+      "canonical": "Kymmenen yli kaksi.",
+      "accepted": ["Kymmenen yli kaksi.", "Kello on kymmenen yli kaksi."],
+      "wrong": [
+        { "match": "kymmenen vaille kaksi", "ru": "«Минут третьего» (после двух) — yli, а не vaille (до)." },
+        { "match": "kymmenen yli kolme", "ru": "«Десять минут третьего» = 2:10 = kymmenen yli kaksi (после двух)." }
+      ],
+      "teaches": "telling time yli (clock)",
+      "needs_review": false
+    },
+    {
+      "id": "s247",
+      "ru": "Без десяти два.",
+      "uses": ["f24", "f77", "f16"],
+      "level": 5,
+      "canonical": "Kymmenen vaille kaksi.",
+      "accepted": ["Kymmenen vaille kaksi.", "Kello on kymmenen vaille kaksi."],
+      "wrong": [
+        { "match": "kymmenen yli kaksi", "ru": "«Без десяти» — vaille (до), а не yli (после)." },
+        { "match": "kymmenen vaille kolme", "ru": "«Без десяти два» = 1:50 = kymmenen vaille kaksi." }
+      ],
+      "teaches": "telling time vaille (clock)",
+      "needs_review": false
+    },
+    {
+      "id": "s248",
+      "ru": "Я говорю по-шведски немного.",
+      "uses": ["v6", "n150", "f43"],
+      "level": 4,
+      "canonical": "Puhun vähän ruotsia.",
+      "accepted": ["Puhun vähän ruotsia.", "Minä puhun vähän ruotsia."],
+      "wrong": [
+        { "match": "puhun vähän ruotsi", "ru": "Язык после puhua в партитиве: ruotsia, не ruotsi." },
+        { "match": "puhun vähän ruotsissa", "ru": "Язык-объект в партитиве ruotsia, а не инессив." }
+      ],
+      "teaches": "language partitive (ruotsi)",
+      "needs_review": false
+    },
+    {
+      "id": "s249",
+      "ru": "Она англичанка.",
+      "uses": ["p3", "v1", "a46"],
+      "level": 4,
+      "canonical": "Hän on englantilainen.",
+      "accepted": ["Hän on englantilainen."],
+      "wrong": [
+        { "match": "hän on englanti", "ru": "Englanti — язык/страна. Национальность — englantilainen." },
+        { "match": "hän on englantilaista", "ru": "Тождество в номинативе: englantilainen." }
+      ],
+      "teaches": "nationality predicative (englantilainen)",
+      "needs_review": false
+    },
+    {
+      "id": "s250",
+      "ru": "Мой друг немец.",
+      "uses": ["n13", "v1", "a49"],
+      "level": 4,
+      "canonical": "Ystäväni on saksalainen.",
+      "accepted": ["Ystäväni on saksalainen.", "Minun ystäväni on saksalainen."],
+      "wrong": [
+        { "match": "minun ystävä on saksalainen", "ru": "«Мой друг» с притяжательным суффиксом: ystäväni (или minun ystäväni)." },
+        { "match": "ystäväni on saksa", "ru": "Saksa — язык/страна. Национальность — saksalainen." }
+      ],
+      "teaches": "possessive suffix + nationality (saksalainen)",
+      "needs_review": false
+    },
+    {
+      "id": "s251",
+      "ru": "Это его книга.",
+      "uses": ["p9", "v1", "n7"],
+      "level": 7,
+      "canonical": "Tämä on hänen kirjansa.",
+      "accepted": ["Tämä on hänen kirjansa."],
+      "wrong": [
+        { "match": "tämä on hänen kirja", "ru": "В 3 л. нужен притяжательный суффикс -nsa: hänen kirjansa." },
+        { "match": "tämä on kirjansa", "ru": "В 3 л. местоимение hänen обычно НЕ опускают: hänen kirjansa." }
+      ],
+      "teaches": "possessive suffix -nsa (3rd person)",
+      "needs_review": false
+    },
+    {
+      "id": "s252",
+      "ru": "Это наша комната.",
+      "uses": ["p9", "v1", "n45"],
+      "level": 7,
+      "canonical": "Tämä on huoneemme.",
+      "accepted": ["Tämä on huoneemme.", "Tämä on meidän huoneemme."],
+      "wrong": [
+        { "match": "tämä on meidän huone", "ru": "«Наша комната» с суффиксом: huoneemme (или meidän huoneemme)." },
+        { "match": "tämä on huoneeni", "ru": "huoneeni = моя комната. «Наша» — huoneemme." }
+      ],
+      "teaches": "possessive suffix -mme (we)",
+      "needs_review": false
+    },
+    {
+      "id": "s253",
+      "ru": "Где ваш дом?",
+      "uses": ["f8", "n4", "v1"],
+      "level": 7,
+      "canonical": "Missä talonne on?",
+      "accepted": ["Missä talonne on?", "Missä on talonne?"],
+      "wrong": [
+        { "match": "missä teidän talo on", "ru": "«Ваш дом» с суффиксом: talonne (или teidän talonne)." },
+        { "match": "mihin talonne on", "ru": "mihin = куда. Здесь «где?» — missä." }
+      ],
+      "teaches": "possessive suffix -nne (you plural)",
+      "needs_review": false
+    },
+    {
+      "id": "s254",
+      "ru": "Я сижу и читаю книгу.",
+      "uses": ["v66", "f1", "v9", "n7"],
+      "level": 4,
+      "canonical": "Istun ja luen kirjaa.",
+      "accepted": ["Istun ja luen kirjaa.", "Minä istun ja luen kirjaa."],
+      "wrong": [
+        { "match": "istun ja luen kirja", "ru": "Объект-процесс в партитиве: kirjaa, не kirja." },
+        { "match": "seison ja luen kirjaa", "ru": "istun = сижу; seison = стою." }
+      ],
+      "teaches": "istua present action",
+      "needs_review": false
+    },
+    {
+      "id": "s255",
+      "ru": "Дети играют во дворе.",
+      "uses": ["n19", "v68", "n105"],
+      "level": 10,
+      "canonical": "Lapset leikkivät pihalla.",
+      "accepted": ["Lapset leikkivät pihalla."],
+      "wrong": [
+        { "match": "lapset leikkii pihalla", "ru": "Подлежащее мн. ч. — глагол в 3 л. мн.: leikkivät, а не leikkii." },
+        { "match": "lapset leikkivät pihassa", "ru": "«Во дворе» — адессив pihalla, а не инессив pihassa." }
+      ],
+      "teaches": "leikkiä plural + adessive",
+      "needs_review": false
+    },
+    {
+      "id": "s256",
+      "ru": "У меня болит горло.",
+      "uses": ["n163", "v1", "a41"],
+      "level": 12,
+      "canonical": "Kurkku on kipeä.",
+      "accepted": ["Kurkku on kipeä.", "Minulla on kipeä kurkku."],
+      "wrong": [
+        { "match": "kurkku on kipeää", "ru": "Подлежащее исчисляемое — предикатив в номинативе: kipeä, не kipeää." },
+        { "match": "kurkkua on kipeä", "ru": "Подлежащее в номинативе: kurkku on kipeä." }
+      ],
+      "teaches": "predicative nominative (kurkku) + symptom",
+      "needs_review": false
+    },
+    {
+      "id": "s257",
+      "ru": "Я заболел в январе.",
+      "uses": ["v60", "n135"],
+      "level": 12,
+      "canonical": "Sairastuin tammikuussa.",
+      "accepted": ["Sairastuin tammikuussa.", "Minä sairastuin tammikuussa."],
+      "wrong": [
+        { "match": "sairastun tammikuussa", "ru": "Прошедшее время: sairastuin (заболел), а не sairastun (заболеваю)." },
+        { "match": "sairastuin tammikuuhun", "ru": "«В январе» (когда?) — инессив tammikuussa, а не tammikuuhun." }
+      ],
+      "teaches": "month inessive (tammikuu) + past",
+      "needs_review": false
+    },
+    {
+      "id": "s258",
+      "ru": "В феврале холодно.",
+      "uses": ["n136", "v1", "a5"],
+      "level": 5,
+      "canonical": "Helmikuussa on kylmä.",
+      "accepted": ["Helmikuussa on kylmä.", "Helmikuussa on kylmää."],
+      "wrong": [
+        { "match": "helmikuu on kylmä", "ru": "«В феврале» (когда?) — инессив helmikuussa." },
+        { "match": "helmikuuhun on kylmä", "ru": "helmikuuhun = в февраль (куда?). «В феврале» — helmikuussa." }
+      ],
+      "teaches": "month inessive (helmikuu)",
+      "needs_review": false
+    },
+    {
+      "id": "s259",
+      "ru": "Лето начинается в июле.",
+      "uses": ["n130", "n141"],
+      "level": 12,
+      "canonical": "Kesä alkaa heinäkuussa.",
+      "accepted": ["Kesä alkaa heinäkuussa."],
+      "wrong": [
+        { "match": "kesä alkaa heinäkuu", "ru": "«В июле» (когда?) — инессив heinäkuussa." },
+        { "match": "kesä alkaa heinäkuuhun", "ru": "heinäkuuhun = в июль (куда?). «В июле» — heinäkuussa." }
+      ],
+      "teaches": "month inessive (heinäkuu)",
+      "needs_review": false
+    },
+    {
+      "id": "s260",
+      "ru": "В августе тепло.",
+      "uses": ["n142", "v1", "a7"],
+      "level": 5,
+      "canonical": "Elokuussa on lämmin.",
+      "accepted": ["Elokuussa on lämmin.", "Elokuussa on lämmintä."],
+      "wrong": [
+        { "match": "elokuu on lämmin", "ru": "«В августе» (когда?) — инессив elokuussa." },
+        { "match": "elokuuhun on lämmin", "ru": "elokuuhun = в август (куда?). «В августе» — elokuussa." }
+      ],
+      "teaches": "month inessive (elokuu)",
+      "needs_review": false
+    },
+    {
+      "id": "s261",
+      "ru": "Осень начинается в сентябре.",
+      "uses": ["n131", "n143"],
+      "level": 12,
+      "canonical": "Syksy alkaa syyskuussa.",
+      "accepted": ["Syksy alkaa syyskuussa."],
+      "wrong": [
+        { "match": "syksy alkaa syyskuu", "ru": "«В сентябре» (когда?) — инессив syyskuussa." },
+        { "match": "syksy alkaa syyskuuhun", "ru": "syyskuuhun = в сентябрь (куда?). «В сентябре» — syyskuussa." }
+      ],
+      "teaches": "month inessive (syyskuu)",
+      "needs_review": false
+    },
+    {
+      "id": "s262",
+      "ru": "В октябре идёт дождь.",
+      "uses": ["n144", "v50"],
+      "level": 8,
+      "canonical": "Lokakuussa sataa.",
+      "accepted": ["Lokakuussa sataa."],
+      "wrong": [
+        { "match": "lokakuussa satan", "ru": "Глагол погоды безличный — только 3 л.: sataa, а не satan." },
+        { "match": "lokakuuhun sataa", "ru": "«В октябре» (когда?) — инессив lokakuussa." }
+      ],
+      "teaches": "month inessive (lokakuu) + weather",
+      "needs_review": false
+    },
+    {
+      "id": "s263",
+      "ru": "В ноябре облачно.",
+      "uses": ["n145", "v1", "a42"],
+      "level": 12,
+      "canonical": "Marraskuussa on pilvistä.",
+      "accepted": ["Marraskuussa on pilvistä."],
+      "wrong": [
+        { "match": "marraskuussa on pilvinen", "ru": "Безличная погода — партитив: on pilvistä, а не pilvinen." },
+        { "match": "marraskuuhun on pilvistä", "ru": "«В ноябре» (когда?) — инессив marraskuussa." }
+      ],
+      "teaches": "month inessive (marraskuu) + weather partitive",
+      "needs_review": false
+    },
+    {
+      "id": "s264",
+      "ru": "В апреле светит солнце.",
+      "uses": ["n138", "n66"],
+      "level": 8,
+      "canonical": "Huhtikuussa aurinko paistaa.",
+      "accepted": ["Huhtikuussa aurinko paistaa."],
+      "wrong": [
+        { "match": "huhtikuussa aurinko paistan", "ru": "Солнце светит — 3 л.: paistaa, а не paistan." },
+        { "match": "huhtikuuhun aurinko paistaa", "ru": "«В апреле» (когда?) — инессив huhtikuussa." }
+      ],
+      "teaches": "month inessive (huhtikuu)",
+      "needs_review": false
+    },
+    {
+      "id": "s265",
+      "ru": "В мае много цветов.",
+      "uses": ["n139", "f44", "n65"],
+      "level": 8,
+      "canonical": "Toukokuussa on paljon kukkia.",
+      "accepted": ["Toukokuussa on paljon kukkia."],
+      "wrong": [
+        { "match": "toukokuussa on paljon kukka", "ru": "После paljon существительное в партитиве множественного: kukkia." },
+        { "match": "toukokuuhun on paljon kukkia", "ru": "«В мае» (когда?) — инессив toukokuussa." }
+      ],
+      "teaches": "month inessive (toukokuu) + partitive after paljon",
+      "needs_review": false
+    },
+    {
+      "id": "s266",
+      "ru": "Я смотрю на картину на стене.",
+      "uses": ["v25", "n160", "n96"],
+      "level": 10,
+      "canonical": "Katson kuvaa seinällä.",
+      "accepted": ["Katson kuvaa seinällä.", "Minä katson kuvaa seinällä."],
+      "wrong": [
+        { "match": "katson kuva seinällä", "ru": "Объект в партитиве: kuvaa, не kuva." },
+        { "match": "katson kuvaa seinässä", "ru": "«На стене» — адессив seinällä, а не инессив seinässä." }
+      ],
+      "teaches": "katsoa + partitive + adessive surface",
+      "needs_review": false
+    },
+    {
+      "id": "s267",
+      "ru": "Я пишу письмо на бумаге.",
+      "uses": ["v27", "n158"],
+      "level": 6,
+      "canonical": "Kirjoitan paperille.",
+      "accepted": ["Kirjoitan paperille.", "Minä kirjoitan paperille."],
+      "wrong": [
+        { "match": "kirjoitan paperissa", "ru": "«На бумагу» — аллатив paperille (на поверхность), а не инессив paperissa." },
+        { "match": "kirjoitan paperilla", "ru": "Направление «на бумагу» — аллатив paperille, а не адессив paperilla." }
+      ],
+      "teaches": "allative surface (paperi)",
+      "needs_review": false
+    },
+    {
+      "id": "s268",
+      "ru": "У меня есть две ручки.",
+      "uses": ["f16", "n157"],
+      "level": 4,
+      "canonical": "Minulla on kaksi kynää.",
+      "accepted": ["Minulla on kaksi kynää."],
+      "wrong": [
+        { "match": "minulla on kaksi kynä", "ru": "После числа больше 1 — партитив: kynää, не kynä." },
+        { "match": "minulla on kaksi kyniä", "ru": "После числа нужен партитив ЕДИНСТВЕННОГО числа: kynää, не kyniä." }
+      ],
+      "teaches": "partitive after number (kynä)",
+      "needs_review": false
+    },
+    {
+      "id": "s269",
+      "ru": "Бабушка отдыхает на диване.",
+      "uses": ["n174", "v61", "n93"],
+      "level": 12,
+      "canonical": "Isoäiti lepää sohvalla.",
+      "accepted": ["Isoäiti lepää sohvalla."],
+      "wrong": [
+        { "match": "isoäiti lepäää sohvalla", "ru": "Форма 3 л.: lepää (одна пара ää)." },
+        { "match": "isoäiti lepää sohvassa", "ru": "«На диване» — адессив sohvalla, а не инессив sohvassa." }
+      ],
+      "teaches": "levätä + adessive (isoäiti)",
+      "needs_review": false
+    },
+    {
+      "id": "s270",
+      "ru": "Дедушка читает газету.",
+      "uses": ["n175", "v9", "n159"],
+      "level": 7,
+      "canonical": "Isoisä lukee lehteä.",
+      "accepted": ["Isoisä lukee lehteä."],
+      "wrong": [
+        { "match": "isoisä lukee lehti", "ru": "Объект-процесс в партитиве: lehteä, не lehti." },
+        { "match": "isoisä luen lehteä", "ru": "3 л. ед. ч.: lukee, а не luen (я)." }
+      ],
+      "teaches": "partitive object (lehti) + family",
+      "needs_review": false
+    },
+    {
+      "id": "s271",
+      "ru": "Я хочу записаться к парикмахеру в третьем часу.",
+      "uses": ["v5", "v71", "n183", "f17"],
+      "level": 5,
+      "canonical": "Haluan varata ajan kolmelta.",
+      "accepted": ["Haluan varata ajan kolmelta.", "Minä haluan varata ajan kolmelta."],
+      "wrong": [
+        { "match": "haluan varata aika kolmelta", "ru": "Полный объект в генитиве: ajan (aika -> ajan)." },
+        { "match": "haluan varata ajan kolme", "ru": "«В три часа» — аблатив kolmelta, а не kolme." }
+      ],
+      "teaches": "appointment booking + time (clock)",
+      "needs_review": false
+    },
+    {
+      "id": "s272",
+      "ru": "Кошка спит на стуле.",
+      "uses": ["n153", "v23", "n92"],
+      "level": 10,
+      "canonical": "Kissa nukkuu tuolilla.",
+      "accepted": ["Kissa nukkuu tuolilla."],
+      "wrong": [
+        { "match": "kissa nukkuu tuolissa", "ru": "«На стуле» — адессив tuolilla, а не инессив tuolissa." },
+        { "match": "kissa nukun tuolilla", "ru": "3 л. ед. ч.: nukkuu, а не nukun (я)." }
+      ],
+      "teaches": "adessive surface (kissa/tuoli)",
+      "needs_review": false
+    },
+    {
+      "id": "s273",
+      "ru": "Собака бежит в парк.",
+      "uses": ["n154", "v40", "n27"],
+      "level": 8,
+      "canonical": "Koira juoksee puistoon.",
+      "accepted": ["Koira juoksee puistoon."],
+      "wrong": [
+        { "match": "koira juoksee puistossa", "ru": "Направление «куда?» — иллатив puistoon, а не puistossa (где?)." },
+        { "match": "koira juoksen puistoon", "ru": "3 л. ед. ч.: juoksee, а не juoksen (я)." }
+      ],
+      "teaches": "illative direction (koira/puisto)",
+      "needs_review": false
+    },
+    {
+      "id": "s274",
+      "ru": "У меня двадцать один евро.",
+      "uses": ["f25", "f15", "n31"],
+      "level": 4,
+      "canonical": "Minulla on kaksikymmentäyksi euroa.",
+      "accepted": ["Minulla on kaksikymmentäyksi euroa."],
+      "wrong": [
+        { "match": "minulla on kaksikymmentäyksi euro", "ru": "После составного числа считаемое слово в партитиве: euroa." },
+        { "match": "minulla on kaksikymmentä yksi euroa", "ru": "Составное число пишется одним словом: kaksikymmentäyksi." }
+      ],
+      "teaches": "compound number (kaksikymmentäyksi)",
+      "needs_review": false
+    },
+    {
+      "id": "s275",
+      "ru": "Это стоит сорок три евро.",
+      "uses": ["v16", "f59", "f17", "n31", "p10"],
+      "level": 4,
+      "canonical": "Se maksaa neljäkymmentäkolme euroa.",
+      "accepted": ["Se maksaa neljäkymmentäkolme euroa."],
+      "wrong": [
+        { "match": "se maksaa neljäkymmentäkolme euro", "ru": "После числа считаемое слово в партитиве: euroa." },
+        { "match": "se maksaa neljäkymmentä kolme euroa", "ru": "Составное число пишется одним словом: neljäkymmentäkolme." }
+      ],
+      "teaches": "compound number (neljäkymmentäkolme)",
+      "needs_review": false
+    },
+    {
+      "id": "s276",
+      "ru": "В классе шестьдесят детей.",
+      "uses": ["n6", "f61", "n19"],
+      "level": 4,
+      "canonical": "Koulussa on kuusikymmentä lasta.",
+      "accepted": ["Koulussa on kuusikymmentä lasta."],
+      "wrong": [
+        { "match": "koulussa on kuusikymmentä lapsi", "ru": "После числа партитив: lasta (особый партитив от lapsi)." },
+        { "match": "koulussa on kuusikymmentä lapsia", "ru": "После числа нужен партитив ЕДИНСТВЕННОГО числа: lasta, не lapsia." }
+      ],
+      "teaches": "tens (kuusikymmentä) + irregular partitive",
+      "needs_review": false
+    },
+    {
+      "id": "s277",
+      "ru": "Сегодня шестое число.",
+      "uses": ["f4", "v1", "f71"],
+      "level": 5,
+      "canonical": "Tänään on kuudes.",
+      "accepted": ["Tänään on kuudes.", "Tänään on kuudes päivä."],
+      "wrong": [
+        { "match": "tänään on kuusi", "ru": "Дата требует порядкового «шестое»: kuudes, а не kuusi (шесть)." },
+        { "match": "tänään on kuudes päivää", "ru": "Предикатив-существительное в номинативе: päivä." }
+      ],
+      "teaches": "ordinal date (kuudes)",
+      "needs_review": false
+    },
+    {
+      "id": "s278",
+      "ru": "Это седьмой день.",
+      "uses": ["p9", "v1", "f72", "n38"],
+      "level": 5,
+      "canonical": "Tämä on seitsemäs päivä.",
+      "accepted": ["Tämä on seitsemäs päivä."],
+      "wrong": [
+        { "match": "tämä on seitsemän päivä", "ru": "Нужно порядковое «седьмой»: seitsemäs, а не seitsemän (семь)." },
+        { "match": "tämä on seitsemäs päivää", "ru": "Предикатив-существительное в номинативе: päivä." }
+      ],
+      "teaches": "ordinal (seitsemäs)",
+      "needs_review": false
+    },
+    {
+      "id": "s279",
+      "ru": "Это десятый раз.",
+      "uses": ["p9", "v1", "f73"],
+      "level": 5,
+      "canonical": "Tämä on kymmenes kerta.",
+      "accepted": ["Tämä on kymmenes kerta."],
+      "wrong": [
+        { "match": "tämä on kymmenen kerta", "ru": "Нужно порядковое «десятый»: kymmenes, а не kymmenen (десять)." },
+        { "match": "tämä on kymmenes kertaa", "ru": "Предикатив-существительное в номинативе: kerta." }
+      ],
+      "teaches": "ordinal (kymmenes)",
+      "needs_review": false
+    },
+    {
+      "id": "s280",
+      "ru": "Я хочу яблоко.",
+      "uses": ["v5", "n164"],
+      "level": 4,
+      "canonical": "Haluan omenan.",
+      "accepted": ["Haluan omenan.", "Minä haluan omenan.", "Haluan omenaa."],
+      "wrong": [
+        { "match": "haluan omena", "ru": "Объект нужен в падеже: omenan (целиком) или omenaa (партитив), не omena." },
+        { "match": "haluaa omenan", "ru": "1 л. ед. ч.: haluan, а не haluaa (он хочет)." }
+      ],
+      "teaches": "object case (omena)",
+      "needs_review": false
+    },
+    {
+      "id": "s281",
+      "ru": "Ребёнок одевается сам.",
+      "uses": ["n19", "v69"],
+      "level": 6,
+      "canonical": "Lapsi pukeutuu itse.",
+      "accepted": ["Lapsi pukeutuu itse."],
+      "wrong": [
+        { "match": "lapsi pukeudun itse", "ru": "3 л. ед. ч.: pukeutuu, а не pukeudun (я одеваюсь)." },
+        { "match": "lapsi pukeutuu itsä", "ru": "«Сам» — itse." }
+      ],
+      "teaches": "pukeutua 3rd person",
+      "needs_review": false
+    },
+    {
+      "id": "s282",
+      "ru": "Я моюсь и одеваюсь утром.",
+      "uses": ["v70", "f1", "v69", "n39"],
+      "level": 6,
+      "canonical": "Peseydyn ja pukeudun aamulla.",
+      "accepted": ["Peseydyn ja pukeudun aamulla.", "Minä peseydyn ja pukeudun aamulla."],
+      "wrong": [
+        { "match": "peseytyn ja pukeutun aamulla", "ru": "Чередование t->d в 1 л.: peseydyn, pukeudun." },
+        { "match": "peseydyn ja pukeudun aamussa", "ru": "«Утром» (когда?) — адессив aamulla, а не aamussa." }
+      ],
+      "teaches": "peseytyä + pukeutua routine",
+      "needs_review": false
+    },
+    {
+      "id": "s283",
+      "ru": "Я говорю по-фински, по-английски и по-русски.",
+      "uses": ["v6", "n16", "n148", "f1", "n149"],
+      "level": 5,
+      "canonical": "Puhun suomea, englantia ja venäjää.",
+      "accepted": ["Puhun suomea, englantia ja venäjää.", "Minä puhun suomea, englantia ja venäjää."],
+      "wrong": [
+        { "match": "puhun suomi, englanti ja venäjä", "ru": "Все языки после puhua в партитиве: suomea, englantia, venäjää." },
+        { "match": "puhun suomea, englantia ja venäjä", "ru": "Последний язык тоже в партитиве: venäjää, не venäjä." }
+      ],
+      "teaches": "language partitive listing",
+      "needs_review": false
+    },
+    {
+      "id": "s284",
+      "ru": "Сейчас декабрь.",
+      "uses": ["f3", "v1", "n146"],
+      "level": 4,
+      "canonical": "Nyt on joulukuu.",
+      "accepted": ["Nyt on joulukuu."],
+      "wrong": [
+        { "match": "nyt on joulukuuta", "ru": "В конструкции «X on Y» предикатив-месяц в номинативе: joulukuu, не joulukuuta." },
+        { "match": "nyt on joulukuussa", "ru": "«Сейчас декабрь» — номинатив joulukuu, а не инессив joulukuussa." }
+      ],
+      "teaches": "month nominative (joulukuu) + copula",
+      "needs_review": false
     }
   ]
 }

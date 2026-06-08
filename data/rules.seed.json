@@ -45,7 +45,7 @@
         { "fi": "Menen ravintolaan.", "ru": "Я иду в ресторан." }
       ],
       "match": {
-        "teaches": ["inessive", "illative", "elative", "location"],
+        "teaches": ["inessive", "illative", "elative", "location", "ablative", "origin"],
         "pos": ["noun"]
       }
     },
@@ -105,7 +105,7 @@
         { "fi": "Huomenna ostan kirjan.", "ru": "Завтра я куплю книгу." }
       ],
       "match": {
-        "teaches": ["verb", "type-", "2sg", "future", "tilaan"],
+        "teaches": ["verb", "type-", "2sg", "future", "tilaan", "present action", "routine", "3rd person", "small-talk"],
         "pos": ["verb"]
       }
     },
@@ -284,6 +284,66 @@
       "match": {
         "teaches": ["allative"],
         "pos": ["noun", "pronoun"]
+      }
+    },
+    {
+      "id": "numbers-11-100",
+      "title": "Числа 11–100",
+      "summary": "11–19 = число + toista; десятки = число + kymmentä; составные пишутся слитно.",
+      "body": "Числа 11–19 образуются как «единица + toista» (toista = «второго десятка»): yksitoista (11), kaksitoista (12) … yhdeksäntoista (19). Круглые десятки — «число + kymmentä»: kolmekymmentä (30), neljäkymmentä (40) … yhdeksänkymmentä (90). Составные числа пишутся ОДНИМ словом: kaksikymmentäyksi (21), kolmekymmentäviisi (35), neljäkymmentäkolme (43). После числа больше 1 считаемое слово стоит в ПАРТИТИВЕ ед. ч.: 'kolmekymmentä euroa', 'kaksikymmentäviisi vuotta'. sata = 100, tuhat = 1000.",
+      "examples": [
+        { "fi": "Minulla on kaksikymmentäviisi euroa.", "ru": "У меня двадцать пять евро." },
+        { "fi": "Hän on kolmekymmentä vuotta.", "ru": "Ему тридцать лет." },
+        { "fi": "Se maksaa viisitoista euroa.", "ru": "Это стоит пятнадцать евро." }
+      ],
+      "match": {
+        "teaches": ["number", "ordinal", "tens", "compound"],
+        "pos": ["num"]
+      }
+    },
+    {
+      "id": "telling-time",
+      "title": "Который час",
+      "summary": "«Kello on kaksi»; puoli = «половина ДО»; vartti/yli/vaille; «в X часов» — kello + аблатив.",
+      "body": "Спросить время: 'Paljonko kello on?' / 'Mitä kello on?'. Целый час: 'Kello on kaksi' = Сейчас два. ВНИМАНИЕ, главная ловушка для русскоговорящих: puoli значит «половина ДО следующего часа»: 'puoli kolme' = 2:30 (половина третьего, буквально «пол к трём»), НЕ 3:30. Четверть и минуты: 'vartin yli kaksi' = 2:15 (четверть после двух), 'varttia vaille kaksi' = 1:45 (без четверти два), 'kymmenen yli kaksi' = 2:10, 'kymmenen vaille kaksi' = 1:50. «В котором часу?» = 'Mihin aikaan?'; ответ «в X часов» — kello + число в аблативе (-lta/-ltä): 'kello kahdelta' / просто 'kahdelta' = в два часа.",
+      "examples": [
+        { "fi": "Kello on puoli kolme.", "ru": "Половина третьего (2:30)." },
+        { "fi": "Tulen kello kahdelta.", "ru": "Я приду в два часа." },
+        { "fi": "Vartin yli kaksi.", "ru": "Четверть третьего (2:15)." }
+      ],
+      "match": {
+        "teaches": ["time", "clock"],
+        "pos": ["num", "noun"]
+      }
+    },
+    {
+      "id": "possessive-suffixes",
+      "title": "Притяжательные суффиксы",
+      "summary": "«мой/твой/его» можно выразить окончанием: -ni, -si, -nsa, -mme, -nne, -nsa.",
+      "body": "Принадлежность в финском выражают окончанием на существительном (часто вместе с местоимением в генитиве): (minun) -ni, (sinun) -si, (hänen) -nsa, (meidän) -mme, (teidän) -nne, (heidän) -nsa. Суффикс добавляют к основе генитива: sisko -> siskoni (моя сестра), perhe -> perheeni (моя семья), huone -> huoneeni (моя комната), äiti -> äitini. Само местоимение minun/sinun можно опускать: 'Tämä on siskoni' = 'Tämä on minun siskoni'. 3 л. -nsa одинаков для «его/её/их»: 'hänen vaimonsa'.",
+      "examples": [
+        { "fi": "Tämä on siskoni.", "ru": "Это моя сестра." },
+        { "fi": "Perheeni on iso.", "ru": "Моя семья большая." },
+        { "fi": "Missä on huoneesi?", "ru": "Где твоя комната?" }
+      ],
+      "match": {
+        "teaches": ["possessive suffix", "possessive"],
+        "pos": ["noun"]
+      }
+    },
+    {
+      "id": "nationalities-languages",
+      "title": "Национальности и языки",
+      "summary": "Национальность — на -lainen/-läinen; язык — отдельное слово в партитиве после puhua.",
+      "body": "Национальность образуется суффиксом -lainen/-läinen и пишется со СТРОЧНОЙ буквы: suomalainen (финн), venäläinen (русский), englantilainen (англичанин). «Я финн» = 'Olen suomalainen'. Названия языков — отдельные слова, тоже строчные: suomi, englanti, venäjä, ruotsi, ranska, saksa. После глагола puhua язык стоит в ПАРТИТИВЕ: 'Puhun suomea ja vähän englantia'. Вопрос: 'Mitä kieltä sinä puhut?' (kieli = язык, в партитиве kieltä). Не путайте: страна с заглавной (Suomi, Venäjä), язык — строчная.",
+      "examples": [
+        { "fi": "Olen venäläinen.", "ru": "Я русский / русская." },
+        { "fi": "Puhun venäjää ja vähän suomea.", "ru": "Я говорю по-русски и немного по-фински." },
+        { "fi": "Mitä kieltä sinä puhut?", "ru": "На каком языке ты говоришь?" }
+      ],
+      "match": {
+        "teaches": ["nationality", "language"],
+        "pos": ["adj", "noun"]
       }
     }
   ]

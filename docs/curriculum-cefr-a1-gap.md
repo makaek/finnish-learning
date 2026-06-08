@@ -3,14 +3,22 @@
 This is the curriculum's CEFR framing and a concrete plan for "finishing A1", based on the
 `finnish-linguist`'s audit of the full corpus (dictionary + sentences + 50 reading texts).
 
-## Band map (level → CEFR)
-Assigned from the actual vocabulary/grammar in each level (encoded in `src/core/curriculum.ts`):
+> **Superseded:** the rigorous audit + completion spec now lives in
+> [`cefr-a1-spec.md`](./cefr-a1-spec.md). The band map below is the current (sub-band) version.
 
-| Levels | Band | Why |
+## Band map (level → CEFR)
+Assigned by the finnish-linguist from the actual content (encoded in `src/core/curriculum.ts`),
+A1 split into its three sub-levels:
+
+| Levels | Band | |
 |---|---|---|
-| 1–5 | **A1** | greetings/identity, present tense (all persons, verb types 1–6), past tense, partitive (food/drink, post-numeral, negation), local cases, possession `minulla on`, adjective agreement, modals + infinitive, necessity `täytyy`, core conjunctions. |
-| 6 | **A1** (straddles) | daily routine + time adverbials; grammar still A1, verb volume edges toward A2. |
-| 7–12 | **A2** | comparatives (`-mpi`), `että`-clauses, fuller case-government (ablative/allative persons, elative `pitää`), transport adessive, seasons/health, `aikoa`+inf future. |
+| 1–3 | **A1.1** | first words/phrases, greetings, numbers, days, "Mikä sinun nimi on?". |
+| 4–6 | **A1.2** | personal Q&A, store/prices, present-tense actions + telling time, nationalities/languages. |
+| 7–9 | **A1.3** | listing-style speech (family/food/rooms), routines, business (store/appointment/doctor), where from/to. |
+| 10–12 | **A2** | comparatives, `että`-clauses, fuller case-government, transport, seasons/health, future. |
+
+"**A1 complete**" = levels 1–9 mastered. A1 content gaps are being filled into the early levels
+(see the spec); nothing relocks.
 
 The app shows **progress toward the next milestone** in two places:
 - **Home** — a compact `A1 ▓▓▓░ NN%` strip under the streak (`CefrBar`), tap → Метрики.

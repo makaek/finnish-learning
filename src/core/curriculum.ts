@@ -10,14 +10,25 @@
 
 import { LEVEL_COMPLETE_FRACTION, type LevelStat } from "./levels";
 
-export type Cefr = "A1" | "A2";
+/**
+ * Milestone bands. CEFR A1 is split into its three sub-levels (A1.1/A1.2/A1.3, per the product's
+ * A1 definition) so the learner sees granular progress; A2 is the next major band. The ladder is
+ * the milestone sequence the home bar walks.
+ */
+export type Cefr = "A1.1" | "A1.2" | "A1.3" | "A2";
 
-/** CEFR bands in ascending order — the milestone ladder. */
-export const CEFR_ORDER: readonly Cefr[] = ["A1", "A2"];
+/** Milestone bands in ascending order — the ladder the progress bar climbs. */
+export const CEFR_ORDER: readonly Cefr[] = ["A1.1", "A1.2", "A1.3", "A2"];
 
-/** Inclusive top level of each band; a level above the last boundary takes the final band. */
+/**
+ * Inclusive top level of each band, assigned by the finnish-linguist from content difficulty
+ * (`docs/cefr-a1-spec.md`): A1.1 → levels 1–3, A1.2 → 4–6, A1.3 → 7–9, A2 → 10–12. A level above
+ * the last boundary takes the final band.
+ */
 const BAND_MAX_LEVEL: { band: Cefr; maxLevel: number }[] = [
-  { band: "A1", maxLevel: 6 },
+  { band: "A1.1", maxLevel: 3 },
+  { band: "A1.2", maxLevel: 6 },
+  { band: "A1.3", maxLevel: 9 },
   { band: "A2", maxLevel: 12 },
 ];
 
@@ -27,9 +38,16 @@ export function cefrOfLevel(level: number): Cefr {
   return BAND_MAX_LEVEL[BAND_MAX_LEVEL.length - 1]!.band;
 }
 
+/** The major CEFR band of a sub-band ("A1" spans A1.1–A1.3). */
+export function majorBand(band: Cefr): "A1" | "A2" {
+  return band === "A2" ? "A2" : "A1";
+}
+
 export interface CefrProgress {
   /** The milestone band currently being worked toward (the lowest with an unfinished level). */
   band: Cefr;
+  /** The major band of `band` ("A1" for A1.1–A1.3) — for the "you're working on A1" headline. */
+  major: "A1" | "A2";
   /** The band unlocked by completing `band`, or null if it's already the final band. */
   nextBand: Cefr | null;
   /** Levels in `band` present in the curriculum. */
@@ -69,6 +87,7 @@ export function cefrProgress(stats: readonly LevelStat[]): CefrProgress {
     if (done < bandLevels.length) {
       return {
         band,
+        major: majorBand(band),
         nextBand: CEFR_ORDER[i + 1] ?? null,
         levelsTotal: bandLevels.length,
         levelsDone: done,
@@ -81,6 +100,7 @@ export function cefrProgress(stats: readonly LevelStat[]): CefrProgress {
   const lastLevels = present.filter((s) => cefrOfLevel(s.level) === last);
   return {
     band: last,
+    major: majorBand(last),
     nextBand: null,
     levelsTotal: lastLevels.length,
     levelsDone: lastLevels.length,

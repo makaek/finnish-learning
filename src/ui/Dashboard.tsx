@@ -150,7 +150,7 @@ export default function Dashboard({
         <p className="dash__sub">
           {cefr.complete
             ? `Весь курс пройден — уровень ${cefr.band}.`
-            : `Сейчас осваиваете ${cefr.band}${cefr.nextBand ? ` · следующая ступень — ${cefr.nextBand}` : ""}.`}
+            : `Сейчас осваиваете ${cefr.major} (этап ${cefr.band})${cefr.nextBand ? ` · далее ${cefr.nextBand}` : ""}.`}
         </p>
         <CefrBar p={cefr} />
         <div className="cefrdash">
