@@ -111,3 +111,36 @@ describe("lowest-unmastered-level boost through the session builders", () => {
     expect(rate).toBeLessThan(0.65);
   });
 });
+
+describe("level-stratified selection (≈70% current level, ≈30% earlier, none above)", () => {
+  // 8 items per level at L1/L2/L3. id prefix encodes the level (a=1, b=2, c=3).
+  const lvlOf = (id: string) => (id[0] === "a" ? 1 : id[0] === "b" ? 2 : 3);
+  const make = (prefix: string, level: number): VocabItem[] =>
+    Array.from({ length: 8 }, (_, i) => ({ id: `${prefix}${i}`, fi: `${prefix}${i}`, ru: `${prefix}${i}`, pos: "noun" as const, level }));
+  const leveled = [...make("a", 1), ...make("b", 2), ...make("c", 3)];
+
+  it("never draws from levels above the current level", () => {
+    const ids = buildSession(leveled, 7, 10, 4, new Map(), 2).map((q) => q.itemId);
+    expect(ids.some((id) => lvlOf(id) === 3)).toBe(false);
+  });
+
+  it("splits a session ~70% current level / ~30% earlier-level leftovers", () => {
+    const ids = buildSession(leveled, 7, 10, 4, new Map(), 2).map((q) => q.itemId);
+    expect(ids).toHaveLength(10);
+    expect(ids.filter((id) => lvlOf(id) === 2)).toHaveLength(7); // round(10 × 0.7)
+    expect(ids.filter((id) => lvlOf(id) === 1)).toHaveLength(3);
+  });
+
+  it("fills from earlier levels when the current level has too few items", () => {
+    const few = [...make("b", 2).slice(0, 2), ...make("a", 1)]; // only 2 current-level items
+    const ids = buildSession(few, 7, 10, 4, new Map(), 2).map((q) => q.itemId);
+    expect(ids).toHaveLength(10);
+    expect(ids.filter((id) => lvlOf(id) === 2)).toHaveLength(2); // all available current
+    expect(ids.filter((id) => lvlOf(id) === 1)).toHaveLength(8); // earlier absorbs the rest
+  });
+
+  it("with no earlier levels (current = 1) the whole session is current-level", () => {
+    const ids = buildSession(leveled, 7, 6, 4, new Map(), 1).map((q) => q.itemId);
+    expect(ids.every((id) => lvlOf(id) === 1)).toBe(true);
+  });
+});

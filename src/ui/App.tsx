@@ -128,6 +128,17 @@ export default function App() {
     };
   }, []);
 
+  // The level selection centres on: the gated mastering level, so every session draws ~70% from
+  // the current level + ~30% earlier-level leftovers and NEVER from levels above it. Test mode opts
+  // out (it unlocks everything, so a tester must be able to drill any level). Seed-keyed so it
+  // re-reads the live mastery on each `start`.
+  const sessionLevel = useMemo(
+    () => (testMode ? undefined : masteringLevelGated(VOCAB, SENTENCES, TEXTS, progressRef.current)),
+    // `seed` is intentional (like the pool memos): it re-reads progressRef.current on each `start`.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [seed, testMode],
+  );
+
   // In-play pools: gated by level (and the learned-words rule for sentences), minus items the
   // learner has hidden (fully mastered → removed from every lesson). Reading progressRef (a
   // ref, not a dep) keeps gating/weighting current as of the last `start`; `seed` reseeds on
@@ -142,8 +153,9 @@ export default function App() {
         DEFAULT_SESSION_SIZE,
         DEFAULT_OPTION_COUNT,
         progressRef.current,
+        sessionLevel,
       ),
-    [seed, testMode, hidden],
+    [seed, testMode, hidden, sessionLevel],
   );
   const production = useMemo(
     () =>
@@ -154,8 +166,10 @@ export default function App() {
         seed,
         DEFAULT_SESSION_SIZE,
         progressRef.current,
+        "production",
+        sessionLevel,
       ),
-    [seed, testMode, hidden],
+    [seed, testMode, hidden, sessionLevel],
   );
   const sentences = useMemo(
     () =>
@@ -167,8 +181,10 @@ export default function App() {
         SENTENCE_SESSION_SIZE,
         undefined,
         progressRef.current,
+        "sentences",
+        sessionLevel,
       ),
-    [seed, testMode, hidden],
+    [seed, testMode, hidden, sessionLevel],
   );
   // Voice variants: same pools/questions as production/sentences, but weighted by their own
   // track so spoken practice is repeated and mastered independently.
@@ -182,8 +198,9 @@ export default function App() {
         DEFAULT_SESSION_SIZE,
         progressRef.current,
         "say_word",
+        sessionLevel,
       ),
-    [seed, testMode, hidden],
+    [seed, testMode, hidden, sessionLevel],
   );
   const saySentence = useMemo(
     () =>
@@ -196,8 +213,9 @@ export default function App() {
         undefined,
         progressRef.current,
         "say_sentence",
+        sessionLevel,
       ),
-    [seed, testMode, hidden],
+    [seed, testMode, hidden, sessionLevel],
   );
   // Listening (dictation) variants: same pools as production/sentences, but the prompt is
   // spoken Finnish (TTS) and the learner types what they hear; weighted by their own track.
@@ -211,8 +229,9 @@ export default function App() {
         DEFAULT_SESSION_SIZE,
         progressRef.current,
         "listen_word",
+        sessionLevel,
       ),
-    [seed, testMode, hidden],
+    [seed, testMode, hidden, sessionLevel],
   );
   const listenSentence = useMemo(
     () =>
@@ -225,8 +244,9 @@ export default function App() {
         undefined,
         progressRef.current,
         "listen_sentence",
+        sessionLevel,
       ),
-    [seed, testMode, hidden],
+    [seed, testMode, hidden, sessionLevel],
   );
   // Микс ("добить уровень"): one run interleaving every word/sentence mode's NOT-yet-mastered
   // items at the current (gated) level — no reading. Each question carries the track it records,

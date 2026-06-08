@@ -8,11 +8,8 @@
  */
 
 import type { SentenceItem } from "./grader";
-import { makeRng, shuffle, DEFAULT_SESSION_SIZE, SENTENCE_SESSION_SIZE } from "./quiz";
-import { getProgress, type ItemKind, type ProgressMap } from "./progress";
-import { selectionWeight, levelBoostMultiplier } from "./srs";
-import { levelOf, lowestUnmasteredLevel } from "./levels";
-import { weightedSample } from "./select";
+import { pickTargets, DEFAULT_SESSION_SIZE, SENTENCE_SESSION_SIZE } from "./quiz";
+import { type ItemKind, type ProgressMap } from "./progress";
 
 export { DEFAULT_SESSION_SIZE, SENTENCE_SESSION_SIZE };
 
@@ -48,21 +45,14 @@ export function buildSentenceSession(
   isEligible: IsEligible = () => true,
   progress?: ProgressMap,
   weightKind: ItemKind = "sentences",
+  currentLevel?: number,
 ): SentenceQuestion[] {
+  // Select over the ELIGIBLE pool (not all items): never push a sentence whose words aren't
+  // learned yet. pickTargets then does the level-stratified / SRS selection (see quiz.ts).
   const eligible = items.filter((item) => isEligible(item.uses));
-  // Boost over the ELIGIBLE pool (not all items) on purpose: never push a level whose sentences
-  // aren't actually practisable this session. The vocab builders pass an already-gated pool, so
-  // this matches their behaviour.
-  const boost = progress ? lowestUnmasteredLevel(eligible, progress, weightKind) : undefined;
-  const chosen = progress
-    ? weightedSample(
-        eligible,
-        (item) =>
-          selectionWeight(getProgress(progress, weightKind, item.id)) *
-          levelBoostMultiplier(levelOf(item), boost),
-        makeRng(seed),
-        size,
-      )
-    : shuffle(eligible, makeRng(seed)).slice(0, Math.min(size, eligible.length));
-  return chosen.map((item) => ({ id: item.id, promptRu: item.ru, fi: item.canonical }));
+  return pickTargets(eligible, seed, size, weightKind, progress, currentLevel).map((item) => ({
+    id: item.id,
+    promptRu: item.ru,
+    fi: item.canonical,
+  }));
 }

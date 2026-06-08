@@ -7,10 +7,10 @@
  */
 
 import type { VocabItem } from "./dictionary";
-import { getProgress, type ProgressMap } from "./progress";
+import { getProgress, type ItemKind, type ProgressMap } from "./progress";
 import { selectionWeight, levelBoostMultiplier } from "./srs";
 import { levelOf, lowestUnmasteredLevel } from "./levels";
-import { weightedSample } from "./select";
+import { weightedSample, levelStratifiedSample } from "./select";
 
 /** A deterministic pseudo-random generator returning floats in [0, 1). */
 export type Rng = () => number;
@@ -128,19 +128,39 @@ export function buildSession(
   size: number = DEFAULT_SESSION_SIZE,
   optionCount: number = DEFAULT_OPTION_COUNT,
   progress?: ProgressMap,
+  currentLevel?: number,
 ): RecognitionQuestion[] {
-  const boost = progress ? lowestUnmasteredLevel(items, progress, "recognition") : undefined;
-  const targets = progress
-    ? weightedSample(
-        items,
-        (item) =>
-          selectionWeight(getProgress(progress, "recognition", item.id)) *
-          levelBoostMultiplier(levelOf(item), boost),
-        makeRng(seed),
-        size,
-      )
-    : shuffle(items, makeRng(seed)).slice(0, Math.min(size, items.length));
+  const targets = pickTargets(items, seed, size, "recognition", progress, currentLevel);
   return targets.map((target, i) =>
     buildQuestion(target, items, makeRng(seed + (i + 1) * 0x9e3779b9), optionCount),
+  );
+}
+
+/**
+ * Choose which items a session drills, shared by all three builders:
+ *  - with a `currentLevel` → level-stratified (≈70% current level, ≈30% earlier-level leftovers,
+ *    nothing from levels above it), still SRS-weighted within each tier;
+ *  - with `progress` but no level → the legacy lowest-unmastered-level boost;
+ *  - with neither → a plain uniform shuffle (unchanged first-run behaviour).
+ */
+export function pickTargets<T extends { id: string; level?: number }>(
+  items: readonly T[],
+  seed: number,
+  size: number,
+  kind: ItemKind,
+  progress?: ProgressMap,
+  currentLevel?: number,
+): T[] {
+  if (!progress) return shuffle(items, makeRng(seed)).slice(0, Math.min(size, items.length));
+  const weightOf = (item: T) => selectionWeight(getProgress(progress, kind, item.id));
+  if (currentLevel !== undefined) {
+    return levelStratifiedSample(items, weightOf, (i) => levelOf(i), currentLevel, makeRng(seed), size);
+  }
+  const boost = lowestUnmasteredLevel(items, progress, kind);
+  return weightedSample(
+    items,
+    (item) => weightOf(item) * levelBoostMultiplier(levelOf(item), boost),
+    makeRng(seed),
+    size,
   );
 }

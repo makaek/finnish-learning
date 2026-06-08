@@ -11,11 +11,8 @@
  */
 
 import type { VocabItem } from "./dictionary";
-import { makeRng, shuffle, DEFAULT_SESSION_SIZE } from "./quiz";
-import { getProgress, type ItemKind, type ProgressMap } from "./progress";
-import { selectionWeight, levelBoostMultiplier } from "./srs";
-import { levelOf, lowestUnmasteredLevel } from "./levels";
-import { weightedSample } from "./select";
+import { pickTargets, DEFAULT_SESSION_SIZE } from "./quiz";
+import { type ItemKind, type ProgressMap } from "./progress";
 import { normalizeFi } from "./normalize";
 
 export { DEFAULT_SESSION_SIZE };
@@ -109,19 +106,9 @@ export function buildProductionSession(
   size: number = DEFAULT_SESSION_SIZE,
   progress?: ProgressMap,
   weightKind: ItemKind = "production",
+  currentLevel?: number,
 ): ProductionQuestion[] {
-  const boost = progress ? lowestUnmasteredLevel(items, progress, weightKind) : undefined;
-  const targets = progress
-    ? weightedSample(
-        items,
-        (item) =>
-          selectionWeight(getProgress(progress, weightKind, item.id)) *
-          levelBoostMultiplier(levelOf(item), boost),
-        makeRng(seed),
-        size,
-      )
-    : shuffle(items, makeRng(seed)).slice(0, Math.min(size, items.length));
-  return targets.map((target) => ({
+  return pickTargets(items, seed, size, weightKind, progress, currentLevel).map((target) => ({
     itemId: target.id,
     promptRu: target.ru,
     answerFi: target.fi,
