@@ -270,6 +270,21 @@
         "teaches": ["day", "weekday"],
         "pos": ["noun"]
       }
+    },
+    {
+      "id": "allative",
+      "title": "Аллатив -lle",
+      "summary": "Кому/чему? и «на поверхность» (куда?): minulle, kassalle, torille.",
+      "body": "Аллатив на -lle отвечает на вопрос «кому?» и «куда (на поверхность)?» — это «внешняя» пара к адессиву (-lla, «у/на чём?») и аблативу (-lta, «от кого?»). Получатель и адресат стоят в аллативе: 'Annan sinulle kirjan', 'Soitan äidille'. Ряд глаголов управляет именно им: 'Tämä takki sopii minulle' (подходит мне), 'Vastaan kysymykseen' — сравните. С местами «на поверхности» аллатив значит направление: torille = на рынок, kassalle = к кассе (а torilla/kassalla = «где?»).",
+      "examples": [
+        { "fi": "Tämä takki sopii minulle.", "ru": "Эта куртка мне подходит." },
+        { "fi": "Annan sinulle kirjan.", "ru": "Я даю тебе книгу." },
+        { "fi": "Menen torille.", "ru": "Я иду на рынок." }
+      ],
+      "match": {
+        "teaches": ["allative"],
+        "pos": ["noun", "pronoun"]
+      }
     }
   ]
 }

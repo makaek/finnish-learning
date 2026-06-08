@@ -1,11 +1,8 @@
 /**
- * ReadingQuiz.tsx — comprehension questions about a text/dialog (any type).
- *
- * Steps through `text.questions`, each answered by TYPING or VOICE (both available, unlike the
- * voice-only word/sentence modes). Answers are graded locally by the shared sentence grader
- * (data/texts.ts `gradeQuestion`); a wrong answer reveals the model answer and gates advancing
- * behind a correction, mirroring SentenceCard. Finishing calls `onComplete` (which marks the
- * text read + counts a lesson). Not individually persisted in this slice.
+ * ReadingQuiz.tsx — comprehension questions (QuizR/QuizDoneR), chat-styled: the question is a
+ * teacher bubble, the answer goes through a docked composer (typed OR spoken). Answers are graded
+ * locally by the shared sentence grader; a wrong answer reveals the model answer and gates advancing
+ * behind a correction (mirrors SentenceCard). Finishing calls `onComplete(allCorrect)`.
  */
 
 import { useState } from "react";
@@ -14,6 +11,8 @@ import type { Grade, GradeResult } from "../core/grader.contract";
 import { pickBestSpokenAsync } from "../core/spokenNumber";
 import { useSpeechRecognition } from "./useSpeechRecognition";
 import { useSpeechSynthesis } from "./useSpeechSynthesis";
+import { UiIcon } from "./icons";
+import { Avatar, ChatHead } from "./readingKit";
 
 interface ReadingQuizProps {
   text: ReadingText;
@@ -24,17 +23,19 @@ interface ReadingQuizProps {
   onComplete: (allCorrect: boolean) => void;
 }
 
-/** One comprehension question: Finnish prompt (with revealable RU), typed-or-spoken answer. */
+/** One comprehension question: Finnish bubble (with revealable RU), typed-or-spoken answer. */
 function QuestionCard({
   question,
   questionNumber,
   total,
+  textTitle,
   grade,
   onAnswered,
 }: {
   question: ReadingQuestion;
   questionNumber: number;
   total: number;
+  textTitle: string;
   grade: Grade;
   onAnswered: (wasCorrect: boolean) => void;
 }) {
@@ -52,7 +53,6 @@ function QuestionCard({
   // Prefer the recognizer hypothesis the grader accepts (English-looking top guess loses).
   const accepts = (candidate: string) =>
     grade({ sentenceId: question.id, answer: candidate }).then((g) => g.correct);
-  // Answers may be typed OR spoken: the mic fills the still-editable field (not voice-only).
   const answerSpeech = useSpeechRecognition({
     lang: "fi-FI",
     enabled: !answered,
@@ -72,16 +72,13 @@ function QuestionCard({
     setGrading(false);
   }
 
-  async function checkCorrection(text: string) {
+  async function checkCorrection(t: string) {
     if (result === null || result.correct) return;
-    setCorrection(text);
-    const graded = await grade({ sentenceId: question.id, answer: text });
+    setCorrection(t);
+    const graded = await grade({ sentenceId: question.id, answer: t });
     setUnlocked(graded.correct);
   }
 
-  // Voice recognition mishears some answers, leaving the learner stuck on the correction step.
-  // This override marks the attempt correct (mirrors ProductionCard/SentenceCard) — scoring reads
-  // result.correct at advance, so it also counts the question toward the score / text mastery.
   function forceCorrect() {
     if (advanced) return;
     setResult({
@@ -104,72 +101,99 @@ function QuestionCard({
 
   return (
     <section className="card" aria-live="polite">
-      <p className="progress">
-        Вопрос {questionNumber} из {total}
-      </p>
+      <ChatHead
+        title="Вопросы"
+        sub={`${textTitle} · ${questionNumber} из ${total}`}
+        right={
+          <span className="rd-seg">
+            {Array.from({ length: total }).map((_, i) => (
+              <span key={i} className={"rd-seg__b" + (i < questionNumber ? " rd-seg__b--on" : "")} />
+            ))}
+          </span>
+        }
+      />
 
-      <h1 className="prompt" lang="fi">
-        {question.q}
-        {tts.supported && (
-          <button
-            type="button"
-            className="line__play"
-            onClick={() => tts.speak(question.q)}
-            aria-label="Прослушать вопрос"
-          >
-            🔊
-          </button>
-        )}
-      </h1>
-      {showQRu ? (
-        <p className="hint" lang="ru">
-          {question.qRu}
-        </p>
-      ) : (
-        <button type="button" className="chip" onClick={() => setShowQRu(true)}>
-          👁 Перевод вопроса
-        </button>
-      )}
-      <p className="hint">Ответьте по-фински — напечатайте или скажите:</p>
-
-      <form
-        className="produce"
-        onSubmit={(e) => {
-          e.preventDefault();
-          void submit();
-        }}
-      >
-        <textarea
-          className="produce__input produce__input--area"
-          lang="fi"
-          rows={2}
-          autoComplete="off"
-          autoCapitalize="off"
-          autoCorrect="off"
-          spellCheck={false}
-          disabled={answered}
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          aria-label="Ответ на финском"
-        />
-        {!answered && answerSpeech.supported && (
-          <button
-            type="button"
-            className={"mic" + (answerSpeech.listening ? " mic--on" : "")}
-            onClick={() => (answerSpeech.listening ? answerSpeech.stop() : answerSpeech.start())}
-            aria-label="Сказать ответ"
-          >
-            {answerSpeech.listening ? "● Слушаю…" : value ? "🎤 Сказать заново" : "🎤 Сказать"}
-          </button>
-        )}
+      <div className="rd-thread">
+        <div className="rd-bubble">
+          <Avatar letter="?" color="var(--rd-teal)" size={32} />
+          <div className="rd-bubble__col">
+            <div className="rd-msg" style={{ cursor: "default" }}>
+              <div className="rd-msg__row">
+                <span className="rd-msg__fi" lang="fi" style={{ fontSize: "1.2rem", fontWeight: 800 }}>
+                  {question.q}
+                </span>
+                {tts.supported && (
+                  <button
+                    type="button"
+                    className="rd-sound"
+                    style={{ color: "var(--rd-teal)" }}
+                    onClick={() => tts.speak(question.q)}
+                    aria-label="Прослушать вопрос"
+                  >
+                    <UiIcon name="sound" size={16} />
+                  </button>
+                )}
+              </div>
+              {showQRu && (
+                <div className="rd-msg__ru" lang="ru">
+                  {question.qRu}
+                </div>
+              )}
+            </div>
+            {!showQRu && (
+              <button type="button" className="rd-qlink" onClick={() => setShowQRu(true)}>
+                <UiIcon name="eye" size={15} />
+                перевод вопроса
+              </button>
+            )}
+          </div>
+        </div>
         {!answered && (
-          <button type="submit" className="next" disabled={grading || value.trim().length === 0}>
-            Проверить
-          </button>
+          <div className="rd-threadhint">Ответьте по-фински — напечатайте или скажите</div>
         )}
-      </form>
+      </div>
 
-      {result && (
+      {!answered ? (
+        <form
+          className="rd-composer"
+          onSubmit={(e) => {
+            e.preventDefault();
+            void submit();
+          }}
+        >
+          <textarea
+            className="rd-input"
+            lang="fi"
+            rows={1}
+            autoComplete="off"
+            autoCapitalize="off"
+            autoCorrect="off"
+            spellCheck={false}
+            placeholder="Kirjoita vastaus…"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            aria-label="Ответ на финском"
+          />
+          {answerSpeech.supported && (
+            <button
+              type="button"
+              className={"rd-circle" + (answerSpeech.listening ? " rd-circle--on" : "")}
+              onClick={() => (answerSpeech.listening ? answerSpeech.stop() : answerSpeech.start())}
+              aria-label="Сказать ответ"
+            >
+              <UiIcon name="mic" size={22} />
+            </button>
+          )}
+          <button
+            type="submit"
+            className="rd-circle rd-circle--send"
+            disabled={grading || value.trim().length === 0}
+            aria-label="Проверить"
+          >
+            <UiIcon name="arrow" size={22} strokeWidth={2.4} />
+          </button>
+        </form>
+      ) : (
         <div className="feedback">
           {result.errors.map((err, i) => (
             <p key={i} className={feedbackClass} lang="ru">
@@ -260,7 +284,6 @@ export default function ReadingQuiz({ text, grade, onExit, onComplete }: Reading
   const [done, setDone] = useState(false);
 
   if (questions.length === 0) {
-    // Defensive: the launcher only opens the quiz when there are questions.
     onExit();
     return null;
   }
@@ -268,28 +291,30 @@ export default function ReadingQuiz({ text, grade, onExit, onComplete }: Reading
   if (done) {
     return (
       <main className="app">
-        <section className="card card--summary">
-          <h1 className="prompt">🎉 Готово!</h1>
-          <p className="hint">
-            Правильных ответов: {score} из {questions.length}
-          </p>
-          <div className="rolepick">
-            <button
-              type="button"
-              className="next"
-              onClick={() => onComplete(score === questions.length)}
-            >
+        <section className="card">
+          <div className="rd-center">
+            <div className="rd-disc">
+              <UiIcon name="check" size={38} strokeWidth={2.6} />
+            </div>
+            <div className="rd-title">Вопросы пройдены</div>
+            <div className="rd-sub">
+              Правильно {score} из {questions.length}
+            </div>
+          </div>
+          <div className="rd-actions">
+            <button type="button" className="rd-cta" onClick={() => onComplete(score === questions.length)}>
               Готово
             </button>
             <button
               type="button"
-              className="option"
+              className="rd-ghost"
               onClick={() => {
                 setIdx(0);
                 setScore(0);
                 setDone(false);
               }}
             >
+              <UiIcon name="refresh" size={16} />
               Ещё раз
             </button>
           </div>
@@ -309,6 +334,7 @@ export default function ReadingQuiz({ text, grade, onExit, onComplete }: Reading
         question={question}
         questionNumber={idx + 1}
         total={questions.length}
+        textTitle={text.title}
         grade={grade}
         onAnswered={(wasCorrect) => {
           if (wasCorrect) setScore((s) => s + 1);

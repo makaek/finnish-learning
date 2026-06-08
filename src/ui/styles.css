@@ -35,6 +35,20 @@
   --shadow: light-dark(0 14px 34px rgba(78, 52, 24, 0.14), 0 16px 40px rgba(0, 0, 0, 0.45));
   --shadow-sm: light-dark(0 4px 14px rgba(78, 52, 24, 0.1), 0 6px 18px rgba(0, 0, 0, 0.4));
 
+  /* Reading accent (the home ring's brown "Чтение" group) + its soft tints, dark-aware. The
+   * chat-bubble reading flow is themed with these; teal/violet are the quiz + speaker hues. */
+  --read: light-dark(#bb6a39, #d68a5a);
+  --read-soft: light-dark(#f4ebe1, #312539);
+  --read-line: light-dark(#e8dac9, #4b3b33);
+  --read-ink: #ffffff;
+  --rd-green: light-dark(#3b9c6e, #45c089);
+  --rd-green-soft: light-dark(#e7f1ec, #1f3a30);
+  --rd-green-line: light-dark(#bfe0ce, #2f6a4f);
+  --rd-teal: light-dark(#1b8e84, #3fb8ad); /* quiz accent / speaker Pekka */
+  --rd-violet: light-dark(#5b53c6, #9089ea); /* speaker Liisa */
+  --rd-cream: light-dark(#f0ede6, #181426); /* chat thread background */
+  --rd-wash: light-dark(#f4f1eb, #2c2640); /* small icon-button fills */
+
   /* Scales. */
   --r: 22px;
   --r-sm: 14px;
@@ -1726,6 +1740,769 @@ body {
 .turn__fi {
   margin: 0;
   font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* ============================================================================
+ * Reading redesign (text-restyle) — chat-bubble flow, brown "Чтение" accent.
+ * New `rd-*` namespace so the shared .chip/.mic/.next/.card classes are untouched.
+ * ==========================================================================*/
+
+/* Shared bits ------------------------------------------------------------- */
+.rd-av {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--pill);
+  background: var(--card);
+  border: 2px solid currentColor;
+  font-weight: 800;
+  line-height: 1;
+}
+.rd-tile {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.9rem;
+  height: 2.9rem;
+  border-radius: 14px;
+  color: var(--read);
+  background: var(--read-soft);
+}
+.rd-iconbtn {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  color: var(--muted);
+  background: var(--rd-wash);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  cursor: pointer;
+}
+.rd-iconbtn:active {
+  transform: scale(0.94);
+}
+.rd-iconbtn--on {
+  color: var(--read);
+  background: var(--read-soft);
+  border-color: var(--read-line);
+}
+
+/* Library (LibR) ---------------------------------------------------------- */
+.rd-libhead {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  margin-bottom: var(--s1);
+}
+.rd-libhead__title {
+  flex: 1;
+  margin: 0;
+  font-size: 1.55rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.rd-counter {
+  text-align: right;
+  line-height: 1.05;
+}
+.rd-counter__n {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--read);
+}
+.rd-counter__d {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.rd-counter__k {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+.rd-legend {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.5rem 0.75rem;
+  margin: var(--s1) 0 var(--s3);
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+.rd-legend__k {
+  color: var(--muted);
+}
+.rd-legend__part {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.rd-group {
+  margin-bottom: var(--s3);
+}
+.rd-grouphd {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0.15rem 0.55rem;
+}
+.rd-grouphd__t {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--read);
+}
+.rd-grouphd__line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.rd-rows {
+  display: grid;
+  gap: 0.5rem;
+}
+.rd-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  text-align: left;
+  font: inherit;
+  color: var(--text);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 0.65rem 0.8rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.14s ease;
+}
+.rd-row:hover:not(:disabled) {
+  background: var(--surface);
+}
+.rd-row--mastered {
+  border-color: var(--read-line);
+}
+.rd-row--locked {
+  opacity: 0.5;
+  cursor: default;
+  box-shadow: none;
+}
+.rd-row__main {
+  flex: 1;
+  min-width: 0;
+}
+.rd-row__title {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.rd-row__sub {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-top: 1px;
+}
+.rd-mark {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+}
+.rd-mark--pill {
+  gap: 0.3rem;
+  background: var(--read-soft);
+  border: 1px solid var(--read-line);
+  border-radius: var(--pill);
+  padding: 0.22rem 0.55rem 0.22rem 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--read);
+}
+.rd-mark__dots {
+  gap: 0.25rem;
+}
+.rd-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: var(--pill);
+}
+.rd-dot--on {
+  background: var(--read);
+}
+.rd-dot--off {
+  background: var(--card);
+  border: 1.5px solid var(--read-line);
+}
+
+/* Chat header (Reader / Quiz / Recite) ------------------------------------ */
+.rd-head {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  margin-bottom: var(--s3);
+}
+.rd-head__main {
+  flex: 1;
+  min-width: 0;
+}
+.rd-head__titlerow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.rd-head__title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rd-head__sub {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.rd-head__sub--read {
+  color: var(--read);
+}
+
+/* Chat thread + bubbles --------------------------------------------------- */
+.rd-thread {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  background: var(--rd-cream);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: var(--s3);
+  margin-bottom: var(--s3);
+}
+.rd-threadhint {
+  text-align: center;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.rd-bubble {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.55rem;
+}
+.rd-bubble--right {
+  flex-direction: row-reverse;
+}
+.rd-bubble__col {
+  max-width: 16rem;
+}
+.rd-bubble__who {
+  font-size: 0.68rem;
+  font-weight: 800;
+  margin: 0 0.25rem 0.25rem;
+}
+.rd-bubble--right .rd-bubble__who {
+  text-align: right;
+}
+.rd-msg {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  border-bottom-left-radius: 5px;
+  padding: 0.6rem 0.75rem;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  font: inherit;
+  color: var(--text);
+}
+.rd-msg--right {
+  background: var(--read-soft);
+  border-color: var(--read-line);
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 5px;
+}
+.rd-msg__row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+.rd-msg__fi {
+  flex: 1;
+  font-size: 1.02rem;
+  font-weight: 600;
+  line-height: 1.32;
+  letter-spacing: -0.01em;
+}
+.rd-msg__ru {
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--muted);
+  line-height: 1.3;
+  margin-top: 0.45rem;
+  padding-top: 0.45rem;
+  border-top: 1px solid var(--border);
+}
+.rd-sound {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.65rem;
+  height: 1.65rem;
+  margin-top: 1px;
+  border-radius: 8px;
+  background: var(--rd-wash);
+  border: none;
+  cursor: pointer;
+  color: var(--read);
+}
+
+/* Path to «Прочитано» footer (Reader) ------------------------------------- */
+.rd-foot__hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.55rem;
+}
+.rd-foot__label {
+  font-size: 0.8rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.rd-foot__prog {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.rd-seg {
+  display: flex;
+  gap: 0.25rem;
+}
+.rd-seg__b {
+  width: 1.5rem;
+  height: 5px;
+  border-radius: var(--pill);
+  background: var(--surface-2);
+}
+.rd-seg__b--on {
+  background: var(--read);
+}
+.rd-seg__n {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--muted);
+}
+.rd-tasks {
+  display: flex;
+  gap: 0.55rem;
+}
+.rd-task {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: left;
+  font: inherit;
+  color: var(--text);
+  background: var(--read-soft);
+  border: 1px solid var(--read-line);
+  border-radius: 15px;
+  padding: 0.65rem 0.7rem;
+  cursor: pointer;
+}
+.rd-task--done {
+  background: var(--rd-green-soft);
+  border-color: var(--rd-green-line);
+}
+.rd-task__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.rd-task__tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 10px;
+  background: var(--card);
+  border: 1px solid var(--read-line);
+}
+.rd-task--done .rd-task__tile {
+  border-color: var(--rd-green-line);
+}
+.rd-task__check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: var(--pill);
+  background: var(--rd-green);
+  color: #fff;
+}
+.rd-task__label {
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+.rd-task__sub {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-top: 1px;
+}
+.rd-task--done .rd-task__sub {
+  color: var(--rd-green);
+}
+.rd-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  background: var(--rd-green-soft);
+  border: 1px solid var(--rd-green-line);
+  border-radius: 15px;
+  padding: 0.8rem 0.9rem;
+}
+.rd-banner__disc {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: var(--pill);
+  background: var(--rd-green);
+  color: #fff;
+}
+.rd-banner__main {
+  flex: 1;
+}
+.rd-banner__t {
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+.rd-banner__s {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--rd-green);
+}
+
+/* Quiz composer + Recite controls (docked) -------------------------------- */
+.rd-composer {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.55rem;
+}
+.rd-input {
+  flex: 1;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 0.7rem 1rem;
+  resize: none;
+}
+.rd-circle {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--pill);
+  cursor: pointer;
+  border: 1px solid var(--read-line);
+  background: var(--card);
+  color: var(--read);
+}
+.rd-circle--on {
+  color: #fff;
+  background: var(--read);
+}
+.rd-circle--send {
+  border: none;
+  color: #fff;
+  background: var(--rd-teal);
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--rd-teal) 35%, transparent);
+}
+.rd-circle:disabled {
+  opacity: 0.5;
+  cursor: default;
+  box-shadow: none;
+}
+.rd-qlink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.rd-mine {
+  border-style: dashed !important;
+}
+.rd-wave {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.18rem;
+  height: 1.1rem;
+}
+.rd-wave span {
+  width: 0.18rem;
+  border-radius: 2px;
+  background: var(--read);
+  opacity: 0.85;
+  animation: rd-wave 0.9s ease-in-out infinite;
+}
+@keyframes rd-wave {
+  0%, 100% { transform: scaleY(0.5); }
+  50% { transform: scaleY(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rd-wave span { animation: none; }
+}
+.rd-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.rd-ghost {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.rd-hero {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: var(--pill);
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  background: var(--read);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--read) 38%, transparent);
+}
+.rd-hero:active {
+  transform: scale(0.96);
+}
+
+/* Completion screens (Mastered / Quiz done) ------------------------------- */
+.rd-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.25rem;
+}
+.rd-rings {
+  position: relative;
+  width: 6.5rem;
+  height: 6.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.4rem;
+}
+.rd-rings__o {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--pill);
+  background: var(--read-soft);
+}
+.rd-rings__m {
+  position: absolute;
+  inset: 0.75rem;
+  border-radius: var(--pill);
+  border: 2px solid var(--read-line);
+}
+.rd-rings__disc {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.1rem;
+  height: 4.1rem;
+  border-radius: var(--pill);
+  color: #fff;
+  background: var(--read);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--read) 38%, transparent);
+}
+.rd-disc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.75rem;
+  height: 4.75rem;
+  border-radius: var(--pill);
+  background: var(--rd-green-soft);
+  color: var(--rd-green);
+}
+.rd-title {
+  font-size: 1.7rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-top: var(--s2);
+}
+.rd-sub {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-top: 0.25rem;
+  max-width: 17rem;
+}
+.rd-summary {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 0.4rem 1rem;
+  margin-top: var(--s4);
+}
+.rd-summary--pad {
+  padding: 1rem;
+}
+.rd-summary__hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.7rem;
+  padding-top: 0.6rem;
+}
+.rd-summary__hdn {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--read);
+}
+.rd-srow {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.7rem 0;
+}
+.rd-srow + .rd-srow {
+  border-top: 1px solid var(--surface-2);
+}
+.rd-srow__disc {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: var(--pill);
+}
+.rd-srow__disc--done {
+  background: var(--rd-green);
+  color: #fff;
+}
+.rd-srow__disc--todo {
+  background: var(--read-soft);
+  border: 1px solid var(--read-line);
+  color: var(--read);
+}
+.rd-srow__main {
+  flex: 1;
+}
+.rd-srow__t {
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+.rd-srow__s {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.rd-srow__tag {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--rd-green);
+}
+/* Brown primary CTA (completion screens) — distinct from the app's blue .next. */
+.rd-cta {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font: inherit;
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: #fff;
+  background: var(--read);
+  border: none;
+  border-radius: 16px;
+  padding: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--read) 32%, transparent);
+}
+.rd-cta:active {
+  transform: scale(0.99);
+}
+.rd-actions {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: var(--s3);
+}
+.rd-rolepick {
+  display: grid;
+  gap: 0.6rem;
+}
+.rd-discbtn {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--pill);
+  color: #fff;
+  background: var(--read);
+}
+.rd-discbtn--done {
+  width: 1.65rem;
+  height: 1.65rem;
+  background: var(--rd-green);
+}
+.rd-note {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: var(--s3);
+  padding: 0.65rem 0.85rem;
+  background: var(--read-soft);
+  border-radius: 13px;
+  font-size: 0.78rem;
   font-weight: 600;
 }
 

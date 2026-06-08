@@ -236,7 +236,61 @@
     {"id":"v52","fi":"sulkea","ru":"закрывать","pos":"verb","level":10,"verb_type":1,
       "present":{"minä":"suljen","sinä":"suljet","hän":"sulkee","me":"suljemme","te":"suljette","he":"sulkevat"},
       "past_1sg":"suljin","past_3sg":"sulki","conneg":"sulje",
-      "notes":"Gradation k->j: sulKee but sulJen (special k->j between l and e). Total object: 'Suljen oven' = Я закрываю дверь.","needs_review":false}
+      "notes":"Gradation k->j: sulKee but sulJen (special k->j between l and e). Total object: 'Suljen oven' = Я закрываю дверь.","needs_review":false},
+
+    {"id":"v53","fi":"etsiä","ru":"искать","pos":"verb","level":11,"verb_type":1,
+      "present":{"minä":"etsin","sinä":"etsit","hän":"etsii","me":"etsimme","te":"etsitte","he":"etsivät"},
+      "past_1sg":"etsin","past_3sg":"etsi","conneg":"etsi",
+      "notes":"No gradation. Object in PARTITIVE (process): 'Etsin kauppaa' = Я ищу магазин. Past 1sg etsin same as present.","needs_review":false},
+    {"id":"v54","fi":"kääntyä","ru":"поворачивать","pos":"verb","level":11,"verb_type":1,
+      "present":{"minä":"käännyn","sinä":"käännyt","hän":"kääntyy","me":"käännymme","te":"käännytte","he":"kääntyvät"},
+      "past_1sg":"käännyin","past_3sg":"kääntyi","conneg":"käänny",
+      "notes":"Gradation nt->nn: kääNTyy but kääNNyn. Direction: 'Käänny oikealle' = Поверни направо.","needs_review":false},
+    {"id":"v55","fi":"jatkaa","ru":"продолжать","pos":"verb","level":11,"verb_type":1,
+      "present":{"minä":"jatkan","sinä":"jatkat","hän":"jatkaa","me":"jatkamme","te":"jatkatte","he":"jatkavat"},
+      "past_1sg":"jatkoin","past_3sg":"jatkoi","conneg":"jatka",
+      "notes":"No gradation (gen-stem keeps -tk-). 'Jatka suoraan' = Иди прямо (продолжай прямо).","needs_review":false},
+    {"id":"v56","fi":"tarvita","ru":"нуждаться / нужен","pos":"verb","level":11,"verb_type":5,
+      "present":{"minä":"tarvitsen","sinä":"tarvitset","hän":"tarvitsee","me":"tarvitsemme","te":"tarvitsette","he":"tarvitsevat"},
+      "past_1sg":"tarvitsin","past_3sg":"tarvitsi","conneg":"tarvitse",
+      "notes":"Type 5 (-ita), stem tarvitse-: tarvitsen. Object often PARTITIVE: 'Tarvitsen rahaa' = Мне нужны деньги.","needs_review":false},
+    {"id":"v57","fi":"valita","ru":"выбирать","pos":"verb","level":11,"verb_type":4,
+      "present":{"minä":"valitsen","sinä":"valitset","hän":"valitsee","me":"valitsemme","te":"valitsette","he":"valitsevat"},
+      "past_1sg":"valitsin","past_3sg":"valitsi","conneg":"valitse",
+      "notes":"Type 4 (-ta), stem valitse-: valitsen. Total object: 'Valitsen punaisen takin'.","needs_review":false},
+    {"id":"v58","fi":"sopia","ru":"подходить / годиться","pos":"verb","level":11,"verb_type":1,
+      "present":{"minä":"sovin","sinä":"sovit","hän":"sopii","me":"sovimme","te":"sovitte","he":"sopivat"},
+      "past_1sg":"sovin","past_3sg":"sopi","conneg":"sovi",
+      "notes":"Gradation p->v: soPii but soVin. 'Tämä takki sopii minulle' = Эта куртка мне подходит.","needs_review":false},
+
+    {"id":"v59","fi":"parantua","ru":"выздоравливать","pos":"verb","level":12,"verb_type":1,
+      "present":{"minä":"parannun","sinä":"parannut","hän":"parantuu","me":"parannumme","te":"parannutte","he":"parantuvat"},
+      "past_1sg":"parannuin","past_3sg":"parantui","conneg":"parannu",
+      "notes":"Gradation nt->nn: paraNTuu but paraNNun. 'Parannun pian' = Я скоро поправлюсь.","needs_review":false},
+    {"id":"v60","fi":"sairastua","ru":"заболеть","pos":"verb","level":12,"verb_type":1,
+      "present":{"minä":"sairastun","sinä":"sairastut","hän":"sairastuu","me":"sairastumme","te":"sairastutte","he":"sairastuvat"},
+      "past_1sg":"sairastuin","past_3sg":"sairastui","conneg":"sairastu",
+      "notes":"No gradation. 'Sairastuin eilen' = Я заболел вчера. Related to sairaala (n26).","needs_review":false},
+    {"id":"v61","fi":"levätä","ru":"отдыхать","pos":"verb","level":12,"verb_type":4,
+      "present":{"minä":"lepään","sinä":"lepäät","hän":"lepää","me":"lepäämme","te":"lepäätte","he":"lepäävät"},
+      "past_1sg":"lepäsin","past_3sg":"lepäsi","conneg":"lepää",
+      "notes":"Type 4 (-tä), gradation t->(zero) in stem: leväTä but lePää. 'Lepään kotona' = Я отдыхаю дома.","needs_review":false},
+    {"id":"v62","fi":"aikoa","ru":"намереваться / собираться","pos":"verb","level":12,"verb_type":1,
+      "present":{"minä":"aion","sinä":"aiot","hän":"aikoo","me":"aiomme","te":"aiotte","he":"aikovat"},
+      "past_1sg":"aioin","past_3sg":"aikoi","conneg":"aio",
+      "notes":"Gradation k->(zero): aiKOo but aiOn. + infinitive (future plan): 'Aion mennä lääkäriin' = Я собираюсь к врачу.","needs_review":false},
+    {"id":"v63","fi":"käydä","ru":"ходить / посещать","pos":"verb","level":12,"verb_type":2,
+      "present":{"minä":"käyn","sinä":"käyt","hän":"käy","me":"käymme","te":"käytte","he":"käyvät"},
+      "past_1sg":"kävin","past_3sg":"kävi","conneg":"käy",
+      "notes":"Type 2 (-dä), stem käy-. Place visited in inessive/idiom: 'Käyn lääkärissä' = Я хожу к врачу; 'Käyn kaupassa' = Я захожу в магазин.","needs_review":false},
+    {"id":"v64","fi":"liikkua","ru":"двигаться","pos":"verb","level":12,"verb_type":1,
+      "present":{"minä":"liikun","sinä":"liikut","hän":"liikkuu","me":"liikumme","te":"liikutte","he":"liikkuvat"},
+      "past_1sg":"liikuin","past_3sg":"liikkui","conneg":"liiku",
+      "notes":"Gradation kk->k: liiKKuu but liiKun. 'Liikun joka päivä' = Я двигаюсь каждый день.","needs_review":false},
+    {"id":"v65","fi":"ehtiä","ru":"успевать","pos":"verb","level":12,"verb_type":1,
+      "present":{"minä":"ehdin","sinä":"ehdit","hän":"ehtii","me":"ehdimme","te":"ehditte","he":"ehtivät"},
+      "past_1sg":"ehdin","past_3sg":"ehti","conneg":"ehdi",
+      "notes":"Gradation t->d: ehTii but ehDin. + infinitive: 'Ehdin nukkua' = Я успеваю поспать. Past 1sg ehdin same as present.","needs_review":false}
   ],
 
   "nouns": [
@@ -355,7 +409,36 @@
     {"id":"n104","fi":"avain","ru":"ключ","pos":"noun","level":10,"gen_sg":"avaimen","part_sg":"avainta","iness_sg":"avaimessa","illat_sg":"avaimeen","notes":"-in noun, stem avaime-: gen avaimen, part avainta. 'Löysin avaimen' = Я нашёл ключ.","needs_review":false},
     {"id":"n105","fi":"piha","ru":"двор","pos":"noun","level":10,"gen_sg":"pihan","part_sg":"pihaa","iness_sg":"pihassa","illat_sg":"pihaan","notes":"No gradation. 'pihalla' (adessive) = во дворе (на улице у дома).","needs_review":false},
     {"id":"n106","fi":"katto","ru":"потолок / крыша","pos":"noun","level":10,"gen_sg":"katon","part_sg":"kattoa","iness_sg":"katossa","illat_sg":"kattoon","notes":"Gradation tt->t: kaTTo but kaTon. 'katolla' (adessive) = на крыше.","needs_review":false},
-    {"id":"n107","fi":"valo","ru":"свет","pos":"noun","level":10,"gen_sg":"valon","part_sg":"valoa","iness_sg":"valossa","illat_sg":"valoon","notes":"No gradation. 'Valo on päällä' = Свет включён (упрощённо). Plural valot = огни/освещение.","needs_review":false}
+    {"id":"n107","fi":"valo","ru":"свет","pos":"noun","level":10,"gen_sg":"valon","part_sg":"valoa","iness_sg":"valossa","illat_sg":"valoon","notes":"No gradation. 'Valo on päällä' = Свет включён (упрощённо). Plural valot = огни/освещение.","needs_review":false},
+
+    {"id":"n108","fi":"tori","ru":"рынок / площадь","pos":"noun","level":11,"gen_sg":"torin","part_sg":"toria","iness_sg":"torilla","illat_sg":"torille","notes":"No gradation. LOCATION uses ADESSIVE: 'torilla' = на рынке/площади (где?), 'torille' = на рынок (куда?).","needs_review":false},
+    {"id":"n109","fi":"pankki","ru":"банк","pos":"noun","level":11,"gen_sg":"pankin","part_sg":"pankkia","iness_sg":"pankissa","illat_sg":"pankkiin","notes":"Gradation kk->k: paNKKi but paNKin. 'pankissa' = в банке, 'pankkiin' = в банк.","needs_review":false},
+    {"id":"n110","fi":"posti","ru":"почта","pos":"noun","level":11,"gen_sg":"postin","part_sg":"postia","iness_sg":"postissa","illat_sg":"postiin","notes":"No gradation. 'postissa' = на почте, 'postiin' = на почту.","needs_review":false},
+    {"id":"n111","fi":"apteekki","ru":"аптека","pos":"noun","level":11,"gen_sg":"apteekin","part_sg":"apteekkia","iness_sg":"apteekissa","illat_sg":"apteekkiin","notes":"Gradation kk->k: apteeKKi but apteeKin. 'Menen apteekkiin' = Я иду в аптеку.","needs_review":false},
+    {"id":"n112","fi":"keskusta","ru":"центр (города)","pos":"noun","level":11,"gen_sg":"keskustan","part_sg":"keskustaa","iness_sg":"keskustassa","illat_sg":"keskustaan","notes":"No gradation. 'keskustassa' = в центре, 'keskustaan' = в центр.","needs_review":false},
+    {"id":"n113","fi":"kauppakeskus","ru":"торговый центр","pos":"noun","level":11,"gen_sg":"kauppakeskuksen","part_sg":"kauppakeskusta","iness_sg":"kauppakeskuksessa","illat_sg":"kauppakeskukseen","notes":"kauppa + keskus. -s noun, stem -keskukse-: gen kauppakeskuksen, part kauppakeskusta.","needs_review":false},
+    {"id":"n114","fi":"takki","ru":"куртка / пальто","pos":"noun","level":11,"gen_sg":"takin","part_sg":"takkia","iness_sg":"takissa","illat_sg":"takkiin","notes":"Gradation kk->k: taKKi but taKin. 'Ostan takin' = Я покупаю куртку.","needs_review":false},
+    {"id":"n115","fi":"kenkä","ru":"туфля / ботинок","pos":"noun","level":11,"gen_sg":"kengän","part_sg":"kenkää","iness_sg":"kengässä","illat_sg":"kenkään","notes":"Gradation nk->ng: keNKä but keNGän. Usually plural kengät = обувь/ботинки.","needs_review":false},
+    {"id":"n116","fi":"paita","ru":"рубашка","pos":"noun","level":11,"gen_sg":"paidan","part_sg":"paitaa","iness_sg":"paidassa","illat_sg":"paitaan","notes":"Gradation t->d: paiTa but paiDan. 'sininen paita' = синяя рубашка.","needs_review":false},
+    {"id":"n117","fi":"kortti","ru":"карта (банковская)","pos":"noun","level":11,"gen_sg":"kortin","part_sg":"korttia","iness_sg":"kortissa","illat_sg":"korttiin","notes":"Gradation tt->t: korTTi but korTin. 'Maksan kortilla' = Я плачу картой (адессив kortilla).","needs_review":false},
+    {"id":"n118","fi":"kassa","ru":"касса","pos":"noun","level":11,"gen_sg":"kassan","part_sg":"kassaa","iness_sg":"kassalla","illat_sg":"kassalle","notes":"No gradation. LOCATION uses ADESSIVE: 'kassalla' = на кассе (где?), 'kassalle' = к кассе (куда?).","needs_review":false},
+
+    {"id":"n119","fi":"keho","ru":"тело","pos":"noun","level":12,"gen_sg":"kehon","part_sg":"kehoa","iness_sg":"kehossa","illat_sg":"kehoon","notes":"No gradation. Synonym ruumis (more formal/clinical).","needs_review":false},
+    {"id":"n120","fi":"pää","ru":"голова","pos":"noun","level":12,"gen_sg":"pään","part_sg":"päätä","iness_sg":"päässä","illat_sg":"päähän","notes":"Long vowel stem pää-. No gradation. 'Päätä särkee' = Болит голова.","needs_review":false},
+    {"id":"n121","fi":"käsi","ru":"рука","pos":"noun","level":12,"gen_sg":"käden","part_sg":"kättä","iness_sg":"kädessä","illat_sg":"käteen","notes":"IRREGULAR -si noun, stem käde-: gen käden, part kättä. Plural kädet = руки.","needs_review":false},
+    {"id":"n122","fi":"jalka","ru":"нога","pos":"noun","level":12,"gen_sg":"jalan","part_sg":"jalkaa","iness_sg":"jalassa","illat_sg":"jalkaan","notes":"Gradation lk->l: jaLKa but jaLan. 'jalka' = нога/ступня. 'jalalla' (adessive) = пешком/ногой.","needs_review":false},
+    {"id":"n123","fi":"silmä","ru":"глаз","pos":"noun","level":12,"gen_sg":"silmän","part_sg":"silmää","iness_sg":"silmässä","illat_sg":"silmään","notes":"No gradation. Plural silmät = глаза. Front-harmony.","needs_review":false},
+    {"id":"n124","fi":"vatsa","ru":"живот","pos":"noun","level":12,"gen_sg":"vatsan","part_sg":"vatsaa","iness_sg":"vatsassa","illat_sg":"vatsaan","notes":"No gradation. 'Vatsaan sattuu' = Болит живот.","needs_review":false},
+    {"id":"n125","fi":"kuume","ru":"температура / жар","pos":"noun","level":12,"gen_sg":"kuumeen","part_sg":"kuumetta","iness_sg":"kuumeessa","illat_sg":"kuumeeseen","notes":"-e noun, stem kuumee-: gen kuumeen, part kuumetta. 'Minulla on kuume' = У меня температура.","needs_review":false},
+    {"id":"n126","fi":"flunssa","ru":"простуда / грипп","pos":"noun","level":12,"gen_sg":"flunssan","part_sg":"flunssaa","iness_sg":"flunssassa","illat_sg":"flunssaan","notes":"No gradation. 'Minulla on flunssa' = У меня простуда.","needs_review":false},
+    {"id":"n127","fi":"lääke","ru":"лекарство","pos":"noun","level":12,"gen_sg":"lääkkeen","part_sg":"lääkettä","iness_sg":"lääkkeessä","illat_sg":"lääkkeeseen","notes":"-e noun, stem lääkkee-: gen lääkkeen, part lääkettä. Gradation kk->k visible only in nominative lääke vs stem lääkkee-. 'Otan lääkettä' = Я принимаю лекарство.","needs_review":false},
+    {"id":"n128","fi":"terveys","ru":"здоровье","pos":"noun","level":12,"gen_sg":"terveyden","part_sg":"terveyttä","iness_sg":"terveydessä","illat_sg":"terveyteen","notes":"-ys noun, stem terveyde-: gen terveyden, part terveyttä. 'Terveys on tärkeää' = Здоровье важно.","needs_review":false},
+    {"id":"n129","fi":"kevät","ru":"весна","pos":"noun","level":12,"gen_sg":"kevään","part_sg":"kevättä","iness_sg":"keväässä","illat_sg":"kevääseen","notes":"-t noun, stem kevää-: gen kevään, part kevättä. 'keväällä' (adessive) = весной.","needs_review":false},
+    {"id":"n130","fi":"kesä","ru":"лето","pos":"noun","level":12,"gen_sg":"kesän","part_sg":"kesää","iness_sg":"kesässä","illat_sg":"kesään","notes":"No gradation. 'kesällä' (adessive) = летом. 'Kesä on lämmin' = Лето тёплое.","needs_review":false},
+    {"id":"n131","fi":"syksy","ru":"осень","pos":"noun","level":12,"gen_sg":"syksyn","part_sg":"syksyä","iness_sg":"syksyssä","illat_sg":"syksyyn","notes":"No gradation. Front-harmony. 'syksyllä' (adessive) = осенью.","needs_review":false},
+    {"id":"n132","fi":"talvi","ru":"зима","pos":"noun","level":12,"gen_sg":"talven","part_sg":"talvea","iness_sg":"talvessa","illat_sg":"talveen","notes":"Stem talve-: gen talven, part talvea. 'talvella' (adessive) = зимой. 'Talvella sataa lunta' = Зимой идёт снег.","needs_review":false},
+    {"id":"n133","fi":"tuuli","ru":"ветер","pos":"noun","level":12,"gen_sg":"tuulen","part_sg":"tuulta","iness_sg":"tuulessa","illat_sg":"tuuleen","notes":"Stem tuule-: gen tuulen, part tuulta. 'Tuulee' = ветрено (отд. глагол tuulla).","needs_review":false},
+    {"id":"n134","fi":"pilvi","ru":"облако","pos":"noun","level":12,"gen_sg":"pilven","part_sg":"pilveä","iness_sg":"pilvessä","illat_sg":"pilveen","notes":"Stem pilve-: gen pilven, part pilveä. 'On pilvistä' = облачно.","needs_review":false}
   ],
 
   "adjectives": [
@@ -396,7 +479,18 @@
     {"id":"a32","fi":"tylsä","ru":"скучный","pos":"adj","level":9,"gen_sg":"tylsän","part_sg":"tylsää","notes":"No gradation. 'tylsä kirja' = скучная книга. Antonym kiinnostava."},
 
     {"id":"a33","fi":"puhdas","ru":"чистый","pos":"adj","level":10,"gen_sg":"puhtaan","part_sg":"puhdasta","notes":"Stem puhtaa-: gen puhtaan (t), but nominative puhdas and part puhdasta (d). 'puhdas huone' = чистая комната; 'Huone on puhdas'."},
-    {"id":"a34","fi":"likainen","ru":"грязный","pos":"adj","level":10,"gen_sg":"likaisen","part_sg":"likaista","notes":"-nen adj, stem likaise-: gen likaisen, part likaista. 'likainen lattia' = грязный пол; 'Lattia on likainen'. Antonym puhdas."}
+    {"id":"a34","fi":"likainen","ru":"грязный","pos":"adj","level":10,"gen_sg":"likaisen","part_sg":"likaista","notes":"-nen adj, stem likaise-: gen likaisen, part likaista. 'likainen lattia' = грязный пол; 'Lattia on likainen'. Antonym puhdas."},
+
+    {"id":"a35","fi":"kaukana","ru":"далеко","pos":"adj","level":11,"part_sg":"kaukana","notes":"Adverbial/locative form 'kaukana' = далеко (где?). 'Kauppa on kaukana' = Магазин далеко. Direction 'kauas'. Used predicatively, indeclinable here."},
+    {"id":"a36","fi":"lähellä","ru":"близко / рядом","pos":"adj","level":11,"part_sg":"lähellä","notes":"Adverbial/locative form 'lähellä' = близко (где?). 'Pankki on lähellä' = Банк близко. Antonym kaukana."},
+    {"id":"a37","fi":"auki","ru":"открытый (открыто)","pos":"adj","level":11,"part_sg":"auki","notes":"Indeclinable predicative adverb: 'Kauppa on auki' = Магазин открыт. Antonym kiinni."},
+    {"id":"a38","fi":"kiinni","ru":"закрытый (закрыто)","pos":"adj","level":11,"part_sg":"kiinni","notes":"Indeclinable predicative adverb: 'Kauppa on kiinni' = Магазин закрыт. Antonym auki."},
+
+    {"id":"a39","fi":"sairas","ru":"больной","pos":"adj","level":12,"gen_sg":"sairaan","part_sg":"sairasta","notes":"Stem sairaa-: gen sairaan, part sairasta. 'Olen sairas' = Я болен. Synonym kipeä."},
+    {"id":"a40","fi":"terve","ru":"здоровый","pos":"adj","level":12,"gen_sg":"terveen","part_sg":"tervettä","notes":"-e adj, stem tervee-: gen terveen, part tervettä. 'Olen terve' = Я здоров. Also greeting 'Terve!' = Привет!"},
+    {"id":"a41","fi":"kipeä","ru":"больной / болит","pos":"adj","level":12,"gen_sg":"kipeän","part_sg":"kipeää","notes":"No gradation. 'Olen kipeä' = Я болею; 'kipeä kurkku' = больное горло."},
+    {"id":"a42","fi":"pilvinen","ru":"облачный","pos":"adj","level":12,"gen_sg":"pilvisen","part_sg":"pilvistä","notes":"-nen adj, stem pilvise-: gen pilvisen, part pilvistä. 'On pilvistä' = облачно (партитив). From pilvi (n134)."},
+    {"id":"a43","fi":"aurinkoinen","ru":"солнечный","pos":"adj","level":12,"gen_sg":"aurinkoisen","part_sg":"aurinkoista","notes":"-nen adj, stem aurinkoise-: gen aurinkoisen, part aurinkoista. 'aurinkoinen päivä' = солнечный день. From aurinko (n66)."}
   ],
 
   "function_words": [
@@ -442,7 +536,20 @@
     {"id":"f35","fi":"usein","ru":"часто","pos":"adv","level":6,"notes":"Indeclinable frequency adverb. 'Katson usein televisiota' = Я часто смотрю телевизор. Free word order.","needs_review":false},
     {"id":"f36","fi":"aina","ru":"всегда","pos":"adv","level":6,"notes":"Indeclinable frequency adverb. 'Herään aina aikaisin' (упрощённо). 'Olen aina kotona illalla'.","needs_review":false},
 
-    {"id":"f37","fi":"kuin","ru":"чем (при сравнении) / как","pos":"conj","level":9,"notes":"Comparison particle: 'Juna on nopeampi kuin bussi' = Поезд быстрее, чем автобус. Pairs with the comparative (-mpi).","needs_review":false}
+    {"id":"f37","fi":"kuin","ru":"чем (при сравнении) / как","pos":"conj","level":9,"notes":"Comparison particle: 'Juna on nopeampi kuin bussi' = Поезд быстрее, чем автобус. Pairs with the comparative (-mpi).","needs_review":false},
+
+    {"id":"f38","fi":"oikealle","ru":"направо","pos":"adv","level":11,"notes":"Direction (куда?): 'Käänny oikealle' = Поверни направо. Location 'oikealla' = справа.","needs_review":false},
+    {"id":"f39","fi":"vasemmalle","ru":"налево","pos":"adv","level":11,"notes":"Direction (куда?): 'Käänny vasemmalle' = Поверни налево. Location 'vasemmalla' = слева.","needs_review":false},
+    {"id":"f40","fi":"suoraan","ru":"прямо","pos":"adv","level":11,"notes":"Direction: 'Mene suoraan' = Иди прямо. Indeclinable manner/direction adverb.","needs_review":false},
+    {"id":"f41","fi":"siellä","ru":"там","pos":"adv","level":11,"notes":"Location 'там' (где?). Direction 'туда' = sinne, origin 'оттуда' = sieltä. 'Kauppa on siellä' = Магазин там.","needs_review":false},
+    {"id":"f42","fi":"täällä","ru":"здесь","pos":"adv","level":11,"notes":"Location 'здесь' (где?). Direction 'сюда' = tänne. 'Pankki on täällä' = Банк здесь.","needs_review":false},
+    {"id":"f43","fi":"vähän","ru":"немного / мало","pos":"adv","level":11,"notes":"Quantity adverb: 'Minulla on vähän rahaa' = У меня мало денег. Antonym paljon.","needs_review":false},
+    {"id":"f44","fi":"paljon","ru":"много","pos":"adv","level":11,"notes":"Quantity adverb: 'Tarvitsen paljon rahaa' = Мне нужно много денег. Antonym vähän.","needs_review":false},
+
+    {"id":"f45","fi":"pian","ru":"скоро","pos":"adv","level":12,"notes":"Time adverb: 'Parannun pian' = Я скоро поправлюсь.","needs_review":false},
+    {"id":"f46","fi":"ehkä","ru":"может быть","pos":"adv","level":12,"notes":"Modal adverb: 'Ehkä sataa huomenna' = Может быть, завтра пойдёт дождь.","needs_review":false},
+    {"id":"f47","fi":"taas","ru":"снова / опять","pos":"adv","level":12,"notes":"Time adverb: 'Olen taas sairas' = Я снова болен.","needs_review":false},
+    {"id":"f48","fi":"yhä","ru":"всё ещё","pos":"adv","level":12,"notes":"Time adverb: 'Olen yhä kipeä' = Я всё ещё болен. Synonym vielä.","needs_review":false}
   ],
 
   "example_sentences": [

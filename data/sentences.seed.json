@@ -2114,6 +2114,424 @@
       ],
       "teaches": "adessive of possession 'minulla on' + nominative",
       "needs_review": false
+    },
+    {
+      "id": "s141",
+      "ru": "Я ищу банк.",
+      "uses": ["v53", "n109"],
+      "level": 11,
+      "canonical": "Etsin pankkia.",
+      "accepted": ["Etsin pankkia.", "Minä etsin pankkia."],
+      "wrong": [
+        { "match": "etsin pankki", "ru": "Объект поиска — в партитиве (процесс): pankkia, а не pankki." },
+        { "match": "etsin pankin", "ru": "При глаголе etsiä объект в партитиве (pankkia), не в генитиве pankin." },
+        { "match": "etsin pankissa", "ru": "pankissa — это «где?» (в банке). Здесь нужен прямой объект pankkia." }
+      ],
+      "teaches": "partitive object after etsiä (process verb)",
+      "needs_review": false
+    },
+    {
+      "id": "s142",
+      "ru": "Магазин далеко.",
+      "uses": ["n3", "a35"],
+      "level": 11,
+      "canonical": "Kauppa on kaukana.",
+      "accepted": ["Kauppa on kaukana."],
+      "wrong": [
+        { "match": "kauppa on lähellä", "ru": "lähellä = близко. «Далеко» — kaukana." },
+        { "match": "kauppa kaukana", "ru": "Нужен глагол-связка on: Kauppa on kaukana." },
+        { "match": "kaupassa on kaukana", "ru": "Подлежащее в номинативе: kauppa, а не kaupassa (это «в магазине»)." }
+      ],
+      "teaches": "predicative locative adverb kaukana + copula",
+      "needs_review": false
+    },
+    {
+      "id": "s143",
+      "ru": "Поверни направо.",
+      "uses": ["v54", "f38"],
+      "level": 11,
+      "canonical": "Käänny oikealle.",
+      "accepted": ["Käänny oikealle."],
+      "wrong": [
+        { "match": "käänny vasemmalle", "ru": "vasemmalle = налево. «Направо» — oikealle." },
+        { "match": "käänny oikealla", "ru": "oikealla = справа (где?). Здесь направление «куда?» — oikealle." },
+        { "match": "kääntyy oikealle", "ru": "Повелительное наклонение (ты): Käänny, а не форма 3 л. kääntyy." }
+      ],
+      "teaches": "imperative + direction adverb (allative -lle)",
+      "needs_review": false
+    },
+    {
+      "id": "s144",
+      "ru": "Иди прямо.",
+      "uses": ["v2", "f40"],
+      "level": 11,
+      "canonical": "Mene suoraan.",
+      "accepted": ["Mene suoraan."],
+      "wrong": [
+        { "match": "menen suoraan", "ru": "Здесь повеление (ты): Mene, а не «я иду» menen." },
+        { "match": "mene suora", "ru": "Нужна наречная форма suoraan (прямо), а не прилагательное suora." }
+      ],
+      "teaches": "imperative mennä + manner adverb suoraan",
+      "needs_review": false
+    },
+    {
+      "id": "s145",
+      "ru": "Я плачу картой.",
+      "uses": ["v16", "n117"],
+      "level": 11,
+      "canonical": "Maksan kortilla.",
+      "accepted": ["Maksan kortilla.", "Minä maksan kortilla."],
+      "wrong": [
+        { "match": "maksan kortti", "ru": "«Картой» — это орудие, адессив kortilla (чем?), а не номинатив kortti." },
+        { "match": "maksan korttia", "ru": "Здесь не объект в партитиве, а орудие в адессиве: kortilla." },
+        { "match": "maksan kortin", "ru": "kortin — генитив. «Картой» (чем?) — адессив kortilla." }
+      ],
+      "teaches": "adessive of instrument (kortilla)",
+      "needs_review": false
+    },
+    {
+      "id": "s146",
+      "ru": "Я иду в банк.",
+      "uses": ["v2", "n109"],
+      "level": 11,
+      "canonical": "Menen pankkiin.",
+      "accepted": ["Menen pankkiin.", "Minä menen pankkiin."],
+      "wrong": [
+        { "match": "menen pankissa", "ru": "pankissa — «где?» (в банке). Здесь «куда?» — иллатив pankkiin." },
+        { "match": "menen pankki", "ru": "Нужно направление «куда?»: pankkiin, а не словарная форма pankki." },
+        { "match": "menen pankille", "ru": "У pankki направление — иллатив pankkiin, а не аллатив pankille." }
+      ],
+      "teaches": "illative of direction (pankkiin)",
+      "needs_review": false
+    },
+    {
+      "id": "s147",
+      "ru": "Мне нужны деньги.",
+      "uses": ["v56", "n29"],
+      "level": 11,
+      "canonical": "Tarvitsen rahaa.",
+      "accepted": ["Tarvitsen rahaa.", "Minä tarvitsen rahaa."],
+      "wrong": [
+        { "match": "tarvitsen raha", "ru": "Деньги тут — в партитиве (масса/количество): rahaa, а не raha." },
+        { "match": "tarvitsen rahan", "ru": "При tarvita объект-масса в партитиве: rahaa, а не генитив rahan." },
+        { "match": "minä on rahaa", "ru": "«Мне нужны» — глагол tarvita (tarvitsen), а не «minä on»." }
+      ],
+      "teaches": "partitive object of tarvita (mass)",
+      "needs_review": false
+    },
+    {
+      "id": "s148",
+      "ru": "Магазин открыт.",
+      "uses": ["n3", "a37"],
+      "level": 11,
+      "canonical": "Kauppa on auki.",
+      "accepted": ["Kauppa on auki."],
+      "wrong": [
+        { "match": "kauppa on kiinni", "ru": "kiinni = закрыт. «Открыт» — auki." },
+        { "match": "kauppa auki", "ru": "Нужна связка on: Kauppa on auki." }
+      ],
+      "teaches": "predicative auki (open) + copula",
+      "needs_review": false
+    },
+    {
+      "id": "s149",
+      "ru": "Я покупаю куртку.",
+      "uses": ["v8", "n114"],
+      "level": 11,
+      "canonical": "Ostan takin.",
+      "accepted": ["Ostan takin.", "Minä ostan takin."],
+      "wrong": [
+        { "match": "ostan takki", "ru": "Целостный объект — в генитиве: takin, а не takki." },
+        { "match": "ostan takkia", "ru": "Покупка одной куртки целиком — генитив takin, а не партитив takkia." }
+      ],
+      "teaches": "total object genitive (takin)",
+      "needs_review": false
+    },
+    {
+      "id": "s150",
+      "ru": "Сколько это стоит?",
+      "uses": ["f12", "p10", "v16"],
+      "level": 11,
+      "canonical": "Paljonko se maksaa?",
+      "accepted": ["Paljonko se maksaa?"],
+      "wrong": [
+        { "match": "paljonko se maksat", "ru": "Подлежащее se (оно) — глагол в 3 л.: maksaa, а не maksat (ты)." },
+        { "match": "kuinka se maksaa", "ru": "О цене спрашивают paljonko (сколько), а не kuinka." }
+      ],
+      "teaches": "price question paljonko + 3sg maksaa",
+      "needs_review": false
+    },
+    {
+      "id": "s151",
+      "ru": "Я выбираю синюю рубашку.",
+      "uses": ["v57", "a24", "n116"],
+      "level": 11,
+      "canonical": "Valitsen sinisen paidan.",
+      "accepted": ["Valitsen sinisen paidan.", "Minä valitsen sinisen paidan."],
+      "wrong": [
+        { "match": "valitsen sininen paita", "ru": "Целостный объект — генитив: sinisen paidan; прилагательное согласуется: sinisen." },
+        { "match": "valitsen sinistä paitaa", "ru": "Это конкретный, целостный выбор — генитив sinisen paidan, а не партитив." },
+        { "match": "valitsen sinisen paita", "ru": "Существительное тоже в генитиве: paidan (с чередованием t->d), а не paita." }
+      ],
+      "teaches": "adjective+noun agreement in total-object genitive",
+      "needs_review": false
+    },
+    {
+      "id": "s152",
+      "ru": "Аптека близко.",
+      "uses": ["n111", "a36"],
+      "level": 11,
+      "canonical": "Apteekki on lähellä.",
+      "accepted": ["Apteekki on lähellä."],
+      "wrong": [
+        { "match": "apteekki on kaukana", "ru": "kaukana = далеко. «Близко» — lähellä." },
+        { "match": "apteekki lähellä", "ru": "Нужна связка on: Apteekki on lähellä." }
+      ],
+      "teaches": "predicative locative adverb lähellä",
+      "needs_review": false
+    },
+    {
+      "id": "s153",
+      "ru": "Эта куртка мне подходит.",
+      "uses": ["p9", "n114", "v58", "p1"],
+      "level": 11,
+      "canonical": "Tämä takki sopii minulle.",
+      "accepted": ["Tämä takki sopii minulle."],
+      "wrong": [
+        { "match": "tämä takki sopii minua", "ru": "«Мне» при sopia — аллатив minulle, а не партитив minua." },
+        { "match": "tämä takki sovin minulle", "ru": "Подлежащее takki (3 л.): sopii, а не форма 1 л. sovin." }
+      ],
+      "teaches": "sopia + allative (minulle)",
+      "needs_review": false
+    },
+    {
+      "id": "s154",
+      "ru": "У меня мало денег.",
+      "uses": ["v1", "f43", "n29", "p1"],
+      "level": 11,
+      "canonical": "Minulla on vähän rahaa.",
+      "accepted": ["Minulla on vähän rahaa."],
+      "wrong": [
+        { "match": "minulla on vähän raha", "ru": "После vähän существительное-масса в партитиве: rahaa, а не raha." },
+        { "match": "minulla on paljon rahaa", "ru": "paljon = много. «Мало» — vähän." },
+        { "match": "minä on vähän rahaa", "ru": "«У меня есть» — адессив minulla on, а не minä on." }
+      ],
+      "teaches": "vähän + partitive mass noun; adessive possession",
+      "needs_review": false
+    },
+    {
+      "id": "s155",
+      "ru": "Я иду в центр.",
+      "uses": ["v2", "n112"],
+      "level": 11,
+      "canonical": "Menen keskustaan.",
+      "accepted": ["Menen keskustaan.", "Minä menen keskustaan."],
+      "wrong": [
+        { "match": "menen keskustassa", "ru": "keskustassa — «где?» (в центре). Здесь «куда?» — keskustaan." },
+        { "match": "menen keskusta", "ru": "Нужно направление «куда?»: keskustaan, а не keskusta." }
+      ],
+      "teaches": "illative of direction (keskustaan)",
+      "needs_review": false
+    },
+    {
+      "id": "s156",
+      "ru": "У меня температура.",
+      "uses": ["v1", "n125", "p1"],
+      "level": 12,
+      "canonical": "Minulla on kuume.",
+      "accepted": ["Minulla on kuume."],
+      "wrong": [
+        { "match": "minulla on kuumetta", "ru": "Здесь kuume — в номинативе (есть/нет температуры): kuume, а не партитив kuumetta." },
+        { "match": "minä on kuume", "ru": "«У меня есть» — адессив minulla on, а не minä on." },
+        { "match": "minulla on kuumeen", "ru": "При «есть» предмет в номинативе: kuume, а не генитив kuumeen." }
+      ],
+      "teaches": "adessive possession + nominative (illness)",
+      "needs_review": false
+    },
+    {
+      "id": "s157",
+      "ru": "Я болен.",
+      "uses": ["v1", "a39"],
+      "level": 12,
+      "canonical": "Olen sairas.",
+      "accepted": ["Olen sairas.", "Minä olen sairas."],
+      "wrong": [
+        { "match": "olen sairasta", "ru": "Предикатив при «я» — номинатив: sairas, а не партитив sairasta." },
+        { "match": "olen terve", "ru": "terve = здоров. «Болен» — sairas." },
+        { "match": "minä sairas", "ru": "Нужна связка olen: Olen sairas." }
+      ],
+      "teaches": "nominative predicative (countable subject)",
+      "needs_review": false
+    },
+    {
+      "id": "s158",
+      "ru": "Я иду к врачу.",
+      "uses": ["v2", "n60"],
+      "level": 12,
+      "canonical": "Menen lääkäriin.",
+      "accepted": ["Menen lääkäriin.", "Minä menen lääkäriin."],
+      "wrong": [
+        { "match": "menen lääkärissä", "ru": "lääkärissä — «где?» (у врача). «К врачу» (куда?) — иллатив lääkäriin." },
+        { "match": "menen lääkäri", "ru": "Нужно направление «куда?»: lääkäriin, а не lääkäri." },
+        { "match": "menen lääkärille", "ru": "Идиома «идти к врачу» — иллатив lääkäriin, а не аллатив lääkärille." }
+      ],
+      "teaches": "illative idiom (lääkäriin = to the doctor)",
+      "needs_review": false
+    },
+    {
+      "id": "s159",
+      "ru": "Я принимаю лекарство.",
+      "uses": ["v20", "n127"],
+      "level": 12,
+      "canonical": "Otan lääkettä.",
+      "accepted": ["Otan lääkettä.", "Minä otan lääkettä."],
+      "wrong": [
+        { "match": "otan lääke", "ru": "Принимать лекарство (процесс/часть) — партитив: lääkettä, а не lääke." },
+        { "match": "otan lääkkeen", "ru": "Здесь объект-вещество в партитиве: lääkettä, а не генитив lääkkeen." }
+      ],
+      "teaches": "partitive object (taking medicine)",
+      "needs_review": false
+    },
+    {
+      "id": "s160",
+      "ru": "Я заболел вчера.",
+      "uses": ["v60", "f7"],
+      "level": 12,
+      "canonical": "Sairastuin eilen.",
+      "accepted": ["Sairastuin eilen.", "Minä sairastuin eilen.", "Eilen sairastuin."],
+      "wrong": [
+        { "match": "sairastun eilen", "ru": "«Вчера» требует прошедшего времени: sairastuin, а не настоящее sairastun." },
+        { "match": "sairastuin huomenna", "ru": "huomenna = завтра. «Вчера» — eilen (и глагол в прошедшем)." }
+      ],
+      "teaches": "past tense with eilen",
+      "needs_review": false
+    },
+    {
+      "id": "s161",
+      "ru": "Я собираюсь к врачу.",
+      "uses": ["v62", "v2", "n60"],
+      "level": 12,
+      "canonical": "Aion mennä lääkäriin.",
+      "accepted": ["Aion mennä lääkäriin.", "Minä aion mennä lääkäriin."],
+      "wrong": [
+        { "match": "aion menen lääkäriin", "ru": "После aikoa нужен инфинитив: mennä, а не личная форма menen." },
+        { "match": "aion mennä lääkärissä", "ru": "«К врачу» (куда?) — иллатив lääkäriin, а не lääkärissä (где?)." }
+      ],
+      "teaches": "aikoa + infinitive (future plan)",
+      "needs_review": false
+    },
+    {
+      "id": "s162",
+      "ru": "Я отдыхаю дома.",
+      "uses": ["v61", "n2"],
+      "level": 12,
+      "canonical": "Lepään kotona.",
+      "accepted": ["Lepään kotona.", "Minä lepään kotona."],
+      "wrong": [
+        { "match": "lepään kotiin", "ru": "kotiin — «домой» (куда?). «Дома» (где?) — идиома kotona." },
+        { "match": "lepään kodissa", "ru": "«Дома» — особая идиома kotona, а не kodissa." }
+      ],
+      "teaches": "irregular kotona location (at home) + levätä",
+      "needs_review": false
+    },
+    {
+      "id": "s163",
+      "ru": "Сегодня солнечно.",
+      "uses": ["f4", "v1", "a43"],
+      "level": 12,
+      "canonical": "Tänään on aurinkoista.",
+      "accepted": ["Tänään on aurinkoista."],
+      "wrong": [
+        { "match": "tänään on aurinkoinen", "ru": "О погоде безлично — партитив: aurinkoista, а не aurinkoinen." },
+        { "match": "tänään on pilvistä", "ru": "pilvistä = облачно. «Солнечно» — aurinkoista." }
+      ],
+      "teaches": "impersonal weather: on + partitive adjective",
+      "needs_review": false
+    },
+    {
+      "id": "s164",
+      "ru": "Зимой идёт снег.",
+      "uses": ["n132", "v50", "n68"],
+      "level": 12,
+      "canonical": "Talvella sataa lunta.",
+      "accepted": ["Talvella sataa lunta."],
+      "wrong": [
+        { "match": "talvella sataa lumi", "ru": "Объект осадков — в партитиве: lunta, а не lumi." },
+        { "match": "talvessa sataa lunta", "ru": "«Зимой» (когда?) — адессив talvella, а не инессив talvessa." }
+      ],
+      "teaches": "adessive of time (talvella) + partitive lunta",
+      "needs_review": false
+    },
+    {
+      "id": "s165",
+      "ru": "Лето тёплое.",
+      "uses": ["n130", "v1", "a7"],
+      "level": 12,
+      "canonical": "Kesä on lämmin.",
+      "accepted": ["Kesä on lämmin."],
+      "wrong": [
+        { "match": "kesä on lämmintä", "ru": "kesä — исчисляемое подлежащее, предикатив в номинативе: lämmin, а не партитив lämmintä." },
+        { "match": "kesä on kylmä", "ru": "kylmä = холодный. «Тёплое» — lämmin." }
+      ],
+      "teaches": "nominative predicative (countable subject kesä)",
+      "needs_review": false
+    },
+    {
+      "id": "s166",
+      "ru": "Голова болит.",
+      "uses": ["n120", "v1", "a41"],
+      "level": 12,
+      "canonical": "Pää on kipeä.",
+      "accepted": ["Pää on kipeä."],
+      "wrong": [
+        { "match": "pää on kipeää", "ru": "pää — исчисляемое подлежащее, предикатив в номинативе: kipeä, а не партитив kipeää." },
+        { "match": "pää kipeä", "ru": "Нужна связка on: Pää on kipeä." },
+        { "match": "pää on terve", "ru": "terve = здоровый. «Болит» — kipeä." }
+      ],
+      "teaches": "nominative predicative (countable subject pää)",
+      "needs_review": false
+    },
+    {
+      "id": "s167",
+      "ru": "Я скоро поправлюсь.",
+      "uses": ["v59", "f45"],
+      "level": 12,
+      "canonical": "Parannun pian.",
+      "accepted": ["Parannun pian.", "Minä parannun pian."],
+      "wrong": [
+        { "match": "parantun pian", "ru": "Чередование nt->nn в 1 л.: parannun, а не parantun." },
+        { "match": "parannun nyt", "ru": "nyt = сейчас. «Скоро» — pian." }
+      ],
+      "teaches": "gradation nt->nn in 1sg + adverb pian",
+      "needs_review": false
+    },
+    {
+      "id": "s168",
+      "ru": "Может быть, завтра пойдёт дождь.",
+      "uses": ["f46", "f5", "v50"],
+      "level": 12,
+      "canonical": "Ehkä huomenna sataa.",
+      "accepted": ["Ehkä huomenna sataa.", "Ehkä sataa huomenna."],
+      "wrong": [
+        { "match": "ehkä huomenna satan", "ru": "Глагол погоды безличный — только 3 л.: sataa, а не личная форма satan." },
+        { "match": "ehkä eilen sataa", "ru": "eilen = вчера. «Завтра» — huomenna." }
+      ],
+      "teaches": "weather verb sataa + ehkä/huomenna",
+      "needs_review": false
+    },
+    {
+      "id": "s169",
+      "ru": "Я хожу к врачу.",
+      "uses": ["v63", "n60"],
+      "level": 12,
+      "canonical": "Käyn lääkärissä.",
+      "accepted": ["Käyn lääkärissä.", "Minä käyn lääkärissä."],
+      "wrong": [
+        { "match": "käyn lääkäriin", "ru": "При käydä место в инессиве: lääkärissä (быть/бывать у врача), а не lääkäriin." },
+        { "match": "käyn lääkäri", "ru": "Нужна падежная форма места: lääkärissä, а не lääkäri." }
+      ],
+      "teaches": "käydä + inessive (visiting)",
+      "needs_review": false
     }
   ]
 }

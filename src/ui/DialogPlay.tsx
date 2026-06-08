@@ -1,23 +1,27 @@
 /**
- * DialogPlay.tsx — rehearse a text by role (наизусть practice), hands-free.
- *
- * Works for dialogs (pick a role) AND monologues (recite every line yourself). The app plays the
- * partner's line, then on YOUR line it LISTENS — you say the line from memory and must say it
- * (near-)correctly to advance (lenient match, with a manual override / show / skip). Then it
- * reveals + confirms aloud and moves on. Never graded.
+ * DialogPlay.tsx — recite a text/dialog by memory (наизусть), hands-free, chat-styled
+ * (RolesR role picker + ReciteR line view). Works for dialogs (recite each role) and monologues
+ * (recite the whole thing). The app plays the partner's line, then LISTENS on yours — you say it
+ * from memory and must say it (near-)correctly to advance (lenient match, with show / accept /
+ * skip). Each finished role is recorded immediately (the second part of mastery). Never graded.
  */
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { ReadingText } from "../core/reading";
 import { SOLO_ROLE, rolesOf, spokenMatches } from "../core/reading";
 import { useSpeechSynthesis } from "./useSpeechSynthesis";
 import { useSpeechRecognition } from "./useSpeechRecognition";
+import { UiIcon } from "./icons";
+import { Avatar, ChatHead, IconBtn } from "./readingKit";
+import { plReplika, speakerColor } from "./readingFormat";
 
 interface DialogPlayProps {
   text: ReadingText;
-  onExit: () => void;
+  /** Roles already recited (from saved progress) — shown as done in the picker. */
+  recitedRoles: ReadonlySet<string>;
   /** Called when a role is fully recited; `role` is the speaker (or {@link SOLO_ROLE} for a monologue). */
-  onComplete: (role: string) => void;
+  onRoleComplete: (role: string) => void;
+  onExit: () => void;
 }
 
 // Pacing (ms). Recall scales with line length; gaps make the exchange feel natural.
@@ -25,11 +29,9 @@ const GAP_MS = 550;
 const recallMs = (fi: string) => Math.min(6000, 1800 + fi.length * 55);
 /** Fallback timing when there's no TTS voice — how long to leave a line on screen to read. */
 const readMs = (fi: string) => Math.min(7000, 1200 + fi.length * 55);
-/** Sentinel "role" for a monologue, where every line is the learner's to recite (shared with the
- *  recite-mastery model so a completed monologue records the same role it counts). */
 const SOLO = SOLO_ROLE;
 
-export default function DialogPlay({ text, onExit, onComplete }: DialogPlayProps) {
+export default function DialogPlay({ text, recitedRoles, onRoleComplete, onExit }: DialogPlayProps) {
   const roles = useMemo(() => rolesOf(text), [text]);
   const isMonologue = roles.length < 2;
 
@@ -39,6 +41,9 @@ export default function DialogPlay({ text, onExit, onComplete }: DialogPlayProps
   const [heard, setHeard] = useState("");
   const [matched, setMatched] = useState(false);
   const [running, setRunning] = useState(true); // play/pause
+  const [localDone, setLocalDone] = useState<Set<string>>(new Set());
+  const [justFinished, setJustFinished] = useState(false);
+  const finishedRef = useRef(false);
 
   const tts = useSpeechSynthesis("fi-FI");
   const { supported: ttsSupported, speak, cancel } = tts;
@@ -46,6 +51,7 @@ export default function DialogPlay({ text, onExit, onComplete }: DialogPlayProps
   const started = myRole !== null;
   const line = idx < text.lines.length ? text.lines[idx] : undefined;
   const mine = !!(started && line && (isMonologue || line.speaker === myRole));
+  const doneRole = (r: string) => recitedRoles.has(r) || localDone.has(r);
 
   // Recognition is available on the learner's turn and gates advancing (a matching utterance
   // passes the line). Disabled once `matched` so the recognizer is released between turns.
@@ -65,23 +71,19 @@ export default function DialogPlay({ text, onExit, onComplete }: DialogPlayProps
   useEffect(() => {
     if (!started || !running) return;
     const l = text.lines[idx];
-    if (!l) return; // reached the end — completion screen handles it
+    if (!l) return; // reached the end — the completion effect handles it
     let cancelled = false;
     const timers: number[] = [];
     const after = (ms: number, fn: () => void) => {
       if (cancelled) return;
       timers.push(window.setTimeout(() => !cancelled && fn(), ms));
     };
-    // Advance at most once per line, whether triggered by TTS's onend or the fallback timer.
     let advanced = false;
     const goNext = () => {
       if (cancelled || advanced) return;
       advanced = true;
       setIdx((i) => i + 1);
     };
-    // Speak a line, then advance after a short gap on its onend — but ALSO arm a generous
-    // fallback timer, because a browser can drop the onend (post-cancel paused state etc.) and
-    // strand the dialog. Whichever fires first wins (goNext is idempotent).
     const speakThenAdvance = (fi: string) => {
       speak(fi, () => after(GAP_MS, goNext));
       after(readMs(fi) + 2500, goNext);
@@ -95,7 +97,6 @@ export default function DialogPlay({ text, onExit, onComplete }: DialogPlayProps
       if (ttsSupported) speakThenAdvance(l.fi);
       else after(readMs(l.fi), goNext);
     } else if (!recogSupported) {
-      // No mic: time the recall, then reveal + confirm + advance.
       setRevealed(false);
       after(recallMs(l.fi), () => {
         setRevealed(true);
@@ -103,7 +104,6 @@ export default function DialogPlay({ text, onExit, onComplete }: DialogPlayProps
         else after(GAP_MS, goNext);
       });
     } else {
-      // Voice-gated: the listening + match effects below drive the advance.
       setRevealed(false);
     }
 
@@ -122,15 +122,12 @@ export default function DialogPlay({ text, onExit, onComplete }: DialogPlayProps
     return () => clearTimeout(id);
   }, [started, running, mine, matched, recogSupported, listening, startListening, idx]);
 
-  // Advance-on-match: once the line is said (or force-accepted), briefly reveal it and move on —
-  // WITHOUT re-speaking it (the app repeating your own line just killed the rhythm).
+  // Advance-on-match: once the line is said (or force-accepted), briefly reveal it and move on.
   useEffect(() => {
     if (!matched || !running) return;
     let cancelled = false;
     setRevealed(true);
     stopListening();
-    // Clear `matched` together with the advance so the NEXT line doesn't re-trigger this effect
-    // in the same commit (which would spoil a your-turn line by revealing it early).
     const timer = window.setTimeout(() => {
       if (cancelled) return;
       setMatched(false);
@@ -143,163 +140,271 @@ export default function DialogPlay({ text, onExit, onComplete }: DialogPlayProps
     };
   }, [matched, running, cancel, stopListening]);
 
+  // End of a role's playthrough → record it ONCE (guarded so re-renders from the parent's new
+  // onRoleComplete identity can't double-fire), then flip `justFinished`.
+  useEffect(() => {
+    if (!started || idx < text.lines.length || finishedRef.current) return;
+    finishedRef.current = true;
+    const role = myRole ?? SOLO;
+    onRoleComplete(role);
+    setLocalDone((prev) => new Set(prev).add(role));
+    setJustFinished(true);
+  }, [started, idx, text.lines.length, myRole, onRoleComplete]);
+
+  // Return to the picker shortly after finishing. Depends ONLY on `justFinished`, so the parent
+  // re-rendering (new onRoleComplete) can't tear down its timer and strand the completion flash.
+  useEffect(() => {
+    if (!justFinished) return;
+    const t = window.setTimeout(() => {
+      setMyRole(null);
+      setIdx(0);
+      setJustFinished(false);
+    }, 950);
+    return () => clearTimeout(t);
+  }, [justFinished]);
+
   const startAs = (role: string) => {
+    finishedRef.current = false;
+    setJustFinished(false);
     setIdx(0);
     setRunning(true);
     setMatched(false);
     setMyRole(role);
   };
-  const reset = () => {
-    cancel();
-    stopListening();
-    setMyRole(null);
-    setIdx(0);
-    setMatched(false);
-  };
 
-  // --- Start screen (role picker / monologue start) --------------------------------------
+  // --- Role picker (RolesR) --------------------------------------------------------------
   if (!started) {
+    const pickRoles = isMonologue ? [SOLO] : roles;
     return (
       <main className="app app--scroll">
         <button type="button" className="exit" onClick={onExit}>
           ← Назад
         </button>
-        <section className="card card--summary">
-          <h1 className="prompt">🎭 {text.title}</h1>
+        <section className="card">
+          <div className="rd-libhead">
+            <span className="rd-tile">
+              <UiIcon name="mic" size={24} />
+            </span>
+            <div style={{ flex: 1 }}>
+              <h1 className="rd-libhead__title" style={{ fontSize: "1.4rem" }}>
+                Наизусть
+              </h1>
+              <div className="rd-head__sub rd-head__sub--read">
+                {isMonologue ? "расскажите текст по памяти" : "за все роли"}
+              </div>
+            </div>
+          </div>
           <p className="hint">
             {recogSupported
-              ? "Слушайте реплики и произносите свои вслух — нужно сказать правильно, чтобы продолжить."
-              : "Слушайте реплики и отвечайте по памяти (микрофон недоступен — по таймеру)."}
+              ? isMonologue
+                ? "Произнесите каждую реплику по памяти — приложение слушает."
+                : "Чтобы освоить диалог, расскажите его наизусть в каждой роли. Можно в любом порядке."
+              : "Микрофон недоступен — отвечайте по памяти, по таймеру."}
           </p>
-          <div className="rolepick">
-            {isMonologue ? (
-              <button type="button" className="next" onClick={() => startAs(SOLO)}>
-                ▶ Начать
-              </button>
-            ) : (
-              roles.map((r) => (
-                <button key={r} type="button" className="next" onClick={() => startAs(r)}>
-                  {r}
+          <div className="rd-rolepick">
+            {pickRoles.map((r) => {
+              const ok = doneRole(r);
+              const count = text.lines.filter((l) => isMonologue || l.speaker === r).length;
+              return (
+                <button key={r} type="button" className="rd-row" onClick={() => startAs(r)}>
+                  <Avatar
+                    letter={isMonologue ? "Я" : (r[0] ?? "•")}
+                    color={ok ? "var(--rd-green)" : isMonologue ? "var(--read)" : speakerColor(r, roles)}
+                    size={38}
+                  />
+                  <div className="rd-row__main">
+                    <div className="rd-row__title">
+                      {isMonologue ? "Рассказать целиком" : `Роль · ${r}`}
+                    </div>
+                    <div className="rd-row__sub" style={ok ? { color: "var(--rd-green)" } : undefined}>
+                      {ok ? "рассказано" : plReplika(count)}
+                    </div>
+                  </div>
+                  {ok ? (
+                    <span className="rd-discbtn rd-discbtn--done">
+                      <UiIcon name="check" size={15} strokeWidth={3} />
+                    </span>
+                  ) : (
+                    <span className="rd-discbtn">
+                      <UiIcon name="play" size={15} strokeWidth={2.4} />
+                    </span>
+                  )}
                 </button>
-              ))
-            )}
+              );
+            })}
           </div>
+          {!isMonologue && (
+            <div className="rd-note">
+              <span style={{ color: "var(--read)", display: "flex" }}>
+                <UiIcon name="trophy" size={18} />
+              </span>
+              <span>
+                «Наизусть» зачтётся, когда пройдёте <b>все роли</b>.
+              </span>
+            </div>
+          )}
         </section>
       </main>
     );
   }
 
-  // --- Completion ------------------------------------------------------------------------
+  // --- Completion flash (between a finished role and the picker) --------------------------
   if (!line) {
     return (
       <main className="app">
-        <section className="card card--summary">
-          <h1 className="prompt">🎉 Готово!</h1>
-          <p className="hint">
-            {isMonologue ? "Вы рассказали текст." : `Вы прошли диалог в роли «${myRole}».`}
-          </p>
-          <div className="rolepick">
-            <button type="button" className="next" onClick={() => onComplete(myRole ?? SOLO)}>
-              Готово
-            </button>
-            <button
-              type="button"
-              className="option"
-              onClick={() => {
-                setIdx(0);
-                setRunning(true);
-                setMatched(false);
-              }}
-            >
-              Ещё раз
-            </button>
-            <button type="button" className="option" onClick={reset}>
-              {isMonologue ? "В начало" : "Сменить роль"}
-            </button>
+        <section className="card">
+          <div className="rd-center">
+            <div className="rd-disc">
+              <UiIcon name="check" size={38} strokeWidth={2.6} />
+            </div>
+            <div className="rd-title">{isMonologue ? "Готово!" : "Роль освоена"}</div>
           </div>
         </section>
       </main>
     );
   }
 
-  const who = isMonologue ? "Вы" : line.speaker;
-
-  // --- Play step -------------------------------------------------------------------------
+  // --- Recite step (ReciteR) -------------------------------------------------------------
+  const who = isMonologue ? undefined : line.speaker;
+  const whoColor = who ? speakerColor(who, roles) : "var(--muted)";
   return (
     <main className="app app--scroll">
       <button type="button" className="exit" onClick={onExit}>
         ← Выйти
       </button>
       <section className="card" aria-live="polite">
-        <p className="progress">
-          Реплика {idx + 1} из {text.lines.length}
-          {isMonologue ? "" : ` · роль: ${myRole}`}
-        </p>
-        <div className={"turn" + (mine ? " turn--mine" : "")}>
-          <span className="line__who">{who}</span>
+        <ChatHead
+          title={isMonologue ? "Наизусть" : `Наизусть · роль ${myRole}`}
+          sub={`Реплика ${idx + 1} из ${text.lines.length}`}
+          right={
+            <IconBtn
+              name={running ? "pause" : "play"}
+              label={running ? "Пауза" : "Продолжить"}
+              size={17}
+              onClick={() => setRunning((r) => !r)}
+            />
+          }
+        />
+
+        <div className="rd-thread">
           {mine ? (
             <>
-              <p className="hint" lang="ru">
-                Ваша реплика: «{line.ru}»
-              </p>
-              {revealed ? (
-                <p className="turn__fi" lang="fi">
-                  {line.fi}
-                </p>
-              ) : (
-                <p className="hint">
-                  {recogSupported
-                    ? listening
-                      ? "🎤 Слушаю… произнесите реплику"
-                      : "🎤 Скажите свою реплику по памяти"
-                    : "🤔 Вспоминайте реплику…"}
-                </p>
-              )}
+              <div className="rd-bubble">
+                <Avatar letter="М" color="var(--muted)" size={32} />
+                <div className="rd-bubble__col">
+                  <div className="rd-msg" style={{ cursor: "default" }}>
+                    <div className="rd-bubble__who" style={{ color: "var(--muted)", margin: "0 0 0.25rem" }}>
+                      ВАША РЕПЛИКА
+                    </div>
+                    <div className="rd-msg__fi" lang="ru">
+                      «{line.ru}»
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="rd-bubble rd-bubble--right">
+                <Avatar letter="Я" color="var(--read)" size={32} />
+                <div className="rd-bubble__col">
+                  <div className="rd-msg rd-msg--right rd-mine" style={{ cursor: "default" }}>
+                    {revealed ? (
+                      <div className="rd-msg__fi" lang="fi">
+                        {line.fi}
+                      </div>
+                    ) : (
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                        <span className="rd-wave" aria-hidden="true">
+                          {[10, 16, 8, 14, 6].map((h, i) => (
+                            <span key={i} style={{ height: h }} />
+                          ))}
+                        </span>
+                        <span style={{ color: "var(--read)", fontWeight: 700, fontSize: "0.9rem" }}>
+                          {recogSupported
+                            ? listening
+                              ? "Слушаю…"
+                              : "Скажите реплику"
+                            : "Вспоминайте…"}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
               {heard && !matched && (
-                <p className="hint" lang="fi">
+                <div className="rd-threadhint" lang="fi">
                   Распознано: {heard}
-                </p>
-              )}
-              {recogSupported && !matched && (
-                <div className="textreader__bar">
-                  <button type="button" className="chip" onClick={() => setRevealed(true)}>
-                    👁 Показать
-                  </button>
-                  <button type="button" className="chip" onClick={() => setMatched(true)}>
-                    ✓ Засчитать
-                  </button>
-                  <button
-                    type="button"
-                    className="chip"
-                    onClick={() => {
-                      setMatched(false);
-                      setIdx((i) => i + 1);
-                    }}
-                  >
-                    ⏭ Пропустить
-                  </button>
                 </div>
               )}
             </>
           ) : (
-            <>
-              <p className="turn__fi" lang="fi">
-                {line.fi}
-              </p>
-              <p className="hint" lang="ru">
-                {line.ru}
-              </p>
-            </>
+            <div className="rd-bubble">
+              <Avatar letter={who?.[0] ?? "•"} color={whoColor} size={32} />
+              <div className="rd-bubble__col">
+                {who && (
+                  <div className="rd-bubble__who" style={{ color: whoColor }}>
+                    {who}
+                  </div>
+                )}
+                <div className="rd-msg" style={{ cursor: "default" }}>
+                  <div className="rd-msg__fi" lang="fi">
+                    {line.fi}
+                  </div>
+                  <div className="rd-msg__ru" lang="ru">
+                    {line.ru}
+                  </div>
+                </div>
+              </div>
+            </div>
           )}
         </div>
-        <div className="rolepick">
-          <button type="button" className="next" onClick={() => setRunning((r) => !r)}>
-            {running ? "⏸ Пауза" : "▶ Продолжить"}
-          </button>
-          <button type="button" className="option" onClick={reset}>
-            ⏹ Стоп
-          </button>
-        </div>
+
+        {mine ? (
+          <>
+            <div className="rd-controls">
+              <button type="button" className="rd-ghost" onClick={() => setRevealed(true)}>
+                <UiIcon name="eye" size={17} />
+                Показать
+              </button>
+              <button
+                type="button"
+                className="rd-hero"
+                aria-label={recogSupported ? "Слушать" : "Дальше"}
+                onClick={() =>
+                  recogSupported ? (listening ? stopListening() : startListening()) : setMatched(true)
+                }
+              >
+                <UiIcon name="mic" size={30} />
+              </button>
+              <button
+                type="button"
+                className="rd-ghost"
+                onClick={() => {
+                  setMatched(false);
+                  setIdx((i) => i + 1);
+                }}
+              >
+                <UiIcon name="skip" size={16} />
+                Пропустить
+              </button>
+            </div>
+            {recogSupported && !matched && (
+              <button
+                type="button"
+                className="rd-ghost"
+                style={{ marginTop: "0.5rem" }}
+                onClick={() => setMatched(true)}
+              >
+                <UiIcon name="check" size={15} />
+                Засчитать как верное
+              </button>
+            )}
+          </>
+        ) : (
+          <div className="rd-controls">
+            <span className="rd-threadhint" style={{ flex: 1 }}>
+              Слушайте реплику…
+            </span>
+          </div>
+        )}
       </section>
     </main>
   );

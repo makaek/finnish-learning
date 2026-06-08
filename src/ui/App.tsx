@@ -479,7 +479,6 @@ export default function App() {
           vocab={VOCAB}
           progress={progressView}
           testMode={testMode}
-          read={read}
           onMarkRead={markRead}
           onLessonDone={countReadingLesson}
           onReadingResult={recordReading}

@@ -1,31 +1,32 @@
 /**
- * Reading.tsx — the reading library, a level-sorted list of texts & dialogs.
- *
- * Browsing + difficulty gating only; the actual reading, comprehension quiz, and role-play live
- * in TextReader. Reached from the home "Чтение" cards (Тексты / Диалоги), so it takes a
- * `filterType` to show one kind and an `onBack` to return home (it's no longer a footer tab).
+ * Reading.tsx — the reading library (LibR): texts/dialogs grouped by level, each row showing its
+ * two-part mastery («Прочитано» = вопросы + наизусть). Browsing + difficulty gating only; the
+ * reading, quiz, and recite live in TextReader. Opened from the home "Чтение" cards, so it takes a
+ * `filterType` and an `onBack`.
  */
 
 import { useMemo, useState } from "react";
 import {
   activeLevel,
   levelStats,
+  readingLearned,
   readingMastered,
+  reciteComplete,
   unlockedLevelsWith,
   type VocabLike,
 } from "../core/levels";
 import type { ProgressMap } from "../core/progress";
 import { isTextUnlocked } from "../core/reading";
 import { TEXTS, gradeQuestion } from "../data/texts";
+import { UiIcon } from "./icons";
+import { Avatar, MasteryMark, type MasteryState } from "./readingKit";
 import TextReader from "./TextReader";
 
 interface ReadingProps {
   vocab: readonly VocabLike[];
   progress: ProgressMap;
   testMode: boolean;
-  /** Texts/dialogs finished so far (owned by App, since it folds into level completion). */
-  read: ReadonlySet<string>;
-  /** Mark a text/dialog as finished. */
+  /** Mark a text/dialog as finished (counts a lesson / sets the read flag). */
   onMarkRead: (id: string) => void;
   /** Count a completed role-play toward today's lessons (no accuracy effect). */
   onLessonDone: () => void;
@@ -39,11 +40,27 @@ interface ReadingProps {
   onBack: () => void;
 }
 
+/** The mastery state of one library item, given the learner's progress and whether it's unlocked. */
+function itemState(
+  progress: ProgressMap,
+  textId: string,
+  hasQuestions: boolean,
+  unlocked: boolean,
+): { state: MasteryState; quizDone: boolean } {
+  const quizDone = hasQuestions && readingLearned(progress, textId);
+  const reciteDone = reciteComplete(progress, textId);
+  if (!unlocked) return { state: "locked", quizDone };
+  if (readingMastered(progress, textId, hasQuestions)) return { state: "mastered", quizDone };
+  // Only a quizzed text has a meaningful "1 of 2" middle state (a question-less text has just the
+  // one recite task, so it goes straight new → mastered).
+  if (hasQuestions && (quizDone || reciteDone)) return { state: "progress", quizDone };
+  return { state: "new", quizDone };
+}
+
 export default function Reading({
   vocab,
   progress,
   testMode,
-  read,
   onMarkRead,
   onLessonDone,
   onReadingResult,
@@ -58,8 +75,24 @@ export default function Reading({
     return activeLevel(s, unlockedLevelsWith(s, testMode));
   }, [vocab, progress, testMode]);
 
+  const isDialog = filterType === "dialog";
   const shown = filterType ? TEXTS.filter((t) => (t.type ?? "text") === filterType) : TEXTS;
-  const title = filterType === "dialog" ? "🎭 Диалоги" : filterType === "text" ? "📖 Тексты" : "📚 Чтение";
+  const title = isDialog ? "Диалоги" : filterType === "text" ? "Тексты" : "Чтение";
+
+  // TEXTS are already sorted by level then id; group consecutively by level.
+  const groups = useMemo(() => {
+    const out: { lv: number; items: typeof shown }[] = [];
+    for (const t of shown) {
+      const g = out.find((x) => x.lv === t.level);
+      if (g) g.items.push(t);
+      else out.push({ lv: t.level, items: [t] });
+    }
+    return out;
+  }, [shown]);
+
+  const masteredCount = shown.filter((t) =>
+    readingMastered(progress, t.id, (t.questions?.length ?? 0) > 0),
+  ).length;
 
   const openText = openId ? TEXTS.find((t) => t.id === openId) : undefined;
   if (openText) {
@@ -67,7 +100,7 @@ export default function Reading({
       <TextReader
         key={openText.id}
         text={openText}
-        isRead={read.has(openText.id)}
+        progress={progress}
         grade={gradeQuestion}
         onBack={() => setOpenId(null)}
         onMarkRead={() => onMarkRead(openText.id)}
@@ -84,51 +117,87 @@ export default function Reading({
         ← Главная
       </button>
       <section className="card">
-        <h1 className="prompt prompt--home">{title}</h1>
-        <p className="hint">От простого к сложному — открываются по мере роста уровня.</p>
+        <div className="rd-libhead">
+          <span className="rd-tile">
+            <UiIcon name={isDialog ? "masks" : "book"} size={25} />
+          </span>
+          <h1 className="rd-libhead__title">{title}</h1>
+          <div className="rd-counter">
+            <div>
+              <span className="rd-counter__n">{masteredCount}</span>
+              <span className="rd-counter__d">/{shown.length}</span>
+            </div>
+            <div className="rd-counter__k">ПРОЧИТАНО</div>
+          </div>
+        </div>
 
-        <ul className="reading">
-          {shown.map((t) => {
-            const unlocked = testMode || isTextUnlocked(t, currentLevel);
-            // «Прочитано» (the 🏆) = the two-part mastery that counts toward the level: comprehension
-            // quiz passed (if any) AND recited наизусть in every role. The ✓ below is the lighter
-            // "opened/read at least once" marker (read-set), a distinct, partial state.
-            const hasQuestions = (t.questions?.length ?? 0) > 0;
-            const done = readingMastered(progress, t.id, hasQuestions);
-            return (
-              <li key={t.id}>
-                <button
-                  type="button"
-                  className={"readrow" + (unlocked ? "" : " readrow--locked")}
-                  disabled={!unlocked}
-                  onClick={() => setOpenId(t.id)}
-                  aria-label={`${t.title}, уровень ${t.level}${done ? " — выполнено" : ""}${unlocked ? "" : " — закрыто"}`}
-                >
-                  <span className="readrow__lv">Ур. {t.level}</span>
-                  <span className="readrow__title">{t.title}</span>
-                  <span className="readrow__badges" aria-hidden="true">
-                    {done ? (
-                      <span
-                        className="readrow__mastered"
-                        title={hasQuestions ? "Задание выполнено — вопросы пройдены" : "Выполнено"}
-                      >
-                        🏆
-                      </span>
-                    ) : (
-                      read.has(t.id) && (
-                        <span className="readrow__done" title="Прочитано">
-                          ✓
-                        </span>
-                      )
-                    )}
-                    {t.type === "dialog" && <span title="Диалог">🎭</span>}
-                    {!unlocked && <span title={`Откройте уровень ${t.level}`}>🔒</span>}
-                  </span>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
+        <div className="rd-legend">
+          <span className="rd-legend__k">Прочитано =</span>
+          <span className="rd-legend__part">
+            <span style={{ display: "flex", color: "var(--rd-teal)" }}>
+              <UiIcon name="rules" size={14} />
+            </span>
+            вопросы
+          </span>
+          <span className="rd-legend__k">+</span>
+          <span className="rd-legend__part">
+            <span style={{ display: "flex", color: "var(--rd-violet)" }}>
+              <UiIcon name="mic" size={14} />
+            </span>
+            наизусть
+          </span>
+        </div>
+
+        {groups.map((g) => (
+          <div className="rd-group" key={g.lv}>
+            <div className="rd-grouphd">
+              <span className="rd-grouphd__t">УРОВЕНЬ {g.lv}</span>
+              <span className="rd-grouphd__line" />
+            </div>
+            <ul className="rd-rows" style={{ listStyle: "none", margin: 0, padding: 0 }}>
+              {g.items.map((t) => {
+                const hasQuestions = (t.questions?.length ?? 0) > 0;
+                const unlocked = testMode || isTextUnlocked(t, currentLevel);
+                const { state, quizDone } = itemState(progress, t.id, hasQuestions, unlocked);
+                const tone =
+                  state === "mastered"
+                    ? "var(--read)"
+                    : state === "progress"
+                      ? "var(--rd-violet)"
+                      : "var(--muted)";
+                return (
+                  <li key={t.id}>
+                    <button
+                      type="button"
+                      className={
+                        "rd-row" +
+                        (state === "mastered" ? " rd-row--mastered" : "") +
+                        (state === "locked" ? " rd-row--locked" : "")
+                      }
+                      disabled={state === "locked"}
+                      onClick={() => setOpenId(t.id)}
+                      aria-label={`${t.title}, уровень ${t.level}${
+                        state === "mastered" ? " — прочитано" : state === "locked" ? " — закрыто" : ""
+                      }`}
+                    >
+                      <Avatar letter={t.title[0] ?? "•"} color={tone} size={36} />
+                      <div className="rd-row__main">
+                        <div className="rd-row__title">{t.title}</div>
+                        {state === "progress" && (
+                          <div className="rd-row__sub">
+                            {quizDone ? "вопросы ✓ · осталось наизусть" : "наизусть ✓ · остались вопросы"}
+                          </div>
+                        )}
+                      </div>
+                      <MasteryMark state={state} />
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
+
         {shown.length === 0 && <p className="hint">Здесь пока пусто.</p>}
         {!testMode && shown.length > 0 && currentLevel < Math.max(...shown.map((t) => t.level)) && (
           <p className="hint">Новые тексты открываются по мере роста уровня.</p>

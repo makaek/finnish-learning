@@ -990,6 +990,363 @@
           "needs_review": false
         }
       ]
+    },
+    {
+      "id": "t29",
+      "title": "В центре города",
+      "level": 11,
+      "type": "text",
+      "lines": [
+        { "fi": "Tänään minä menen keskustaan.", "ru": "Сегодня я иду в центр.", "glosses": { "tänään": "сегодня", "minä": "я", "menen": "я иду", "keskustaan": "в центр" } },
+        { "fi": "Ensin minä käyn pankissa ja postissa.", "ru": "Сначала я захожу в банк и на почту.", "glosses": { "ensin": "сначала", "minä": "я", "käyn": "я захожу", "pankissa": "в банке", "ja": "и", "postissa": "на почте" } },
+        { "fi": "Sitten minä etsin uutta takkia.", "ru": "Потом я ищу новую куртку.", "glosses": { "sitten": "потом", "minä": "я", "etsin": "я ищу", "uutta": "новую", "takkia": "куртку" } },
+        { "fi": "Kauppa on lähellä toria.", "ru": "Магазин рядом с рынком.", "glosses": { "kauppa": "магазин", "on": "есть", "lähellä": "близко", "toria": "рынка" } },
+        { "fi": "Minä maksan kortilla, koska minulla on vähän rahaa.", "ru": "Я плачу картой, потому что у меня мало денег.", "glosses": { "minä": "я", "maksan": "я плачу", "kortilla": "картой", "koska": "потому что", "minulla": "у меня", "on": "есть", "vähän": "мало", "rahaa": "денег" } }
+      ],
+      "questions": [
+        {
+          "id": "t29q1",
+          "q": "Minne minä menen tänään?",
+          "qRu": "Куда я иду сегодня?",
+          "canonical": "Keskustaan.",
+          "accepted": ["Keskustaan.", "Menen keskustaan."],
+          "wrong": [
+            { "match": "torille", "ru": "В тексте — keskustaan (в центр), хотя рынок упомянут отдельно." },
+            { "match": "keskustassa", "ru": "Вопрос «куда?» — иллатив keskustaan, а не keskustassa (где?)." }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "t29q2",
+          "q": "Miten minä maksan?",
+          "qRu": "Чем я плачу?",
+          "canonical": "Kortilla.",
+          "accepted": ["Kortilla.", "Maksan kortilla."],
+          "wrong": [
+            { "match": "kortti", "ru": "«Картой» (чем?) — адессив kortilla, а не kortti." },
+            { "match": "käteisellä", "ru": "В тексте я плачу картой (kortilla), а не наличными." }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "t29q3",
+          "q": "Onko minulla paljon rahaa?",
+          "qRu": "Много ли у меня денег?",
+          "canonical": "Ei.",
+          "accepted": ["Ei.", "Ei ole.", "Minulla on vähän rahaa."],
+          "wrong": [
+            { "match": "kyllä", "ru": "Нет — в тексте денег мало (vähän rahaa)." },
+            { "match": "paljon", "ru": "Наоборот: денег мало (vähän), а не много." }
+          ],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t30",
+      "title": "Мой район",
+      "level": 11,
+      "type": "text",
+      "lines": [
+        { "fi": "Minä asun keskustassa.", "ru": "Я живу в центре.", "glosses": { "minä": "я", "asun": "я живу", "keskustassa": "в центре" } },
+        { "fi": "Pankki ja apteekki ovat lähellä.", "ru": "Банк и аптека рядом.", "glosses": { "pankki": "банк", "ja": "и", "apteekki": "аптека", "ovat": "находятся", "lähellä": "близко" } },
+        { "fi": "Kauppa on auki joka päivä.", "ru": "Магазин открыт каждый день.", "glosses": { "kauppa": "магазин", "on": "есть", "auki": "открыт", "joka": "каждый", "päivä": "день" } },
+        { "fi": "Tori on kaukana, mutta minä kävelen sinne usein.", "ru": "Рынок далеко, но я часто хожу туда пешком.", "glosses": { "tori": "рынок", "on": "есть", "kaukana": "далеко", "mutta": "но", "minä": "я", "kävelen": "я иду пешком", "sinne": "туда", "usein": "часто" } }
+      ],
+      "questions": [
+        {
+          "id": "t30q1",
+          "q": "Missä minä asun?",
+          "qRu": "Где я живу?",
+          "canonical": "Keskustassa.",
+          "accepted": ["Keskustassa.", "Asun keskustassa."],
+          "wrong": [
+            { "match": "keskustaan", "ru": "Вопрос «где?» — инессив keskustassa, а не keskustaan (куда?)." },
+            { "match": "torilla", "ru": "В тексте я живу в центре (keskustassa)." }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "t30q2",
+          "q": "Onko kauppa auki?",
+          "qRu": "Магазин открыт?",
+          "canonical": "Kyllä.",
+          "accepted": ["Kyllä.", "On.", "Kauppa on auki."],
+          "wrong": [
+            { "match": "ei", "ru": "Да — магазин открыт каждый день (auki joka päivä)." },
+            { "match": "kiinni", "ru": "Наоборот: магазин открыт (auki), а не закрыт." }
+          ],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t31",
+      "title": "В магазине одежды",
+      "level": 11,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Liisa", "fi": "Anteeksi, etsin uutta takkia.", "ru": "Извините, я ищу новую куртку.", "glosses": { "anteeksi": "извините", "etsin": "я ищу", "uutta": "новую", "takkia": "куртку" } },
+        { "speaker": "Myyjä", "fi": "Tässä on sininen takki. Sopiiko se?", "ru": "Вот синяя куртка. Подходит?", "glosses": { "tässä": "вот / здесь", "on": "есть", "sininen": "синяя", "takki": "куртка", "sopiiko": "подходит ли", "se": "она / это" } },
+        { "speaker": "Liisa", "fi": "Kyllä, se sopii minulle. Paljonko se maksaa?", "ru": "Да, она мне подходит. Сколько она стоит?", "glosses": { "kyllä": "да", "se": "она / это", "sopii": "подходит", "minulle": "мне", "paljonko": "сколько", "maksaa": "стоит" } },
+        { "speaker": "Myyjä", "fi": "Se maksaa viisikymmentä euroa.", "ru": "Она стоит пятьдесят евро.", "glosses": { "se": "она / это", "maksaa": "стоит", "viisikymmentä": "пятьдесят", "euroa": "евро" } },
+        { "speaker": "Liisa", "fi": "Hyvä, maksan kortilla.", "ru": "Хорошо, я плачу картой.", "glosses": { "hyvä": "хорошо", "maksan": "я плачу", "kortilla": "картой" } }
+      ],
+      "questions": [
+        {
+          "id": "t31q1",
+          "q": "Mitä Liisa etsii?",
+          "qRu": "Что ищет Лийса?",
+          "canonical": "Takkia.",
+          "accepted": ["Takkia.", "Uutta takkia.", "Hän etsii takkia."],
+          "wrong": [
+            { "match": "takki", "ru": "Объект поиска — в партитиве: takkia, а не takki." },
+            { "match": "paitaa", "ru": "Лийса ищет куртку (takkia), а не рубашку." }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "t31q2",
+          "q": "Paljonko takki maksaa?",
+          "qRu": "Сколько стоит куртка?",
+          "canonical": "Viisikymmentä euroa.",
+          "accepted": ["Viisikymmentä euroa.", "Se maksaa viisikymmentä euroa."],
+          "wrong": [
+            { "match": "viisikymmentä euro", "ru": "После числа существительное в партитиве: euroa, а не euro." },
+            { "match": "viisi euroa", "ru": "Куртка стоит пятьдесят (viisikymmentä), а не пять евро." }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "t31q3",
+          "q": "Miten Liisa maksaa?",
+          "qRu": "Чем платит Лийса?",
+          "canonical": "Kortilla.",
+          "accepted": ["Kortilla.", "Hän maksaa kortilla."],
+          "wrong": [
+            { "match": "kortti", "ru": "«Картой» — адессив kortilla, а не kortti." },
+            { "match": "käteisellä", "ru": "Лийса платит картой (kortilla), а не наличными." }
+          ],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t32",
+      "title": "Как пройти в банк?",
+      "level": 11,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Mika", "fi": "Anteeksi, missä pankki on?", "ru": "Извините, где банк?", "glosses": { "anteeksi": "извините", "missä": "где", "pankki": "банк", "on": "есть" } },
+        { "speaker": "Anna", "fi": "Mene suoraan ja käänny oikealle.", "ru": "Идите прямо и поверните направо.", "glosses": { "mene": "иди", "suoraan": "прямо", "ja": "и", "käänny": "поверни", "oikealle": "направо" } },
+        { "speaker": "Mika", "fi": "Onko se kaukana?", "ru": "Это далеко?", "glosses": { "onko": "ли есть", "se": "это", "kaukana": "далеко" } },
+        { "speaker": "Anna", "fi": "Ei, se on lähellä. Pankki on torin vieressä.", "ru": "Нет, это близко. Банк рядом с рынком.", "glosses": { "ei": "нет", "se": "это", "on": "есть", "lähellä": "близко", "pankki": "банк", "torin": "рынка", "vieressä": "рядом" } },
+        { "speaker": "Mika", "fi": "Kiitos paljon!", "ru": "Спасибо большое!", "glosses": { "kiitos": "спасибо", "paljon": "много / большое" } }
+      ],
+      "questions": [
+        {
+          "id": "t32q1",
+          "q": "Minne Mika menee?",
+          "qRu": "Куда идёт Мика?",
+          "canonical": "Pankkiin.",
+          "accepted": ["Pankkiin.", "Hän menee pankkiin."],
+          "wrong": [
+            { "match": "pankissa", "ru": "Вопрос «куда?» — иллатив pankkiin, а не pankissa (где?)." },
+            { "match": "torille", "ru": "Мика ищет банк (pankkiin), рынок только ориентир." }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "t32q2",
+          "q": "Onko pankki kaukana?",
+          "qRu": "Банк далеко?",
+          "canonical": "Ei.",
+          "accepted": ["Ei.", "Ei ole.", "Se on lähellä."],
+          "wrong": [
+            { "match": "kyllä", "ru": "Нет — Анна говорит, что банк близко (lähellä)." },
+            { "match": "kaukana", "ru": "Наоборот: банк близко (lähellä), а не далеко." }
+          ],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t33",
+      "title": "Осенняя погода",
+      "level": 12,
+      "type": "text",
+      "lines": [
+        { "fi": "Nyt on syksy.", "ru": "Сейчас осень.", "glosses": { "nyt": "сейчас", "on": "есть", "syksy": "осень" } },
+        { "fi": "Syksyllä sää on usein kylmä.", "ru": "Осенью погода часто холодная.", "glosses": { "syksyllä": "осенью", "sää": "погода", "on": "есть", "usein": "часто", "kylmä": "холодная" } },
+        { "fi": "Tänään on pilvistä ja tuulee.", "ru": "Сегодня облачно и ветрено.", "glosses": { "tänään": "сегодня", "on": "есть", "pilvistä": "облачно", "ja": "и", "tuulee": "ветрено" } },
+        { "fi": "Huomenna ehkä sataa.", "ru": "Завтра, может быть, пойдёт дождь.", "glosses": { "huomenna": "завтра", "ehkä": "может быть", "sataa": "идёт дождь" } },
+        { "fi": "Minä pidän syksystä, mutta talvella on liian kylmä.", "ru": "Мне нравится осень, но зимой слишком холодно.", "glosses": { "minä": "я", "pidän": "мне нравится", "syksystä": "осень (нравится)", "mutta": "но", "talvella": "зимой", "on": "есть", "liian": "слишком", "kylmä": "холодно" } }
+      ],
+      "questions": [
+        {
+          "id": "t33q1",
+          "q": "Mikä vuodenaika nyt on?",
+          "qRu": "Какое сейчас время года?",
+          "canonical": "Syksy.",
+          "accepted": ["Syksy.", "On syksy.", "Nyt on syksy."],
+          "wrong": [
+            { "match": "kesä", "ru": "Сейчас осень (syksy), а не лето." },
+            { "match": "talvi", "ru": "В тексте сейчас осень (syksy), зима упомянута отдельно." }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "t33q2",
+          "q": "Millainen sää tänään on?",
+          "qRu": "Какая сегодня погода?",
+          "canonical": "Pilvistä.",
+          "accepted": ["Pilvistä.", "On pilvistä.", "Pilvistä ja tuulee."],
+          "wrong": [
+            { "match": "aurinkoista", "ru": "Сегодня облачно (pilvistä), а не солнечно." },
+            { "match": "pilvinen", "ru": "О погоде безлично — партитив pilvistä, а не pilvinen." }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "t33q3",
+          "q": "Mistä vuodenajasta minä pidän?",
+          "qRu": "Какое время года мне нравится?",
+          "canonical": "Syksystä.",
+          "accepted": ["Syksystä.", "Pidän syksystä."],
+          "wrong": [
+            { "match": "syksy", "ru": "Глагол pitää требует элатива: pidän syksystä, а не syksy." },
+            { "match": "talvesta", "ru": "Мне нравится осень (syksystä); зима слишком холодная." }
+          ],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t34",
+      "title": "Мои планы на лето",
+      "level": 12,
+      "type": "text",
+      "lines": [
+        { "fi": "Kesällä on lämmin ja aurinkoista.", "ru": "Летом тепло и солнечно.", "glosses": { "kesällä": "летом", "on": "есть", "lämmin": "тепло", "ja": "и", "aurinkoista": "солнечно" } },
+        { "fi": "Minä aion matkustaa merelle.", "ru": "Я собираюсь поехать к морю.", "glosses": { "minä": "я", "aion": "я собираюсь", "matkustaa": "поехать", "merelle": "к морю" } },
+        { "fi": "Siellä minä uin ja lepään joka päivä.", "ru": "Там я плаваю и отдыхаю каждый день.", "glosses": { "siellä": "там", "minä": "я", "uin": "я плаваю", "ja": "и", "lepään": "я отдыхаю", "joka": "каждый", "päivä": "день" } },
+        { "fi": "Kesä on minun lempivuodenaikani.", "ru": "Лето — моё любимое время года.", "glosses": { "kesä": "лето", "on": "есть", "minun": "моё", "lempivuodenaikani": "моё любимое время года" } }
+      ],
+      "questions": [
+        {
+          "id": "t34q1",
+          "q": "Millainen sää kesällä on?",
+          "qRu": "Какая погода летом?",
+          "canonical": "Lämmin.",
+          "accepted": ["Lämmin.", "On lämmin.", "Lämmin ja aurinkoista."],
+          "wrong": [
+            { "match": "kylmä", "ru": "Летом тепло (lämmin), а не холодно." },
+            { "match": "pilvistä", "ru": "В тексте летом тепло и солнечно, а не облачно." }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "t34q2",
+          "q": "Minne minä aion matkustaa?",
+          "qRu": "Куда я собираюсь поехать?",
+          "canonical": "Merelle.",
+          "accepted": ["Merelle.", "Aion matkustaa merelle.", "Matkustan merelle."],
+          "wrong": [
+            { "match": "meressä", "ru": "Вопрос «куда?» — merelle (к морю), а не meressä (где?)." },
+            { "match": "metsään", "ru": "Я собираюсь к морю (merelle), а не в лес." }
+          ],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t35",
+      "title": "У врача",
+      "level": 12,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Lääkäri", "fi": "Päivää! Mikä on ongelma?", "ru": "Здравствуйте! В чём проблема?", "glosses": { "päivää": "добрый день", "mikä": "что / какая", "on": "есть", "ongelma": "проблема" } },
+        { "speaker": "Pekka", "fi": "Minä olen sairas. Minulla on kuume.", "ru": "Я болен. У меня температура.", "glosses": { "minä": "я", "olen": "я есть", "sairas": "болен", "minulla": "у меня", "on": "есть", "kuume": "температура" } },
+        { "speaker": "Lääkäri", "fi": "Sinulla on flunssa. Ota tätä lääkettä ja lepää kotona.", "ru": "У вас простуда. Принимайте это лекарство и отдыхайте дома.", "glosses": { "sinulla": "у тебя", "on": "есть", "flunssa": "простуда", "ota": "прими", "tätä": "это", "lääkettä": "лекарство", "ja": "и", "lepää": "отдыхай", "kotona": "дома" } },
+        { "speaker": "Pekka", "fi": "Milloin minä parannun?", "ru": "Когда я поправлюсь?", "glosses": { "milloin": "когда", "minä": "я", "parannun": "я поправлюсь" } },
+        { "speaker": "Lääkäri", "fi": "Sinä parannut pian, ehkä viikossa.", "ru": "Ты поправишься скоро, может быть, за неделю.", "glosses": { "sinä": "ты", "parannut": "ты поправишься", "pian": "скоро", "ehkä": "может быть", "viikossa": "за неделю" } }
+      ],
+      "questions": [
+        {
+          "id": "t35q1",
+          "q": "Mikä Pekalla on?",
+          "qRu": "Что у Пекки?",
+          "canonical": "Flunssa.",
+          "accepted": ["Flunssa.", "Kuume.", "Hänellä on flunssa."],
+          "wrong": [
+            { "match": "flunssaa", "ru": "При «есть» — номинатив: flunssa, а не партитив flunssaa." },
+            { "match": "terve", "ru": "Пекка болен (sairas), у него простуда." }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "t35q2",
+          "q": "Mitä Pekan pitää tehdä?",
+          "qRu": "Что Пекке нужно делать?",
+          "canonical": "Levätä kotona.",
+          "accepted": ["Levätä kotona.", "Lepää kotona.", "Ottaa lääkettä ja levätä."],
+          "wrong": [
+            { "match": "mennä töihin", "ru": "Врач советует отдыхать дома (levätä kotona), а не идти на работу." },
+            { "match": "levätä kotiin", "ru": "«Дома» — идиома kotona, а не kotiin (домой)." }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "t35q3",
+          "q": "Milloin Pekka parantuu?",
+          "qRu": "Когда Пекка поправится?",
+          "canonical": "Pian.",
+          "accepted": ["Pian.", "Ehkä viikossa.", "Hän parantuu pian."],
+          "wrong": [
+            { "match": "eilen", "ru": "Это будущее: он поправится скоро (pian), eilen = вчера." },
+            { "match": "ei koskaan", "ru": "Нет — он поправится скоро (pian)." }
+          ],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t36",
+      "title": "Какая сегодня погода?",
+      "level": 12,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Anna", "fi": "Millainen sää tänään on?", "ru": "Какая сегодня погода?", "glosses": { "millainen": "какая", "sää": "погода", "tänään": "сегодня", "on": "есть" } },
+        { "speaker": "Mika", "fi": "On kylmä ja tuulee. Talvi tulee pian.", "ru": "Холодно и ветрено. Скоро придёт зима.", "glosses": { "on": "есть", "kylmä": "холодно", "ja": "и", "tuulee": "ветрено", "talvi": "зима", "tulee": "придёт", "pian": "скоро" } },
+        { "speaker": "Anna", "fi": "Sataako huomenna lunta?", "ru": "Завтра пойдёт снег?", "glosses": { "sataako": "идёт ли", "huomenna": "завтра", "lunta": "снег" } },
+        { "speaker": "Mika", "fi": "Ehkä. Talvella sataa usein lunta.", "ru": "Может быть. Зимой часто идёт снег.", "glosses": { "ehkä": "может быть", "talvella": "зимой", "sataa": "идёт", "usein": "часто", "lunta": "снег" } }
+      ],
+      "questions": [
+        {
+          "id": "t36q1",
+          "q": "Millainen sää tänään on?",
+          "qRu": "Какая сегодня погода?",
+          "canonical": "Kylmä.",
+          "accepted": ["Kylmä.", "On kylmä.", "Kylmä ja tuulee."],
+          "wrong": [
+            { "match": "lämmin", "ru": "Сегодня холодно (kylmä), а не тепло." },
+            { "match": "aurinkoista", "ru": "В диалоге холодно и ветрено, а не солнечно." }
+          ],
+          "needs_review": false
+        },
+        {
+          "id": "t36q2",
+          "q": "Mitä talvella usein sataa?",
+          "qRu": "Что часто идёт зимой?",
+          "canonical": "Lunta.",
+          "accepted": ["Lunta.", "Sataa lunta.", "Talvella sataa lunta."],
+          "wrong": [
+            { "match": "lumi", "ru": "Объект осадков — партитив: lunta, а не lumi." },
+            { "match": "vettä", "ru": "Зимой часто идёт снег (lunta), а не дождь." }
+          ],
+          "needs_review": false
+        }
+      ]
     }
   ]
 }
