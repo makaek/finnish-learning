@@ -128,16 +128,10 @@ body {
   box-shadow: var(--shadow);
 }
 
-.card--summary {
-  position: relative;
-  text-align: center;
-}
-
-/* Corner settings menu (theme picker tucked away). */
+/* Settings popover (gear → theme switcher), anchored within the home header. */
 .settings {
-  position: absolute;
-  top: 0.6rem;
-  right: 0.6rem;
+  position: relative;
+  flex: 0 0 auto;
   z-index: 5;
 }
 
@@ -145,11 +139,11 @@ body {
   list-style: none;
   display: grid;
   place-items: center;
-  width: 2.1rem;
-  height: 2.1rem;
-  font-size: 1rem;
-  border-radius: var(--pill);
-  background: var(--surface);
+  width: 40px;
+  height: 40px;
+  color: var(--muted);
+  border-radius: 13px;
+  background: var(--card);
   border: 1px solid var(--border);
   cursor: pointer;
   user-select: none;
@@ -168,15 +162,6 @@ body {
   border: 1px solid var(--border);
   border-radius: var(--r-sm);
   box-shadow: var(--shadow);
-}
-
-.card--summary .option {
-  text-align: center;
-  justify-content: center;
-}
-
-.card--summary .next + .option {
-  margin-top: var(--s2);
 }
 
 /* --- Theme switch --- */
@@ -214,13 +199,6 @@ body {
   font-size: 1.7rem;
   line-height: 1.22;
   letter-spacing: -0.01em;
-}
-
-/* Compact home title — leaves room for the corner settings + a one-screen layout. */
-.prompt--home {
-  font-size: 1.2rem;
-  margin: 0.1rem 0 var(--s2);
-  padding: 0 2rem;
 }
 
 .hint {
@@ -508,176 +486,195 @@ body {
   font-weight: 600;
 }
 
-/* --- Roadmap home: game-style header (HUD), tappable to open progress --- */
-.ghead {
-  position: relative;
+/* ===== Home (Direction A «Фокус»): header · streak strip · ring card · action cards ===== */
+
+/* Header: wordmark + settings gear. */
+.home-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.home-wordmark {
+  font-size: 1.375rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+/* Streak / daily-goal strip (tappable → Прогресс). */
+.mstrip {
+  display: flex;
+  align-items: center;
+  gap: 13px;
   width: 100%;
-  margin: 0 0 var(--s3);
-  padding: var(--s3);
+  padding: 13px 15px;
   font: inherit;
-  color: inherit;
   text-align: left;
-  cursor: pointer;
-  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 14%, var(--surface)), var(--surface));
+  color: var(--text);
+  background: var(--card);
   border: 1px solid var(--border);
-  border-radius: var(--r);
+  border-radius: 20px;
+  cursor: pointer;
   transition: filter 0.15s ease, transform 0.08s ease;
 }
-
-.ghead:hover {
-  filter: brightness(1.02);
-}
-
-.ghead:active {
+.mstrip:active {
   transform: scale(0.995);
 }
-
-.ghead__more {
-  position: absolute;
-  top: 0.55rem;
-  right: 0.7rem;
-  font-size: 0.8rem;
+.mstrip__flame {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  color: #d98324;
+  background: linear-gradient(160deg, #fbe3c4, #f6ce9b);
+}
+.mstrip__body {
+  flex: 1;
+  min-width: 0;
+}
+.mstrip__title {
+  display: block;
+  font-size: 1.0625rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.mstrip__dots {
+  display: flex;
+  gap: 7px;
+  margin-top: 9px;
+}
+.mdot {
+  display: grid;
+  place-items: center;
+  width: 17px;
+  height: 17px;
+  border-radius: 999px;
+}
+.mdot--done {
+  color: #fff;
+  background: #3b9c6e;
+}
+.mdot--today {
+  border: 2px solid #cf9a4e;
+}
+.mdot--miss {
+  border: 1px solid var(--border);
+}
+.mdot__pip {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #cf9a4e;
+}
+.mstrip__goal {
+  flex: 0 0 auto;
+  padding-left: 10px;
+  text-align: right;
+}
+.mstrip__lessons {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #1b8e84;
+}
+.mstrip__lessons small {
+  font-size: 0.8125rem;
+  font-weight: 800;
+  color: var(--faint, #aab1bc);
+}
+.mstrip__acc {
+  display: block;
+  font-size: 0.656rem;
+  font-weight: 600;
   color: var(--muted);
 }
 
-.ghead__stats {
-  display: flex;
-  justify-content: space-around;
-  text-align: center;
-  margin-bottom: var(--s3);
+/* Ring card — the production ring fills the card. */
+.ringcard {
+  padding: 12px 12px 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 26px;
+  box-shadow: 0 1px 2px rgba(40, 30, 20, 0.03);
 }
 
-.gstat {
+/* Two equal action cards (Слабое звено + Микс). */
+.cta {
+  display: flex;
+  gap: 11px;
+  align-items: stretch;
+}
+.ctacard {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 0.1rem;
-  flex: 1;
-}
-
-.gstat__icon {
-  font-size: 1.2rem;
-  line-height: 1;
-}
-
-.gstat__value {
-  font-size: 1.9rem;
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-}
-
-.gstat__value--streak {
-  color: var(--warm);
-}
-.gstat__value--level {
-  color: var(--accent);
-}
-.gstat__value--words {
-  color: var(--ok);
-}
-
-.gstat__label {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--muted);
-}
-
-.ghead__bar {
-  display: block;
-  height: 0.6rem;
-  background: var(--surface-2);
-  border-radius: var(--pill);
-  overflow: hidden;
-}
-
-.ghead__fill {
-  display: block;
-  height: 100%;
-  border-radius: var(--pill);
-  transition: width 0.4s ease;
-}
-
-.ghead__fill--level {
-  background: linear-gradient(90deg, var(--accent), var(--warm));
-}
-
-.ghead__fill--daily {
-  background: var(--warm);
-}
-
-.ghead__caption {
-  display: block;
-  margin: 0.3rem 0 var(--s2);
-  font-size: 0.8rem;
-  color: var(--muted);
-}
-
-.ghead__caption:last-child {
-  margin-bottom: 0;
-}
-
-/* Slim header: now just the streak / daily-goal bar (level + words moved to the ring). */
-.ghead--slim {
-  padding: 0.7rem 0.85rem;
-  background: var(--surface);
-}
-
-/* Compact action row under the ring: слабое звено + Микс, icon-first, side by side. */
-.actrow {
-  display: flex;
-  gap: 0.6rem;
-  margin: 0 0 var(--s3);
-}
-.actbtn {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.45rem;
-  padding: 0.6rem 0.7rem;
+  gap: 11px;
+  padding: 13px 14px;
   font: inherit;
-  font-size: 0.85rem;
-  font-weight: 700;
-  border-radius: var(--pill);
-  border: 1px solid var(--border);
+  text-align: left;
+  background: color-mix(in srgb, var(--acc) 9%, var(--card));
+  border: 1px solid color-mix(in srgb, var(--acc) 30%, var(--border));
+  border-radius: 18px;
   cursor: pointer;
   transition: filter 0.15s ease, transform 0.08s ease;
 }
-.actbtn:hover {
-  filter: brightness(1.03);
-}
-.actbtn:active {
+.ctacard:active {
   transform: scale(0.98);
 }
-.actbtn__icon {
-  display: inline-flex;
-  font-size: 1.2rem;
-  line-height: 1;
+.ctacard--weak {
+  --acc: #ce6a57;
 }
-/* The слабое-звено icon is a monoline SVG (currentColor → the button's text colour). */
-.actbtn__icon svg {
-  width: 1.25rem;
-  height: 1.25rem;
+.ctacard--mix {
+  --acc: #1b8e84;
 }
-.actbtn__text b {
+.ctacard__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ctacard__tile {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  color: var(--acc);
+  background: var(--card);
+  border: 1px solid color-mix(in srgb, var(--acc) 30%, var(--border));
+}
+.ctacard__play {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  color: #fff;
+  background: var(--acc);
+}
+.ctacard__kicker {
+  display: block;
+  font-size: 0.625rem;
   font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--acc);
 }
-/* Слабое звено — calm clay wash (focus, not alarm). */
-.actbtn--weak {
-  color: var(--weak-ink);
-  background: var(--weak-wash);
-  border-color: var(--weak-line);
-}
-/* Микс — light with a subtle accent tint + dark text (tokens flip for dark theme automatically). */
-.actbtn--mix {
+.ctacard__title {
+  display: block;
+  margin-top: 2px;
+  font-size: 1rem;
+  font-weight: 800;
   color: var(--text);
-  background: color-mix(in srgb, var(--accent) 12%, var(--card));
-  border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
 }
-.actbtn--mix b {
-  color: var(--accent);
+.ctacard__sub {
+  display: block;
+  margin-top: 1px;
+  font-size: 0.719rem;
+  font-weight: 600;
+  color: var(--muted);
 }
 
 /* --- Grouped exercise picker with readiness lights --- */
@@ -1195,22 +1192,24 @@ body {
   padding-bottom: calc(4.7rem + env(safe-area-inset-bottom));
 }
 
-/* Home (Roadmap) fills the viewport top-aligned, reading as a screen rather than a centred card.
-   Locked to the viewport height with overflow hidden so the main page never scrolls — the
-   ring-centric home is built to fit. (Other screens keep their own scrolling.) */
+/* Home (Direction A): a vertical column of cards (header · streak · ring · actions) on the cream
+   background. Locked to the viewport height with overflow hidden so the main page never scrolls —
+   it's built to fit. Side gutter 18px; the bottom nav room comes from `.home > .app`. */
 .app--home {
+  flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
+  gap: 13px;
   height: 100svh;
   overflow: hidden;
+  padding-left: 18px;
+  padding-right: 18px;
+  padding-top: max(0.5rem, env(safe-area-inset-top));
 }
 
-/* Compact the summary card on the (non-scrolling) home so everything fits the viewport. */
-.app--home .card--summary {
-  padding: var(--s3);
-}
-.app--home .ghead--slim {
-  margin-bottom: var(--s2);
+/* The ring fills its card (no max-width cap inside the ring card). */
+.ringcard .bring {
+  max-width: none;
 }
 
 .bnav {

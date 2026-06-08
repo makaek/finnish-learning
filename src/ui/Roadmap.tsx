@@ -33,7 +33,18 @@ import {
 } from "../core/daily";
 import { hiddenKey } from "./hidden";
 import BalanceRing, { ModeIcon, type IconName } from "./BalanceRing";
+import { UiIcon } from "./icons";
 import ThemeToggle from "./ThemeToggle";
+
+/** Russian plural for "день" (streak headline): 1 день · 2–4 дня · 5+ дней (11–14 → дней). */
+function dayWord(n: number): string {
+  const t = n % 10;
+  const h = n % 100;
+  if (h >= 11 && h <= 14) return "дней";
+  if (t === 1) return "день";
+  if (t >= 2 && t <= 4) return "дня";
+  return "дней";
+}
 
 /** UI label + monoline icon key for each ring spoke, keyed by the `LevelModeStat.id` core produces.
  *  The core supplies the per-level {mastered,total,group}; the Roadmap owns the presentation. Icon
@@ -316,13 +327,22 @@ export default function Roadmap({
   const streak = currentStreak(daily, today);
   const lessons = todayLessons(daily, today);
   const accuracyPct = Math.round(todayAccuracy(daily, today) * 100);
-  const goalPct = Math.min(100, Math.round((lessons / DAILY_LESSONS_GOAL) * 100));
   const goalReached = goalMet(daily, today);
+  // Seven rolling dots (oldest → today). No per-day history is stored, so derive from the live
+  // streak: the trailing `streak` qualifying days are "done"; today is "done" once its goal is met,
+  // else shown in-progress; days before the streak run read as missed (faint).
+  const pastDone = Math.max(0, goalReached ? streak - 1 : streak);
+  const dots = Array.from({ length: 7 }, (_, p): "done" | "today" | "miss" => {
+    const daysAgo = 6 - p;
+    if (daysAgo === 0) return goalReached ? "done" : "today";
+    return daysAgo <= pastDone ? "done" : "miss";
+  });
 
+  // Settings: a gear button that reveals the theme switcher (Авто / Светлая / Тёмная).
   const settings = (
     <details className="settings">
       <summary className="settings__btn" aria-label="Настройки" title="Настройки">
-        ⚙️
+        <UiIcon name="gear" size={20} />
       </summary>
       <div className="settings__menu">
         <ThemeToggle />
@@ -330,98 +350,115 @@ export default function Roadmap({
     </details>
   );
 
+  const header = (
+    <header className="home-head">
+      <span className="home-wordmark">Финский</span>
+      {settings}
+    </header>
+  );
+
   if (!ready) {
     return (
       <main className="app app--home">
-        <section className="card card--summary">
-          {settings}
-          <h1 className="prompt">Финский тренажёр</h1>
-          <p className="hint">Загрузка прогресса…</p>
-        </section>
+        {header}
+        <p className="hint">Загрузка прогресса…</p>
       </main>
     );
   }
 
+  const weak = balance.weakest;
+
   return (
     <main className="app app--home">
-      <section className="card card--summary">
-        {settings}
-        <h1 className="prompt prompt--home">Финский тренажёр</h1>
+      {header}
 
-        {/* Streak / daily-goal bar — pinned to the top: the "did I show up today" loop. Tap → мой
-            прогресс. (Level/words moved into the ring below.) */}
-        <button
-          type="button"
-          className="ghead ghead--slim"
-          onClick={onShowStats}
-          aria-label="Открыть мой прогресс"
-        >
-          <span className="ghead__more" aria-hidden="true">
-            📊&nbsp;›
+      {/* Streak / daily-goal strip — the "did I show up today" loop; tap → Прогресс. */}
+      <button type="button" className="mstrip" onClick={onShowStats} aria-label="Открыть мой прогресс">
+        <span className="mstrip__flame" aria-hidden="true">
+          <UiIcon name="flame" size={24} />
+        </span>
+        <span className="mstrip__body">
+          <span className="mstrip__title">
+            {streak} {dayWord(streak)} подряд
           </span>
-          <span className="ghead__bar">
-            <span className="ghead__fill ghead__fill--daily" style={{ width: `${goalPct}%` }} />
+          <span className="mstrip__dots" aria-hidden="true">
+            {dots.map((d, i) => (
+              <span key={i} className={`mdot mdot--${d}`}>
+                {d === "done" && <UiIcon name="check" size={11} strokeWidth={3} />}
+                {d === "today" && <span className="mdot__pip" />}
+              </span>
+            ))}
           </span>
-          <span className="ghead__caption">
-            🔥 {streak} ·{" "}
-            {goalReached
-              ? "цель выполнена! 🎉"
-              : `сегодня ${lessons}/${DAILY_LESSONS_GOAL} · ${accuracyPct}%`}
+        </span>
+        <span className="mstrip__goal">
+          <span className="mstrip__lessons">
+            {lessons}
+            <small>/{DAILY_LESSONS_GOAL}</small>
           </span>
-        </button>
+          <span className="mstrip__acc">сегодня · {accuracyPct}%</span>
+        </span>
+      </button>
 
-        {/* Кольцо баланса — the hero signal: every mode at once, tap a spoke to start it.
-            Interactive, so it sits as a sibling of (never nested in) the ghead button. */}
+      {/* Ring card — the production ring (fills the card) + the group legend. */}
+      <div className="ringcard">
         <BalanceRing balance={balance} left={ringLeft} onPick={startById} />
+      </div>
 
-        {/* Compact action row: tackle the слабое звено, or run the Микс over current-level
-            leftovers — both icon-first, side by side. Each appears only when relevant. */}
-        {(balance.weakest || mixLeft > 0) && (
-          <div className="actrow">
-            {balance.weakest && (
-              <button
-                type="button"
-                className="actbtn actbtn--weak"
-                onClick={() => startById(balance.weakest!.id)}
-                title={`Слабое звено: ${balance.weakest.label}`}
-              >
-                <span className="actbtn__icon" aria-hidden="true">
-                  <ModeIcon name={balance.weakest.icon as IconName} size={20} />
+      {/* Two equal action cards: Слабое звено (gently leads via warm colour) + Микс. */}
+      {(weak || mixLeft > 0) && (
+        <div className="cta">
+          {weak && (
+            <button type="button" className="ctacard ctacard--weak" onClick={() => startById(weak.id)}>
+              <span className="ctacard__top">
+                <span className="ctacard__tile" aria-hidden="true">
+                  <ModeIcon name={weak.icon as IconName} size={23} />
                 </span>
-                <span className="actbtn__text">Слабое звено</span>
-              </button>
-            )}
-            {mixLeft > 0 && (
-              <button
-                type="button"
-                className="actbtn actbtn--mix"
-                onClick={() => onStart("mix")}
-                title="Микс — добить уровень (всё не освоенное подряд)"
-              >
-                <span className="actbtn__icon" aria-hidden="true">
-                  🧩
+                <span className="ctacard__play" aria-hidden="true">
+                  <UiIcon name="play" size={15} strokeWidth={2.4} />
                 </span>
-                <span className="actbtn__text">
-                  Микс <b>{mixLeft}</b>
+              </span>
+              <span className="ctacard__txt">
+                <span className="ctacard__kicker">Рекомендуем</span>
+                <span className="ctacard__title">Слабое звено</span>
+                <span className="ctacard__sub">
+                  {weak.label}
+                  {(ringLeft[weak.id] ?? 0) > 0 ? ` · ещё ${ringLeft[weak.id]}` : ""}
                 </span>
-              </button>
-            )}
-          </div>
-        )}
-
-        {testMode && (
-          <div className="testbar">
-            <p className="hint hint--test">🔧 Тестовый режим: все уровни открыты</p>
-            <button type="button" className="option" onClick={onTestFill}>
-              Засчитать всё выученным
+              </span>
             </button>
-          </div>
-        )}
+          )}
+          {mixLeft > 0 && (
+            <button type="button" className="ctacard ctacard--mix" onClick={() => onStart("mix")}>
+              <span className="ctacard__top">
+                <span className="ctacard__tile" aria-hidden="true">
+                  <UiIcon name="shuffle" size={23} strokeWidth={1.85} />
+                </span>
+                <span className="ctacard__play" aria-hidden="true">
+                  <UiIcon name="play" size={15} strokeWidth={2.4} />
+                </span>
+              </span>
+              <span className="ctacard__txt">
+                <span className="ctacard__kicker">В очереди · {mixLeft}</span>
+                <span className="ctacard__title">Микс</span>
+                <span className="ctacard__sub">всё, что осталось</span>
+              </span>
+            </button>
+          )}
+        </div>
+      )}
 
-        {/* Per-mode cards — HIDDEN for now (kept in code) while the ring becomes the single entry
-            point. The ring's spokes already start every mode; these will be removed once that's
-            confirmed. `hidden` keeps them out of view + the a11y tree without deleting them. */}
-        <div className="modegroups" hidden>
+      {testMode && (
+        <div className="testbar">
+          <p className="hint hint--test">🔧 Тестовый режим: все уровни открыты</p>
+          <button type="button" className="option" onClick={onTestFill}>
+            Засчитать всё выученным
+          </button>
+        </div>
+      )}
+
+      {/* Per-mode cards — HIDDEN for now (kept in code) while the ring is the single entry point.
+          `hidden` keeps them out of view + the a11y tree without deleting them. */}
+      <div className="modegroups" hidden>
         <div className="modegroup">
           <GroupTitle title="Слова" left={groupLeft.words} />
           <div className="modegroup__row">
@@ -518,8 +555,7 @@ export default function Roadmap({
             />
           </div>
         </div>
-        </div>
-      </section>
+      </div>
     </main>
   );
 }

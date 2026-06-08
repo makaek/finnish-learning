@@ -1,20 +1,22 @@
 /**
- * BalanceRing.tsx — the home-screen "Кольцо баланса" (direction C, with legend).
+ * BalanceRing.tsx — the home-screen "Кольцо баланса" (production ring, Direction A).
  *
- * Ported from the approved mock, reconciled with this app's settled behaviour:
- *   • 9 spokes from the hub; spoke LENGTH = mode mastery (0..1), with a minimum stub so a
- *     near-zero mode never collapses into the hub.
+ * Exact port of the approved production ring (handoff `ring.jsx`), reconciled with this app's
+ * settled behaviour:
+ *   • 9 spokes from the hub; spoke LENGTH = mode mastery (0..1), min stub so weak modes show.
  *   • the mode ICON (monoline) is glued to the spoke TIP (distance from centre = mastery).
- *   • spoke COLOUR = a continuous red→green gradient (mid lands yellow-green).
+ *   • spoke COLOUR = a continuous warm-red→yellow-green→green ramp; the WEAKEST spoke is forced
+ *     coral (it echoes the "слабое звено" card).
  *   • EVERY spoke is startable and shows its remaining-count badge (sourced from `left`, the
- *     same hidden/eligibility-filtered count the home computes — no lock/pause here).
- *   • the weakest mode gets a red halo + a red badge; other badges use the accent.
+ *     same hidden/eligibility-filtered count the home computes; weakest badge red, others blue).
+ *   • the weakest mode also gets a faint coral halo.
  *   • coloured group arcs wrap the outside; group NAMES live in a legend below the ring.
  *   • dashed inner disc = the level gate (ceiling = weakest mastery).
+ *   • viewBox is cropped (`24 22 316 304`) so the ring FILLS the card with no side whitespace.
  *
- * Presentation only. All balance maths is in core/balance.ts. Semantic colours (green/red/
- * gradient/group hues) are literal so they read identically in light & dark; the structural
- * colours (ink/sub/card/line) use the theme tokens so the ring tracks light/dark.
+ * Presentation only. All balance maths is in core/balance.ts. Structural colours (ink/sub/card/
+ * line) use theme tokens so the ring tracks light/dark; semantic colours (green/red/blue/group
+ * hues + the gradient) are literal so the meaning reads identically in both themes.
  */
 
 import type { Balance, BalanceGroup } from "../core/balance";
@@ -33,20 +35,11 @@ const ICONS: Record<IconName, JSX.Element> = {
   masks: (<><path d="M3.5 5h8v6a4 4 0 0 1-8 0V5Z" /><path d="M12.5 9h8v6a4 4 0 0 1-8 0" /><path d="M5.5 8.5h1M8.5 8.5h1M14.5 12h1M17.5 12h1" /></>),
 };
 
-/** Standalone monoline icon (reused by the home's "слабое звено" button). */
-export function ModeIcon({ name, size = 24 }: { name: IconName; size?: number }) {
+/** Standalone monoline icon (reused by the home's action cards). */
+export function ModeIcon({ name, size = 24, strokeWidth = 1.85 }: { name: IconName; size?: number; strokeWidth?: number }) {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.9}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       {ICONS[name]}
     </svg>
   );
@@ -62,8 +55,8 @@ const COL = {
   // semantic — literal so the meaning reads the same in both themes
   green: "#3B9C6E",
   red: "#CE6A57",
+  blue: "#3B68C9",
 };
-const BADGE = "var(--accent)"; // non-weak badge fill (weak badges are red)
 const GROUP_HUE: Record<BalanceGroup, string> = {
   words: "#5B53C6",
   sent: "#1B8E84",
@@ -75,23 +68,19 @@ const GROUP_LABEL: Record<BalanceGroup, string> = {
   read: "Чтение",
 };
 
-/** Continuous red→green ramp. Mid mastery lands yellow-green (calmer than orange). */
-function spokeColor(mastery: number): string {
-  if (mastery >= 1) return COL.green;
-  if (mastery <= 0) return COL.red;
-  const h = 8 + mastery * 134; // 8° red → 142° green
-  return `hsl(${Math.round(h)}, 48%, 47%)`;
+/** Continuous warm-red→yellow-green→green ramp; the weakest spoke is forced coral. */
+function spokeColor(mastery: number, weak: boolean): string {
+  if (weak) return COL.red;
+  const h = 28 + mastery * 116; // 28° (warm) → 144° (green)
+  return `hsl(${Math.round(h)}, 46%, 47%)`;
 }
 
 /* =================================================================== geometry */
-const VB_W = 364;
-const VB_H = 372;
 const CX = 182;
-const CY = 184;
-const R0 = 46; // hub radius
-const RR = 128; // max spoke radius (mastery = 1)
-const ARC = 150; // group-arc radius
-const MIN_STUB = 0.26; // floor on spoke length so weak modes stay visible
+const CY = 178;
+const R0 = 47; // hub radius
+const RR = 126; // max spoke radius (mastery = 1)
+const STUB = 0.22; // floor on spoke length so weak modes stay visible
 
 const rad = (deg: number) => (deg * Math.PI) / 180;
 const pol = (r: number, deg: number): [number, number] => [CX + Math.cos(rad(deg)) * r, CY + Math.sin(rad(deg)) * r];
@@ -100,25 +89,25 @@ function arcPath(r: number, a0: number, a1: number): string {
   const [x1, y1] = pol(r, a1);
   return `M${x0.toFixed(1)} ${y0.toFixed(1)} A ${r} ${r} 0 ${a1 - a0 > 180 ? 1 : 0} 1 ${x1.toFixed(1)} ${y1.toFixed(1)}`;
 }
-const tipRadius = (m: number) => R0 + Math.max(m, MIN_STUB) * (RR - R0);
+const tipRadius = (m: number) => R0 + Math.max(m, STUB) * (RR - R0);
 
 /* ======================================================================= chip */
 function Chip({ x, y, color, icon, weak, badge }: {
   x: number; y: number; color: string; icon: IconName; weak: boolean; badge: number | null;
 }) {
-  const rr = weak ? 18 : 16; // chip radius
-  const isz = weak ? 25 : 23; // icon box
+  const rr = weak ? 16 : 14; // chip radius
+  const isz = weak ? 22 : 20; // icon box
   return (
     <g>
-      {weak && <circle cx={x} cy={y} r={rr + 5} fill="none" stroke={COL.red} strokeWidth={2.5} opacity={0.5} />}
+      {weak && <circle cx={x} cy={y} r={rr + 5} fill="none" stroke={color} strokeWidth={2.4} opacity={0.45} />}
       <circle cx={x} cy={y} r={rr} fill={COL.card} stroke={color} strokeWidth={2.3} />
       <svg x={x - isz / 2} y={y - isz / 2} width={isz} height={isz} viewBox="0 0 24 24" fill="none"
-        stroke={color} strokeWidth={1.9} strokeLinecap="round" strokeLinejoin="round">
+        stroke={color} strokeWidth={1.85} strokeLinecap="round" strokeLinejoin="round">
         {ICONS[icon]}
       </svg>
       {badge != null && (
         <g>
-          <circle cx={x + rr - 1} cy={y - rr + 1} r={8.5} fill={weak ? COL.red : BADGE} stroke={COL.card} strokeWidth={1.4} />
+          <circle cx={x + rr - 1} cy={y - rr + 1} r={8.5} fill={weak ? COL.red : COL.blue} stroke={COL.card} strokeWidth={1.4} />
           <text x={x + rr - 1} y={y - rr + 1.5} textAnchor="middle" dominantBaseline="central"
             fontWeight={700} fontSize={10} fill="#fff">{badge}</text>
         </g>
@@ -149,30 +138,28 @@ export default function BalanceRing({ balance, left, onPick }: {
 
   return (
     <div className="bring">
-      <svg viewBox={`0 0 ${VB_W} ${VB_H}`} className="bring__svg"
+      {/* viewBox cropped so the ring fills the card width */}
+      <svg viewBox="24 22 316 304" className="bring__svg"
         role="img" aria-label={`Баланс ${balance.score}%. Слабое звено: ${balance.weakest?.label ?? "нет"}.`}>
         {/* group arcs (names are in the legend, not on the ring) */}
         {[...spans.entries()].map(([g, [a, b]]) => {
           const a0 = -90 + a * step - step / 2 + 4;
           const a1 = -90 + b * step + step / 2 - 4;
-          return <path key={g} d={arcPath(ARC, a0, a1)} stroke={GROUP_HUE[g]} strokeWidth={3} fill="none" strokeLinecap="round" opacity={0.9} />;
+          return <path key={g} d={arcPath(RR + 14, a0, a1)} stroke={GROUP_HUE[g]} strokeWidth={3} fill="none" strokeLinecap="round" opacity={0.9} />;
         })}
 
-        {/* level gate = weakest mastery */}
-        <circle cx={CX} cy={CY} r={gateR} fill={COL.red} opacity={0.05} />
-        <circle cx={CX} cy={CY} r={gateR} fill="none" stroke={COL.red} strokeWidth={1.3} strokeDasharray="2 4" opacity={0.45} />
-
-        {/* outer guide */}
+        {/* outer guide + level gate (ceiling at the weakest mastery) */}
         <circle cx={CX} cy={CY} r={RR} fill="none" stroke={COL.line} strokeWidth={1} />
+        <circle cx={CX} cy={CY} r={gateR} fill={COL.red} opacity={0.05} />
+        <circle cx={CX} cy={CY} r={gateR} fill="none" stroke={COL.red} strokeWidth={1.3} strokeDasharray="2 4" opacity={0.5} />
 
         {/* spokes: hub → chip centre, so the icon sits glued on the tip */}
         {cells.map((c, i) => {
           const ang = -90 + i * step;
-          const end = tipRadius(c.mastery);
           const [x1, y1] = pol(R0 + 2, ang);
-          const [x2, y2] = pol(end, ang);
+          const [x2, y2] = pol(tipRadius(c.mastery), ang);
           return <line key={`s${i}`} x1={x1} y1={y1} x2={x2} y2={y2}
-            stroke={spokeColor(c.mastery)} strokeWidth={c.weakest ? 16 : 14}
+            stroke={spokeColor(c.mastery, c.weakest)} strokeWidth={c.weakest ? 16 : 14}
             strokeLinecap="round" opacity={0.95} />;
         })}
 
@@ -195,7 +182,7 @@ export default function BalanceRing({ balance, left, onPick }: {
               aria-label={leftN > 0
                 ? `${c.label}: освоено ${Math.round(c.mastery * 100)}%, осталось ${leftN}`
                 : `${c.label}: освоено`}>
-              <Chip x={x} y={y} color={spokeColor(c.mastery)} icon={c.icon as IconName}
+              <Chip x={x} y={y} color={spokeColor(c.mastery, c.weakest)} icon={c.icon as IconName}
                 weak={c.weakest} badge={leftN > 0 ? leftN : null} />
             </g>
           );
