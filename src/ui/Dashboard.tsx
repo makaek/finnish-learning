@@ -14,7 +14,10 @@ import type { ProgressMap } from "../core/progress";
 import type { UserState } from "../core/daily";
 import { dateKey } from "../core/daily";
 import { computeDashboard, type DashText } from "../core/dashboard";
+import { LEVEL_COMPLETE_FRACTION } from "../core/levels";
+import { CEFR_ORDER, cefrOfLevel, cefrProgress } from "../core/curriculum";
 import { BarList, Donut, KpiCard, RingGauge, StackedColumns, type BarDatum } from "./charts";
+import CefrBar from "./CefrBar";
 
 interface DashboardProps {
   vocab: readonly VocabItem[];
@@ -42,6 +45,15 @@ export default function Dashboard({
     [vocab, sentences, texts, progress, daily, testMode],
   );
   const k = d.kpis;
+
+  // CEFR milestone + per-band level breakdown (a level is "done" at the advancement threshold).
+  const cefr = cefrProgress(d.levels);
+  const levelDone = (l: { total: number; learned: number }) =>
+    l.total > 0 && l.learned / l.total >= LEVEL_COMPLETE_FRACTION;
+  const cefrBands = CEFR_ORDER.map((band) => ({
+    band,
+    levels: d.levels.filter((l) => cefrOfLevel(l.level) === band),
+  })).filter((b) => b.levels.length > 0);
 
   const levelBars: BarDatum[] = d.levels.map((l) => ({
     label: `Ур. ${l.level}`,
@@ -131,6 +143,47 @@ export default function Dashboard({
             ? "Дневная цель выполнена! 🎉"
             : `Ответов сегодня: ${d.today.answered} (верных ${d.today.correct})`}
         </p>
+      </section>
+
+      <section className="dash__card">
+        <h2 className="dash__title">Уровень владения (CEFR)</h2>
+        <p className="dash__sub">
+          {cefr.complete
+            ? `Весь курс пройден — уровень ${cefr.band}.`
+            : `Сейчас осваиваете ${cefr.band}${cefr.nextBand ? ` · следующая ступень — ${cefr.nextBand}` : ""}.`}
+        </p>
+        <CefrBar p={cefr} />
+        <div className="cefrdash">
+          {cefrBands.map((b) => {
+            const done = b.levels.filter(levelDone).length;
+            return (
+              <div key={b.band}>
+                <div className="cefrband__hd">
+                  <span className="cefrband__name">{b.band}</span>
+                  <span className="cefrband__meta">
+                    {done}/{b.levels.length} уровней
+                    {!cefr.complete && cefr.band === b.band ? " · текущая цель" : ""}
+                  </span>
+                </div>
+                <div className="cefrband__levels">
+                  {b.levels.map((l) => {
+                    const cls = levelDone(l)
+                      ? " cefrlv--done"
+                      : l.level === k.level
+                        ? " cefrlv--current"
+                        : "";
+                    return (
+                      <span key={l.level} className={"cefrlv" + cls}>
+                        Ур. {l.level}
+                        {levelDone(l) ? " ✓" : ""}
+                      </span>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </section>
 
       <section className="dash__card">

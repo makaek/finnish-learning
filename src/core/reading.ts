@@ -46,8 +46,10 @@ export interface ReadingQuestion {
 /** A readable piece: a monologue ("text") or a multi-speaker "dialog". */
 export interface ReadingText {
   id: string;
-  /** Russian title shown in the library. */
+  /** The displayed name, in Finnish. */
   title: string;
+  /** Russian translation of the title, revealed on the reader's "show translation" toggle. */
+  titleRu?: string;
   level: number;
   type: "text" | "dialog";
   lines: ReadingLine[];
@@ -138,6 +140,7 @@ function parseText(raw: unknown): ReadingText | null {
     : [];
   if (lines.length === 0) return null;
   const text: ReadingText = { id: r.id, title: r.title, level: levelOf(r as { level?: number }), type, lines };
+  if (isNonEmptyString(r.titleRu)) text.titleRu = r.titleRu;
   const questions = Array.isArray(r.questions)
     ? r.questions.map(parseQuestion).filter((q): q is ReadingQuestion => q !== null)
     : [];

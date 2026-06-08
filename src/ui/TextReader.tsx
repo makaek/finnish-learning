@@ -246,6 +246,7 @@ export default function TextReader({
       <section className="card">
         <ChatHead
           title={text.title}
+          titleRu={translateAll ? text.titleRu : undefined}
           sub={mastered ? "Прочитано · освоено" : `Уровень ${text.level} · ${isDialog ? "диалог" : "текст"}`}
           mastered={mastered}
           right={

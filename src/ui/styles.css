@@ -1969,6 +1969,12 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.rd-head__titleru {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-top: 1px;
+}
 .rd-head__sub {
   font-size: 0.74rem;
   font-weight: 600;
@@ -2504,6 +2510,112 @@ body {
   border-radius: 13px;
   font-size: 0.78rem;
   font-weight: 600;
+}
+
+/* CEFR milestone strip (home) + dashboard breakdown -------------------------------------- */
+.cefr {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: var(--text);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 0.55rem 0.8rem;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+}
+.cefr__badge {
+  flex: none;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--accent-ink);
+  background: var(--accent);
+  border-radius: 8px;
+  padding: 0.2rem 0.5rem;
+}
+.cefr__main {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 0.25rem;
+}
+.cefr__track {
+  height: 7px;
+  border-radius: var(--pill);
+  background: var(--surface-2);
+  overflow: hidden;
+}
+.cefr__fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--pill);
+  background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+  transition: width 0.3s ease;
+}
+.cefr__cap {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.cefr__pct {
+  flex: none;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Dashboard CEFR breakdown: levels grouped by band. */
+.cefrdash {
+  display: grid;
+  gap: var(--s3);
+}
+.cefrband__hd {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+.cefrband__name {
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+.cefrband__meta {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.cefrband__levels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.cefrlv {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--pill);
+  padding: 0.2rem 0.55rem;
+}
+.cefrlv--done {
+  color: var(--ok);
+  background: var(--ok-soft);
+  border-color: transparent;
+}
+.cefrlv--current {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
 }
 
 /* ============================================================================

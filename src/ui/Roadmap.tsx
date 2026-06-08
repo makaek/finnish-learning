@@ -9,6 +9,7 @@ import {
   activeVocab,
   eligibleSentences,
   hasComprehensionQuiz,
+  levelCompletionStats,
   levelModeStats,
   levelOf,
   masteringLevelGated,
@@ -22,6 +23,8 @@ import {
 } from "../core/levels";
 import { groupReadiness, type ModeReadiness } from "../core/stats";
 import { computeBalance, type ModeInput } from "../core/balance";
+import { cefrProgress } from "../core/curriculum";
+import CefrBar from "./CefrBar";
 import type { ProgressMap } from "../core/progress";
 import {
   currentStreak,
@@ -292,6 +295,12 @@ export default function Roadmap({
     };
   }, [vocab, sentences, texts, progress, testMode, hidden, active]);
 
+  // CEFR milestone progress (A1 → A2 …) over combined per-level completion — the home strip.
+  const cefr = useMemo(
+    () => cefrProgress(levelCompletionStats(vocab, sentences, texts, progress)),
+    [vocab, sentences, texts, progress],
+  );
+
   // Leader modes that have run too far ahead of their group are paused (not startable) — the
   // anti-grind nudge. The ring greys them itself; we also gate the grid buttons below.
   const pausedModes = new Set(balance.cells.filter((c) => c.paused).map((c) => c.id));
@@ -405,6 +414,9 @@ export default function Roadmap({
           <span className="mstrip__acc">сегодня · {accuracyPct}%</span>
         </span>
       </button>
+
+      {/* CEFR milestone — progress toward the next language level (A1 → A2). Tap → Метрики. */}
+      <CefrBar p={cefr} onClick={onShowStats} />
 
       {/* Ring card — the production ring (fills the card) + the group legend. */}
       <div className="ringcard">

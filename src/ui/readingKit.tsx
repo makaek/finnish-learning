@@ -25,12 +25,15 @@ export function Avatar({ letter, color, size = 32 }: { letter: string; color: st
 /** Header for the chat screens: title (+ trophy when mastered), a sub-line, and right-aligned actions. */
 export function ChatHead({
   title,
+  titleRu,
   sub,
   subRead = false,
   mastered = false,
   right,
 }: {
   title: string;
+  /** Russian translation of the title, shown under it when revealed (the "show translation" toggle). */
+  titleRu?: string;
   sub: string;
   subRead?: boolean;
   mastered?: boolean;
@@ -40,9 +43,16 @@ export function ChatHead({
     <div className="rd-head">
       <div className="rd-head__main">
         <div className="rd-head__titlerow">
-          <h1 className="rd-head__title">{title}</h1>
+          <h1 className="rd-head__title" lang="fi">
+            {title}
+          </h1>
           {mastered && <UiIcon name="trophy" size={17} />}
         </div>
+        {titleRu && (
+          <div className="rd-head__titleru" lang="ru">
+            {titleRu}
+          </div>
+        )}
         <div className={"rd-head__sub" + (subRead || mastered ? " rd-head__sub--read" : "")}>{sub}</div>
       </div>
       {right}

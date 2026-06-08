@@ -2,7 +2,7 @@
   "_meta": {
     "purpose": "Reading library: short graded Finnish texts & dialogs for a Finnish-for-Russian-speakers trainer. Authored & verified by finnish-linguist.",
     "schema": {
-      "text": ["id", "title (RU)", "level (1-10)", "type: 'text'|'dialog'", "lines", "questions? (comprehension Q&A, see 'question')"],
+      "text": ["id", "title (short idiomatic FINNISH name, shown in the UI)", "titleRu (Russian translation of the title, revealed on demand)", "level (1-12)", "type: 'text'|'dialog'", "lines", "questions? (comprehension Q&A, see 'question')"],
       "line": ["speaker (dialog only)", "fi", "ru", "glosses? (optional map: finnish-surface-word -> RU meaning IN CONTEXT)"],
       "glosses": "Optional per-line object. Each KEY MUST be a token of that line's `fi`, lowercased with leading/trailing punctuation stripped (e.g. 'Helsingissä.' -> key 'helsingissä'). Value is the short contextual Russian gloss of that inflected form. Used by tap-a-word translation; keys are integrity-checked against the line.",
       "question": ["id (<textid>q<n>, unique across file)", "q (in Finnish)", "qRu (RU translation)", "canonical (single model answer; its normalized form MUST also be in `accepted`)", "accepted (ALL correct phrasings; normalized = lowercased + punctuation removed, ä/ö/y kept; dropped-subject-pronoun variants are auto-derived for minä/sinä/hän/me/te/he)", "wrong (array of {match (already normalized, lowercase, no punctuation, one form), ru (short RU explanation)})", "needs_review (bool)"]
@@ -11,7 +11,8 @@
   "texts": [
     {
       "id": "t1",
-      "title": "Знакомство",
+      "title": "Tutustuminen",
+      "titleRu": "Знакомство",
       "level": 1,
       "type": "dialog",
       "lines": [
@@ -40,12 +41,22 @@
           "accepted": ["Hyvää.", "Hyvää, kiitos."],
           "wrong": [{ "match": "huonoa", "ru": "Нет — Мика говорит «hyvää» (хорошо), а не плохо." }],
           "needs_review": false
+        },
+        {
+          "id": "t1q3",
+          "q": "Kuka sanoo nimensä viimeisenä?",
+          "qRu": "Кто называет своё имя последним?",
+          "canonical": "Mika.",
+          "accepted": ["Mika.", "Mika sanoo."],
+          "wrong": [{ "match": "antti", "ru": "Антти называет имя раньше; последним говорит «Minä olen Mika»." }],
+          "needs_review": false
         }
       ]
     },
     {
       "id": "t2",
-      "title": "Я студент",
+      "title": "Olen opiskelija",
+      "titleRu": "Я студент",
       "level": 1,
       "type": "text",
       "lines": [
@@ -72,12 +83,22 @@
           "accepted": ["Suomea.", "Antti puhuu suomea."],
           "wrong": [{ "match": "suomi", "ru": "Объект после puhua стоит в партитиве: «suomea», а не «suomi»." }],
           "needs_review": false
+        },
+        {
+          "id": "t2q3",
+          "q": "Kuka Antti on?",
+          "qRu": "Кто такой Антти?",
+          "canonical": "Opiskelija.",
+          "accepted": ["Opiskelija.", "Antti on opiskelija.", "Hän on opiskelija."],
+          "wrong": [{ "match": "opiskelijaa", "ru": "Существительное-тождество — в номинативе: «opiskelija», а не «opiskelijaa»." }],
+          "needs_review": false
         }
       ]
     },
     {
       "id": "t3",
-      "title": "Моя семья",
+      "title": "Minun perheeni",
+      "titleRu": "Моя семья",
       "level": 2,
       "type": "text",
       "lines": [
@@ -105,12 +126,22 @@
           "accepted": ["Veli ja sisko.", "Minulla on veli ja sisko."],
           "wrong": [{ "match": "äiti ja isä", "ru": "Это родители из другой строки. У Микко есть «veli ja sisko» (брат и сестра)." }],
           "needs_review": false
+        },
+        {
+          "id": "t3q3",
+          "q": "Millainen talo Mikolla on?",
+          "qRu": "Какой дом у Микко?",
+          "canonical": "Iso.",
+          "accepted": ["Iso.", "Talo on iso.", "Iso talo."],
+          "wrong": [{ "match": "pieni", "ru": "Дом большой («iso talo»), а не маленький." }],
+          "needs_review": false
         }
       ]
     },
     {
       "id": "t4",
-      "title": "Где ты живёшь?",
+      "title": "Missä sinä asut?",
+      "titleRu": "Где ты живёшь?",
       "level": 3,
       "type": "dialog",
       "lines": [
@@ -138,12 +169,22 @@
           "accepted": ["Talossa.", "Mika asuu talossa."],
           "wrong": [{ "match": "taloon", "ru": "Нужен инессив «talossa» (где?), а не иллатив «taloon» (куда?)." }],
           "needs_review": false
+        },
+        {
+          "id": "t4q3",
+          "q": "Onko Mikalla perhe?",
+          "qRu": "Есть ли у Мики семья?",
+          "canonical": "Kyllä.",
+          "accepted": ["Kyllä.", "On.", "Kyllä, hänellä on perhe."],
+          "wrong": [{ "match": "ei", "ru": "Да — у Мики есть мама, папа и брат." }],
+          "needs_review": false
         }
       ]
     },
     {
       "id": "t5",
-      "title": "В кафе",
+      "title": "Kahvilassa",
+      "titleRu": "В кафе",
       "level": 4,
       "type": "dialog",
       "lines": [
@@ -171,12 +212,22 @@
           "accepted": ["Viisi euroa.", "Se maksaa viisi euroa."],
           "wrong": [{ "match": "viisi euro", "ru": "После числа существительное в партитиве: «viisi euroa», а не «viisi euro»." }],
           "needs_review": false
+        },
+        {
+          "id": "t5q3",
+          "q": "Haluaako Juho myös leipää?",
+          "qRu": "Хочет ли Юхо также хлеб?",
+          "canonical": "Kyllä.",
+          "accepted": ["Kyllä.", "Kyllä, hän haluaa leipää.", "Hän haluaa leipää."],
+          "wrong": [{ "match": "ei", "ru": "Да — Юхо отвечает «Kyllä, kiitos» на вопрос про хлеб." }],
+          "needs_review": false
         }
       ]
     },
     {
       "id": "t6",
-      "title": "В магазине",
+      "title": "Kaupassa",
+      "titleRu": "В магазине",
       "level": 4,
       "type": "dialog",
       "lines": [
@@ -204,12 +255,22 @@
           "accepted": ["Kirjan.", "Mika ostaa kirjan.", "Halvan kirjan."],
           "wrong": [{ "match": "kirja", "ru": "Целостный объект (одна книга) в винительном = генитиве: «kirjan», а не «kirja»." }],
           "needs_review": false
+        },
+        {
+          "id": "t6q3",
+          "q": "Millainen kallis kirja on?",
+          "qRu": "Какая дорогая книга?",
+          "canonical": "Kallis.",
+          "accepted": ["Kallis.", "Se on kallis.", "Kirja on kallis."],
+          "wrong": [{ "match": "halpa", "ru": "Дорогая книга «kallis»; дешёвая — «halpa»." }],
+          "needs_review": false
         }
       ]
     },
     {
       "id": "t7",
-      "title": "Как пройти на вокзал?",
+      "title": "Miten pääsen asemalle?",
+      "titleRu": "Как пройти на вокзал?",
       "level": 5,
       "type": "dialog",
       "lines": [
@@ -238,12 +299,22 @@
           "accepted": ["Kyllä.", "Kyllä, se on lähellä.", "Se on lähellä."],
           "wrong": [{ "match": "ei", "ru": "Нет — Мика говорит «Se on lähellä» (он близко), значит ответ «kyllä»." }],
           "needs_review": false
+        },
+        {
+          "id": "t7q3",
+          "q": "Millä Ville voi mennä asemalle?",
+          "qRu": "На чём Вилле может доехать до вокзала?",
+          "canonical": "Bussilla.",
+          "accepted": ["Bussilla.", "Hän voi mennä bussilla."],
+          "wrong": [{ "match": "junalla", "ru": "Мика предлагает автобус («bussilla») или пешком, а не поезд." }],
+          "needs_review": false
         }
       ]
     },
     {
       "id": "t8",
-      "title": "Который час?",
+      "title": "Paljonko kello on?",
+      "titleRu": "Который час?",
       "level": 6,
       "type": "dialog",
       "lines": [
@@ -271,12 +342,22 @@
           "accepted": ["Töihin.", "Pekan täytyy mennä töihin."],
           "wrong": [{ "match": "töissä", "ru": "Направление «куда?» = «töihin» (на работу); «töissä» означало бы «где? на работе»." }],
           "needs_review": false
+        },
+        {
+          "id": "t8q3",
+          "q": "Milloin Pekka menee kotiin?",
+          "qRu": "Когда Пекка идёт домой?",
+          "canonical": "Illalla.",
+          "accepted": ["Illalla.", "Hän menee illalla."],
+          "wrong": [{ "match": "aamulla", "ru": "Пекка идёт домой «illalla» (вечером), а не утром." }],
+          "needs_review": false
         }
       ]
     },
     {
       "id": "t9",
-      "title": "Мой день",
+      "title": "Minun päiväni",
+      "titleRu": "Мой день",
       "level": 6,
       "type": "text",
       "lines": [
@@ -318,7 +399,8 @@
     },
     {
       "id": "t10",
-      "title": "Планы на выходные",
+      "title": "Viikonlopun suunnitelmat",
+      "titleRu": "Планы на выходные",
       "level": 7,
       "type": "dialog",
       "lines": [
@@ -346,12 +428,22 @@
           "accepted": ["Jalkapalloa.", "He pelaavat jalkapalloa."],
           "wrong": [{ "match": "jalkapallo", "ru": "Объект после pelata в партитиве: «jalkapalloa», а не «jalkapallo»." }],
           "needs_review": false
+        },
+        {
+          "id": "t10q3",
+          "q": "Milloin he menevät puistoon?",
+          "qRu": "Когда они идут в парк?",
+          "canonical": "Lauantaina.",
+          "accepted": ["Lauantaina.", "He menevät lauantaina."],
+          "wrong": [{ "match": "sunnuntaina", "ru": "Они идут в субботу («lauantaina»), а не в воскресенье." }],
+          "needs_review": false
         }
       ]
     },
     {
       "id": "t11",
-      "title": "Путешествие на поезде",
+      "title": "Junamatka",
+      "titleRu": "Путешествие на поезде",
       "level": 8,
       "type": "dialog",
       "lines": [
@@ -394,7 +486,8 @@
     },
     {
       "id": "t12",
-      "title": "Я люблю свой дом",
+      "title": "Rakastan kotiani",
+      "titleRu": "Я люблю свой дом",
       "level": 9,
       "type": "text",
       "lines": [
@@ -436,7 +529,8 @@
     },
     {
       "id": "t13",
-      "title": "Доброе утро",
+      "title": "Hyvää huomenta",
+      "titleRu": "Доброе утро",
       "level": 1,
       "type": "text",
       "lines": [
@@ -462,12 +556,22 @@
           "accepted": ["Töihin.", "Liisa menee töihin."],
           "wrong": [{ "match": "töissä", "ru": "Направление «куда?» = «töihin» (на работу); «töissä» означало бы «где? на работе»." }],
           "needs_review": false
+        },
+        {
+          "id": "t13q3",
+          "q": "Kuka tämä on?",
+          "qRu": "Кто это?",
+          "canonical": "Liisa.",
+          "accepted": ["Liisa.", "Hän on Liisa.", "Tämä on Liisa."],
+          "wrong": [{ "match": "mika", "ru": "Текст рассказывает Лийса («Minä olen Liisa»), а не Мика." }],
+          "needs_review": false
         }
       ]
     },
     {
       "id": "t14",
-      "title": "Дома",
+      "title": "Kotona",
+      "titleRu": "Дома",
       "level": 2,
       "type": "text",
       "lines": [
@@ -494,12 +598,22 @@
           "accepted": ["Kirjaa.", "Luen kirjaa."],
           "wrong": [{ "match": "kirja", "ru": "Длящееся действие — объект в партитиве: «kirjaa», а не «kirja»." }],
           "needs_review": false
+        },
+        {
+          "id": "t14q3",
+          "q": "Missä minä olen?",
+          "qRu": "Где я?",
+          "canonical": "Kotona.",
+          "accepted": ["Kotona.", "Olen kotona."],
+          "wrong": [{ "match": "kotiin", "ru": "«Дома» (где?) — это «kotona»; «kotiin» означало бы «домой» (куда?)." }],
+          "needs_review": false
         }
       ]
     },
     {
       "id": "t15",
-      "title": "В школе",
+      "title": "Koulussa",
+      "titleRu": "В школе",
       "level": 2,
       "type": "dialog",
       "lines": [
@@ -526,12 +640,22 @@
           "accepted": ["Lukee kirjaa.", "Pekka lukee kirjaa.", "Hän lukee kirjaa."],
           "wrong": [{ "match": "lukee kirja", "ru": "Длящееся действие — объект в партитиве: «kirjaa», а не «kirja»." }],
           "needs_review": false
+        },
+        {
+          "id": "t15q3",
+          "q": "Missä Pekka lukee?",
+          "qRu": "Где Пекка читает?",
+          "canonical": "Koulussa.",
+          "accepted": ["Koulussa.", "Hän lukee koulussa."],
+          "wrong": [{ "match": "kotona", "ru": "Пекка в школе («koulussa»), а не дома." }],
+          "needs_review": false
         }
       ]
     },
     {
       "id": "t16",
-      "title": "Сколько это стоит?",
+      "title": "Paljonko se maksaa?",
+      "titleRu": "Сколько это стоит?",
       "level": 3,
       "type": "dialog",
       "lines": [
@@ -557,12 +681,22 @@
           "accepted": ["Kahvin.", "Anna ostaa kahvin."],
           "wrong": [{ "match": "kahvi", "ru": "Целостный объект в винительном = генитиве: «kahvin», а не «kahvi»." }],
           "needs_review": false
+        },
+        {
+          "id": "t16q3",
+          "q": "Kuka ostaa kahvin?",
+          "qRu": "Кто покупает кофе?",
+          "canonical": "Anna.",
+          "accepted": ["Anna.", "Anna ostaa.", "Anna ostaa kahvin."],
+          "wrong": [{ "match": "juho", "ru": "Кофе покупает Анна («Minä otan sen»), а не Юхо." }],
+          "needs_review": false
         }
       ]
     },
     {
       "id": "t17",
-      "title": "Кто это?",
+      "title": "Kuka tuo on?",
+      "titleRu": "Кто это?",
       "level": 3,
       "type": "dialog",
       "lines": [
@@ -589,12 +723,22 @@
           "accepted": ["Kaupungissa.", "Hän asuu kaupungissa."],
           "wrong": [{ "match": "kaupunkiin", "ru": "Нужен инессив «kaupungissa» (где?), а не иллатив «kaupunkiin» (куда?)." }],
           "needs_review": false
+        },
+        {
+          "id": "t17q3",
+          "q": "Kuka kysyy naisesta?",
+          "qRu": "Кто спрашивает про женщину?",
+          "canonical": "Mika.",
+          "accepted": ["Mika.", "Mika kysyy."],
+          "wrong": [{ "match": "anna", "ru": "Спрашивает Мика («Kuka tuo nainen on?»); отвечает Анна." }],
+          "needs_review": false
         }
       ]
     },
     {
       "id": "t18",
-      "title": "В ресторане",
+      "title": "Ravintolassa",
+      "titleRu": "В ресторане",
       "level": 4,
       "type": "dialog",
       "lines": [
@@ -621,12 +765,22 @@
           "accepted": ["Kymmenen euroa.", "Se maksaa kymmenen euroa."],
           "wrong": [{ "match": "viisi euroa", "ru": "Нет — Анна говорит «kymmenen euroa» (десять евро), а не пять." }],
           "needs_review": false
+        },
+        {
+          "id": "t18q3",
+          "q": "Haluaako Juho kalaa?",
+          "qRu": "Хочет ли Юхо рыбу?",
+          "canonical": "Kyllä.",
+          "accepted": ["Kyllä.", "Kyllä, hän haluaa kalaa.", "Hän haluaa kalaa."],
+          "wrong": [{ "match": "ei", "ru": "Да — Юхо отвечает «Kyllä, kiitos» на вопрос про рыбу." }],
+          "needs_review": false
         }
       ]
     },
     {
       "id": "t19",
-      "title": "Какая погода?",
+      "title": "Millainen sää on?",
+      "titleRu": "Какая погода?",
       "level": 5,
       "type": "dialog",
       "lines": [
@@ -653,12 +807,22 @@
           "accepted": ["Kyllä.", "Sää on kaunis.", "Kyllä, se on kaunis."],
           "wrong": [{ "match": "ei", "ru": "Пекка говорит «Sää on kaunis» (погода красивая), значит ответ «kyllä»." }],
           "needs_review": false
+        },
+        {
+          "id": "t19q3",
+          "q": "Mitä Pekka käskee ottaa?",
+          "qRu": "Что Пекка велит взять?",
+          "canonical": "Lämmin takki.",
+          "accepted": ["Lämmin takki.", "Takki.", "Ota lämmin takki."],
+          "wrong": [{ "match": "kirja", "ru": "Пекка советует взять тёплую куртку («lämmin takki»), а не книгу." }],
+          "needs_review": false
         }
       ]
     },
     {
       "id": "t20",
-      "title": "Моя семья большая",
+      "title": "Minulla on iso perhe",
+      "titleRu": "Моя семья большая",
       "level": 7,
       "type": "text",
       "lines": [
@@ -685,12 +849,22 @@
           "accepted": ["Vanha.", "Sisko on vanha."],
           "wrong": [{ "match": "nuori", "ru": "Молодой — это брат. Сестра «vanha» (старая)." }],
           "needs_review": false
+        },
+        {
+          "id": "t20q3",
+          "q": "Millainen perhe minulla on?",
+          "qRu": "Какая у меня семья?",
+          "canonical": "Iso.",
+          "accepted": ["Iso.", "Iso perhe.", "Perhe on iso.", "Minulla on iso perhe."],
+          "wrong": [{ "match": "pieni", "ru": "Семья большая («iso perhe»), а не маленькая." }],
+          "needs_review": false
         }
       ]
     },
     {
       "id": "t21",
-      "title": "Поездка к озеру",
+      "title": "Matka järvelle",
+      "titleRu": "Поездка к озеру",
       "level": 8,
       "type": "dialog",
       "lines": [
@@ -732,7 +906,8 @@
     },
     {
       "id": "t22",
-      "title": "Хороший вопрос",
+      "title": "Hyvä kysymys",
+      "titleRu": "Хороший вопрос",
       "level": 9,
       "type": "dialog",
       "lines": [
@@ -759,12 +934,22 @@
           "accepted": ["Vaikeaa.", "Suomi on vaikeaa."],
           "wrong": [{ "match": "helppoa", "ru": "Лийса считает финский трудным («vaikeaa»), а не лёгким." }],
           "needs_review": false
+        },
+        {
+          "id": "t22q3",
+          "q": "Kuka auttaa Liisaa?",
+          "qRu": "Кто помогает Лийсе?",
+          "canonical": "Pekka.",
+          "accepted": ["Pekka.", "Pekka auttaa.", "Pekka auttaa häntä."],
+          "wrong": [{ "match": "liisa", "ru": "Помогает Пекка («Minä autan sinua»); Лийса задаёт вопрос." }],
+          "needs_review": false
         }
       ]
     },
     {
       "id": "t23",
-      "title": "Моя комната",
+      "title": "Minun huoneeni",
+      "titleRu": "Моя комната",
       "level": 10,
       "type": "text",
       "lines": [
@@ -806,7 +991,8 @@
     },
     {
       "id": "t24",
-      "title": "На кухне",
+      "title": "Keittiössä",
+      "titleRu": "На кухне",
       "level": 10,
       "type": "dialog",
       "lines": [
@@ -848,7 +1034,8 @@
     },
     {
       "id": "t25",
-      "title": "Наш дом",
+      "title": "Meidän talomme",
+      "titleRu": "Наш дом",
       "level": 3,
       "type": "text",
       "lines": [
@@ -875,12 +1062,22 @@
           "accepted": ["Iso.", "Talo on iso.", "Heillä on iso talo."],
           "wrong": [{ "match": "pieni", "ru": "Дом большой («iso talo»), а не маленький." }],
           "needs_review": false
+        },
+        {
+          "id": "t25q3",
+          "q": "Keitä Mikon perheessä on?",
+          "qRu": "Кто в семье Микко?",
+          "canonical": "Äiti, isä ja sisko.",
+          "accepted": ["Äiti, isä ja sisko.", "Minulla on äiti, isä ja sisko."],
+          "wrong": [{ "match": "veli", "ru": "В семье Микко мама, папа и сестра; брат («veli») не упомянут." }],
+          "needs_review": false
         }
       ]
     },
     {
       "id": "t26",
-      "title": "В магазине",
+      "title": "Kaupassa",
+      "titleRu": "В магазине",
       "level": 4,
       "type": "text",
       "lines": [
@@ -907,12 +1104,22 @@
           "accepted": ["Viisi euroa.", "Kala maksaa viisi euroa."],
           "wrong": [{ "match": "viisi euro", "ru": "После числа существительное в партитиве: «viisi euroa», а не «viisi euro»." }],
           "needs_review": false
+        },
+        {
+          "id": "t26q3",
+          "q": "Mitä minä ostan kaupasta?",
+          "qRu": "Что я покупаю в магазине?",
+          "canonical": "Leipää ja kalaa.",
+          "accepted": ["Leipää ja kalaa.", "Ostan leipää ja kalaa."],
+          "wrong": [{ "match": "leipä ja kala", "ru": "Объекты-еда — в партитиве: «leipää ja kalaa», а не «leipä ja kala»." }],
+          "needs_review": false
         }
       ]
     },
     {
       "id": "t27",
-      "title": "Дорога на работу",
+      "title": "Matka töihin",
+      "titleRu": "Дорога на работу",
       "level": 5,
       "type": "text",
       "lines": [
@@ -952,7 +1159,8 @@
     },
     {
       "id": "t28",
-      "title": "Путешествие к морю",
+      "title": "Matka merelle",
+      "titleRu": "Путешествие к морю",
       "level": 8,
       "type": "text",
       "lines": [
@@ -993,7 +1201,8 @@
     },
     {
       "id": "t29",
-      "title": "В центре города",
+      "title": "Keskustassa",
+      "titleRu": "В центре города",
       "level": 11,
       "type": "text",
       "lines": [
@@ -1044,7 +1253,8 @@
     },
     {
       "id": "t30",
-      "title": "Мой район",
+      "title": "Minun kaupunginosani",
+      "titleRu": "Мой район",
       "level": 11,
       "type": "text",
       "lines": [
@@ -1077,12 +1287,25 @@
             { "match": "kiinni", "ru": "Наоборот: магазин открыт (auki), а не закрыт." }
           ],
           "needs_review": false
+        },
+        {
+          "id": "t30q3",
+          "q": "Onko tori lähellä?",
+          "qRu": "Рынок близко?",
+          "canonical": "Ei.",
+          "accepted": ["Ei.", "Ei ole.", "Tori on kaukana."],
+          "wrong": [
+            { "match": "kyllä", "ru": "Нет — рынок далеко («kaukana»)." },
+            { "match": "lähellä", "ru": "Наоборот: рынок далеко (kaukana), а не близко." }
+          ],
+          "needs_review": false
         }
       ]
     },
     {
       "id": "t31",
-      "title": "В магазине одежды",
+      "title": "Vaatekaupassa",
+      "titleRu": "В магазине одежды",
       "level": 11,
       "type": "dialog",
       "lines": [
@@ -1133,7 +1356,8 @@
     },
     {
       "id": "t32",
-      "title": "Как пройти в банк?",
+      "title": "Miten pääsen pankkiin?",
+      "titleRu": "Как пройти в банк?",
       "level": 11,
       "type": "dialog",
       "lines": [
@@ -1167,12 +1391,25 @@
             { "match": "kaukana", "ru": "Наоборот: банк близко (lähellä), а не далеко." }
           ],
           "needs_review": false
+        },
+        {
+          "id": "t32q3",
+          "q": "Minne Mika kääntyy?",
+          "qRu": "Куда поворачивает Мика?",
+          "canonical": "Oikealle.",
+          "accepted": ["Oikealle.", "Hän kääntyy oikealle."],
+          "wrong": [
+            { "match": "vasemmalle", "ru": "Анна велит повернуть направо («oikealle»), а не налево." },
+            { "match": "oikealla", "ru": "Направление «куда?» — oikealle, а не oikealla (где? справа)." }
+          ],
+          "needs_review": false
         }
       ]
     },
     {
       "id": "t33",
-      "title": "Осенняя погода",
+      "title": "Syksyn sää",
+      "titleRu": "Осенняя погода",
       "level": 12,
       "type": "text",
       "lines": [
@@ -1223,7 +1460,8 @@
     },
     {
       "id": "t34",
-      "title": "Мои планы на лето",
+      "title": "Kesäsuunnitelmani",
+      "titleRu": "Мои планы на лето",
       "level": 12,
       "type": "text",
       "lines": [
@@ -1256,12 +1494,25 @@
             { "match": "metsään", "ru": "Я собираюсь к морю (merelle), а не в лес." }
           ],
           "needs_review": false
+        },
+        {
+          "id": "t34q3",
+          "q": "Mikä on minun lempivuodenaikani?",
+          "qRu": "Какое моё любимое время года?",
+          "canonical": "Kesä.",
+          "accepted": ["Kesä.", "Kesä on.", "Minun lempivuodenaikani on kesä."],
+          "wrong": [
+            { "match": "talvi", "ru": "Моё любимое время года — лето (kesä), а не зима." },
+            { "match": "syksy", "ru": "В тексте любимое время года — лето (kesä)." }
+          ],
+          "needs_review": false
         }
       ]
     },
     {
       "id": "t35",
-      "title": "У врача",
+      "title": "Lääkärissä",
+      "titleRu": "У врача",
       "level": 12,
       "type": "dialog",
       "lines": [
@@ -1312,7 +1563,8 @@
     },
     {
       "id": "t36",
-      "title": "Какая сегодня погода?",
+      "title": "Millainen sää tänään on?",
+      "titleRu": "Какая сегодня погода?",
       "level": 12,
       "type": "dialog",
       "lines": [
@@ -1344,6 +1596,606 @@
             { "match": "lumi", "ru": "Объект осадков — партитив: lunta, а не lumi." },
             { "match": "vettä", "ru": "Зимой часто идёт снег (lunta), а не дождь." }
           ],
+          "needs_review": false
+        },
+        {
+          "id": "t36q3",
+          "q": "Mikä vuodenaika tulee pian?",
+          "qRu": "Какое время года скоро придёт?",
+          "canonical": "Talvi.",
+          "accepted": ["Talvi.", "Talvi tulee.", "Talvi tulee pian."],
+          "wrong": [
+            { "match": "kesä", "ru": "Скоро придёт зима (talvi), а не лето." },
+            { "match": "kevät", "ru": "Мика говорит «Talvi tulee pian» — придёт зима, а не весна." }
+          ],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t37",
+      "title": "Kahvia ja leipää",
+      "titleRu": "Кофе и хлеб",
+      "level": 1,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Liisa", "fi": "Hei! Juotko kahvia?", "ru": "Привет! Ты пьёшь кофе?", "glosses": { "hei": "привет", "juotko": "пьёшь ли ты", "kahvia": "кофе (партитив)" } },
+        { "speaker": "Pekka", "fi": "Kyllä, minä juon kahvia.", "ru": "Да, я пью кофе.", "glosses": { "kyllä": "да", "minä": "я", "juon": "я пью", "kahvia": "кофе (партитив)" } },
+        { "speaker": "Liisa", "fi": "Syötkö myös leipää?", "ru": "Ты ешь также хлеб?", "glosses": { "syötkö": "ешь ли ты", "myös": "также", "leipää": "хлеб (партитив)" } },
+        { "speaker": "Pekka", "fi": "En, kiitos. Minä en syö leipää.", "ru": "Нет, спасибо. Я не ем хлеб.", "glosses": { "en": "не (я)", "kiitos": "спасибо", "minä": "я", "syö": "ем (коннегатив)", "leipää": "хлеб (партитив)" } }
+      ],
+      "questions": [
+        {
+          "id": "t37q1",
+          "q": "Mitä Pekka juo?",
+          "qRu": "Что пьёт Пекка?",
+          "canonical": "Kahvia.",
+          "accepted": ["Kahvia.", "Pekka juo kahvia.", "Hän juo kahvia."],
+          "wrong": [{ "match": "kahvi", "ru": "Питьё (объект) в партитиве: «kahvia», а не «kahvi»." }],
+          "needs_review": false
+        },
+        {
+          "id": "t37q2",
+          "q": "Syökö Pekka leipää?",
+          "qRu": "Ест ли Пекка хлеб?",
+          "canonical": "Ei.",
+          "accepted": ["Ei.", "Ei syö.", "Hän ei syö leipää."],
+          "wrong": [{ "match": "kyllä", "ru": "Нет — Пекка говорит «En syö leipää» (я не ем хлеб)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t37q3",
+          "q": "Kuka kysyy kysymykset?",
+          "qRu": "Кто задаёт вопросы?",
+          "canonical": "Liisa.",
+          "accepted": ["Liisa.", "Liisa kysyy."],
+          "wrong": [{ "match": "pekka", "ru": "Вопросы задаёт Лийса; Пекка отвечает." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t38",
+      "title": "Uusi kirja",
+      "titleRu": "Новая книга",
+      "level": 2,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Mika", "fi": "Minä ostin uuden kirjan.", "ru": "Я купил новую книгу.", "glosses": { "minä": "я", "ostin": "я купил", "uuden": "новую", "kirjan": "книгу" } },
+        { "speaker": "Anna", "fi": "Hyvä! Luetko sinä nyt?", "ru": "Хорошо! Ты сейчас читаешь?", "glosses": { "hyvä": "хорошо", "luetko": "читаешь ли ты", "sinä": "ты", "nyt": "сейчас" } },
+        { "speaker": "Mika", "fi": "Kyllä, minä luen kirjaa kotona.", "ru": "Да, я читаю книгу дома.", "glosses": { "kyllä": "да", "minä": "я", "luen": "я читаю", "kirjaa": "книгу (партитив)", "kotona": "дома" } },
+        { "speaker": "Anna", "fi": "Minä haluan myös lukea.", "ru": "Я тоже хочу читать.", "glosses": { "minä": "я", "haluan": "я хочу", "myös": "также", "lukea": "читать" } }
+      ],
+      "questions": [
+        {
+          "id": "t38q1",
+          "q": "Mitä Mika osti?",
+          "qRu": "Что купил Мика?",
+          "canonical": "Kirjan.",
+          "accepted": ["Kirjan.", "Uuden kirjan.", "Mika osti kirjan."],
+          "wrong": [{ "match": "kirja", "ru": "Целостный объект в винительном = генитиве: «kirjan», а не «kirja»." }],
+          "needs_review": false
+        },
+        {
+          "id": "t38q2",
+          "q": "Missä Mika lukee?",
+          "qRu": "Где Мика читает?",
+          "canonical": "Kotona.",
+          "accepted": ["Kotona.", "Hän lukee kotona."],
+          "wrong": [{ "match": "kotiin", "ru": "«Дома» (где?) — «kotona»; «kotiin» означало бы «домой» (куда?)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t38q3",
+          "q": "Millainen kirja on?",
+          "qRu": "Какая книга?",
+          "canonical": "Uusi.",
+          "accepted": ["Uusi.", "Uusi kirja.", "Kirja on uusi."],
+          "wrong": [{ "match": "vanha", "ru": "Книга новая («uusi»), а не старая." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t39",
+      "title": "Iso kaupunki",
+      "titleRu": "Большой город",
+      "level": 3,
+      "type": "text",
+      "lines": [
+        { "fi": "Minä asun isossa kaupungissa.", "ru": "Я живу в большом городе.", "glosses": { "minä": "я", "asun": "я живу", "isossa": "в большом", "kaupungissa": "в городе" } },
+        { "fi": "Kaupungissa on iso kauppa ja koulu.", "ru": "В городе есть большой магазин и школа.", "glosses": { "kaupungissa": "в городе", "on": "есть", "iso": "большой", "kauppa": "магазин", "ja": "и", "koulu": "школа" } },
+        { "fi": "Minulla on auto, mutta minä kävelen usein.", "ru": "У меня есть машина, но я часто хожу пешком.", "glosses": { "minulla": "у меня", "on": "есть", "auto": "машина", "mutta": "но", "minä": "я", "kävelen": "я хожу пешком", "usein": "часто" } },
+        { "fi": "Minä rakastan tätä kaupunkia.", "ru": "Я люблю этот город.", "glosses": { "minä": "я", "rakastan": "я люблю", "tätä": "этот", "kaupunkia": "город (партитив)" } }
+      ],
+      "questions": [
+        {
+          "id": "t39q1",
+          "q": "Missä minä asun?",
+          "qRu": "Где я живу?",
+          "canonical": "Kaupungissa.",
+          "accepted": ["Kaupungissa.", "Isossa kaupungissa.", "Asun kaupungissa."],
+          "wrong": [{ "match": "kaupunkiin", "ru": "Нужен инессив «kaupungissa» (где?), а не иллатив «kaupunkiin» (куда?)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t39q2",
+          "q": "Mitä kaupungissa on?",
+          "qRu": "Что есть в городе?",
+          "canonical": "Kauppa ja koulu.",
+          "accepted": ["Kauppa ja koulu.", "Iso kauppa ja koulu."],
+          "wrong": [{ "match": "talo ja auto", "ru": "В городе есть магазин и школа, а не дом и машина." }],
+          "needs_review": false
+        },
+        {
+          "id": "t39q3",
+          "q": "Onko minulla auto?",
+          "qRu": "Есть ли у меня машина?",
+          "canonical": "Kyllä.",
+          "accepted": ["Kyllä.", "On.", "Kyllä, minulla on auto."],
+          "wrong": [{ "match": "ei", "ru": "Да — «Minulla on auto» (у меня есть машина)." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t40",
+      "title": "Ravintolassa",
+      "titleRu": "В ресторане",
+      "level": 4,
+      "type": "text",
+      "lines": [
+        { "fi": "Minä menen ravintolaan.", "ru": "Я иду в ресторан.", "glosses": { "minä": "я", "menen": "я иду", "ravintolaan": "в ресторан" } },
+        { "fi": "Minä tilaan kalaa ja teetä.", "ru": "Я заказываю рыбу и чай.", "glosses": { "minä": "я", "tilaan": "я заказываю", "kalaa": "рыбу (партитив)", "ja": "и", "teetä": "чай (партитив)" } },
+        { "fi": "Ruoka maksaa kaksikymmentä euroa.", "ru": "Еда стоит двадцать евро.", "glosses": { "ruoka": "еда", "maksaa": "стоит", "kaksikymmentä": "двадцать", "euroa": "евро (партитив после числа)" } },
+        { "fi": "Minulla on rahaa, ja minä maksan.", "ru": "У меня есть деньги, и я плачу.", "glosses": { "minulla": "у меня", "on": "есть", "rahaa": "деньги (партитив)", "ja": "и", "minä": "я", "maksan": "я плачу" } }
+      ],
+      "questions": [
+        {
+          "id": "t40q1",
+          "q": "Minne minä menen?",
+          "qRu": "Куда я иду?",
+          "canonical": "Ravintolaan.",
+          "accepted": ["Ravintolaan.", "Menen ravintolaan."],
+          "wrong": [{ "match": "ravintolassa", "ru": "Направление «куда?» — иллатив «ravintolaan», а не «ravintolassa» (где?)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t40q2",
+          "q": "Mitä minä tilaan?",
+          "qRu": "Что я заказываю?",
+          "canonical": "Kalaa ja teetä.",
+          "accepted": ["Kalaa ja teetä.", "Tilaan kalaa ja teetä."],
+          "wrong": [{ "match": "kala ja tee", "ru": "Объекты — в партитиве: «kalaa ja teetä», а не «kala ja tee»." }],
+          "needs_review": false
+        },
+        {
+          "id": "t40q3",
+          "q": "Paljonko ruoka maksaa?",
+          "qRu": "Сколько стоит еда?",
+          "canonical": "Kaksikymmentä euroa.",
+          "accepted": ["Kaksikymmentä euroa.", "Se maksaa kaksikymmentä euroa."],
+          "wrong": [{ "match": "kaksikymmentä euro", "ru": "После числа существительное в партитиве: «euroa», а не «euro»." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t41",
+      "title": "Kaunis sää",
+      "titleRu": "Красивая погода",
+      "level": 5,
+      "type": "text",
+      "lines": [
+        { "fi": "Tänään on kaunis ilma.", "ru": "Сегодня хорошая погода.", "glosses": { "tänään": "сегодня", "on": "есть", "kaunis": "красивая", "ilma": "погода" } },
+        { "fi": "Sää on lämmin, ja minä haluan kävellä.", "ru": "Погода тёплая, и я хочу гулять.", "glosses": { "sää": "погода", "on": "есть", "lämmin": "тёплая", "ja": "и", "minä": "я", "haluan": "я хочу", "kävellä": "гулять" } },
+        { "fi": "Minä voin mennä puistoon.", "ru": "Я могу пойти в парк.", "glosses": { "minä": "я", "voin": "я могу", "mennä": "идти", "puistoon": "в парк" } },
+        { "fi": "Mutta huomenna ehkä sataa.", "ru": "Но завтра, может быть, пойдёт дождь.", "glosses": { "mutta": "но", "huomenna": "завтра", "ehkä": "может быть", "sataa": "идёт дождь" } }
+      ],
+      "questions": [
+        {
+          "id": "t41q1",
+          "q": "Millainen sää tänään on?",
+          "qRu": "Какая сегодня погода?",
+          "canonical": "Lämmin.",
+          "accepted": ["Lämmin.", "Sää on lämmin.", "Kaunis ja lämmin."],
+          "wrong": [{ "match": "kylmä", "ru": "Сегодня тепло («lämmin»), а не холодно." }],
+          "needs_review": false
+        },
+        {
+          "id": "t41q2",
+          "q": "Minne minä voin mennä?",
+          "qRu": "Куда я могу пойти?",
+          "canonical": "Puistoon.",
+          "accepted": ["Puistoon.", "Voin mennä puistoon."],
+          "wrong": [{ "match": "puistossa", "ru": "Направление «куда?» — «puistoon», а не «puistossa» (где?)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t41q3",
+          "q": "Mitä huomenna ehkä tapahtuu?",
+          "qRu": "Что, может быть, будет завтра?",
+          "canonical": "Sataa.",
+          "accepted": ["Sataa.", "Ehkä sataa.", "Huomenna sataa."],
+          "wrong": [{ "match": "satan", "ru": "Глагол погоды безличный — только 3 л.: «sataa», а не «satan»." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t42",
+      "title": "Aamulla",
+      "titleRu": "Утром",
+      "level": 6,
+      "type": "text",
+      "lines": [
+        { "fi": "Minä herään aamulla.", "ru": "Я просыпаюсь утром.", "glosses": { "minä": "я", "herään": "я просыпаюсь", "aamulla": "утром" } },
+        { "fi": "Minä juon kahvia ja katson kelloa.", "ru": "Я пью кофе и смотрю на часы.", "glosses": { "minä": "я", "juon": "я пью", "kahvia": "кофе (партитив)", "ja": "и", "katson": "я смотрю", "kelloa": "на часы (партитив)" } },
+        { "fi": "Kello on kahdeksan. Minun täytyy mennä töihin.", "ru": "Восемь часов. Мне надо идти на работу.", "glosses": { "kello": "часы (время)", "on": "есть", "kahdeksan": "восемь", "minun": "мне (мой)", "täytyy": "надо", "mennä": "идти", "töihin": "на работу" } },
+        { "fi": "Illalla minä olen väsynyt ja nukun hyvin.", "ru": "Вечером я уставший и хорошо сплю.", "glosses": { "illalla": "вечером", "minä": "я", "olen": "я есть", "väsynyt": "уставший", "ja": "и", "nukun": "я сплю", "hyvin": "хорошо" } }
+      ],
+      "questions": [
+        {
+          "id": "t42q1",
+          "q": "Milloin minä herään?",
+          "qRu": "Когда я просыпаюсь?",
+          "canonical": "Aamulla.",
+          "accepted": ["Aamulla.", "Herään aamulla."],
+          "wrong": [{ "match": "illalla", "ru": "Просыпаюсь утром («aamulla»); вечером я устаю." }],
+          "needs_review": false
+        },
+        {
+          "id": "t42q2",
+          "q": "Paljonko kello on?",
+          "qRu": "Который час?",
+          "canonical": "Kahdeksan.",
+          "accepted": ["Kahdeksan.", "Kello on kahdeksan."],
+          "wrong": [{ "match": "kaksi", "ru": "Часы показывают восемь («kahdeksan»), а не два." }],
+          "needs_review": false
+        },
+        {
+          "id": "t42q3",
+          "q": "Millainen minä olen illalla?",
+          "qRu": "Какой я вечером?",
+          "canonical": "Väsynyt.",
+          "accepted": ["Väsynyt.", "Olen väsynyt.", "Minä olen väsynyt."],
+          "wrong": [{ "match": "väsynyttä", "ru": "Предикатив о человеке — в номинативе: «väsynyt», а не «väsynyttä»." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t43",
+      "title": "Mitä teet illalla?",
+      "titleRu": "Что ты делаешь вечером?",
+      "level": 6,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Anna", "fi": "Mitä sinä teet illalla?", "ru": "Что ты делаешь вечером?", "glosses": { "mitä": "что", "sinä": "ты", "teet": "ты делаешь", "illalla": "вечером" } },
+        { "speaker": "Mika", "fi": "Minä katson televisiota ja kuuntelen musiikkia.", "ru": "Я смотрю телевизор и слушаю музыку.", "glosses": { "minä": "я", "katson": "я смотрю", "televisiota": "телевизор (партитив)", "ja": "и", "kuuntelen": "я слушаю", "musiikkia": "музыку (партитив)" } },
+        { "speaker": "Anna", "fi": "Kirjoitatko sinä myös kirjeen?", "ru": "Ты также пишешь письмо?", "glosses": { "kirjoitatko": "пишешь ли ты", "sinä": "ты", "myös": "также", "kirjeen": "письмо" } },
+        { "speaker": "Mika", "fi": "En. Minä olen väsynyt ja menen nukkumaan.", "ru": "Нет. Я устал и иду спать.", "glosses": { "en": "не (я)", "minä": "я", "olen": "я есть", "väsynyt": "уставший", "ja": "и", "menen": "я иду", "nukkumaan": "спать" } }
+      ],
+      "questions": [
+        {
+          "id": "t43q1",
+          "q": "Mitä Mika kuuntelee?",
+          "qRu": "Что слушает Мика?",
+          "canonical": "Musiikkia.",
+          "accepted": ["Musiikkia.", "Hän kuuntelee musiikkia."],
+          "wrong": [{ "match": "musiikki", "ru": "Объект после kuunnella — в партитиве: «musiikkia», а не «musiikki»." }],
+          "needs_review": false
+        },
+        {
+          "id": "t43q2",
+          "q": "Katsooko Mika televisiota?",
+          "qRu": "Смотрит ли Мика телевизор?",
+          "canonical": "Kyllä.",
+          "accepted": ["Kyllä.", "Kyllä, hän katsoo televisiota.", "Hän katsoo televisiota."],
+          "wrong": [{ "match": "ei", "ru": "Да — Мика смотрит телевизор и слушает музыку." }],
+          "needs_review": false
+        },
+        {
+          "id": "t43q3",
+          "q": "Millainen Mika on?",
+          "qRu": "Какой Мика?",
+          "canonical": "Väsynyt.",
+          "accepted": ["Väsynyt.", "Hän on väsynyt.", "Mika on väsynyt."],
+          "wrong": [{ "match": "iloinen", "ru": "Мика устал («väsynyt»), а не радостный." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t44",
+      "title": "Minä matkustan junalla",
+      "titleRu": "Я еду на поезде",
+      "level": 7,
+      "type": "text",
+      "lines": [
+        { "fi": "Huomenna minä matkustan junalla.", "ru": "Завтра я еду на поезде.", "glosses": { "huomenna": "завтра", "minä": "я", "matkustan": "я еду", "junalla": "на поезде" } },
+        { "fi": "Juna on nopea, ja matka on pitkä.", "ru": "Поезд быстрый, и дорога длинная.", "glosses": { "juna": "поезд", "on": "есть", "nopea": "быстрый", "ja": "и", "matka": "дорога", "pitkä": "длинная" } },
+        { "fi": "Minä menen veljen kanssa kaupunkiin.", "ru": "Я еду с братом в город.", "glosses": { "minä": "я", "menen": "я еду", "veljen": "брата", "kanssa": "с (вместе)", "kaupunkiin": "в город" } },
+        { "fi": "Me rakastamme matkaa.", "ru": "Мы любим путешествие.", "glosses": { "me": "мы", "rakastamme": "мы любим", "matkaa": "путешествие (партитив)" } }
+      ],
+      "questions": [
+        {
+          "id": "t44q1",
+          "q": "Millä minä matkustan?",
+          "qRu": "На чём я еду?",
+          "canonical": "Junalla.",
+          "accepted": ["Junalla.", "Matkustan junalla."],
+          "wrong": [{ "match": "bussilla", "ru": "Я еду на поезде («junalla»), а не на автобусе." }],
+          "needs_review": false
+        },
+        {
+          "id": "t44q2",
+          "q": "Millainen juna on?",
+          "qRu": "Какой поезд?",
+          "canonical": "Nopea.",
+          "accepted": ["Nopea.", "Juna on nopea."],
+          "wrong": [{ "match": "nopeaa", "ru": "Подлежащее исчисляемое (juna) — предикатив в номинативе: «nopea», а не «nopeaa»." }],
+          "needs_review": false
+        },
+        {
+          "id": "t44q3",
+          "q": "Kenen kanssa minä menen?",
+          "qRu": "С кем я еду?",
+          "canonical": "Veljen kanssa.",
+          "accepted": ["Veljen kanssa.", "Menen veljen kanssa."],
+          "wrong": [{ "match": "siskon kanssa", "ru": "Я еду с братом («veljen kanssa»), а не с сестрой." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t45",
+      "title": "Polkupyörällä kouluun",
+      "titleRu": "На велосипеде в школу",
+      "level": 7,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Pekka", "fi": "Miten sinä menet kouluun?", "ru": "Как ты едешь в школу?", "glosses": { "miten": "как", "sinä": "ты", "menet": "ты едешь", "kouluun": "в школу" } },
+        { "speaker": "Liisa", "fi": "Minä menen polkupyörällä. Matka on lyhyt.", "ru": "Я еду на велосипеде. Дорога короткая.", "glosses": { "minä": "я", "menen": "я еду", "polkupyörällä": "на велосипеде", "matka": "дорога", "on": "есть", "lyhyt": "короткая" } },
+        { "speaker": "Pekka", "fi": "Minä matkustan bussilla, koska asun kaukana.", "ru": "Я еду на автобусе, потому что живу далеко.", "glosses": { "minä": "я", "matkustan": "я еду", "bussilla": "на автобусе", "koska": "потому что", "asun": "я живу", "kaukana": "далеко" } },
+        { "speaker": "Liisa", "fi": "Bussi on hidas, mutta mukava.", "ru": "Автобус медленный, но удобный.", "glosses": { "bussi": "автобус", "on": "есть", "hidas": "медленный", "mutta": "но", "mukava": "удобный" } }
+      ],
+      "questions": [
+        {
+          "id": "t45q1",
+          "q": "Millä Liisa menee kouluun?",
+          "qRu": "На чём Лийса едет в школу?",
+          "canonical": "Polkupyörällä.",
+          "accepted": ["Polkupyörällä.", "Hän menee polkupyörällä."],
+          "wrong": [{ "match": "bussilla", "ru": "Лийса едет на велосипеде («polkupyörällä»); на автобусе едет Пекка." }],
+          "needs_review": false
+        },
+        {
+          "id": "t45q2",
+          "q": "Millä Pekka matkustaa?",
+          "qRu": "На чём едет Пекка?",
+          "canonical": "Bussilla.",
+          "accepted": ["Bussilla.", "Hän matkustaa bussilla."],
+          "wrong": [{ "match": "polkupyörällä", "ru": "Пекка едет на автобусе («bussilla»), а на велосипеде — Лийса." }],
+          "needs_review": false
+        },
+        {
+          "id": "t45q3",
+          "q": "Miksi Pekka matkustaa bussilla?",
+          "qRu": "Почему Пекка едет на автобусе?",
+          "canonical": "Koska hän asuu kaukana.",
+          "accepted": ["Koska hän asuu kaukana.", "Koska asun kaukana.", "Hän asuu kaukana."],
+          "wrong": [{ "match": "koska hän asuu lähellä", "ru": "Пекка живёт далеко («kaukana»), поэтому едет автобусом." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t46",
+      "title": "Metsässä",
+      "titleRu": "В лесу",
+      "level": 8,
+      "type": "text",
+      "lines": [
+        { "fi": "Lauantaina minä kävelen metsässä.", "ru": "В субботу я гуляю в лесу.", "glosses": { "lauantaina": "в субботу", "minä": "я", "kävelen": "я гуляю", "metsässä": "в лесу" } },
+        { "fi": "Aurinko paistaa ja on lämmin.", "ru": "Солнце светит и тепло.", "glosses": { "aurinko": "солнце", "paistaa": "светит", "ja": "и", "on": "есть", "lämmin": "тёпло" } },
+        { "fi": "Järvi on lähellä, ja minä uin.", "ru": "Озеро рядом, и я плаваю.", "glosses": { "järvi": "озеро", "on": "есть", "lähellä": "близко", "ja": "и", "minä": "я", "uin": "я плаваю" } },
+        { "fi": "Illalla minä matkustan junalla kotiin.", "ru": "Вечером я еду на поезде домой.", "glosses": { "illalla": "вечером", "minä": "я", "matkustan": "я еду", "junalla": "на поезде", "kotiin": "домой" } }
+      ],
+      "questions": [
+        {
+          "id": "t46q1",
+          "q": "Missä minä kävelen?",
+          "qRu": "Где я гуляю?",
+          "canonical": "Metsässä.",
+          "accepted": ["Metsässä.", "Kävelen metsässä."],
+          "wrong": [{ "match": "metsään", "ru": "Нужен инессив «metsässä» (где?), а не иллатив «metsään» (куда?)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t46q2",
+          "q": "Millainen sää on?",
+          "qRu": "Какая погода?",
+          "canonical": "Lämmin.",
+          "accepted": ["Lämmin.", "On lämmin.", "Sää on lämmin."],
+          "wrong": [{ "match": "kylmä", "ru": "В тексте тепло («lämmin»), а не холодно." }],
+          "needs_review": false
+        },
+        {
+          "id": "t46q3",
+          "q": "Millä minä matkustan kotiin?",
+          "qRu": "На чём я еду домой?",
+          "canonical": "Junalla.",
+          "accepted": ["Junalla.", "Matkustan junalla."],
+          "wrong": [{ "match": "bussilla", "ru": "Домой я еду на поезде («junalla»), а не на автобусе." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t47",
+      "title": "Lentokentällä",
+      "titleRu": "В аэропорту",
+      "level": 9,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Antti", "fi": "Anteeksi, missä lentokenttä on?", "ru": "Извините, где аэропорт?", "glosses": { "anteeksi": "извините", "missä": "где", "lentokenttä": "аэропорт", "on": "находится" } },
+        { "speaker": "Anna", "fi": "Se on kaukana. Sinä voit mennä junalla.", "ru": "Он далеко. Ты можешь поехать на поезде.", "glosses": { "se": "он", "on": "находится", "kaukana": "далеко", "sinä": "ты", "voit": "ты можешь", "mennä": "ехать", "junalla": "на поезде" } },
+        { "speaker": "Antti", "fi": "Kiitos. Minä kysyn vielä yhden kysymyksen.", "ru": "Спасибо. Я задам ещё один вопрос.", "glosses": { "kiitos": "спасибо", "minä": "я", "kysyn": "я спрашиваю", "vielä": "ещё", "yhden": "один", "kysymyksen": "вопрос" } },
+        { "speaker": "Anna", "fi": "Kysy vain! Minä vastaan mielelläni.", "ru": "Спрашивай! Я с удовольствием отвечу.", "glosses": { "kysy": "спрашивай", "vain": "только / же", "minä": "я", "vastaan": "я отвечаю", "mielelläni": "с удовольствием" } }
+      ],
+      "questions": [
+        {
+          "id": "t47q1",
+          "q": "Onko lentokenttä lähellä?",
+          "qRu": "Аэропорт близко?",
+          "canonical": "Ei.",
+          "accepted": ["Ei.", "Ei ole.", "Se on kaukana."],
+          "wrong": [{ "match": "kyllä", "ru": "Нет — Анна говорит, что аэропорт далеко («kaukana»)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t47q2",
+          "q": "Millä Antti voi mennä lentokentälle?",
+          "qRu": "На чём Антти может доехать до аэропорта?",
+          "canonical": "Junalla.",
+          "accepted": ["Junalla.", "Hän voi mennä junalla."],
+          "wrong": [{ "match": "bussilla", "ru": "Анна предлагает поезд («junalla»), а не автобус." }],
+          "needs_review": false
+        },
+        {
+          "id": "t47q3",
+          "q": "Mitä Antti kysyy?",
+          "qRu": "Что задаёт Антти?",
+          "canonical": "Kysymyksen.",
+          "accepted": ["Kysymyksen.", "Hän kysyy kysymyksen.", "Yhden kysymyksen."],
+          "wrong": [{ "match": "vastauksen", "ru": "Антти задаёт вопрос («kysymyksen»), а не ответ." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t48",
+      "title": "Iloinen päivä",
+      "titleRu": "Радостный день",
+      "level": 9,
+      "type": "text",
+      "lines": [
+        { "fi": "Tänään minä olen iloinen.", "ru": "Сегодня я радостный.", "glosses": { "tänään": "сегодня", "minä": "я", "olen": "я есть", "iloinen": "радостный" } },
+        { "fi": "Minä soitan ystävälle ja kerron hyvän uutisen.", "ru": "Я звоню другу и рассказываю хорошую новость.", "glosses": { "minä": "я", "soitan": "я звоню", "ystävälle": "другу", "ja": "и", "kerron": "я рассказываю", "hyvän": "хорошую", "uutisen": "новость" } },
+        { "fi": "Hän on myös onnellinen.", "ru": "Он тоже счастлив.", "glosses": { "hän": "он", "on": "есть", "myös": "также", "onnellinen": "счастливый" } },
+        { "fi": "Minä uskon, että huomenna on hyvä päivä.", "ru": "Я верю, что завтра будет хороший день.", "glosses": { "minä": "я", "uskon": "я верю", "että": "что", "huomenna": "завтра", "on": "есть", "hyvä": "хороший", "päivä": "день" } }
+      ],
+      "questions": [
+        {
+          "id": "t48q1",
+          "q": "Millainen minä olen tänään?",
+          "qRu": "Какой я сегодня?",
+          "canonical": "Iloinen.",
+          "accepted": ["Iloinen.", "Olen iloinen.", "Minä olen iloinen."],
+          "wrong": [{ "match": "surullinen", "ru": "Я радостный («iloinen»), а не грустный." }],
+          "needs_review": false
+        },
+        {
+          "id": "t48q2",
+          "q": "Kenelle minä soitan?",
+          "qRu": "Кому я звоню?",
+          "canonical": "Ystävälle.",
+          "accepted": ["Ystävälle.", "Soitan ystävälle."],
+          "wrong": [{ "match": "ystävä", "ru": "«Другу» (кому?) — аллатив «ystävälle», а не «ystävä»." }],
+          "needs_review": false
+        },
+        {
+          "id": "t48q3",
+          "q": "Millainen huomenna on?",
+          "qRu": "Каким будет завтра?",
+          "canonical": "Hyvä päivä.",
+          "accepted": ["Hyvä päivä.", "Hyvä.", "Huomenna on hyvä päivä."],
+          "wrong": [{ "match": "tylsä", "ru": "Я верю, что завтра будет хороший день («hyvä»), а не скучный." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t49",
+      "title": "Olohuoneessa",
+      "titleRu": "В гостиной",
+      "level": 10,
+      "type": "text",
+      "lines": [
+        { "fi": "Olohuoneessa on iso sohva.", "ru": "В гостиной есть большой диван.", "glosses": { "olohuoneessa": "в гостиной", "on": "есть", "iso": "большой", "sohva": "диван" } },
+        { "fi": "Seinällä on peili, ja lattialla on matto.", "ru": "На стене зеркало, а на полу ковёр.", "glosses": { "seinällä": "на стене", "on": "есть", "peili": "зеркало", "ja": "и", "lattialla": "на полу", "matto": "ковёр" } },
+        { "fi": "Minä avaan ikkunan, koska huone on lämmin.", "ru": "Я открываю окно, потому что в комнате тепло.", "glosses": { "minä": "я", "avaan": "я открываю", "ikkunan": "окно", "koska": "потому что", "huone": "комната", "on": "есть", "lämmin": "тёплая" } },
+        { "fi": "Olohuone on puhdas ja mukava.", "ru": "Гостиная чистая и уютная.", "glosses": { "olohuone": "гостиная", "on": "есть", "puhdas": "чистая", "ja": "и", "mukava": "уютная" } }
+      ],
+      "questions": [
+        {
+          "id": "t49q1",
+          "q": "Mitä olohuoneessa on?",
+          "qRu": "Что есть в гостиной?",
+          "canonical": "Sohva.",
+          "accepted": ["Sohva.", "Iso sohva.", "Olohuoneessa on sohva."],
+          "wrong": [{ "match": "sänky", "ru": "В гостиной диван («sohva»), а не кровать." }],
+          "needs_review": false
+        },
+        {
+          "id": "t49q2",
+          "q": "Mitä seinällä on?",
+          "qRu": "Что на стене?",
+          "canonical": "Peili.",
+          "accepted": ["Peili.", "Seinällä on peili."],
+          "wrong": [{ "match": "matto", "ru": "Ковёр («matto») на полу, на стене — зеркало («peili»)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t49q3",
+          "q": "Mitä minä avaan?",
+          "qRu": "Что я открываю?",
+          "canonical": "Ikkunan.",
+          "accepted": ["Ikkunan.", "Avaan ikkunan."],
+          "wrong": [{ "match": "ikkuna", "ru": "Полный объект — в генитиве: «ikkunan», а не «ikkuna»." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t50",
+      "title": "Avain on kateissa",
+      "titleRu": "Ключ потерялся",
+      "level": 10,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Anna", "fi": "Missä minun avain on?", "ru": "Где мой ключ?", "glosses": { "missä": "где", "minun": "мой", "avain": "ключ", "on": "находится" } },
+        { "speaker": "Mika", "fi": "Katso pöydällä. Se on ehkä keittiössä.", "ru": "Посмотри на столе. Он, может быть, на кухне.", "glosses": { "katso": "посмотри", "pöydällä": "на столе", "se": "он", "on": "находится", "ehkä": "может быть", "keittiössä": "на кухне" } },
+        { "speaker": "Anna", "fi": "Ei, pöydällä on vain kirja.", "ru": "Нет, на столе только книга.", "glosses": { "ei": "нет", "pöydällä": "на столе", "on": "есть", "vain": "только", "kirja": "книга" } },
+        { "speaker": "Mika", "fi": "Sitten avain on kaapissa. Minä autan sinua.", "ru": "Тогда ключ в шкафу. Я помогу тебе.", "glosses": { "sitten": "тогда", "avain": "ключ", "on": "находится", "kaapissa": "в шкафу", "minä": "я", "autan": "я помогаю", "sinua": "тебе (партитив)" } }
+      ],
+      "questions": [
+        {
+          "id": "t50q1",
+          "q": "Mitä Anna etsii?",
+          "qRu": "Что ищет Анна?",
+          "canonical": "Avainta.",
+          "accepted": ["Avainta.", "Hän etsii avainta.", "Avain."],
+          "wrong": [{ "match": "kirjaa", "ru": "Анна ищет ключ («avainta»), а не книгу." }],
+          "needs_review": false
+        },
+        {
+          "id": "t50q2",
+          "q": "Mitä pöydällä on?",
+          "qRu": "Что на столе?",
+          "canonical": "Kirja.",
+          "accepted": ["Kirja.", "Pöydällä on kirja.", "Vain kirja."],
+          "wrong": [{ "match": "avain", "ru": "На столе только книга («kirja»); ключа там нет." }],
+          "needs_review": false
+        },
+        {
+          "id": "t50q3",
+          "q": "Missä avain ehkä on?",
+          "qRu": "Где, возможно, ключ?",
+          "canonical": "Kaapissa.",
+          "accepted": ["Kaapissa.", "Se on kaapissa.", "Avain on kaapissa."],
+          "wrong": [{ "match": "kaappiin", "ru": "Нужен инессив «kaapissa» (где?), а не иллатив «kaappiin» (куда?)." }],
           "needs_review": false
         }
       ]

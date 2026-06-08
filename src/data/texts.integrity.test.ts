@@ -48,9 +48,9 @@ describe("texts.seed.json integrity", () => {
     }
   });
 
-  it("every level has at least one monologue text AND one dialog", () => {
-    // The home screen offers a 📖 Тексты card and a 🎭 Диалоги card; both must have content at
-    // every level so neither is empty when the learner reaches it. Guards future content too.
+  it("every level has at least TWO monologue texts AND two dialogs", () => {
+    // The home screen offers a Тексты card and a Диалоги card; each level must offer a real choice
+    // (≥2 of each) so neither card is thin when the learner reaches it. Guards future content too.
     const byLevel = new Map<number, { text: number; dialog: number }>();
     for (const t of TEXTS) {
       const e = byLevel.get(t.level) ?? { text: 0, dialog: 0 };
@@ -58,8 +58,17 @@ describe("texts.seed.json integrity", () => {
       byLevel.set(t.level, e);
     }
     for (const [level, e] of byLevel) {
-      expect(e.text, `level ${level} has no monologue text`).toBeGreaterThan(0);
-      expect(e.dialog, `level ${level} has no dialog`).toBeGreaterThan(0);
+      expect(e.text, `level ${level} has <2 monologue texts (${e.text})`).toBeGreaterThanOrEqual(2);
+      expect(e.dialog, `level ${level} has <2 dialogs (${e.dialog})`).toBeGreaterThanOrEqual(2);
+    }
+  });
+
+  it("every text/dialog has a Finnish title and a non-empty Russian titleRu", () => {
+    for (const t of TEXTS) {
+      expect(t.titleRu && t.titleRu.trim().length > 0, `${t.id} missing titleRu`).toBe(true);
+      // The displayed title is Finnish, distinct from its Russian translation, and free of Cyrillic.
+      expect(t.title.trim(), `${t.id} title equals titleRu`).not.toBe(t.titleRu?.trim());
+      expect(/[А-Яа-яЁё]/.test(t.title), `${t.id} title "${t.title}" contains Cyrillic`).toBe(false);
     }
   });
 });
@@ -89,6 +98,12 @@ describe("texts.seed.json glosses + questions integrity", () => {
   it("question ids are unique across the whole library", () => {
     const ids = allQuestions.map((q) => q.id);
     expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it("every text/dialog has at least 3 comprehension questions", () => {
+    for (const t of TEXTS) {
+      expect((t.questions ?? []).length, `${t.id} has <3 questions`).toBeGreaterThanOrEqual(3);
+    }
   });
 
   it("every question has non-empty q/qRu/canonical/accepted", () => {
