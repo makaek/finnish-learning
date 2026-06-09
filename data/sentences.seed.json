@@ -6619,6 +6619,356 @@
       ],
       "teaches": "predicative partitive with abstract subject (terveellinen)",
       "needs_review": false
+    },
+
+    {
+      "id": "s465",
+      "ru": "Я бывал в Финляндии.",
+      "uses": ["v1", "v63", "n16"],
+      "level": 13,
+      "canonical": "Olen käynyt Suomessa.",
+      "accepted": ["Olen käynyt Suomessa.", "Minä olen käynyt Suomessa."],
+      "wrong": [
+        { "match": "käynyt suomessa", "ru": "Перфекту нужен вспомогательный глагол olla: olen käynyt." },
+        { "match": "kävin suomessa", "ru": "Это имперфект (завершённая поездка); опыт «бывал когда-либо» — перфект olen käynyt." }
+      ],
+      "teaches": "perfect (olen käynyt)",
+      "needs_review": false
+    },
+    {
+      "id": "s466",
+      "ru": "Ты видел этот фильм?",
+      "uses": ["v1", "v12", "p9", "n256"],
+      "level": 13,
+      "canonical": "Oletko nähnyt tämän elokuvan?",
+      "accepted": ["Oletko nähnyt tämän elokuvan?", "Oletko sinä nähnyt tämän elokuvan?"],
+      "wrong": [
+        { "match": "näitkö tämän elokuvan", "ru": "Опыт «видел ли когда-нибудь» — перфект Oletko nähnyt (имперфект näitkö = «увидел ли тогда»)." },
+        { "match": "oletko nähnyt tämän elokuva", "ru": "Объект целиком — генитив: elokuvan." }
+      ],
+      "teaches": "perfect question (oletko nähnyt)",
+      "needs_review": false
+    },
+    {
+      "id": "s467",
+      "ru": "Я не ел завтрак.",
+      "uses": ["f6", "v1", "v3", "n292"],
+      "level": 13,
+      "canonical": "En ole syönyt aamiaista.",
+      "accepted": ["En ole syönyt aamiaista.", "Minä en ole syönyt aamiaista."],
+      "wrong": [
+        { "match": "en syönyt aamiaista", "ru": "Перфект-опыт «(ещё) не ел» — en ole syönyt (это имперфект «не поел тогда»)." },
+        { "match": "en ole syön aamiaista", "ru": "После olla нужно причастие на -nyt: syönyt." }
+      ],
+      "teaches": "perfect negative (en ole syönyt)",
+      "needs_review": false
+    },
+    {
+      "id": "s468",
+      "ru": "Мы живём здесь два года.",
+      "uses": ["v1", "v7", "f42", "f16", "n217"],
+      "level": 13,
+      "canonical": "Olemme asuneet täällä kaksi vuotta.",
+      "accepted": ["Olemme asuneet täällä kaksi vuotta.", "Me olemme asuneet täällä kaksi vuotta."],
+      "wrong": [
+        { "match": "asuimme täällä kaksi vuotta", "ru": "Период длится сейчас — перфект olemme asuneet (имперфект asuimme = «жили и уехали»)." },
+        { "match": "olemme asuneet täällä kaksi vuosi", "ru": "После числа >1 — партитив: kaksi vuotta." }
+      ],
+      "teaches": "perfect (olemme asuneet) ongoing period vs imperfect",
+      "needs_review": false
+    },
+    {
+      "id": "s469",
+      "ru": "Ты был в России?",
+      "uses": ["v1", "n149"],
+      "level": 13,
+      "canonical": "Oletko ollut Venäjällä?",
+      "accepted": ["Oletko ollut Venäjällä?", "Oletko sinä ollut Venäjällä?"],
+      "wrong": [
+        { "match": "olitko venäjällä", "ru": "Опыт «бывал ли» — перфект Oletko ollut (имперфект olitko = «был ли тогда»)." },
+        { "match": "oletko ollut venäjässä", "ru": "Страна как место — адессив: Venäjällä (-llä)." }
+      ],
+      "teaches": "perfect (oletko ollut)",
+      "needs_review": false
+    },
+    {
+      "id": "s470",
+      "ru": "Я никогда не был в Швеции.",
+      "uses": ["f6", "v1", "n150"],
+      "level": 13,
+      "canonical": "En ole koskaan ollut Ruotsissa.",
+      "accepted": ["En ole koskaan ollut Ruotsissa."],
+      "wrong": [
+        { "match": "en ollut koskaan ruotsissa", "ru": "Опыт «никогда не бывал» — перфект en ole ollut (не имперфект en ollut)." }
+      ],
+      "teaches": "perfect negative experience (en ole ollut)",
+      "needs_review": false
+    },
+    {
+      "id": "s471",
+      "ru": "Я прожил в Финляндии два года.",
+      "uses": ["v7", "n16", "f16", "n217"],
+      "level": 13,
+      "canonical": "Asuin Suomessa kaksi vuotta.",
+      "accepted": ["Asuin Suomessa kaksi vuotta.", "Minä asuin Suomessa kaksi vuotta."],
+      "wrong": [
+        { "match": "olen asunut suomessa kaksi vuotta", "ru": "Период завершён (уже не живёшь) — имперфект asuin (перфект olen asunut = «и сейчас живу»)." }
+      ],
+      "teaches": "imperfect vs perfect: finished period (asuin)",
+      "needs_review": false
+    },
+    {
+      "id": "s472",
+      "ru": "Я родился в 1990 году.",
+      "uses": ["v117", "n217"],
+      "level": 13,
+      "canonical": "Synnyin vuonna 1990.",
+      "accepted": ["Synnyin vuonna 1990.", "Minä synnyin vuonna 1990."],
+      "wrong": [
+        { "match": "syntyin vuonna 1990", "ru": "Основа synny-: synnyin (чередование nt->nn в слабой форме)." }
+      ],
+      "teaches": "imperfect (synnyin) personal history",
+      "needs_review": false
+    },
+    {
+      "id": "s473",
+      "ru": "Я вырос в России.",
+      "uses": ["v118", "n149"],
+      "level": 13,
+      "canonical": "Kasvoin Venäjällä.",
+      "accepted": ["Kasvoin Venäjällä.", "Minä kasvoin Venäjällä."],
+      "wrong": [
+        { "match": "kasvoin venäjässä", "ru": "Страна как место — адессив: Venäjällä (-llä)." },
+        { "match": "kasvuin venäjällä", "ru": "Имперфект kasvaa — kasvoin (а не «kasvuin»)." }
+      ],
+      "teaches": "imperfect (kasvoin) personal history + adessive country",
+      "needs_review": false
+    },
+    {
+      "id": "s474",
+      "ru": "Я переехал в Финляндию.",
+      "uses": ["v119", "n16"],
+      "level": 13,
+      "canonical": "Muutin Suomeen.",
+      "accepted": ["Muutin Suomeen.", "Minä muutin Suomeen."],
+      "wrong": [
+        { "match": "muutin suomessa", "ru": "Переезд — направление «куда», иллатив: Suomeen (а не инессив Suomessa)." },
+        { "match": "muuttin suomeen", "ru": "Чередование tt->t в имперфекте: muutin (а не «muuttin»)." }
+      ],
+      "teaches": "imperfect (muutin) + illative direction",
+      "needs_review": false
+    },
+    {
+      "id": "s475",
+      "ru": "Моё детство было счастливым.",
+      "uses": ["n304", "v1", "a27"],
+      "level": 13,
+      "canonical": "Lapsuuteni oli onnellinen.",
+      "accepted": ["Lapsuuteni oli onnellinen."],
+      "wrong": [
+        { "match": "lapsuus oli onnellinen", "ru": "«Моё детство» — притяжательный суффикс: lapsuuteni (основа lapsuude-)." }
+      ],
+      "teaches": "possessive suffix (lapsuus) + imperfect copula (oli)",
+      "needs_review": false
+    },
+    {
+      "id": "s476",
+      "ru": "У меня хорошие воспоминания.",
+      "uses": ["p1", "v1", "a1", "n308"],
+      "level": 13,
+      "canonical": "Minulla on hyviä muistoja.",
+      "accepted": ["Minulla on hyviä muistoja."],
+      "wrong": [
+        { "match": "minulla on hyvät muistot", "ru": "Неопределённое количество — партитив мн.ч.: hyviä muistoja." }
+      ],
+      "teaches": "adessive possession + partitive plural (muisto)",
+      "needs_review": false
+    },
+    {
+      "id": "s477",
+      "ru": "По-моему, хоккей весёлый.",
+      "uses": ["p1", "n273", "v1", "a51"],
+      "level": 13,
+      "canonical": "Minusta jääkiekko on hauskaa.",
+      "accepted": ["Minusta jääkiekko on hauskaa."],
+      "wrong": [
+        { "match": "minä jääkiekko on hauskaa", "ru": "«По-моему» — minusta (элатив), а не Minä." },
+        { "match": "minusta jääkiekko on hauska", "ru": "Абстрактное «весело» — предикатив в партитиве: hauskaa." }
+      ],
+      "teaches": "opinion (minusta) + predicative partitive",
+      "needs_review": false
+    },
+    {
+      "id": "s478",
+      "ru": "По моему мнению, фильм был скучным.",
+      "uses": ["n270", "n256", "v1", "a32"],
+      "level": 13,
+      "canonical": "Mielestäni elokuva oli tylsä.",
+      "accepted": ["Mielestäni elokuva oli tylsä.", "Minun mielestäni elokuva oli tylsä."],
+      "wrong": [
+        { "match": "mielestäni elokuva on tylsä", "ru": "О прошлом — имперфект oli (а не настоящее on)." }
+      ],
+      "teaches": "opinion (mielestäni) + imperfect copula",
+      "needs_review": false
+    },
+    {
+      "id": "s479",
+      "ru": "Я думаю, что это важно.",
+      "uses": ["v48", "f27", "p10", "v1", "a20"],
+      "level": 13,
+      "canonical": "Ajattelen, että se on tärkeää.",
+      "accepted": ["Ajattelen, että se on tärkeää."],
+      "wrong": [
+        { "match": "ajattelen, että se on tärkeä", "ru": "Абстрактное «это» — предикатив в партитиве: tärkeää." }
+      ],
+      "teaches": "opinion (ajatella että) + predicative partitive",
+      "needs_review": false
+    },
+    {
+      "id": "s480",
+      "ru": "Я говорю и по-фински, и по-английски.",
+      "uses": ["v6", "f104", "n16", "f27", "n148"],
+      "level": 13,
+      "canonical": "Puhun sekä suomea että englantia.",
+      "accepted": ["Puhun sekä suomea että englantia."],
+      "wrong": [
+        { "match": "puhun ja suomea ja englantia", "ru": "Парный союз «и…, и…» — sekä … että (а не ja … ja)." }
+      ],
+      "teaches": "conjunction sekä…että",
+      "needs_review": false
+    },
+    {
+      "id": "s481",
+      "ru": "Я выйду, хотя идёт дождь.",
+      "uses": ["v2", "f105", "v50"],
+      "level": 13,
+      "canonical": "Menen ulos, vaikka sataa.",
+      "accepted": ["Menen ulos, vaikka sataa."],
+      "wrong": [
+        { "match": "menen ulos, koska sataa", "ru": "«Хотя» (уступка) — vaikka, а не koska («потому что»)." }
+      ],
+      "teaches": "conjunction vaikka (concessive)",
+      "needs_review": false
+    },
+    {
+      "id": "s482",
+      "ru": "Я устал, поэтому спал.",
+      "uses": ["v1", "a15", "f106", "v23"],
+      "level": 13,
+      "canonical": "Olin väsynyt, siksi nukuin.",
+      "accepted": ["Olin väsynyt, siksi nukuin."],
+      "wrong": [
+        { "match": "olin väsynyt, koska nukuin", "ru": "«Поэтому» (следствие) — siksi, а не koska («потому что»)." }
+      ],
+      "teaches": "conjunction siksi (consequence) + imperfect",
+      "needs_review": false
+    },
+    {
+      "id": "s483",
+      "ru": "Я устал. Всё же пошёл на работу.",
+      "uses": ["v1", "a15", "v2", "f107", "n1"],
+      "level": 13,
+      "canonical": "Olin väsynyt. Menin kuitenkin töihin.",
+      "accepted": ["Olin väsynyt. Menin kuitenkin töihin."],
+      "wrong": [
+        { "match": "olen väsynyt. menin kuitenkin töihin", "ru": "Согласование времени: olin (имперфект), раз и во втором предложении menin." }
+      ],
+      "teaches": "conjunction kuitenkin + imperfect",
+      "needs_review": false
+    },
+    {
+      "id": "s484",
+      "ru": "Я пью не кофе, а чай.",
+      "uses": ["f6", "v4", "n8", "f109", "n32"],
+      "level": 13,
+      "canonical": "En juo kahvia, vaan teetä.",
+      "accepted": ["En juo kahvia, vaan teetä."],
+      "wrong": [
+        { "match": "en juo kahvia, mutta teetä", "ru": "После отрицания «а» — vaan (не mutta): En juo kahvia, vaan teetä." }
+      ],
+      "teaches": "conjunction vaan (after negation)",
+      "needs_review": false
+    },
+    {
+      "id": "s485",
+      "ru": "Кроме того, я люблю чтение.",
+      "uses": ["f108", "v96", "n274"],
+      "level": 13,
+      "canonical": "Lisäksi tykkään lukemisesta.",
+      "accepted": ["Lisäksi tykkään lukemisesta."],
+      "wrong": [
+        { "match": "lisäksi tykkään lukemista", "ru": "tykätä управляет элативом: lukemisesta (а не партитив lukemista)." }
+      ],
+      "teaches": "conjunction lisäksi + tykätä elative",
+      "needs_review": false
+    },
+    {
+      "id": "s486",
+      "ru": "Ты был в музее?",
+      "uses": ["v1", "v63", "n251"],
+      "level": 13,
+      "canonical": "Oletko käynyt museossa?",
+      "accepted": ["Oletko käynyt museossa?", "Oletko sinä käynyt museossa?"],
+      "wrong": [
+        { "match": "kävitkö museossa", "ru": "Опыт «бывал ли» — перфект Oletko käynyt (имперфект kävitkö = «сходил ли тогда»)." }
+      ],
+      "teaches": "perfect question (oletko käynyt)",
+      "needs_review": false
+    },
+    {
+      "id": "s487",
+      "ru": "Я ещё не сделал работу.",
+      "uses": ["f6", "v1", "f91", "v10", "n1"],
+      "level": 13,
+      "canonical": "En ole vielä tehnyt työtä.",
+      "accepted": ["En ole vielä tehnyt työtä."],
+      "wrong": [
+        { "match": "en tehnyt työtä vielä", "ru": "«Ещё не сделал» — перфект en ole tehnyt (с olla)." },
+        { "match": "en ole vielä tehnyt työ", "ru": "Объект при отрицании — партитив: työtä." }
+      ],
+      "teaches": "perfect negative (en ole tehnyt) + vielä",
+      "needs_review": false
+    },
+    {
+      "id": "s488",
+      "ru": "Моё прошлое было трудным.",
+      "uses": ["n309", "v1", "a9"],
+      "level": 13,
+      "canonical": "Menneisyyteni oli vaikeaa.",
+      "accepted": ["Menneisyyteni oli vaikeaa."],
+      "wrong": [
+        { "match": "menneisyys oli vaikeaa", "ru": "«Моё прошлое» — притяжательный суффикс: menneisyyteni." },
+        { "match": "menneisyyteni oli vaikea", "ru": "Абстрактное подлежащее — предикатив в партитиве: vaikeaa." }
+      ],
+      "teaches": "possessive suffix (menneisyys) + predicative partitive",
+      "needs_review": false
+    },
+    {
+      "id": "s489",
+      "ru": "Я рассказал историю моей жизни.",
+      "uses": ["v47", "n306", "n310"],
+      "level": 13,
+      "canonical": "Kerroin elämäni tarinan.",
+      "accepted": ["Kerroin elämäni tarinan."],
+      "wrong": [
+        { "match": "kerroin elämäni tarinaa", "ru": "История рассказана целиком — тотальный объект: tarinan (а не партитив tarinaa)." },
+        { "match": "kertoin elämäni tarinan", "ru": "Чередование rt->rr в имперфекте: kerroin (а не «kertoin»)." }
+      ],
+      "teaches": "imperfect (kerroin) + total object (tarina)",
+      "needs_review": false
+    },
+    {
+      "id": "s490",
+      "ru": "Это хороший опыт.",
+      "uses": ["p10", "v1", "a1", "n311"],
+      "level": 13,
+      "canonical": "Se on hyvä kokemus.",
+      "accepted": ["Se on hyvä kokemus."],
+      "wrong": [
+        { "match": "se on hyvä kokemusta", "ru": "Предикатив-тождество — номинатив: kokemus (а не партитив kokemusta)." }
+      ],
+      "teaches": "predicative nominative + inflection type (kokemus)",
+      "needs_review": false
     }
   ]
 }

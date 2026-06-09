@@ -487,7 +487,20 @@
     {"id":"v116","fi":"vaihtaa","ru":"менять / обменивать","pos":"verb","level":11,"verb_type":1,
       "present":{"minä":"vaihdan","sinä":"vaihdat","hän":"vaihtaa","me":"vaihdamme","te":"vaihdatte","he":"vaihtavat"},
       "past_1sg":"vaihdoin","past_3sg":"vaihtoi","conneg":"vaihda",
-      "notes":"Gradation t->d: vaihTaa but vaihDan. 'Voinko vaihtaa takin?' = Можно поменять куртку? (в магазине).","needs_review":false}
+      "notes":"Gradation t->d: vaihTaa but vaihDan. 'Voinko vaihtaa takin?' = Можно поменять куртку? (в магазине).","needs_review":false},
+
+    {"id":"v117","fi":"syntyä","ru":"рождаться","pos":"verb","level":13,"verb_type":1,
+      "present":{"minä":"synnyn","sinä":"synnyt","hän":"syntyy","me":"synnymme","te":"synnytte","he":"syntyvät"},
+      "past_1sg":"synnyin","past_3sg":"syntyi","conneg":"synny",
+      "notes":"Gradation nt->nn: syNTyy but syNNyn. Имперфект synnyin: 'Synnyin vuonna 1990' = Я родился в 1990 году. Перфект 'olen syntynyt'.","needs_review":false},
+    {"id":"v118","fi":"kasvaa","ru":"расти / вырастать","pos":"verb","level":13,"verb_type":1,
+      "present":{"minä":"kasvan","sinä":"kasvat","hän":"kasvaa","me":"kasvamme","te":"kasvatte","he":"kasvavat"},
+      "past_1sg":"kasvoin","past_3sg":"kasvoi","conneg":"kasva",
+      "notes":"No gradation. Имперфект kasvoin: 'Kasvoin Venäjällä' = Я вырос в России. Перфект 'olen kasvanut'.","needs_review":false},
+    {"id":"v119","fi":"muuttaa","ru":"переезжать / менять","pos":"verb","level":13,"verb_type":1,
+      "present":{"minä":"muutan","sinä":"muutat","hän":"muuttaa","me":"muutamme","te":"muutatte","he":"muuttavat"},
+      "past_1sg":"muutin","past_3sg":"muutti","conneg":"muuta",
+      "notes":"Gradation tt->t: muuTTaa but muuTan. Переезд: направление в иллативе: 'Muutin Suomeen' = Я переехал в Финляндию. Перфект 'olen muuttanut'. Также «менять что-то».","needs_review":false}
   ],
 
   "nouns": [
@@ -816,7 +829,17 @@
     {"id":"n299","fi":"banaani","ru":"банан","pos":"noun","level":10,"gen_sg":"banaanin","part_sg":"banaania","iness_sg":"banaanissa","illat_sg":"banaaniin","notes":"No gradation. 'Syön banaanin' = Я ем банан (целиком, тотальный). Plural partitive banaaneja.","needs_review":false},
     {"id":"n300","fi":"mansikka","ru":"клубника","pos":"noun","level":10,"gen_sg":"mansikan","part_sg":"mansikkaa","part_pl":"mansikoita","iness_sg":"mansikassa","illat_sg":"mansikkaan","notes":"Gradation kk->k: mansiKKa but mansiKan. 'Syön mansikoita' = Я ем клубнику (партитив мн.ч. mansikoita).","needs_review":false},
     {"id":"n301","fi":"liikunta","ru":"физкультура / спорт","pos":"noun","level":12,"gen_sg":"liikunnan","part_sg":"liikuntaa","iness_sg":"liikunnassa","illat_sg":"liikuntaan","notes":"Gradation nt->nn: liikuNTa but liikuNNan. 'Liikunta on terveellistä' = Спорт полезен. 'Harrastan liikuntaa' = Я занимаюсь спортом.","needs_review":false},
-    {"id":"n302","fi":"väsymys","ru":"усталость","pos":"noun","level":12,"gen_sg":"väsymyksen","part_sg":"väsymystä","iness_sg":"väsymyksessä","illat_sg":"väsymykseen","notes":"-ys noun, основа väsymykse-: gen väsymyksen, part väsymystä. От väsynyt (a15). 'Tunnen väsymystä' = Я чувствую усталость.","needs_review":false}
+    {"id":"n302","fi":"väsymys","ru":"усталость","pos":"noun","level":12,"gen_sg":"väsymyksen","part_sg":"väsymystä","iness_sg":"väsymyksessä","illat_sg":"väsymykseen","notes":"-ys noun, основа väsymykse-: gen väsymyksen, part väsymystä. От väsynyt (a15). 'Tunnen väsymystä' = Я чувствую усталость.","needs_review":false},
+
+    {"id":"n303","fi":"muutto","ru":"переезд","pos":"noun","level":13,"gen_sg":"muuton","part_sg":"muuttoa","iness_sg":"muutossa","illat_sg":"muuttoon","notes":"Gradation tt->t: muuTTo but muuTon. От muuttaa (v119). 'Muutto oli rankka' = Переезд был тяжёлым.","needs_review":false},
+    {"id":"n304","fi":"lapsuus","ru":"детство","pos":"noun","level":13,"gen_sg":"lapsuuden","part_sg":"lapsuutta","iness_sg":"lapsuudessa","illat_sg":"lapsuuteen","notes":"-uus noun, основа lapsuude-: gen lapsuuden, part lapsuutta. От lapsi. 'lapsuudessa' = в детстве.","needs_review":false},
+    {"id":"n305","fi":"nuoruus","ru":"молодость / юность","pos":"noun","level":13,"gen_sg":"nuoruuden","part_sg":"nuoruutta","iness_sg":"nuoruudessa","illat_sg":"nuoruuteen","notes":"-uus noun, основа nuoruude-: gen nuoruuden, part nuoruutta. От nuori. 'nuoruudessa' = в молодости.","needs_review":false},
+    {"id":"n306","fi":"elämä","ru":"жизнь","pos":"noun","level":13,"gen_sg":"elämän","part_sg":"elämää","iness_sg":"elämässä","illat_sg":"elämään","notes":"No gradation. Front-harmony. 'Elämä on hyvää' = Жизнь хороша (абстрактное -> партитив elämää как предикатив). 'koko elämä' = вся жизнь.","needs_review":false},
+    {"id":"n307","fi":"sukupolvi","ru":"поколение","pos":"noun","level":13,"gen_sg":"sukupolven","part_sg":"sukupolvea","iness_sg":"sukupolvessa","illat_sg":"sukupolveen","notes":"suku + polvi. Основа sukupolve-: gen sukupolven, part sukupolvea. 'vanhempi sukupolvi' = старшее поколение.","needs_review":false},
+    {"id":"n308","fi":"muisto","ru":"воспоминание","pos":"noun","level":13,"gen_sg":"muiston","part_sg":"muistoa","iness_sg":"muistossa","illat_sg":"muistoon","notes":"No gradation. От muistaa. 'kaunis muisto' = красивое воспоминание. Plural muistot = воспоминания.","needs_review":false},
+    {"id":"n309","fi":"menneisyys","ru":"прошлое","pos":"noun","level":13,"gen_sg":"menneisyyden","part_sg":"menneisyyttä","iness_sg":"menneisyydessä","illat_sg":"menneisyyteen","notes":"-uus/-yys noun, основа menneisyyde-: gen menneisyyden, part menneisyyttä. 'menneisyydessä' = в прошлом. Antonym tulevaisuus.","needs_review":false},
+    {"id":"n310","fi":"tarina","ru":"история / рассказ","pos":"noun","level":13,"gen_sg":"tarinan","part_sg":"tarinaa","iness_sg":"tarinassa","illat_sg":"tarinaan","notes":"No gradation. 'Kerron tarinan' = Я рассказываю историю. 'elämäni tarina' = история моей жизни.","needs_review":false},
+    {"id":"n311","fi":"kokemus","ru":"опыт / переживание","pos":"noun","level":13,"gen_sg":"kokemuksen","part_sg":"kokemusta","iness_sg":"kokemuksessa","illat_sg":"kokemukseen","notes":"-us noun, основа kokemukse-: gen kokemuksen, part kokemusta. 'hyvä kokemus' = хороший опыт.","needs_review":false}
   ],
 
   "adjectives": [
@@ -1027,7 +1050,14 @@
 
     {"id":"f101","fi":"moi","ru":"привет (разг.)","pos":"interj","level":3,"notes":"Неформальное приветствие, как hei. Также 'moikka'. При прощании 'moi moi' = пока.","needs_review":false},
     {"id":"f102","fi":"näkemiin","ru":"до свидания","pos":"interj","level":3,"notes":"Формальное прощание. Неформально 'hei hei', 'moi moi', 'nähdään' (увидимся).","needs_review":false},
-    {"id":"f103","fi":"nähdään","ru":"увидимся / до встречи","pos":"interj","level":3,"notes":"Прощание «увидимся». Буквально пассив от nähdä. 'Nähdään huomenna!' = Увидимся завтра!","needs_review":false}
+    {"id":"f103","fi":"nähdään","ru":"увидимся / до встречи","pos":"interj","level":3,"notes":"Прощание «увидимся». Буквально пассив от nähdä. 'Nähdään huomenna!' = Увидимся завтра!","needs_review":false},
+
+    {"id":"f104","fi":"sekä","ru":"и (в паре sekä…että)","pos":"conj","level":13,"notes":"Парный союз 'sekä … että' = «как…, так и…» / «и…, и…»: 'Puhun sekä suomea että englantia' = Я говорю и по-фински, и по-английски. Сам по себе sekä ≈ ja, но в паре с että.","needs_review":false},
+    {"id":"f105","fi":"vaikka","ru":"хотя","pos":"conj","level":13,"notes":"Уступительный союз: 'Menen ulos, vaikka sataa' = Я выйду, хотя идёт дождь. Вводит придаточное уступки.","needs_review":false},
+    {"id":"f106","fi":"siksi","ru":"поэтому","pos":"conj","level":13,"notes":"Союз следствия: 'Olin väsynyt, siksi nukuin' = Я устал, поэтому спал. Отвечает на miksi. Синоним siis (значит).","needs_review":false},
+    {"id":"f107","fi":"kuitenkin","ru":"однако / всё же","pos":"adv","level":13,"notes":"Наречие-связка: 'Olin väsynyt. Menin kuitenkin töihin' = Я устал. Всё же пошёл на работу. Свободный порядок.","needs_review":false},
+    {"id":"f108","fi":"lisäksi","ru":"кроме того / вдобавок","pos":"adv","level":13,"notes":"Наречие-связка: 'Pidän teestä. Lisäksi juon kahvia' = Я люблю чай. Кроме того, пью кофе.","needs_review":false},
+    {"id":"f109","fi":"vaan","ru":"а (после отрицания)","pos":"conj","level":13,"notes":"Союз 'а' ПОСЛЕ отрицания (в отличие от mutta): 'En juo kahvia vaan teetä' = Я пью не кофе, а чай. После утверждения — mutta.","needs_review":false}
   ],
 
   "example_sentences": [

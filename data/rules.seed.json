@@ -451,6 +451,51 @@
         "teaches": ["inflection type", "stem"],
         "pos": ["noun"]
       }
+    },
+    {
+      "id": "perfect",
+      "title": "Перфект (olen tehnyt) и его отличие от имперфекта",
+      "summary": "olla + причастие на -nut/-nyt: 'olen käynyt'. Перфект = связь с настоящим/опыт; имперфект = завершённый момент в прошлом.",
+      "body": "Перфект образуется вспомогательным глаголом olla (olen, olet, on, olemme, olette, ovat) + причастие прошедшего на -nut/-nyt (мн. -neet): 'Olen käynyt Suomessa' = Я (по)бывал в Финляндии. ГЛАВНАЯ ЛОВУШКА для русскоговорящих: в русском один глагол совершенного вида, а в финском выбор между перфектом и имперфектом несёт смысл. Перфект — связь с настоящим, опыт «когда-либо», незавершённый период: 'Olen asunut Suomessa kaksi vuotta' = Я живу в Финляндии (уже) два года (и сейчас живу). Имперфект — завершённый момент/период, оторванный от настоящего: 'Asuin Suomessa kaksi vuotta' = Я (про)жил в Финляндии два года (сейчас не живу). Сравни: 'Oletko nähnyt tämän?' (видел ли когда-нибудь) ≠ 'Näitkö sen?' (увидел ли тогда). Отрицание: olla-связка тоже отрицается: 'En ole nähnyt' = Я не видел (опыт), причастие остаётся: 'emme ole syöneet'. НЕ забывай вспомогательный olla: «olen käynyt», а не «käynyt» само по себе.",
+      "examples": [
+        { "fi": "Olen käynyt Suomessa.", "ru": "Я бывал в Финляндии." },
+        { "fi": "Oletko nähnyt tämän elokuvan?", "ru": "Ты видел этот фильм?" },
+        { "fi": "En ole syönyt aamiaista.", "ru": "Я не ел завтрак." }
+      ],
+      "match": {
+        "teaches": ["perfect"],
+        "pos": ["verb"]
+      }
+    },
+    {
+      "id": "opinions",
+      "title": "Как выразить мнение",
+      "summary": "minusta / minun mielestäni / mielestäni / ajattelen että / olen sitä mieltä että + причина с koska.",
+      "body": "Своё мнение по-фински вводят несколькими оборотами: (1) 'minusta' (буквально «от меня») = по-моему: 'Minusta tämä on hyvä'; (2) 'minun mielestäni' / коротко 'mielestäni' (от mieli + элатив + суффикс) = по моему мнению: 'Mielestäni elokuva oli tylsä'; (3) 'ajattelen, että…' = я думаю, что…: 'Ajattelen, että hän on oikeassa'; (4) 'olen sitä mieltä, että…' = я придерживаюсь мнения, что… Мнение часто подкрепляют причиной через koska: 'Minusta jääkiekko on hauskaa, koska se on nopeaa'. Перед että ставится запятая. minusta/mielestäni не требуют после себя että, а ajattelen/olen sitä mieltä — требуют.",
+      "examples": [
+        { "fi": "Minusta tämä on hyvä idea.", "ru": "По-моему, это хорошая идея." },
+        { "fi": "Mielestäni elokuva oli tylsä.", "ru": "По-моему, фильм был скучный." },
+        { "fi": "Ajattelen, että olet oikeassa.", "ru": "Я думаю, что ты прав." }
+      ],
+      "match": {
+        "teaches": ["opinion"],
+        "pos": ["noun", "verb"]
+      }
+    },
+    {
+      "id": "conjunctions-a2",
+      "title": "Союзы уровня A2",
+      "summary": "sekä…että (и…и), vaikka (хотя), siksi/siis (поэтому), kuitenkin (однако), vaan (а после отрицания), ennen kuin, kunnes, lisäksi.",
+      "body": "A2 добавляет к базовым союзам (ja/mutta/että/koska/kun/jos) более тонкие: 'sekä … että' = «как…, так и…» ('Puhun sekä suomea että ruotsia'); 'vaikka' = хотя (уступка: 'Menen ulos, vaikka sataa'); 'siksi'/'siis' = поэтому/значит (следствие: 'Olin sairas, siksi jäin kotiin'); 'kuitenkin' = однако/всё же (наречие-связка, свободный порядок); 'lisäksi' = кроме того; 'ennen kuin' = прежде чем; 'kunnes' = пока не. ВАЖНАЯ ЛОВУШКА: 'vaan' и 'mutta' оба = «а/но», но 'vaan' идёт ТОЛЬКО после отрицания и исправляет его: 'En juo kahvia, vaan teetä' = Я пью не кофе, а чай; после утверждения — только 'mutta'.",
+      "examples": [
+        { "fi": "Puhun sekä suomea että englantia.", "ru": "Я говорю и по-фински, и по-английски." },
+        { "fi": "Menen ulos, vaikka sataa.", "ru": "Я выйду, хотя идёт дождь." },
+        { "fi": "En juo kahvia, vaan teetä.", "ru": "Я пью не кофе, а чай." }
+      ],
+      "match": {
+        "teaches": ["conjunction", "vaan", "vaikka", "sekä"],
+        "pos": ["conj"]
+      }
     }
   ]
 }

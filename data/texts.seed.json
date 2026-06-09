@@ -3688,6 +3688,177 @@
           "needs_review": false
         }
       ]
+    },
+    {
+      "id": "t86",
+      "title": "Elämäni tarina",
+      "titleRu": "История моей жизни",
+      "level": 13,
+      "type": "text",
+      "lines": [
+        { "fi": "Synnyin Venäjällä vuonna 1990.", "ru": "Я родился в России в 1990 году.", "glosses": { "synnyin": "я родился", "venäjällä": "в России", "vuonna": "в году" } },
+        { "fi": "Kasvoin pienessä kaupungissa ja kävin koulua siellä.", "ru": "Я вырос в маленьком городе и ходил там в школу.", "glosses": { "kasvoin": "я вырос", "pienessä": "в маленьком", "kaupungissa": "в городе", "ja": "и", "kävin": "я ходил", "koulua": "в школу (партитив)", "siellä": "там" } },
+        { "fi": "Muutin Suomeen, koska halusin opiskella.", "ru": "Я переехал в Финляндию, потому что хотел учиться.", "glosses": { "muutin": "я переехал", "suomeen": "в Финляндию", "koska": "потому что", "halusin": "я хотел", "opiskella": "учиться" } },
+        { "fi": "Olen asunut Helsingissä jo viisi vuotta.", "ru": "Я живу в Хельсинки уже пять лет.", "glosses": { "olen": "я", "asunut": "жил (причастие)", "helsingissä": "в Хельсинки", "jo": "уже", "viisi": "пять", "vuotta": "лет (партитив)" } },
+        { "fi": "Minulla on paljon hyviä muistoja sekä Venäjältä että Suomesta.", "ru": "У меня много хороших воспоминаний и из России, и из Финляндии.", "glosses": { "minulla": "у меня", "on": "есть", "paljon": "много", "hyviä": "хороших", "muistoja": "воспоминаний", "sekä": "как", "venäjältä": "из России", "että": "так и", "suomesta": "из Финляндии" } }
+      ],
+      "questions": [
+        {
+          "id": "t86q1",
+          "q": "Missä kertoja syntyi?",
+          "qRu": "Где родился рассказчик?",
+          "canonical": "Venäjällä.",
+          "accepted": ["Venäjällä.", "Hän syntyi Venäjällä.", "Synnyin Venäjällä."],
+          "wrong": [{ "match": "suomessa", "ru": "Родился в России (Venäjällä); в Финляндию переехал позже." }],
+          "needs_review": false
+        },
+        {
+          "id": "t86q2",
+          "q": "Miksi kertoja muutti Suomeen?",
+          "qRu": "Почему рассказчик переехал в Финляндию?",
+          "canonical": "Koska hän halusi opiskella.",
+          "accepted": ["Koska hän halusi opiskella.", "Hän halusi opiskella.", "Halusi opiskella.", "Koska halusin opiskella."],
+          "wrong": [{ "match": "koska halusi nukkua", "ru": "Переехал, потому что хотел учиться (opiskella)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t86q3",
+          "q": "Kuinka kauan kertoja on asunut Helsingissä?",
+          "qRu": "Как долго рассказчик живёт в Хельсинки?",
+          "canonical": "Viisi vuotta.",
+          "accepted": ["Viisi vuotta.", "Jo viisi vuotta.", "Hän on asunut viisi vuotta."],
+          "wrong": [{ "match": "kaksi vuotta", "ru": "В тексте — пять лет (viisi vuotta), не два." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t87",
+      "title": "Lapsuuteni",
+      "titleRu": "Моё детство",
+      "level": 13,
+      "type": "text",
+      "lines": [
+        { "fi": "Lapsuuteni oli onnellinen.", "ru": "Моё детство было счастливым.", "glosses": { "lapsuuteni": "моё детство", "oli": "было", "onnellinen": "счастливым" } },
+        { "fi": "Asuin isovanhempien kanssa maalla.", "ru": "Я жил с бабушкой и дедушкой в деревне.", "glosses": { "asuin": "я жил", "isovanhempien": "бабушки и дедушки", "kanssa": "с", "maalla": "в деревне" } },
+        { "fi": "Leikin ulkona ja piirsin paljon.", "ru": "Я играл на улице и много рисовал.", "glosses": { "leikin": "я играл", "ulkona": "на улице", "ja": "и", "piirsin": "я рисовал", "paljon": "много" } },
+        { "fi": "Minulla ei ollut puhelinta, mutta olin onnellinen.", "ru": "У меня не было телефона, но я был счастлив.", "glosses": { "minulla": "у меня", "ei": "не", "ollut": "было", "puhelinta": "телефона (партитив)", "mutta": "но", "olin": "я был", "onnellinen": "счастлив" } }
+      ],
+      "questions": [
+        {
+          "id": "t87q1",
+          "q": "Millainen kertojan lapsuus oli?",
+          "qRu": "Каким было детство рассказчика?",
+          "canonical": "Onnellinen.",
+          "accepted": ["Onnellinen.", "Lapsuus oli onnellinen.", "Se oli onnellinen."],
+          "wrong": [{ "match": "surullinen", "ru": "Детство было счастливым (onnellinen), не грустным." }],
+          "needs_review": false
+        },
+        {
+          "id": "t87q2",
+          "q": "Kenen kanssa kertoja asui?",
+          "qRu": "С кем жил рассказчик?",
+          "canonical": "Isovanhempien kanssa.",
+          "accepted": ["Isovanhempien kanssa.", "Hän asui isovanhempien kanssa."],
+          "wrong": [{ "match": "ystävien kanssa", "ru": "Жил с бабушкой и дедушкой (isovanhempien kanssa)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t87q3",
+          "q": "Oliko kertojalla puhelin?",
+          "qRu": "Был ли у рассказчика телефон?",
+          "canonical": "Ei ollut.",
+          "accepted": ["Ei ollut.", "Ei.", "Ei, ei ollut."],
+          "wrong": [{ "match": "kyllä", "ru": "Телефона не было (ei ollut puhelinta)." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t88",
+      "title": "Mitä olet tehnyt?",
+      "titleRu": "Что ты сделал?",
+      "level": 13,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Sanna", "fi": "Hei! Mitä olet tehnyt tänään?", "ru": "Привет! Что ты сегодня делал?", "glosses": { "hei": "привет", "mitä": "что", "olet": "ты", "tehnyt": "сделал (причастие)", "tänään": "сегодня" } },
+        { "speaker": "Olli", "fi": "Olen siivonnut ja käynyt kaupassa.", "ru": "Я убрался и сходил в магазин.", "glosses": { "olen": "я", "siivonnut": "убрался (причастие)", "ja": "и", "käynyt": "сходил (причастие)", "kaupassa": "в магазине" } },
+        { "speaker": "Sanna", "fi": "Oletko jo syönyt lounasta?", "ru": "Ты уже пообедал?", "glosses": { "oletko": "ты ли", "jo": "уже", "syönyt": "поел (причастие)", "lounasta": "обед (партитив)" } },
+        { "speaker": "Olli", "fi": "En ole vielä syönyt. Olen kuitenkin nälkäinen.", "ru": "Ещё не поел. Хотя я голодный.", "glosses": { "en": "я не", "ole": "есть", "vielä": "ещё", "syönyt": "поел (причастие)", "olen": "я", "kuitenkin": "однако", "nälkäinen": "голодный" } },
+        { "speaker": "Sanna", "fi": "Mennään syömään yhdessä!", "ru": "Пойдём поедим вместе!", "glosses": { "mennään": "пойдём (пассив)", "syömään": "есть (3-й инф.)", "yhdessä": "вместе" } }
+      ],
+      "questions": [
+        {
+          "id": "t88q1",
+          "q": "Mitä Olli on tehnyt tänään?",
+          "qRu": "Что Олли сегодня делал?",
+          "canonical": "Siivonnut ja käynyt kaupassa.",
+          "accepted": ["Siivonnut ja käynyt kaupassa.", "Hän on siivonnut ja käynyt kaupassa.", "Olen siivonnut ja käynyt kaupassa."],
+          "wrong": [{ "match": "nukkunut", "ru": "Олли убрался и сходил в магазин, а не спал." }],
+          "needs_review": false
+        },
+        {
+          "id": "t88q2",
+          "q": "Onko Olli syönyt lounasta?",
+          "qRu": "Олли пообедал?",
+          "canonical": "Ei ole.",
+          "accepted": ["Ei ole.", "Ei.", "Ei ole vielä.", "Ei ole syönyt."],
+          "wrong": [{ "match": "kyllä", "ru": "Олли говорит «En ole vielä syönyt» — ещё не поел." }],
+          "needs_review": false
+        },
+        {
+          "id": "t88q3",
+          "q": "Mitä Sanna ehdottaa?",
+          "qRu": "Что предлагает Санна?",
+          "canonical": "Mennään syömään.",
+          "accepted": ["Mennään syömään.", "Syömään yhdessä.", "Mennään syömään yhdessä."],
+          "wrong": [{ "match": "mennään nukkumaan", "ru": "Санна предлагает пойти поесть (syömään), а не спать." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t89",
+      "title": "Oletko käynyt Suomessa?",
+      "titleRu": "Ты бывал в Финляндии?",
+      "level": 13,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Pekka", "fi": "Oletko käynyt Suomessa aiemmin?", "ru": "Ты бывал в Финляндии раньше?", "glosses": { "oletko": "ты ли", "käynyt": "бывал (причастие)", "suomessa": "в Финляндии", "aiemmin": "раньше" } },
+        { "speaker": "Marina", "fi": "Olen käynyt kerran, mutta en ole nähnyt Lappia.", "ru": "Я была один раз, но не видела Лапландию.", "glosses": { "olen": "я", "käynyt": "бывала (причастие)", "kerran": "один раз", "mutta": "но", "en": "я не", "ole": "есть", "nähnyt": "видела (причастие)", "lappia": "Лапландию (партитив)" } },
+        { "speaker": "Pekka", "fi": "Minä asuin Lapissa lapsena.", "ru": "Я жил в Лапландии в детстве.", "glosses": { "minä": "я", "asuin": "я жил", "lapissa": "в Лапландии", "lapsena": "в детстве" } },
+        { "speaker": "Marina", "fi": "Vau! Haluaisin nähdä lumen ja revontulet.", "ru": "Вау! Я хотела бы увидеть снег и северное сияние.", "glosses": { "vau": "вау", "haluaisin": "я хотела бы", "nähdä": "увидеть", "lumen": "снег (объект)", "ja": "и", "revontulet": "северное сияние" } },
+        { "speaker": "Pekka", "fi": "Sinun kannattaa mennä talvella!", "ru": "Тебе стоит поехать зимой!", "glosses": { "sinun": "тебе", "kannattaa": "стоит", "mennä": "поехать", "talvella": "зимой" } }
+      ],
+      "questions": [
+        {
+          "id": "t89q1",
+          "q": "Onko Marina käynyt Suomessa?",
+          "qRu": "Бывала ли Марина в Финляндии?",
+          "canonical": "On käynyt kerran.",
+          "accepted": ["On käynyt kerran.", "Kyllä.", "On.", "Hän on käynyt kerran."],
+          "wrong": [{ "match": "ei ole käynyt", "ru": "Марина была один раз (olen käynyt kerran)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t89q2",
+          "q": "Missä Pekka asui lapsena?",
+          "qRu": "Где Пекка жил в детстве?",
+          "canonical": "Lapissa.",
+          "accepted": ["Lapissa.", "Hän asui Lapissa.", "Pekka asui Lapissa."],
+          "wrong": [{ "match": "helsingissä", "ru": "Пекка жил в Лапландии (Lapissa)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t89q3",
+          "q": "Mitä Marina haluaisi nähdä?",
+          "qRu": "Что хотела бы увидеть Марина?",
+          "canonical": "Lumen ja revontulet.",
+          "accepted": ["Lumen ja revontulet.", "Hän haluaisi nähdä lumen ja revontulet.", "Revontulet."],
+          "wrong": [{ "match": "meren", "ru": "Марина хочет увидеть снег и северное сияние (lumen ja revontulet)." }],
+          "needs_review": false
+        }
+      ]
     }
   ]
 }
