@@ -1225,11 +1225,14 @@ body {
   align-items: stretch;
   justify-content: flex-start;
   gap: 13px;
-  height: 100svh;
-  overflow: hidden;
+  /* Scrolls when content exceeds the viewport (the CEFR meter card + square ring are taller than
+     the old slim bar + cropped ring), so the action cards are never clipped behind the bottom nav. */
+  min-height: 100svh;
+  overflow-y: auto;
   padding-left: 18px;
   padding-right: 18px;
   padding-top: max(0.5rem, env(safe-area-inset-top));
+  padding-bottom: calc(74px + env(safe-area-inset-bottom));
 }
 
 /* The ring fills its card (no max-width cap inside the ring card). */

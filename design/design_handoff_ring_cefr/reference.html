@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Кольцо + CEFR — референс хэндоффа</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #EDEAE3; font-family: "Golos Text", system-ui, sans-serif; }
+  * { box-sizing: border-box; }
+  .wrap { display: flex; flex-wrap: wrap; gap: 48px; padding: 48px; justify-content: center; align-items: flex-start; }
+  .col { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .cap { font-size: 14px; font-weight: 700; color: #71757F; }
+  .phone { width: 392px; border-radius: 38px; overflow: hidden; background: #F0EDE6;
+    box-shadow: 0 22px 60px rgba(40,30,20,.18), 0 0 0 9px #15110d, 0 0 0 11px #2c2620; padding: 16px; }
+  .stack { display: flex; flex-direction: column; gap: 13px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <rect width="100" height="100" fill="#1B8E84"/>
+    <g transform="translate(50,50)" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round">
+      <circle cx="0" cy="0" r="26"/><circle cx="0" cy="0" r="9"/>
+      <path d="M0 -26V-12M0 26V12M-26 0H-12M26 0H12"/>
+    </g>
+  </svg>
+</template>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="kit.jsx"></script>
+<script type="text/babel" src="data.jsx"></script>
+<script type="text/babel" src="ring.jsx"></script>
+<script type="text/babel" src="cefr.jsx"></script>
+
+<script type="text/babel">
+function RingCard({ data, level }) {
+  return (
+    <div style={{ background: RC.card, borderRadius: 24, border: `1px solid ${RC.line}`,
+      padding: '14px 14px 16px', boxShadow: '0 1px 2px rgba(40,30,20,.04)' }}>
+      <BalanceRing data={data} level={level} shapes />
+      <div style={{ marginTop: 6 }}><ShapeLegend /></div>
+    </div>
+  );
+}
+function App() {
+  return (
+    <div className="wrap">
+      <div className="col">
+        <div className="cap">Уровень 1 · низкое освоение (из прод-скриншота)</div>
+        <div className="phone"><div className="stack">
+          <CefrLadder /><RingCard data={RING_L1} level={1} />
+        </div></div>
+      </div>
+      <div className="col">
+        <div className="cap">Уровень 5 · смешанное освоение</div>
+        <div className="phone"><div className="stack">
+          <CefrLadder now={{ bandIdx: 1, levelInBand: 2, levelsInBand: 3, pct: 0.55, nextId: 'A1.3' }} /><RingCard data={RING_L5} level={5} />
+        </div></div>
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

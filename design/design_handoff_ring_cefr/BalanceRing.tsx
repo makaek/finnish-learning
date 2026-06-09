@@ -1,5 +1,5 @@
 /**
- * BalanceRing.tsx — home-screen «Кольцо баланса», REDESIGN (ring/cefr handoff).
+ * BalanceRing.tsx — home-screen «Кольцо баланса», REDESIGN.
  *
  * Supersedes the previous spoke-length port. The problem it fixes: when mastery
  * is low (e.g. level 1) every chip collapsed onto the hub and the count badges
@@ -18,11 +18,8 @@
  *   • coloured group arcs wrap the outside; group NAMES live in the legend.
  *   • centre hub = current level.
  *
- * Every constant is load-bearing for the look — do not round them. Presentation
- * only; all balance maths stays in core/balance.ts. Structural colours (ink/sub/
- * card/line/track) use theme tokens so the ring tracks light/dark; the semantic
- * colours (green/red/blue, group hues, gold) stay literal so meaning reads the
- * same in both themes.
+ * Every constant is load-bearing for the look — do not round them.
+ * Presentation only; all balance maths stays in core/balance.ts.
  */
 
 export type IconName = "eye" | "keyboard" | "mic" | "phones" | "book" | "masks" | "check";
@@ -54,21 +51,10 @@ const ICONS: Record<IconName, JSX.Element> = {
   check: (<><path d="M4 12.5 9.5 18 20 6" /></>),
 };
 
-/** Standalone monoline mode icon (reused by the home's «слабое звено» card). */
-export function ModeIcon({ name, size = 24, strokeWidth = 1.85 }: { name: IconName; size?: number; strokeWidth?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      {ICONS[name]}
-    </svg>
-  );
-}
-
-/* ==================================================================== colour
- * Structural → theme tokens (light/dark); semantic → literal (per handoff §6). */
+/* ==================================================================== colour */
 const COL = {
-  ink: "var(--text)", sub: "var(--muted)", card: "var(--card)", line: "var(--border)",
-  track: "var(--surface-2)", green: "#3B9C6E", red: "#CE6A57", blue: "#3B68C9",
+  ink: "#23262E", sub: "#71757F", card: "#FFFFFF", line: "#E7E3DB",
+  track: "#EEEAE2", green: "#3B9C6E", red: "#CE6A57", blue: "#3B68C9",
   goldSoft: "#F6EEDC",
 };
 const GROUP_HUE: Record<BalanceGroup, string> = { words: "#5B53C6", sent: "#1B8E84", read: "#BB6A39" };
@@ -124,7 +110,7 @@ export default function BalanceRing({ level, modes, shapes = true, onPick }: {
   onPick?: (id: string) => void;
 }) {
   const step = 360 / modes.length;       // 9 modes → 40°, first at top (−90°)
-  const weakIdx = modes.reduce((best, m, i, a) => (m.mastery < a[best]!.mastery ? i : best), 0);
+  const weakIdx = modes.reduce((best, m, i, a) => (m.mastery < a[best].mastery ? i : best), 0);
 
   // contiguous angular span per group (modes are pre-ordered words→sent→read)
   const spans = new Map<BalanceGroup, [number, number]>();
@@ -205,7 +191,7 @@ export default function BalanceRing({ level, modes, shapes = true, onPick }: {
 export function RingLegend({ shapes = true }: { shapes?: boolean }) {
   const groups: BalanceGroup[] = ["words", "sent", "read"];
   return (
-    <div style={{ display: "flex", justifyContent: "center", gap: 18, flexWrap: "wrap", marginTop: 6 }}>
+    <div style={{ display: "flex", justifyContent: "center", gap: 18, flexWrap: "wrap" }}>
       {groups.map((g) => (
         <span key={g} style={{ display: "flex", alignItems: "center", gap: 7, fontSize: 12.5, fontWeight: 600, color: COL.sub }}>
           <LegendSwatch group={g} shapes={shapes} />{GROUP_LABEL[g]}

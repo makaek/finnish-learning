@@ -12,6 +12,7 @@ import {
   levelCompletionStats,
   levelModeStats,
   levelOf,
+  levelProgressToNext,
   masteringLevelGated,
   readingMastered,
   sentenceLearned,
@@ -23,8 +24,9 @@ import {
 } from "../core/levels";
 import { groupReadiness, type ModeReadiness } from "../core/stats";
 import { computeBalance, type ModeInput } from "../core/balance";
-import { cefrProgress } from "../core/curriculum";
-import CefrBar from "./CefrBar";
+import { cefrProgress, cefrOfLevel, CEFR_ORDER } from "../core/curriculum";
+import { BAND_NAMES } from "../core/levelTitles";
+import CefrMeter, { type CefrBand, type CefrState } from "./CefrMeter";
 import type { ProgressMap } from "../core/progress";
 import {
   currentStreak,
@@ -36,7 +38,7 @@ import {
   type UserState,
 } from "../core/daily";
 import { hiddenKey } from "./hidden";
-import BalanceRing, { ModeIcon, type IconName } from "./BalanceRing";
+import BalanceRing, { ModeIcon, RingLegend, type IconName, type RingMode } from "./BalanceRing";
 import { UiIcon } from "./icons";
 import ThemeToggle from "./ThemeToggle";
 
@@ -52,18 +54,22 @@ function dayWord(n: number): string {
 
 /** UI label + monoline icon key for each ring spoke, keyed by the `LevelModeStat.id` core produces.
  *  The core supplies the per-level {mastered,total,group}; the Roadmap owns the presentation. Icon
- *  keys map to the monoline paths in BalanceRing's ICONS (eye|pen|mic|phones|chat|book|masks). */
+ *  keys map to BalanceRing's ICONS (eye|keyboard|mic|phones|book|masks). Both typed-answer modes
+ *  (word spelling + sentence translation) use `keyboard` — same mechanic, same glyph. */
 const RING_MODES: Record<string, { label: string; icon: IconName }> = {
   recognition: { label: "Узнавание", icon: "eye" },
-  production: { label: "Написание", icon: "pen" },
+  production: { label: "Письмо", icon: "keyboard" },
   say_word: { label: "Речь", icon: "mic" },
   listen_word: { label: "На слух", icon: "phones" },
-  sentences: { label: "Перевод", icon: "chat" },
+  sentences: { label: "Перевод", icon: "keyboard" },
   say_sentence: { label: "Речь", icon: "mic" },
   listen_sentence: { label: "На слух", icon: "phones" },
   "read:text": { label: "Тексты", icon: "book" },
   "read:dialog": { label: "Диалоги", icon: "masks" },
 };
+
+/** The four CEFR bands for the meter rail (3 levels each: A1.1=1–3 … A2=10–12). */
+const BANDS: CefrBand[] = CEFR_ORDER.map((id) => ({ id, ru: BAND_NAMES[id], levels: 3 }));
 
 export type Mode =
   | "recognition"
@@ -295,11 +301,13 @@ export default function Roadmap({
     };
   }, [vocab, sentences, texts, progress, testMode, hidden, active]);
 
-  // CEFR milestone progress (A1 → A2 …) over combined per-level completion — the home strip.
-  const cefr = useMemo(
-    () => cefrProgress(levelCompletionStats(vocab, sentences, texts, progress)),
-    [vocab, sentences, texts, progress],
-  );
+  // CEFR milestone progress (A1 → A2 …) over combined per-level completion — feeds the meter.
+  // Keep the combined stats around too, so the meter's current-cell % can read the active level's
+  // progress toward advancing (levelProgressToNext) rather than the whole-band average.
+  const { cefr, combinedStats } = useMemo(() => {
+    const stats = levelCompletionStats(vocab, sentences, texts, progress);
+    return { cefr: cefrProgress(stats), combinedStats: stats };
+  }, [vocab, sentences, texts, progress]);
 
   // Leader modes that have run too far ahead of their group are paused (not startable) — the
   // anti-grind nudge. The ring greys them itself; we also gate the grid buttons below.
@@ -329,6 +337,28 @@ export default function Roadmap({
     listen_sentence: finish.listen_sentence,
     "read:text": finish.text,
     "read:dialog": finish.dialog,
+  };
+
+  // Ring spokes for the redesigned BalanceRing: fixed-orbit chips whose fill = mastery and badge =
+  // items left. Built from the balance cells (ordered words→sent→read, so the group arcs are
+  // contiguous); `remaining` uses the same hidden/eligibility-filtered counts the badges need.
+  const ringModes: RingMode[] = balance.cells.map((c) => ({
+    group: c.group,
+    id: c.id,
+    label: c.label,
+    icon: c.icon as IconName,
+    mastery: c.mastery,
+    remaining: ringLeft[c.id] ?? Math.max(0, c.total - c.mastered),
+  }));
+
+  // CEFR meter state: the band + level-in-band from the gated current level, and a current-cell %
+  // = how far the active level is toward advancing (reads ~100% right as the level rolls over).
+  const cefrBandIdx = Math.max(0, CEFR_ORDER.indexOf(cefrOfLevel(active)));
+  const cefrState: CefrState = {
+    bandIdx: cefrBandIdx,
+    levelInBand: active - cefrBandIdx * 3,
+    pct: levelProgressToNext(combinedStats, active),
+    nextId: cefr.nextBand ?? BANDS[cefrBandIdx]!.id,
   };
 
   // Single router shared by the ring spokes and the weak-link card (reading ids open the
@@ -415,12 +445,13 @@ export default function Roadmap({
         </span>
       </button>
 
-      {/* CEFR milestone — progress toward the next language level (A1 → A2). Tap → Метрики. */}
-      <CefrBar p={cefr} onClick={onShowStats} />
+      {/* CEFR meter — current step + a 12-level rail toward A2. */}
+      <CefrMeter bands={BANDS} state={cefrState} />
 
-      {/* Ring card — the production ring (fills the card) + the group legend. */}
+      {/* Ring card — the fixed-orbit balance ring (fills the card) + the group/shape legend. */}
       <div className="ringcard">
-        <BalanceRing balance={balance} left={ringLeft} onPick={startById} />
+        <BalanceRing level={active} modes={ringModes} shapes onPick={startById} />
+        <RingLegend shapes />
       </div>
 
       {/* Two equal action cards: Слабое звено (gently leads via warm colour) + Микс. */}
