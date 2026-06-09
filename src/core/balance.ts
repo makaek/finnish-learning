@@ -1,8 +1,8 @@
 /**
  * balance.ts — "balance drives progress" derivations for the home screen.
  *
- * Turns the per-mode mastery the home already computes (groupReadiness →
- * { mastered, total }) into the three balance signals the Кольцо-баланса UI needs:
+ * Turns each mode's per-level mastery ({ mastered, total }, from levelModeStats) into the balance
+ * signals the Кольцо-баланса UI needs:
  *   • per-mode mastery 0..1 and a colour state,
  *   • the WEAKEST mode (routing target for the "слабое звено" card),
  *   • which leader modes are PAUSED (ran too far ahead of their group),
@@ -15,18 +15,18 @@
 /** The three home groups (mirror Roadmap's section split). */
 export type BalanceGroup = "words" | "sent" | "read";
 
-/** What the ring needs per mode — built from a ModeReadiness ({mastered,total}). */
+/** What the ring needs per mode — a per-level {mastered, total} count plus its label/icon. */
 export interface ModeInput {
   /** Stable key used for routing back to onStart/onOpenReading, e.g. "words:recognition". */
   id: string;
   group: BalanceGroup;
   /** Short visible label, e.g. "Узнавание". */
   label: string;
-  /** Emoji (keeps parity with the existing cards). */
+  /** Monoline icon key (see BalanceRing's ICONS). */
   icon: string;
-  /** Items mastered in THIS mode (ModeReadiness.mastered). */
+  /** Items mastered in THIS mode at the current level. */
   mastered: number;
-  /** Pool size for this mode's group (ModeReadiness.total). */
+  /** Items this mode drills at the current level. */
   total: number;
 }
 

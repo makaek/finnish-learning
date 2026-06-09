@@ -6,9 +6,7 @@ import {
   LEARNED_BOX,
   LEVEL_COMPLETE_FRACTION,
   levelCompletionStats,
-  levelContent,
   levelGate,
-  levelLearnProgress,
   levelModeStats,
   levelProgressToNext,
   levelOf,
@@ -17,9 +15,7 @@ import {
   masteringLevelGated,
   listLevels,
   lowestUnmasteredLevel,
-  masteringLevel,
   overallProgress,
-  readingLearnProgress,
   readingLearned,
   readingMastered,
   readingMastery,
@@ -30,7 +26,6 @@ import {
   unlockedLevels,
   unmasteredInLevel,
   wordLearned,
-  wordLearnProgress,
   wordMastery,
   type SentenceLike,
   type VocabLike,
@@ -102,47 +97,6 @@ describe("wordLearned (per-type, either skill)", () => {
 
   it("counts a word learned via speech (say_word) alone too", () => {
     expect(wordLearned(box("say_word", "a1", 3), "a1")).toBe(true);
-  });
-});
-
-describe("wordLearnProgress / levelLearnProgress (smooth HUD bar)", () => {
-  it("is 0, 0.5, 1 at box 0, 1, >= LEARNED_BOX (best mode, capped)", () => {
-    expect(wordLearnProgress(new Map(), "a1")).toBe(0);
-    expect(wordLearnProgress(box("recognition", "a1", 1), "a1")).toBe(0.5);
-    expect(wordLearnProgress(box("recognition", "a1", 2), "a1")).toBe(1);
-    expect(wordLearnProgress(box("production", "a1", 5), "a1")).toBe(1);
-  });
-
-  it("averages over a level's words (1 when all learned, 0 when none)", () => {
-    expect(levelLearnProgress(vocab, new Map(), 1)).toBe(0);
-    expect(levelLearnProgress(vocab, learned(["a1", "a2", "a3", "a4", "a5"]), 1)).toBe(1);
-    // One of five at box 1 (0.5) → 0.5/5 = 0.1.
-    expect(levelLearnProgress(vocab, box("recognition", "a1", 1), 1)).toBeCloseTo(0.1);
-  });
-
-  it("is 1 for an empty level", () => {
-    expect(levelLearnProgress(vocab, new Map(), 99)).toBe(1);
-  });
-});
-
-describe("masteringLevel (the level being completed)", () => {
-  it("is the lowest level not yet fully learned", () => {
-    expect(masteringLevel(levelStats(vocab, new Map()))).toBe(1);
-    expect(masteringLevel(levelStats(vocab, learned(["a1", "a2", "a3", "a4", "a5"])))).toBe(2);
-  });
-
-  it("is the highest level once everything is learned", () => {
-    const all = learned(["a1", "a2", "a3", "a4", "a5", "b1", "b2", "b3", "b4", "b5"]);
-    expect(masteringLevel(levelStats(vocab, all))).toBe(2);
-  });
-
-  it("advances once a level is >= LEVEL_COMPLETE_FRACTION learned", () => {
-    // At/above the threshold → move on; below → still completing this level. Uses the live
-    // constant so it tracks any tuning of LEVEL_COMPLETE_FRACTION (currently 1 = full completion).
-    const stat = (level: number, learnedN: number) => ({ level, total: 100, learned: learnedN, fraction: learnedN / 100 });
-    const atThreshold = Math.round(LEVEL_COMPLETE_FRACTION * 100);
-    expect(masteringLevel([stat(1, atThreshold), stat(2, 0)])).toBe(2);
-    expect(masteringLevel([stat(1, atThreshold - 1), stat(2, 0)])).toBe(1);
   });
 });
 
@@ -341,12 +295,9 @@ describe("sentence helpers (analogues of the word ones)", () => {
     expect(sentenceMastery(all, "s1")).toBe(1);
   });
 
-  it("readingLearned/readingLearnProgress key off the comprehension-quiz reading track", () => {
+  it("readingLearned keys off the comprehension-quiz reading track", () => {
     expect(readingLearned(new Map(), "t1")).toBe(false);
     expect(readingLearned(box("reading", "t1", 2), "t1")).toBe(true);
-    expect(readingLearnProgress(new Map(), "t1")).toBe(0);
-    expect(readingLearnProgress(box("reading", "t1", 1), "t1")).toBe(0.5);
-    expect(readingLearnProgress(box("reading", "t1", 5), "t1")).toBe(1); // capped
   });
 
   it("readingMastered is the two-part rule: quiz passed AND all roles recited", () => {
@@ -423,14 +374,6 @@ describe("levelCompletionStats / levelCompletionLearnProgress (combined completi
     const combined = levelCompletionStats(vocab, sentences, texts, wordMap);
     // Now s1 (mastery 0) and t1 (0) drag the level below 1: (5*1 + 0 + 0) / 7.
     expect(combined.find((s) => s.level === 1)!.fraction).toBeCloseTo(5 / 7);
-  });
-
-  it("masteringLevel over combined stats waits for sentences/texts too", () => {
-    // L1 words all learned, but its sentence + text are not → still 'completing' L1.
-    const progress = learned(["a1", "a2", "a3", "a4", "a5"]);
-    expect(masteringLevel(levelStats(vocab, progress))).toBe(2); // words-only: L1 done
-    const combined = levelCompletionStats(vocab, sentences, texts, progress);
-    expect(masteringLevel(combined)).toBe(1); // combined: L1 not done (s1/t1 pending)
   });
 
   it("levelProgressToNext scales the learned-fraction so the threshold reads as 100%", () => {
@@ -566,7 +509,7 @@ describe("levelModeStats / levelGate / masteringLevelGated (balance-to-progress 
   });
 });
 
-describe("levelSummaries / levelContent («Уровни» screen helpers)", () => {
+describe("levelSummaries («Уровни» screen helper)", () => {
   const v: VocabLike[] = [
     { id: "w1", level: 1 },
     { id: "w2", level: 1 },
@@ -617,24 +560,5 @@ describe("levelSummaries / levelContent («Уровни» screen helpers)", () =
     const s = levelSummaries(v, sents, txts, done);
     expect(s.find((x) => x.level === 1)!.status).toBe("done");
     expect(s.find((x) => x.level === 2)!.status).toBe("current");
-  });
-
-  it("levelContent lists a level's items Finnish-first (texts carry the dialog flag)", () => {
-    const vc = [
-      { id: "w1", level: 1, fi: "hei", ru: "привет" },
-      { id: "x1", level: 2, fi: "talo", ru: "дом" },
-    ];
-    const sc = [{ id: "s1", level: 1, uses: [], ru: "Привет!", canonical: "Hei!" }];
-    const tc = [
-      { id: "t1", level: 1, title: "Tervehdys", titleRu: "Приветствие", type: "text" as const },
-      { id: "d1", level: 1, title: "Kahvilassa", type: "dialog" as const },
-    ];
-    const c = levelContent(vc, sc, tc, 1);
-    expect(c.words).toEqual([{ fi: "hei", ru: "привет" }]);
-    expect(c.sentences).toEqual([{ fi: "Hei!", ru: "Привет!" }]);
-    expect(c.texts).toEqual([
-      { fi: "Tervehdys", ru: "Приветствие", dialog: false },
-      { fi: "Kahvilassa", ru: "", dialog: true },
-    ]);
   });
 });

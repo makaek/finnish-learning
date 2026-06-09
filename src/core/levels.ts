@@ -22,7 +22,7 @@ export const UNLOCK_FRACTION = 0.8;
 
 /**
  * Fraction of a level's items (words + sentences + texts) that must be learned for it to count as
- * "complete" when advancing the DISPLAYED level ({@link masteringLevel}). Below 1 on purpose: the
+ * "complete" when advancing the DISPLAYED level ({@link masteringLevelGated}). Below 1 on purpose: the
  * last few stragglers shouldn't pin the learner near the top of a level (the user got stuck at
  * 97%). The home bar consistency is preserved separately — Roadmap caps the shown percent below
  * 100 until the level actually advances, so the bar can't read "done" with items still left.
@@ -69,16 +69,6 @@ export function wordMastery(progress: ProgressMap, vocabId: string): number {
 }
 
 /**
- * Continuous learn-progress for a word, in [0, 1]: how close its BEST word-mode is to "learned"
- * (`maxBox / LEARNED_BOX`, capped at 1). Rises with every correct answer in any mode and reaches
- * 1 exactly when the word is {@link wordLearned}. Drives the smooth home progress bar.
- */
-export function wordLearnProgress(progress: ProgressMap, vocabId: string): number {
-  const maxBox = Math.max(...WORD_MODES.map((kind) => getProgress(progress, kind, vocabId).box));
-  return Math.min(1, maxBox / LEARNED_BOX);
-}
-
-/**
  * Whether a sentence is "learned" — mastered (>= LEARNED_BOX) in ANY of its three modes
  * (translation / spoken / dictation), mirroring {@link wordLearned}. A single mastered skill is
  * enough to keep the curriculum flowing, so practising a sentence in any mode counts toward level
@@ -100,17 +90,6 @@ export function sentenceMastery(progress: ProgressMap, sentenceId: string): numb
   return mastered / SENTENCE_MODES.length;
 }
 
-/**
- * Continuous learn-progress for a sentence, in [0, 1]: how close its BEST sentence-mode is to
- * "learned" (`maxBox / LEARNED_BOX`, capped at 1). The sentence analogue of
- * {@link wordLearnProgress}; drives the smooth combined level bar.
- */
-export function sentenceLearnProgress(progress: ProgressMap, sentenceId: string): number {
-  const maxBox = Math.max(
-    ...SENTENCE_MODES.map((kind) => getProgress(progress, kind, sentenceId).box),
-  );
-  return Math.min(1, maxBox / LEARNED_BOX);
-}
 
 /**
  * Whether a text/dialog is "learned" — its comprehension-quiz `reading` track is at/above
@@ -149,14 +128,6 @@ export function readingMastered(
 /** Reading mastery for a text, in {0, 1}: fully mastered (quiz + recite) or not. */
 export function readingMastery(progress: ProgressMap, textId: string, hasQuestions: boolean): number {
   return readingMastered(progress, textId, hasQuestions) ? 1 : 0;
-}
-
-/**
- * Continuous reading learn-progress for a text, in [0, 1]: `box / LEARNED_BOX` capped at 1. The
- * reading analogue of {@link wordLearnProgress}; drives the smooth combined level bar.
- */
-export function readingLearnProgress(progress: ProgressMap, textId: string): number {
-  return Math.min(1, getProgress(progress, "reading", textId).box / LEARNED_BOX);
 }
 
 /** Minimal shapes these functions need; real VocabItem/SentenceItem satisfy them. */
@@ -266,33 +237,15 @@ export function activeLevel(stats: readonly LevelStat[], unlocked: ReadonlySet<n
 }
 
 /**
- * Average {@link wordLearnProgress} over a level's words, in [0, 1] (1 for an empty level). The
- * home HUD bar shows this for the CURRENT {@link masteringLevel}: it grows smoothly toward 1 as
- * the level is learned. Note the bar tracks the level being completed, so at the instant a level
- * finishes it re-points to the NEXT level — which may already read above 0 (later-level words can
- * carry boxes from the per-mode boost / incidental draws). So the bar need not display 100% for
- * the just-finished level; the residual step is far smaller than the old frontier-display jump.
- */
-export function levelLearnProgress(
-  vocab: readonly VocabLike[],
-  progress: ProgressMap,
-  level: number,
-): number {
-  const inLevel = vocab.filter((v) => levelOf(v) === level);
-  if (inLevel.length === 0) return 1;
-  return inLevel.reduce((sum, v) => sum + wordLearnProgress(progress, v.id), 0) / inLevel.length;
-}
-
-/**
  * Per-level COMBINED completion: words + sentences + texts/dialogs, each item weighted equally.
  *
  * Unlike {@link levelStats} (words only, which drives unlocks and must NOT change), this folds in
- * the level's sentences and reading texts so the home header level and progress bar reflect ALL
- * the level's content. A level's `total` = its words + sentences + texts; `learned` = learned
- * words ({@link wordLearned}) + learned sentences ({@link sentenceLearned}) + completed texts;
- * `fraction` = mean per-item mastery (word→{@link wordMastery}, sentence→{@link sentenceMastery},
- * text→done 0/1). Empty groups simply contribute nothing (an empty level → fraction 1, as in
- * {@link levelStats}). Pass the result to {@link masteringLevel} for the combined "current level".
+ * the level's sentences and reading texts so the home level and progress reflect ALL the level's
+ * content. A level's `total` = its words + sentences + texts; `learned` = learned words
+ * ({@link wordLearned}) + learned sentences ({@link sentenceLearned}) + completed texts; `fraction`
+ * = mean per-item mastery (word→{@link wordMastery}, sentence→{@link sentenceMastery}, text→done
+ * 0/1). Empty groups simply contribute nothing (an empty level → fraction 1, as in
+ * {@link levelStats}). Pass the result to {@link masteringLevelGated} for the combined current level.
  */
 export function levelCompletionStats(
   vocab: readonly VocabLike[],
@@ -351,7 +304,7 @@ export function remainingForLevel(
 /**
  * Progress of one level toward triggering the NEXT level, in [0, 1] (1 for an empty/absent level).
  * It scales the level's learned-fraction so that reaching {@link LEVEL_COMPLETE_FRACTION} reads as a
- * full 100% — i.e. the home HUD bar fills to 100% exactly when {@link masteringLevel} rolls over.
+ * full 100% — i.e. the displayed level advances exactly when {@link masteringLevelGated} rolls over.
  * Deliberately uses the SAME quantity that drives advancement (`learned / total`, not the gentler
  * per-item learn-progress), so the bar can't over-report the true distance to the next level.
  */
@@ -359,23 +312,6 @@ export function levelProgressToNext(stats: readonly LevelStat[], level: number):
   const s = stats.find((x) => x.level === level);
   if (!s || s.total === 0) return 1;
   return Math.min(1, s.learned / s.total / LEVEL_COMPLETE_FRACTION);
-}
-
-/**
- * The level the learner is currently completing: the LOWEST level not yet "complete enough" —
- * fewer than {@link LEVEL_COMPLETE_FRACTION} of its items learned — or the highest level once all
- * are done. Using a <100% threshold means a couple of stragglers no longer pin the displayed level
- * (the learner advances without grinding every last item in every mode). Unlike {@link activeLevel}
- * (the unlocked frontier), this advances only when a level is largely finished, avoiding the
- * mid-level jump the frontier display produced. NOTE: derived from `learned`, which can regress (a
- * miss demotes a box), so forgetting enough items can move this back a level.
- */
-export function masteringLevel(stats: readonly LevelStat[]): number {
-  const ordered = [...stats].sort((a, b) => a.level - b.level);
-  const incomplete = ordered.find(
-    (s) => s.total > 0 && s.learned / s.total < LEVEL_COMPLETE_FRACTION,
-  );
-  return incomplete ? incomplete.level : (ordered[ordered.length - 1]?.level ?? 1);
 }
 
 /** A reading-style content item with a text/dialog tag (real ReadingText satisfies it). */
@@ -447,7 +383,7 @@ export function levelGate(stats: readonly LevelModeStat[]): number {
 }
 
 /**
- * Like {@link masteringLevel}, but a level only counts as complete when it is ALSO balanced — its
+ * Finds the current level like a simple learned-fraction scan, but a level only counts as complete when it is ALSO balanced — its
  * weakest mode's mastery has reached {@link GATE_TARGET} (the "balance to progress" rule). The
  * content-UNLOCK gate is untouched ({@link unlockedLevels}/{@link levelStats} still drive what's in
  * play), so nothing relocks: this only ever DELAYS the displayed current level past a level that's
@@ -479,7 +415,7 @@ export function masteringLevelGated(
  *
  * Assumes `items` is already the in-play pool (callers pass `activeVocab` / `eligibleSentences`);
  * on a raw, ungated list it could target a still-locked level. Note this "lowest weak level in
- * THIS mode" can differ from the HUD's {@link masteringLevel} ("lowest not learned in ANY mode")
+ * THIS mode" can differ from the displayed {@link masteringLevelGated} ("lowest not learned in ANY mode")
  * — intended, so an already-"learned" level still gets its weak modes finished.
  */
 export function lowestUnmasteredLevel(
@@ -611,56 +547,3 @@ export function levelSummaries(
   });
 }
 
-/** A vocab item with its display strings (real {@link import("./dictionary").VocabItem} satisfies it). */
-export interface VocabContent extends VocabLike {
-  fi: string;
-  ru: string;
-}
-/** A sentence with its display strings (real {@link SentenceItem} satisfies it). */
-export interface SentenceContent extends SentenceLike {
-  ru: string;
-  canonical: string;
-}
-/** A reading item with its display title (real {@link ReadingText} satisfies it). */
-export interface TextContent extends ReadingLike {
-  title: string;
-  titleRu?: string;
-}
-
-/** A single Finnish-first item shown in the level detail. */
-export interface LevelContentItem {
-  fi: string;
-  ru: string;
-}
-/** A reading item in the level detail (carries the dialog flag for its icon). */
-export interface LevelTextContentItem extends LevelContentItem {
-  dialog: boolean;
-}
-/** The full content of one level, Finnish-first, for the «Уровни» detail view. */
-export interface LevelContent {
-  words: LevelContentItem[];
-  sentences: LevelContentItem[];
-  texts: LevelTextContentItem[];
-}
-
-/**
- * Every word/sentence/text in a level, Finnish-first, for the level-detail review. Sentences lead
- * with their canonical Finnish answer (the Russian prompt is the gloss); texts lead with the
- * Finnish title (Russian {@link TextContent.titleRu} as gloss). Pure; no progress needed.
- */
-export function levelContent(
-  vocab: readonly VocabContent[],
-  sentences: readonly SentenceContent[],
-  texts: readonly TextContent[],
-  level: number,
-): LevelContent {
-  return {
-    words: vocab.filter((v) => levelOf(v) === level).map((v) => ({ fi: v.fi, ru: v.ru })),
-    sentences: sentences
-      .filter((s) => levelOf(s) === level)
-      .map((s) => ({ fi: s.canonical, ru: s.ru })),
-    texts: texts
-      .filter((t) => levelOf(t) === level)
-      .map((t) => ({ fi: t.title, ru: t.titleRu ?? "", dialog: t.type === "dialog" })),
-  };
-}

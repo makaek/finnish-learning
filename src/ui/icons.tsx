@@ -20,7 +20,6 @@ const PATHS: Record<string, ReactElement> = {
   check: <path d="M4 12.5 9.5 18 20 6" />,
   // --- Reading-flow monoline set (from the design handoff kit.jsx → ICONS) ---
   home: <path d="M4 11 12 4l8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1v-8Z" />,
-  chart: <path d="M4 20V4M4 20h16M8 16l3.5-4 3 2.5L20 8" />,
   grid: (
     <>
       <rect x="4" y="4" width="6.5" height="6.5" rx="1" />
@@ -87,7 +86,6 @@ const PATHS: Record<string, ReactElement> = {
       <rect x="13.5" y="5" width="4" height="14" rx="1.2" />
     </>
   ),
-  stop: <rect x="6" y="6" width="12" height="12" rx="2.2" />,
   skip: (
     <>
       <path d="M5 5v14l9-7-9-7Z" />
@@ -119,13 +117,6 @@ const PATHS: Record<string, ReactElement> = {
   star: <path d="M12 3.5l2.55 5.2 5.7.85-4.12 4 .97 5.7L12 16.6l-5.07 2.65.97-5.7-4.12-4 5.7-.85L12 3.5Z" />,
   chevR: <path d="M9.5 6l6 6-6 6" />,
   chevD: <path d="M6 9.5l6 6 6-6" />,
-  search: (
-    <>
-      <circle cx="11" cy="11" r="6.6" />
-      <path d="M20 20l-4.2-4.2" />
-    </>
-  ),
-  sort: <path d="M7 4v16M7 20l-3-3M7 4l3 3M17 4v16M17 4l-3 3M17 4l3 3" />,
   target: (
     <>
       <circle cx="12" cy="12" r="8.2" />
@@ -137,12 +128,6 @@ const PATHS: Record<string, ReactElement> = {
     <>
       <circle cx="12" cy="12" r="9" />
       <path d="M12 11v5.5M12 7.6v.4" />
-    </>
-  ),
-  question: (
-    <>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M9.4 9.2a2.7 2.7 0 1 1 3.9 2.5c-.9.5-1.4 1.1-1.4 2.2M12 17v.4" />
     </>
   ),
 };

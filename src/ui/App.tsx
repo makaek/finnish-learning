@@ -343,9 +343,9 @@ export default function App() {
 
   /**
    * «Отметить пройденным» — mark every item in `level` as learned. Writes a coherent record (box =
-   * LEARNED_BOX with totalSeen/totalCorrect = 2, so it reads as "2 clean answers"): box-only records
-   * stay invisible on the progress screen, which lists only seen tracks (core/stats.ts mergeByItem).
-   * Math.max never regresses a learner's real, higher history and keeps totalSeen ≥ totalCorrect.
+   * LEARNED_BOX with totalSeen/totalCorrect = 2, so it reads as "2 clean answers" rather than a
+   * box-only record with no practice history). Math.max never regresses a learner's real, higher
+   * history and keeps totalSeen ≥ totalCorrect.
    * EVERY level item is upserted (no idempotency skip) so the backend definitely gets all rows. The
    * current level is DERIVED ({@link masteringLevelGated}), so this advances it + unlocks the next;
    * nothing relocks. Persisted (fire-and-forget).
