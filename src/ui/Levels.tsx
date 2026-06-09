@@ -68,15 +68,16 @@ export default function Levels({
   const doneCount = summaries.filter((s) => s.status === "done").length;
 
   if (view === "detail") {
+    const ds = byLevel.get(detailLv)!;
     return (
       <DetailView
-        level={detailLv}
-        summary={byLevel.get(detailLv)!}
+        summary={ds}
         vocab={vocab}
         sentences={sentences}
         texts={texts}
         onBack={() => setView("list")}
-        onRepeat={() => onStart("recognition")}
+        // The current level keeps practising its leftovers (Микс); a passed level is reviewed.
+        onPractice={() => onStart(ds.status === "current" ? "mix" : "recognition")}
       />
     );
   }
@@ -178,15 +179,15 @@ function LevelRow({
         <button
           type="button"
           className={"lcard lcard--" + s.status}
-          disabled={locked || current}
-          onClick={s.status === "done" ? onOpenDetail : undefined}
+          disabled={locked}
+          onClick={!locked ? onOpenDetail : undefined}
         >
           <div className="lcard__top">
             <span className="lcard__eyebrow">УР. {s.level}</span>
             <span className={"lcard__band" + (locked ? " lcard__band--muted" : "")}>{band}</span>
             {s.status === "done" && <span className="lcard__status lcard__status--done">Пройден</span>}
             {current && <span className="lcard__status lcard__status--current">Сейчас здесь</span>}
-            {s.status === "done" && (
+            {!locked && (
               <span className="lcard__chev">
                 <UiIcon name="chevR" size={16} strokeWidth={2.2} />
               </span>
@@ -224,25 +225,25 @@ function LevelRow({
   );
 }
 
-/** Detail view: review a passed level's content, Finnish-first. */
+/** Detail view: review a level's content, Finnish-first (a passed level OR the current one). */
 function DetailView({
-  level,
   summary,
   vocab,
   sentences,
   texts,
   onBack,
-  onRepeat,
+  onPractice,
 }: {
-  level: number;
   summary: LevelSummary;
   vocab: readonly VocabItem[];
   sentences: readonly SentenceItem[];
   texts: readonly ReadingText[];
   onBack: () => void;
-  onRepeat: () => void;
+  onPractice: () => void;
 }) {
   const [allWords, setAllWords] = useState(false);
+  const level = summary.level;
+  const isCurrent = summary.status === "current";
   const title = levelTitle(level);
   const band = cefrOfLevel(level);
   const content = levelContent(vocab, sentences, texts, level);
@@ -270,8 +271,12 @@ function DetailView({
       </div>
 
       <div className="ldhead">
-        <span className="ldhead__disc">
-          <UiIcon name="check" size={22} strokeWidth={2.8} />
+        <span className={"ldhead__disc" + (isCurrent ? " ldhead__disc--current" : "")}>
+          {isCurrent ? (
+            <span className="ldhead__lvnum">{level}</span>
+          ) : (
+            <UiIcon name="check" size={22} strokeWidth={2.8} />
+          )}
         </span>
         <div>
           <div className="ldhead__titlerow">
@@ -279,7 +284,7 @@ function DetailView({
             <span className="ldhead__band">{band}</span>
           </div>
           <div className="ldhead__sub">
-            {title.ru} · уровень {level} · пройден
+            {title.ru} · уровень {level} · {isCurrent ? "текущий" : "пройден"}
           </div>
         </div>
       </div>
@@ -324,9 +329,9 @@ function DetailView({
         ))}
       </div>
 
-      <button type="button" className="ldrepeat" onClick={onRepeat}>
-        <UiIcon name="refresh" size={17} strokeWidth={2} />
-        Повторить уровень
+      <button type="button" className="ldrepeat" onClick={onPractice}>
+        <UiIcon name={isCurrent ? "play" : "refresh"} size={17} strokeWidth={2} />
+        {isCurrent ? "Продолжить уровень" : "Повторить уровень"}
       </button>
     </main>
   );

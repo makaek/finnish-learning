@@ -3470,6 +3470,15 @@ body {
   align-items: center;
   justify-content: center;
 }
+.ldhead__disc--current {
+  background: var(--gold-soft);
+  border: 2.5px solid var(--gold);
+}
+.ldhead__lvnum {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--gold);
+}
 .ldhead__titlerow {
   display: flex;
   align-items: center;

@@ -322,8 +322,22 @@ export default function App() {
     const rows: ItemProgress[] = [];
     const mark = (kind: ItemKind, id: string) => {
       const prev = getProgress(progressRef.current, kind, id);
-      if (prev.box >= MAX_BOX) return; // already maxed — keep it idempotent
-      const p: ItemProgress = { ...prev, kind, itemId: id, box: MAX_BOX, lastSeen: now };
+      // Idempotent: skip items already fully mastered with a real (seen) record.
+      if (prev.box >= MAX_BOX && prev.totalSeen >= 1) return;
+      // Write a COHERENT mastered record (like fillAllMastered), not box-only: the progress screen
+      // lists only tracks with totalSeen ≥ 1 (see core/stats.ts mergeByItem), so a box-only record
+      // would master the level but stay invisible — looking un-persisted. Math.max never regresses a
+      // learner's real, higher history, and keeps totalSeen ≥ totalCorrect.
+      const p: ItemProgress = {
+        ...prev,
+        kind,
+        itemId: id,
+        box: MAX_BOX,
+        correctStreak: Math.max(prev.correctStreak, MAX_BOX),
+        totalCorrect: Math.max(prev.totalCorrect, MAX_BOX),
+        totalSeen: Math.max(prev.totalSeen, prev.totalCorrect, MAX_BOX),
+        lastSeen: now,
+      };
       progressRef.current.set(progressKey(kind, id), p);
       rows.push(p);
     };
