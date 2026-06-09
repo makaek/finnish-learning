@@ -1,8 +1,8 @@
 /**
- * ProgressDetails.tsx — read-only "Мой прогресс" screen. Shows ONE card per word/sentence,
- * with a compact line per lesson-type track it has been practiced in (so a word's recognition
- * / writing / speaking progress sit together instead of in five separate lists). Mastered
- * items can be hidden (persisted) to keep the list short; a toggle reveals hidden ones.
+ * ProgressDetails.tsx — read-only "Мой прогресс" screen. Shows ONE card per word/sentence/text,
+ * with a compact line per lesson-type track it has been practiced in (so a word's recognition /
+ * writing / speaking progress sit together instead of in five separate lists). Search and an
+ * optional by-level sort keep a long list navigable; a collapsible legend explains the metrics.
  */
 
 import { useMemo, useState, type ReactNode } from "react";
@@ -14,7 +14,6 @@ import { activeVocab, eligibleSentences, levelOf, LEARNED_BOX } from "../core/le
 import { mergeByItem, type MergedProgress } from "../core/stats";
 import { getProgress, MAX_BOX, type ItemKind } from "../core/progress";
 import type { ProgressMap } from "../core/progress";
-import { hiddenKey, type Group } from "./hidden";
 
 interface ProgressDetailsProps {
   vocab: readonly VocabItem[];
@@ -23,11 +22,8 @@ interface ProgressDetailsProps {
   texts: readonly ReadingText[];
   progress: ProgressMap;
   testMode: boolean;
-  /** Hidden item keys (owned by App, since hiding also removes items from lessons). */
-  hidden: ReadonlySet<string>;
   /** Texts/dialogs finished (read or rehearsed). */
   read: ReadonlySet<string>;
-  onToggleHide: (key: string) => void;
 }
 
 const WORD_KINDS: ItemKind[] = ["recognition", "production", "say_word", "listen_word"];
@@ -68,19 +64,15 @@ function ItemCard({
   label,
   sub,
   level,
-  hidden,
-  onToggleHide,
 }: {
   entry: MergedProgress;
   label: string;
   sub?: string;
   /** Curriculum level of the word/sentence, shown as a small badge. */
   level: number;
-  hidden: boolean;
-  onToggleHide: () => void;
 }) {
   return (
-    <li className={"icard" + (hidden ? " icard--hidden" : "")}>
+    <li className="icard">
       <div className="icard__head">
         <span className="icard__label">
           {entry.mastered && <span className="icard__check" title="Выучено">✓ </span>}
@@ -90,16 +82,6 @@ function ItemCard({
           <span className="icard__level" title={`Уровень ${level}`}>
             Ур. {level}
           </span>
-          {entry.mastered && (
-            <button
-              type="button"
-              className="icard__hide"
-              onClick={onToggleHide}
-              title={hidden ? "Показать в списке" : "Скрыть из списка"}
-            >
-              {hidden ? "👁" : "🙈"}
-            </button>
-          )}
         </span>
       </div>
       {sub && <div className="icard__sub">{sub}</div>}
@@ -171,11 +153,8 @@ export default function ProgressDetails({
   texts,
   progress,
   testMode,
-  hidden,
   read,
-  onToggleHide,
 }: ProgressDetailsProps) {
-  const [showHidden, setShowHidden] = useState(false);
   const [query, setQuery] = useState("");
   const [wordsOpen, setWordsOpen] = useState(true);
   const [sentsOpen, setSentsOpen] = useState(true);
@@ -202,22 +181,6 @@ export default function ProgressDetails({
   const vocabById = useMemo(() => new Map(vocab.map((v) => [v.id, v])), [vocab]);
   const sentenceById = useMemo(() => new Map(sentences.map((s) => [s.id, s])), [sentences]);
 
-  const isHidden = (group: Group, id: string) => hidden.has(hiddenKey(group, id));
-  const hiddenCount =
-    words.filter((e) => isHidden("word", e.id)).length +
-    sentenceEntries.filter((e) => isHidden("sentence", e.id)).length;
-
-  // When "show hidden" is on, float the hidden items to the very top; the stable sort keeps
-  // mergeByItem's mastered-first/recency order within the hidden and non-hidden groups.
-  const hiddenFirst = (entries: MergedProgress[], group: Group) =>
-    [...entries].sort((a, b) => Number(isHidden(group, b.id)) - Number(isHidden(group, a.id)));
-  const baseWords = showHidden
-    ? hiddenFirst(words, "word")
-    : words.filter((e) => !isHidden("word", e.id));
-  const baseSentences = showHidden
-    ? hiddenFirst(sentenceEntries, "sentence")
-    : sentenceEntries.filter((e) => !isHidden("sentence", e.id));
-
   // Search filters by the visible text (word fi+ru, or sentence + canonical).
   const q = query.trim().toLowerCase();
   const searching = q.length > 0;
@@ -229,10 +192,10 @@ export default function ProgressDetails({
     const s = sentenceById.get(e.id);
     return (s ? `${s.ru} ${s.canonical}` : e.id).toLowerCase();
   };
-  const filteredWords = searching ? baseWords.filter((e) => wordText(e).includes(q)) : baseWords;
+  const filteredWords = searching ? words.filter((e) => wordText(e).includes(q)) : words;
   const filteredSentences = searching
-    ? baseSentences.filter((e) => sentText(e).includes(q))
-    : baseSentences;
+    ? sentenceEntries.filter((e) => sentText(e).includes(q))
+    : sentenceEntries;
 
   // Level lookups + optional stable sort by level ascending (keeps the prior order within a level).
   const wordLevelOf = (e: MergedProgress) => levelOf(vocabById.get(e.id) ?? {});
@@ -253,8 +216,8 @@ export default function ProgressDetails({
 
   // While searching, force sections open so matches are visible; only show a section that has
   // anything to display.
-  const showWordsSection = searching ? shownWords.length > 0 : baseWords.length > 0;
-  const showSentSection = searching ? shownSentences.length > 0 : baseSentences.length > 0;
+  const showWordsSection = searching ? shownWords.length > 0 : words.length > 0;
+  const showSentSection = searching ? shownSentences.length > 0 : sentenceEntries.length > 0;
   const showTextsSection = searching ? shownTexts.length > 0 : texts.length > 0;
 
   const empty = words.length === 0 && sentenceEntries.length === 0 && texts.length === 0;
@@ -271,7 +234,7 @@ export default function ProgressDetails({
         <h1 className="prompt prompt--home">Мой прогресс</h1>
 
         <details className="legend">
-          <summary>❓ Что значат метрики · как скрывать</summary>
+          <summary>❓ Что значат метрики</summary>
           <ul className="legend__list">
             <li>
               <b>●●●○○ — освоение</b> (0–{MAX_BOX}). «Выучено» (✓) после {LEARNED_BOX} верных
@@ -282,7 +245,6 @@ export default function ProgressDetails({
               <b>🔥 — серия</b> верных подряд; <b>✓ N/M</b> — верных из показов; <b>🎲</b> — шанс
               встретить в следующей сессии.
             </li>
-            <li>Выученное во всех типах (✓) можно скрыть 🙈 — оно исчезнет из упражнений.</li>
           </ul>
         </details>
 
@@ -295,15 +257,6 @@ export default function ProgressDetails({
             onChange={(e) => setQuery(e.target.value)}
             aria-label="Поиск"
           />
-          {hiddenCount > 0 && (
-            <button
-              type="button"
-              className="psearch__hidden"
-              onClick={() => setShowHidden((v) => !v)}
-            >
-              {showHidden ? "Скрыть выученные" : `Скрытые (${hiddenCount})`}
-            </button>
-          )}
         </div>
 
         <div className="psort">
@@ -339,8 +292,6 @@ export default function ProgressDetails({
                       entry={e}
                       label={v ? `${v.fi} — ${v.ru}` : e.id}
                       level={levelOf(v ?? {})}
-                      hidden={isHidden("word", e.id)}
-                      onToggleHide={() => onToggleHide(hiddenKey("word", e.id))}
                     />
                   );
                 })}
@@ -363,8 +314,6 @@ export default function ProgressDetails({
                       label={s ? s.ru : e.id}
                       sub={s?.canonical}
                       level={levelOf(s ?? {})}
-                      hidden={isHidden("sentence", e.id)}
-                      onToggleHide={() => onToggleHide(hiddenKey("sentence", e.id))}
                     />
                   );
                 })}

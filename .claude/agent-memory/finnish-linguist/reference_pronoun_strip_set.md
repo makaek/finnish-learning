@@ -5,17 +5,19 @@ metadata:
   type: reference
 ---
 
-`src/data/sentences.ts` builds the grader's strip-set as
-`VOCAB.filter(item => item.pos === "pronoun").map(item => item.fi.toLowerCase())`.
-It is NOT a hardcoded {minä,sinä,hän,me,te,he}. So **every** dictionary entry you add
-with `pos:"pronoun"` becomes a token the grader will strip when it leads an answer
-(one level, non-recursive — see `expandDroppedPronoun`).
+`src/data/sentences.ts` (as of 2026-06-08) builds the strip-set as a HARDCODED closed
+set `SUBJECT_PRONOUNS = {minä,sinä,hän,me,te,he}` **intersected** with the dictionary's
+`pos:"pronoun"` lemmas. So ONLY those six personal subject pronouns are ever stripped;
+interrogatives/demonstratives `mikä/kuka/tämä/se` are pos `pronoun` but are deliberately
+NOT in the strip-set → adding more of them is now safe. (Earlier the set was every
+`pos:"pronoun"` lemma — see history below — which is why this note once warned about
+mikä/kuka/tämä/se. That hazard is now gone for new demonstratives/interrogatives.)
 
-**The trap (caught while adding levels 3–5):** interrogatives `mikä`/`kuka` and
-demonstratives `tämä`/`se` were added as `pos:"pronoun"`. That made answers like
-`"Mikä tämä on?"` derive a stripped form `"tämä on"`. A wrong `"kuka tämä on"` then
-strips to `"tämä on"` too → collides with the derived-accepted form → integrity test
-fails. Same hazard for `"se ..."` answers and any `<strippable> X` wrong sharing tail `X`.
+**Former trap (when the set was all pronoun lemmas, caught adding L3–5):** answers like
+`"Mikä tämä on?"` derived a stripped `"tämä on"`; a wrong `"kuka tämä on"` stripped to
+`"tämä on"` too → collided with derived-accepted. With the current hardcoded set this
+specific collision can't happen, but the general `<strippable> X` / wrong sharing tail
+`X` hazard STILL applies to the six personal pronouns.
 
 **Rules when authoring questions/demonstratives:**
 - Only the LEMMA `.fi` is stripped, not inflected forms. `mikä` is strippable but its

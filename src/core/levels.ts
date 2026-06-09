@@ -576,3 +576,108 @@ export function eligibleSentences<S extends SentenceLike>(
     (s) => unlocked.has(levelOf(s)) && s.uses.every((id) => wordUsableInSentence(progress, id)),
   );
 }
+
+/* ------------------------------------------------------------------ «Уровни» screen helpers
+ * Pure, progress-derived models that back the Levels list/detail and the Metrics hero rail.
+ * They reuse the same predicates as the rest of this module so the screens never diverge from
+ * what actually gates advancement. */
+
+/** Where a level sits relative to the learner's current (gated) level. */
+export type LevelStatus = "done" | "current" | "locked";
+
+/** Per-level rollup for the Levels list and the Metrics hero rail. */
+export interface LevelSummary {
+  level: number;
+  status: LevelStatus;
+  /** Item counts in the level, by group. */
+  counts: { words: number; sentences: number; texts: number };
+  /** Combined completion fraction in [0, 1] (mean per-item mastery, as in {@link levelCompletionStats}). */
+  fraction: number;
+  /** Items in the level not yet learned (`total − learned`) — what marking it passed would skip. */
+  remaining: number;
+}
+
+/**
+ * One {@link LevelSummary} per level present in the content, in ascending order. `status` is derived
+ * from {@link masteringLevelGated} (below it = done, equal = current, above = locked); `fraction` and
+ * `remaining` come from the combined {@link levelCompletionStats}. Pure — drives the Levels timeline
+ * and the hero rail without either re-deriving level state.
+ */
+export function levelSummaries(
+  vocab: readonly VocabLike[],
+  sentences: readonly SentenceLike[],
+  texts: readonly TypedItem[],
+  progress: ProgressMap,
+): LevelSummary[] {
+  const current = masteringLevelGated(vocab, sentences, texts, progress);
+  const stats = levelCompletionStats(vocab, sentences, texts, progress);
+  const byLevel = new Map(stats.map((s) => [s.level, s]));
+  return listLevels([...vocab, ...sentences, ...texts]).map((level) => {
+    const stat = byLevel.get(level);
+    return {
+      level,
+      status: level < current ? "done" : level === current ? "current" : "locked",
+      counts: {
+        words: vocab.filter((v) => levelOf(v) === level).length,
+        sentences: sentences.filter((s) => levelOf(s) === level).length,
+        texts: texts.filter((t) => levelOf(t) === level).length,
+      },
+      fraction: stat?.fraction ?? 1,
+      remaining: stat ? Math.max(0, stat.total - stat.learned) : 0,
+    };
+  });
+}
+
+/** A vocab item with its display strings (real {@link import("./dictionary").VocabItem} satisfies it). */
+export interface VocabContent extends VocabLike {
+  fi: string;
+  ru: string;
+}
+/** A sentence with its display strings (real {@link SentenceItem} satisfies it). */
+export interface SentenceContent extends SentenceLike {
+  ru: string;
+  canonical: string;
+}
+/** A reading item with its display title (real {@link ReadingText} satisfies it). */
+export interface TextContent extends ReadingLike {
+  title: string;
+  titleRu?: string;
+}
+
+/** A single Finnish-first item shown in the level detail. */
+export interface LevelContentItem {
+  fi: string;
+  ru: string;
+}
+/** A reading item in the level detail (carries the dialog flag for its icon). */
+export interface LevelTextContentItem extends LevelContentItem {
+  dialog: boolean;
+}
+/** The full content of one level, Finnish-first, for the «Уровни» detail view. */
+export interface LevelContent {
+  words: LevelContentItem[];
+  sentences: LevelContentItem[];
+  texts: LevelTextContentItem[];
+}
+
+/**
+ * Every word/sentence/text in a level, Finnish-first, for the level-detail review. Sentences lead
+ * with their canonical Finnish answer (the Russian prompt is the gloss); texts lead with the
+ * Finnish title (Russian {@link TextContent.titleRu} as gloss). Pure; no progress needed.
+ */
+export function levelContent(
+  vocab: readonly VocabContent[],
+  sentences: readonly SentenceContent[],
+  texts: readonly TextContent[],
+  level: number,
+): LevelContent {
+  return {
+    words: vocab.filter((v) => levelOf(v) === level).map((v) => ({ fi: v.fi, ru: v.ru })),
+    sentences: sentences
+      .filter((s) => levelOf(s) === level)
+      .map((s) => ({ fi: s.canonical, ru: s.ru })),
+    texts: texts
+      .filter((t) => levelOf(t) === level)
+      .map((t) => ({ fi: t.title, ru: t.titleRu ?? "", dialog: t.type === "dialog" })),
+  };
+}

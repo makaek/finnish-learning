@@ -101,6 +101,50 @@ const PATHS: Record<string, ReactElement> = {
       <path d="M8 10V7a4 4 0 0 1 8 0v3" />
     </>
   ),
+  // --- Progress/Metrics/Levels redesign set (mode glyphs + chrome, from kit.jsx / ModeIcon) ---
+  pen: (
+    <>
+      <path d="M4 20h4L19 9a2 2 0 0 0 0-3l-1-1a2 2 0 0 0-3 0L4 16v4Z" />
+      <path d="M14 7l3 3" />
+    </>
+  ),
+  phones: (
+    <>
+      <path d="M4 13v-1a8 8 0 0 1 16 0v1" />
+      <rect x="3" y="13" width="4" height="6" rx="1.6" />
+      <rect x="17" y="13" width="4" height="6" rx="1.6" />
+    </>
+  ),
+  chat: <path d="M4 5h16v11H9l-4 4v-4H4V5Z" />,
+  star: <path d="M12 3.5l2.55 5.2 5.7.85-4.12 4 .97 5.7L12 16.6l-5.07 2.65.97-5.7-4.12-4 5.7-.85L12 3.5Z" />,
+  chevR: <path d="M9.5 6l6 6-6 6" />,
+  chevD: <path d="M6 9.5l6 6 6-6" />,
+  search: (
+    <>
+      <circle cx="11" cy="11" r="6.6" />
+      <path d="M20 20l-4.2-4.2" />
+    </>
+  ),
+  sort: <path d="M7 4v16M7 20l-3-3M7 4l3 3M17 4v16M17 4l-3 3M17 4l3 3" />,
+  target: (
+    <>
+      <circle cx="12" cy="12" r="8.2" />
+      <circle cx="12" cy="12" r="3.6" />
+    </>
+  ),
+  bolt: <path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" />,
+  info: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 11v5.5M12 7.6v.4" />
+    </>
+  ),
+  question: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M9.4 9.2a2.7 2.7 0 1 1 3.9 2.5c-.9.5-1.4 1.1-1.4 2.2M12 17v.4" />
+    </>
+  ),
 };
 
 export type UiIconName = keyof typeof PATHS;

@@ -8,10 +8,11 @@
 
 import { UiIcon, type UiIconName } from "./icons";
 
-// "reading" is a valid home screen but intentionally has NO footer tab — the library is opened
-// from the home "Чтение" cards and exits via its own back button, so while it's active no tab is
-// highlighted (by design). The other four values each map to a tab below.
-export type HomeScreen = "roadmap" | "reading" | "stats" | "rules" | "dashboard";
+// "reading" and "levels" are valid home screens but intentionally have NO footer tab — each is
+// opened from another screen (reading from the home "Чтение" cards, levels from the Метрики hero)
+// and exits via its own back button, so while either is active no tab is highlighted (by design).
+// The other four values each map to a tab below.
+export type HomeScreen = "roadmap" | "reading" | "stats" | "rules" | "dashboard" | "levels";
 
 // "reading" is intentionally NOT a tab — the library is opened from the home "Чтение" cards
 // (Тексты / Диалоги) and returns via its own back button. The footer covers the always-on screens.

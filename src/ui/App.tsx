@@ -18,6 +18,7 @@ import {
   activeVocab,
   eligibleSentences,
   masteringLevelGated,
+  levelOf,
   LEARNED_BOX,
 } from "../core/levels";
 import {
@@ -38,11 +39,12 @@ import {
 } from "../core/progress";
 import { reciteRoleDone, reciteRoleId, reciteRoles } from "../core/reading";
 import { loadProgress, loadState, saveProgress, saveState } from "../data/backend";
-import { hiddenKey, loadHidden, saveHidden } from "./hidden";
+import { hiddenKey, loadHidden } from "./hidden";
 import { loadRead, saveRead } from "./readingState";
 import Roadmap, { type Mode } from "./Roadmap";
 import ProgressDetails from "./ProgressDetails";
 import Dashboard from "./Dashboard";
+import Levels from "./Levels";
 import RulesBook from "./RulesBook";
 import Reading from "./Reading";
 import BottomNav, { type HomeScreen } from "./BottomNav";
@@ -75,22 +77,14 @@ export default function App() {
   const [index, setIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [testMode] = useState(readTestMode);
-  // Items the learner hid (fully-mastered) — excluded from every lesson, persisted locally.
-  const [hidden, setHidden] = useState<Set<string>>(loadHidden);
+  // Items the learner hid in an earlier build (fully-mastered) — still excluded from every lesson
+  // and loaded from local storage. The hide/unhide UI was removed with the progress redesign, so
+  // the set is now read-only (no new hides), but legacy hidden items stay filtered out.
+  const [hidden] = useState<Set<string>>(loadHidden);
   // Texts/dialogs the learner has finished (read or rehearsed). Lifted here from Reading so the
   // home/dashboard/progress screens can fold reading into level completion. Device-local, like
   // `hidden` — same persistence rationale (a view marker, not graded data).
   const [read, setRead] = useState<Set<string>>(loadRead);
-
-  function toggleHidden(key: string) {
-    setHidden((prev) => {
-      const next = new Set(prev);
-      if (next.has(key)) next.delete(key);
-      else next.add(key);
-      saveHidden(next);
-      return next;
-    });
-  }
 
   function markRead(id: string) {
     setRead((prev) => {
@@ -315,6 +309,47 @@ export default function App() {
     void saveProgress(rows);
   }
 
+  /**
+   * «Отметить пройденным» — mark every item in `level` as mastered. Raises the four word modes,
+   * three sentence modes, and both reading parts (comprehension quiz + recitation in every role)
+   * to MAX_BOX for the level's items. The current level is DERIVED ({@link masteringLevelGated}),
+   * so mastering a level's items advances it and unlocks the next; nothing relocks. Idempotent —
+   * items already at MAX_BOX are skipped, so re-running writes nothing. Persisted (fire-and-forget).
+   * Only `box`/`lastSeen` change (no fabricated answer history), so accuracy stays honest.
+   */
+  function markLevelPassed(level: number) {
+    const now = Date.now();
+    const rows: ItemProgress[] = [];
+    const mark = (kind: ItemKind, id: string) => {
+      const prev = getProgress(progressRef.current, kind, id);
+      if (prev.box >= MAX_BOX) return; // already maxed — keep it idempotent
+      const p: ItemProgress = { ...prev, kind, itemId: id, box: MAX_BOX, lastSeen: now };
+      progressRef.current.set(progressKey(kind, id), p);
+      rows.push(p);
+    };
+    for (const v of VOCAB) {
+      if (levelOf(v) !== level) continue;
+      mark("recognition", v.id);
+      mark("production", v.id);
+      mark("say_word", v.id);
+      mark("listen_word", v.id);
+    }
+    for (const s of SENTENCES) {
+      if (levelOf(s) !== level) continue;
+      mark("sentences", s.id);
+      mark("say_sentence", s.id);
+      mark("listen_sentence", s.id);
+    }
+    for (const t of TEXTS) {
+      if (levelOf(t) !== level) continue;
+      if (t.questions?.length) mark("reading", t.id); // comprehension quiz part (only if it has one)
+      for (const role of reciteRoles(t)) mark("recite", reciteRoleId(t.id, role)); // per-role recite
+      mark("recite", t.id); // role-agnostic aggregate that readingMastered reads
+    }
+    setProgressView(new Map(progressRef.current));
+    if (rows.length > 0) void saveProgress(rows);
+  }
+
   /** Update the current item's mastery from the answer and persist it (fire-and-forget). */
   function recordOutcome(wasCorrect: boolean) {
     if (mode === null) return;
@@ -468,9 +503,7 @@ export default function App() {
           texts={TEXTS}
           progress={progressView}
           testMode={testMode}
-          hidden={hidden}
           read={read}
-          onToggleHide={toggleHidden}
         />
       );
     } else if (homeScreen === "reading") {
@@ -498,6 +531,24 @@ export default function App() {
           progress={progressView}
           daily={dailyView}
           testMode={testMode}
+          onGoLevels={() => setHomeScreen("levels")}
+          onStart={start}
+          onOpenReading={(type) => {
+            setReadingFilter(type);
+            setHomeScreen("reading");
+          }}
+        />
+      );
+    } else if (homeScreen === "levels") {
+      screen = (
+        <Levels
+          vocab={VOCAB}
+          sentences={SENTENCES}
+          texts={TEXTS}
+          progress={progressView}
+          onBack={() => setHomeScreen("dashboard")}
+          onStart={start}
+          onMarkPassed={markLevelPassed}
         />
       );
     } else {

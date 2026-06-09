@@ -49,6 +49,17 @@
   --rd-cream: light-dark(#f0ede6, #181426); /* chat thread background */
   --rd-wash: light-dark(#f4f1eb, #2c2640); /* small icon-button fills */
 
+  /* Progress/Metrics/Levels redesign: gold (achievement — current level, mark-passed) and coral
+   * (the weak-link nudge). Group hues reuse the existing ring tokens: Слова → --rd-violet,
+   * Предложения → --rd-teal, Чтение → --read. Dark sides are deepened tints, not the raw hexes. */
+  --gold: light-dark(#c8902b, #e0ad55);
+  --gold-soft: light-dark(#f6eedc, #352a18);
+  --gold-line: light-dark(#ecd9af, #50401f);
+  --weak: light-dark(#ce6a57, #e08a78);
+  --weak-deep: light-dark(#b9543f, #e8917f);
+  --weak-soft: light-dark(#fbf0ec, #3a2622);
+  /* (--weak-line / --weak-wash / --weak-ink are defined further down with the ring styles.) */
+
   /* Scales. */
   --r: 22px;
   --r-sm: 14px;
@@ -2671,4 +2682,1026 @@ body {
   width: 12px;
   height: 12px;
   border-radius: 4px;
+}
+
+/* ============================================================================
+ * «Метрики» + «Уровни» redesign — append-only block.
+ * Reuses the token set; group hues map to the ring tokens (Слова → --rd-violet,
+ * Предложения → --rd-teal, Чтение → --read), gold/coral from the redesign tokens.
+ * ==========================================================================*/
+
+/* Shared column shells for the two scrolling screens (override .app's row/center). */
+.mx,
+.lv {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--s3);
+  width: min(100%, 30rem);
+  margin-inline: auto;
+}
+
+/* Group-hue helpers (icon colour = currentColor; bars/dots use background). */
+.mcov__ic--w,
+.mprow__ic--w,
+.mprac__gdot--w,
+.lcounts__ic--w,
+.ldtile__ic--w {
+  color: var(--rd-violet);
+}
+.mcov__ic--s,
+.mprow__ic--s,
+.mprac__gdot--s,
+.lcounts__ic--s,
+.ldtile__ic--s {
+  color: var(--rd-teal);
+}
+.mcov__ic--r,
+.mprow__ic--r,
+.mprac__gdot--r,
+.lcounts__ic--r,
+.ldtile__ic--r,
+.lirow__ic--r {
+  color: var(--read);
+}
+.mcov__fill--w,
+.mprow__fill--w,
+.mprac__gdot--w {
+  background: var(--rd-violet);
+}
+.mcov__fill--s,
+.mprow__fill--s,
+.mprac__gdot--s {
+  background: var(--rd-teal);
+}
+.mcov__fill--r,
+.mprow__fill--r,
+.mprac__gdot--r {
+  background: var(--read);
+}
+
+/* Screen H1 + inline subtitle, and the uppercase section eyebrows. */
+.mx__h1 {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+.mx__h1 .prompt--home {
+  margin: 0;
+}
+.mx__h1sub {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.mx__sec {
+  margin: 0.35rem 0.1rem -0.3rem;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.mx__sec--count {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+.mx__seccount {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--muted);
+}
+
+/* ---- Hero (curriculum position) ---- */
+.mhero {
+  padding: 0;
+  overflow: hidden;
+}
+.mhero__top {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1rem 1rem 0.85rem;
+}
+.mhero__tile {
+  flex: 0 0 auto;
+  width: 60px;
+  height: 60px;
+  border-radius: 18px;
+  background: var(--gold-soft);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+.mhero__lvnum {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--gold);
+}
+.mhero__lvword {
+  margin-top: 2px;
+  font-size: 0.53rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+}
+.mhero__cefr {
+  min-width: 0;
+  flex: 1;
+}
+.mhero__cefrlabel {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+.mhero__cefrline {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-top: 0.2rem;
+}
+.mhero__stage {
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--rd-teal);
+}
+.mhero__band {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.mhero__rail {
+  padding: 0 1rem 0.9rem;
+}
+.mhero__more {
+  width: 100%;
+  border: none;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.mhero__more:active {
+  background: var(--surface-2);
+}
+
+/* 12-segment level rail */
+.lrail {
+  display: flex;
+  gap: 4px;
+}
+.lrail__seg {
+  position: relative;
+  flex: 1;
+  height: 7px;
+  border-radius: var(--pill);
+  background: var(--surface-2);
+  overflow: hidden;
+}
+.lrail__seg--done {
+  background: var(--rd-teal);
+}
+.lrail__seg--current {
+  background: var(--surface-2);
+  box-shadow: 0 0 0 2px var(--card), 0 0 0 3.4px var(--rd-teal);
+}
+.lrail__fill {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--pill);
+  background: var(--rd-teal);
+}
+.lrail__ticks {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.45rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+/* ---- Сегодня ---- */
+.mtoday__hd {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+.mtoday__title {
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+.mtoday__note {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.mtoday__rings {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.mtoday__ring {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+}
+.mtoday__ring .ring {
+  width: 5.5rem;
+  height: 5.5rem;
+}
+.mtoday__cap {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+/* ---- Что я знаю (coverage) ---- */
+.mcov__row + .mcov__row {
+  margin-top: 0.85rem;
+}
+.mcov__head {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.4rem;
+}
+.mcov__ic {
+  flex: 0 0 auto;
+  display: inline-flex;
+}
+.mcov__label {
+  flex: 1;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+.mcov__count {
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+.mcov__total {
+  font-weight: 700;
+  color: var(--muted);
+}
+.mcov__track,
+.mprow__track {
+  display: block;
+  height: 7px;
+  border-radius: var(--pill);
+  background: var(--surface-2);
+  overflow: hidden;
+}
+.mcov__fill,
+.mprow__fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--pill);
+  transition: width 0.4s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.mcov__note {
+  margin-top: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* ---- Two stat tiles ---- */
+.mtiles {
+  display: flex;
+  gap: var(--s2);
+}
+.mtile {
+  flex: 1;
+  padding: 0.85rem;
+}
+.mtile__top {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.mtile__ic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+}
+.mtile__ic--flame {
+  color: var(--warm);
+  background: color-mix(in srgb, var(--warm) 16%, var(--card));
+}
+.mtile__ic--target {
+  color: var(--ok);
+  background: var(--ok-soft);
+}
+.mtile__val {
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+.mtile__label {
+  margin-top: 0.55rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.mtile__sub {
+  margin-top: 0.1rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* ---- Что подтянуть (weak link + per-mode rows) ---- */
+.mprac {
+  padding: 0;
+  overflow: hidden;
+}
+.mprac__banner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 1rem;
+  background: var(--weak-soft);
+  border-bottom: 1px solid var(--border);
+}
+.mprac__bicon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--card);
+  border: 1px solid var(--weak-line);
+  color: var(--weak-deep);
+}
+.mprac__btext {
+  flex: 1;
+  min-width: 0;
+}
+.mprac__beyebrow {
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--weak-deep);
+}
+.mprac__bname {
+  margin-top: 0.1rem;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+.mprac__btn {
+  flex: 0 0 auto;
+  border: none;
+  border-radius: var(--pill);
+  padding: 0.55rem 0.95rem;
+  background: var(--weak-deep);
+  color: #fff;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+.mprac__btn:active {
+  transform: scale(0.97);
+}
+.mprac__body {
+  padding: 0.4rem 1rem 0.8rem;
+}
+.mprac__group {
+  padding-top: 0.55rem;
+}
+.mprac__glabel {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.15rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+}
+.mprac__gdot {
+  width: 8px;
+  height: 8px;
+  border-radius: 3px;
+}
+.mprow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 0;
+}
+.mprow__ic {
+  flex: 0 0 auto;
+  display: inline-flex;
+}
+.mprow__label {
+  flex: 0 0 auto;
+  width: 5rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.mprow__label--weak {
+  color: var(--weak-deep);
+}
+.mprow__track {
+  flex: 1;
+  height: 6px;
+}
+.mprow__fill--weak {
+  background: var(--weak);
+}
+.mprow__acc {
+  flex: 0 0 auto;
+  width: 2.3rem;
+  text-align: right;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+.mprow__acc--green {
+  color: var(--ok);
+}
+.mprow__acc--amber {
+  color: var(--known);
+}
+.mprow__acc--red {
+  color: var(--no);
+}
+.mprac__legend {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.9rem;
+  margin-top: 0.5rem;
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+/* ============================================================================
+ * «Уровни» (Levels) screen
+ * ==========================================================================*/
+
+.backbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--pill);
+  padding: 0.5rem 0.95rem 0.5rem 0.75rem;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+}
+.backbtn:active {
+  transform: scale(0.97);
+}
+.lv__backrow {
+  margin-bottom: 0.2rem;
+}
+.lv .prompt--home {
+  margin: 0 0.1rem 0.25rem;
+}
+.lv__sub {
+  margin: 0 0.1rem 0.4rem;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Count chips (words/sentences/texts). */
+.lcounts {
+  display: flex;
+  gap: 0.85rem;
+}
+.lcounts__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+.lcounts__ic {
+  display: inline-flex;
+}
+.lcounts__item--muted,
+.lcounts__item--muted .lcounts__ic {
+  color: var(--muted);
+}
+
+/* CEFR band header. */
+.lband__hd {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0.5rem 0 0.85rem;
+  color: var(--ok);
+}
+.lband__chip {
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: var(--muted);
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 0.22rem 0.55rem;
+}
+.lband__chip--active {
+  color: var(--rd-teal);
+  background: color-mix(in srgb, var(--rd-teal) 14%, var(--card));
+}
+.lband__chip--done {
+  color: var(--ok);
+  background: var(--ok-soft);
+}
+.lband__name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.lband__rule {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* Timeline row: rail + card. */
+.lrow {
+  display: flex;
+  gap: 0.8rem;
+}
+.lrow__rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 0 0 auto;
+}
+.lrow__node {
+  position: relative;
+  z-index: 1;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lrow__node--done {
+  background: var(--rd-teal);
+  color: #fff;
+}
+.lrow__node--current {
+  background: var(--card);
+  border: 2.5px solid var(--gold);
+  box-shadow: 0 0 0 4px var(--gold-soft);
+}
+.lrow__nodenum {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--gold);
+}
+.lrow__node--locked {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+.lrow__conn {
+  width: 2px;
+  flex: 1;
+  margin-top: 2px;
+  background: var(--border);
+}
+.lrow__conn--done {
+  background: color-mix(in srgb, var(--rd-teal) 40%, transparent);
+}
+.lrow__body {
+  flex: 1;
+  min-width: 0;
+  padding-bottom: 1rem;
+}
+
+/* Level card. */
+.lcard {
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 0.75rem 0.85rem;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+}
+.lcard--current {
+  cursor: default;
+  border-color: var(--gold-line);
+  box-shadow: 0 2px 10px color-mix(in srgb, var(--gold) 22%, transparent);
+  padding: 0.9rem;
+}
+.lcard--locked {
+  cursor: default;
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  opacity: 0.6;
+}
+.lcard:disabled {
+  cursor: default;
+}
+.lcard__top {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.lcard__eyebrow {
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+.lcard__band {
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: var(--rd-teal);
+  background: color-mix(in srgb, var(--rd-teal) 12%, var(--card));
+  border-radius: 6px;
+  padding: 0.12rem 0.4rem;
+}
+.lcard__band--muted {
+  color: var(--muted);
+  background: var(--surface-2);
+}
+.lcard__status {
+  margin-left: auto;
+  font-size: 0.66rem;
+  font-weight: 800;
+}
+.lcard__status--done {
+  color: var(--ok);
+}
+.lcard__status--current {
+  color: var(--gold);
+}
+.lcard__chev {
+  display: inline-flex;
+  color: var(--muted);
+}
+.lcard__status--done + .lcard__chev {
+  margin-left: 0;
+}
+.lcard__title {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+  flex-wrap: wrap;
+}
+.lcard__fi {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.lcard__fi--big {
+  font-size: 1.1rem;
+}
+.lcard--locked .lcard__fi {
+  color: var(--muted);
+}
+.lcard__ru {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.lcard__counts {
+  margin-top: 0.55rem;
+}
+
+/* Current-level extras (bar + actions) below the card. */
+.lcur {
+  margin-top: 0.7rem;
+}
+.lcur__track {
+  display: block;
+  height: 7px;
+  border-radius: var(--pill);
+  background: var(--surface-2);
+  overflow: hidden;
+}
+.lcur__fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--pill);
+  background: var(--gold);
+  transition: width 0.4s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.lcur__meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.4rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+.lcur__actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.7rem;
+}
+.lcur__go,
+.lcur__mark {
+  flex: 1;
+  border-radius: 11px;
+  padding: 0.7rem 0;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 800;
+  cursor: pointer;
+  text-align: center;
+}
+.lcur__go {
+  border: none;
+  background: var(--gold);
+  color: #fff;
+}
+.lcur__mark {
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.lcur__go:active,
+.lcur__mark:active {
+  transform: scale(0.98);
+}
+
+/* ---- Detail view ---- */
+.ldhead {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.ldhead__disc {
+  flex: 0 0 auto;
+  width: 46px;
+  height: 46px;
+  border-radius: var(--pill);
+  background: var(--rd-teal);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ldhead__titlerow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.ldhead__fi {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.ldhead__band {
+  font-size: 0.66rem;
+  font-weight: 800;
+  color: var(--rd-teal);
+  background: color-mix(in srgb, var(--rd-teal) 12%, var(--card));
+  border-radius: 7px;
+  padding: 0.18rem 0.4rem;
+}
+.ldhead__sub {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.ldtiles {
+  display: flex;
+  gap: 0.7rem;
+}
+.ldtile {
+  flex: 1;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 0.8rem 0.6rem;
+  text-align: center;
+}
+.ldtile__ic {
+  display: inline-flex;
+  margin-bottom: 0.4rem;
+}
+.ldtile__n {
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+.ldtile__label {
+  margin-top: 0.05rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+.ldlist {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.lirow {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.7rem 0.8rem;
+}
+.lirow__ic {
+  flex: 0 0 auto;
+  display: inline-flex;
+}
+.lirow__tick {
+  flex: 0 0 auto;
+  width: 17px;
+  height: 17px;
+  border-radius: var(--pill);
+  background: var(--ok-soft);
+  color: var(--ok);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lirow__text {
+  flex: 1;
+  min-width: 0;
+}
+.lirow__fi {
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+.lirow__ru {
+  margin-top: 0.05rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.ldmore,
+.ldrepeat {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.7rem 0;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+.ldmore {
+  background: var(--surface);
+  color: var(--rd-teal);
+  font-size: 0.82rem;
+}
+.ldrepeat {
+  margin-top: 0.4rem;
+  background: var(--card);
+  color: var(--text);
+  font-size: 0.9rem;
+}
+.ldmore:active,
+.ldrepeat:active {
+  transform: scale(0.99);
+}
+
+/* ---- Confirm bottom sheet ---- */
+.lsheet {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: rgba(30, 24, 18, 0.42);
+  backdrop-filter: blur(1.5px);
+}
+.lsheet__panel {
+  background: var(--card);
+  border-radius: 24px 24px 0 0;
+  padding: 0.6rem 1.25rem 1.6rem;
+  text-align: center;
+  animation: lsheet-up 0.22s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+@keyframes lsheet-up {
+  from {
+    transform: translateY(100%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lsheet__panel {
+    animation: none;
+  }
+}
+.lsheet__grab {
+  display: block;
+  width: 40px;
+  height: 4px;
+  border-radius: var(--pill);
+  background: var(--border);
+  margin: 0 auto 1.1rem;
+}
+.lsheet__bolt {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  background: var(--gold-soft);
+  color: var(--gold);
+  margin-bottom: 0.85rem;
+}
+.lsheet__title {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.lsheet__body {
+  margin: 0 auto 1rem;
+  max-width: 19rem;
+  font-size: 0.86rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.lsheet__body b {
+  color: var(--text);
+}
+.lsheet__warn {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  text-align: left;
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-line);
+  border-radius: 12px;
+  padding: 0.7rem 0.8rem;
+  margin-bottom: 1.1rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--text);
+}
+.lsheet__warn svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+  color: var(--gold);
+}
+.lsheet__confirm {
+  width: 100%;
+  border: none;
+  border-radius: 13px;
+  padding: 0.9rem 0;
+  background: var(--gold);
+  color: #fff;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+.lsheet__cancel {
+  width: 100%;
+  border: none;
+  background: none;
+  padding: 0.5rem 0 0;
+  margin-top: 0.6rem;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.lsheet__confirm:active {
+  transform: scale(0.99);
 }

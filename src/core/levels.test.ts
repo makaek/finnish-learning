@@ -6,12 +6,14 @@ import {
   LEARNED_BOX,
   LEVEL_COMPLETE_FRACTION,
   levelCompletionStats,
+  levelContent,
   levelGate,
   levelLearnProgress,
   levelModeStats,
   levelProgressToNext,
   levelOf,
   levelStats,
+  levelSummaries,
   masteringLevelGated,
   listLevels,
   lowestUnmasteredLevel,
@@ -577,5 +579,78 @@ describe("levelModeStats / levelGate / masteringLevelGated (balance-to-progress 
     );
     // L1 complete AND balanced → the displayed level rolls on to L2 (where x1 is untouched).
     expect(masteringLevelGated(v, sents, txts, balanced)).toBe(2);
+  });
+});
+
+describe("levelSummaries / levelContent («Уровни» screen helpers)", () => {
+  const v: VocabLike[] = [
+    { id: "w1", level: 1 },
+    { id: "w2", level: 1 },
+    { id: "x1", level: 2 },
+  ];
+  const sents: SentenceLike[] = [{ id: "s1", level: 1, uses: ["w1"] }];
+  const txts = [
+    { id: "t1", level: 1, type: "text" as const },
+    { id: "d1", level: 1, type: "dialog" as const },
+  ];
+  const mk = (...rows: [ItemKind, string, number][]): ProgressMap => {
+    const m: ProgressMap = new Map();
+    for (const [kind, id, b] of rows) {
+      m.set(progressKey(kind, id), {
+        kind,
+        itemId: id,
+        box: b,
+        correctStreak: b,
+        totalCorrect: b,
+        totalSeen: b,
+        lastSeen: 1,
+      });
+    }
+    return m;
+  };
+
+  it("with no progress, level 1 is current and the rest locked", () => {
+    const s = levelSummaries(v, sents, txts, new Map());
+    expect(s.map((x) => x.level)).toEqual([1, 2]);
+    const l1 = s.find((x) => x.level === 1)!;
+    expect(l1.status).toBe("current");
+    expect(l1.counts).toEqual({ words: 2, sentences: 1, texts: 2 });
+    expect(l1.remaining).toBe(5); // 2 words + 1 sentence + 2 texts, none learned
+    expect(s.find((x) => x.level === 2)!.status).toBe("locked");
+  });
+
+  it("a fully mastered + balanced level reads done, advancing current to the next", () => {
+    const done = mk(
+      ["recognition", "w1", LEARNED_BOX], ["recognition", "w2", LEARNED_BOX],
+      ["production", "w1", LEARNED_BOX], ["production", "w2", LEARNED_BOX],
+      ["say_word", "w1", LEARNED_BOX], ["say_word", "w2", LEARNED_BOX],
+      ["listen_word", "w1", LEARNED_BOX], ["listen_word", "w2", LEARNED_BOX],
+      ["sentences", "s1", LEARNED_BOX],
+      ["say_sentence", "s1", LEARNED_BOX],
+      ["listen_sentence", "s1", LEARNED_BOX],
+      ["recite", "t1", LEARNED_BOX], ["recite", "d1", LEARNED_BOX], // texts recited (no questions)
+    );
+    const s = levelSummaries(v, sents, txts, done);
+    expect(s.find((x) => x.level === 1)!.status).toBe("done");
+    expect(s.find((x) => x.level === 2)!.status).toBe("current");
+  });
+
+  it("levelContent lists a level's items Finnish-first (texts carry the dialog flag)", () => {
+    const vc = [
+      { id: "w1", level: 1, fi: "hei", ru: "привет" },
+      { id: "x1", level: 2, fi: "talo", ru: "дом" },
+    ];
+    const sc = [{ id: "s1", level: 1, uses: [], ru: "Привет!", canonical: "Hei!" }];
+    const tc = [
+      { id: "t1", level: 1, title: "Tervehdys", titleRu: "Приветствие", type: "text" as const },
+      { id: "d1", level: 1, title: "Kahvilassa", type: "dialog" as const },
+    ];
+    const c = levelContent(vc, sc, tc, 1);
+    expect(c.words).toEqual([{ fi: "hei", ru: "привет" }]);
+    expect(c.sentences).toEqual([{ fi: "Hei!", ru: "Привет!" }]);
+    expect(c.texts).toEqual([
+      { fi: "Tervehdys", ru: "Приветствие", dialog: false },
+      { fi: "Kahvilassa", ru: "", dialog: true },
+    ]);
   });
 });
