@@ -6216,6 +6216,409 @@
       ],
       "teaches": "imperfect 2sg (teit) + eilen",
       "needs_review": false
+    },
+
+    {
+      "id": "s435",
+      "ru": "Я люблю футбол, потому что это весело.",
+      "uses": ["v96", "n271", "f28", "p10", "v1", "a51"],
+      "level": 11,
+      "canonical": "Tykkään jalkapallosta, koska se on hauskaa.",
+      "accepted": ["Tykkään jalkapallosta, koska se on hauskaa."],
+      "wrong": [
+        { "match": "tykkään jalkapalloa, koska se on hauskaa", "ru": "tykätä управляет элативом: jalkapallosta (а не партитив jalkapalloa)." },
+        { "match": "tykkään jalkapallosta, koska se on hauska", "ru": "se как абстрактное «это» — предикатив в партитиве: hauskaa." }
+      ],
+      "teaches": "tykätä + elative + opinion with koska",
+      "needs_review": false
+    },
+    {
+      "id": "s436",
+      "ru": "Моё хобби — фотография.",
+      "uses": ["n276", "v1", "n275"],
+      "level": 11,
+      "canonical": "Harrastukseni on valokuvaus.",
+      "accepted": ["Harrastukseni on valokuvaus."],
+      "wrong": [
+        { "match": "harrastukseni on valokuvausta", "ru": "Предикатив-тождество — номинатив: valokuvaus (а не партитив valokuvausta)." },
+        { "match": "harrastus on valokuvausta", "ru": "Предикатив-тождество — номинатив: valokuvaus." }
+      ],
+      "teaches": "possessive suffix + inflection type (harrastus)",
+      "needs_review": false
+    },
+    {
+      "id": "s437",
+      "ru": "Я играю в теннис каждый день.",
+      "uses": ["v32", "n272", "n38"],
+      "level": 11,
+      "canonical": "Pelaan tennistä joka päivä.",
+      "accepted": ["Pelaan tennistä joka päivä."],
+      "wrong": [
+        { "match": "pelaan tennis joka päivä", "ru": "Игру играют в партитиве: tennistä (основа tennikse-)." },
+        { "match": "pelaan tenniksen joka päivä", "ru": "pelata требует партитив: tennistä (а не тотальный tenniksen)." }
+      ],
+      "teaches": "pelata + partitive object (tennis)",
+      "needs_review": false
+    },
+    {
+      "id": "s438",
+      "ru": "Я боюсь собак.",
+      "uses": ["v109", "n154"],
+      "level": 11,
+      "canonical": "Pelkään koiria.",
+      "accepted": ["Pelkään koiria.", "Minä pelkään koiria."],
+      "wrong": [
+        { "match": "pelkään koira", "ru": "pelätä управляет партитивом: koiria (мн.ч.) или koiraa (ед.ч.)." },
+        { "match": "pelään koiria", "ru": "Основа pelkää-: pelkään (а не «pelään»)." }
+      ],
+      "teaches": "pelätä + partitive object",
+      "needs_review": false
+    },
+    {
+      "id": "s439",
+      "ru": "Я ненавижу зиму.",
+      "uses": ["v110", "n132"],
+      "level": 12,
+      "canonical": "Vihaan talvea.",
+      "accepted": ["Vihaan talvea.", "Minä vihaan talvea."],
+      "wrong": [
+        { "match": "vihaan talven", "ru": "vihata управляет ПАРТИТИВОМ (как rakastaa): talvea (а не талвен)." },
+        { "match": "vihaan talvi", "ru": "Нужен партитив: talvea." }
+      ],
+      "teaches": "vihata + partitive object",
+      "needs_review": false
+    },
+    {
+      "id": "s440",
+      "ru": "Я надеюсь, что ты придёшь.",
+      "uses": ["v111", "f27", "v11"],
+      "level": 11,
+      "canonical": "Toivon, että tulet.",
+      "accepted": ["Toivon, että tulet.", "Toivon, että sinä tulet."],
+      "wrong": [
+        { "match": "toivon, että tule", "ru": "После että нужна личная форма tulet (а не повелительное/коннегатив tule)." }
+      ],
+      "teaches": "toivoa + että clause (conjunction)",
+      "needs_review": false
+    },
+    {
+      "id": "s441",
+      "ru": "Мне обидно.",
+      "uses": ["p1", "v112"],
+      "level": 12,
+      "canonical": "Minua harmittaa.",
+      "accepted": ["Minua harmittaa."],
+      "wrong": [
+        { "match": "minä harmittaa", "ru": "Переживающий стоит в ПАРТИТИВЕ: Minua harmittaa (а не Minä)." },
+        { "match": "minua harmitan", "ru": "Глагол безличный, 3 л.: harmittaa (а не личная форма harmitan)." }
+      ],
+      "teaches": "harmittaa impersonal + partitive experiencer",
+      "needs_review": false
+    },
+    {
+      "id": "s442",
+      "ru": "Я увлёкся хоккеем.",
+      "uses": ["v113", "n273"],
+      "level": 12,
+      "canonical": "Innostuin jääkiekosta.",
+      "accepted": ["Innostuin jääkiekosta.", "Minä innostuin jääkiekosta."],
+      "wrong": [
+        { "match": "innostuin jääkiekkoa", "ru": "innostua управляет элативом: jääkiekosta (а не партитив)." },
+        { "match": "innostun jääkiekosta", "ru": "О прошлом — имперфект innostuin (а не настоящее innostun)." }
+      ],
+      "teaches": "imperfect (innostuin) + elative government",
+      "needs_review": false
+    },
+    {
+      "id": "s443",
+      "ru": "Я рисую картинку.",
+      "uses": ["v114", "n160"],
+      "level": 11,
+      "canonical": "Piirrän kuvan.",
+      "accepted": ["Piirrän kuvan.", "Minä piirrän kuvan."],
+      "wrong": [
+        { "match": "piirtän kuvan", "ru": "Чередование rt->rr: piirrän (а не «piirtän»)." },
+        { "match": "piirrän kuva", "ru": "Тотальный объект — генитив: kuvan." }
+      ],
+      "teaches": "piirtää (gradation rt->rr) + total object",
+      "needs_review": false
+    },
+    {
+      "id": "s444",
+      "ru": "Вчера я рисовал красками.",
+      "uses": ["f7", "v115"],
+      "level": 11,
+      "canonical": "Eilen maalasin.",
+      "accepted": ["Eilen maalasin.", "Maalasin eilen."],
+      "wrong": [
+        { "match": "eilen maalaan", "ru": "Со словом eilen нужен имперфект: maalasin." }
+      ],
+      "teaches": "imperfect of type-4 verb (maalasin)",
+      "needs_review": false
+    },
+    {
+      "id": "s445",
+      "ru": "По-моему, чтение приятно.",
+      "uses": ["p1", "n270", "n274", "v1", "a21"],
+      "level": 11,
+      "canonical": "Minun mielestäni lukeminen on mukavaa.",
+      "accepted": ["Minun mielestäni lukeminen on mukavaa.", "Mielestäni lukeminen on mukavaa."],
+      "wrong": [
+        { "match": "minun mielestäni lukeminen on mukava", "ru": "Абстрактное подлежащее (lukeminen) — предикатив в партитиве: mukavaa." }
+      ],
+      "teaches": "opinion (mielestäni) + predicative partitive",
+      "needs_review": false
+    },
+    {
+      "id": "s446",
+      "ru": "Я играю в команде.",
+      "uses": ["v32", "n277"],
+      "level": 11,
+      "canonical": "Pelaan joukkueessa.",
+      "accepted": ["Pelaan joukkueessa.", "Minä pelaan joukkueessa."],
+      "wrong": [
+        { "match": "pelaan joukkuessa", "ru": "Основа joukkuee-: joukkueessa (двойная e)." },
+        { "match": "pelaan joukkueeseen", "ru": "«Где?» — инессив joukkueessa (а не иллатив)." }
+      ],
+      "teaches": "inessive + inflection type (joukkue)",
+      "needs_review": false
+    },
+    {
+      "id": "s447",
+      "ru": "Какое у тебя мнение?",
+      "uses": ["p7", "v1", "p2", "n269"],
+      "level": 11,
+      "canonical": "Mikä on sinun mielipiteesi?",
+      "accepted": ["Mikä on sinun mielipiteesi?", "Mikä on mielipiteesi?"],
+      "wrong": [
+        { "match": "mikä on sinun mielipidesi", "ru": "Основа mielipitee-: mielipiteesi (а не «mielipidesi»)." }
+      ],
+      "teaches": "possessive suffix + inflection type (mielipide)",
+      "needs_review": false
+    },
+    {
+      "id": "s448",
+      "ru": "Я горжусь тобой.",
+      "uses": ["v1", "a77", "p2"],
+      "level": 12,
+      "canonical": "Olen ylpeä sinusta.",
+      "accepted": ["Olen ylpeä sinusta.", "Minä olen ylpeä sinusta."],
+      "wrong": [
+        { "match": "olen ylpeä sinua", "ru": "ylpeä управляет элативом: sinusta (а не партитив sinua)." }
+      ],
+      "teaches": "predicative adjective + elative government (ylpeä)",
+      "needs_review": false
+    },
+    {
+      "id": "s449",
+      "ru": "Матч был захватывающий.",
+      "uses": ["n278", "v1", "a75"],
+      "level": 11,
+      "canonical": "Peli oli jännittävä.",
+      "accepted": ["Peli oli jännittävä."],
+      "wrong": [
+        { "match": "peli on jännittävä", "ru": "О прошлом — имперфект oli (а не настоящее on)." },
+        { "match": "peli oli jännittävää", "ru": "Подлежащее исчисляемое (peli) — предикатив в номинативе: jännittävä." }
+      ],
+      "teaches": "imperfect copula (oli) + predicative nominative (jännittävä)",
+      "needs_review": false
+    },
+    {
+      "id": "s450",
+      "ru": "Аренда дорогая.",
+      "uses": ["n279", "v1", "a11"],
+      "level": 10,
+      "canonical": "Vuokra on kallis.",
+      "accepted": ["Vuokra on kallis."],
+      "wrong": [
+        { "match": "vuokra on kallista", "ru": "Подлежащее исчисляемое (vuokra) — предикатив в номинативе: kallis." }
+      ],
+      "teaches": "predicative nominative (vuokra)",
+      "needs_review": false
+    },
+    {
+      "id": "s451",
+      "ru": "Я живу в многоквартирном доме.",
+      "uses": ["v7", "n280"],
+      "level": 10,
+      "canonical": "Asun kerrostalossa.",
+      "accepted": ["Asun kerrostalossa.", "Minä asun kerrostalossa."],
+      "wrong": [
+        { "match": "asun kerrostaloon", "ru": "«Где живу?» — инессив: kerrostalossa (а не иллатив kerrostaloon)." }
+      ],
+      "teaches": "inessive location (kerrostalo)",
+      "needs_review": false
+    },
+    {
+      "id": "s452",
+      "ru": "У нас ремонт.",
+      "uses": ["p4", "v1", "n283"],
+      "level": 10,
+      "canonical": "Meillä on remontti.",
+      "accepted": ["Meillä on remontti."],
+      "wrong": [
+        { "match": "me on remontti", "ru": "Обладание — адессив: Meillä on (а не Me on)." }
+      ],
+      "teaches": "adessive possession (remontti)",
+      "needs_review": false
+    },
+    {
+      "id": "s453",
+      "ru": "Здесь много движения.",
+      "uses": ["f42", "v1", "f44", "n284"],
+      "level": 11,
+      "canonical": "Täällä on paljon liikennettä.",
+      "accepted": ["Täällä on paljon liikennettä."],
+      "wrong": [
+        { "match": "täällä on paljon liikenne", "ru": "После paljon — партитив: liikennettä (основа liikentee-)." }
+      ],
+      "teaches": "partitive after paljon + inflection type (liikenne)",
+      "needs_review": false
+    },
+    {
+      "id": "s454",
+      "ru": "Я жду на остановке.",
+      "uses": ["v29", "n285"],
+      "level": 11,
+      "canonical": "Odotan pysäkillä.",
+      "accepted": ["Odotan pysäkillä.", "Minä odotan pysäkillä."],
+      "wrong": [
+        { "match": "odotan pysäkissä", "ru": "На остановке — адессив: pysäkillä (а не инессив pysäkissä)." }
+      ],
+      "teaches": "adessive location (pysäkki)",
+      "needs_review": false
+    },
+    {
+      "id": "s455",
+      "ru": "Я еду на трамвае.",
+      "uses": ["v2", "n286"],
+      "level": 11,
+      "canonical": "Menen raitiovaunulla.",
+      "accepted": ["Menen raitiovaunulla.", "Minä menen raitiovaunulla."],
+      "wrong": [
+        { "match": "menen raitiovaunussa", "ru": "Средство передвижения — адессив: raitiovaunulla (-lla)." }
+      ],
+      "teaches": "adessive of means (raitiovaunu)",
+      "needs_review": false
+    },
+    {
+      "id": "s456",
+      "ru": "Я был в пробке.",
+      "uses": ["v1", "n289"],
+      "level": 11,
+      "canonical": "Olin ruuhkassa.",
+      "accepted": ["Olin ruuhkassa.", "Minä olin ruuhkassa."],
+      "wrong": [
+        { "match": "olen ruuhkassa", "ru": "О прошлом — имперфект olin (а не настоящее olen)." }
+      ],
+      "teaches": "imperfect copula (olin) + inessive (ruuhka)",
+      "needs_review": false
+    },
+    {
+      "id": "s457",
+      "ru": "Какой лучший маршрут?",
+      "uses": ["p7", "v1", "n288"],
+      "level": 11,
+      "canonical": "Mikä on paras reitti?",
+      "accepted": ["Mikä on paras reitti?"],
+      "wrong": [
+        { "match": "mikä on paras reittiä", "ru": "Предикатив-тождество — номинатив: reitti (а не партитив reittiä)." }
+      ],
+      "teaches": "predicative nominative + question (reitti)",
+      "needs_review": false
+    },
+    {
+      "id": "s458",
+      "ru": "Можно поменять размер?",
+      "uses": ["v18", "v116", "n290"],
+      "level": 11,
+      "canonical": "Voinko vaihtaa koon?",
+      "accepted": ["Voinko vaihtaa koon?"],
+      "wrong": [
+        { "match": "voinko vaihtaa koko", "ru": "Тотальный объект — генитив: koon (чередование k->исчезает)." },
+        { "match": "voin vaihtaa koon", "ru": "В вопросе нужна частица -ko: Voinko?" }
+      ],
+      "teaches": "vaihtaa + total object (koko) + question",
+      "needs_review": false
+    },
+    {
+      "id": "s459",
+      "ru": "Есть скидка?",
+      "uses": ["v1", "n291"],
+      "level": 11,
+      "canonical": "Onko alennusta?",
+      "accepted": ["Onko alennusta?"],
+      "wrong": [
+        { "match": "onko alennus", "ru": "В вопросе о наличии — партитив: alennusta (основа alennukse-)." }
+      ],
+      "teaches": "partitive in existential question + inflection type (alennus)",
+      "needs_review": false
+    },
+    {
+      "id": "s460",
+      "ru": "Я завтракаю дома.",
+      "uses": ["v3", "n292", "n2"],
+      "level": 10,
+      "canonical": "Syön aamiaista kotona.",
+      "accepted": ["Syön aamiaista kotona.", "Minä syön aamiaista kotona."],
+      "wrong": [
+        { "match": "syön aamiainen kotona", "ru": "Объект-еда — партитив: aamiaista." },
+        { "match": "syön aamiaista kodissa", "ru": "«Дома» — особая форма kotona (не kodissa)." }
+      ],
+      "teaches": "partitive object (aamiainen) + irregular location kotona",
+      "needs_review": false
+    },
+    {
+      "id": "s461",
+      "ru": "Мы ужинаем вместе.",
+      "uses": ["v3", "n294", "f89"],
+      "level": 10,
+      "canonical": "Syömme päivällistä yhdessä.",
+      "accepted": ["Syömme päivällistä yhdessä."],
+      "wrong": [
+        { "match": "syömme päivällinen yhdessä", "ru": "Объект-еда — партитив: päivällistä." }
+      ],
+      "teaches": "partitive object (päivällinen)",
+      "needs_review": false
+    },
+    {
+      "id": "s462",
+      "ru": "Я ем морковь.",
+      "uses": ["v3", "n296"],
+      "level": 10,
+      "canonical": "Syön porkkanaa.",
+      "accepted": ["Syön porkkanaa.", "Minä syön porkkanaa."],
+      "wrong": [
+        { "match": "syön porkkana", "ru": "Еда-объект — партитив: porkkanaa." }
+      ],
+      "teaches": "partitive food object (porkkana)",
+      "needs_review": false
+    },
+    {
+      "id": "s463",
+      "ru": "Я покупаю помидоры и клубнику.",
+      "uses": ["v8", "n297", "f1", "n300"],
+      "level": 10,
+      "canonical": "Ostan tomaatteja ja mansikoita.",
+      "accepted": ["Ostan tomaatteja ja mansikoita."],
+      "wrong": [
+        { "match": "ostan tomaatit ja mansikat", "ru": "Неопределённое количество — партитив мн.ч.: tomaatteja ja mansikoita." }
+      ],
+      "teaches": "partitive plural object (food)",
+      "needs_review": false
+    },
+    {
+      "id": "s464",
+      "ru": "Спорт полезен.",
+      "uses": ["n301", "v1", "a79"],
+      "level": 12,
+      "canonical": "Liikunta on terveellistä.",
+      "accepted": ["Liikunta on terveellistä."],
+      "wrong": [
+        { "match": "liikunta on terveellinen", "ru": "Абстрактное подлежащее (liikunta) — предикатив в партитиве: terveellistä." }
+      ],
+      "teaches": "predicative partitive with abstract subject (terveellinen)",
+      "needs_review": false
     }
   ]
 }

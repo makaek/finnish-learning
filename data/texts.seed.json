@@ -3517,6 +3517,177 @@
           "needs_review": false
         }
       ]
+    },
+    {
+      "id": "t82",
+      "title": "Harrastukseni",
+      "titleRu": "Мои хобби",
+      "level": 11,
+      "type": "text",
+      "lines": [
+        { "fi": "Minulla on monta harrastusta.", "ru": "У меня много хобби.", "glosses": { "minulla": "у меня", "on": "есть", "monta": "много", "harrastusta": "хобби (партитив)" } },
+        { "fi": "Pelaan jalkapalloa ja tennistä.", "ru": "Я играю в футбол и теннис.", "glosses": { "pelaan": "я играю", "jalkapalloa": "в футбол (партитив)", "ja": "и", "tennistä": "в теннис (партитив)" } },
+        { "fi": "Tykkään myös valokuvauksesta.", "ru": "Мне также нравится фотография.", "glosses": { "tykkään": "мне нравится", "myös": "также", "valokuvauksesta": "фотография (элатив)" } },
+        { "fi": "Illalla luen kirjaa, koska lukeminen on rentouttavaa.", "ru": "Вечером я читаю книгу, потому что чтение расслабляет.", "glosses": { "illalla": "вечером", "luen": "я читаю", "kirjaa": "книгу (партитив)", "koska": "потому что", "lukeminen": "чтение", "on": "есть", "rentouttavaa": "расслабляющее" } },
+        { "fi": "Viikonloppuna piirrän ja maalaan.", "ru": "В выходные я рисую карандашом и красками.", "glosses": { "viikonloppuna": "в выходные", "piirrän": "я рисую", "ja": "и", "maalaan": "я рисую красками" } }
+      ],
+      "questions": [
+        {
+          "id": "t82q1",
+          "q": "Mitä pelejä kertoja pelaa?",
+          "qRu": "В какие игры играет рассказчик?",
+          "canonical": "Jalkapalloa ja tennistä.",
+          "accepted": ["Jalkapalloa ja tennistä.", "Pelaan jalkapalloa ja tennistä."],
+          "wrong": [{ "match": "jääkiekkoa", "ru": "В тексте футбол и теннис, не хоккей." }],
+          "needs_review": false
+        },
+        {
+          "id": "t82q2",
+          "q": "Mistä kertoja tykkää?",
+          "qRu": "Что нравится рассказчику?",
+          "canonical": "Valokuvauksesta.",
+          "accepted": ["Valokuvauksesta.", "Tykkään valokuvauksesta."],
+          "wrong": [{ "match": "valokuvausta", "ru": "tykätä управляет элативом: valokuvauksesta (а не партитив)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t82q3",
+          "q": "Mitä kertoja tekee illalla?",
+          "qRu": "Что рассказчик делает вечером?",
+          "canonical": "Lukee kirjaa.",
+          "accepted": ["Lukee kirjaa.", "Hän lukee kirjaa.", "Luen kirjaa."],
+          "wrong": [{ "match": "maalaa", "ru": "Красками рисует в выходные; вечером читает книгу." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t83",
+      "title": "Miltä sinusta tuntuu?",
+      "titleRu": "Как ты себя чувствуешь?",
+      "level": 12,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Eeva", "fi": "Sinä näytät väsyneeltä. Miltä sinusta tuntuu?", "ru": "Ты выглядишь усталым. Как ты себя чувствуешь?", "glosses": { "sinä": "ты", "näytät": "ты выглядишь", "väsyneeltä": "усталым", "miltä": "как (от чего)", "sinusta": "тебе", "tuntuu": "чувствуется" } },
+        { "speaker": "Joni", "fi": "Olen vähän surullinen ja pettynyt.", "ru": "Мне немного грустно и я разочарован.", "glosses": { "olen": "я есть", "vähän": "немного", "surullinen": "грустный", "ja": "и", "pettynyt": "разочарованный" } },
+        { "speaker": "Eeva", "fi": "Voi ei! Mikä sinua harmittaa?", "ru": "О нет! Что тебя огорчает?", "glosses": { "voi": "ох", "ei": "нет", "mikä": "что", "sinua": "тебя", "harmittaa": "огорчает" } },
+        { "speaker": "Joni", "fi": "Hävisimme pelin. Pelkäsin sitä koko viikon.", "ru": "Мы проиграли матч. Я боялся этого всю неделю.", "glosses": { "hävisimme": "мы проиграли", "pelin": "матч (объект)", "pelkäsin": "я боялся", "sitä": "этого", "koko": "весь", "viikon": "неделю" } },
+        { "speaker": "Eeva", "fi": "Älä ole pettynyt! Ensi kerralla voitatte.", "ru": "Не расстраивайся! В следующий раз победите.", "glosses": { "älä": "не (запрет)", "ole": "будь", "pettynyt": "разочарованный", "ensi": "следующий", "kerralla": "в раз", "voitatte": "вы победите" } }
+      ],
+      "questions": [
+        {
+          "id": "t83q1",
+          "q": "Miltä Jonista tuntuu?",
+          "qRu": "Как себя чувствует Йони?",
+          "canonical": "Surulliselta.",
+          "accepted": ["Surulliselta.", "Hän on surullinen.", "Surullinen ja pettynyt.", "Surullinen."],
+          "wrong": [{ "match": "iloinen", "ru": "Йони грустный и разочарованный, не радостный." }],
+          "needs_review": false
+        },
+        {
+          "id": "t83q2",
+          "q": "Miksi Joni on pettynyt?",
+          "qRu": "Почему Йони разочарован?",
+          "canonical": "He hävisivät pelin.",
+          "accepted": ["He hävisivät pelin.", "Hävisivät pelin.", "Koska he hävisivät pelin.", "Hävisi pelin."],
+          "wrong": [{ "match": "he voittivat pelin", "ru": "Они проиграли (hävisivät), а не выиграли." }],
+          "needs_review": false
+        },
+        {
+          "id": "t83q3",
+          "q": "Mitä Eeva neuvoo?",
+          "qRu": "Что советует Ээва?",
+          "canonical": "Älä ole pettynyt!",
+          "accepted": ["Älä ole pettynyt!", "Älä ole pettynyt."],
+          "wrong": [{ "match": "ole pettynyt", "ru": "Ээва говорит НЕ расстраиваться: Älä ole pettynyt (отрицательный приказ)." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t84",
+      "title": "Asuntoni",
+      "titleRu": "Моя квартира",
+      "level": 10,
+      "type": "text",
+      "lines": [
+        { "fi": "Asun pienessä kerrostalossa.", "ru": "Я живу в маленьком многоквартирном доме.", "glosses": { "asun": "я живу", "pienessä": "в маленьком", "kerrostalossa": "в многоквартирном доме" } },
+        { "fi": "Vuokra on aika kallis, mutta asunto on mukava.", "ru": "Аренда довольно дорогая, но квартира уютная.", "glosses": { "vuokra": "аренда", "on": "есть", "aika": "довольно", "kallis": "дорогая", "mutta": "но", "asunto": "квартира", "mukava": "уютная" } },
+        { "fi": "Minulla on pieni parveke ja hyvä naapurusto.", "ru": "У меня маленький балкон и хороший район.", "glosses": { "minulla": "у меня", "on": "есть", "pieni": "маленький", "parveke": "балкон", "ja": "и", "hyvä": "хороший", "naapurusto": "район" } },
+        { "fi": "Aamulla juon kahvia parvekkeella.", "ru": "Утром я пью кофе на балконе.", "glosses": { "aamulla": "утром", "juon": "я пью", "kahvia": "кофе (партитив)", "parvekkeella": "на балконе" } }
+      ],
+      "questions": [
+        {
+          "id": "t84q1",
+          "q": "Millaisessa talossa kertoja asuu?",
+          "qRu": "В каком доме живёт рассказчик?",
+          "canonical": "Kerrostalossa.",
+          "accepted": ["Kerrostalossa.", "Pienessä kerrostalossa.", "Hän asuu kerrostalossa."],
+          "wrong": [{ "match": "kerrostaloon", "ru": "«Где?» — инессив: kerrostalossa." }],
+          "needs_review": false
+        },
+        {
+          "id": "t84q2",
+          "q": "Onko vuokra halpa?",
+          "qRu": "Аренда дешёвая?",
+          "canonical": "Ei, se on kallis.",
+          "accepted": ["Ei, se on kallis.", "Ei.", "Se on kallis.", "Kallis."],
+          "wrong": [{ "match": "kyllä", "ru": "Аренда довольно дорогая (kallis), не дешёвая." }],
+          "needs_review": false
+        },
+        {
+          "id": "t84q3",
+          "q": "Missä kertoja juo kahvia aamulla?",
+          "qRu": "Где рассказчик пьёт кофе утром?",
+          "canonical": "Parvekkeella.",
+          "accepted": ["Parvekkeella.", "Hän juo kahvia parvekkeella."],
+          "wrong": [{ "match": "parvekkeelle", "ru": "«Где?» — адессив: parvekkeella (а не аллатив parvekkeelle)." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t85",
+      "title": "Bussilla keskustaan",
+      "titleRu": "На автобусе в центр",
+      "level": 11,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Turisti", "fi": "Anteeksi, miten pääsen keskustaan?", "ru": "Извините, как мне добраться до центра?", "glosses": { "anteeksi": "извините", "miten": "как", "pääsen": "я попаду", "keskustaan": "в центр" } },
+        { "speaker": "Paikallinen", "fi": "Mene bussipysäkille ja ota bussi numero kuusi.", "ru": "Идите на автобусную остановку и сядьте на автобус номер шесть.", "glosses": { "mene": "иди (повел.)", "bussipysäkille": "на автобусную остановку", "ja": "и", "ota": "возьми (повел.)", "bussi": "автобус", "numero": "номер", "kuusi": "шесть" } },
+        { "speaker": "Turisti", "fi": "Onko nyt ruuhka?", "ru": "Сейчас час пик?", "glosses": { "onko": "есть ли", "nyt": "сейчас", "ruuhka": "час пик/пробка" } },
+        { "speaker": "Paikallinen", "fi": "On vähän. Mutta bussi on nopein reitti.", "ru": "Немного. Но автобус — самый быстрый маршрут.", "glosses": { "on": "есть", "vähän": "немного", "mutta": "но", "bussi": "автобус", "nopein": "самый быстрый", "reitti": "маршрут" } },
+        { "speaker": "Turisti", "fi": "Kiitos paljon avusta!", "ru": "Большое спасибо за помощь!", "glosses": { "kiitos": "спасибо", "paljon": "много", "avusta": "за помощь (элатив)" } }
+      ],
+      "questions": [
+        {
+          "id": "t85q1",
+          "q": "Millä turisti menee keskustaan?",
+          "qRu": "На чём турист едет в центр?",
+          "canonical": "Bussilla.",
+          "accepted": ["Bussilla.", "Hän menee bussilla.", "Bussi numero kuusi."],
+          "wrong": [{ "match": "bussissa", "ru": "Средство передвижения — адессив: bussilla (а не bussissa)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t85q2",
+          "q": "Mikä bussi pitää ottaa?",
+          "qRu": "Какой автобус нужно взять?",
+          "canonical": "Numero kuusi.",
+          "accepted": ["Numero kuusi.", "Bussi numero kuusi.", "Kuusi."],
+          "wrong": [{ "match": "numero kaksi", "ru": "Нужен автобус номер шесть (kuusi), не два." }],
+          "needs_review": false
+        },
+        {
+          "id": "t85q3",
+          "q": "Mikä on nopein reitti keskustaan?",
+          "qRu": "Какой самый быстрый маршрут в центр?",
+          "canonical": "Bussi.",
+          "accepted": ["Bussi.", "Bussi on nopein reitti."],
+          "wrong": [{ "match": "metro", "ru": "Местный говорит, что автобус (bussi) — самый быстрый маршрут." }],
+          "needs_review": false
+        }
+      ]
     }
   ]
 }

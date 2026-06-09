@@ -436,6 +436,21 @@
         "teaches": ["passive"],
         "pos": ["verb"]
       }
+    },
+    {
+      "id": "inflection-types-a2",
+      "title": "Трудные типы склонения: учи основу, а не словарную форму",
+      "summary": "У слов на -nen, -s/-as/-is/-us/-uus, -e основа в косвенных падежах ДРУГАЯ: nainen→naise-, vastaus→vastaukse-, huone→huonee-.",
+      "body": "Главная ловушка A2: у многих слов основа для падежей НЕ видна в словарной (номинативной) форме — её нужно выучить отдельно (обычно по генитиву). Типы: (1) -nen → основа -se-: nainen→naisen, harrastus здесь не -nen, а -us; mielipide особый. (2) -s/-as/-is → основа -kse-: vastaus→vastauksen, harrastus→harrastuksen, valokuvaus→valokuvauksen, alennus→alennuksen, väsymys→väsymyksen; part на -sta/-stä: vastausta. (3) -uus/-ys → -de-: terveys→terveyden. (4) -e → удвоенная согласная + -ee-: huone→huoneen, joukkue→joukkueen, lounas сюда не входит. (5) -nen прилагательные/сущ.: aamiainen→aamiaisen, päivällinen→päivällisen. ПРАВИЛО: запоминай слово ВМЕСТЕ с генитивом (vastaus, vastauksen), тогда все остальные падежи строятся от этой основы. Не пытайся склонять словарную форму напрямую.",
+      "examples": [
+        { "fi": "Mikä on sinun mielipiteesi?", "ru": "Какое у тебя мнение?" },
+        { "fi": "Harrastukseni on valokuvaus.", "ru": "Моё хобби — фотография." },
+        { "fi": "Terveys on tärkeää.", "ru": "Здоровье важно." }
+      ],
+      "match": {
+        "teaches": ["inflection type", "stem"],
+        "pos": ["noun"]
+      }
     }
   ]
 }
