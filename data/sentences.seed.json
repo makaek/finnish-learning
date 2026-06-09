@@ -5641,6 +5641,581 @@
       ],
       "teaches": "ajaa + illative idiom (töihin) + adessive of means",
       "needs_review": false
+    },
+
+    {
+      "id": "s393",
+      "ru": "Я купил вчера книгу.",
+      "uses": ["v8", "f7", "n7"],
+      "level": 10,
+      "canonical": "Ostin eilen kirjan.",
+      "accepted": ["Ostin eilen kirjan.", "Eilen ostin kirjan."],
+      "wrong": [
+        { "match": "ostan eilen kirjan", "ru": "Со словом eilen нужен имперфект: ostin (а не настоящее ostan)." },
+        { "match": "ostin eilen kirjaa", "ru": "Действие завершено целиком — тотальный объект: kirjan (а не партитив kirjaa)." }
+      ],
+      "teaches": "imperfect 1sg (ostin) + total object",
+      "needs_review": false
+    },
+    {
+      "id": "s394",
+      "ru": "Я хотел спать.",
+      "uses": ["v5", "v23"],
+      "level": 10,
+      "canonical": "Halusin nukkua.",
+      "accepted": ["Halusin nukkua.", "Minä halusin nukkua."],
+      "wrong": [
+        { "match": "halutin nukkua", "ru": "Тип 4 (haluta) в имперфекте даёт halusin, а не «halutin»: основа меняется перед -i-." },
+        { "match": "haluan nukkua", "ru": "Это настоящее «хочу»; в прошедшем — halusin." }
+      ],
+      "teaches": "imperfect of type-4 verb (halusin) + infinitive",
+      "needs_review": false
+    },
+    {
+      "id": "s395",
+      "ru": "Ты читал книгу?",
+      "uses": ["v9", "n7"],
+      "level": 10,
+      "canonical": "Luitko kirjaa?",
+      "accepted": ["Luitko kirjaa?", "Luitko sinä kirjaa?"],
+      "wrong": [
+        { "match": "lukitko kirjaa", "ru": "В имперфекте lukea теряет k: luit- (luitko), а не «lukitko»." },
+        { "match": "luitko kirjan", "ru": "Чтение как процесс — партитив: kirjaa (тотальный kirjan значил бы «прочитал всю»)." }
+      ],
+      "teaches": "imperfect 2sg (luit) + partitive object of process",
+      "needs_review": false
+    },
+    {
+      "id": "s396",
+      "ru": "Я ел рыбу.",
+      "uses": ["v3", "n35"],
+      "level": 10,
+      "canonical": "Söin kalaa.",
+      "accepted": ["Söin kalaa.", "Minä söin kalaa."],
+      "wrong": [
+        { "match": "syöin kalaa", "ru": "syödä в имперфекте — söin (гласная основы сливается), а не «syöin»." },
+        { "match": "söin kalan", "ru": "Еда-вещество — партитив: kalaa." }
+      ],
+      "teaches": "imperfect of type-2 verb (söin) + partitive food",
+      "needs_review": false
+    },
+    {
+      "id": "s397",
+      "ru": "Мне было нужно лекарство.",
+      "uses": ["v56", "n127"],
+      "level": 12,
+      "canonical": "Tarvitsin lääkettä.",
+      "accepted": ["Tarvitsin lääkettä.", "Minä tarvitsin lääkettä."],
+      "wrong": [
+        { "match": "tarvitin lääkettä", "ru": "tarvita (тип 5) в имперфекте — tarvitsin, а не «tarvitin»." },
+        { "match": "tarvitsin lääkkeen", "ru": "tarvita управляет партитивом: lääkettä." }
+      ],
+      "teaches": "imperfect of type-5 verb (tarvitsin) + partitive object",
+      "needs_review": false
+    },
+    {
+      "id": "s398",
+      "ru": "Он знал ответ.",
+      "uses": ["p3", "v14", "n83"],
+      "level": 10,
+      "canonical": "Hän tiesi vastauksen.",
+      "accepted": ["Hän tiesi vastauksen."],
+      "wrong": [
+        { "match": "hän tieti vastauksen", "ru": "tietää в имперфекте нерегулярно: tiesi (а не «tieti»)." },
+        { "match": "hän tiesin vastauksen", "ru": "3 л. ед. ч. — tiesi (без -n); -n это «я»." }
+      ],
+      "teaches": "imperfect irregular -si- (tiesi) + total object",
+      "needs_review": false
+    },
+    {
+      "id": "s399",
+      "ru": "Мы жили в Хельсинки.",
+      "uses": ["v7", "p4"],
+      "level": 10,
+      "canonical": "Asuimme Helsingissä.",
+      "accepted": ["Asuimme Helsingissä.", "Me asuimme Helsingissä."],
+      "wrong": [
+        { "match": "asuimme helsinkiin", "ru": "«Где жили?» — инессив: Helsingissä (а не иллатив Helsinkiin)." },
+        { "match": "asumme helsingissä", "ru": "В прошедшем нужен имперфект: asuimme (а не настоящее asumme)." }
+      ],
+      "teaches": "imperfect 1pl (asuimme) + inessive",
+      "needs_review": false
+    },
+    {
+      "id": "s400",
+      "ru": "Они пришли вчера.",
+      "uses": ["p6", "v11", "f7"],
+      "level": 10,
+      "canonical": "He tulivat eilen.",
+      "accepted": ["He tulivat eilen.", "Eilen he tulivat."],
+      "wrong": [
+        { "match": "he tulit eilen", "ru": "3 л. мн. ч. в имперфекте — tulivat (а не tulit, это «ты пришёл»)." },
+        { "match": "he tulevat eilen", "ru": "Со словом eilen нужен имперфект: tulivat." }
+      ],
+      "teaches": "imperfect 3pl (tulivat)",
+      "needs_review": false
+    },
+    {
+      "id": "s401",
+      "ru": "Он купил машину.",
+      "uses": ["p3", "v8", "n5"],
+      "level": 10,
+      "canonical": "Hän osti auton.",
+      "accepted": ["Hän osti auton."],
+      "wrong": [
+        { "match": "hän ostin auton", "ru": "3 л. ед. ч. — osti (без -n); ostin это «я купил»." },
+        { "match": "hän osti auto", "ru": "Тотальный объект — генитив: auton." }
+      ],
+      "teaches": "imperfect 3sg vs 1sg (osti) + total object",
+      "needs_review": false
+    },
+    {
+      "id": "s402",
+      "ru": "Она пошла домой.",
+      "uses": ["p3", "v2", "n2"],
+      "level": 10,
+      "canonical": "Hän meni kotiin.",
+      "accepted": ["Hän meni kotiin."],
+      "wrong": [
+        { "match": "hän menin kotiin", "ru": "3 л. ед. ч. — meni; menin это «я пошёл»." },
+        { "match": "hän meni kotona", "ru": "Направление «домой» — иллатив kotiin (kotona = «дома», где?)." }
+      ],
+      "teaches": "imperfect 3sg (meni) + illative direction",
+      "needs_review": false
+    },
+    {
+      "id": "s403",
+      "ru": "Можно мне стакан воды?",
+      "uses": ["v20", "n226", "n11"],
+      "level": 10,
+      "canonical": "Saisinko lasin vettä?",
+      "accepted": ["Saisinko lasin vettä?"],
+      "wrong": [
+        { "match": "saisinko lasi vettä", "ru": "Объект-целиком — генитив: lasin (а не lasi)." },
+        { "match": "saisin lasin vettä", "ru": "В вопросе-просьбе нужна частица -ko: Saisinko? (а не Saisin)." }
+      ],
+      "teaches": "conditional polite request (saisinko)",
+      "needs_review": false
+    },
+    {
+      "id": "s404",
+      "ru": "Я хотел бы заказать кофе.",
+      "uses": ["v5", "v17", "n8"],
+      "level": 10,
+      "canonical": "Haluaisin tilata kahvin.",
+      "accepted": ["Haluaisin tilata kahvin.", "Haluaisin tilata kahvia."],
+      "wrong": [
+        { "match": "halaisin tilata kahvin", "ru": "Кондиционал от haluta — haluaisin (от основы halua-)." },
+        { "match": "haluaisi tilata kahvin", "ru": "Нужно личное окончание «я»: haluaisin (haluaisi = «он бы»)." }
+      ],
+      "teaches": "conditional polite (haluaisin) + infinitive",
+      "needs_review": false
+    },
+    {
+      "id": "s405",
+      "ru": "Не мог бы ты помочь?",
+      "uses": ["v18", "v28"],
+      "level": 10,
+      "canonical": "Voisitko auttaa?",
+      "accepted": ["Voisitko auttaa?", "Voisitko sinä auttaa?"],
+      "wrong": [
+        { "match": "voisit auttaa", "ru": "В вопросе-просьбе нужна частица -ko: Voisitko? (а не Voisit)." },
+        { "match": "voitko auttaisin", "ru": "После voisitko глагол в инфинитиве: auttaa (а не личная форма)." }
+      ],
+      "teaches": "conditional polite question (voisitko) + infinitive",
+      "needs_review": false
+    },
+    {
+      "id": "s406",
+      "ru": "Если бы я мог, я бы пришёл.",
+      "uses": ["f30", "v18", "v11"],
+      "level": 10,
+      "canonical": "Jos voisin, tulisin.",
+      "accepted": ["Jos voisin, tulisin."],
+      "wrong": [
+        { "match": "jos voisin, tulin", "ru": "В главной части тоже кондиционал: tulisin («я бы пришёл»), а не имперфект tulin." },
+        { "match": "jos voisi, tulisin", "ru": "Нужно «я»: voisin (voisi = «он бы мог»)." }
+      ],
+      "teaches": "conditional hypothetical (jos voisin tulisin)",
+      "needs_review": false
+    },
+    {
+      "id": "s407",
+      "ru": "Я купил книгу.",
+      "uses": ["v8", "n7"],
+      "level": 11,
+      "canonical": "Ostin kirjan.",
+      "accepted": ["Ostin kirjan.", "Minä ostin kirjan."],
+      "wrong": [
+        { "match": "ostin kirja", "ru": "Завершённое действие, объект целиком — генитив: kirjan." },
+        { "match": "ostin kirjaa", "ru": "Покупка завершена целиком — тотальный объект kirjan (kirjaa было бы «часть/процесс»)." }
+      ],
+      "teaches": "object contrast: total object (kirjan)",
+      "needs_review": false
+    },
+    {
+      "id": "s408",
+      "ru": "Я читал книгу весь вечер.",
+      "uses": ["v9", "n7", "n42"],
+      "level": 11,
+      "canonical": "Luin kirjaa koko illan.",
+      "accepted": ["Luin kirjaa koko illan."],
+      "wrong": [
+        { "match": "luin kirjan koko illan", "ru": "Длительный процесс — партитив: kirjaa (kirjan значило бы «прочитал всю»)." }
+      ],
+      "teaches": "object contrast: partitive of ongoing process (kirjaa)",
+      "needs_review": false
+    },
+    {
+      "id": "s409",
+      "ru": "Я не читал книгу.",
+      "uses": ["f6", "v9", "n7"],
+      "level": 11,
+      "canonical": "En lukenut kirjaa.",
+      "accepted": ["En lukenut kirjaa.", "Minä en lukenut kirjaa."],
+      "wrong": [
+        { "match": "en lukenut kirjan", "ru": "При отрицании объект ВСЕГДА в партитиве: kirjaa (а не kirjan) — частая ошибка." },
+        { "match": "en luin kirjaa", "ru": "Отрицание прошедшего: en + причастие на -nut (en lukenut), а не имперфект luin." }
+      ],
+      "teaches": "object contrast: partitive under negation (kirjaa)",
+      "needs_review": false
+    },
+    {
+      "id": "s410",
+      "ru": "Я жду автобус.",
+      "uses": ["v29", "n57"],
+      "level": 11,
+      "canonical": "Odotan bussia.",
+      "accepted": ["Odotan bussia.", "Minä odotan bussia."],
+      "wrong": [
+        { "match": "odotan bussin", "ru": "odottaa ВСЕГДА требует партитив: bussia (а не bussin), даже когда ждёшь конкретный автобус." }
+      ],
+      "teaches": "object contrast: always-partitive verb (odottaa)",
+      "needs_review": false
+    },
+    {
+      "id": "s411",
+      "ru": "Я помогаю маме.",
+      "uses": ["v28", "n17"],
+      "level": 11,
+      "canonical": "Autan äitiä.",
+      "accepted": ["Autan äitiä.", "Minä autan äitiä."],
+      "wrong": [
+        { "match": "autan äidin", "ru": "auttaa управляет партитивом: äitiä (а не генитив äidin)." },
+        { "match": "autan äiti", "ru": "Нужен партитив: äitiä." }
+      ],
+      "teaches": "object contrast: always-partitive verb (auttaa)",
+      "needs_review": false
+    },
+    {
+      "id": "s412",
+      "ru": "Мне нужны деньги.",
+      "uses": ["v56", "n29"],
+      "level": 11,
+      "canonical": "Tarvitsen rahaa.",
+      "accepted": ["Tarvitsen rahaa.", "Minä tarvitsen rahaa."],
+      "wrong": [
+        { "match": "tarvitsen rahan", "ru": "Деньги как вещество/количество — партитив: rahaa (а не rahan)." }
+      ],
+      "teaches": "object contrast: partitive mass (tarvita + rahaa)",
+      "needs_review": false
+    },
+    {
+      "id": "s413",
+      "ru": "Пойдём в город!",
+      "uses": ["v2", "n12"],
+      "level": 11,
+      "canonical": "Mennään kaupungille!",
+      "accepted": ["Mennään kaupungille!"],
+      "wrong": [
+        { "match": "menemme kaupungille", "ru": "Это «мы идём» (утверждение); побуждение «пойдём!» — пассив Mennään!" },
+        { "match": "mene kaupungille", "ru": "Mene! — приказ одному; «(давай) пойдём» — пассив Mennään!" }
+      ],
+      "teaches": "passive as me-suggestion (mennään)",
+      "needs_review": false
+    },
+    {
+      "id": "s414",
+      "ru": "Давай поедим!",
+      "uses": ["v3"],
+      "level": 11,
+      "canonical": "Syödään!",
+      "accepted": ["Syödään!"],
+      "wrong": [
+        { "match": "syökää", "ru": "Syökää! — приказ «вы ешьте»; «давайте есть» — пассив Syödään!" },
+        { "match": "syodaan", "ru": "Гармония/буква: syödään (с ö, ä)." }
+      ],
+      "teaches": "passive as me-suggestion (syödään)",
+      "needs_review": false
+    },
+    {
+      "id": "s415",
+      "ru": "Давай посмотрим фильм.",
+      "uses": ["v25", "n256"],
+      "level": 11,
+      "canonical": "Katsotaan elokuva.",
+      "accepted": ["Katsotaan elokuva.", "Katsotaan elokuvaa."],
+      "wrong": [
+        { "match": "katsomme elokuva", "ru": "«Мы смотрим» = katsomme; побуждение «давай посмотрим» — пассив Katsotaan." }
+      ],
+      "teaches": "passive as me-suggestion (katsotaan)",
+      "needs_review": false
+    },
+    {
+      "id": "s416",
+      "ru": "В Финляндии говорят по-фински.",
+      "uses": ["n16", "v6"],
+      "level": 11,
+      "canonical": "Suomessa puhutaan suomea.",
+      "accepted": ["Suomessa puhutaan suomea."],
+      "wrong": [
+        { "match": "suomessa puhutaan suomi", "ru": "Объект-язык — партитив: suomea." },
+        { "match": "suomessa puhuvat suomea", "ru": "Безличное «говорят» — пассив puhutaan, а не «они говорят» puhuvat." }
+      ],
+      "teaches": "passive generic (puhutaan)",
+      "needs_review": false
+    },
+    {
+      "id": "s417",
+      "ru": "В Финляндии пьют много кофе.",
+      "uses": ["n16", "v4", "f44", "n8"],
+      "level": 11,
+      "canonical": "Suomessa juodaan paljon kahvia.",
+      "accepted": ["Suomessa juodaan paljon kahvia."],
+      "wrong": [
+        { "match": "suomessa juovat paljon kahvia", "ru": "Безличное «пьют» — пассив juodaan, а не «они пьют» juovat." }
+      ],
+      "teaches": "passive generic (juodaan) + partitive after paljon",
+      "needs_review": false
+    },
+    {
+      "id": "s418",
+      "ru": "Можешь повторить?",
+      "uses": ["v18", "v99"],
+      "level": 10,
+      "canonical": "Voitko toistaa?",
+      "accepted": ["Voitko toistaa?", "Voitko sinä toistaa?"],
+      "wrong": [
+        { "match": "voit toistaa", "ru": "В вопросе нужна частица -ko: Voitko? (а не Voit)." }
+      ],
+      "teaches": "repair phrase: voitko toistaa (verb + question)",
+      "needs_review": false
+    },
+    {
+      "id": "s419",
+      "ru": "Можешь объяснить?",
+      "uses": ["v18", "v100"],
+      "level": 10,
+      "canonical": "Voitko selittää?",
+      "accepted": ["Voitko selittää?", "Voitko sinä selittää?"],
+      "wrong": [
+        { "match": "voit selittää", "ru": "В вопросе нужна частица -ko: Voitko?" }
+      ],
+      "teaches": "repair phrase: voitko selittää (verb + question)",
+      "needs_review": false
+    },
+    {
+      "id": "s420",
+      "ru": "Что это значит?",
+      "uses": ["p7", "p9", "v101"],
+      "level": 10,
+      "canonical": "Mitä tämä tarkoittaa?",
+      "accepted": ["Mitä tämä tarkoittaa?"],
+      "wrong": [
+        { "match": "mikä tämä tarkoittaa", "ru": "Объект-вопрос — партитив mitä (а не mikä)." }
+      ],
+      "teaches": "repair phrase: question word mitä + verb (tarkoittaa)",
+      "needs_review": false
+    },
+    {
+      "id": "s421",
+      "ru": "Что случилось?",
+      "uses": ["p7", "v102"],
+      "level": 11,
+      "canonical": "Mitä tapahtui?",
+      "accepted": ["Mitä tapahtui?"],
+      "wrong": [
+        { "match": "mitä tapahtuu", "ru": "О прошлом — имперфект tapahtui (а не настоящее tapahtuu)." },
+        { "match": "mitä tapahdin", "ru": "tapahtua безлично, 3 л.: tapahtui (а не личная форма)." }
+      ],
+      "teaches": "imperfect 3sg impersonal (tapahtui)",
+      "needs_review": false
+    },
+    {
+      "id": "s422",
+      "ru": "Говори медленнее, пожалуйста.",
+      "uses": ["v6", "v1", "a1"],
+      "level": 10,
+      "canonical": "Puhu hitaammin, ole hyvä.",
+      "accepted": ["Puhu hitaammin, ole hyvä."],
+      "wrong": [
+        { "match": "puhut hitaammin, ole hyvä", "ru": "Повелительное «ты» — Puhu! без -t." }
+      ],
+      "teaches": "imperative repair phrase + ole hyvä",
+      "needs_review": false
+    },
+    {
+      "id": "s423",
+      "ru": "Вчера шёл дождь.",
+      "uses": ["f7", "v50"],
+      "level": 10,
+      "canonical": "Eilen satoi.",
+      "accepted": ["Eilen satoi.", "Satoi eilen."],
+      "wrong": [
+        { "match": "eilen sataa", "ru": "О прошлом — имперфект satoi (а не настоящее sataa)." }
+      ],
+      "teaches": "imperfect impersonal weather (satoi)",
+      "needs_review": false
+    },
+    {
+      "id": "s424",
+      "ru": "Я открыл дверь.",
+      "uses": ["v51", "n47"],
+      "level": 10,
+      "canonical": "Avasin oven.",
+      "accepted": ["Avasin oven.", "Minä avasin oven."],
+      "wrong": [
+        { "match": "avaasin oven", "ru": "avata (тип 4) в имперфекте — avasin (а не «avaasin»)." },
+        { "match": "avasin ovi", "ru": "Тотальный объект — генитив: oven." }
+      ],
+      "teaches": "imperfect of type-4 verb (avasin) + total object",
+      "needs_review": false
+    },
+    {
+      "id": "s425",
+      "ru": "Она закрыла окно.",
+      "uses": ["p3", "v52", "n48"],
+      "level": 10,
+      "canonical": "Hän sulki ikkunan.",
+      "accepted": ["Hän sulki ikkunan."],
+      "wrong": [
+        { "match": "hän suljin ikkunan", "ru": "3 л. ед. ч. — sulki; suljin это «я закрыл»." },
+        { "match": "hän sulki ikkuna", "ru": "Тотальный объект — генитив: ikkunan." }
+      ],
+      "teaches": "imperfect 3sg (sulki) + total object",
+      "needs_review": false
+    },
+    {
+      "id": "s426",
+      "ru": "Я кашлял всю ночь.",
+      "uses": ["v107", "n43"],
+      "level": 12,
+      "canonical": "Yskin koko yön.",
+      "accepted": ["Yskin koko yön."],
+      "wrong": [
+        { "match": "yskein koko yön", "ru": "yskiä в имперфекте — yskin (а не «yskein»)." }
+      ],
+      "teaches": "imperfect (yskin)",
+      "needs_review": false
+    },
+    {
+      "id": "s427",
+      "ru": "Что произошло вчера?",
+      "uses": ["p7", "f7", "v102"],
+      "level": 11,
+      "canonical": "Mitä eilen tapahtui?",
+      "accepted": ["Mitä eilen tapahtui?", "Mitä tapahtui eilen?"],
+      "wrong": [
+        { "match": "mitä eilen tapahtuu", "ru": "Со словом eilen нужен имперфект: tapahtui." }
+      ],
+      "teaches": "imperfect 3sg impersonal (tapahtui) + eilen",
+      "needs_review": false
+    },
+    {
+      "id": "s428",
+      "ru": "Я хотел бы примерить куртку.",
+      "uses": ["v5", "v106", "n114"],
+      "level": 11,
+      "canonical": "Haluaisin kokeilla takkia.",
+      "accepted": ["Haluaisin kokeilla takkia."],
+      "wrong": [
+        { "match": "haluaisin kokeilla takin", "ru": "kokeilla (процесс примерки) управляет партитивом: takkia." },
+        { "match": "haluan kokeilla takkia", "ru": "Вежливое «хотел бы» — кондиционал haluaisin." }
+      ],
+      "teaches": "conditional (haluaisin) + partitive object (kokeilla)",
+      "needs_review": false
+    },
+    {
+      "id": "s429",
+      "ru": "Не мог бы ты повторить?",
+      "uses": ["v18", "v99"],
+      "level": 10,
+      "canonical": "Voisitko toistaa?",
+      "accepted": ["Voisitko toistaa?", "Voisitko sinä toistaa?"],
+      "wrong": [
+        { "match": "voisit toistaa", "ru": "В вопросе-просьбе нужна частица -ko: Voisitko?" }
+      ],
+      "teaches": "conditional polite (voisitko) + repair phrase",
+      "needs_review": false
+    },
+    {
+      "id": "s430",
+      "ru": "Давай послушаем музыку.",
+      "uses": ["v26", "n268"],
+      "level": 11,
+      "canonical": "Kuunnellaan musiikkia.",
+      "accepted": ["Kuunnellaan musiikkia."],
+      "wrong": [
+        { "match": "kuuntelemme musiikkia", "ru": "«Мы слушаем» = kuuntelemme; побуждение «давай послушаем» — пассив Kuunnellaan." }
+      ],
+      "teaches": "passive as me-suggestion (kuunnellaan) + partitive",
+      "needs_review": false
+    },
+    {
+      "id": "s431",
+      "ru": "Я использовал карту.",
+      "uses": ["v105", "n117"],
+      "level": 11,
+      "canonical": "Käytin korttia.",
+      "accepted": ["Käytin korttia.", "Minä käytin korttia."],
+      "wrong": [
+        { "match": "käytin kortin", "ru": "käyttää управляет партитивом: korttia." },
+        { "match": "käyttin korttia", "ru": "Чередование tt->t в имперфекте: käytin (а не «käyttin»)." }
+      ],
+      "teaches": "imperfect (käytin) + partitive object (käyttää)",
+      "needs_review": false
+    },
+    {
+      "id": "s432",
+      "ru": "Я объяснил проблему.",
+      "uses": ["v100", "n85"],
+      "level": 10,
+      "canonical": "Selitin ongelman.",
+      "accepted": ["Selitin ongelman.", "Minä selitin ongelman."],
+      "wrong": [
+        { "match": "selittin ongelman", "ru": "Чередование tt->t в имперфекте: selitin (а не «selittin»)." },
+        { "match": "selitin ongelma", "ru": "Тотальный объект — генитив: ongelman." }
+      ],
+      "teaches": "imperfect (selitin) + total object",
+      "needs_review": false
+    },
+    {
+      "id": "s433",
+      "ru": "Если бы у меня было время, я бы читал.",
+      "uses": ["f30", "p1", "v1", "n183", "v9"],
+      "level": 10,
+      "canonical": "Jos minulla olisi aikaa, lukisin.",
+      "accepted": ["Jos minulla olisi aikaa, lukisin."],
+      "wrong": [
+        { "match": "jos minulla olisi aika, lukisin", "ru": "После olisi количество времени — партитив: aikaa." },
+        { "match": "jos minulla olisi aikaa, luin", "ru": "В главной части кондиционал lukisin («я бы читал»), а не имперфект luin." }
+      ],
+      "teaches": "conditional hypothetical (olisi ... lukisin)",
+      "needs_review": false
+    },
+    {
+      "id": "s434",
+      "ru": "Что ты делал вчера?",
+      "uses": ["p7", "v10", "f7"],
+      "level": 10,
+      "canonical": "Mitä teit eilen?",
+      "accepted": ["Mitä teit eilen?", "Mitä sinä teit eilen?"],
+      "wrong": [
+        { "match": "mitä teet eilen", "ru": "О прошлом — имперфект teit (а не настоящее teet)." },
+        { "match": "mitä tein eilen", "ru": "«Ты делал» — 2 л.: teit (tein = «я делал»)." }
+      ],
+      "teaches": "imperfect 2sg (teit) + eilen",
+      "needs_review": false
     }
   ]
 }

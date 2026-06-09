@@ -3345,6 +3345,178 @@
           "needs_review": false
         }
       ]
+    },
+    {
+      "id": "t78",
+      "title": "Eilen",
+      "titleRu": "Вчера",
+      "level": 12,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Mira", "fi": "Mitä sinä teit eilen?", "ru": "Что ты делал вчера?", "glosses": { "mitä": "что", "sinä": "ты", "teit": "ты делал (имперфект)", "eilen": "вчера" } },
+        { "speaker": "Antti", "fi": "Olin kotona. Luin kirjaa ja katsoin elokuvan.", "ru": "Я был дома. Читал книгу и посмотрел фильм.", "glosses": { "olin": "я был", "kotona": "дома", "luin": "я читал", "kirjaa": "книгу (партитив)", "ja": "и", "katsoin": "я посмотрел", "elokuvan": "фильм (объект)" } },
+        { "speaker": "Mira", "fi": "Söitkö sinä jotain hyvää?", "ru": "Ты ел что-нибудь вкусное?", "glosses": { "söitkö": "ел ли ты", "sinä": "ты", "jotain": "что-нибудь", "hyvää": "вкусного" } },
+        { "speaker": "Antti", "fi": "Söin kalaa ja join teetä. Entä sinä?", "ru": "Я ел рыбу и пил чай. А ты?", "glosses": { "söin": "я ел", "kalaa": "рыбу (партитив)", "ja": "и", "join": "я пил", "teetä": "чай (партитив)", "entä": "а (что насчёт)", "sinä": "ты" } },
+        { "speaker": "Mira", "fi": "Minä kävin kaupassa ja ostin uuden takin.", "ru": "Я ходила в магазин и купила новую куртку.", "glosses": { "minä": "я", "kävin": "я ходила", "kaupassa": "в магазине", "ja": "и", "ostin": "я купила", "uuden": "новую", "takin": "куртку (объект)" } }
+      ],
+      "questions": [
+        {
+          "id": "t78q1",
+          "q": "Mitä Antti teki eilen?",
+          "qRu": "Что Антти делал вчера?",
+          "canonical": "Luki kirjaa ja katsoi elokuvan.",
+          "accepted": ["Luki kirjaa ja katsoi elokuvan.", "Hän luki kirjaa ja katsoi elokuvan.", "Oli kotona."],
+          "wrong": [{ "match": "kävi kaupassa", "ru": "В магазин ходила Мира, а не Антти." }],
+          "needs_review": false
+        },
+        {
+          "id": "t78q2",
+          "q": "Mitä Antti söi?",
+          "qRu": "Что ел Антти?",
+          "canonical": "Kalaa.",
+          "accepted": ["Kalaa.", "Hän söi kalaa.", "Söi kalaa."],
+          "wrong": [{ "match": "kala", "ru": "Еда-объект процесса — партитив: kalaa." }],
+          "needs_review": false
+        },
+        {
+          "id": "t78q3",
+          "q": "Mitä Mira osti?",
+          "qRu": "Что купила Мира?",
+          "canonical": "Uuden takin.",
+          "accepted": ["Uuden takin.", "Hän osti uuden takin.", "Takin."],
+          "wrong": [{ "match": "uusi takki", "ru": "Покупка завершена — тотальный объект в генитиве: uuden takin." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t79",
+      "title": "Saisinko apua?",
+      "titleRu": "Можно мне помощь?",
+      "level": 10,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Asiakas", "fi": "Anteeksi, saisinko apua?", "ru": "Извините, можно мне помощь?", "glosses": { "anteeksi": "извините", "saisinko": "можно мне (кондиционал)", "apua": "помощь (партитив)" } },
+        { "speaker": "Myyjä", "fi": "Tietysti! Mitä sinä tarvitset?", "ru": "Конечно! Что тебе нужно?", "glosses": { "tietysti": "конечно", "mitä": "что", "sinä": "ты", "tarvitset": "тебе нужно" } },
+        { "speaker": "Asiakas", "fi": "Haluaisin ostaa uuden sohvan.", "ru": "Я хотел бы купить новый диван.", "glosses": { "haluaisin": "я хотел бы", "ostaa": "купить", "uuden": "новый", "sohvan": "диван (объект)" } },
+        { "speaker": "Myyjä", "fi": "Voisitko kertoa, millaisen?", "ru": "Не мог бы ты сказать, какой?", "glosses": { "voisitko": "не мог бы ты", "kertoa": "рассказать", "millaisen": "какой" } },
+        { "speaker": "Asiakas", "fi": "Haluaisin ison ja pehmeän sohvan.", "ru": "Я хотел бы большой и мягкий диван.", "glosses": { "haluaisin": "я хотел бы", "ison": "большой", "ja": "и", "pehmeän": "мягкий", "sohvan": "диван (объект)" } }
+      ],
+      "questions": [
+        {
+          "id": "t79q1",
+          "q": "Mitä asiakas haluaisi ostaa?",
+          "qRu": "Что хотел бы купить клиент?",
+          "canonical": "Sohvan.",
+          "accepted": ["Sohvan.", "Uuden sohvan.", "Hän haluaisi ostaa sohvan."],
+          "wrong": [{ "match": "sohva", "ru": "Объект покупки — генитив: sohvan." }],
+          "needs_review": false
+        },
+        {
+          "id": "t79q2",
+          "q": "Millaisen sohvan asiakas haluaisi?",
+          "qRu": "Какой диван хотел бы клиент?",
+          "canonical": "Ison ja pehmeän.",
+          "accepted": ["Ison ja pehmeän.", "Ison ja pehmeän sohvan.", "Pehmeän."],
+          "wrong": [{ "match": "pieni", "ru": "Клиент хочет большой (iso) диван, а не маленький." }],
+          "needs_review": false
+        },
+        {
+          "id": "t79q3",
+          "q": "Miten asiakas pyytää apua kohteliaasti?",
+          "qRu": "Как клиент вежливо просит помощь?",
+          "canonical": "Saisinko apua?",
+          "accepted": ["Saisinko apua?", "Saisinko apua.", "Saisinko."],
+          "wrong": [{ "match": "saanko apua", "ru": "Здесь вежливый кондиционал Saisinko (а не нейтральное Saanko)." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t80",
+      "title": "Mennään kaupungille!",
+      "titleRu": "Пойдём в город!",
+      "level": 11,
+      "type": "text",
+      "lines": [
+        { "fi": "Tänään on kaunis päivä.", "ru": "Сегодня прекрасный день.", "glosses": { "tänään": "сегодня", "on": "есть", "kaunis": "прекрасный", "päivä": "день" } },
+        { "fi": "Mennään kaupungille!", "ru": "Пойдём в город!", "glosses": { "mennään": "пойдём (пассив)", "kaupungille": "в город" } },
+        { "fi": "Ensin juodaan kahvia kahvilassa.", "ru": "Сначала попьём кофе в кафе.", "glosses": { "ensin": "сначала", "juodaan": "попьём (пассив)", "kahvia": "кофе (партитив)", "kahvilassa": "в кафе" } },
+        { "fi": "Sitten katsotaan kaupat ja ostetaan lahja.", "ru": "Потом посмотрим магазины и купим подарок.", "glosses": { "sitten": "потом", "katsotaan": "посмотрим (пассив)", "kaupat": "магазины", "ja": "и", "ostetaan": "купим (пассив)", "lahja": "подарок" } },
+        { "fi": "Illalla mennään kotiin yhdessä.", "ru": "Вечером пойдём домой вместе.", "glosses": { "illalla": "вечером", "mennään": "пойдём (пассив)", "kotiin": "домой", "yhdessä": "вместе" } }
+      ],
+      "questions": [
+        {
+          "id": "t80q1",
+          "q": "Millainen päivä tänään on?",
+          "qRu": "Какой сегодня день?",
+          "canonical": "Kaunis.",
+          "accepted": ["Kaunis.", "Kaunis päivä.", "Tänään on kaunis päivä."],
+          "wrong": [{ "match": "ruma", "ru": "День прекрасный (kaunis)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t80q2",
+          "q": "Mitä juodaan ensin?",
+          "qRu": "Что попьём сначала?",
+          "canonical": "Kahvia.",
+          "accepted": ["Kahvia.", "Juodaan kahvia.", "Kahvia kahvilassa."],
+          "wrong": [{ "match": "kahvi", "ru": "Питьё-вещество — партитив: kahvia." }],
+          "needs_review": false
+        },
+        {
+          "id": "t80q3",
+          "q": "Minne mennään illalla?",
+          "qRu": "Куда пойдём вечером?",
+          "canonical": "Kotiin.",
+          "accepted": ["Kotiin.", "Mennään kotiin.", "Illalla mennään kotiin."],
+          "wrong": [{ "match": "kotona", "ru": "Направление «домой» — иллатив kotiin (kotona = «дома»)." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t81",
+      "title": "Voitko toistaa?",
+      "titleRu": "Можешь повторить?",
+      "level": 11,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Opettaja", "fi": "Suomessa puhutaan suomea ja ruotsia.", "ru": "В Финляндии говорят по-фински и по-шведски.", "glosses": { "suomessa": "в Финляндии", "puhutaan": "говорят (пассив)", "suomea": "по-фински", "ja": "и", "ruotsia": "по-шведски" } },
+        { "speaker": "Opiskelija", "fi": "Anteeksi, voitko toistaa?", "ru": "Извините, можешь повторить?", "glosses": { "anteeksi": "извините", "voitko": "можешь ли ты", "toistaa": "повторить" } },
+        { "speaker": "Opettaja", "fi": "Tietysti. Suomessa puhutaan kahta kieltä.", "ru": "Конечно. В Финляндии говорят на двух языках.", "glosses": { "tietysti": "конечно", "suomessa": "в Финляндии", "puhutaan": "говорят (пассив)", "kahta": "два (партитив)", "kieltä": "языка (партитив)" } },
+        { "speaker": "Opiskelija", "fi": "Mitä sana ruotsi tarkoittaa?", "ru": "Что значит слово «ruotsi»?", "glosses": { "mitä": "что", "sana": "слово", "ruotsi": "шведский", "tarkoittaa": "означает" } },
+        { "speaker": "Opettaja", "fi": "Se tarkoittaa Ruotsin kieltä. Voitko selittää oman kielesi?", "ru": "Оно означает шведский язык. Можешь объяснить свой язык?", "glosses": { "se": "оно", "tarkoittaa": "означает", "ruotsin": "шведский (генитив)", "kieltä": "язык (партитив)", "voitko": "можешь ли ты", "selittää": "объяснить", "oman": "свой", "kielesi": "свой язык" } }
+      ],
+      "questions": [
+        {
+          "id": "t81q1",
+          "q": "Mitä kieliä Suomessa puhutaan?",
+          "qRu": "На каких языках говорят в Финляндии?",
+          "canonical": "Suomea ja ruotsia.",
+          "accepted": ["Suomea ja ruotsia.", "Suomessa puhutaan suomea ja ruotsia."],
+          "wrong": [{ "match": "venäjää", "ru": "В тексте речь о финском и шведском, не о русском." }],
+          "needs_review": false
+        },
+        {
+          "id": "t81q2",
+          "q": "Mitä opiskelija pyytää?",
+          "qRu": "О чём просит студент?",
+          "canonical": "Toistamaan.",
+          "accepted": ["Toistamaan.", "Voitko toistaa?", "Hän pyytää toistamaan."],
+          "wrong": [{ "match": "selittämään", "ru": "Сначала студент просит повторить (toistaa), а не объяснить." }],
+          "needs_review": false
+        },
+        {
+          "id": "t81q3",
+          "q": "Mitä sana ruotsi tarkoittaa?",
+          "qRu": "Что означает слово «ruotsi»?",
+          "canonical": "Ruotsin kieltä.",
+          "accepted": ["Ruotsin kieltä.", "Se tarkoittaa Ruotsin kieltä.", "Ruotsia."],
+          "wrong": [{ "match": "suomea", "ru": "ruotsi означает шведский язык, а не финский." }],
+          "needs_review": false
+        }
+      ]
     }
   ]
 }
