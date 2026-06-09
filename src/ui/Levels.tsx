@@ -1,14 +1,14 @@
 /**
  * Levels.tsx — «Уровни», the curriculum journey.
  *
- * Three views off one component: `list` (the 12-level timeline grouped into CEFR bands), `detail`
- * (review a passed level's words/sentences/texts, Finnish-first), and `confirm` (the «Отметить
- * пройденным» bottom sheet). Level state (done/current/locked) is derived by `levelSummaries`; the
- * mark-passed write lives in App (`onMarkPassed`). Reached from the Метрики hero, exits via its own
- * back button — it is a tab-less home screen.
+ * Two views off one component: `list` (the 12-level timeline grouped into CEFR bands) and `detail`
+ * (review a level's words/sentences/texts, Finnish-first). Destructive actions on the current level
+ * — mark-passed, clean, and rollback — go through a shared confirm bottom sheet. Level state
+ * (done/current/locked) is derived by `levelSummaries`; the writes live in App (`onMarkPassed` /
+ * `onCleanLevel`). Reached from the Метрики hero, exits via its own back button — a tab-less screen.
  */
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import type { VocabItem } from "../core/dictionary";
 import type { SentenceItem } from "../core/grader";
 import type { ReadingText } from "../core/reading";
@@ -27,9 +27,15 @@ interface LevelsProps {
   onBack: () => void;
   onStart: (mode: Mode) => void;
   onMarkPassed: (level: number) => void;
+  /** Reset every track of a level's items (clean / the rollback mechanism). */
+  onCleanLevel: (level: number) => void;
 }
 
-type View = "list" | "detail" | "confirm";
+type View = "list" | "detail";
+/** A pending destructive action awaiting confirmation in the bottom sheet. */
+type ConfirmAction = { kind: "mark" | "clean" | "rollback"; level: number };
+/** Total items in a level (across groups). */
+const totalOf = (s: LevelSummary) => s.counts.words + s.counts.sentences + s.counts.texts;
 
 /** Count chips (words/sentences/texts) shown on each level card and the detail header. */
 function Counts({ s, muted }: { s: LevelSummary; muted?: boolean }) {
@@ -58,14 +64,28 @@ export default function Levels({
   onBack,
   onStart,
   onMarkPassed,
+  onCleanLevel,
 }: LevelsProps) {
   const [view, setView] = useState<View>("list");
   const [detailLv, setDetailLv] = useState<number>(1);
+  const [confirm, setConfirm] = useState<ConfirmAction | null>(null);
 
   const summaries = levelSummaries(vocab, sentences, texts, progress);
   const byLevel = new Map(summaries.map((s) => [s.level, s]));
-  const current = summaries.find((s) => s.status === "current") ?? null;
+  const curIdx = summaries.findIndex((s) => s.status === "current");
+  const current = curIdx >= 0 ? summaries[curIdx]! : null;
   const doneCount = summaries.filter((s) => s.status === "done").length;
+
+  // Rollback target = the level just below the current one; allowed only once the current level is
+  // CLEAN (nothing learned), so stepping back can't strand a half-finished level ahead (no gap).
+  const prevLevel = curIdx > 0 ? summaries[curIdx - 1]!.level : null;
+  const currentClean = !!current && current.fraction === 0 && current.remaining >= totalOf(current);
+
+  function runConfirm(a: ConfirmAction) {
+    if (a.kind === "mark") onMarkPassed(a.level);
+    else onCleanLevel(a.level); // clean + rollback both reset a level's items
+    setConfirm(null);
+  }
 
   if (view === "detail") {
     const ds = byLevel.get(detailLv)!;
@@ -125,21 +145,25 @@ export default function Levels({
                   setView("detail");
                 }}
                 onContinue={() => onStart("mix")}
-                onMarkRequest={() => setView("confirm")}
+                onMark={() => setConfirm({ kind: "mark", level: s.level })}
+                onClean={() => setConfirm({ kind: "clean", level: s.level })}
+                onRollback={
+                  prevLevel !== null ? () => setConfirm({ kind: "rollback", level: prevLevel }) : undefined
+                }
+                canRollback={currentClean}
+                prevLevel={prevLevel}
               />
             ))}
           </div>
         );
       })}
 
-      {view === "confirm" && current && (
+      {confirm && (
         <ConfirmDialog
-          summary={current}
-          onCancel={() => setView("list")}
-          onConfirm={() => {
-            onMarkPassed(current.level);
-            setView("list");
-          }}
+          action={confirm}
+          byLevel={byLevel}
+          onCancel={() => setConfirm(null)}
+          onConfirm={() => runConfirm(confirm)}
         />
       )}
     </main>
@@ -152,13 +176,21 @@ function LevelRow({
   last,
   onOpenDetail,
   onContinue,
-  onMarkRequest,
+  onMark,
+  onClean,
+  onRollback,
+  canRollback,
+  prevLevel,
 }: {
   s: LevelSummary;
   last: boolean;
   onOpenDetail: () => void;
   onContinue: () => void;
-  onMarkRequest: () => void;
+  onMark: () => void;
+  onClean: () => void;
+  onRollback?: () => void;
+  canRollback: boolean;
+  prevLevel: number | null;
 }) {
   const title = levelTitle(s.level);
   const band = cefrOfLevel(s.level);
@@ -214,9 +246,25 @@ function LevelRow({
               <button type="button" className="lcur__go" onClick={onContinue}>
                 Продолжить
               </button>
-              <button type="button" className="lcur__mark" onClick={onMarkRequest}>
+              <button type="button" className="lcur__mark" onClick={onMark}>
                 Отметить пройденным
               </button>
+            </div>
+            <div className="lcur__secondary">
+              <button type="button" className="lcur__danger" onClick={onClean}>
+                Очистить уровень
+              </button>
+              {prevLevel !== null && (
+                <button
+                  type="button"
+                  className="lcur__danger"
+                  onClick={onRollback}
+                  disabled={!canRollback}
+                  title={canRollback ? undefined : "Сначала очистите текущий уровень"}
+                >
+                  Вернуться на ур. {prevLevel}
+                </button>
+              )}
             </div>
           </div>
         )}
@@ -358,38 +406,79 @@ function ItemRow({ fi, ru, icon }: { fi: string; ru: string; icon?: UiIconName }
   );
 }
 
-/** The «Отметить пройденным» confirmation bottom sheet. */
+/** Shared confirm bottom sheet for the three destructive current-level actions. */
 function ConfirmDialog({
-  summary,
+  action,
+  byLevel,
   onCancel,
   onConfirm,
 }: {
-  summary: LevelSummary;
+  action: ConfirmAction;
+  byLevel: Map<number, LevelSummary>;
   onCancel: () => void;
   onConfirm: () => void;
 }) {
-  const title = levelTitle(summary.level);
+  const s = byLevel.get(action.level);
+  const title = levelTitle(action.level);
+  const danger = action.kind !== "mark";
+  let icon: UiIconName;
+  let heading: string;
+  let body: ReactNode;
+  let warn: string;
+  let confirmLabel: string;
+  if (action.kind === "mark") {
+    icon = "bolt";
+    heading = "Перейти дальше?";
+    body = (
+      <>
+        Уровень {action.level} «{title.fi}» ({title.ru}) будет отмечен пройденным. Все его слова,
+        фразы и тексты станут <b>выученными</b>, и откроется уровень {action.level + 1}.
+      </>
+    );
+    warn = `Это пропустит ${s?.remaining ?? 0} ещё не освоенных элементов. Их можно повторить в любой момент.`;
+    confirmLabel = "Отметить пройденным";
+  } else if (action.kind === "clean") {
+    icon = "refresh";
+    heading = "Очистить уровень?";
+    body = (
+      <>
+        Весь прогресс уровня {action.level} «{title.fi}» ({title.ru}) будет <b>сброшен</b> — его
+        слова, фразы и тексты снова станут невыученными.
+      </>
+    );
+    warn = "Прогресс этих элементов будет потерян. Это действие нельзя отменить.";
+    confirmLabel = "Очистить уровень";
+  } else {
+    icon = "back";
+    heading = `Вернуться на уровень ${action.level}?`;
+    body = (
+      <>
+        Прогресс уровня {action.level} «{title.fi}» ({title.ru}) будет <b>сброшен</b>, и он снова
+        станет текущим.
+      </>
+    );
+    warn = "Прогресс этого уровня будет потерян. Это действие нельзя отменить.";
+    confirmLabel = `Вернуться на ур. ${action.level}`;
+  }
   return (
     <div className="lsheet" role="dialog" aria-modal="true" onClick={onCancel}>
       <div className="lsheet__panel" onClick={(e) => e.stopPropagation()}>
         <span className="lsheet__grab" />
-        <span className="lsheet__bolt">
-          <UiIcon name="bolt" size={27} strokeWidth={1.8} />
+        <span className={"lsheet__bolt" + (danger ? " lsheet__bolt--danger" : "")}>
+          <UiIcon name={icon} size={27} strokeWidth={1.8} />
         </span>
-        <h2 className="lsheet__title">Перейти дальше?</h2>
-        <p className="lsheet__body">
-          Уровень {summary.level} «{title.fi}» ({title.ru}) будет отмечен пройденным. Все его слова,
-          фразы и тексты станут <b>выученными</b>, и откроется уровень {summary.level + 1}.
-        </p>
-        <div className="lsheet__warn">
+        <h2 className="lsheet__title">{heading}</h2>
+        <p className="lsheet__body">{body}</p>
+        <div className={"lsheet__warn" + (danger ? " lsheet__warn--danger" : "")}>
           <UiIcon name="info" size={16} strokeWidth={1.9} />
-          <span>
-            Это пропустит {summary.remaining} ещё не освоенных элементов. Их можно повторить в любой
-            момент.
-          </span>
+          <span>{warn}</span>
         </div>
-        <button type="button" className="lsheet__confirm" onClick={onConfirm}>
-          Отметить пройденным
+        <button
+          type="button"
+          className={"lsheet__confirm" + (danger ? " lsheet__confirm--danger" : "")}
+          onClick={onConfirm}
+        >
+          {confirmLabel}
         </button>
         <button type="button" className="lsheet__cancel" onClick={onCancel}>
           Отмена

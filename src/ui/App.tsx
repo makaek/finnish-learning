@@ -20,6 +20,8 @@ import {
   masteringLevelGated,
   levelOf,
   LEARNED_BOX,
+  WORD_MODES,
+  SENTENCE_MODES,
 } from "../core/levels";
 import {
   completeLesson,
@@ -33,6 +35,7 @@ import {
   getProgress,
   progressKey,
   MAX_BOX,
+  MIN_BOX,
   type ItemKind,
   type ItemProgress,
   type ProgressMap,
@@ -317,49 +320,81 @@ export default function App() {
    * items already at MAX_BOX are skipped, so re-running writes nothing. Persisted (fire-and-forget).
    * Only `box`/`lastSeen` change (no fabricated answer history), so accuracy stays honest.
    */
+  /**
+   * Visit every progress track of a level's items (4 word modes, 3 sentence modes, the reading
+   * comprehension track + recitation aggregate and per-role), calling `visit(kind, id)`. Shared by
+   * mark-passed and clean so the two always cover EXACTLY the same records.
+   */
+  function forEachLevelTrack(level: number, visit: (kind: ItemKind, id: string) => void) {
+    for (const v of VOCAB) {
+      if (levelOf(v) !== level) continue;
+      for (const kind of WORD_MODES) visit(kind, v.id);
+    }
+    for (const s of SENTENCES) {
+      if (levelOf(s) !== level) continue;
+      for (const kind of SENTENCE_MODES) visit(kind, s.id);
+    }
+    for (const t of TEXTS) {
+      if (levelOf(t) !== level) continue;
+      visit("reading", t.id); // comprehension-quiz track
+      for (const role of reciteRoles(t)) visit("recite", reciteRoleId(t.id, role)); // per-role recite
+      visit("recite", t.id); // role-agnostic aggregate that readingMastered reads
+    }
+  }
+
+  /**
+   * «Отметить пройденным» — mark every item in `level` as learned. Writes a coherent record (box =
+   * LEARNED_BOX with totalSeen/totalCorrect = 2, so it reads as "2 clean answers"): box-only records
+   * stay invisible on the progress screen, which lists only seen tracks (core/stats.ts mergeByItem).
+   * Math.max never regresses a learner's real, higher history and keeps totalSeen ≥ totalCorrect.
+   * EVERY level item is upserted (no idempotency skip) so the backend definitely gets all rows. The
+   * current level is DERIVED ({@link masteringLevelGated}), so this advances it + unlocks the next;
+   * nothing relocks. Persisted (fire-and-forget).
+   */
   function markLevelPassed(level: number) {
     const now = Date.now();
     const rows: ItemProgress[] = [];
-    const mark = (kind: ItemKind, id: string) => {
+    forEachLevelTrack(level, (kind, id) => {
       const prev = getProgress(progressRef.current, kind, id);
-      // Idempotent: skip items already fully mastered with a real (seen) record.
-      if (prev.box >= MAX_BOX && prev.totalSeen >= 1) return;
-      // Write a COHERENT mastered record (like fillAllMastered), not box-only: the progress screen
-      // lists only tracks with totalSeen ≥ 1 (see core/stats.ts mergeByItem), so a box-only record
-      // would master the level but stay invisible — looking un-persisted. Math.max never regresses a
-      // learner's real, higher history, and keeps totalSeen ≥ totalCorrect.
       const p: ItemProgress = {
         ...prev,
         kind,
         itemId: id,
-        box: MAX_BOX,
-        correctStreak: Math.max(prev.correctStreak, MAX_BOX),
-        totalCorrect: Math.max(prev.totalCorrect, MAX_BOX),
-        totalSeen: Math.max(prev.totalSeen, prev.totalCorrect, MAX_BOX),
+        box: Math.max(prev.box, LEARNED_BOX),
+        correctStreak: Math.max(prev.correctStreak, 2),
+        totalCorrect: Math.max(prev.totalCorrect, 2),
+        totalSeen: Math.max(prev.totalSeen, prev.totalCorrect, 2),
         lastSeen: now,
       };
       progressRef.current.set(progressKey(kind, id), p);
       rows.push(p);
-    };
-    for (const v of VOCAB) {
-      if (levelOf(v) !== level) continue;
-      mark("recognition", v.id);
-      mark("production", v.id);
-      mark("say_word", v.id);
-      mark("listen_word", v.id);
-    }
-    for (const s of SENTENCES) {
-      if (levelOf(s) !== level) continue;
-      mark("sentences", s.id);
-      mark("say_sentence", s.id);
-      mark("listen_sentence", s.id);
-    }
-    for (const t of TEXTS) {
-      if (levelOf(t) !== level) continue;
-      if (t.questions?.length) mark("reading", t.id); // comprehension quiz part (only if it has one)
-      for (const role of reciteRoles(t)) mark("recite", reciteRoleId(t.id, role)); // per-role recite
-      mark("recite", t.id); // role-agnostic aggregate that readingMastered reads
-    }
+    });
+    setProgressView(new Map(progressRef.current));
+    if (rows.length > 0) void saveProgress(rows);
+  }
+
+  /**
+   * «Очистить уровень» — reset every track of a level's items to a brand-new record (box MIN_BOX, no
+   * streak/seen/correct), persisted so the reset survives a reload. Used to redo the current level
+   * from scratch and as the mechanism behind a rollback (cleaning the PREVIOUS level moves the derived
+   * current level back to it). Only ever invoked for the current level / the level just below it, so
+   * it can't strand a half-finished level ahead (no gap).
+   */
+  function cleanLevel(level: number) {
+    const rows: ItemProgress[] = [];
+    forEachLevelTrack(level, (kind, id) => {
+      const p: ItemProgress = {
+        kind,
+        itemId: id,
+        box: MIN_BOX,
+        correctStreak: 0,
+        totalCorrect: 0,
+        totalSeen: 0,
+        lastSeen: 0,
+      };
+      progressRef.current.set(progressKey(kind, id), p);
+      rows.push(p);
+    });
     setProgressView(new Map(progressRef.current));
     if (rows.length > 0) void saveProgress(rows);
   }
@@ -563,6 +598,7 @@ export default function App() {
           onBack={() => setHomeScreen("dashboard")}
           onStart={start}
           onMarkPassed={markLevelPassed}
+          onCleanLevel={cleanLevel}
         />
       );
     } else {

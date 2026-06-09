@@ -3452,6 +3452,31 @@ body {
 .lcur__mark:active {
   transform: scale(0.98);
 }
+.lcur__secondary {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.55rem;
+}
+.lcur__danger {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 0.3rem 0;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--weak-deep);
+  cursor: pointer;
+}
+.lcur__danger:disabled {
+  color: var(--muted);
+  opacity: 0.55;
+  cursor: default;
+}
+.lcur__danger:not(:disabled):active {
+  transform: scale(0.98);
+}
 
 /* ---- Detail view ---- */
 .ldhead {
@@ -3650,6 +3675,10 @@ body {
   color: var(--gold);
   margin-bottom: 0.85rem;
 }
+.lsheet__bolt--danger {
+  background: var(--weak-soft);
+  color: var(--weak-deep);
+}
 .lsheet__title {
   margin: 0 0 0.5rem;
   font-size: 1.25rem;
@@ -3687,6 +3716,13 @@ body {
   margin-top: 1px;
   color: var(--gold);
 }
+.lsheet__warn--danger {
+  background: var(--weak-soft);
+  border-color: var(--weak-line);
+}
+.lsheet__warn--danger svg {
+  color: var(--weak-deep);
+}
 .lsheet__confirm {
   width: 100%;
   border: none;
@@ -3710,6 +3746,9 @@ body {
   font-size: 0.9rem;
   font-weight: 700;
   cursor: pointer;
+}
+.lsheet__confirm--danger {
+  background: var(--weak-deep);
 }
 .lsheet__confirm:active {
   transform: scale(0.99);
