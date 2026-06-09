@@ -6969,6 +6969,330 @@
       ],
       "teaches": "predicative nominative + inflection type (kokemus)",
       "needs_review": false
+    },
+
+    {
+      "id": "s491",
+      "ru": "Если бы у меня были деньги, я бы купил квартиру.",
+      "uses": ["f30", "p1", "v1", "n29", "v8", "n322"],
+      "level": 14,
+      "canonical": "Jos minulla olisi rahaa, ostaisin asunnon.",
+      "accepted": ["Jos minulla olisi rahaa, ostaisin asunnon."],
+      "wrong": [
+        { "match": "jos minulla olisi rahaa, ostan asunnon", "ru": "В главной части тоже кондиционал: ostaisin (а не настоящее ostan)." },
+        { "match": "jos minulla on rahaa, ostaisin asunnon", "ru": "После jos в гипотезе — кондиционал olisi (а не настоящее on)." }
+      ],
+      "teaches": "conditional hypothetical (jos olisi ... ostaisin)",
+      "needs_review": false
+    },
+    {
+      "id": "s492",
+      "ru": "Если бы я жил в центре, я бы ходил пешком на работу.",
+      "uses": ["f30", "v7", "n112", "v39", "n1"],
+      "level": 14,
+      "canonical": "Jos asuisin keskustassa, kävelisin töihin.",
+      "accepted": ["Jos asuisin keskustassa, kävelisin töihin."],
+      "wrong": [
+        { "match": "jos asuisin keskustassa, kävelen töihin", "ru": "В главной части кондиционал: kävelisin (а не настоящее kävelen)." },
+        { "match": "jos asun keskustassa, kävelisin töihin", "ru": "В гипотезе после jos — кондиционал asuisin." }
+      ],
+      "teaches": "conditional hypothetical (asuisin ... kävelisin)",
+      "needs_review": false
+    },
+    {
+      "id": "s493",
+      "ru": "Если бы я выиграл в лото, я бы переехал.",
+      "uses": ["f30", "v124", "n321", "v119"],
+      "level": 14,
+      "canonical": "Jos voittaisin lotossa, muuttaisin.",
+      "accepted": ["Jos voittaisin lotossa, muuttaisin."],
+      "wrong": [
+        { "match": "jos voittaisin lotossa, muutin", "ru": "В главной части кондиционал: muuttaisin (а не имперфект muutin)." },
+        { "match": "jos voitan lotossa, muuttaisin", "ru": "В гипотезе после jos — кондиционал voittaisin." }
+      ],
+      "teaches": "conditional hypothetical (voittaisin ... muuttaisin)",
+      "needs_review": false
+    },
+    {
+      "id": "s494",
+      "ru": "Я хотел бы новую квартиру.",
+      "uses": ["v5", "a4", "n322"],
+      "level": 14,
+      "canonical": "Haluaisin uuden asunnon.",
+      "accepted": ["Haluaisin uuden asunnon.", "Minä haluaisin uuden asunnon."],
+      "wrong": [
+        { "match": "haluaisin uusi asunto", "ru": "Объект-целиком — генитив, прилагательное согласуется: uuden asunnon." },
+        { "match": "haluan uuden asunnon", "ru": "Вежливое «хотел бы» — кондиционал haluaisin." }
+      ],
+      "teaches": "conditional (haluaisin) + total object agreement",
+      "needs_review": false
+    },
+    {
+      "id": "s495",
+      "ru": "Не мог бы ты починить кран?",
+      "uses": ["v18", "v89", "n312"],
+      "level": 14,
+      "canonical": "Voisitko korjata hanan?",
+      "accepted": ["Voisitko korjata hanan?", "Voisitko sinä korjata hanan?"],
+      "wrong": [
+        { "match": "voisit korjata hanan", "ru": "В вопросе-просьбе нужна частица -ko: Voisitko?" },
+        { "match": "voisitko korjata hana", "ru": "Тотальный объект — генитив: hanan." }
+      ],
+      "teaches": "conditional polite (voisitko) + total object",
+      "needs_review": false
+    },
+    {
+      "id": "s496",
+      "ru": "Дом был построен в 1990.",
+      "uses": ["n4", "v88", "n217"],
+      "level": 14,
+      "canonical": "Talo rakennettiin vuonna 1990.",
+      "accepted": ["Talo rakennettiin vuonna 1990."],
+      "wrong": [
+        { "match": "talo rakensi vuonna 1990", "ru": "«Был построен» — пассив прошедшего rakennettiin (а не активный rakensi «он строил»)." }
+      ],
+      "teaches": "passive past (rakennettiin)",
+      "needs_review": false
+    },
+    {
+      "id": "s497",
+      "ru": "Еду приготовили вчера.",
+      "uses": ["n14", "v10", "f7"],
+      "level": 14,
+      "canonical": "Ruoka tehtiin eilen.",
+      "accepted": ["Ruoka tehtiin eilen."],
+      "wrong": [
+        { "match": "ruoka teki eilen", "ru": "«Приготовили» (безлично) — пассив прошедшего tehtiin (а не активный teki)." }
+      ],
+      "teaches": "passive past (tehtiin)",
+      "needs_review": false
+    },
+    {
+      "id": "s498",
+      "ru": "Квартиру убрали утром.",
+      "uses": ["n322", "v86", "n39"],
+      "level": 14,
+      "canonical": "Asunto siivottiin aamulla.",
+      "accepted": ["Asunto siivottiin aamulla."],
+      "wrong": [
+        { "match": "asunto siivosi aamulla", "ru": "«Убрали» (безлично) — пассив прошедшего siivottiin (а не активный siivosi)." }
+      ],
+      "teaches": "passive past (siivottiin)",
+      "needs_review": false
+    },
+    {
+      "id": "s499",
+      "ru": "В Финляндии много строят.",
+      "uses": ["n16", "v88", "f44"],
+      "level": 14,
+      "canonical": "Suomessa rakennetaan paljon.",
+      "accepted": ["Suomessa rakennetaan paljon."],
+      "wrong": [
+        { "match": "suomessa rakentavat paljon", "ru": "Безличное «строят» — пассив rakennetaan (а не «они строят» rakentavat)." }
+      ],
+      "teaches": "passive generic (rakennetaan)",
+      "needs_review": false
+    },
+    {
+      "id": "s500",
+      "ru": "Давай упакуем коробки.",
+      "uses": ["v123", "n316"],
+      "level": 14,
+      "canonical": "Pakataan muuttolaatikot.",
+      "accepted": ["Pakataan muuttolaatikot."],
+      "wrong": [
+        { "match": "pakkaamme muuttolaatikot", "ru": "«Мы упаковываем» = pakkaamme; побуждение «давай упакуем» — пассив Pakataan." }
+      ],
+      "teaches": "passive as me-suggestion (pakataan)",
+      "needs_review": false
+    },
+    {
+      "id": "s501",
+      "ru": "Кран течёт.",
+      "uses": ["n312", "v120"],
+      "level": 14,
+      "canonical": "Hana vuotaa.",
+      "accepted": ["Hana vuotaa."],
+      "wrong": [
+        { "match": "hana vuodaa", "ru": "3 л. ед. ч. — vuotaa (сильная ступень t); vuodan это «я теку»." }
+      ],
+      "teaches": "3sg verb (vuotaa) + household problem",
+      "needs_review": false
+    },
+    {
+      "id": "s502",
+      "ru": "Лампа не работает.",
+      "uses": ["n94", "f6", "v122"],
+      "level": 14,
+      "canonical": "Lamppu ei toimi.",
+      "accepted": ["Lamppu ei toimi."],
+      "wrong": [
+        { "match": "lamppu ei toimii", "ru": "После ei — коннегатив toimi (без личного -i 3 л.)." }
+      ],
+      "teaches": "negation + connegative (toimia) + household",
+      "needs_review": false
+    },
+    {
+      "id": "s503",
+      "ru": "Лифт сломан.",
+      "uses": ["n320", "v1", "a80"],
+      "level": 14,
+      "canonical": "Hissi on rikki.",
+      "accepted": ["Hissi on rikki."],
+      "wrong": [
+        { "match": "hissi on rikkiä", "ru": "rikki — несклоняемое предикативное наречие: Hissi on rikki (без -ä)." }
+      ],
+      "teaches": "predicative rikki (indeclinable) + household",
+      "needs_review": false
+    },
+    {
+      "id": "s504",
+      "ru": "Стиральная машина сломалась.",
+      "uses": ["n263", "v121"],
+      "level": 14,
+      "canonical": "Pesukone rikkoutui.",
+      "accepted": ["Pesukone rikkoutui."],
+      "wrong": [
+        { "match": "pesukone rikkoutuu", "ru": "О случившемся — имперфект rikkoutui (а не настоящее rikkoutuu)." }
+      ],
+      "teaches": "imperfect 3sg (rikkoutui)",
+      "needs_review": false
+    },
+    {
+      "id": "s505",
+      "ru": "Отопление не работает.",
+      "uses": ["n318", "f6", "v122"],
+      "level": 14,
+      "canonical": "Lämmitys ei toimi.",
+      "accepted": ["Lämmitys ei toimi."],
+      "wrong": [
+        { "match": "lämmitys ei toimii", "ru": "После ei — коннегатив toimi (без -i)." }
+      ],
+      "teaches": "negation + connegative (toimia) + household",
+      "needs_review": false
+    },
+    {
+      "id": "s506",
+      "ru": "В лифте неисправность.",
+      "uses": ["n320", "v1", "n323"],
+      "level": 14,
+      "canonical": "Hississä on vika.",
+      "accepted": ["Hississä on vika."],
+      "wrong": [
+        { "match": "hississä on vikaa", "ru": "Исчисляемое существование — номинатив: vika (а не партитив vikaa)." },
+        { "match": "hississa on vika", "ru": "Гармония гласных: hississä (с ä)." }
+      ],
+      "teaches": "inessive (hissi) + existential nominative (vika)",
+      "needs_review": false
+    },
+    {
+      "id": "s507",
+      "ru": "Мы переезжаем завтра.",
+      "uses": ["v119", "f5"],
+      "level": 14,
+      "canonical": "Muutamme huomenna.",
+      "accepted": ["Muutamme huomenna.", "Me muutamme huomenna."],
+      "wrong": [
+        { "match": "muutimme huomenna", "ru": "Со словом huomenna — настоящее в роли будущего: muutamme (а не имперфект muutimme)." }
+      ],
+      "teaches": "future-via-present (muutamme) + household/moving",
+      "needs_review": false
+    },
+    {
+      "id": "s508",
+      "ru": "Я упаковал коробки.",
+      "uses": ["v123", "n316"],
+      "level": 14,
+      "canonical": "Pakkasin muuttolaatikot.",
+      "accepted": ["Pakkasin muuttolaatikot.", "Minä pakkasin muuttolaatikot."],
+      "wrong": [
+        { "match": "pakkaasin muuttolaatikot", "ru": "Имперфект pakata — pakkasin (а не «pakkaasin»)." },
+        { "match": "pakkasin muuttolaatikkoja", "ru": "Конкретные коробки целиком — номинатив мн.ч.: muuttolaatikot." }
+      ],
+      "teaches": "imperfect (pakkasin) + total object plural",
+      "needs_review": false
+    },
+    {
+      "id": "s509",
+      "ru": "Я звоню арендодателю.",
+      "uses": ["v45", "n315"],
+      "level": 14,
+      "canonical": "Soitan vuokranantajalle.",
+      "accepted": ["Soitan vuokranantajalle.", "Minä soitan vuokranantajalle."],
+      "wrong": [
+        { "match": "soitan vuokranantajaa", "ru": "soittaa (звонить кому) управляет аллативом: vuokranantajalle (-lle)." },
+        { "match": "soitan vuokranantajan", "ru": "Адресат звонка — аллатив: vuokranantajalle." }
+      ],
+      "teaches": "soittaa + allative recipient (vuokranantaja)",
+      "needs_review": false
+    },
+    {
+      "id": "s510",
+      "ru": "Я плачу счёт.",
+      "uses": ["v16", "n324"],
+      "level": 14,
+      "canonical": "Maksan laskun.",
+      "accepted": ["Maksan laskun.", "Minä maksan laskun."],
+      "wrong": [
+        { "match": "maksan lasku", "ru": "Полный объект — генитив: laskun." },
+        { "match": "maksan laskua", "ru": "Счёт оплачен целиком — тотальный объект laskun (laskua = частично/процесс)." }
+      ],
+      "teaches": "object contrast: total object (lasku)",
+      "needs_review": false
+    },
+    {
+      "id": "s511",
+      "ru": "Я живу на третьем этаже.",
+      "uses": ["v7", "f68", "n319"],
+      "level": 14,
+      "canonical": "Asun kolmannessa kerroksessa.",
+      "accepted": ["Asun kolmannessa kerroksessa.", "Minä asun kolmannessa kerroksessa."],
+      "wrong": [
+        { "match": "asun kolmas kerros", "ru": "«На каком этаже» — инессив, порядковое согласуется: kolmannessa kerroksessa." },
+        { "match": "asun kolmannessa kerros", "ru": "Существительное тоже в инессиве: kerroksessa." }
+      ],
+      "teaches": "ordinal agreement in inessive (kerros)",
+      "needs_review": false
+    },
+    {
+      "id": "s512",
+      "ru": "Квартира сырая.",
+      "uses": ["n322", "v1", "a81"],
+      "level": 14,
+      "canonical": "Asunto on kostea.",
+      "accepted": ["Asunto on kostea."],
+      "wrong": [
+        { "match": "asunto on kosteaa", "ru": "Подлежащее исчисляемое (asunto) — предикатив в номинативе: kostea." }
+      ],
+      "teaches": "predicative nominative (kostea)",
+      "needs_review": false
+    },
+    {
+      "id": "s513",
+      "ru": "Я бы помог тебе, если бы мог.",
+      "uses": ["v28", "p2", "f30", "v18"],
+      "level": 14,
+      "canonical": "Auttaisin sinua, jos voisin.",
+      "accepted": ["Auttaisin sinua, jos voisin.", "Minä auttaisin sinua, jos voisin."],
+      "wrong": [
+        { "match": "autan sinua, jos voisin", "ru": "Главная часть — кондиционал: auttaisin (а не настоящее autan)." },
+        { "match": "auttaisin sinun, jos voisin", "ru": "auttaa управляет партитивом: sinua (а не генитив sinun)." }
+      ],
+      "teaches": "conditional hypothetical (auttaisin ... voisin)",
+      "needs_review": false
+    },
+    {
+      "id": "s514",
+      "ru": "Квартиру покрасили.",
+      "uses": ["n322", "v115"],
+      "level": 14,
+      "canonical": "Asunto maalattiin.",
+      "accepted": ["Asunto maalattiin."],
+      "wrong": [
+        { "match": "asunto maalasi", "ru": "«Покрасили» (безлично) — пассив прошедшего maalattiin (а не активный maalasi)." }
+      ],
+      "teaches": "passive past (maalattiin)",
+      "needs_review": false
     }
   ]
 }

@@ -500,7 +500,28 @@
     {"id":"v119","fi":"muuttaa","ru":"переезжать / менять","pos":"verb","level":13,"verb_type":1,
       "present":{"minä":"muutan","sinä":"muutat","hän":"muuttaa","me":"muutamme","te":"muutatte","he":"muuttavat"},
       "past_1sg":"muutin","past_3sg":"muutti","conneg":"muuta",
-      "notes":"Gradation tt->t: muuTTaa but muuTan. Переезд: направление в иллативе: 'Muutin Suomeen' = Я переехал в Финляндию. Перфект 'olen muuttanut'. Также «менять что-то».","needs_review":false}
+      "notes":"Gradation tt->t: muuTTaa but muuTan. Переезд: направление в иллативе: 'Muutin Suomeen' = Я переехал в Финляндию. Перфект 'olen muuttanut'. Также «менять что-то».","needs_review":false},
+
+    {"id":"v120","fi":"vuotaa","ru":"течь / протекать","pos":"verb","level":14,"verb_type":1,
+      "present":{"minä":"vuodan","sinä":"vuodat","hän":"vuotaa","me":"vuodamme","te":"vuodatte","he":"vuotavat"},
+      "past_1sg":"vuosin","past_3sg":"vuoti","conneg":"vuoda",
+      "notes":"Gradation t->d: vuoTaa but vuoDan. Обычно 3 л.: 'Hana vuotaa' = Кран течёт; 'Katto vuotaa' = Крыша протекает.","needs_review":false},
+    {"id":"v121","fi":"rikkoutua","ru":"ломаться","pos":"verb","level":14,"verb_type":1,
+      "present":{"minä":"rikkoudun","sinä":"rikkoudut","hän":"rikkoutuu","me":"rikkoudumme","te":"rikkoudutte","he":"rikkoutuvat"},
+      "past_1sg":"rikkouduin","past_3sg":"rikkoutui","conneg":"rikkoudu",
+      "notes":"Gradation t->d: rikkouTuu but rikkouDun. Обычно 3 л.: 'Pesukone rikkoutui' = Стиральная машина сломалась. Синоним mennä rikki.","needs_review":false},
+    {"id":"v122","fi":"toimia","ru":"работать (о приборе) / действовать","pos":"verb","level":14,"verb_type":1,
+      "present":{"minä":"toimin","sinä":"toimit","hän":"toimii","me":"toimimme","te":"toimitte","he":"toimivat"},
+      "past_1sg":"toimin","past_3sg":"toimi","conneg":"toimi",
+      "notes":"No gradation. О приборах: 'Lamppu ei toimi' = Лампа не работает; 'Hissi toimii' = Лифт работает. Past 1sg toimin совпадает с настоящим.","needs_review":false},
+    {"id":"v123","fi":"pakata","ru":"упаковывать / собирать вещи","pos":"verb","level":14,"verb_type":4,
+      "present":{"minä":"pakkaan","sinä":"pakkaat","hän":"pakkaa","me":"pakkaamme","te":"pakkaatte","he":"pakkaavat"},
+      "past_1sg":"pakkasin","past_3sg":"pakkasi","conneg":"pakkaa",
+      "notes":"Type 4 (-ata), gradation k->kk: pakaTa but paKKaan. 'Pakkaan laatikot' = Я упаковываю коробки. Имперфект pakkasin.","needs_review":false},
+    {"id":"v124","fi":"voittaa","ru":"выигрывать / побеждать","pos":"verb","level":14,"verb_type":1,
+      "present":{"minä":"voitan","sinä":"voitat","hän":"voittaa","me":"voitamme","te":"voitatte","he":"voittavat"},
+      "past_1sg":"voitin","past_3sg":"voitti","conneg":"voita",
+      "notes":"Gradation tt->t: voiTTaa but voiTan. 'Voitin pelin' = Я выиграл матч; 'Jos voittaisin lotossa' = Если бы я выиграл в лото. Antonym hävitä.","needs_review":false}
   ],
 
   "nouns": [
@@ -839,7 +860,21 @@
     {"id":"n308","fi":"muisto","ru":"воспоминание","pos":"noun","level":13,"gen_sg":"muiston","part_sg":"muistoa","iness_sg":"muistossa","illat_sg":"muistoon","notes":"No gradation. От muistaa. 'kaunis muisto' = красивое воспоминание. Plural muistot = воспоминания.","needs_review":false},
     {"id":"n309","fi":"menneisyys","ru":"прошлое","pos":"noun","level":13,"gen_sg":"menneisyyden","part_sg":"menneisyyttä","iness_sg":"menneisyydessä","illat_sg":"menneisyyteen","notes":"-uus/-yys noun, основа menneisyyde-: gen menneisyyden, part menneisyyttä. 'menneisyydessä' = в прошлом. Antonym tulevaisuus.","needs_review":false},
     {"id":"n310","fi":"tarina","ru":"история / рассказ","pos":"noun","level":13,"gen_sg":"tarinan","part_sg":"tarinaa","iness_sg":"tarinassa","illat_sg":"tarinaan","notes":"No gradation. 'Kerron tarinan' = Я рассказываю историю. 'elämäni tarina' = история моей жизни.","needs_review":false},
-    {"id":"n311","fi":"kokemus","ru":"опыт / переживание","pos":"noun","level":13,"gen_sg":"kokemuksen","part_sg":"kokemusta","iness_sg":"kokemuksessa","illat_sg":"kokemukseen","notes":"-us noun, основа kokemukse-: gen kokemuksen, part kokemusta. 'hyvä kokemus' = хороший опыт.","needs_review":false}
+    {"id":"n311","fi":"kokemus","ru":"опыт / переживание","pos":"noun","level":13,"gen_sg":"kokemuksen","part_sg":"kokemusta","iness_sg":"kokemuksessa","illat_sg":"kokemukseen","notes":"-us noun, основа kokemukse-: gen kokemuksen, part kokemusta. 'hyvä kokemus' = хороший опыт.","needs_review":false},
+
+    {"id":"n312","fi":"hana","ru":"кран (водопроводный)","pos":"noun","level":14,"gen_sg":"hanan","part_sg":"hanaa","iness_sg":"hanassa","illat_sg":"hanaan","notes":"No gradation. 'Hana vuotaa' = Кран течёт.","needs_review":false},
+    {"id":"n313","fi":"putki","ru":"труба","pos":"noun","level":14,"gen_sg":"putken","part_sg":"putkea","iness_sg":"putkessa","illat_sg":"putkeen","notes":"Gradation tk->tk сохраняется в основе putke-: gen putken, part putkea. 'Putki vuotaa' = Труба протекает.","needs_review":false},
+    {"id":"n314","fi":"korjaaja","ru":"мастер / ремонтник","pos":"noun","level":14,"gen_sg":"korjaajan","part_sg":"korjaajaa","iness_sg":"korjaajassa","illat_sg":"korjaajaan","notes":"No gradation (vowel-final stem). От korjata. 'Soitan korjaajalle' = Я звоню мастеру (аллатив).","needs_review":false},
+    {"id":"n315","fi":"vuokranantaja","ru":"арендодатель / хозяин квартиры","pos":"noun","level":14,"gen_sg":"vuokranantajan","part_sg":"vuokranantajaa","iness_sg":"vuokranantajassa","illat_sg":"vuokranantajaan","notes":"vuokra + antaja. No gradation. 'Soitan vuokranantajalle' = Я звоню арендодателю.","needs_review":false},
+    {"id":"n316","fi":"muuttolaatikko","ru":"коробка для переезда","pos":"noun","level":14,"gen_sg":"muuttolaatikon","part_sg":"muuttolaatikkoa","iness_sg":"muuttolaatikossa","illat_sg":"muuttolaatikkoon","notes":"muutto + laatikko. Gradation kk->k: muuttolaatiKKo but muuttolaatiKon. 'Pakkaan muuttolaatikot' = Я упаковываю коробки.","needs_review":false},
+    {"id":"n317","fi":"sähkö","ru":"электричество","pos":"noun","level":14,"gen_sg":"sähkön","part_sg":"sähköä","iness_sg":"sähkössä","illat_sg":"sähköön","notes":"No gradation. Front-harmony (ö). 'Sähkö ei toimi' = Электричество не работает. 'sähkölasku' = счёт за электричество.","needs_review":false},
+    {"id":"n318","fi":"lämmitys","ru":"отопление","pos":"noun","level":14,"gen_sg":"lämmityksen","part_sg":"lämmitystä","iness_sg":"lämmityksessä","illat_sg":"lämmitykseen","notes":"-ys noun, основа lämmitykse-: gen lämmityksen, part lämmitystä. 'Lämmitys ei toimi' = Отопление не работает.","needs_review":false},
+    {"id":"n319","fi":"kerros","ru":"этаж","pos":"noun","level":14,"gen_sg":"kerroksen","part_sg":"kerrosta","iness_sg":"kerroksessa","illat_sg":"kerrokseen","notes":"-s noun, основа kerrokse-: gen kerroksen, part kerrosta. 'kolmas kerros' = третий этаж. 'Asun kolmannessa kerroksessa'.","needs_review":false},
+    {"id":"n320","fi":"hissi","ru":"лифт","pos":"noun","level":14,"gen_sg":"hissin","part_sg":"hissiä","iness_sg":"hississä","illat_sg":"hissiin","notes":"No gradation. 'Hissi on rikki' = Лифт сломан. 'Menen hissillä' = Я еду на лифте (адессив).","needs_review":false},
+    {"id":"n321","fi":"lotto","ru":"лото / лотерея","pos":"noun","level":14,"gen_sg":"loton","part_sg":"lottoa","iness_sg":"lotossa","illat_sg":"lottoon","notes":"Gradation tt->t: loTTo but loTon. 'Voitin lotossa' = Я выиграл в лото (инессив lotossa в этой идиоме).","needs_review":false},
+    {"id":"n322","fi":"asunto","ru":"квартира / жильё","pos":"noun","level":14,"gen_sg":"asunnon","part_sg":"asuntoa","iness_sg":"asunnossa","illat_sg":"asuntoon","notes":"Gradation nt->nn: asuNTo but asuNNon. 'Vuokraan asunnon' = Я снимаю квартиру. 'asunnossa' = в квартире.","needs_review":false},
+    {"id":"n323","fi":"vika","ru":"неисправность / дефект","pos":"noun","level":14,"gen_sg":"vian","part_sg":"vikaa","iness_sg":"viassa","illat_sg":"vikaan","notes":"Gradation k->(zero): viKa but vian. 'Hississä on vika' = В лифте неисправность.","needs_review":false},
+    {"id":"n324","fi":"lasku","ru":"счёт (к оплате)","pos":"noun","level":14,"gen_sg":"laskun","part_sg":"laskua","iness_sg":"laskussa","illat_sg":"laskuun","notes":"No gradation. 'Maksan laskun' = Я оплачиваю счёт. 'sähkölasku' = счёт за электричество.","needs_review":false}
   ],
 
   "adjectives": [
@@ -930,7 +965,10 @@
     {"id":"a76","fi":"pettynyt","ru":"разочарованный","pos":"adj","level":12,"gen_sg":"pettyneen","part_sg":"pettynyttä","notes":"-nyt причастие-прил., основа pettynee-: gen pettyneen, part pettynyttä. 'Olen pettynyt' = Я разочарован.","needs_review":false},
     {"id":"a77","fi":"ylpeä","ru":"гордый","pos":"adj","level":12,"gen_sg":"ylpeän","part_sg":"ylpeää","notes":"No gradation. Управляет элативом: 'Olen ylpeä sinusta' = Я горжусь тобой.","needs_review":false},
     {"id":"a78","fi":"rentoutunut","ru":"расслабленный","pos":"adj","level":12,"gen_sg":"rentoutuneen","part_sg":"rentoutunutta","notes":"-nut причастие-прил., основа rentoutunee-: gen rentoutuneen, part rentoutunutta. 'Olen rentoutunut' = Я расслаблен.","needs_review":false},
-    {"id":"a79","fi":"terveellinen","ru":"полезный (для здоровья)","pos":"adj","level":12,"gen_sg":"terveellisen","part_sg":"terveellistä","notes":"-nen adj, основа terveellise-: gen terveellisen, part terveellistä. 'Ruoka on terveellistä' = Еда полезная (вещество -> партитив). От terveys.","needs_review":false}
+    {"id":"a79","fi":"terveellinen","ru":"полезный (для здоровья)","pos":"adj","level":12,"gen_sg":"terveellisen","part_sg":"terveellistä","notes":"-nen adj, основа terveellise-: gen terveellisen, part terveellistä. 'Ruoka on terveellistä' = Еда полезная (вещество -> партитив). От terveys.","needs_review":false},
+
+    {"id":"a80","fi":"rikki","ru":"сломанный (сломан)","pos":"adj","level":14,"part_sg":"rikki","notes":"Indeclinable predicative adverb (как auki/kiinni): 'Hissi on rikki' = Лифт сломан. 'mennä rikki' = сломаться.","needs_review":false},
+    {"id":"a81","fi":"kostea","ru":"влажный / сырой","pos":"adj","level":14,"gen_sg":"kostean","part_sg":"kosteaa","notes":"No gradation. 'kostea seinä' = сырая стена; 'Asunto on kostea' = Квартира сырая.","needs_review":false}
   ],
 
   "function_words": [

@@ -3859,6 +3859,177 @@
           "needs_review": false
         }
       ]
+    },
+    {
+      "id": "t90",
+      "title": "Muutto uuteen asuntoon",
+      "titleRu": "Переезд в новую квартиру",
+      "level": 14,
+      "type": "text",
+      "lines": [
+        { "fi": "Muutimme viime viikolla uuteen asuntoon.", "ru": "Мы переехали на прошлой неделе в новую квартиру.", "glosses": { "muutimme": "мы переехали", "viime": "прошлой", "viikolla": "на неделе", "uuteen": "в новую", "asuntoon": "квартиру" } },
+        { "fi": "Pakkasin kaikki muuttolaatikot itse.", "ru": "Я сам упаковал все коробки.", "glosses": { "pakkasin": "я упаковал", "kaikki": "все", "muuttolaatikot": "коробки", "itse": "сам" } },
+        { "fi": "Uusi asunto on kolmannessa kerroksessa.", "ru": "Новая квартира на третьем этаже.", "glosses": { "uusi": "новая", "asunto": "квартира", "on": "есть", "kolmannessa": "на третьем", "kerroksessa": "этаже" } },
+        { "fi": "Onneksi talossa on hissi.", "ru": "К счастью, в доме есть лифт.", "glosses": { "onneksi": "к счастью", "talossa": "в доме", "on": "есть", "hissi": "лифт" } },
+        { "fi": "Jos minulla olisi enemmän rahaa, ostaisin oman asunnon.", "ru": "Если бы у меня было больше денег, я бы купил свою квартиру.", "glosses": { "jos": "если", "minulla": "у меня", "olisi": "было бы", "enemmän": "больше", "rahaa": "денег", "ostaisin": "я бы купил", "oman": "свою", "asunnon": "квартиру" } }
+      ],
+      "questions": [
+        {
+          "id": "t90q1",
+          "q": "Milloin kertoja muutti?",
+          "qRu": "Когда рассказчик переехал?",
+          "canonical": "Viime viikolla.",
+          "accepted": ["Viime viikolla.", "Hän muutti viime viikolla.", "Muutin viime viikolla."],
+          "wrong": [{ "match": "huomenna", "ru": "Переехал на прошлой неделе (viime viikolla), а не завтра." }],
+          "needs_review": false
+        },
+        {
+          "id": "t90q2",
+          "q": "Missä kerroksessa uusi asunto on?",
+          "qRu": "На каком этаже новая квартира?",
+          "canonical": "Kolmannessa.",
+          "accepted": ["Kolmannessa.", "Kolmannessa kerroksessa.", "Se on kolmannessa kerroksessa."],
+          "wrong": [{ "match": "ensimmäisessä", "ru": "Квартира на третьем этаже (kolmannessa)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t90q3",
+          "q": "Mitä kertoja tekisi, jos olisi enemmän rahaa?",
+          "qRu": "Что рассказчик сделал бы, будь у него больше денег?",
+          "canonical": "Ostaisi oman asunnon.",
+          "accepted": ["Ostaisi oman asunnon.", "Hän ostaisi oman asunnon.", "Ostaisin oman asunnon."],
+          "wrong": [{ "match": "muuttaisi pois", "ru": "Купил бы свою квартиру (ostaisi oman asunnon)." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t91",
+      "title": "Kodin ongelmat",
+      "titleRu": "Проблемы в доме",
+      "level": 14,
+      "type": "text",
+      "lines": [
+        { "fi": "Asunnossani on tällä viikolla monta ongelmaa.", "ru": "В моей квартире на этой неделе много проблем.", "glosses": { "asunnossani": "в моей квартире", "on": "есть", "tällä": "на этой", "viikolla": "неделе", "monta": "много", "ongelmaa": "проблем (партитив)" } },
+        { "fi": "Keittiön hana vuotaa ja lamppu ei toimi.", "ru": "Кран на кухне течёт, и лампа не работает.", "glosses": { "keittiön": "кухни", "hana": "кран", "vuotaa": "течёт", "ja": "и", "lamppu": "лампа", "ei": "не", "toimi": "работает" } },
+        { "fi": "Hissi on rikki, ja minä asun korkealla.", "ru": "Лифт сломан, а я живу высоко.", "glosses": { "hissi": "лифт", "on": "есть", "rikki": "сломан", "ja": "и", "minä": "я", "asun": "я живу", "korkealla": "высоко" } },
+        { "fi": "Soitin vuokranantajalle, ja korjaaja tulee huomenna.", "ru": "Я позвонил арендодателю, и мастер придёт завтра.", "glosses": { "soitin": "я позвонил", "vuokranantajalle": "арендодателю", "ja": "и", "korjaaja": "мастер", "tulee": "придёт", "huomenna": "завтра" } }
+      ],
+      "questions": [
+        {
+          "id": "t91q1",
+          "q": "Mikä keittiössä vuotaa?",
+          "qRu": "Что течёт на кухне?",
+          "canonical": "Hana.",
+          "accepted": ["Hana.", "Keittiön hana.", "Hana vuotaa."],
+          "wrong": [{ "match": "putki", "ru": "Течёт кран (hana), а лампа не работает." }],
+          "needs_review": false
+        },
+        {
+          "id": "t91q2",
+          "q": "Toimiiko hissi?",
+          "qRu": "Лифт работает?",
+          "canonical": "Ei, se on rikki.",
+          "accepted": ["Ei, se on rikki.", "Ei.", "Se on rikki.", "Hissi on rikki."],
+          "wrong": [{ "match": "kyllä", "ru": "Лифт сломан (rikki)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t91q3",
+          "q": "Kenelle kertoja soitti?",
+          "qRu": "Кому позвонил рассказчик?",
+          "canonical": "Vuokranantajalle.",
+          "accepted": ["Vuokranantajalle.", "Hän soitti vuokranantajalle.", "Soitin vuokranantajalle."],
+          "wrong": [{ "match": "korjaajalle", "ru": "Позвонил арендодателю (vuokranantajalle); мастер придёт завтра." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t92",
+      "title": "Vuokranantaja soittaa",
+      "titleRu": "Звонит арендодатель",
+      "level": 14,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Vuokranantaja", "fi": "Hei! Soitan asuntonne remontista.", "ru": "Здравствуйте! Звоню по поводу ремонта вашей квартиры.", "glosses": { "hei": "здравствуйте", "soitan": "я звоню", "asuntonne": "вашей квартиры", "remontista": "о ремонте (элатив)" } },
+        { "speaker": "Asukas", "fi": "Hyvä! Hana on vuotanut jo viikon.", "ru": "Хорошо! Кран течёт уже неделю.", "glosses": { "hyvä": "хорошо", "hana": "кран", "on": "есть", "vuotanut": "тёк (причастие)", "jo": "уже", "viikon": "неделю" } },
+        { "speaker": "Vuokranantaja", "fi": "Korjaaja tulee huomenna. Toimiiko lämmitys?", "ru": "Мастер придёт завтра. Отопление работает?", "glosses": { "korjaaja": "мастер", "tulee": "придёт", "huomenna": "завтра", "toimiiko": "работает ли", "lämmitys": "отопление" } },
+        { "speaker": "Asukas", "fi": "Ei toimi. Asunto on kylmä.", "ru": "Не работает. В квартире холодно.", "glosses": { "ei": "не", "toimi": "работает", "asunto": "квартира", "on": "есть", "kylmä": "холодная" } },
+        { "speaker": "Vuokranantaja", "fi": "Selvä, korjaaja katsoo myös lämmityksen.", "ru": "Ясно, мастер посмотрит и отопление.", "glosses": { "selvä": "ясно", "korjaaja": "мастер", "katsoo": "посмотрит", "myös": "также", "lämmityksen": "отопление (объект)" } }
+      ],
+      "questions": [
+        {
+          "id": "t92q1",
+          "q": "Mistä vuokranantaja soittaa?",
+          "qRu": "По какому поводу звонит арендодатель?",
+          "canonical": "Remontista.",
+          "accepted": ["Remontista.", "Asunnon remontista.", "Hän soittaa remontista."],
+          "wrong": [{ "match": "vuokrasta", "ru": "Звонит по поводу ремонта (remontista), не об аренде." }],
+          "needs_review": false
+        },
+        {
+          "id": "t92q2",
+          "q": "Kuinka kauan hana on vuotanut?",
+          "qRu": "Как долго течёт кран?",
+          "canonical": "Viikon.",
+          "accepted": ["Viikon.", "Jo viikon.", "Hana on vuotanut viikon."],
+          "wrong": [{ "match": "päivän", "ru": "Кран течёт уже неделю (viikon)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t92q3",
+          "q": "Toimiiko lämmitys?",
+          "qRu": "Отопление работает?",
+          "canonical": "Ei toimi.",
+          "accepted": ["Ei toimi.", "Ei.", "Ei, asunto on kylmä."],
+          "wrong": [{ "match": "kyllä", "ru": "Отопление не работает — в квартире холодно." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t93",
+      "title": "Jos voittaisin lotossa",
+      "titleRu": "Если бы я выиграл в лото",
+      "level": 14,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Ville", "fi": "Mitä tekisit, jos voittaisit lotossa?", "ru": "Что бы ты сделал, если бы выиграл в лото?", "glosses": { "mitä": "что", "tekisit": "ты бы сделал", "jos": "если", "voittaisit": "ты бы выиграл", "lotossa": "в лото" } },
+        { "speaker": "Aino", "fi": "Ostaisin ison asunnon ja matkustaisin maailmalle.", "ru": "Я бы купила большую квартиру и поехала путешествовать по миру.", "glosses": { "ostaisin": "я бы купила", "ison": "большую", "asunnon": "квартиру", "ja": "и", "matkustaisin": "я бы путешествовала", "maailmalle": "по миру" } },
+        { "speaker": "Ville", "fi": "Lopettaisitko työt?", "ru": "Ты бы бросила работу?", "glosses": { "lopettaisitko": "бросила бы ты", "työt": "работу" } },
+        { "speaker": "Aino", "fi": "En lopettaisi, mutta tekisin vähemmän töitä.", "ru": "Не бросила бы, но работала бы меньше.", "glosses": { "en": "я не", "lopettaisi": "бросила бы", "mutta": "но", "tekisin": "я бы делала", "vähemmän": "меньше", "töitä": "работы" } },
+        { "speaker": "Ville", "fi": "Hyvä idea! Minä auttaisin köyhiä.", "ru": "Хорошая идея! Я бы помогал бедным.", "glosses": { "hyvä": "хорошая", "idea": "идея", "minä": "я", "auttaisin": "я бы помогал", "köyhiä": "бедным" } }
+      ],
+      "questions": [
+        {
+          "id": "t93q1",
+          "q": "Mitä Aino ostaisi?",
+          "qRu": "Что купила бы Айно?",
+          "canonical": "Ison asunnon.",
+          "accepted": ["Ison asunnon.", "Hän ostaisi ison asunnon.", "Ostaisin ison asunnon.", "Asunnon."],
+          "wrong": [{ "match": "auton", "ru": "Айно купила бы большую квартиру (ison asunnon)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t93q2",
+          "q": "Lopettaisiko Aino työt?",
+          "qRu": "Бросила бы Айно работу?",
+          "canonical": "Ei lopettaisi.",
+          "accepted": ["Ei lopettaisi.", "Ei.", "Ei, mutta tekisi vähemmän töitä."],
+          "wrong": [{ "match": "kyllä", "ru": "Айно говорит «En lopettaisi» — не бросила бы." }],
+          "needs_review": false
+        },
+        {
+          "id": "t93q3",
+          "q": "Mitä Ville tekisi?",
+          "qRu": "Что сделал бы Вилле?",
+          "canonical": "Auttaisi köyhiä.",
+          "accepted": ["Auttaisi köyhiä.", "Hän auttaisi köyhiä.", "Auttaisin köyhiä."],
+          "wrong": [{ "match": "ostaisi asunnon", "ru": "Вилле помогал бы бедным (auttaisi köyhiä)." }],
+          "needs_review": false
+        }
+      ]
     }
   ]
 }
