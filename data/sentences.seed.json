@@ -7293,6 +7293,353 @@
       ],
       "teaches": "passive past (maalattiin)",
       "needs_review": false
+    },
+
+    {
+      "id": "s515",
+      "ru": "Пожарь рыбу.",
+      "uses": ["v125", "n35"],
+      "level": 15,
+      "canonical": "Paista kala.",
+      "accepted": ["Paista kala.", "Paista kalaa."],
+      "wrong": [
+        { "match": "paistat kala", "ru": "Повелительное «ты» — Paista! без -t." }
+      ],
+      "teaches": "imperative recipe (paista) + object",
+      "needs_review": false
+    },
+    {
+      "id": "s516",
+      "ru": "Свари воду.",
+      "uses": ["v126", "n11"],
+      "level": 15,
+      "canonical": "Keitä vesi.",
+      "accepted": ["Keitä vesi.", "Keitä vettä."],
+      "wrong": [
+        { "match": "keität vesi", "ru": "Повелительное «ты» — Keitä! без -t." }
+      ],
+      "teaches": "imperative recipe (keitä) + object",
+      "needs_review": false
+    },
+    {
+      "id": "s517",
+      "ru": "Смешай ингредиенты.",
+      "uses": ["v127", "n325"],
+      "level": 15,
+      "canonical": "Sekoita ainesosat.",
+      "accepted": ["Sekoita ainesosat."],
+      "wrong": [
+        { "match": "sekoitat ainesosat", "ru": "Повелительное «ты» — Sekoita! без -t." },
+        { "match": "sekoita ainesosa", "ru": "Все ингредиенты — множественное: ainesosat." }
+      ],
+      "teaches": "imperative recipe (sekoita) + total object plural",
+      "needs_review": false
+    },
+    {
+      "id": "s518",
+      "ru": "Добавь соли.",
+      "uses": ["v129", "n171"],
+      "level": 15,
+      "canonical": "Lisää suolaa.",
+      "accepted": ["Lisää suolaa."],
+      "wrong": [
+        { "match": "lisää suola", "ru": "Вещество в количестве — партитив: suolaa." },
+        { "match": "lisäät suolaa", "ru": "Повелительное «ты» — Lisää! без -t." }
+      ],
+      "teaches": "imperative recipe (lisää) + partitive mass",
+      "needs_review": false
+    },
+    {
+      "id": "s519",
+      "ru": "Я режу лук.",
+      "uses": ["v128", "n298"],
+      "level": 15,
+      "canonical": "Leikkaan sipulia.",
+      "accepted": ["Leikkaan sipulia.", "Minä leikkaan sipulia."],
+      "wrong": [
+        { "match": "leikkaan sipuli", "ru": "Объект процесса — партитив: sipulia." },
+        { "match": "leikaan sipulia", "ru": "Основа leikkaa- (k->kk): leikkaan." }
+      ],
+      "teaches": "leikata + partitive object",
+      "needs_review": false
+    },
+    {
+      "id": "s520",
+      "ru": "Я пробую суп.",
+      "uses": ["v130", "n206"],
+      "level": 15,
+      "canonical": "Maistan keittoa.",
+      "accepted": ["Maistan keittoa.", "Minä maistan keittoa."],
+      "wrong": [
+        { "match": "maistan keitto", "ru": "Объект процесса — партитив: keittoa." }
+      ],
+      "teaches": "maistaa + partitive object",
+      "needs_review": false
+    },
+    {
+      "id": "s521",
+      "ru": "Я плачу на кассе.",
+      "uses": ["v16", "n118"],
+      "level": 15,
+      "canonical": "Maksan kassalla.",
+      "accepted": ["Maksan kassalla.", "Minä maksan kassalla."],
+      "wrong": [
+        { "match": "maksan kassassa", "ru": "На кассе — адессив: kassalla (а не инессив kassassa)." }
+      ],
+      "teaches": "maksaa + adessive location (kassa)",
+      "needs_review": false
+    },
+    {
+      "id": "s522",
+      "ru": "Я взвешиваю яблоки.",
+      "uses": ["v131", "n164"],
+      "level": 15,
+      "canonical": "Punnitsen omenat.",
+      "accepted": ["Punnitsen omenat.", "Minä punnitsen omenat."],
+      "wrong": [
+        { "match": "punnitan omenat", "ru": "Тип 5, основа punnitse-: punnitsen (а не «punnitan»)." },
+        { "match": "punnitsen omenoita", "ru": "Конкретные яблоки целиком — номинатив мн.ч.: omenat." }
+      ],
+      "teaches": "punnita + total object plural (omena)",
+      "needs_review": false
+    },
+    {
+      "id": "s523",
+      "ru": "Я составляю список покупок.",
+      "uses": ["v10", "n328"],
+      "level": 15,
+      "canonical": "Teen ostoslistan.",
+      "accepted": ["Teen ostoslistan.", "Minä teen ostoslistan."],
+      "wrong": [
+        { "match": "teen ostoslista", "ru": "Полный объект — генитив: ostoslistan." }
+      ],
+      "teaches": "tehdä + total object (ostoslista)",
+      "needs_review": false
+    },
+    {
+      "id": "s524",
+      "ru": "Очередь на кассе длинная.",
+      "uses": ["n329", "v1", "a17"],
+      "level": 15,
+      "canonical": "Kassajono on pitkä.",
+      "accepted": ["Kassajono on pitkä."],
+      "wrong": [
+        { "match": "kassajono on pitkää", "ru": "Подлежащее исчисляемое — предикатив в номинативе: pitkä." }
+      ],
+      "teaches": "predicative nominative (kassajono)",
+      "needs_review": false
+    },
+    {
+      "id": "s525",
+      "ru": "У меня симптомы.",
+      "uses": ["p1", "v1", "n331"],
+      "level": 15,
+      "canonical": "Minulla on oireita.",
+      "accepted": ["Minulla on oireita."],
+      "wrong": [
+        { "match": "minulla on oireet", "ru": "Неопределённое количество — партитив мн.ч.: oireita." }
+      ],
+      "teaches": "adessive possession + partitive plural (oire)",
+      "needs_review": false
+    },
+    {
+      "id": "s526",
+      "ru": "Я записываюсь к стоматологу.",
+      "uses": ["v71", "n183", "n330"],
+      "level": 15,
+      "canonical": "Varaan ajan hammaslääkärille.",
+      "accepted": ["Varaan ajan hammaslääkärille.", "Minä varaan ajan hammaslääkärille."],
+      "wrong": [
+        { "match": "varaan ajan hammaslääkäriin", "ru": "Запись «кому» — аллатив: hammaslääkärille (-lle)." },
+        { "match": "varaan aika hammaslääkärille", "ru": "Объект-целиком — генитив: ajan (aika -> ajan)." }
+      ],
+      "teaches": "varata + allative (hammaslääkäri)",
+      "needs_review": false
+    },
+    {
+      "id": "s527",
+      "ru": "Мне нужна прививка.",
+      "uses": ["v56", "n332"],
+      "level": 15,
+      "canonical": "Tarvitsen rokotuksen.",
+      "accepted": ["Tarvitsen rokotuksen.", "Tarvitsen rokotusta.", "Minä tarvitsen rokotuksen."],
+      "wrong": [
+        { "match": "tarvitsen rokotus", "ru": "Объекту нужна падежная форма: rokotuksen (или партитив rokotusta)." }
+      ],
+      "teaches": "tarvita + object (rokotus) + inflection type",
+      "needs_review": false
+    },
+    {
+      "id": "s528",
+      "ru": "Приём врача в три.",
+      "uses": ["n60", "n333", "v1", "f17"],
+      "level": 15,
+      "canonical": "Lääkärin vastaanotto on kolmelta.",
+      "accepted": ["Lääkärin vastaanotto on kolmelta."],
+      "wrong": [
+        { "match": "lääkärin vastaanotto on kolme", "ru": "«В котором часу» — аблатив: kolmelta (а не kolme)." }
+      ],
+      "teaches": "vastaanotto + clock at X (kolmelta)",
+      "needs_review": false
+    },
+    {
+      "id": "s529",
+      "ru": "Плавание полезно.",
+      "uses": ["n337", "v1", "a79"],
+      "level": 15,
+      "canonical": "Uiminen on terveellistä.",
+      "accepted": ["Uiminen on terveellistä."],
+      "wrong": [
+        { "match": "uiminen on terveellinen", "ru": "Абстрактное подлежащее (uiminen) — предикатив в партитиве: terveellistä." }
+      ],
+      "teaches": "4th infinitive (uiminen) + predicative partitive",
+      "needs_review": false
+    },
+    {
+      "id": "s530",
+      "ru": "Мне нравится готовить.",
+      "uses": ["v21", "n338"],
+      "level": 15,
+      "canonical": "Pidän kokkaamisesta.",
+      "accepted": ["Pidän kokkaamisesta.", "Minä pidän kokkaamisesta."],
+      "wrong": [
+        { "match": "pidän kokkaamista", "ru": "pitää управляет элативом: kokkaamisesta (а не партитив kokkaamista)." }
+      ],
+      "teaches": "4th infinitive + pitää elative (kokkaaminen)",
+      "needs_review": false
+    },
+    {
+      "id": "s531",
+      "ru": "Бег трудный.",
+      "uses": ["n339", "v1", "a9"],
+      "level": 15,
+      "canonical": "Juokseminen on vaikeaa.",
+      "accepted": ["Juokseminen on vaikeaa."],
+      "wrong": [
+        { "match": "juokseminen on vaikea", "ru": "Абстрактное подлежащее (juokseminen) — предикатив в партитиве: vaikeaa." }
+      ],
+      "teaches": "4th infinitive (juokseminen) + predicative partitive",
+      "needs_review": false
+    },
+    {
+      "id": "s532",
+      "ru": "По-моему, здоровый рацион важен.",
+      "uses": ["p1", "a79", "n336", "v1", "a20"],
+      "level": 15,
+      "canonical": "Minusta terveellinen ruokavalio on tärkeää.",
+      "accepted": ["Minusta terveellinen ruokavalio on tärkeää."],
+      "wrong": [
+        { "match": "minä terveellinen ruokavalio on tärkeää", "ru": "«По-моему» — minusta (элатив), а не Minä." }
+      ],
+      "teaches": "opinion (minusta) + predicative partitive",
+      "needs_review": false
+    },
+    {
+      "id": "s533",
+      "ru": "Я хожу плавать каждую неделю.",
+      "uses": ["v63", "v42", "n41"],
+      "level": 15,
+      "canonical": "Käyn uimassa joka viikko.",
+      "accepted": ["Käyn uimassa joka viikko.", "Minä käyn uimassa joka viikko."],
+      "wrong": [
+        { "match": "käyn uida joka viikko", "ru": "После käydä — 3-й инфинитив uimassa (а не 1-й инфинитив uida)." },
+        { "match": "käyn uimaan joka viikko", "ru": "«Где/в процессе» — -massa (uimassa); -maan значит «куда»." }
+      ],
+      "teaches": "3rd infinitive (uimassa) after käydä",
+      "needs_review": false
+    },
+    {
+      "id": "s534",
+      "ru": "Я иду спать.",
+      "uses": ["v2", "v23"],
+      "level": 15,
+      "canonical": "Menen nukkumaan.",
+      "accepted": ["Menen nukkumaan.", "Minä menen nukkumaan."],
+      "wrong": [
+        { "match": "menen nukkua", "ru": "После mennä — 3-й инфинитив nukkumaan (а не 1-й инфинитив nukkua)." },
+        { "match": "menen nukkumassa", "ru": "Направление «куда» — -maan (nukkumaan); -massa значит «где»." }
+      ],
+      "teaches": "3rd infinitive (nukkumaan) after mennä",
+      "needs_review": false
+    },
+    {
+      "id": "s535",
+      "ru": "Я хожу в спортзал тренироваться.",
+      "uses": ["v63", "n334", "v132"],
+      "level": 15,
+      "canonical": "Käyn kuntosalilla treenaamassa.",
+      "accepted": ["Käyn kuntosalilla treenaamassa.", "Minä käyn kuntosalilla treenaamassa."],
+      "wrong": [
+        { "match": "käyn kuntosalilla treenata", "ru": "После käydä — 3-й инфинитив treenaamassa (а не 1-й treenata)." },
+        { "match": "käyn kuntosalissa treenaamassa", "ru": "Спортзал как место — адессив: kuntosalilla." }
+      ],
+      "teaches": "3rd infinitive (treenaamassa) + adessive",
+      "needs_review": false
+    },
+    {
+      "id": "s536",
+      "ru": "Я хожу на пробежку.",
+      "uses": ["v63", "n335"],
+      "level": 15,
+      "canonical": "Käyn lenkillä.",
+      "accepted": ["Käyn lenkillä.", "Minä käyn lenkillä."],
+      "wrong": [
+        { "match": "käyn lenkissä", "ru": "«На пробежке» — адессив: lenkillä (а не инессив lenkissä)." }
+      ],
+      "teaches": "käydä + adessive (lenkki)",
+      "needs_review": false
+    },
+    {
+      "id": "s537",
+      "ru": "Свари картошку и добавь соли.",
+      "uses": ["v126", "n165", "f1", "v129", "n171"],
+      "level": 15,
+      "canonical": "Keitä peruna ja lisää suolaa.",
+      "accepted": ["Keitä peruna ja lisää suolaa."],
+      "wrong": [
+        { "match": "keitä peruna ja lisää suola", "ru": "Вещество (соль) — партитив: suolaa." }
+      ],
+      "teaches": "imperative recipe (keitä/lisää) + objects",
+      "needs_review": false
+    },
+    {
+      "id": "s538",
+      "ru": "Прочитай рецепт, прежде чем готовить.",
+      "uses": ["v9", "n295", "v133"],
+      "level": 15,
+      "canonical": "Lue resepti ennen kuin kokkaat.",
+      "accepted": ["Lue resepti ennen kuin kokkaat."],
+      "wrong": [
+        { "match": "lue resepti koska kokkaat", "ru": "«Прежде чем» — ennen kuin (а не koska «потому что»)." }
+      ],
+      "teaches": "conjunction ennen kuin",
+      "needs_review": false
+    },
+    {
+      "id": "s539",
+      "ru": "Я ем не мясо, а рыбу.",
+      "uses": ["f6", "v3", "n166", "f109", "n35"],
+      "level": 15,
+      "canonical": "En syö lihaa vaan kalaa.",
+      "accepted": ["En syö lihaa vaan kalaa."],
+      "wrong": [
+        { "match": "en syö lihaa mutta kalaa", "ru": "После отрицания «а» — vaan (не mutta): En syö lihaa, vaan kalaa." }
+      ],
+      "teaches": "conjunction vaan (after negation) + partitive food",
+      "needs_review": false
+    },
+    {
+      "id": "s540",
+      "ru": "Мне нравится и плавание, и бег.",
+      "uses": ["v21", "f104", "n337", "f27", "n339"],
+      "level": 15,
+      "canonical": "Pidän sekä uimisesta että juoksemisesta.",
+      "accepted": ["Pidän sekä uimisesta että juoksemisesta."],
+      "wrong": [
+        { "match": "pidän sekä uimista että juoksemista", "ru": "pitää управляет элативом: uimisesta, juoksemisesta (а не партитив)." }
+      ],
+      "teaches": "conjunction sekä…että + pitää elative (4th infinitive)",
+      "needs_review": false
     }
   ]
 }

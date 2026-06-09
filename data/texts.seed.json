@@ -4030,6 +4030,177 @@
           "needs_review": false
         }
       ]
+    },
+    {
+      "id": "t94",
+      "title": "Lempiruokani resepti",
+      "titleRu": "Рецепт моего любимого блюда",
+      "level": 15,
+      "type": "text",
+      "lines": [
+        { "fi": "Lempiruokani on kalakeitto.", "ru": "Моё любимое блюдо — рыбный суп.", "glosses": { "lempiruokani": "моё любимое блюдо", "on": "есть", "kalakeitto": "рыбный суп" } },
+        { "fi": "Ensin keitän vettä ja leikkaan perunat.", "ru": "Сначала я кипячу воду и режу картошку.", "glosses": { "ensin": "сначала", "keitän": "я кипячу", "vettä": "воду (партитив)", "ja": "и", "leikkaan": "я режу", "perunat": "картошку" } },
+        { "fi": "Sitten lisään kalaa ja vähän suolaa.", "ru": "Потом добавляю рыбу и немного соли.", "glosses": { "sitten": "потом", "lisään": "я добавляю", "kalaa": "рыбу (партитив)", "ja": "и", "vähän": "немного", "suolaa": "соли (партитив)" } },
+        { "fi": "Lopuksi maistan keittoa ja sekoitan ainesosat.", "ru": "Наконец, пробую суп и смешиваю ингредиенты.", "glosses": { "lopuksi": "наконец", "maistan": "я пробую", "keittoa": "суп (партитив)", "ja": "и", "sekoitan": "я смешиваю", "ainesosat": "ингредиенты" } },
+        { "fi": "Pidän kokkaamisesta, koska se on rentouttavaa.", "ru": "Мне нравится готовить, потому что это расслабляет.", "glosses": { "pidän": "мне нравится", "kokkaamisesta": "готовить (элатив)", "koska": "потому что", "se": "это", "on": "есть", "rentouttavaa": "расслабляющее" } }
+      ],
+      "questions": [
+        {
+          "id": "t94q1",
+          "q": "Mikä on kertojan lempiruoka?",
+          "qRu": "Какое любимое блюдо рассказчика?",
+          "canonical": "Kalakeitto.",
+          "accepted": ["Kalakeitto.", "Lempiruoka on kalakeitto.", "Se on kalakeitto."],
+          "wrong": [{ "match": "salaatti", "ru": "Любимое блюдо — рыбный суп (kalakeitto)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t94q2",
+          "q": "Mitä kertoja tekee ensin?",
+          "qRu": "Что рассказчик делает сначала?",
+          "canonical": "Keittää vettä.",
+          "accepted": ["Keittää vettä.", "Keittää vettä ja leikkaa perunat.", "Keitän vettä."],
+          "wrong": [{ "match": "maistaa keittoa", "ru": "Пробует суп он в конце; сначала кипятит воду." }],
+          "needs_review": false
+        },
+        {
+          "id": "t94q3",
+          "q": "Miksi kertoja pitää kokkaamisesta?",
+          "qRu": "Почему рассказчику нравится готовить?",
+          "canonical": "Koska se on rentouttavaa.",
+          "accepted": ["Koska se on rentouttavaa.", "Se on rentouttavaa.", "Koska se rentouttaa."],
+          "wrong": [{ "match": "koska se on vaikeaa", "ru": "Нравится, потому что это расслабляет (rentouttavaa)." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t95",
+      "title": "Terveelliset elämäntavat",
+      "titleRu": "Здоровый образ жизни",
+      "level": 15,
+      "type": "text",
+      "lines": [
+        { "fi": "Yritän elää terveellisesti.", "ru": "Я стараюсь жить здорово.", "glosses": { "yritän": "я стараюсь", "elää": "жить", "terveellisesti": "здорово" } },
+        { "fi": "Käyn uimassa ja treenaan kuntosalilla.", "ru": "Я хожу плавать и тренируюсь в спортзале.", "glosses": { "käyn": "я хожу", "uimassa": "плавать (3-й инф.)", "ja": "и", "treenaan": "я тренируюсь", "kuntosalilla": "в спортзале" } },
+        { "fi": "Uiminen on hauskaa, mutta juokseminen on rankempaa.", "ru": "Плавание весёлое, но бег тяжелее.", "glosses": { "uiminen": "плавание", "on": "есть", "hauskaa": "весёлое", "mutta": "но", "juokseminen": "бег", "rankempaa": "тяжелее" } },
+        { "fi": "Syön terveellistä ruokaa ja opin laittamaan kalaa.", "ru": "Я ем здоровую еду и учусь готовить рыбу.", "glosses": { "syön": "я ем", "terveellistä": "здоровую", "ruokaa": "еду (партитив)", "ja": "и", "opin": "я учусь", "laittamaan": "готовить (3-й инф.)", "kalaa": "рыбу (партитив)" } }
+      ],
+      "questions": [
+        {
+          "id": "t95q1",
+          "q": "Missä kertoja treenaa?",
+          "qRu": "Где рассказчик тренируется?",
+          "canonical": "Kuntosalilla.",
+          "accepted": ["Kuntosalilla.", "Hän treenaa kuntosalilla.", "Treenaan kuntosalilla."],
+          "wrong": [{ "match": "kotona", "ru": "Тренируется в спортзале (kuntosalilla)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t95q2",
+          "q": "Kumpi on rankempaa, uiminen vai juokseminen?",
+          "qRu": "Что тяжелее — плавание или бег?",
+          "canonical": "Juokseminen.",
+          "accepted": ["Juokseminen.", "Juokseminen on rankempaa."],
+          "wrong": [{ "match": "uiminen", "ru": "Тяжелее бег (juokseminen); плавание весёлое." }],
+          "needs_review": false
+        },
+        {
+          "id": "t95q3",
+          "q": "Mitä kertoja opettelee?",
+          "qRu": "Чему учится рассказчик?",
+          "canonical": "Laittamaan kalaa.",
+          "accepted": ["Laittamaan kalaa.", "Hän opettelee laittamaan kalaa.", "Opin laittamaan kalaa."],
+          "wrong": [{ "match": "uimaan", "ru": "Плавать он уже умеет; учится готовить рыбу (laittamaan kalaa)." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t96",
+      "title": "Kaupan kassalla",
+      "titleRu": "На кассе в магазине",
+      "level": 15,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Kassa", "fi": "Hei! Löysittekö kaiken?", "ru": "Здравствуйте! Всё нашли?", "glosses": { "hei": "здравствуйте", "löysittekö": "нашли ли вы", "kaiken": "всё" } },
+        { "speaker": "Asiakas", "fi": "Kyllä, kiitos. Pitääkö omenat punnita?", "ru": "Да, спасибо. Яблоки нужно взвесить?", "glosses": { "kyllä": "да", "kiitos": "спасибо", "pitääkö": "нужно ли", "omenat": "яблоки", "punnita": "взвесить" } },
+        { "speaker": "Kassa", "fi": "Joo, punnitse ne tuolla. Maksatteko kortilla?", "ru": "Да, взвесьте их там. Платите картой?", "glosses": { "joo": "да", "punnitse": "взвесь (повел.)", "ne": "их", "tuolla": "там", "maksatteko": "платите ли вы", "kortilla": "картой" } },
+        { "speaker": "Asiakas", "fi": "Maksan kortilla. Saanko kuitin?", "ru": "Плачу картой. Можно чек?", "glosses": { "maksan": "я плачу", "kortilla": "картой", "saanko": "можно мне", "kuitin": "чек (объект)" } },
+        { "speaker": "Kassa", "fi": "Tässä. Mukavaa päivänjatkoa!", "ru": "Вот. Хорошего дня!", "glosses": { "tässä": "вот", "mukavaa": "приятного", "päivänjatkoa": "продолжения дня" } }
+      ],
+      "questions": [
+        {
+          "id": "t96q1",
+          "q": "Mitä asiakkaan pitää punnita?",
+          "qRu": "Что клиенту нужно взвесить?",
+          "canonical": "Omenat.",
+          "accepted": ["Omenat.", "Omenat pitää punnita.", "Hänen pitää punnita omenat."],
+          "wrong": [{ "match": "perunat", "ru": "Взвесить нужно яблоки (omenat)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t96q2",
+          "q": "Miten asiakas maksaa?",
+          "qRu": "Как платит клиент?",
+          "canonical": "Kortilla.",
+          "accepted": ["Kortilla.", "Hän maksaa kortilla.", "Maksan kortilla."],
+          "wrong": [{ "match": "käteisellä", "ru": "Клиент платит картой (kortilla)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t96q3",
+          "q": "Mitä asiakas pyytää lopuksi?",
+          "qRu": "Что клиент просит в конце?",
+          "canonical": "Kuitin.",
+          "accepted": ["Kuitin.", "Hän pyytää kuitin.", "Saanko kuitin?"],
+          "wrong": [{ "match": "pussin", "ru": "Клиент просит чек (kuitin)." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t97",
+      "title": "Hammaslääkärissä",
+      "titleRu": "У стоматолога",
+      "level": 15,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Hammaslääkäri", "fi": "Päivää! Mikä teitä vaivaa?", "ru": "Здравствуйте! Что вас беспокоит?", "glosses": { "päivää": "здравствуйте", "mikä": "что", "teitä": "вас", "vaivaa": "беспокоит" } },
+        { "speaker": "Potilas", "fi": "Hammasta särkee. Oire alkoi eilen.", "ru": "Болит зуб. Симптом начался вчера.", "glosses": { "hammasta": "зуб (партитив)", "särkee": "болит", "oire": "симптом", "alkoi": "начался", "eilen": "вчера" } },
+        { "speaker": "Hammaslääkäri", "fi": "Katsotaan. Onko teillä muita oireita?", "ru": "Посмотрим. Есть ли у вас другие симптомы?", "glosses": { "katsotaan": "посмотрим (пассив)", "onko": "есть ли", "teillä": "у вас", "muita": "другие", "oireita": "симптомы (партитив)" } },
+        { "speaker": "Potilas", "fi": "Ei muita. Tarvitsenko lääkettä?", "ru": "Других нет. Мне нужно лекарство?", "glosses": { "ei": "нет", "muita": "других", "tarvitsenko": "нужно ли мне", "lääkettä": "лекарство (партитив)" } },
+        { "speaker": "Hammaslääkäri", "fi": "Annan reseptin. Varatkaa uusi aika ensi viikolle.", "ru": "Дам рецепт. Запишитесь на новый приём на следующую неделю.", "glosses": { "annan": "я дам", "reseptin": "рецепт (объект)", "varatkaa": "запишитесь (повел. мн.)", "uusi": "новый", "aika": "приём", "ensi": "следующую", "viikolle": "на неделю" } }
+      ],
+      "questions": [
+        {
+          "id": "t97q1",
+          "q": "Mikä potilasta vaivaa?",
+          "qRu": "Что беспокоит пациента?",
+          "canonical": "Hammasta särkee.",
+          "accepted": ["Hammasta särkee.", "Hammas.", "Hammasta."],
+          "wrong": [{ "match": "vatsaa särkee", "ru": "У пациента болит зуб (hammasta särkee), не живот." }],
+          "needs_review": false
+        },
+        {
+          "id": "t97q2",
+          "q": "Milloin oire alkoi?",
+          "qRu": "Когда начался симптом?",
+          "canonical": "Eilen.",
+          "accepted": ["Eilen.", "Oire alkoi eilen."],
+          "wrong": [{ "match": "tänään", "ru": "Симптом начался вчера (eilen)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t97q3",
+          "q": "Mitä hammaslääkäri antaa?",
+          "qRu": "Что даёт стоматолог?",
+          "canonical": "Reseptin.",
+          "accepted": ["Reseptin.", "Hän antaa reseptin.", "Antaa reseptin."],
+          "wrong": [{ "match": "rokotuksen", "ru": "Стоматолог даёт рецепт (reseptin)." }],
+          "needs_review": false
+        }
+      ]
     }
   ]
 }

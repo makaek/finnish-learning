@@ -486,7 +486,7 @@
       "id": "conjunctions-a2",
       "title": "Союзы уровня A2",
       "summary": "sekä…että (и…и), vaikka (хотя), siksi/siis (поэтому), kuitenkin (однако), vaan (а после отрицания), ennen kuin, kunnes, lisäksi.",
-      "body": "A2 добавляет к базовым союзам (ja/mutta/että/koska/kun/jos) более тонкие: 'sekä … että' = «как…, так и…» ('Puhun sekä suomea että ruotsia'); 'vaikka' = хотя (уступка: 'Menen ulos, vaikka sataa'); 'siksi'/'siis' = поэтому/значит (следствие: 'Olin sairas, siksi jäin kotiin'); 'kuitenkin' = однако/всё же (наречие-связка, свободный порядок); 'lisäksi' = кроме того; 'ennen kuin' = прежде чем; 'kunnes' = пока не. ВАЖНАЯ ЛОВУШКА: 'vaan' и 'mutta' оба = «а/но», но 'vaan' идёт ТОЛЬКО после отрицания и исправляет его: 'En juo kahvia, vaan teetä' = Я пью не кофе, а чай; после утверждения — только 'mutta'.",
+      "body": "A2 добавляет к базовым союзам (ja/mutta/että/koska/kun/jos) более тонкие: 'sekä … että' = «как…, так и…» ('Puhun sekä suomea että ruotsia'); 'vaikka' = хотя (уступка: 'Menen ulos, vaikka sataa'); 'siksi'/'siis' = поэтому/значит (следствие: 'Olin sairas, siksi jäin kotiin'); 'kuitenkin' = однако/всё же (наречие-связка, свободный порядок); 'lisäksi' = кроме того; 'eikä' = «и не» (отрицательное ja: 'En syö lihaa enkä kalaa' — eikä спрягается: en…enkä, et…etkä); 'ennen kuin' = прежде чем; 'kunnes' = пока не. ВАЖНАЯ ЛОВУШКА: 'vaan' и 'mutta' оба = «а/но», но 'vaan' идёт ТОЛЬКО после отрицания и исправляет его: 'En juo kahvia, vaan teetä' = Я пью не кофе, а чай; после утверждения — только 'mutta'.",
       "examples": [
         { "fi": "Puhun sekä suomea että englantia.", "ru": "Я говорю и по-фински, и по-английски." },
         { "fi": "Menen ulos, vaikka sataa.", "ru": "Я выйду, хотя идёт дождь." },
@@ -495,6 +495,21 @@
       "match": {
         "teaches": ["conjunction", "vaan", "vaikka", "sekä"],
         "pos": ["conj"]
+      }
+    },
+    {
+      "id": "infinitive-3-4",
+      "title": "3-й и 4-й инфинитивы (-maan / -massa, -minen)",
+      "summary": "3-й инф.: käyn uimassa («где»), opin uimaan («к навыку»); 4-й инф. -minen — отглагольное сущ.: uiminen on kivaa.",
+      "body": "Кроме обычного (1-го) инфинитива на -da/-ta финский активно использует ещё два. 3-й ИНФИНИТИВ образуется на -ma-/-mä- + падеж: -massa/-mässä («где, в процессе»: 'Käyn uimassa' = Я хожу плавать/на плавание), -masta/-mästä («откуда»: 'Tulen ostamasta ruokaa'), -maan/-mään («куда, к действию/навыку»: 'Opin uimaan' = Я учусь плавать; 'Menen nukkumaan' = Я иду спать). ГЛАВНАЯ ЛОВУШКА для русскоговорящих: после глаголов вроде oppia, mennä, alkaa нужен НЕ 1-й инфинитив (uida), а 3-й (uimaan) — нельзя сказать «opin uida», правильно 'opin uimaan'. 4-й ИНФИНИТИВ на -minen — это отглагольное существительное «делание»: 'Uiminen on terveellistä' = Плавание полезно; склоняется как обычное -nen-слово (uiminen, uimisen, uimista). Рекция (управление): 'alan tehdä' / 'alan tekemään', 'opin tekemään', 'pidän tekemisestä' / 'pidän uimisesta' (pitää + 4-й инф. в элативе).",
+      "examples": [
+        { "fi": "Käyn uimassa joka viikko.", "ru": "Я хожу плавать каждую неделю." },
+        { "fi": "Opin laittamaan ruokaa.", "ru": "Я учусь готовить еду." },
+        { "fi": "Uiminen on terveellistä.", "ru": "Плавание полезно." }
+      ],
+      "match": {
+        "teaches": ["infinitive", "3rd infinitive", "4th infinitive"],
+        "pos": ["verb", "noun"]
       }
     }
   ]
