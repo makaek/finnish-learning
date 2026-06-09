@@ -1,11 +1,43 @@
 import { describe, expect, it } from "vitest";
-import { digitsToFinnish, pickBestSpoken, pickBestSpokenAsync } from "./spokenNumber";
+import {
+  digitsToFinnish,
+  numberToFinnish,
+  spokenCandidates,
+  pickBestSpoken,
+  pickBestSpokenAsync,
+} from "./spokenNumber";
+
+describe("numberToFinnish (0–1000 cardinals)", () => {
+  it("handles ones, teens, tens and compounds", () => {
+    expect(numberToFinnish(0)).toBe("nolla");
+    expect(numberToFinnish(7)).toBe("seitsemän");
+    expect(numberToFinnish(11)).toBe("yksitoista");
+    expect(numberToFinnish(19)).toBe("yhdeksäntoista");
+    expect(numberToFinnish(20)).toBe("kaksikymmentä");
+    expect(numberToFinnish(25)).toBe("kaksikymmentäviisi");
+    expect(numberToFinnish(90)).toBe("yhdeksänkymmentä");
+  });
+
+  it("handles hundreds and a thousand", () => {
+    expect(numberToFinnish(100)).toBe("sata");
+    expect(numberToFinnish(125)).toBe("satakaksikymmentäviisi");
+    expect(numberToFinnish(200)).toBe("kaksisataa");
+    expect(numberToFinnish(1000)).toBe("tuhat");
+  });
+
+  it("returns null outside the curriculum range", () => {
+    expect(numberToFinnish(-1)).toBeNull();
+    expect(numberToFinnish(1001)).toBeNull();
+    expect(numberToFinnish(2.5)).toBeNull();
+  });
+});
 
 describe("digitsToFinnish", () => {
   it("rewrites a bare digit to its Finnish number word", () => {
     expect(digitsToFinnish("2")).toBe("kaksi");
     expect(digitsToFinnish("10")).toBe("kymmenen");
     expect(digitsToFinnish("100")).toBe("sata");
+    expect(digitsToFinnish("25")).toBe("kaksikymmentäviisi"); // now covers compounds
   });
 
   it("keeps trailing punctuation", () => {
@@ -17,10 +49,21 @@ describe("digitsToFinnish", () => {
     expect(digitsToFinnish("minulla on 2 kissaa")).toBe("minulla on kaksi kissaa");
   });
 
-  it("passes through non-digit text and uncovered numbers unchanged", () => {
+  it("passes through non-digit text and out-of-range numbers unchanged", () => {
     expect(digitsToFinnish("kaksi")).toBe("kaksi");
     expect(digitsToFinnish("the cat")).toBe("the cat");
-    expect(digitsToFinnish("21")).toBe("21"); // not in the curriculum map
+    expect(digitsToFinnish("9999")).toBe("9999"); // out of the 0–1000 range
+  });
+});
+
+describe("spokenCandidates (digits + euro sign)", () => {
+  it("offers both euro forms for the «€» sign", () => {
+    expect(spokenCandidates("5 €")).toEqual(["viisi euroa", "viisi euro"]);
+    expect(spokenCandidates("1€")).toEqual(["yksi euroa", "yksi euro"]);
+  });
+
+  it("just digit-normalizes when there's no euro sign", () => {
+    expect(spokenCandidates("25 kissaa")).toEqual(["kaksikymmentäviisi kissaa"]);
   });
 });
 
@@ -33,6 +76,13 @@ describe("pickBestSpoken", () => {
   it("digit-normalizes before testing acceptance", () => {
     const alts = ["2"]; // engine heard "kaksi" but transcribed a digit
     expect(pickBestSpoken(alts, (c) => c === "kaksi")).toBe("kaksi");
+  });
+
+  it("accepts a euro amount the engine returned with the «€» sign", () => {
+    // "viisi euroa" came back as "5 €" → must still grade correct.
+    expect(pickBestSpoken(["5 €"], (c) => c === "viisi euroa")).toBe("viisi euroa");
+    // nominative "yksi euro" from "1 €" too.
+    expect(pickBestSpoken(["1 €"], (c) => c === "yksi euro")).toBe("yksi euro");
   });
 
   it("falls back to the top (normalized) hypothesis when none match", () => {
