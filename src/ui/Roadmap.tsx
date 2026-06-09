@@ -21,7 +21,7 @@ import {
 } from "../core/levels";
 import { computeBalance, type ModeInput } from "../core/balance";
 import { cefrProgress, cefrOfLevel, CEFR_ORDER } from "../core/curriculum";
-import { BAND_NAMES } from "../core/levelTitles";
+import { bandName } from "../data/levelTitles";
 import CefrMeter, { type CefrBand, type CefrState } from "./CefrMeter";
 import type { ProgressMap } from "../core/progress";
 import {
@@ -37,6 +37,8 @@ import { hiddenKey } from "./hidden";
 import BalanceRing, { ModeIcon, RingLegend, type IconName, type RingMode } from "./BalanceRing";
 import { UiIcon } from "./icons";
 import ThemeToggle from "./ThemeToggle";
+import LanguageToggle from "./LanguageToggle";
+import type { LangId } from "../data/languages/types";
 
 /** Russian plural for "день" (streak headline): 1 день · 2–4 дня · 5+ дней (11–14 → дней). */
 function dayWord(n: number): string {
@@ -63,9 +65,6 @@ const RING_MODES: Record<string, { label: string; icon: IconName }> = {
   "read:text": { label: "Тексты", icon: "book" },
   "read:dialog": { label: "Диалоги", icon: "masks" },
 };
-
-/** The four CEFR bands for the meter rail (3 levels each: A1.1=1–3 … A2=10–12). */
-const BANDS: CefrBand[] = CEFR_ORDER.map((id) => ({ id, ru: BAND_NAMES[id], levels: 3 }));
 
 export type Mode =
   | "recognition"
@@ -95,6 +94,11 @@ interface RoadmapProps {
   hidden: ReadonlySet<string>;
   testMode: boolean;
   ready: boolean;
+  /** Home wordmark for the active target language ("Финский" / "Английский"). */
+  brand: string;
+  /** Active target language + its setter, for the in-settings language switch. */
+  lang: LangId;
+  onChangeLang: (lang: LangId) => void;
   onStart: (mode: Mode) => void;
   /** Open the reading library, filtered to texts or dialogs. */
   onOpenReading: (type: "text" | "dialog") => void;
@@ -113,11 +117,23 @@ export default function Roadmap({
   hidden,
   testMode,
   ready,
+  brand,
+  lang,
+  onChangeLang,
   onStart,
   onOpenReading,
   onShowStats,
   onTestFill,
 }: RoadmapProps) {
+  // The four CEFR bands for the meter rail (3 levels each). Recomputed per language so the band
+  // names follow the active pack (bandName reads the active titles, set by App before this renders).
+  const bands = useMemo<CefrBand[]>(
+    () => CEFR_ORDER.map((id) => ({ id, ru: bandName(id), levels: 3 })),
+    // `lang` isn't read in the body, but bandName() reads the active titles that App swaps on a
+    // language change — so `lang` is the (only) correct trigger to recompute the band labels.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [lang],
+  );
   // "Current level" is the level being completed (lowest not fully done), shown with a smooth
   // learn-progress bar — not the unlocked frontier, which jumped the bar to ~0% on every unlock.
   // Completion now spans words + sentences + dialogs/texts, so finishing a level's phrases and
@@ -224,7 +240,7 @@ export default function Roadmap({
     bandIdx: cefrBandIdx,
     levelInBand: active - cefrBandIdx * 3,
     pct: levelProgressToNext(combinedStats, active),
-    nextId: cefr.nextBand ?? BANDS[cefrBandIdx]!.id,
+    nextId: cefr.nextBand ?? bands[cefrBandIdx]!.id,
   };
 
   // Single router shared by the ring spokes and the weak-link card (reading ids open the
@@ -250,13 +266,16 @@ export default function Roadmap({
     return daysAgo <= pastDone ? "done" : "miss";
   });
 
-  // Settings: a gear button that reveals the theme switcher (Авто / Светлая / Тёмная).
+  // Settings: a gear button that reveals the language switch (🇫🇮 / 🇬🇧) and the theme switcher.
   const settings = (
     <details className="settings">
       <summary className="settings__btn" aria-label="Настройки" title="Настройки">
         <UiIcon name="gear" size={20} />
       </summary>
       <div className="settings__menu">
+        <span className="settings__label">Язык</span>
+        <LanguageToggle value={lang} onChange={onChangeLang} />
+        <span className="settings__label">Тема</span>
         <ThemeToggle />
       </div>
     </details>
@@ -264,7 +283,7 @@ export default function Roadmap({
 
   const header = (
     <header className="home-head">
-      <span className="home-wordmark">Финский</span>
+      <span className="home-wordmark">{brand}</span>
       {settings}
     </header>
   );
@@ -312,7 +331,7 @@ export default function Roadmap({
       </button>
 
       {/* CEFR meter — current step + a 12-level rail toward A2. */}
-      <CefrMeter bands={BANDS} state={cefrState} />
+      <CefrMeter bands={bands} state={cefrState} />
 
       {/* Ring card — the fixed-orbit balance ring (fills the card) + the group/shape legend. */}
       <div className="ringcard">

@@ -16,14 +16,18 @@ import {
   type VocabLike,
 } from "../core/levels";
 import type { ProgressMap } from "../core/progress";
-import { isTextUnlocked } from "../core/reading";
-import { TEXTS, gradeQuestion } from "../data/texts";
+import { isTextUnlocked, type ReadingText } from "../core/reading";
+import type { Grade } from "../core/grader.contract";
 import { UiIcon } from "./icons";
 import { Avatar, MasteryMark, type MasteryState } from "./readingKit";
 import TextReader from "./TextReader";
 
 interface ReadingProps {
   vocab: readonly VocabLike[];
+  /** The active language's reading library (levelled, sorted). */
+  texts: readonly ReadingText[];
+  /** The active language's reading-comprehension grader. */
+  gradeQuestion: Grade;
   progress: ProgressMap;
   testMode: boolean;
   /** Mark a text/dialog as finished (counts a lesson / sets the read flag). */
@@ -59,6 +63,8 @@ function itemState(
 
 export default function Reading({
   vocab,
+  texts,
+  gradeQuestion,
   progress,
   testMode,
   onMarkRead,
@@ -76,12 +82,15 @@ export default function Reading({
   }, [vocab, progress, testMode]);
 
   const isDialog = filterType === "dialog";
-  const shown = filterType ? TEXTS.filter((t) => (t.type ?? "text") === filterType) : TEXTS;
+  const shown: ReadingText[] = useMemo(
+    () => (filterType ? texts.filter((t) => (t.type ?? "text") === filterType) : [...texts]),
+    [texts, filterType],
+  );
   const title = isDialog ? "Диалоги" : filterType === "text" ? "Тексты" : "Чтение";
 
-  // TEXTS are already sorted by level then id; group consecutively by level.
+  // texts are already sorted by level then id; group consecutively by level.
   const groups = useMemo(() => {
-    const out: { lv: number; items: typeof shown }[] = [];
+    const out: { lv: number; items: ReadingText[] }[] = [];
     for (const t of shown) {
       const g = out.find((x) => x.lv === t.level);
       if (g) g.items.push(t);
@@ -94,7 +103,7 @@ export default function Reading({
     readingMastered(progress, t.id, (t.questions?.length ?? 0) > 0),
   ).length;
 
-  const openText = openId ? TEXTS.find((t) => t.id === openId) : undefined;
+  const openText = openId ? texts.find((t) => t.id === openId) : undefined;
   if (openText) {
     return (
       <TextReader

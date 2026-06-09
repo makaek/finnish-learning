@@ -1,14 +1,15 @@
 /**
  * readingState.ts — the set of reading texts the learner has finished (read or rehearsed).
  * Persisted in localStorage (a device-local view marker, not graded learning data, so it
- * stays off the backend — same rationale and shape as `hidden.ts`).
+ * stays off the backend — same rationale and shape as `hidden.ts`). Namespaced per target
+ * language via {@link nsKey} so each language tracks its own finished texts.
  */
 
-const KEY = "finnish-trainer/reading";
+import { nsKey } from "../data/languages/storage";
 
 export function loadRead(): Set<string> {
   try {
-    const raw = localStorage.getItem(KEY);
+    const raw = localStorage.getItem(nsKey("reading"));
     if (!raw) return new Set();
     const parsed: unknown = JSON.parse(raw);
     return Array.isArray(parsed)
@@ -21,7 +22,7 @@ export function loadRead(): Set<string> {
 
 export function saveRead(set: ReadonlySet<string>): void {
   try {
-    localStorage.setItem(KEY, JSON.stringify([...set]));
+    localStorage.setItem(nsKey("reading"), JSON.stringify([...set]));
   } catch {
     /* best-effort */
   }

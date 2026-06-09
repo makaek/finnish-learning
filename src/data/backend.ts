@@ -22,11 +22,10 @@ import {
   type ProgressMap,
 } from "../core/progress";
 import { emptyState, type UserState } from "../core/daily";
+import { nsKey, storageLang } from "./languages/storage";
 
 const TABLE = "progress";
 const STATE_TABLE = "user_state";
-const LOCAL_KEY = "finnish-trainer/progress";
-const LOCAL_STATE_KEY = "finnish-trainer/state";
 
 /** Persistence contract the app codes against, regardless of backing store. */
 export interface ProgressStore {
@@ -72,7 +71,7 @@ function isItemProgress(value: unknown): value is ItemProgress {
 /** Read the persisted progress list, tolerating absent/corrupt/unavailable storage. */
 function readLocal(): ItemProgress[] {
   try {
-    const raw = globalThis.localStorage?.getItem(LOCAL_KEY);
+    const raw = globalThis.localStorage?.getItem(nsKey("progress"));
     if (!raw) return [];
     const parsed: unknown = JSON.parse(raw);
     return Array.isArray(parsed) ? parsed.filter(isItemProgress) : [];
@@ -83,7 +82,7 @@ function readLocal(): ItemProgress[] {
 
 function writeLocal(items: readonly ItemProgress[]): void {
   try {
-    globalThis.localStorage?.setItem(LOCAL_KEY, JSON.stringify(items));
+    globalThis.localStorage?.setItem(nsKey("progress"), JSON.stringify(items));
   } catch {
     /* storage full or unavailable — best-effort only */
   }
@@ -107,7 +106,7 @@ function isUserState(value: unknown): value is UserState {
 
 function readLocalState(): UserState {
   try {
-    const raw = globalThis.localStorage?.getItem(LOCAL_STATE_KEY);
+    const raw = globalThis.localStorage?.getItem(nsKey("state"));
     if (!raw) return emptyState();
     const parsed: unknown = JSON.parse(raw);
     return isUserState(parsed) ? parsed : emptyState();
@@ -118,7 +117,7 @@ function readLocalState(): UserState {
 
 function writeLocalState(state: UserState): void {
   try {
-    globalThis.localStorage?.setItem(LOCAL_STATE_KEY, JSON.stringify(state));
+    globalThis.localStorage?.setItem(nsKey("state"), JSON.stringify(state));
   } catch {
     /* best-effort */
   }
@@ -154,6 +153,8 @@ class LocalStore implements ProgressStore {
 /** A `progress` table row (snake_case columns; `last_seen` is a timestamptz). */
 export interface ProgressRow {
   user_id: string;
+  /** Target language this progress belongs to ("fi"/"en") — namespaces per-language mastery. */
+  language: string;
   kind: string;
   item_id: string;
   box: number;
@@ -178,6 +179,7 @@ export function rowToProgress(row: ProgressRow): ItemProgress {
 export function progressToRow(userId: string, p: ItemProgress): ProgressRow {
   return {
     user_id: userId,
+    language: storageLang(),
     kind: p.kind,
     item_id: p.itemId,
     box: p.box,
@@ -188,9 +190,11 @@ export function progressToRow(userId: string, p: ItemProgress): ProgressRow {
   };
 }
 
-/** A `user_state` row (one per user); date columns are SQL `date` or null. */
+/** A `user_state` row (one per user per language); date columns are SQL `date` or null. */
 export interface UserStateRow {
   user_id: string;
+  /** Target language this daily-loop state belongs to ("fi"/"en") — per-language streaks. */
+  language: string;
   streak: number;
   best_streak: number;
   last_qualified_date: string | null;
@@ -217,6 +221,7 @@ export function rowToUserState(row: UserStateRow): UserState {
 export function userStateToRow(userId: string, s: UserState): UserStateRow {
   return {
     user_id: userId,
+    language: storageLang(),
     streak: s.streak,
     best_streak: s.bestStreak,
     last_qualified_date: s.lastQualifiedDate || null,
@@ -274,7 +279,11 @@ class SupabaseStore implements ProgressStore {
     try {
       const uid = await this.userId();
       if (!uid) return this.fallback.loadProgress();
-      const { data, error } = await this.client.from(TABLE).select("*").eq("user_id", uid);
+      const { data, error } = await this.client
+        .from(TABLE)
+        .select("*")
+        .eq("user_id", uid)
+        .eq("language", storageLang());
       if (error) throw error;
       return toProgressMap((data ?? []).map((row) => rowToProgress(row as ProgressRow)));
     } catch (err) {
@@ -291,7 +300,7 @@ class SupabaseStore implements ProgressStore {
       const rows = items.map((item) => progressToRow(uid, item));
       const { error } = await this.client
         .from(TABLE)
-        .upsert(rows, { onConflict: "user_id,kind,item_id" });
+        .upsert(rows, { onConflict: "user_id,language,kind,item_id" });
       if (error) throw error;
       // Mirror to local so an offline load later still sees this session's progress.
       await this.fallback.saveProgress(items);
@@ -309,6 +318,7 @@ class SupabaseStore implements ProgressStore {
         .from(STATE_TABLE)
         .select("*")
         .eq("user_id", uid)
+        .eq("language", storageLang())
         .maybeSingle();
       if (error) throw error;
       return data ? rowToUserState(data as UserStateRow) : emptyState();
@@ -324,7 +334,7 @@ class SupabaseStore implements ProgressStore {
       if (!uid) return this.fallback.saveState(state);
       const { error } = await this.client
         .from(STATE_TABLE)
-        .upsert(userStateToRow(uid, state), { onConflict: "user_id" });
+        .upsert(userStateToRow(uid, state), { onConflict: "user_id,language" });
       if (error) throw error;
       await this.fallback.saveState(state);
     } catch (err) {

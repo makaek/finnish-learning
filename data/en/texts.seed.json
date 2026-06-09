@@ -1,0 +1,124 @@
+{
+  "_meta": {
+    "language": "en",
+    "l1": "ru",
+    "note": "English (target) A1 reading. Same schema as the Finnish seed: each line's 'fi' field holds the TARGET (English) text — the field name is kept for schema/loader compatibility. 'ru' is the Russian translation; 'glosses' map a surface token to a short Russian gloss. needs_review until verified.",
+    "needs_review": true
+  },
+  "texts": [
+    {
+      "id": "t1",
+      "title": "Meeting",
+      "titleRu": "Знакомство",
+      "level": 1,
+      "type": "dialog",
+      "lines": [
+        {
+          "speaker": "Anna",
+          "fi": "Hello! My name is Anna.",
+          "ru": "Привет! Меня зовут Анна.",
+          "glosses": { "hello": "привет", "my": "мой", "name": "имя", "is": "есть (быть)" }
+        },
+        {
+          "speaker": "Ben",
+          "fi": "Hi! I am Ben. Nice to meet you.",
+          "ru": "Привет! Я Бен. Приятно познакомиться.",
+          "glosses": { "i": "я", "am": "есть (быть)", "nice": "приятно", "meet": "встретить", "you": "ты" }
+        },
+        {
+          "speaker": "Anna",
+          "fi": "Are you a student?",
+          "ru": "Ты студент?",
+          "glosses": { "are": "есть (быть)", "you": "ты", "student": "студент" }
+        },
+        {
+          "speaker": "Ben",
+          "fi": "Yes, I am. And you?",
+          "ru": "Да. А ты?",
+          "glosses": { "yes": "да", "and": "а / и" }
+        },
+        {
+          "speaker": "Anna",
+          "fi": "I am a teacher.",
+          "ru": "Я учитель.",
+          "glosses": { "teacher": "учитель" }
+        }
+      ],
+      "questions": [
+        {
+          "id": "t1q1",
+          "q": "What is her name?",
+          "qRu": "Как её зовут?",
+          "canonical": "Anna.",
+          "accepted": ["Anna.", "Anna", "Her name is Anna.", "Her name is Anna"],
+          "wrong": [{ "match": "ben", "ru": "Анна — это она; Бен — он." }]
+        },
+        {
+          "id": "t1q2",
+          "q": "Is Ben a teacher?",
+          "qRu": "Бен — учитель?",
+          "canonical": "No, he is a student.",
+          "accepted": ["No, he is a student.", "No, he's a student.", "No.", "No", "He is a student."],
+          "wrong": [{ "match": "yes", "ru": "Нет — Бен студент, а учитель — Анна." }]
+        }
+      ]
+    },
+    {
+      "id": "t2",
+      "title": "At home",
+      "titleRu": "Дома",
+      "level": 2,
+      "type": "dialog",
+      "lines": [
+        {
+          "speaker": "Mum",
+          "fi": "We are at home now.",
+          "ru": "Мы сейчас дома.",
+          "glosses": { "we": "мы", "are": "есть (быть)", "at": "в / на", "home": "дом (дома)", "now": "сейчас" }
+        },
+        {
+          "speaker": "Tom",
+          "fi": "I have a new book.",
+          "ru": "У меня есть новая книга.",
+          "glosses": { "have": "иметь / есть", "new": "новая", "book": "книга" }
+        },
+        {
+          "speaker": "Mum",
+          "fi": "Is it good?",
+          "ru": "Она хорошая?",
+          "glosses": { "is": "есть (быть)", "it": "оно / это", "good": "хороший" }
+        },
+        {
+          "speaker": "Tom",
+          "fi": "Yes, it is very good. I like it.",
+          "ru": "Да, очень хорошая. Мне нравится.",
+          "glosses": { "very": "очень", "like": "нравиться / любить" }
+        },
+        {
+          "speaker": "Mum",
+          "fi": "We have a dog and a cat.",
+          "ru": "У нас есть собака и кошка.",
+          "glosses": { "dog": "собака", "and": "и", "cat": "кошка" }
+        }
+      ],
+      "questions": [
+        {
+          "id": "t2q1",
+          "q": "What does Tom have?",
+          "qRu": "Что есть у Тома?",
+          "canonical": "A new book.",
+          "accepted": ["A new book.", "A new book", "A book.", "He has a new book."],
+          "wrong": [{ "match": "a dog", "ru": "Собака есть у семьи; у Тома — новая книга." }]
+        },
+        {
+          "id": "t2q2",
+          "q": "Does Tom like the book?",
+          "qRu": "Тому нравится книга?",
+          "canonical": "Yes, he does.",
+          "accepted": ["Yes, he does.", "Yes.", "Yes", "He likes it.", "Yes, he likes it."],
+          "wrong": [{ "match": "no", "ru": "Да — Том говорит «I like it» (мне нравится)." }]
+        }
+      ]
+    }
+  ]
+}

@@ -21,7 +21,7 @@ import {
   LEARNED_BOX,
   type LevelSummary,
 } from "../core/levels";
-import { levelTitle, BAND_NAMES } from "../core/levelTitles";
+import { levelTitle, bandName } from "../data/levelTitles";
 import { CEFR_ORDER, cefrOfLevel } from "../core/curriculum";
 import { hiddenKey, type Group } from "./hidden";
 import { UiIcon, type UiIconName } from "./icons";
@@ -157,7 +157,7 @@ export default function Levels({
               >
                 {band}
               </span>
-              <span className="lband__name">{BAND_NAMES[band]}</span>
+              <span className="lband__name">{bandName(band)}</span>
               {allDone && <UiIcon name="check" size={15} strokeWidth={2.6} />}
               <span className="lband__rule" />
             </div>

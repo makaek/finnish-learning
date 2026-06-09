@@ -37,10 +37,13 @@ export interface VocabItem {
   level?: number;
 }
 
-/** A raw entry from any category in the seed; only the fields we read are typed. */
+/** A raw entry from any category in the seed; only the fields we read are typed. The
+ * target-language surface form may live under `fi` (Finnish seed) or `en` (English seed) —
+ * see {@link flattenDictionary}'s `wordField`. */
 interface RawEntry {
   id?: unknown;
   fi?: unknown;
+  en?: unknown;
   ru?: unknown;
   pos?: unknown;
   level?: unknown;
@@ -78,13 +81,18 @@ const VALID_POS = new Set<string>([
   "interj",
 ]);
 
+/** Which seed field holds the target-language surface form: `fi` (Finnish) or `en` (English). */
+export type WordField = "fi" | "en";
+
 function isVocabItem(
   entry: RawEntry,
-): entry is { id: string; fi: string; ru: string; pos: Pos; level?: unknown } {
+  wordField: WordField,
+): entry is { id: string; ru: string; pos: Pos; level?: unknown } & Record<WordField, string> {
+  const word = entry[wordField];
   return (
     typeof entry.id === "string" &&
-    typeof entry.fi === "string" &&
-    entry.fi.length > 0 &&
+    typeof word === "string" &&
+    word.length > 0 &&
     typeof entry.ru === "string" &&
     entry.ru.length > 0 &&
     typeof entry.pos === "string" &&
@@ -93,19 +101,21 @@ function isVocabItem(
 }
 
 /**
- * Flatten the seed into a single vocab list. Entries missing a usable id/fi/ru/pos are
- * skipped rather than throwing, so a partial seed still yields a playable deck.
+ * Flatten the seed into a single vocab list. Entries missing a usable id/word/ru/pos are
+ * skipped rather than throwing, so a partial seed still yields a playable deck. `wordField`
+ * selects which seed field carries the target word (`fi` for Finnish, `en` for English); it is
+ * always stored in {@link VocabItem.fi}, the engine's generic "form to learn".
  */
-export function flattenDictionary(raw: RawDictionary): VocabItem[] {
+export function flattenDictionary(raw: RawDictionary, wordField: WordField = "fi"): VocabItem[] {
   const items: VocabItem[] = [];
   for (const category of VOCAB_CATEGORIES) {
     const entries = raw[category];
     if (!entries) continue;
     for (const entry of entries) {
-      if (isVocabItem(entry)) {
+      if (isVocabItem(entry, wordField)) {
         const level =
           typeof entry.level === "number" && entry.level >= 1 ? Math.floor(entry.level) : 1;
-        items.push({ id: entry.id, fi: entry.fi, ru: entry.ru, pos: entry.pos, level });
+        items.push({ id: entry.id, fi: entry[wordField], ru: entry.ru, pos: entry.pos, level });
       }
     }
   }

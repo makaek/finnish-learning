@@ -216,6 +216,18 @@ body {
   box-shadow: var(--shadow);
 }
 
+/* Small heading above each switch group in the settings menu (Язык / Тема). */
+.settings__label {
+  display: block;
+  margin: 0 0 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.settings__label:not(:first-child) {
+  margin-top: var(--s2);
+}
+
 /* --- Theme switch --- */
 .themetoggle {
   display: inline-flex;

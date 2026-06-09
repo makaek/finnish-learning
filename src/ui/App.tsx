@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { VOCAB } from "../data/dictionary";
-import { SENTENCES, grade } from "../data/sentences";
-import { RULES } from "../data/rules";
-import { TEXTS } from "../data/texts";
+import { getPack } from "../data/languages/registry";
+import { setStorageLang } from "../data/languages/storage";
+import { setActiveTitles } from "../data/levelTitles";
+import { loadLang, saveLang } from "./language";
+import type { LangId } from "../data/languages/types";
 import { rulesForPos, rulesForTeaches } from "../core/rules";
 import {
   buildSession,
@@ -70,6 +71,18 @@ function readTestMode(): boolean {
  */
 export default function App() {
   const [mode, setMode] = useState<Mode | null>(null);
+  // Active TARGET language (the L2). The initializer POINTS persistence + level titles at the saved
+  // language up front — synchronously, before the hidden/read useState initializers and the load
+  // effect below run — so every read hits this language's (namespaced) storage. `changeLang` does
+  // the same on a switch; the pack memo itself stays pure. getPack returns a stable per-id object.
+  const [lang, setLang] = useState<LangId>(() => {
+    const id = loadLang();
+    setStorageLang(id);
+    const p = getPack(id);
+    setActiveTitles(p.titles, p.bands);
+    return id;
+  });
+  const pack = useMemo(() => getPack(lang), [lang]);
   // Which non-exercise screen the home shows when mode is null.
   const [homeScreen, setHomeScreen] = useState<HomeScreen>("roadmap");
   // When the reading library is open, which kind it shows (set by the home "Чтение" cards).
@@ -110,8 +123,11 @@ export default function App() {
   // Daily-loop state (streak + today's count), same ref+view pattern as progress.
   const dailyRef = useRef<UserState>(emptyState());
   const [dailyView, setDailyView] = useState<UserState>(emptyState());
+  // Keyed on `lang`: on first mount AND on every language switch, (re)load THIS language's progress
+  // + daily state from its own storage namespace (setStorageLang already ran in the pack memo).
   useEffect(() => {
     let active = true;
+    setReady(false);
     void Promise.all([loadProgress(), loadState()]).then(([loadedProgress, loadedState]) => {
       if (!active) return;
       progressRef.current = loadedProgress;
@@ -123,17 +139,39 @@ export default function App() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [lang]);
+
+  /**
+   * Switch the target language: persist the choice, point storage at the new namespace, reload the
+   * device-local hidden/read sets from it, return to the home screen, and let the `lang`-keyed effect
+   * + pack memo reload progress and swap content. The two languages' progress stay fully independent.
+   */
+  function changeLang(next: LangId) {
+    if (next === lang) return;
+    saveLang(next);
+    // Point storage + level titles at the new language NOW, so the loadHidden/loadRead reads below
+    // (and the title resolver during the next render) use the new namespace. The `lang`-keyed effect
+    // then reloads progress/state; the pack memo swaps the content.
+    setStorageLang(next);
+    const p = getPack(next);
+    setActiveTitles(p.titles, p.bands);
+    setHidden(loadHidden());
+    setRead(loadRead());
+    setMode(null);
+    setHomeScreen("roadmap");
+    setLang(next);
+  }
 
   // The level selection centres on: the gated mastering level, so every session draws ~70% from
   // the current level + ~30% earlier-level leftovers and NEVER from levels above it. Test mode opts
   // out (it unlocks everything, so a tester must be able to drill any level). Seed-keyed so it
   // re-reads the live mastery on each `start`.
   const sessionLevel = useMemo(
-    () => (testMode ? undefined : masteringLevelGated(VOCAB, SENTENCES, TEXTS, progressRef.current)),
+    () => (testMode ? undefined : masteringLevelGated(pack.vocab, pack.sentences, pack.texts, progressRef.current)),
     // `seed` is intentional (like the pool memos): it re-reads progressRef.current on each `start`.
+    // `pack` is listed so a language switch recomputes the gated level from the new content.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [seed, testMode],
+    [seed, testMode, pack],
   );
 
   // In-play pools: gated by level (and the learned-words rule for sentences), minus items the
@@ -143,7 +181,7 @@ export default function App() {
   const recognition = useMemo(
     () =>
       buildSession(
-        activeVocab(VOCAB, progressRef.current, testMode).filter(
+        activeVocab(pack.vocab, progressRef.current, testMode).filter(
           (v) => !hidden.has(hiddenKey("word", v.id)),
         ),
         seed,
@@ -152,12 +190,12 @@ export default function App() {
         progressRef.current,
         sessionLevel,
       ),
-    [seed, testMode, hidden, sessionLevel],
+    [seed, testMode, hidden, sessionLevel, pack],
   );
   const production = useMemo(
     () =>
       buildProductionSession(
-        activeVocab(VOCAB, progressRef.current, testMode).filter(
+        activeVocab(pack.vocab, progressRef.current, testMode).filter(
           (v) => !hidden.has(hiddenKey("word", v.id)),
         ),
         seed,
@@ -166,12 +204,12 @@ export default function App() {
         "production",
         sessionLevel,
       ),
-    [seed, testMode, hidden, sessionLevel],
+    [seed, testMode, hidden, sessionLevel, pack],
   );
   const sentences = useMemo(
     () =>
       buildSentenceSession(
-        eligibleSentences(SENTENCES, VOCAB, progressRef.current, testMode).filter(
+        eligibleSentences(pack.sentences, pack.vocab, progressRef.current, testMode).filter(
           (s) => !hidden.has(hiddenKey("sentence", s.id)),
         ),
         seed,
@@ -181,14 +219,14 @@ export default function App() {
         "sentences",
         sessionLevel,
       ),
-    [seed, testMode, hidden, sessionLevel],
+    [seed, testMode, hidden, sessionLevel, pack],
   );
   // Voice variants: same pools/questions as production/sentences, but weighted by their own
   // track so spoken practice is repeated and mastered independently.
   const sayWord = useMemo(
     () =>
       buildProductionSession(
-        activeVocab(VOCAB, progressRef.current, testMode).filter(
+        activeVocab(pack.vocab, progressRef.current, testMode).filter(
           (v) => !hidden.has(hiddenKey("word", v.id)),
         ),
         seed,
@@ -197,12 +235,12 @@ export default function App() {
         "say_word",
         sessionLevel,
       ),
-    [seed, testMode, hidden, sessionLevel],
+    [seed, testMode, hidden, sessionLevel, pack],
   );
   const saySentence = useMemo(
     () =>
       buildSentenceSession(
-        eligibleSentences(SENTENCES, VOCAB, progressRef.current, testMode).filter(
+        eligibleSentences(pack.sentences, pack.vocab, progressRef.current, testMode).filter(
           (s) => !hidden.has(hiddenKey("sentence", s.id)),
         ),
         seed,
@@ -212,14 +250,14 @@ export default function App() {
         "say_sentence",
         sessionLevel,
       ),
-    [seed, testMode, hidden, sessionLevel],
+    [seed, testMode, hidden, sessionLevel, pack],
   );
   // Listening (dictation) variants: same pools as production/sentences, but the prompt is
   // spoken Finnish (TTS) and the learner types what they hear; weighted by their own track.
   const listenWord = useMemo(
     () =>
       buildProductionSession(
-        activeVocab(VOCAB, progressRef.current, testMode).filter(
+        activeVocab(pack.vocab, progressRef.current, testMode).filter(
           (v) => !hidden.has(hiddenKey("word", v.id)),
         ),
         seed,
@@ -228,12 +266,12 @@ export default function App() {
         "listen_word",
         sessionLevel,
       ),
-    [seed, testMode, hidden, sessionLevel],
+    [seed, testMode, hidden, sessionLevel, pack],
   );
   const listenSentence = useMemo(
     () =>
       buildSentenceSession(
-        eligibleSentences(SENTENCES, VOCAB, progressRef.current, testMode).filter(
+        eligibleSentences(pack.sentences, pack.vocab, progressRef.current, testMode).filter(
           (s) => !hidden.has(hiddenKey("sentence", s.id)),
         ),
         seed,
@@ -243,21 +281,21 @@ export default function App() {
         "listen_sentence",
         sessionLevel,
       ),
-    [seed, testMode, hidden, sessionLevel],
+    [seed, testMode, hidden, sessionLevel, pack],
   );
   // Микс ("добить уровень"): one run interleaving every word/sentence mode's NOT-yet-mastered
   // items at the current (gated) level — no reading. Each question carries the track it records,
   // so it routes to the right card + progress kind. Same pools/gating as the dedicated modes.
   const mixed = useMemo(() => {
-    const level = masteringLevelGated(VOCAB, SENTENCES, TEXTS, progressRef.current);
-    const words = activeVocab(VOCAB, progressRef.current, testMode).filter(
+    const level = masteringLevelGated(pack.vocab, pack.sentences, pack.texts, progressRef.current);
+    const words = activeVocab(pack.vocab, progressRef.current, testMode).filter(
       (v) => !hidden.has(hiddenKey("word", v.id)),
     );
-    const sents = eligibleSentences(SENTENCES, VOCAB, progressRef.current, testMode).filter(
+    const sents = eligibleSentences(pack.sentences, pack.vocab, progressRef.current, testMode).filter(
       (s) => !hidden.has(hiddenKey("sentence", s.id)),
     );
     return buildMixedSession(words, sents, progressRef.current, level, seed, MIX_SESSION_SIZE);
-  }, [seed, testMode, hidden]);
+  }, [seed, testMode, hidden, pack]);
 
   function start(next: Mode) {
     // Refresh the home view now so it's current whenever we return — covers restart(), which
@@ -293,18 +331,18 @@ export default function App() {
       progressRef.current.set(progressKey(kind, id), p);
       rows.push(p);
     };
-    for (const v of VOCAB) {
+    for (const v of pack.vocab) {
       mark("recognition", v.id);
       mark("production", v.id);
       mark("say_word", v.id);
       mark("listen_word", v.id);
     }
-    for (const s of SENTENCES) {
+    for (const s of pack.sentences) {
       mark("sentences", s.id);
       mark("say_sentence", s.id);
       mark("listen_sentence", s.id);
     }
-    for (const t of TEXTS) {
+    for (const t of pack.texts) {
       mark("reading", t.id);
     }
     setProgressView(new Map(progressRef.current));
@@ -325,15 +363,15 @@ export default function App() {
    * mark-passed and clean so the two always cover EXACTLY the same records.
    */
   function forEachLevelTrack(level: number, visit: (kind: ItemKind, id: string) => void) {
-    for (const v of VOCAB) {
+    for (const v of pack.vocab) {
       if (levelOf(v) !== level) continue;
       for (const kind of WORD_MODES) visit(kind, v.id);
     }
-    for (const s of SENTENCES) {
+    for (const s of pack.sentences) {
       if (levelOf(s) !== level) continue;
       for (const kind of SENTENCE_MODES) visit(kind, s.id);
     }
-    for (const t of TEXTS) {
+    for (const t of pack.texts) {
       if (levelOf(t) !== level) continue;
       visit("reading", t.id); // comprehension-quiz track
       for (const role of reciteRoles(t)) visit("recite", reciteRoleId(t.id, role)); // per-role recite
@@ -495,7 +533,7 @@ export default function App() {
     };
     if (group === "text") {
       zero("reading", id);
-      const text = TEXTS.find((t) => t.id === id);
+      const text = pack.texts.find((t) => t.id === id);
       if (text) for (const role of reciteRoles(text)) zero("recite", reciteRoleId(id, role));
       zero("recite", id);
     } else {
@@ -588,7 +626,7 @@ export default function App() {
    * the two parts (with the comprehension quiz) that mark a text «Прочитано» / count it to its level.
    */
   function recordRecite(textId: string, role: string) {
-    const text = TEXTS.find((t) => t.id === textId);
+    const text = pack.texts.find((t) => t.id === textId);
     if (!text) return;
     const now = Date.now();
     const writes: ItemProgress[] = [];
@@ -655,7 +693,9 @@ export default function App() {
     if (homeScreen === "reading") {
       screen = (
         <Reading
-          vocab={VOCAB}
+          vocab={pack.vocab}
+          texts={pack.texts}
+          gradeQuestion={pack.gradeQuestion}
           progress={progressView}
           testMode={testMode}
           onMarkRead={markRead}
@@ -667,13 +707,13 @@ export default function App() {
         />
       );
     } else if (homeScreen === "rules") {
-      screen = <RulesBook rules={RULES} />;
+      screen = <RulesBook rules={pack.rules} />;
     } else if (homeScreen === "dashboard") {
       screen = (
         <Dashboard
-          vocab={VOCAB}
-          sentences={SENTENCES}
-          texts={TEXTS}
+          vocab={pack.vocab}
+          sentences={pack.sentences}
+          texts={pack.texts}
           progress={progressView}
           daily={dailyView}
           testMode={testMode}
@@ -688,9 +728,9 @@ export default function App() {
     } else if (homeScreen === "levels") {
       screen = (
         <Levels
-          vocab={VOCAB}
-          sentences={SENTENCES}
-          texts={TEXTS}
+          vocab={pack.vocab}
+          sentences={pack.sentences}
+          texts={pack.texts}
           progress={progressView}
           hidden={hidden}
           read={read}
@@ -705,14 +745,17 @@ export default function App() {
     } else {
       screen = (
         <Roadmap
-          vocab={VOCAB}
-          sentences={SENTENCES}
-          texts={TEXTS}
+          vocab={pack.vocab}
+          sentences={pack.sentences}
+          texts={pack.texts}
           progress={progressView}
           daily={dailyView}
           hidden={hidden}
           testMode={testMode}
           ready={ready}
+          brand={pack.brand}
+          lang={lang}
+          onChangeLang={changeLang}
           onStart={start}
           onOpenReading={(type) => {
             setReadingFilter(type);
@@ -758,11 +801,11 @@ export default function App() {
 
   /** The Russian word/sentence whose grammar rules to surface, given a card's source id. */
   const wordRules = (wordId?: string): string[] => {
-    const word = wordId ? VOCAB.find((v) => v.id === wordId) : undefined;
-    return word ? rulesForPos(word.pos, RULES).map((r) => r.id) : [];
+    const word = wordId ? pack.vocab.find((v) => v.id === wordId) : undefined;
+    return word ? rulesForPos(word.pos, pack.rules).map((r) => r.id) : [];
   };
   const sentenceRules = (sentenceId?: string): string[] =>
-    rulesForTeaches(SENTENCES.find((s) => s.id === sentenceId)?.teaches, RULES).map((r) => r.id);
+    rulesForTeaches(pack.sentences.find((s) => s.id === sentenceId)?.teaches, pack.rules).map((r) => r.id);
 
   // Rules relevant to the item on screen — highlighted ⭐ and pre-opened in the grammar overlay.
   // Sentences match by their `teaches` tag; words match by part of speech. The mix run resolves
@@ -786,7 +829,7 @@ export default function App() {
           question={m.q}
           questionNumber={index + 1}
           total={total}
-          grade={grade}
+          grade={pack.grade}
           voice={m.voice}
           listen={m.listen}
           onAnswered={handleAnswered}
@@ -869,7 +912,7 @@ export default function App() {
           question={sentenceSession[index]!}
           questionNumber={index + 1}
           total={total}
-          grade={grade}
+          grade={pack.grade}
           voice={mode === "say_sentence"}
           listen={mode === "listen_sentence"}
           onAnswered={handleAnswered}
@@ -898,7 +941,7 @@ export default function App() {
       )}
       {rulesOpen && (
         <RulesBook
-          rules={RULES}
+          rules={pack.rules}
           highlightIds={ruleHighlights}
           overlay
           onClose={() => setRulesOpen(false)}

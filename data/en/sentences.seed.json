@@ -1,0 +1,241 @@
+{
+  "_meta": {
+    "language": "en",
+    "l1": "ru",
+    "note": "English (target) A1 sentence builder for Russian speakers. Same schema as the Finnish seed. 'wrong.match' is pre-normalized (lowercase, no punctuation, straight apostrophes). Accepted sets include contractions. needs_review until verified by english-linguist.",
+    "needs_review": true
+  },
+  "sentences": [
+    {
+      "id": "s1",
+      "ru": "Я студент.",
+      "uses": ["p1", "n4"],
+      "level": 1,
+      "canonical": "I am a student.",
+      "accepted": ["I am a student.", "I'm a student."],
+      "wrong": [
+        { "match": "i student", "ru": "Нужен глагол-связка to be: «I am a student» (русское «я студент» по-английски всегда с глаголом)." },
+        { "match": "i am student", "ru": "Перед профессией нужен артикль «a»: «I am a student»." }
+      ],
+      "teaches": "to be + article a",
+      "needs_review": true
+    },
+    {
+      "id": "s2",
+      "ru": "Доброе утро!",
+      "uses": ["a1", "n3"],
+      "level": 1,
+      "canonical": "Good morning!",
+      "accepted": ["Good morning!"],
+      "wrong": [
+        { "match": "good day morning", "ru": "Устойчивое приветствие — просто «Good morning!»" }
+      ],
+      "teaches": "fixed greeting",
+      "needs_review": true
+    },
+    {
+      "id": "s3",
+      "ru": "Ты учитель?",
+      "uses": ["p2", "n5"],
+      "level": 1,
+      "canonical": "Are you a teacher?",
+      "accepted": ["Are you a teacher?"],
+      "wrong": [
+        { "match": "you are a teacher", "ru": "В вопросе глагол «are» ставится перед подлежащим: «Are you a teacher?»" },
+        { "match": "you teacher", "ru": "Нужен глагол и артикль: «Are you a teacher?»" }
+      ],
+      "teaches": "yes/no question — be-inversion",
+      "needs_review": true
+    },
+    {
+      "id": "s4",
+      "ru": "Меня зовут Анна.",
+      "uses": ["p8", "n1"],
+      "level": 1,
+      "canonical": "My name is Anna.",
+      "accepted": ["My name is Anna."],
+      "wrong": [
+        { "match": "i name is anna", "ru": "«Меня зовут …» по-английски — «My name is …» (мой + name)." },
+        { "match": "my name anna", "ru": "Нужен глагол is: «My name is Anna»." }
+      ],
+      "teaches": "possessive my + is",
+      "needs_review": true
+    },
+    {
+      "id": "s5",
+      "ru": "Спасибо большое!",
+      "uses": ["f3"],
+      "level": 1,
+      "canonical": "Thank you!",
+      "accepted": ["Thank you!", "Thanks!", "Thank you very much!"],
+      "wrong": [],
+      "teaches": "thanks",
+      "needs_review": true
+    },
+    {
+      "id": "s6",
+      "ru": "Извините, я не знаю.",
+      "uses": ["f5", "p1", "f17", "v11"],
+      "level": 3,
+      "canonical": "Sorry, I don't know.",
+      "accepted": ["Sorry, I don't know.", "Sorry, I do not know.", "I'm sorry, I don't know."],
+      "wrong": [
+        { "match": "sorry i not know", "ru": "Для отрицания нужен вспомогательный do: «I don't know»." },
+        { "match": "sorry i don't know it", "ru": "Здесь без «it»: «I don't know»." }
+      ],
+      "teaches": "do-support negation (don't)",
+      "needs_review": true
+    },
+    {
+      "id": "s7",
+      "ru": "У меня есть собака.",
+      "uses": ["p1", "v2", "n14"],
+      "level": 2,
+      "canonical": "I have a dog.",
+      "accepted": ["I have a dog.", "I've got a dog.", "I have got a dog."],
+      "wrong": [
+        { "match": "i have dog", "ru": "Перед исчисляемым существительным в ед. ч. нужен артикль «a»: «I have a dog»." },
+        { "match": "me have a dog", "ru": "Подлежащее — «I», не «me»: «I have a dog»." }
+      ],
+      "teaches": "have + article a",
+      "needs_review": true
+    },
+    {
+      "id": "s8",
+      "ru": "Это мой папа.",
+      "uses": ["p8", "n7"],
+      "level": 2,
+      "canonical": "This is my father.",
+      "accepted": ["This is my father.", "This is my dad.", "He is my father.", "He's my father."],
+      "wrong": [
+        { "match": "this my father", "ru": "Нужен глагол is: «This is my father»." },
+        { "match": "this is my father's", "ru": "Просто «my father», без 's." }
+      ],
+      "teaches": "this is + possessive",
+      "needs_review": true
+    },
+    {
+      "id": "s9",
+      "ru": "Она живёт в большом доме.",
+      "uses": ["p4", "v5", "f15", "a3", "n10"],
+      "level": 2,
+      "canonical": "She lives in a big house.",
+      "accepted": ["She lives in a big house."],
+      "wrong": [
+        { "match": "she live in a big house", "ru": "В 3-м лице ед. ч. к глаголу добавляется -s: «she lives»." },
+        { "match": "she lives in big house", "ru": "Нужен артикль «a»: «in a big house»." }
+      ],
+      "teaches": "3rd-person -s + article a",
+      "needs_review": true
+    },
+    {
+      "id": "s10",
+      "ru": "Мы идём домой.",
+      "uses": ["p5", "v4", "n11"],
+      "level": 2,
+      "canonical": "We go home.",
+      "accepted": ["We go home.", "We are going home.", "We're going home."],
+      "wrong": [
+        { "match": "we go to home", "ru": "«home» здесь наречие — без «to»: «We go home»." },
+        { "match": "we going home", "ru": "Нужен глагол be для Continuous: «We are going home» (или Present Simple «We go home»)." }
+      ],
+      "teaches": "go home (no preposition)",
+      "needs_review": true
+    },
+    {
+      "id": "s11",
+      "ru": "У меня большая семья.",
+      "uses": ["p1", "v2", "a3", "n9"],
+      "level": 2,
+      "canonical": "I have a big family.",
+      "accepted": ["I have a big family.", "I've got a big family."],
+      "wrong": [
+        { "match": "i have big family", "ru": "Нужен артикль «a»: «a big family»." }
+      ],
+      "teaches": "have + adjective + noun",
+      "needs_review": true
+    },
+    {
+      "id": "s12",
+      "ru": "Я пью кофе.",
+      "uses": ["p1", "v8", "n18"],
+      "level": 3,
+      "canonical": "I drink coffee.",
+      "accepted": ["I drink coffee.", "I am drinking coffee.", "I'm drinking coffee."],
+      "wrong": [
+        { "match": "i drinking coffee", "ru": "Нужен глагол be для Continuous: «I am drinking coffee» (или Present Simple «I drink coffee»)." },
+        { "match": "i drink a coffee", "ru": "«coffee» здесь неисчисляемое — без артикля «a»: «I drink coffee»." }
+      ],
+      "teaches": "uncountable noun (no article)",
+      "needs_review": true
+    },
+    {
+      "id": "s13",
+      "ru": "Я не пью чай.",
+      "uses": ["p1", "f17", "v8", "n19"],
+      "level": 3,
+      "canonical": "I don't drink tea.",
+      "accepted": ["I don't drink tea.", "I do not drink tea."],
+      "wrong": [
+        { "match": "i not drink tea", "ru": "Для отрицания нужен вспомогательный глагол do: «I don't drink tea»." },
+        { "match": "i don't drink a tea", "ru": "«tea» неисчисляемое — без «a»: «I don't drink tea»." }
+      ],
+      "teaches": "do-support negation (don't)",
+      "needs_review": true
+    },
+    {
+      "id": "s14",
+      "ru": "Он любит хлеб и молоко.",
+      "uses": ["p3", "v9", "n20", "f8", "n21"],
+      "level": 3,
+      "canonical": "He likes bread and milk.",
+      "accepted": ["He likes bread and milk."],
+      "wrong": [
+        { "match": "he like bread and milk", "ru": "3-е лицо ед. ч.: «he likes» (глагол с -s)." }
+      ],
+      "teaches": "3rd-person -s + and",
+      "needs_review": true
+    },
+    {
+      "id": "s15",
+      "ru": "Ты говоришь по-английски?",
+      "uses": ["p2", "v10"],
+      "level": 3,
+      "canonical": "Do you speak English?",
+      "accepted": ["Do you speak English?"],
+      "wrong": [
+        { "match": "you speak english", "ru": "Для вопроса нужен вспомогательный do: «Do you speak English?»" },
+        { "match": "do you speak on english", "ru": "Без предлога: «speak English» (не «speak on English»)." }
+      ],
+      "teaches": "do-support question",
+      "needs_review": true
+    },
+    {
+      "id": "s16",
+      "ru": "Я очень счастлив сегодня.",
+      "uses": ["p1", "f11", "a6", "f13"],
+      "level": 3,
+      "canonical": "I am very happy today.",
+      "accepted": ["I am very happy today.", "I'm very happy today."],
+      "wrong": [
+        { "match": "i very happy today", "ru": "Нужен глагол am: «I am very happy today»." },
+        { "match": "i am happy very today", "ru": "«very» ставится перед прилагательным: «very happy»." }
+      ],
+      "teaches": "to be + very + adjective",
+      "needs_review": true
+    },
+    {
+      "id": "s17",
+      "ru": "Я хочу воды, пожалуйста.",
+      "uses": ["p1", "v3", "n17", "f4"],
+      "level": 3,
+      "canonical": "I want water, please.",
+      "accepted": ["I want water, please.", "I would like water, please.", "I'd like some water, please.", "I want some water, please."],
+      "wrong": [
+        { "match": "i want a water please", "ru": "«water» неисчисляемое — без «a»: «I want water» (или «some water»)." }
+      ],
+      "teaches": "want + uncountable + please",
+      "needs_review": true
+    }
+  ]
+}

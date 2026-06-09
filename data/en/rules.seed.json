@@ -1,0 +1,68 @@
+{
+  "_meta": {
+    "language": "en",
+    "l1": "ru",
+    "note": "English (target) A1 grammar book for Russian speakers. Same schema as the Finnish seed; example 'fi' field holds the English example. 'match.teaches' keywords are matched as substrings of a sentence's teaches tag. needs_review until verified.",
+    "needs_review": true
+  },
+  "rules": [
+    {
+      "id": "to-be",
+      "title": "Глагол to be (am / is / are)",
+      "summary": "В английском почти всегда нужен глагол-связка, которого в русском нет.",
+      "body": "Русское «Я студент» по-английски — «I am a student»: глагол to be обязателен. Формы: I am, you/we/they are, he/she/it is. В разговорной речи — сокращения: I'm, you're, he's. «Меня зовут» — это «My name is …».",
+      "examples": [
+        { "fi": "I am a student.", "ru": "Я студент." },
+        { "fi": "She is happy.", "ru": "Она счастлива." },
+        { "fi": "We are at home.", "ru": "Мы дома." }
+      ],
+      "match": { "teaches": ["to be", "be-inversion", "very", "possessive"], "pos": ["verb", "adj"] }
+    },
+    {
+      "id": "articles",
+      "title": "Артикли a / an / the",
+      "summary": "Перед исчисляемым существительным в ед. ч. нужен артикль; неисчисляемые — без «a».",
+      "body": "«a» ставится перед согласным звуком (a dog), «an» — перед гласным (an apple). «the» — про известный, конкретный предмет. Неисчисляемые (water, coffee, bread, milk) употребляются без «a»: «I drink coffee», а не «a coffee».",
+      "examples": [
+        { "fi": "I have a dog.", "ru": "У меня есть собака." },
+        { "fi": "an apple", "ru": "яблоко" },
+        { "fi": "I drink water.", "ru": "Я пью воду." }
+      ],
+      "match": { "teaches": ["article", "uncountable"], "pos": ["noun"] }
+    },
+    {
+      "id": "do-support",
+      "title": "Вспомогательный do (вопросы и отрицания)",
+      "summary": "В Present Simple вопрос и отрицание строятся через do / does — own глагол не меняется.",
+      "body": "Отрицание: «I don't drink tea» (а не «I not drink»). Вопрос: «Do you speak English?» (а не «You speak English?»). В 3-м лице — does, и -s переходит на does: «He doesn't like tea», «Does he like tea?».",
+      "examples": [
+        { "fi": "I don't know.", "ru": "Я не знаю." },
+        { "fi": "Do you speak English?", "ru": "Ты говоришь по-английски?" },
+        { "fi": "She doesn't drink coffee.", "ru": "Она не пьёт кофе." }
+      ],
+      "match": { "teaches": ["do-support"], "pos": ["verb"] }
+    },
+    {
+      "id": "third-person-s",
+      "title": "-s в 3-м лице (he / she / it)",
+      "summary": "В Present Simple к глаголу 3-го лица ед. ч. добавляется -s.",
+      "body": "I/you/we/they like — но he/she/it likes. «She lives in a big house», «He likes bread». В отрицании и вопросе -s забирает does, и сам глагол остаётся без -s: «He doesn't like».",
+      "examples": [
+        { "fi": "He likes bread.", "ru": "Он любит хлеб." },
+        { "fi": "She lives here.", "ru": "Она живёт здесь." }
+      ],
+      "match": { "teaches": ["3rd-person"], "pos": ["verb"] }
+    },
+    {
+      "id": "word-order",
+      "title": "Порядок слов: подлежащее — сказуемое — дополнение",
+      "summary": "В английском порядок слов фиксированный (SVO), а в вопросе с to be — инверсия.",
+      "body": "Утверждение: подлежащее + глагол + дополнение — «I have a dog». Вопрос с to be: глагол вперёд — «Are you a teacher?». В других вопросах вперёд выходит do/does. Подлежащее — это «I», а не «me».",
+      "examples": [
+        { "fi": "I have a big family.", "ru": "У меня большая семья." },
+        { "fi": "Are you a student?", "ru": "Ты студент?" }
+      ],
+      "match": { "teaches": ["question", "inversion", "word order"], "pos": ["pronoun"] }
+    }
+  ]
+}
