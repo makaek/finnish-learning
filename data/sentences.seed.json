@@ -5143,6 +5143,504 @@
       ],
       "teaches": "intensifier tosi + predicative partitive (mass)",
       "needs_review": false
+    },
+
+    {
+      "id": "s357",
+      "ru": "Иди сюда!",
+      "uses": ["v11"],
+      "level": 4,
+      "canonical": "Tule tänne!",
+      "accepted": ["Tule tänne!"],
+      "wrong": [
+        { "match": "tulet tänne", "ru": "В повелительном «ты» окончание -t убирается: Tule! (а не tulet)." },
+        { "match": "tule tanne", "ru": "Гармония гласных: tänne (с ä)." }
+      ],
+      "teaches": "imperative 2sg (tule) + direction adverb",
+      "needs_review": false
+    },
+    {
+      "id": "s358",
+      "ru": "Подожди меня!",
+      "uses": ["v29", "p1"],
+      "level": 6,
+      "canonical": "Odota minua!",
+      "accepted": ["Odota minua!"],
+      "wrong": [
+        { "match": "odotat minua", "ru": "Повелительное «ты» — основа без -t: Odota! (а не odotat)." },
+        { "match": "odota minä", "ru": "Объект глагола odottaa — партитив: minua (а не minä)." }
+      ],
+      "teaches": "imperative 2sg (odota) + partitive object",
+      "needs_review": false
+    },
+    {
+      "id": "s359",
+      "ru": "Ешь хлеб!",
+      "uses": ["v3", "n9"],
+      "level": 4,
+      "canonical": "Syö leipää!",
+      "accepted": ["Syö leipää!"],
+      "wrong": [
+        { "match": "syöt leipää", "ru": "Повелительное «ты» — без -t: Syö! (а не syöt)." },
+        { "match": "syö leipä", "ru": "Объект процесса — партитив: leipää (а не leipä)." }
+      ],
+      "teaches": "imperative 2sg (syö) + partitive object",
+      "needs_review": false
+    },
+    {
+      "id": "s360",
+      "ru": "Возьми кофе!",
+      "uses": ["v75", "n8"],
+      "level": 4,
+      "canonical": "Ota kahvia!",
+      "accepted": ["Ota kahvia!", "Ota kahvi!"],
+      "wrong": [
+        { "match": "otat kahvia", "ru": "Повелительное «ты» — без -t: Ota! (а не otat)." },
+        { "match": "ota kahvi a", "ru": "Слитно: kahvia (одно слово)." }
+      ],
+      "teaches": "imperative 2sg (ota) + object",
+      "needs_review": false
+    },
+    {
+      "id": "s361",
+      "ru": "Не уходи!",
+      "uses": ["v2", "f6"],
+      "level": 4,
+      "canonical": "Älä mene!",
+      "accepted": ["Älä mene!"],
+      "wrong": [
+        { "match": "ei mene", "ru": "Отрицательный приказ строится НЕ через ei, а через älä: Älä mene! (главная ловушка)." },
+        { "match": "et mene", "ru": "Для запрета «ты» нужна форма älä, а не et: Älä mene!" },
+        { "match": "ala mene", "ru": "Гармония/буква: älä (с ä), не ala." }
+      ],
+      "teaches": "negative imperative 2sg (älä + connegative)",
+      "needs_review": false
+    },
+    {
+      "id": "s362",
+      "ru": "Не пей кофе!",
+      "uses": ["v4", "n8", "f6"],
+      "level": 4,
+      "canonical": "Älä juo kahvia!",
+      "accepted": ["Älä juo kahvia!"],
+      "wrong": [
+        { "match": "ei juo kahvia", "ru": "Запрет строится через älä, не ei: Älä juo! (ловушка для русскоговорящих)." },
+        { "match": "älä juot kahvia", "ru": "После älä глагол стоит в «голой» форме (коннегатив) juo, без -t." },
+        { "match": "älä juo kahvi", "ru": "Объект при отрицании — партитив: kahvia." }
+      ],
+      "teaches": "negative imperative 2sg (älä) + partitive object",
+      "needs_review": false
+    },
+    {
+      "id": "s363",
+      "ru": "Заходите!",
+      "uses": ["v11"],
+      "level": 4,
+      "canonical": "Tulkaa sisään!",
+      "accepted": ["Tulkaa sisään!"],
+      "wrong": [
+        { "match": "tulette sisään", "ru": "Повелительное «вы» — основа + -kaa/-kää: Tulkaa! (а не tulette)." },
+        { "match": "tule sisään", "ru": "Это форма «ты» (Tule); для «вы» нужно Tulkaa." }
+      ],
+      "teaches": "imperative 2pl (tulkaa)",
+      "needs_review": false
+    },
+    {
+      "id": "s364",
+      "ru": "Подождите меня!",
+      "uses": ["v29", "p1"],
+      "level": 6,
+      "canonical": "Odottakaa minua!",
+      "accepted": ["Odottakaa minua!"],
+      "wrong": [
+        { "match": "odotatte minua", "ru": "Повелительное «вы» — основа + -kaa: Odottakaa! (а не odotatte)." },
+        { "match": "odottakaa minä", "ru": "Объект odottaa — партитив: minua." }
+      ],
+      "teaches": "imperative 2pl (odottakaa) + partitive object",
+      "needs_review": false
+    },
+
+    {
+      "id": "s365",
+      "ru": "Мне нравится кофе.",
+      "uses": ["v96", "n8"],
+      "level": 5,
+      "canonical": "Tykkään kahvista.",
+      "accepted": ["Tykkään kahvista."],
+      "wrong": [
+        { "match": "tykkään kahvia", "ru": "Глагол tykätä управляет ЭЛАТИВОМ (-sta), а не партитивом: kahvista." },
+        { "match": "tykkään kahvi", "ru": "Нужен элатив: kahvista (а не kahvi)." },
+        { "match": "tykkaan kahvista", "ru": "Гармония гласных: tykkään (с ä)." }
+      ],
+      "teaches": "tykätä + elative object",
+      "needs_review": false
+    },
+    {
+      "id": "s366",
+      "ru": "Тебе нравится финский?",
+      "uses": ["v96", "n16"],
+      "level": 5,
+      "canonical": "Tykkäätkö sinä suomesta?",
+      "accepted": ["Tykkäätkö sinä suomesta?", "Tykkäätkö suomesta?"],
+      "wrong": [
+        { "match": "tykkäätkö sinä suomea", "ru": "tykätä требует элатива: suomesta (а не партитив suomea)." },
+        { "match": "tykkäätkö sinä suomi", "ru": "Нужен элатив: suomesta." }
+      ],
+      "teaches": "tykätä + elative + question clitic -kö",
+      "needs_review": false
+    },
+    {
+      "id": "s367",
+      "ru": "Я не люблю чай.",
+      "uses": ["v96", "n32", "f6"],
+      "level": 5,
+      "canonical": "En tykkää teestä.",
+      "accepted": ["En tykkää teestä."],
+      "wrong": [
+        { "match": "en tykkää teetä", "ru": "tykätä управляет элативом и при отрицании: teestä (а не партитив teetä)." },
+        { "match": "en tykkään teestä", "ru": "После en глагол в коннегативе tykkää, без -n." }
+      ],
+      "teaches": "tykätä + elative + negation",
+      "needs_review": false
+    },
+    {
+      "id": "s368",
+      "ru": "Нам нравится музыка.",
+      "uses": ["v96", "n268"],
+      "level": 6,
+      "canonical": "Tykkäämme musiikista.",
+      "accepted": ["Tykkäämme musiikista."],
+      "wrong": [
+        { "match": "tykkäämme musiikkia", "ru": "tykätä требует элатива: musiikista (а не партитив musiikkia)." },
+        { "match": "tykkaamme musiikista", "ru": "Гармония гласных: tykkäämme (с ä)." }
+      ],
+      "teaches": "tykätä + elative (1pl)",
+      "needs_review": false
+    },
+
+    {
+      "id": "s369",
+      "ru": "Вот, пожалуйста.",
+      "uses": ["v1", "a1"],
+      "level": 3,
+      "canonical": "Ole hyvä.",
+      "accepted": ["Ole hyvä."],
+      "wrong": [
+        { "match": "olet hyvä", "ru": "Это «ты хороший». Вежливое «пожалуйста/вот» — повелительное Ole hyvä (без -t)." },
+        { "match": "ole hyva", "ru": "Гармония гласных: hyvä (с ä)." }
+      ],
+      "teaches": "small-talk courtesy (ole hyvä) + imperative",
+      "needs_review": false
+    },
+    {
+      "id": "s370",
+      "ru": "Увидимся завтра!",
+      "uses": ["f103", "f5"],
+      "level": 3,
+      "canonical": "Nähdään huomenna!",
+      "accepted": ["Nähdään huomenna!"],
+      "wrong": [
+        { "match": "nahdaan huomenna", "ru": "Гармония гласных: nähdään (с ä)." }
+      ],
+      "teaches": "small-talk farewell (nähdään)",
+      "needs_review": false
+    },
+    {
+      "id": "s371",
+      "ru": "До свидания!",
+      "uses": ["f102"],
+      "level": 3,
+      "canonical": "Näkemiin!",
+      "accepted": ["Näkemiin!"],
+      "wrong": [
+        { "match": "nakemiin", "ru": "Гармония/буква: näkemiin (с ä)." }
+      ],
+      "teaches": "small-talk farewell (näkemiin)",
+      "needs_review": false
+    },
+    {
+      "id": "s372",
+      "ru": "Приятно познакомиться.",
+      "uses": ["a51"],
+      "level": 7,
+      "canonical": "Hauska tutustua.",
+      "accepted": ["Hauska tutustua."],
+      "wrong": [
+        { "match": "hauskaa tutustua", "ru": "В этой идиоме прилагательное в номинативе: Hauska tutustua." }
+      ],
+      "teaches": "small-talk courtesy (hauska tutustua)",
+      "needs_review": false
+    },
+
+    {
+      "id": "s373",
+      "ru": "Можно меню?",
+      "uses": ["v20", "n232"],
+      "level": 5,
+      "canonical": "Saanko ruokalistan?",
+      "accepted": ["Saanko ruokalistan?", "Saanko minä ruokalistan?"],
+      "wrong": [
+        { "match": "saanko ruokalista", "ru": "Полный объект — генитив: ruokalistan (а не ruokalista)." },
+        { "match": "saan ruokalistan", "ru": "Вопрос «можно?» — с частицей -ko: Saanko?" }
+      ],
+      "teaches": "saada + total object (ruokalista) + question",
+      "needs_review": false
+    },
+    {
+      "id": "s374",
+      "ru": "Можно салфетку?",
+      "uses": ["v20", "n231"],
+      "level": 5,
+      "canonical": "Saanko servietin?",
+      "accepted": ["Saanko servietin?", "Saanko minä servietin?"],
+      "wrong": [
+        { "match": "saanko servietti", "ru": "Полный объект — генитив: servietin (gradation tt->t)." },
+        { "match": "saanko serjetin", "ru": "Слово servietti: servietin." }
+      ],
+      "teaches": "saada + total object (servietti)",
+      "needs_review": false
+    },
+    {
+      "id": "s375",
+      "ru": "На столе тарелка и вилка.",
+      "uses": ["n46", "v1", "n227", "f1", "n228"],
+      "level": 6,
+      "canonical": "Pöydällä on lautanen ja haarukka.",
+      "accepted": ["Pöydällä on lautanen ja haarukka."],
+      "wrong": [
+        { "match": "pöydässä on lautanen ja haarukka", "ru": "«На столе» — адессив pöydällä (на поверхности), а не инессив pöydässä." },
+        { "match": "poydalla on lautanen ja haarukka", "ru": "Гармония/буквы: pöydällä (с ö, ä)." }
+      ],
+      "teaches": "adessive surface (pöydällä) + nominative subjects",
+      "needs_review": false
+    },
+    {
+      "id": "s376",
+      "ru": "Я ем вилкой.",
+      "uses": ["v3", "n228"],
+      "level": 4,
+      "canonical": "Syön haarukalla.",
+      "accepted": ["Syön haarukalla."],
+      "wrong": [
+        { "match": "syön haarukka", "ru": "Орудие действия — адессив: haarukalla (-lla, «чем?»)." },
+        { "match": "syön haarukalle", "ru": "«Чем?» — адессив haarukalla, а не аллатив haarukalle." }
+      ],
+      "teaches": "adessive of instrument (haarukka)",
+      "needs_review": false
+    },
+    {
+      "id": "s377",
+      "ru": "Я беру нож и ложку.",
+      "uses": ["v75", "n229", "f1", "n230"],
+      "level": 4,
+      "canonical": "Otan veitsen ja lusikan.",
+      "accepted": ["Otan veitsen ja lusikan."],
+      "wrong": [
+        { "match": "otan veitsi ja lusikka", "ru": "Полный объект — генитив: veitsen ja lusikan." },
+        { "match": "otan veistä ja lusikkaa", "ru": "Здесь объект взят целиком — генитив (veitsen, lusikan), а не партитив." }
+      ],
+      "teaches": "total object (veitsi/lusikka)",
+      "needs_review": false
+    },
+
+    {
+      "id": "s378",
+      "ru": "Лошадь бежит.",
+      "uses": ["n238", "v40"],
+      "level": 8,
+      "canonical": "Hevonen juoksee.",
+      "accepted": ["Hevonen juoksee."],
+      "wrong": [
+        { "match": "hevonen juokse", "ru": "3 л. ед. ч. — juoksee (а не основа juokse)." }
+      ],
+      "teaches": "3sg verb (juoksee) + animal subject",
+      "needs_review": false
+    },
+    {
+      "id": "s379",
+      "ru": "Корова ест траву.",
+      "uses": ["n239", "v3", "n260"],
+      "level": 8,
+      "canonical": "Lehmä syö ruohoa.",
+      "accepted": ["Lehmä syö ruohoa."],
+      "wrong": [
+        { "match": "lehmä syö ruoho", "ru": "Объект-вещество — партитив: ruohoa." }
+      ],
+      "teaches": "3sg verb + partitive mass object (ruoho)",
+      "needs_review": false
+    },
+    {
+      "id": "s380",
+      "ru": "В лесу медведь.",
+      "uses": ["n61", "v1", "n240"],
+      "level": 8,
+      "canonical": "Metsässä on karhu.",
+      "accepted": ["Metsässä on karhu."],
+      "wrong": [
+        { "match": "metsässä on karhua", "ru": "Существование — подлежащее в номинативе: karhu (а не партитив karhua)." }
+      ],
+      "teaches": "inessive location + existential (karhu)",
+      "needs_review": false
+    },
+    {
+      "id": "s381",
+      "ru": "У меня есть собака и кошка.",
+      "uses": ["p1", "v1", "n154", "f1", "n153"],
+      "level": 2,
+      "canonical": "Minulla on koira ja kissa.",
+      "accepted": ["Minulla on koira ja kissa."],
+      "wrong": [
+        { "match": "minä on koira ja kissa", "ru": "Обладание — адессив: Minulla on (а не Minä on)." },
+        { "match": "minulla on koiraa ja kissaa", "ru": "Исчисляемое при «minulla on» — номинатив: koira, kissa." }
+      ],
+      "teaches": "adessive possession (animals) + nominative",
+      "needs_review": false
+    },
+    {
+      "id": "s382",
+      "ru": "Я учитель.",
+      "uses": ["v1", "n244"],
+      "level": 7,
+      "canonical": "Olen opettaja.",
+      "accepted": ["Olen opettaja."],
+      "wrong": [
+        { "match": "olen opettajaa", "ru": "Существительное-тождество — номинатив: opettaja (а не партитив)." }
+      ],
+      "teaches": "copula + predicative nominative noun (profession)",
+      "needs_review": false
+    },
+    {
+      "id": "s383",
+      "ru": "Повар готовит еду.",
+      "uses": ["n248", "v87", "n14"],
+      "level": 7,
+      "canonical": "Kokki laittaa ruokaa.",
+      "accepted": ["Kokki laittaa ruokaa."],
+      "wrong": [
+        { "match": "kokki laittaa ruoka", "ru": "Объект процесса — партитив: ruokaa." }
+      ],
+      "teaches": "3sg verb (laittaa) + partitive object (profession)",
+      "needs_review": false
+    },
+    {
+      "id": "s384",
+      "ru": "Я иду в музей.",
+      "uses": ["v2", "n251"],
+      "level": 7,
+      "canonical": "Menen museoon.",
+      "accepted": ["Menen museoon.", "Minä menen museoon."],
+      "wrong": [
+        { "match": "menen museossa", "ru": "Направление «куда?» — иллатив: museoon (а не инессив museossa)." },
+        { "match": "menen museo", "ru": "Нужен иллатив: museoon." }
+      ],
+      "teaches": "illative direction (museo)",
+      "needs_review": false
+    },
+    {
+      "id": "s385",
+      "ru": "Я хожу в театр.",
+      "uses": ["v63", "n252"],
+      "level": 12,
+      "canonical": "Käyn teatterissa.",
+      "accepted": ["Käyn teatterissa.", "Minä käyn teatterissa."],
+      "wrong": [
+        { "match": "käyn teatteriin", "ru": "После käydä место в инессиве: teatterissa (а не иллатив teatteriin)." }
+      ],
+      "teaches": "käydä + inessive (teatteri)",
+      "needs_review": false
+    },
+    {
+      "id": "s386",
+      "ru": "Я плаваю в бассейне.",
+      "uses": ["v42", "n254"],
+      "level": 8,
+      "canonical": "Uin uimahallissa.",
+      "accepted": ["Uin uimahallissa.", "Minä uin uimahallissa."],
+      "wrong": [
+        { "match": "uin uimahalliin", "ru": "«Где?» — инессив: uimahallissa (а не иллатив uimahalliin)." }
+      ],
+      "teaches": "inessive location (uimahalli)",
+      "needs_review": false
+    },
+    {
+      "id": "s387",
+      "ru": "В реке вода.",
+      "uses": ["n257", "v1", "n11"],
+      "level": 8,
+      "canonical": "Joessa on vettä.",
+      "accepted": ["Joessa on vettä."],
+      "wrong": [
+        { "match": "joessa on vesi", "ru": "Вещество в количестве — партитив: vettä." },
+        { "match": "jokessa on vettä", "ru": "Чередование k->(zero): joessa (а не jokessa)." }
+      ],
+      "teaches": "inessive (joki) + partitive mass (vesi)",
+      "needs_review": false
+    },
+    {
+      "id": "s388",
+      "ru": "Я слушаю музыку.",
+      "uses": ["v26", "n268"],
+      "level": 6,
+      "canonical": "Kuuntelen musiikkia.",
+      "accepted": ["Kuuntelen musiikkia.", "Minä kuuntelen musiikkia."],
+      "wrong": [
+        { "match": "kuuntelen musiikki", "ru": "Объект процесса — партитив: musiikkia." }
+      ],
+      "teaches": "type-3 verb + partitive object (musiikki)",
+      "needs_review": false
+    },
+    {
+      "id": "s389",
+      "ru": "Я смотрю фильм.",
+      "uses": ["v25", "n256"],
+      "level": 4,
+      "canonical": "Katson elokuvaa.",
+      "accepted": ["Katson elokuvaa.", "Minä katson elokuvaa."],
+      "wrong": [
+        { "match": "katson elokuva", "ru": "Объект процесса — партитив: elokuvaa." }
+      ],
+      "teaches": "katsoa + partitive object (elokuva)",
+      "needs_review": false
+    },
+    {
+      "id": "s390",
+      "ru": "Подушка мягкая.",
+      "uses": ["n264", "v1", "a72"],
+      "level": 10,
+      "canonical": "Tyyny on pehmeä.",
+      "accepted": ["Tyyny on pehmeä."],
+      "wrong": [
+        { "match": "tyyny on pehmeää", "ru": "Подлежащее исчисляемое — предикатив в номинативе: pehmeä." }
+      ],
+      "teaches": "predicative nominative (pehmeä)",
+      "needs_review": false
+    },
+    {
+      "id": "s391",
+      "ru": "Еда вкусная.",
+      "uses": ["n14", "v1", "a71"],
+      "level": 7,
+      "canonical": "Ruoka on herkullista.",
+      "accepted": ["Ruoka on herkullista."],
+      "wrong": [
+        { "match": "ruoka on herkullinen", "ru": "ruoka здесь как вещество — предикатив в партитиве: herkullista." }
+      ],
+      "teaches": "predicative partitive with mass subject (herkullinen)",
+      "needs_review": false
+    },
+    {
+      "id": "s392",
+      "ru": "Я еду на работу на машине.",
+      "uses": ["v97", "n1", "n5"],
+      "level": 7,
+      "canonical": "Ajan töihin autolla.",
+      "accepted": ["Ajan töihin autolla.", "Minä ajan töihin autolla."],
+      "wrong": [
+        { "match": "ajan työhön autolla", "ru": "«На работу» — идиома töihin (мн. ч.), а не työhön." },
+        { "match": "ajan töihin auto", "ru": "Средство — адессив: autolla (-lla)." }
+      ],
+      "teaches": "ajaa + illative idiom (töihin) + adessive of means",
+      "needs_review": false
     }
   ]
 }

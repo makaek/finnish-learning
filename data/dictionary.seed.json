@@ -400,7 +400,20 @@
     {"id":"v95","fi":"loppua","ru":"заканчиваться","pos":"verb","level":8,"verb_type":1,
       "present":{"minä":"lopun","sinä":"loput","hän":"loppuu","me":"lopumme","te":"loputte","he":"loppuvat"},
       "past_1sg":"loppui","past_3sg":"loppui","conneg":"lopu",
-      "notes":"Gradation pp->p: loPPuu but loPun. Безлично/3 л.: 'Elokuva loppuu' = Фильм заканчивается. Antonym alkaa.","needs_review":false}
+      "notes":"Gradation pp->p: loPPuu but loPun. Безлично/3 л.: 'Elokuva loppuu' = Фильм заканчивается. Antonym alkaa.","needs_review":false},
+
+    {"id":"v96","fi":"tykätä","ru":"нравиться (разг.)","pos":"verb","level":5,"verb_type":4,
+      "present":{"minä":"tykkään","sinä":"tykkäät","hän":"tykkää","me":"tykkäämme","te":"tykkäätte","he":"tykkäävät"},
+      "past_1sg":"tykkäsin","past_3sg":"tykkäsi","conneg":"tykkää",
+      "notes":"Type 4 (-ätä), gradation k->kk: tykäTä but tyKKään. Разговорный синоним pitää (нравиться). Управляет ЭЛАТИВОМ (-sta/-stä): 'Tykkään kahvista' = Мне нравится кофе; 'Tykkäätkö suomesta?' = Тебе нравится финский? Отрицание 'en tykkää' + элатив.","needs_review":false},
+    {"id":"v97","fi":"ajaa","ru":"ехать (за рулём) / водить","pos":"verb","level":7,"verb_type":1,
+      "present":{"minä":"ajan","sinä":"ajat","hän":"ajaa","me":"ajamme","te":"ajatte","he":"ajavat"},
+      "past_1sg":"ajoin","past_3sg":"ajoi","conneg":"aja",
+      "notes":"No gradation. Средство в адессиве: 'Ajan autolla' = Я еду на машине (за рулём). 'Ajan töihin' = Я еду на работу.","needs_review":false},
+    {"id":"v98","fi":"opettaa","ru":"учить (кого-то) / преподавать","pos":"verb","level":7,"verb_type":1,
+      "present":{"minä":"opetan","sinä":"opetat","hän":"opettaa","me":"opetamme","te":"opetatte","he":"opettavat"},
+      "past_1sg":"opetin","past_3sg":"opetti","conneg":"opeta",
+      "notes":"Gradation tt->t: opeTTaa but opeTan. 'Opettaja opettaa suomea' = Учитель преподаёт финский. Сравните opiskella (учиться самому).","needs_review":false}
   ],
 
   "nouns": [
@@ -643,7 +656,57 @@
     {"id":"n221","fi":"vaate","ru":"одежда (предмет)","pos":"noun","level":11,"gen_sg":"vaatteen","part_sg":"vaatetta","iness_sg":"vaatteessa","illat_sg":"vaatteeseen","notes":"-e noun, stem vaattee-: gen vaatteen, part vaatetta. Plural vaatteet = одежда. 'Ostan vaatteita'.","needs_review":false},
     {"id":"n222","fi":"laukku","ru":"сумка","pos":"noun","level":7,"gen_sg":"laukun","part_sg":"laukkua","iness_sg":"laukussa","illat_sg":"laukkuun","notes":"Gradation kk->k: lauKKu but lauKun. 'Minulla on laukku'.","needs_review":false},
     {"id":"n224","fi":"sumu","ru":"туман","pos":"noun","level":12,"gen_sg":"sumun","part_sg":"sumua","iness_sg":"sumussa","illat_sg":"sumuun","notes":"No gradation. 'On sumua' = Туман (партитив). 'sumuinen' = туманный.","needs_review":false},
-    {"id":"n225","fi":"jää","ru":"лёд","pos":"noun","level":12,"gen_sg":"jään","part_sg":"jäätä","iness_sg":"jäässä","illat_sg":"jäähän","notes":"Long vowel stem jää-. No gradation. 'Järvi on jäässä' = Озеро подо льдом.","needs_review":false}
+    {"id":"n225","fi":"jää","ru":"лёд","pos":"noun","level":12,"gen_sg":"jään","part_sg":"jäätä","iness_sg":"jäässä","illat_sg":"jäähän","notes":"Long vowel stem jää-. No gradation. 'Järvi on jäässä' = Озеро подо льдом.","needs_review":false},
+
+    {"id":"n226","fi":"lasi","ru":"стакан","pos":"noun","level":4,"gen_sg":"lasin","part_sg":"lasia","iness_sg":"lasissa","illat_sg":"lasiin","notes":"No gradation. Также «стекло». 'lasi vettä' = стакан воды. 'Saanko lasin vettä?' = Можно стакан воды?","needs_review":false},
+    {"id":"n227","fi":"lautanen","ru":"тарелка","pos":"noun","level":4,"gen_sg":"lautasen","part_sg":"lautasta","iness_sg":"lautasessa","illat_sg":"lautaseen","notes":"-nen noun, основа lautase-: gen lautasen, part lautasta. 'Pöydällä on lautanen' = На столе тарелка.","needs_review":false},
+    {"id":"n228","fi":"haarukka","ru":"вилка","pos":"noun","level":4,"gen_sg":"haarukan","part_sg":"haarukkaa","iness_sg":"haarukassa","illat_sg":"haarukkaan","notes":"Gradation kk->k: haaruKKa but haaruKan. 'Syön haarukalla' = Я ем вилкой (адессив).","needs_review":false},
+    {"id":"n229","fi":"veitsi","ru":"нож","pos":"noun","level":4,"gen_sg":"veitsen","part_sg":"veistä","iness_sg":"veitsessä","illat_sg":"veitseen","notes":"-si тип, основа veitse-: gen veitsen, IRREGULAR part veistä. 'Tarvitsen veitsen' = Мне нужен нож.","needs_review":false},
+    {"id":"n230","fi":"lusikka","ru":"ложка","pos":"noun","level":4,"gen_sg":"lusikan","part_sg":"lusikkaa","iness_sg":"lusikassa","illat_sg":"lusikkaan","notes":"Gradation kk->k: lusiKKa but lusiKan. 'Syön lusikalla' = Я ем ложкой (адессив).","needs_review":false},
+    {"id":"n231","fi":"servietti","ru":"салфетка","pos":"noun","level":4,"gen_sg":"servietin","part_sg":"serviettiä","iness_sg":"servietissä","illat_sg":"serviettiin","notes":"Gradation tt->t: servieTTi but servieTin. Front-harmony. 'Saanko servietin?' = Можно салфетку? Synonym lautasliina.","needs_review":false},
+    {"id":"n232","fi":"ruokalista","ru":"меню","pos":"noun","level":4,"gen_sg":"ruokalistan","part_sg":"ruokalistaa","iness_sg":"ruokalistassa","illat_sg":"ruokalistaan","notes":"ruoka + lista. No gradation. 'Saanko ruokalistan?' = Можно меню? Synonym menu.","needs_review":false},
+
+    {"id":"n233","fi":"hame","ru":"юбка","pos":"noun","level":11,"gen_sg":"hameen","part_sg":"hametta","iness_sg":"hameessa","illat_sg":"hameeseen","notes":"-e noun, основа hamee-: gen hameen, part hametta. 'sininen hame' = синяя юбка.","needs_review":false},
+    {"id":"n234","fi":"pusero","ru":"блузка / кофта","pos":"noun","level":11,"gen_sg":"puseron","part_sg":"puseroa","iness_sg":"puserossa","illat_sg":"puseroon","notes":"No gradation. 'punainen pusero' = красная блузка.","needs_review":false},
+    {"id":"n235","fi":"kaulahuivi","ru":"шарф","pos":"noun","level":11,"gen_sg":"kaulahuivin","part_sg":"kaulahuivia","iness_sg":"kaulahuivissa","illat_sg":"kaulahuiviin","notes":"kaula (шея) + huivi. No gradation. 'lämmin kaulahuivi' = тёплый шарф.","needs_review":false},
+    {"id":"n236","fi":"sormi","ru":"палец (руки)","pos":"noun","level":12,"gen_sg":"sormen","part_sg":"sormea","iness_sg":"sormessa","illat_sg":"sormeen","notes":"Основа sorme-: gen sormen, part sormea. Plural sormet = пальцы. 'Sormeen sattuu' = Палец болит.","needs_review":false},
+    {"id":"n237","fi":"varvas","ru":"палец (ноги)","pos":"noun","level":12,"gen_sg":"varpaan","part_sg":"varvasta","iness_sg":"varpaassa","illat_sg":"varpaaseen","notes":"-s noun, основа varpaa-: gradation rv->rp (varVas but varPaan), part varvasta. Plural varpaat = пальцы ног.","needs_review":false},
+
+    {"id":"n238","fi":"hevonen","ru":"лошадь","pos":"noun","level":3,"gen_sg":"hevosen","part_sg":"hevosta","iness_sg":"hevosessa","illat_sg":"hevoseen","notes":"-nen noun, основа hevose-: gen hevosen, part hevosta. 'Hevonen juoksee' = Лошадь бежит.","needs_review":false},
+    {"id":"n239","fi":"lehmä","ru":"корова","pos":"noun","level":3,"gen_sg":"lehmän","part_sg":"lehmää","iness_sg":"lehmässä","illat_sg":"lehmään","notes":"No gradation. Front-harmony. 'Lehmä syö ruohoa' = Корова ест траву.","needs_review":false},
+    {"id":"n240","fi":"karhu","ru":"медведь","pos":"noun","level":3,"gen_sg":"karhun","part_sg":"karhua","iness_sg":"karhussa","illat_sg":"karhuun","notes":"No gradation. 'Metsässä on karhu' = В лесу медведь.","needs_review":false},
+    {"id":"n241","fi":"jänis","ru":"заяц / кролик","pos":"noun","level":3,"gen_sg":"jäniksen","part_sg":"jänistä","iness_sg":"jäniksessä","illat_sg":"jänikseen","notes":"-s noun, основа jänikse-: gen jäniksen, part jänistä. Front-harmony.","needs_review":false},
+    {"id":"n242","fi":"hiiri","ru":"мышь","pos":"noun","level":3,"gen_sg":"hiiren","part_sg":"hiirtä","iness_sg":"hiiressä","illat_sg":"hiireen","notes":"Основа hiire-: gen hiiren, IRREGULAR part hiirtä. Также компьютерная мышь.","needs_review":false},
+    {"id":"n243","fi":"possu","ru":"свинья / поросёнок","pos":"noun","level":3,"gen_sg":"possun","part_sg":"possua","iness_sg":"possussa","illat_sg":"possuun","notes":"No gradation. Разговорное; формально sika. 'Possu on vaaleanpunainen'.","needs_review":false},
+
+    {"id":"n244","fi":"opettaja","ru":"учитель","pos":"noun","level":7,"gen_sg":"opettajan","part_sg":"opettajaa","iness_sg":"opettajassa","illat_sg":"opettajaan","notes":"No gradation (vowel-final stem). От opettaa. 'Olen opettaja' = Я учитель.","needs_review":false},
+    {"id":"n245","fi":"myyjä","ru":"продавец","pos":"noun","level":7,"gen_sg":"myyjän","part_sg":"myyjää","iness_sg":"myyjässä","illat_sg":"myyjään","notes":"No gradation. От myydä. 'Myyjä on kaupassa' = Продавец в магазине.","needs_review":false},
+    {"id":"n246","fi":"kuljettaja","ru":"водитель","pos":"noun","level":7,"gen_sg":"kuljettajan","part_sg":"kuljettajaa","iness_sg":"kuljettajassa","illat_sg":"kuljettajaan","notes":"No gradation (vowel-final stem). 'bussinkuljettaja' = водитель автобуса. 'Hän on kuljettaja' = Он водитель.","needs_review":false},
+    {"id":"n247","fi":"insinööri","ru":"инженер","pos":"noun","level":7,"gen_sg":"insinöörin","part_sg":"insinööriä","iness_sg":"insinöörissä","illat_sg":"insinööriin","notes":"No gradation. Front-harmony (ö). 'Hän on insinööri' = Он инженер.","needs_review":false},
+    {"id":"n248","fi":"kokki","ru":"повар","pos":"noun","level":7,"gen_sg":"kokin","part_sg":"kokkia","iness_sg":"kokissa","illat_sg":"kokkiin","notes":"Gradation kk->k: koKKi but koKin. 'Kokki laittaa ruokaa' = Повар готовит еду.","needs_review":false},
+    {"id":"n249","fi":"poliisi","ru":"полицейский / полиция","pos":"noun","level":7,"gen_sg":"poliisin","part_sg":"poliisia","iness_sg":"poliisissa","illat_sg":"poliisiin","notes":"No gradation. 'Poliisi auttaa' = Полицейский помогает.","needs_review":false},
+    {"id":"n250","fi":"sairaanhoitaja","ru":"медсестра / медбрат","pos":"noun","level":7,"gen_sg":"sairaanhoitajan","part_sg":"sairaanhoitajaa","iness_sg":"sairaanhoitajassa","illat_sg":"sairaanhoitajaan","notes":"sairas (gen sairaan) + hoitaja. No gradation. 'Sairaanhoitaja on sairaalassa'.","needs_review":false},
+
+    {"id":"n251","fi":"museo","ru":"музей","pos":"noun","level":7,"gen_sg":"museon","part_sg":"museota","iness_sg":"museossa","illat_sg":"museoon","notes":"No gradation. 'Menen museoon' = Я иду в музей; 'museossa' = в музее.","needs_review":false},
+    {"id":"n252","fi":"teatteri","ru":"театр","pos":"noun","level":7,"gen_sg":"teatterin","part_sg":"teatteria","iness_sg":"teatterissa","illat_sg":"teatteriin","notes":"No gradation (rr сохраняется). 'Käyn teatterissa' = Я хожу в театр.","needs_review":false},
+    {"id":"n253","fi":"elokuvateatteri","ru":"кинотеатр","pos":"noun","level":7,"gen_sg":"elokuvateatterin","part_sg":"elokuvateatteria","iness_sg":"elokuvateatterissa","illat_sg":"elokuvateatteriin","notes":"elokuva + teatteri. No gradation. Разговорное: leffa. 'Menemme elokuvateatteriin'.","needs_review":false},
+    {"id":"n254","fi":"uimahalli","ru":"бассейн (крытый)","pos":"noun","level":7,"gen_sg":"uimahallin","part_sg":"uimahallia","iness_sg":"uimahallissa","illat_sg":"uimahalliin","notes":"uima- (от uida) + halli. No gradation. 'Uin uimahallissa' = Я плаваю в бассейне.","needs_review":false},
+    {"id":"n255","fi":"kirkko","ru":"церковь","pos":"noun","level":7,"gen_sg":"kirkon","part_sg":"kirkkoa","iness_sg":"kirkossa","illat_sg":"kirkkoon","notes":"Gradation kk->k: kirKKo but kirKon. 'Kirkko on keskustassa'.","needs_review":false},
+    {"id":"n256","fi":"elokuva","ru":"фильм","pos":"noun","level":4,"gen_sg":"elokuvan","part_sg":"elokuvaa","iness_sg":"elokuvassa","illat_sg":"elokuvaan","notes":"No gradation. 'Katson elokuvaa' = Я смотрю фильм (партитив, процесс). Разговорное: leffa.","needs_review":false},
+
+    {"id":"n257","fi":"joki","ru":"река","pos":"noun","level":8,"gen_sg":"joen","part_sg":"jokea","iness_sg":"joessa","illat_sg":"jokeen","notes":"Gradation k->(zero): joKi but joen. 'Joessa on vettä' = В реке вода.","needs_review":false},
+    {"id":"n258","fi":"pelto","ru":"поле","pos":"noun","level":8,"gen_sg":"pellon","part_sg":"peltoa","iness_sg":"pellolla","illat_sg":"pellolle","notes":"Gradation lt->ll: peLTo but peLLon. LOCATION uses ADESSIVE: 'pellolla' = в поле, 'pellolle' = в поле (куда?).","needs_review":false},
+    {"id":"n259","fi":"kivi","ru":"камень","pos":"noun","level":8,"gen_sg":"kiven","part_sg":"kiveä","iness_sg":"kivessä","illat_sg":"kiveen","notes":"Основа kive-: gen kiven, part kiveä. 'iso kivi' = большой камень.","needs_review":false},
+    {"id":"n260","fi":"ruoho","ru":"трава","pos":"noun","level":8,"gen_sg":"ruohon","part_sg":"ruohoa","iness_sg":"ruohossa","illat_sg":"ruohoon","notes":"No gradation. Mass noun, partitive 'ruohoa': 'Lehmä syö ruohoa'.","needs_review":false},
+    {"id":"n261","fi":"mäki","ru":"холм / горка","pos":"noun","level":8,"gen_sg":"mäen","part_sg":"mäkeä","iness_sg":"mäellä","illat_sg":"mäelle","notes":"Gradation k->(zero): mäKi but mäen. Front-harmony. LOCATION ADESSIVE: 'mäellä' = на холме.","needs_review":false},
+
+    {"id":"n262","fi":"uuni","ru":"духовка / печь","pos":"noun","level":10,"gen_sg":"uunin","part_sg":"uunia","iness_sg":"uunissa","illat_sg":"uuniin","notes":"No gradation. 'Leipä on uunissa' = Хлеб в духовке.","needs_review":false},
+    {"id":"n263","fi":"pesukone","ru":"стиральная машина","pos":"noun","level":10,"gen_sg":"pesukoneen","part_sg":"pesukonetta","iness_sg":"pesukoneessa","illat_sg":"pesukoneeseen","notes":"pesu + kone, -e noun: gen pesukoneen, part pesukonetta. 'Pesukone pesee vaatteet'.","needs_review":false},
+    {"id":"n264","fi":"tyyny","ru":"подушка","pos":"noun","level":10,"gen_sg":"tyynyn","part_sg":"tyynyä","iness_sg":"tyynyssä","illat_sg":"tyynyyn","notes":"No gradation. Front-harmony. 'pehmeä tyyny' = мягкая подушка.","needs_review":false},
+    {"id":"n265","fi":"peitto","ru":"одеяло","pos":"noun","level":10,"gen_sg":"peiton","part_sg":"peittoa","iness_sg":"peitossa","illat_sg":"peittoon","notes":"Gradation tt->t: peiTTo but peiTon. 'lämmin peitto' = тёплое одеяло.","needs_review":false},
+    {"id":"n266","fi":"roskis","ru":"мусорное ведро","pos":"noun","level":10,"gen_sg":"roskiksen","part_sg":"roskista","iness_sg":"roskiksessa","illat_sg":"roskikseen","notes":"-s noun (разг.), основа roskikse-: gen roskiksen, part roskista. Формально roskakori.","needs_review":false},
+    {"id":"n267","fi":"radio","ru":"радио","pos":"noun","level":5,"gen_sg":"radion","part_sg":"radiota","iness_sg":"radiossa","illat_sg":"radioon","notes":"No gradation. 'Kuuntelen radiota' = Я слушаю радио (партитив, процесс).","needs_review":false},
+    {"id":"n268","fi":"musiikki","ru":"музыка","pos":"noun","level":6,"gen_sg":"musiikin","part_sg":"musiikkia","iness_sg":"musiikissa","illat_sg":"musiikkiin","notes":"Gradation kk->k: musiiKKi but musiiKin. 'Kuuntelen musiikkia' = Я слушаю музыку (партитив).","needs_review":false}
   ],
 
   "adjectives": [
@@ -719,7 +782,16 @@
     {"id":"a63","fi":"rikas","ru":"богатый","pos":"adj","level":9,"gen_sg":"rikkaan","part_sg":"rikasta","notes":"Stem rikkaa-: gen rikkaan, part rikasta. 'rikas mies' = богатый человек. Antonym köyhä.","needs_review":false},
     {"id":"a64","fi":"köyhä","ru":"бедный","pos":"adj","level":9,"gen_sg":"köyhän","part_sg":"köyhää","notes":"No gradation. Front-harmony. Antonym rikas.","needs_review":false},
     {"id":"a65","fi":"vahva","ru":"сильный","pos":"adj","level":9,"gen_sg":"vahvan","part_sg":"vahvaa","notes":"No gradation. 'vahva kahvi' = крепкий кофе. Antonym heikko.","needs_review":false},
-    {"id":"a66","fi":"heikko","ru":"слабый","pos":"adj","level":9,"gen_sg":"heikon","part_sg":"heikkoa","notes":"Gradation kk->k: heiKKo but heiKon. Antonym vahva.","needs_review":false}
+    {"id":"a66","fi":"heikko","ru":"слабый","pos":"adj","level":9,"gen_sg":"heikon","part_sg":"heikkoa","notes":"Gradation kk->k: heiKKo but heiKon. Antonym vahva.","needs_review":false},
+
+    {"id":"a67","fi":"oranssi","ru":"оранжевый","pos":"adj","level":7,"gen_sg":"oranssin","part_sg":"oranssia","notes":"No gradation. 'oranssi takki' = оранжевая куртка.","needs_review":false},
+    {"id":"a68","fi":"vaaleanpunainen","ru":"розовый","pos":"adj","level":7,"gen_sg":"vaaleanpunaisen","part_sg":"vaaleanpunaista","notes":"-nen colour adj (vaalea + punainen), основа vaaleanpunaise-: gen vaaleanpunaisen, part vaaleanpunaista.","needs_review":false},
+    {"id":"a69","fi":"makea","ru":"сладкий","pos":"adj","level":7,"gen_sg":"makean","part_sg":"makeaa","notes":"No gradation. 'makea kakku' = сладкий торт; вкус еды. Antonym kitkerä/suolainen.","needs_review":false},
+    {"id":"a70","fi":"suolainen","ru":"солёный","pos":"adj","level":7,"gen_sg":"suolaisen","part_sg":"suolaista","notes":"-nen adj, основа suolaise-: gen suolaisen, part suolaista. От suola. 'suolainen ruoka' = солёная еда.","needs_review":false},
+    {"id":"a71","fi":"herkullinen","ru":"вкусный","pos":"adj","level":7,"gen_sg":"herkullisen","part_sg":"herkullista","notes":"-nen adj, основа herkullise-: gen herkullisen, part herkullista. 'Ruoka on herkullista' = Еда вкусная (вещество -> партитив).","needs_review":false},
+    {"id":"a72","fi":"pehmeä","ru":"мягкий","pos":"adj","level":8,"gen_sg":"pehmeän","part_sg":"pehmeää","notes":"No gradation. 'pehmeä tyyny' = мягкая подушка. Antonym kova.","needs_review":false},
+    {"id":"a73","fi":"kova","ru":"твёрдый / громкий / сильный","pos":"adj","level":8,"gen_sg":"kovan","part_sg":"kovaa","notes":"No gradation. 'kova kivi' = твёрдый камень; 'kova ääni' = громкий звук. Antonym pehmeä.","needs_review":false},
+    {"id":"a74","fi":"lämpöinen","ru":"тёплый (о вещах/комнате)","pos":"adj","level":8,"gen_sg":"lämpöisen","part_sg":"lämpöistä","notes":"-nen adj, основа lämpöise-: gen lämpöisen, part lämpöistä. Разговорный синоним lämmin (a7). 'lämpöinen huone'.","needs_review":false}
   ],
 
   "function_words": [
@@ -835,7 +907,11 @@
     {"id":"f97","fi":"tai","ru":"или","pos":"conj","level":4,"notes":"Disjunction in statements: 'Juon teetä tai kahvia' = Я пью чай или кофе. (В вопросах часто vai.)","needs_review":false},
     {"id":"f98","fi":"vai","ru":"или (в вопросе)","pos":"conj","level":6,"notes":"Disjunction in QUESTIONS: 'Teetä vai kahvia?' = Чай или кофе? В утверждениях — tai.","needs_review":false},
     {"id":"f99","fi":"kanssa","ru":"с (вместе с кем-то)","pos":"adp","level":7,"notes":"Постпозиция, управляет ГЕНИТИВОМ: 'ystävän kanssa' = с другом, 'sinun kanssasi' = с тобой. Ставится ПОСЛЕ слова.","needs_review":false},
-    {"id":"f100","fi":"ilman","ru":"без","pos":"adp","level":8,"notes":"Предлог, управляет ПАРТИТИВОМ: 'ilman sokeria' = без сахара, 'ilman rahaa' = без денег. Ставится ПЕРЕД словом.","needs_review":false}
+    {"id":"f100","fi":"ilman","ru":"без","pos":"adp","level":8,"notes":"Предлог, управляет ПАРТИТИВОМ: 'ilman sokeria' = без сахара, 'ilman rahaa' = без денег. Ставится ПЕРЕД словом.","needs_review":false},
+
+    {"id":"f101","fi":"moi","ru":"привет (разг.)","pos":"interj","level":3,"notes":"Неформальное приветствие, как hei. Также 'moikka'. При прощании 'moi moi' = пока.","needs_review":false},
+    {"id":"f102","fi":"näkemiin","ru":"до свидания","pos":"interj","level":3,"notes":"Формальное прощание. Неформально 'hei hei', 'moi moi', 'nähdään' (увидимся).","needs_review":false},
+    {"id":"f103","fi":"nähdään","ru":"увидимся / до встречи","pos":"interj","level":3,"notes":"Прощание «увидимся». Буквально пассив от nähdä. 'Nähdään huomenna!' = Увидимся завтра!","needs_review":false}
   ],
 
   "example_sentences": [

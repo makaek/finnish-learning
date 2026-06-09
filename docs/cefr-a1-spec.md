@@ -1,5 +1,11 @@
 # CEFR A1 Coverage Audit & A1-Completion Content Spec
 
+> **⚠️ SUPERSEDED (2026-06-09).** This audit was written at ~300 lemmas and its entire
+> content plan has since SHIPPED (A1-completion batch 1+2, then the imperative/`tykätä`/breadth
+> gap-fill). The live corpus is now ~547 lemmas · 392 sentences · ~77 texts · 25 rules, and a
+> fresh gap analysis against the uusikielemme.fi A1 taxonomy found A1 functionally complete.
+> **Do not re-run this gap list** — it will re-propose lemmas that already exist. Kept for history.
+
 **Status:** PLANNING / audit only. No seed edits made. This document is for the product
 owner to approve before the `finnish-linguist` authors the content.
 

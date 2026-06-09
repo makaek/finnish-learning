@@ -3131,6 +3131,220 @@
           "needs_review": false
         }
       ]
+    },
+    {
+      "id": "t73",
+      "title": "Tule sisään!",
+      "titleRu": "Заходи!",
+      "level": 5,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Emma", "fi": "Hei, Olli! Tule sisään!", "ru": "Привет, Олли! Заходи!", "glosses": { "hei": "привет", "tule": "заходи (повел.)", "sisään": "внутрь" } },
+        { "speaker": "Olli", "fi": "Kiitos! Mitä teen nyt?", "ru": "Спасибо! Что мне делать сейчас?", "glosses": { "kiitos": "спасибо", "mitä": "что", "teen": "я делаю", "nyt": "сейчас" } },
+        { "speaker": "Emma", "fi": "Ota takki pois ja istu tähän.", "ru": "Сними куртку и садись сюда.", "glosses": { "ota": "возьми/сними (повел.)", "takki": "куртка", "pois": "прочь", "ja": "и", "istu": "садись (повел.)", "tähän": "сюда" } },
+        { "speaker": "Olli", "fi": "Hyvä on. Onko sinulla kahvia?", "ru": "Хорошо. У тебя есть кофе?", "glosses": { "hyvä": "хорошо", "on": "есть", "onko": "есть ли", "sinulla": "у тебя", "kahvia": "кофе (партитив)" } },
+        { "speaker": "Emma", "fi": "On. Odota hetki, älä mene mihinkään!", "ru": "Есть. Подожди минутку, никуда не уходи!", "glosses": { "on": "есть", "odota": "подожди (повел.)", "hetki": "минутку", "älä": "не (запрет)", "mene": "уходи", "mihinkään": "никуда" } }
+      ],
+      "questions": [
+        {
+          "id": "t73q1",
+          "q": "Mitä Emma sanoo ovella?",
+          "qRu": "Что Эмма говорит у двери?",
+          "canonical": "Tule sisään!",
+          "accepted": ["Tule sisään!", "Tule sisään.", "Sisään."],
+          "wrong": [{ "match": "tulet sisään", "ru": "Повелительное «ты» — Tule! без -t." }],
+          "needs_review": false
+        },
+        {
+          "id": "t73q2",
+          "q": "Onko Emmalla kahvia?",
+          "qRu": "У Эммы есть кофе?",
+          "canonical": "On.",
+          "accepted": ["On.", "Kyllä.", "Kyllä on.", "Emmalla on kahvia."],
+          "wrong": [{ "match": "ei", "ru": "Эмма отвечает «On» — кофе есть." }],
+          "needs_review": false
+        },
+        {
+          "id": "t73q3",
+          "q": "Mitä Emma sanoo: meneekö Olli pois?",
+          "qRu": "Что говорит Эмма — Олли уходит?",
+          "canonical": "Älä mene mihinkään!",
+          "accepted": ["Älä mene mihinkään!", "Älä mene.", "Ei."],
+          "wrong": [{ "match": "ei mene mihinkään", "ru": "Запрет — через älä, а не ei: Älä mene!" }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t74",
+      "title": "Mistä sinä tykkäät?",
+      "titleRu": "Что тебе нравится?",
+      "level": 5,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Sara", "fi": "Mistä sinä tykkäät?", "ru": "Что тебе нравится?", "glosses": { "mistä": "от чего", "sinä": "ты", "tykkäät": "тебе нравится" } },
+        { "speaker": "Niko", "fi": "Tykkään kahvista ja musiikista.", "ru": "Мне нравится кофе и музыка.", "glosses": { "tykkään": "мне нравится", "kahvista": "кофе (элатив)", "ja": "и", "musiikista": "музыка (элатив)" } },
+        { "speaker": "Sara", "fi": "Tykkäätkö sinä teestä?", "ru": "Тебе нравится чай?", "glosses": { "tykkäätkö": "нравится ли тебе", "sinä": "ты", "teestä": "чай (элатив)" } },
+        { "speaker": "Niko", "fi": "En tykkää teestä. Entä sinä?", "ru": "Чай мне не нравится. А ты?", "glosses": { "en": "я не", "tykkää": "нравится", "teestä": "чай (элатив)", "entä": "а (что насчёт)", "sinä": "ты" } },
+        { "speaker": "Sara", "fi": "Minä tykkään teestä ja suomesta.", "ru": "Мне нравится чай и финский.", "glosses": { "minä": "я", "tykkään": "мне нравится", "teestä": "чай (элатив)", "ja": "и", "suomesta": "финский (элатив)" } }
+      ],
+      "questions": [
+        {
+          "id": "t74q1",
+          "q": "Mistä Niko tykkää?",
+          "qRu": "Что нравится Нико?",
+          "canonical": "Kahvista ja musiikista.",
+          "accepted": ["Kahvista ja musiikista.", "Niko tykkää kahvista ja musiikista."],
+          "wrong": [{ "match": "kahvia ja musiikkia", "ru": "tykätä управляет элативом: kahvista ja musiikista (а не партитив)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t74q2",
+          "q": "Tykkääkö Niko teestä?",
+          "qRu": "Нико нравится чай?",
+          "canonical": "Ei.",
+          "accepted": ["Ei.", "Ei tykkää.", "Niko ei tykkää teestä."],
+          "wrong": [{ "match": "kyllä", "ru": "Нико говорит «En tykkää teestä» — чай ему не нравится." }],
+          "needs_review": false
+        },
+        {
+          "id": "t74q3",
+          "q": "Mistä Sara tykkää?",
+          "qRu": "Что нравится Саре?",
+          "canonical": "Teestä ja suomesta.",
+          "accepted": ["Teestä ja suomesta.", "Sara tykkää teestä ja suomesta."],
+          "wrong": [{ "match": "teetä ja suomea", "ru": "Нужен элатив: teestä ja suomesta." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t75",
+      "title": "Ravintolassa",
+      "titleRu": "В ресторане (заказ)",
+      "level": 4,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Tarjoilija", "fi": "Hei! Saanko tuoda ruokalistan?", "ru": "Здравствуйте! Принести меню?", "glosses": { "hei": "здравствуйте", "saanko": "можно мне", "tuoda": "принести", "ruokalistan": "меню (объект)" } },
+        { "speaker": "Asiakas", "fi": "Kyllä, kiitos. Saanko myös lasin vettä?", "ru": "Да, спасибо. Можно ещё стакан воды?", "glosses": { "kyllä": "да", "kiitos": "спасибо", "saanko": "можно мне", "myös": "тоже", "lasin": "стакан (объект)", "vettä": "воды (партитив)" } },
+        { "speaker": "Tarjoilija", "fi": "Tässä. Mitä otat?", "ru": "Вот. Что возьмёте?", "glosses": { "tässä": "вот", "mitä": "что", "otat": "ты берёшь" } },
+        { "speaker": "Asiakas", "fi": "Otan kalaa ja salaattia.", "ru": "Я возьму рыбу и салат.", "glosses": { "otan": "я беру", "kalaa": "рыбу (партитив)", "ja": "и", "salaattia": "салат (партитив)" } },
+        { "speaker": "Tarjoilija", "fi": "Hyvä valinta! Tarvitsetko haarukan ja veitsen?", "ru": "Хороший выбор! Нужны вилка и нож?", "glosses": { "hyvä": "хороший", "valinta": "выбор", "tarvitsetko": "нужно ли тебе", "haarukan": "вилку (объект)", "ja": "и", "veitsen": "нож (объект)" } }
+      ],
+      "questions": [
+        {
+          "id": "t75q1",
+          "q": "Mitä asiakas haluaa juoda?",
+          "qRu": "Что хочет пить клиент?",
+          "canonical": "Vettä.",
+          "accepted": ["Vettä.", "Lasin vettä.", "Hän haluaa vettä."],
+          "wrong": [{ "match": "kahvia", "ru": "Клиент просит стакан воды (lasin vettä), а не кофе." }],
+          "needs_review": false
+        },
+        {
+          "id": "t75q2",
+          "q": "Mitä asiakas ottaa?",
+          "qRu": "Что заказывает клиент?",
+          "canonical": "Kalaa ja salaattia.",
+          "accepted": ["Kalaa ja salaattia.", "Hän ottaa kalaa ja salaattia."],
+          "wrong": [{ "match": "kala ja salaatti", "ru": "Еда как объект процесса — партитив: kalaa ja salaattia." }],
+          "needs_review": false
+        },
+        {
+          "id": "t75q3",
+          "q": "Mitä tarjoilija tuo ensin?",
+          "qRu": "Что официант приносит сначала?",
+          "canonical": "Ruokalistan.",
+          "accepted": ["Ruokalistan.", "Hän tuo ruokalistan."],
+          "wrong": [{ "match": "ruokalista", "ru": "Полный объект — генитив: ruokalistan." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t76",
+      "title": "Eläimet",
+      "titleRu": "Животные",
+      "level": 3,
+      "type": "text",
+      "lines": [
+        { "fi": "Minulla on kissa ja koira.", "ru": "У меня есть кошка и собака.", "glosses": { "minulla": "у меня", "on": "есть", "kissa": "кошка", "ja": "и", "koira": "собака" } },
+        { "fi": "Kissa on pieni ja koira on iso.", "ru": "Кошка маленькая, а собака большая.", "glosses": { "kissa": "кошка", "on": "есть", "pieni": "маленькая", "ja": "и", "koira": "собака", "iso": "большая" } },
+        { "fi": "Metsässä on karhu ja hevonen.", "ru": "В лесу есть медведь и лошадь.", "glosses": { "metsässä": "в лесу", "on": "есть", "karhu": "медведь", "ja": "и", "hevonen": "лошадь" } },
+        { "fi": "Minä tykkään eläimistä.", "ru": "Мне нравятся животные.", "glosses": { "minä": "я", "tykkään": "мне нравится", "eläimistä": "животные (элатив)" } }
+      ],
+      "questions": [
+        {
+          "id": "t76q1",
+          "q": "Mitä eläimiä minulla on?",
+          "qRu": "Какие у меня животные?",
+          "canonical": "Kissa ja koira.",
+          "accepted": ["Kissa ja koira.", "Minulla on kissa ja koira."],
+          "wrong": [{ "match": "karhu ja hevonen", "ru": "Медведь и лошадь — в лесу; дома кошка и собака." }],
+          "needs_review": false
+        },
+        {
+          "id": "t76q2",
+          "q": "Onko koira iso vai pieni?",
+          "qRu": "Собака большая или маленькая?",
+          "canonical": "Iso.",
+          "accepted": ["Iso.", "Koira on iso."],
+          "wrong": [{ "match": "pieni", "ru": "Маленькая — кошка; собака большая (iso)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t76q3",
+          "q": "Mistä minä tykkään?",
+          "qRu": "Что мне нравится?",
+          "canonical": "Eläimistä.",
+          "accepted": ["Eläimistä.", "Tykkään eläimistä."],
+          "wrong": [{ "match": "eläimiä", "ru": "tykätä управляет элативом: eläimistä (а не партитив eläimiä)." }],
+          "needs_review": false
+        }
+      ]
+    },
+    {
+      "id": "t77",
+      "title": "Ammatit",
+      "titleRu": "Профессии",
+      "level": 7,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Leena", "fi": "Mikä sinä olet ammatiltasi?", "ru": "Кто ты по профессии?", "glosses": { "mikä": "кто/какой", "sinä": "ты", "olet": "ты есть", "ammatiltasi": "по профессии" } },
+        { "speaker": "Jussi", "fi": "Olen opettaja. Opetan suomea.", "ru": "Я учитель. Я преподаю финский.", "glosses": { "olen": "я есть", "opettaja": "учитель", "opetan": "я преподаю", "suomea": "финский (партитив)" } },
+        { "speaker": "Leena", "fi": "Mukavaa! Minä olen kokki.", "ru": "Здорово! А я повар.", "glosses": { "mukavaa": "приятно/здорово", "minä": "я", "olen": "я есть", "kokki": "повар" } },
+        { "speaker": "Jussi", "fi": "Hieno ammatti! Missä sinä työskentelet?", "ru": "Отличная профессия! Где ты работаешь?", "glosses": { "hieno": "отличная", "ammatti": "профессия", "missä": "где", "sinä": "ты", "työskentelet": "ты работаешь" } },
+        { "speaker": "Leena", "fi": "Työskentelen ravintolassa keskustassa.", "ru": "Я работаю в ресторане в центре.", "glosses": { "työskentelen": "я работаю", "ravintolassa": "в ресторане", "keskustassa": "в центре" } }
+      ],
+      "questions": [
+        {
+          "id": "t77q1",
+          "q": "Mikä Jussi on ammatiltaan?",
+          "qRu": "Кто Юсси по профессии?",
+          "canonical": "Opettaja.",
+          "accepted": ["Opettaja.", "Hän on opettaja.", "Jussi on opettaja."],
+          "wrong": [{ "match": "kokki", "ru": "Повар — это Леена; Юсси учитель (opettaja)." }],
+          "needs_review": false
+        },
+        {
+          "id": "t77q2",
+          "q": "Mitä Jussi opettaa?",
+          "qRu": "Что преподаёт Юсси?",
+          "canonical": "Suomea.",
+          "accepted": ["Suomea.", "Hän opettaa suomea."],
+          "wrong": [{ "match": "suomi", "ru": "Объект — партитив: suomea." }],
+          "needs_review": false
+        },
+        {
+          "id": "t77q3",
+          "q": "Missä Leena työskentelee?",
+          "qRu": "Где работает Леена?",
+          "canonical": "Ravintolassa.",
+          "accepted": ["Ravintolassa.", "Hän työskentelee ravintolassa.", "Ravintolassa keskustassa."],
+          "wrong": [{ "match": "ravintolaan", "ru": "«Где?» — инессив: ravintolassa (а не иллатив ravintolaan)." }],
+          "needs_review": false
+        }
+      ]
     }
   ]
 }
