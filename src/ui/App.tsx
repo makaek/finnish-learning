@@ -42,7 +42,7 @@ import {
 } from "../core/progress";
 import { reciteRoleDone, reciteRoleId, reciteRoles } from "../core/reading";
 import { loadProgress, loadState, saveProgress, saveState } from "../data/backend";
-import { hiddenKey, loadHidden } from "./hidden";
+import { hiddenKey, loadHidden, saveHidden, type Group } from "./hidden";
 import { loadRead, saveRead } from "./readingState";
 import Roadmap, { type Mode } from "./Roadmap";
 import ProgressDetails from "./ProgressDetails";
@@ -51,6 +51,7 @@ import Levels from "./Levels";
 import RulesBook from "./RulesBook";
 import Reading from "./Reading";
 import BottomNav, { type HomeScreen } from "./BottomNav";
+import { UiIcon } from "./icons";
 import RecognitionCard from "./RecognitionCard";
 import ProductionCard from "./ProductionCard";
 import SentenceCard from "./SentenceCard";
@@ -80,10 +81,9 @@ export default function App() {
   const [index, setIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [testMode] = useState(readTestMode);
-  // Items the learner hid in an earlier build (fully-mastered) — still excluded from every lesson
-  // and loaded from local storage. The hide/unhide UI was removed with the progress redesign, so
-  // the set is now read-only (no new hides), but legacy hidden items stay filtered out.
-  const [hidden] = useState<Set<string>>(loadHidden);
+  // Items excluded from every lesson — the learner's hidden / «уже знаю» set, persisted locally.
+  // Added to in-lesson via «Уже знаю» (descope an item you already know); legacy hides load too.
+  const [hidden, setHidden] = useState<Set<string>>(loadHidden);
   // Texts/dialogs the learner has finished (read or rehearsed). Lifted here from Reading so the
   // home/dashboard/progress screens can fold reading into level completion. Device-local, like
   // `hidden` — same persistence rationale (a view marker, not graded data).
@@ -439,6 +439,71 @@ export default function App() {
     void saveProgress([next]);
   }
 
+  /**
+   * «Уже знаю» — descope the current item. Marks EVERY mode of its group (word: 4 modes / sentence:
+   * 3 modes) as learned (box ≥ LEARNED_BOX, a coherent 2/2 record) and HIDES it from future lessons
+   * (the existing hidden-set mechanism), then advances past it WITHOUT scoring (it isn't an answer).
+   * Lets the learner skip items they already know so sessions focus on the un-polished ones.
+   * Persisted: progress (fire-and-forget) + the local hidden set.
+   */
+  function markKnown() {
+    if (mode === null) return;
+    const mixItem = mode === "mix" ? mixed[index] : undefined;
+    let group: Group;
+    let id: string | undefined;
+    if (mixItem) {
+      group = mixItem.card === "sentence" ? "sentence" : "word";
+      id = mixItem.card === "sentence" ? mixItem.q.id : mixItem.q.itemId;
+    } else if (mode === "sentences" || mode === "say_sentence" || mode === "listen_sentence") {
+      group = "sentence";
+      id =
+        mode === "sentences"
+          ? sentences[index]?.id
+          : mode === "say_sentence"
+            ? saySentence[index]?.id
+            : listenSentence[index]?.id;
+    } else {
+      group = "word";
+      id =
+        mode === "production"
+          ? production[index]?.itemId
+          : mode === "say_word"
+            ? sayWord[index]?.itemId
+            : mode === "listen_word"
+              ? listenWord[index]?.itemId
+              : recognition[index]?.itemId;
+    }
+    if (id === undefined) return;
+    const itemId = id;
+    const now = Date.now();
+    const rows: ItemProgress[] = [];
+    for (const kind of group === "word" ? WORD_MODES : SENTENCE_MODES) {
+      const prev = getProgress(progressRef.current, kind, itemId);
+      const p: ItemProgress = {
+        ...prev,
+        kind,
+        itemId,
+        box: Math.max(prev.box, LEARNED_BOX),
+        correctStreak: Math.max(prev.correctStreak, LEARNED_BOX),
+        totalCorrect: Math.max(prev.totalCorrect, LEARNED_BOX),
+        totalSeen: Math.max(prev.totalSeen, prev.totalCorrect, LEARNED_BOX),
+        lastSeen: now,
+      };
+      progressRef.current.set(progressKey(kind, itemId), p);
+      rows.push(p);
+    }
+    setHidden((prev) => {
+      const nextSet = new Set(prev);
+      nextSet.add(hiddenKey(group, itemId));
+      saveHidden(nextSet);
+      return nextSet;
+    });
+    setProgressView(new Map(progressRef.current));
+    void saveProgress(rows);
+    setRulesOpen(false);
+    setIndex((i) => i + 1); // skip this item — descoped, not answered (no score/daily change)
+  }
+
   /** Length of the active session — used to detect when this answer completes a lesson. */
   function activeTotal(): number {
     if (mode === "mix") return mixed.length;
@@ -728,12 +793,24 @@ export default function App() {
           ← В меню
         </button>
       )}
+      {/* «Уже знаю»: descope the current item (mark its whole group learned + hide it), then skip. */}
+      {showingCard && (
+        <button
+          type="button"
+          className="known"
+          onClick={markKnown}
+          aria-label="Уже знаю — отметить выученным и убрать из уроков"
+        >
+          <UiIcon name="check" size={15} strokeWidth={2.4} />
+          Уже знаю
+        </button>
+      )}
       {total === 0 ? (
         <section className="card">
           <h1 className="prompt">Пока пусто</h1>
           <p className="hint">
             {usesSentences
-              ? "Сначала выучите больше слов — тогда откроются предложения."
+              ? "Нет предложений для этого уровня."
               : "Нет заданий для тренировки."}
           </p>
           <button type="button" className="next" onClick={goHome}>

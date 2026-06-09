@@ -3,10 +3,10 @@
  *
  * The dictionary and sentence bank are split into 1-based levels. A learner starts with
  * only level 1 in play; mastering enough of a level unlocks the next, so new words and
- * longer sentences appear gradually. Two gates:
+ * longer sentences appear gradually. Pools:
  *   - vocab pool   = words in any UNLOCKED level,
- *   - sentence pool = sentences whose level is unlocked AND whose every used word is LEARNED
- *     (the "you can only build sentences from words you know" rule).
+ *   - sentence pool = sentences in any UNLOCKED level (word progress no longer gates them —
+ *     the whole level's sentences are drillable as soon as the level is open).
  *
  * Everything here is a pure function of the content lists + a `ProgressMap` (plus an opt-in
  * `testMode` that bypasses all gating). No UI/DB imports — trivially unit-testable.
@@ -157,22 +157,6 @@ export function readingMastery(progress: ProgressMap, textId: string, hasQuestio
  */
 export function readingLearnProgress(progress: ProgressMap, textId: string): number {
   return Math.min(1, getProgress(progress, "reading", textId).box / LEARNED_BOX);
-}
-
-/** Gentler bar for *using* a word in a sentence: at least one net-correct answer. */
-export const SENTENCE_WORD_BOX = 1;
-
-/**
- * Whether a word is familiar enough to appear in a sentence exercise — a lower bar than
- * full mastery, so sentences become available as you start learning words (not only after
- * you've mastered every one). Keeps the "build from words you know" spirit without
- * requiring all of them to be fully mastered first.
- */
-export function wordUsableInSentence(progress: ProgressMap, vocabId: string): boolean {
-  return (
-    getProgress(progress, "recognition", vocabId).box >= SENTENCE_WORD_BOX ||
-    getProgress(progress, "production", vocabId).box >= SENTENCE_WORD_BOX
-  );
 }
 
 /** Minimal shapes these functions need; real VocabItem/SentenceItem satisfy them. */
@@ -561,8 +545,9 @@ export function activeVocab<T extends VocabLike>(
 }
 
 /**
- * Sentences the learner may build now: level unlocked AND every word it uses is learned.
- * Test mode returns them all (bypasses both gates).
+ * Sentences the learner may build now: every sentence whose LEVEL is unlocked. Word progress no
+ * longer gates this — the whole level's sentences are available as soon as the level opens (the old
+ * "every used word must be practised first" rule was removed). Test mode returns them all.
  */
 export function eligibleSentences<S extends SentenceLike>(
   sentences: readonly S[],
@@ -572,9 +557,7 @@ export function eligibleSentences<S extends SentenceLike>(
 ): S[] {
   if (testMode) return [...sentences];
   const unlocked = unlockedLevels(levelStats(vocab, progress));
-  return sentences.filter(
-    (s) => unlocked.has(levelOf(s)) && s.uses.every((id) => wordUsableInSentence(progress, id)),
-  );
+  return sentences.filter((s) => unlocked.has(levelOf(s)));
 }
 
 /* ------------------------------------------------------------------ «Уровни» screen helpers

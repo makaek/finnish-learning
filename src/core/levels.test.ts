@@ -295,43 +295,27 @@ describe("activeVocab", () => {
   });
 });
 
-describe("eligibleSentences", () => {
-  it("requires the level unlocked AND every used word learned", () => {
-    // Brand new: L1 unlocked but a1/a2 not learned → s1 ineligible.
-    expect(eligibleSentences(sentences, vocab, new Map())).toEqual([]);
-    // Learn a1,a2 → s1 eligible; s2 still locked (L2) and b1 not learned.
+describe("eligibleSentences (level-gated; words no longer gate)", () => {
+  it("returns every sentence in an unlocked level, regardless of word progress", () => {
+    // Brand new: L1 unlocked, L2 locked → only s1, even though a1/a2 aren't practised yet.
+    expect(eligibleSentences(sentences, vocab, new Map()).map((s) => s.id)).toEqual(["s1"]);
+  });
+
+  it("opens a higher-level sentence as soon as its level unlocks (no word requirement)", () => {
+    // L1 ≥80% learned unlocks L2 → s2 eligible even with b1 (its used word) untouched.
+    const p = learned(["a1", "a2", "a3", "a4"]);
+    expect(eligibleSentences(sentences, vocab, p).map((s) => s.id).sort()).toEqual(["s1", "s2"]);
+  });
+
+  it("excludes sentences from a still-locked level", () => {
+    // L1 only 40% learned → L2 stays locked → s2 excluded.
     expect(eligibleSentences(sentences, vocab, learned(["a1", "a2"])).map((s) => s.id)).toEqual([
       "s1",
     ]);
   });
 
-  it("gates a higher-level sentence behind both its unlock and its words", () => {
-    // L1 mastered (unlocks L2) and b1 learned → s2 becomes eligible.
-    const p = learned(["a1", "a2", "a3", "a4", "b1"]);
-    expect(eligibleSentences(sentences, vocab, p).map((s) => s.id).sort()).toEqual(["s1", "s2"]);
-  });
-
   it("returns everything in test mode", () => {
     expect(eligibleSentences(sentences, vocab, new Map(), true)).toHaveLength(2);
-  });
-
-  it("uses a gentler bar than 'learned' — a word at box 1 already opens its sentence", () => {
-    // a1, a2 only net-correct once (box 1): not 'learned' for unlocks, but usable in s1.
-    const mk = (id: string): ItemProgress => ({
-      kind: "recognition",
-      itemId: id,
-      box: 1,
-      correctStreak: 1,
-      totalCorrect: 1,
-      totalSeen: 2,
-      lastSeen: 1,
-    });
-    const p: ProgressMap = new Map([
-      [progressKey("recognition", "a1"), mk("a1")],
-      [progressKey("recognition", "a2"), mk("a2")],
-    ]);
-    expect(wordLearned(p, "a1")).toBe(false); // not mastered for level unlocks
-    expect(eligibleSentences(sentences, vocab, p).map((s) => s.id)).toEqual(["s1"]);
   });
 });
 

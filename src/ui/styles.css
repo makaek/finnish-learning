@@ -142,6 +142,33 @@ body {
   transform: scale(0.96);
 }
 
+/* «Уже знаю» — descope the current lesson item (top-right, mirrors .exit). */
+.known {
+  position: fixed;
+  top: max(0.75rem, env(safe-area-inset-top));
+  right: max(0.75rem, env(safe-area-inset-right));
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.55rem 0.95rem;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--muted);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--pill);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: color 0.15s ease, transform 0.1s ease;
+}
+.known:hover {
+  color: var(--ok);
+}
+.known:active {
+  transform: scale(0.96);
+}
+
 /* --- Card --- */
 .card {
   width: 100%;
