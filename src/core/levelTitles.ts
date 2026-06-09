@@ -63,23 +63,32 @@ export const LEVEL_TITLES: Readonly<Record<number, LevelTitle>> = {
   // L12: body keho/pää/käsi/jalka + kuume/flunssa/lääke/terveys + seasons kevät/kesä/syksy/talvi;
   // texts "Lääkärissä", "Syksyn sää", "Kesäsuunnitelmani" — health & seasons.
   12: { fi: "Terveys ja vuodenajat", ru: "Здоровье и времена года" },
+  // --- A2.2 (new levels 13–15, authored by the finnish-linguist for the A2 build-out) ---
+  // L13: personal history → imperfect + perfect contrast (syntyä/kasvaa/muutto/lapsuus/elämä).
+  13: { fi: "Menneisyys ja muistot", ru: "Прошлое и воспоминания" },
+  // L14: household problems, moving → passive + conditional hypothetical (hana/putki/vuokranantaja).
+  14: { fi: "Koti, muutto ja arki", ru: "Дом, переезд и быт" },
+  // L15: cooking/store/doctor/hobbies depth → 3rd/4th infinitive + rektio, full conjunctions.
+  15: { fi: "Ruoka, terveys ja harrastukset", ru: "Еда, здоровье и хобби" },
 };
 
 /**
  * Russian display name for each CEFR band, sanity-checked against the band's actual content:
- *  - A1.1 (L1–3): greetings, family, basic être/avoir — the foundations.
+ *  - A1.1 (L1–3): greetings, family — the foundations.
  *  - A1.2 (L4–6): food/café, weather/time, daily routine — everyday situations.
  *  - A1.3 (L7–9): travel, nature, town, feelings — living in the city / wider world.
- *  - A2 (L10–12): home interior, errands & shopping, health — a confident everyday start.
+ *  - A2.1 (L10–12): home interior, errands & shopping, health — confident everyday life.
+ *  - A2.2 (L13–15): personal history, moving, cooking/doctor depth — towards independence.
  */
 export const BAND_NAMES: Readonly<Record<Cefr, string>> = {
   "A1.1": "Основы",
   "A1.2": "Повседневность",
   "A1.3": "Город и быт",
-  "A2": "Уверенный старт",
+  "A2.1": "Уверенный быт",
+  "A2.2": "Самостоятельность",
 };
 
-/** Title for a level, with a safe fallback for any level outside 1–12. */
+/** Title for a level, with a safe fallback for any level outside the authored range. */
 export function levelTitle(level: number): LevelTitle {
   return LEVEL_TITLES[level] ?? { fi: `Taso ${level}`, ru: `Уровень ${level}` };
 }

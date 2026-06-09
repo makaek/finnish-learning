@@ -14,21 +14,22 @@ const upTo = (through: number, maxLevel = 12): LevelStat[] =>
   Array.from({ length: maxLevel }, (_, i) => stat(i + 1, i + 1 <= through ? 1 : 0));
 
 describe("cefrOfLevel / majorBand", () => {
-  it("maps levels to A1.1/A1.2/A1.3/A2 (linguist banding)", () => {
+  it("maps levels to A1.1/A1.2/A1.3/A2.1/A2.2 (linguist banding)", () => {
     expect([1, 2, 3].map(cefrOfLevel)).toEqual(["A1.1", "A1.1", "A1.1"]);
     expect([4, 5, 6].map(cefrOfLevel)).toEqual(["A1.2", "A1.2", "A1.2"]);
     expect([7, 8, 9].map(cefrOfLevel)).toEqual(["A1.3", "A1.3", "A1.3"]);
-    expect([10, 12].map(cefrOfLevel)).toEqual(["A2", "A2"]);
+    expect([10, 11, 12].map(cefrOfLevel)).toEqual(["A2.1", "A2.1", "A2.1"]);
+    expect([13, 14, 15].map(cefrOfLevel)).toEqual(["A2.2", "A2.2", "A2.2"]);
   });
   it("levels beyond the last boundary take the final band", () => {
-    expect(cefrOfLevel(99)).toBe("A2");
+    expect(cefrOfLevel(99)).toBe("A2.2");
   });
-  it("majorBand folds the A1 sub-bands into A1", () => {
+  it("majorBand folds the sub-bands into A1 / A2", () => {
     expect((["A1.1", "A1.2", "A1.3"] as const).map(majorBand)).toEqual(["A1", "A1", "A1"]);
-    expect(majorBand("A2")).toBe("A2");
+    expect((["A2.1", "A2.2"] as const).map(majorBand)).toEqual(["A2", "A2"]);
   });
   it("CEFR_ORDER is the ascending milestone ladder", () => {
-    expect(CEFR_ORDER).toEqual(["A1.1", "A1.2", "A1.3", "A2"]);
+    expect(CEFR_ORDER).toEqual(["A1.1", "A1.2", "A1.3", "A2.1", "A2.2"]);
   });
 });
 
@@ -57,8 +58,8 @@ describe("cefrProgress", () => {
     expect(cefrProgress(upTo(3))).toMatchObject({ band: "A1.2", nextBand: "A1.3", levelsDone: 0 });
   });
 
-  it("all of A1 (levels 1–9) done → milestone A2", () => {
-    expect(cefrProgress(upTo(9))).toMatchObject({ band: "A2", major: "A2", nextBand: null });
+  it("all of A1 (levels 1–9) done → milestone A2.1", () => {
+    expect(cefrProgress(upTo(9))).toMatchObject({ band: "A2.1", major: "A2", nextBand: "A2.2" });
   });
 
   it("a level at the completion threshold reads as done", () => {
@@ -66,8 +67,9 @@ describe("cefrProgress", () => {
     expect(cefrProgress(stats).levelsDone).toBe(1);
   });
 
-  it("everything done → final band, complete", () => {
-    expect(cefrProgress(upTo(12))).toMatchObject({ band: "A2", nextBand: null, complete: true, fraction: 1 });
+  it("everything present done → final band, complete", () => {
+    // upTo(12) makes L1–12 (through A2.1) done; A2.2 (L13–15) has no levels present yet.
+    expect(cefrProgress(upTo(12))).toMatchObject({ band: "A2.2", nextBand: null, complete: true, fraction: 1 });
   });
 
   it("empty levels in a band don't block it", () => {

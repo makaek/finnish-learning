@@ -11,25 +11,26 @@
 import { LEVEL_COMPLETE_FRACTION, type LevelStat } from "./levels";
 
 /**
- * Milestone bands. CEFR A1 is split into its three sub-levels (A1.1/A1.2/A1.3, per the product's
- * A1 definition) so the learner sees granular progress; A2 is the next major band. The ladder is
- * the milestone sequence the home bar walks.
+ * Milestone bands. Both CEFR A1 and A2 are split into sub-levels (A1.1/A1.2/A1.3 and A2.1/A2.2, per
+ * the linguist's banding) so the learner sees granular progress. The ladder is the milestone
+ * sequence the home bar walks.
  */
-export type Cefr = "A1.1" | "A1.2" | "A1.3" | "A2";
+export type Cefr = "A1.1" | "A1.2" | "A1.3" | "A2.1" | "A2.2";
 
 /** Milestone bands in ascending order — the ladder the progress bar climbs. */
-export const CEFR_ORDER: readonly Cefr[] = ["A1.1", "A1.2", "A1.3", "A2"];
+export const CEFR_ORDER: readonly Cefr[] = ["A1.1", "A1.2", "A1.3", "A2.1", "A2.2"];
 
 /**
- * Inclusive top level of each band, assigned by the finnish-linguist from content difficulty
- * (`docs/cefr-a1-spec.md`): A1.1 → levels 1–3, A1.2 → 4–6, A1.3 → 7–9, A2 → 10–12. A level above
- * the last boundary takes the final band.
+ * Inclusive top level of each band, assigned by the finnish-linguist from content difficulty:
+ * A1.1 → levels 1–3, A1.2 → 4–6, A1.3 → 7–9, A2.1 → 10–12, A2.2 → 13–15. A level above the last
+ * boundary takes the final band.
  */
 const BAND_MAX_LEVEL: { band: Cefr; maxLevel: number }[] = [
   { band: "A1.1", maxLevel: 3 },
   { band: "A1.2", maxLevel: 6 },
   { band: "A1.3", maxLevel: 9 },
-  { band: "A2", maxLevel: 12 },
+  { band: "A2.1", maxLevel: 12 },
+  { band: "A2.2", maxLevel: 15 },
 ];
 
 /** The CEFR band a curriculum level belongs to. */
@@ -38,9 +39,9 @@ export function cefrOfLevel(level: number): Cefr {
   return BAND_MAX_LEVEL[BAND_MAX_LEVEL.length - 1]!.band;
 }
 
-/** The major CEFR band of a sub-band ("A1" spans A1.1–A1.3). */
+/** The major CEFR band of a sub-band ("A1" spans A1.1–A1.3; "A2" spans A2.1–A2.2). */
 export function majorBand(band: Cefr): "A1" | "A2" {
-  return band === "A2" ? "A2" : "A1";
+  return band === "A2.1" || band === "A2.2" ? "A2" : "A1";
 }
 
 export interface CefrProgress {
