@@ -8,14 +8,22 @@
  * `onCleanLevel`). Reached from the Метрики hero, exits via its own back button — a tab-less screen.
  */
 
-import { useState, type ReactNode } from "react";
+import { useRef, useState, type PointerEvent as ReactPointerEvent, type ReactNode } from "react";
 import type { VocabItem } from "../core/dictionary";
 import type { SentenceItem } from "../core/grader";
 import type { ReadingText } from "../core/reading";
-import type { ProgressMap } from "../core/progress";
-import { levelContent, levelSummaries, type LevelSummary } from "../core/levels";
+import { getProgress, type ProgressMap } from "../core/progress";
+import {
+  levelSummaries,
+  levelOf,
+  WORD_MODES,
+  SENTENCE_MODES,
+  LEARNED_BOX,
+  type LevelSummary,
+} from "../core/levels";
 import { levelTitle, BAND_NAMES } from "../core/levelTitles";
 import { CEFR_ORDER, cefrOfLevel } from "../core/curriculum";
+import { hiddenKey, type Group } from "./hidden";
 import { UiIcon, type UiIconName } from "./icons";
 import type { Mode } from "./Roadmap";
 
@@ -24,11 +32,19 @@ interface LevelsProps {
   sentences: readonly SentenceItem[];
   texts: readonly ReadingText[];
   progress: ProgressMap;
+  /** Items swiped «Уже знаю» (the hidden set), keyed by hiddenKey. */
+  hidden: ReadonlySet<string>;
+  /** Texts/dialogs the learner has opened (read), for the reading status line. */
+  read: ReadonlySet<string>;
   onBack: () => void;
   onStart: (mode: Mode) => void;
   onMarkPassed: (level: number) => void;
   /** Reset every track of a level's items (clean / the rollback mechanism). */
   onCleanLevel: (level: number) => void;
+  /** Swipe «Уже знаю» on one item: mark its group learned + hide it. */
+  onKnown: (group: Group, id: string) => void;
+  /** «Вернуть в уроки»: reset one item's progress + unhide it. */
+  onResetItem: (group: Group | "text", id: string) => void;
 }
 
 type View = "list" | "detail";
@@ -61,10 +77,14 @@ export default function Levels({
   sentences,
   texts,
   progress,
+  hidden,
+  read,
   onBack,
   onStart,
   onMarkPassed,
   onCleanLevel,
+  onKnown,
+  onResetItem,
 }: LevelsProps) {
   const [view, setView] = useState<View>("list");
   const [detailLv, setDetailLv] = useState<number>(1);
@@ -91,13 +111,19 @@ export default function Levels({
     const ds = byLevel.get(detailLv)!;
     return (
       <DetailView
+        key={ds.level}
         summary={ds}
         vocab={vocab}
         sentences={sentences}
         texts={texts}
+        progress={progress}
+        hidden={hidden}
+        read={read}
         onBack={() => setView("list")}
         // The current level keeps practising its leftovers (Микс); a passed level is reviewed.
         onPractice={() => onStart(ds.status === "current" ? "mix" : "recognition")}
+        onKnown={onKnown}
+        onResetItem={onResetItem}
       />
     );
   }
@@ -273,31 +299,370 @@ function LevelRow({
   );
 }
 
-/** Detail view: review a level's content, Finnish-first (a passed level OR the current one). */
+/* ---------------------------------------------------------------- per-item models + strip */
+/** A word/sentence item with its per-mode Leitner boxes (the "strikes"). */
+interface WSItem {
+  id: string;
+  fi: string;
+  ru: string;
+  group: Group;
+  modes: number[];
+}
+/** A text/dialog item with its reading-quiz box + whether it's been opened. */
+interface TxItem {
+  id: string;
+  fi: string;
+  ru: string;
+  dialog: boolean;
+  readingBox: number;
+  opened: boolean;
+}
+type StatusKind = "active" | "known" | "mastered";
+
+/** Strip segment widths for the 3 states; box ≤0 → empty, 1 → half, ≥2 → full. */
+const STRIKE_W = ["0%", "50%", "100%"] as const;
+const strikeOf = (box: number): 0 | 1 | 2 => (box <= 0 ? 0 : box === 1 ? 1 : 2);
+const WORD_TAGS = ["Узн", "Пис", "Речь", "Слух"];
+const SENT_TAGS = ["Пер", "Речь", "Слух"];
+
+/** The per-mode "strikes" strip — one segment per practice mode, three states only. */
+function ModeStrip({ modes, group }: { modes: number[]; group: Group }) {
+  const g = group === "word" ? "w" : "s";
+  return (
+    <span className="strip">
+      {modes.map((b, i) => (
+        <span key={i} className="strip__seg">
+          <span className={"strip__fill strip__fill--" + g} style={{ width: STRIKE_W[strikeOf(b)] }} />
+        </span>
+      ))}
+    </span>
+  );
+}
+
+/** One-line decoder of the strip's segment order for a section. */
+function StripLegend({ group }: { group: Group }) {
+  const tags = group === "word" ? WORD_TAGS : SENT_TAGS;
+  return (
+    <div className="striplegend">
+      <span className={"striplegend__dot striplegend__dot--" + (group === "word" ? "w" : "s")} />
+      {tags.map((t, i) => (
+        <span key={i} className="striplegend__tag">
+          {t}
+          {i < tags.length - 1 ? " ·" : ""}
+        </span>
+      ))}
+      <span className="striplegend__note">— освоено по режимам</span>
+    </div>
+  );
+}
+
+/** Swipe-left to mark «Уже знаю». Snaps back below threshold; fires `onSwipe` past it. */
+function SwipeCard({ onSwipe, children }: { onSwipe: () => void; children: ReactNode }) {
+  const [dx, setDx] = useState(0);
+  const [anim, setAnim] = useState(false);
+  const startX = useRef<number | null>(null);
+  const TH = 92;
+  const MAX = 132;
+  const reveal = Math.min(1, -dx / TH);
+
+  function down(e: ReactPointerEvent<HTMLDivElement>) {
+    startX.current = e.clientX;
+    setAnim(false);
+    e.currentTarget.setPointerCapture?.(e.pointerId);
+  }
+  function move(e: ReactPointerEvent<HTMLDivElement>) {
+    if (startX.current == null) return;
+    setDx(Math.max(-MAX, Math.min(0, e.clientX - startX.current)));
+  }
+  function up() {
+    if (startX.current == null) return;
+    setAnim(true);
+    if (dx <= -TH) {
+      setDx(-440);
+      window.setTimeout(onSwipe, 170);
+    } else {
+      setDx(0);
+    }
+    startX.current = null;
+  }
+
+  return (
+    <div className="swipe">
+      <div className="swipe__reveal" style={{ opacity: 0.35 + reveal * 0.65 }} aria-hidden="true">
+        <UiIcon name="check" size={17} strokeWidth={2.8} />
+        Уже знаю
+      </div>
+      <div
+        className="swipe__fg"
+        onPointerDown={down}
+        onPointerMove={move}
+        onPointerUp={up}
+        onPointerCancel={up}
+        style={{
+          transform: `translateX(${dx}px)`,
+          transition: anim ? "transform .22s cubic-bezier(.2,.7,.3,1)" : "none",
+        }}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function StatusDisc({ kind }: { kind: StatusKind }) {
+  if (kind === "active") return <span className="sdisc sdisc--active" />;
+  return (
+    <span className={"sdisc sdisc--" + kind}>
+      <UiIcon name="check" size={11} strokeWidth={2.8} />
+    </span>
+  );
+}
+
+/** Inner body of a word/sentence card: status disc + fi/ru + the mode strip. */
+function WordCardBody({ it, status }: { it: WSItem; status: StatusKind }) {
+  return (
+    <div className={"litem" + (it.group === "sentence" ? " litem--stack" : "")}>
+      <StatusDisc kind={status} />
+      <div className="litem__text">
+        <div className="litem__words">
+          <span className="litem__fi">{it.fi}</span>
+          <span className="litem__ru">{it.ru}</span>
+        </div>
+        <div className="litem__strip">
+          <ModeStrip modes={it.modes} group={it.group} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** Inner body of a text/dialog card: reading icon + title/ru + a status line. */
+function TextCardBody({ it }: { it: TxItem }) {
+  const status =
+    it.readingBox >= LEARNED_BOX
+      ? { t: "Вопросы пройдены", c: "green" }
+      : it.readingBox > 0
+        ? { t: "Вопросы начаты", c: "r" }
+        : it.opened
+          ? { t: "Прочитано · без вопросов", c: "r" }
+          : { t: "Ещё не пройдено", c: "faint" };
+  return (
+    <div className="litem">
+      <span className="litem__ricon">
+        <UiIcon name={it.dialog ? "masks" : "book"} size={17} strokeWidth={1.7} />
+      </span>
+      <div className="litem__text">
+        <div className="litem__words litem__words--stack">
+          <span className="litem__fi">{it.fi}</span>
+          {it.ru && <span className="litem__ru">{it.ru}</span>}
+        </div>
+        <div className={"litem__status litem__status--" + status.c}>{status.t}</div>
+      </div>
+    </div>
+  );
+}
+
+interface ActiveEntry {
+  id: string;
+  node: ReactNode;
+  /** Word/sentence cards are swipeable; text/dialog cards are not. */
+  onSwipe?: () => void;
+}
+interface HiddenEntry {
+  id: string;
+  node: ReactNode;
+  tag: "known" | "mastered";
+  onReturn: () => void;
+}
+
+/** The active list + collapsible hidden group for the selected tab. */
+function Section({
+  total,
+  active,
+  hidden,
+  legend,
+  swipeHint,
+}: {
+  total: number;
+  active: ActiveEntry[];
+  hidden: HiddenEntry[];
+  legend: ReactNode;
+  swipeHint: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <div className="lsec__meta">
+        <span>
+          {active.length > 0 ? (
+            <>
+              Осталось <b>{active.length}</b> из {total}
+            </>
+          ) : (
+            `Всё освоено · ${total}`
+          )}
+        </span>
+        {swipeHint && active.length > 0 && <span className="lsec__hint">← свайп «уже знаю»</span>}
+      </div>
+      {legend && active.length > 0 && legend}
+
+      <div className="lsec__list">
+        {active.map((e) =>
+          e.onSwipe ? (
+            <SwipeCard key={e.id} onSwipe={e.onSwipe}>
+              <div className="litemcard">{e.node}</div>
+            </SwipeCard>
+          ) : (
+            <div key={e.id} className="litemcard">
+              {e.node}
+            </div>
+          ),
+        )}
+        {active.length === 0 && hidden.length === 0 && <div className="lsec__empty">Нет элементов.</div>}
+      </div>
+
+      {hidden.length > 0 && (
+        <div className="lhidden">
+          <button type="button" className="lhidden__toggle" onClick={() => setOpen((o) => !o)}>
+            <UiIcon name={open ? "chevD" : "chevR"} size={14} strokeWidth={2.4} />
+            {open ? "Скрыть" : `Показать скрытые · ${hidden.length}`}
+          </button>
+          {open && (
+            <div className="lhidden__list">
+              {hidden.map((e) => (
+                <div key={e.id} className="litemcard litemcard--hidden">
+                  {e.node}
+                  <div className="lhidden__row">
+                    <span className={"ltag ltag--" + e.tag}>
+                      {e.tag === "known" ? "уже знаю" : "выучено"}
+                    </span>
+                    <button type="button" className="lreturn" onClick={e.onReturn}>
+                      <UiIcon name="refresh" size={13} strokeWidth={2.1} />
+                      Вернуть в уроки
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </>
+  );
+}
+
+type Tab = "w" | "s" | "t" | "d";
+
+/** Detail view: the level-info page — content tiles + tabbed per-item strikes, swipe-to-know,
+ *  a hidden/return group, and a train-the-leftovers CTA. Works for the current or a passed level. */
 function DetailView({
   summary,
   vocab,
   sentences,
   texts,
+  progress,
+  hidden,
+  read,
   onBack,
   onPractice,
+  onKnown,
+  onResetItem,
 }: {
   summary: LevelSummary;
   vocab: readonly VocabItem[];
   sentences: readonly SentenceItem[];
   texts: readonly ReadingText[];
+  progress: ProgressMap;
+  hidden: ReadonlySet<string>;
+  read: ReadonlySet<string>;
   onBack: () => void;
   onPractice: () => void;
+  onKnown: (group: Group, id: string) => void;
+  onResetItem: (group: Group | "text", id: string) => void;
 }) {
-  const [allWords, setAllWords] = useState(false);
   const level = summary.level;
   const isCurrent = summary.status === "current";
   const title = levelTitle(level);
   const band = cefrOfLevel(level);
-  const content = levelContent(vocab, sentences, texts, level);
-  const PREVIEW = 5;
-  const shownWords = allWords ? content.words : content.words.slice(0, PREVIEW);
-  const hiddenCount = content.words.length - PREVIEW;
+  const [tab, setTab] = useState<Tab>("w");
+
+  // Per-item data, with each item's per-mode boxes ("strikes") read from progress.
+  const words: WSItem[] = vocab
+    .filter((v) => levelOf(v) === level)
+    .map((v) => ({
+      id: v.id,
+      fi: v.fi,
+      ru: v.ru,
+      group: "word",
+      modes: WORD_MODES.map((k) => getProgress(progress, k, v.id).box),
+    }));
+  const sents: WSItem[] = sentences
+    .filter((s) => levelOf(s) === level)
+    .map((s) => ({
+      id: s.id,
+      fi: s.canonical,
+      ru: s.ru,
+      group: "sentence",
+      modes: SENTENCE_MODES.map((k) => getProgress(progress, k, s.id).box),
+    }));
+  const levelTexts = texts.filter((t) => levelOf(t) === level);
+  const textsOf = (dialog: boolean): TxItem[] =>
+    levelTexts
+      .filter((t) => (t.type === "dialog") === dialog)
+      .map((t) => ({
+        id: t.id,
+        fi: t.title,
+        ru: t.titleRu ?? "",
+        dialog: t.type === "dialog",
+        readingBox: getProgress(progress, "reading", t.id).box,
+        opened: read.has(t.id),
+      }));
+
+  // «done» (hidden from the active list): word/sentence — swiped-known OR every mode mastered;
+  // text/dialog — its reading quiz passed.
+  const wsKnown = (it: WSItem) => hidden.has(hiddenKey(it.group, it.id));
+  const wsDone = (it: WSItem) => wsKnown(it) || it.modes.every((b) => b >= LEARNED_BOX);
+  const txDone = (it: TxItem) => it.readingBox >= LEARNED_BOX;
+
+  const tabs: { k: Tab; label: string; rem: number }[] = [
+    { k: "w", label: "Слова", rem: words.filter((it) => !wsDone(it)).length },
+    { k: "s", label: "Предложения", rem: sents.filter((it) => !wsDone(it)).length },
+    { k: "t", label: "Тексты", rem: textsOf(false).filter((it) => !txDone(it)).length },
+    { k: "d", label: "Диалоги", rem: textsOf(true).filter((it) => !txDone(it)).length },
+  ];
+
+  let section: ReactNode;
+  if (tab === "w" || tab === "s") {
+    const arr = tab === "w" ? words : sents;
+    const group: Group = tab === "w" ? "word" : "sentence";
+    const active: ActiveEntry[] = arr
+      .filter((it) => !wsDone(it))
+      .map((it) => ({
+        id: it.id,
+        node: <WordCardBody it={it} status="active" />,
+        onSwipe: () => onKnown(group, it.id),
+      }));
+    const hiddenE: HiddenEntry[] = arr
+      .filter(wsDone)
+      .map((it) => ({
+        id: it.id,
+        node: <WordCardBody it={it} status={wsKnown(it) ? "known" : "mastered"} />,
+        tag: wsKnown(it) ? "known" : "mastered",
+        onReturn: () => onResetItem(group, it.id),
+      }));
+    section = (
+      <Section key={tab} total={arr.length} active={active} hidden={hiddenE} legend={<StripLegend group={group} />} swipeHint />
+    );
+  } else {
+    const arr = textsOf(tab === "d");
+    const active: ActiveEntry[] = arr
+      .filter((it) => !txDone(it))
+      .map((it) => ({ id: it.id, node: <TextCardBody it={it} /> }));
+    const hiddenE: HiddenEntry[] = arr
+      .filter(txDone)
+      .map((it) => ({ id: it.id, node: <TextCardBody it={it} />, tag: "mastered", onReturn: () => onResetItem("text", it.id) }));
+    section = <Section key={tab} total={arr.length} active={active} hidden={hiddenE} legend={null} swipeHint={false} />;
+  }
 
   const tile = (icon: UiIconName, n: number, label: string, group: string) => (
     <div className="ldtile">
@@ -344,65 +709,27 @@ function DetailView({
         {tile("book", summary.counts.texts, summary.counts.texts === 1 ? "текст" : "текста", "r")}
       </div>
 
-      <h2 className="mx__sec mx__sec--count">
-        Слова <span className="mx__seccount">{content.words.length}</span>
-      </h2>
-      <div className="ldlist">
-        {shownWords.map((w, i) => (
-          <ItemRow key={i} fi={w.fi} ru={w.ru} />
-        ))}
-        {hiddenCount > 0 && (
-          <button type="button" className="ldmore" onClick={() => setAllWords((a) => !a)}>
-            {allWords ? "Свернуть" : `Показать ещё ${hiddenCount} слов`}
-            <UiIcon name={allWords ? "chevD" : "chevR"} size={15} strokeWidth={2.4} />
+      <div className="ltabs">
+        {tabs.map((t) => (
+          <button
+            key={t.k}
+            type="button"
+            className={"ltab" + (t.k === tab ? " ltab--on" : "")}
+            onClick={() => setTab(t.k)}
+          >
+            {t.label}
+            <span className="ltab__badge">{t.rem > 0 ? t.rem : "✓"}</span>
           </button>
-        )}
-      </div>
-
-      <h2 className="mx__sec mx__sec--count">
-        Предложения <span className="mx__seccount">{content.sentences.length}</span>
-      </h2>
-      <div className="ldlist">
-        {content.sentences.map((s, i) => (
-          <ItemRow key={i} fi={s.fi} ru={s.ru} />
         ))}
       </div>
 
-      <h2 className="mx__sec mx__sec--count">
-        Тексты и диалоги <span className="mx__seccount">{content.texts.length}</span>
-      </h2>
-      <div className="ldlist">
-        {content.texts.map((t, i) => (
-          <ItemRow key={i} fi={t.fi} ru={t.ru} icon={t.dialog ? "masks" : "book"} />
-        ))}
-      </div>
+      {section}
 
-      <button type="button" className="ldrepeat" onClick={onPractice}>
-        <UiIcon name={isCurrent ? "play" : "refresh"} size={17} strokeWidth={2} />
-        {isCurrent ? "Продолжить уровень" : "Повторить уровень"}
+      <button type="button" className={"ldcta" + (isCurrent ? " ldcta--go" : "")} onClick={onPractice}>
+        <UiIcon name={isCurrent ? "play" : "refresh"} size={16} strokeWidth={2} />
+        {isCurrent ? "Тренировать оставшееся" : "Повторить уровень"}
       </button>
     </main>
-  );
-}
-
-/** A single Finnish-first content row in the detail list. */
-function ItemRow({ fi, ru, icon }: { fi: string; ru: string; icon?: UiIconName }) {
-  return (
-    <div className="lirow">
-      {icon ? (
-        <span className="lirow__ic lirow__ic--r">
-          <UiIcon name={icon} size={17} strokeWidth={1.7} />
-        </span>
-      ) : (
-        <span className="lirow__tick">
-          <UiIcon name="check" size={11} strokeWidth={2.8} />
-        </span>
-      )}
-      <div className="lirow__text">
-        <div className="lirow__fi">{fi}</div>
-        {ru && <div className="lirow__ru">{ru}</div>}
-      </div>
-    </div>
   );
 }
 

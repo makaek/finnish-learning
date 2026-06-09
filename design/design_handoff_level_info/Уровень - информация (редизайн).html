@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Уровень — информация (редизайн)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #EDEAE3; font-family: "Golos Text", system-ui, sans-serif; color: #23262E; }
+  * { box-sizing: border-box; }
+  .top { padding: 30px 40px 6px; max-width: 1000px; margin: 0 auto; }
+  .top h1 { font-size: 23px; font-weight: 800; letter-spacing: -0.03em; margin: 0 0 4px; }
+  .top p { font-size: 13.5px; font-weight: 600; color: #71757F; margin: 0 0 16px; line-height: 1.5; max-width: 620px; }
+  .seg { display: inline-flex; background: #fff; border: 1px solid #E7E3DB; border-radius: 12px; padding: 4px; gap: 4px; }
+  .seg button { border: none; background: none; font-family: inherit; font-size: 13px; font-weight: 700; color: #71757F;
+    padding: 8px 14px; border-radius: 9px; cursor: pointer; display: flex; align-items: center; gap: 7px; }
+  .seg button.on { background: #1B8E84; color: #fff; }
+  .seg .lv { font-size: 11px; font-weight: 800; opacity: .85; }
+  .hint { display: inline-flex; align-items: center; gap: 8px; margin-left: 14px; font-size: 12.5px; font-weight: 700; color: #71757F; }
+  .wrap { display: flex; flex-wrap: wrap; gap: 44px; padding: 22px 40px 60px; justify-content: center; align-items: flex-start; }
+  .col { display: flex; flex-direction: column; align-items: center; gap: 13px; }
+  .cap { font-size: 12.5px; font-weight: 800; color: #71757F; letter-spacing: .01em; text-align: center; }
+  .cap small { display: block; font-weight: 600; color: #AAB1BC; font-size: 11.5px; margin-top: 2px; }
+  .phone { width: 418px; border-radius: 40px; overflow: hidden; background: #F0EDE6;
+    box-shadow: 0 22px 60px rgba(40,30,20,.18), 0 0 0 9px #15110d, 0 0 0 11px #2c2620; padding: 14px; }
+  .phone > div { border-radius: 28px; overflow: hidden; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <rect width="100" height="100" fill="#1B8E84"/>
+    <g transform="translate(50,52)">
+      <circle cx="0" cy="-14" r="9" fill="none" stroke="#fff" stroke-width="4"/>
+      <g fill="#fff"><circle cx="-17" cy="16" r="5"/><circle cx="-1" cy="16" r="5"/><circle cx="15" cy="16" r="5" opacity=".45"/></g>
+    </g>
+  </svg>
+</template>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="kit.jsx"></script>
+<script type="text/babel" src="leveldata.jsx"></script>
+<script type="text/babel" src="strip.jsx"></script>
+<script type="text/babel" src="levelinfo.jsx"></script>
+
+<script type="text/babel">
+function App() {
+  const [lv, setLv] = React.useState(3);
+  return (
+    <div>
+      <div className="top">
+        <h1>Информация об уровне</h1>
+        <p>Метрики из «Прогресса» свёрнуты в одну строку-режимов под каждым словом — по сегменту на режим, заполнен при 2+ страйках. Слова · Предложения · Тексты · Диалоги разнесены по вкладкам. Свайпните карточку влево, чтобы отметить «Уже знаю» и тренировать только оставшееся; скрытое и выученное возвращается в уроки.</p>
+        <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
+          <div className="seg">
+            <button className={lv === 3 ? 'on' : ''} onClick={() => setLv(3)}>Текущий <span className="lv">· 3 Perhe</span></button>
+            <button className={lv === 2 ? 'on' : ''} onClick={() => setLv(2)}>Пройденный <span className="lv">· 2 Tutustuminen</span></button>
+          </div>
+          <span className="hint">
+            <Icon n="arrow" s={15} c="#71757F" sw={2} style={{ transform: 'scaleX(-1)' }} />
+            свайп влево — «Уже знаю»
+          </span>
+        </div>
+      </div>
+      <div className="wrap">
+        <div className="col">
+          <div className="phone"><LevelInfo levelKey={lv} /></div>
+        </div>
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

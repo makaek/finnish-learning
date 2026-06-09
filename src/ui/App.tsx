@@ -45,7 +45,6 @@ import { loadProgress, loadState, saveProgress, saveState } from "../data/backen
 import { hiddenKey, loadHidden, saveHidden, type Group } from "./hidden";
 import { loadRead, saveRead } from "./readingState";
 import Roadmap, { type Mode } from "./Roadmap";
-import ProgressDetails from "./ProgressDetails";
 import Dashboard from "./Dashboard";
 import Levels from "./Levels";
 import RulesBook from "./RulesBook";
@@ -440,12 +439,80 @@ export default function App() {
   }
 
   /**
-   * «Уже знаю» — descope the current item. Marks EVERY mode of its group (word: 4 modes / sentence:
-   * 3 modes) as learned (box ≥ LEARNED_BOX, a coherent 2/2 record) and HIDES it from future lessons
-   * (the existing hidden-set mechanism), then advances past it WITHOUT scoring (it isn't an answer).
-   * Lets the learner skip items they already know so sessions focus on the un-polished ones.
-   * Persisted: progress (fire-and-forget) + the local hidden set.
+   * «Уже знаю» — descope a single word/sentence item: mark EVERY mode of its group (word: 4 /
+   * sentence: 3) as learned (box ≥ LEARNED_BOX, a coherent 2/2 record) and HIDE it from lessons
+   * (the existing hidden-set mechanism). Used by the in-lesson «Уже знаю» AND the level page's
+   * swipe-to-know, so a known item actually counts toward level completion. Persisted.
    */
+  function markItemKnown(group: Group, itemId: string) {
+    const now = Date.now();
+    const rows: ItemProgress[] = [];
+    for (const kind of group === "word" ? WORD_MODES : SENTENCE_MODES) {
+      const prev = getProgress(progressRef.current, kind, itemId);
+      const p: ItemProgress = {
+        ...prev,
+        kind,
+        itemId,
+        box: Math.max(prev.box, LEARNED_BOX),
+        correctStreak: Math.max(prev.correctStreak, LEARNED_BOX),
+        totalCorrect: Math.max(prev.totalCorrect, LEARNED_BOX),
+        totalSeen: Math.max(prev.totalSeen, prev.totalCorrect, LEARNED_BOX),
+        lastSeen: now,
+      };
+      progressRef.current.set(progressKey(kind, itemId), p);
+      rows.push(p);
+    }
+    setHidden((prev) => {
+      const nextSet = new Set(prev);
+      nextSet.add(hiddenKey(group, itemId));
+      saveHidden(nextSet);
+      return nextSet;
+    });
+    setProgressView(new Map(progressRef.current));
+    if (rows.length > 0) void saveProgress(rows);
+  }
+
+  /**
+   * «Вернуть в уроки» — per-item reset (undo «Уже знаю» / un-master). Zeroes every track of the item
+   * (word: 4 modes / sentence: 3 / text: the reading quiz + the recite aggregate & per-role records)
+   * and removes it from the hidden set, so it re-enters the active list with a cleared strip. The
+   * single-item analogue of {@link cleanLevel}. Persisted.
+   */
+  function resetItem(group: Group | "text", id: string) {
+    const rows: ItemProgress[] = [];
+    const zero = (kind: ItemKind, itemId: string) => {
+      const p: ItemProgress = {
+        kind,
+        itemId,
+        box: MIN_BOX,
+        correctStreak: 0,
+        totalCorrect: 0,
+        totalSeen: 0,
+        lastSeen: 0,
+      };
+      progressRef.current.set(progressKey(kind, itemId), p);
+      rows.push(p);
+    };
+    if (group === "text") {
+      zero("reading", id);
+      const text = TEXTS.find((t) => t.id === id);
+      if (text) for (const role of reciteRoles(text)) zero("recite", reciteRoleId(id, role));
+      zero("recite", id);
+    } else {
+      for (const kind of group === "word" ? WORD_MODES : SENTENCE_MODES) zero(kind, id);
+      setHidden((prev) => {
+        if (!prev.has(hiddenKey(group, id))) return prev;
+        const nextSet = new Set(prev);
+        nextSet.delete(hiddenKey(group, id));
+        saveHidden(nextSet);
+        return nextSet;
+      });
+    }
+    setProgressView(new Map(progressRef.current));
+    if (rows.length > 0) void saveProgress(rows);
+  }
+
+  /** In-lesson «Уже знаю»: descope the CURRENT card's item, then skip to the next without scoring. */
   function markKnown() {
     if (mode === null) return;
     const mixItem = mode === "mix" ? mixed[index] : undefined;
@@ -474,32 +541,7 @@ export default function App() {
               : recognition[index]?.itemId;
     }
     if (id === undefined) return;
-    const itemId = id;
-    const now = Date.now();
-    const rows: ItemProgress[] = [];
-    for (const kind of group === "word" ? WORD_MODES : SENTENCE_MODES) {
-      const prev = getProgress(progressRef.current, kind, itemId);
-      const p: ItemProgress = {
-        ...prev,
-        kind,
-        itemId,
-        box: Math.max(prev.box, LEARNED_BOX),
-        correctStreak: Math.max(prev.correctStreak, LEARNED_BOX),
-        totalCorrect: Math.max(prev.totalCorrect, LEARNED_BOX),
-        totalSeen: Math.max(prev.totalSeen, prev.totalCorrect, LEARNED_BOX),
-        lastSeen: now,
-      };
-      progressRef.current.set(progressKey(kind, itemId), p);
-      rows.push(p);
-    }
-    setHidden((prev) => {
-      const nextSet = new Set(prev);
-      nextSet.add(hiddenKey(group, itemId));
-      saveHidden(nextSet);
-      return nextSet;
-    });
-    setProgressView(new Map(progressRef.current));
-    void saveProgress(rows);
+    markItemKnown(group, id);
     setRulesOpen(false);
     setIndex((i) => i + 1); // skip this item — descoped, not answered (no score/daily change)
   }
@@ -606,21 +648,11 @@ export default function App() {
   }
 
   if (mode === null) {
-    // The home shell: one of the four home screens, with the persistent bottom tab bar that
-    // navigates between them (replacing per-screen back arrows and the old text links).
+    // The home shell: one of the home screens, with the persistent bottom tab bar that navigates
+    // between them. (The standalone «Прогресс» screen was removed — per-item progress now lives on
+    // each level page, reached via Метрики → Уровни.)
     let screen;
-    if (homeScreen === "stats") {
-      screen = (
-        <ProgressDetails
-          vocab={VOCAB}
-          sentences={SENTENCES}
-          texts={TEXTS}
-          progress={progressView}
-          testMode={testMode}
-          read={read}
-        />
-      );
-    } else if (homeScreen === "reading") {
+    if (homeScreen === "reading") {
       screen = (
         <Reading
           vocab={VOCAB}
@@ -660,10 +692,14 @@ export default function App() {
           sentences={SENTENCES}
           texts={TEXTS}
           progress={progressView}
+          hidden={hidden}
+          read={read}
           onBack={() => setHomeScreen("dashboard")}
           onStart={start}
           onMarkPassed={markLevelPassed}
           onCleanLevel={cleanLevel}
+          onKnown={markItemKnown}
+          onResetItem={resetItem}
         />
       );
     } else {
@@ -683,7 +719,7 @@ export default function App() {
             setHomeScreen("reading");
           }}
           onTestFill={fillAllMastered}
-          onShowStats={() => setHomeScreen("stats")}
+          onShowStats={() => setHomeScreen("dashboard")}
         />
       );
     }
