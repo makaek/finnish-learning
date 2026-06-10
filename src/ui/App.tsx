@@ -701,15 +701,25 @@ export default function App() {
     setRulesOpen(false);
   }
 
-  // A persistent, dismissible warning when the server is rejecting saves (so progress is only
-  // landing in this device's localStorage). Shown on every screen — the failure fires during a
-  // session but the user feels it as "my level won't advance" back on the home screen.
+  // A persistent, dismissible diagnostic when a backend request failed (so progress is only landing
+  // in this device's localStorage). Shown on every screen — the failure fires during a session but
+  // the user feels it as "my level won't advance" on the home screen. Shows the FULL error detail
+  // (op · code · message · details · hint) so a stuck sync can be diagnosed straight from the phone.
   const syncBanner = syncError && (
     <div className="syncbanner" role="alert">
-      <span className="syncbanner__text">
-        Прогресс сейчас сохраняется только на этом устройстве — сервер отклоняет запись
-        {syncError.code ? ` (${syncError.code})` : ""}. Синхронизация между устройствами не работает.
-      </span>
+      <div className="syncbanner__body">
+        <strong className="syncbanner__title">
+          {syncError.kind === "rejected"
+            ? "Сервер отклонил сохранение — прогресс только на этом устройстве"
+            : "Не удалось связаться с сервером — прогресс только на этом устройстве"}
+        </strong>
+        <code className="syncbanner__detail">
+          {syncError.op}
+          {syncError.code ? ` · ${syncError.code}` : ""} · {syncError.message}
+          {syncError.details ? `\ndetails: ${syncError.details}` : ""}
+          {syncError.hint ? `\nhint: ${syncError.hint}` : ""}
+        </code>
+      </div>
       <button
         type="button"
         className="syncbanner__close"

@@ -87,33 +87,54 @@ describe("row mapping (Supabase schema contract)", () => {
   });
 });
 
-describe("sync-error reporting (server rejection vs offline)", () => {
-  it("surfaces a PostgREST rejection (it carries a code)", () => {
+describe("sync-error reporting", () => {
+  it("surfaces a PostgREST rejection with its full detail", () => {
     const seen: SyncError[] = [];
     const off = onSyncError((e) => seen.push(e));
     reportSyncError("saveProgress", {
       code: "42P10",
       message: "there is no unique or exclusion constraint matching the ON CONFLICT specification",
+      details: "some details",
+      hint: "some hint",
     });
     off();
     expect(seen).toEqual([
       {
         op: "saveProgress",
+        kind: "rejected",
         code: "42P10",
         message:
           "there is no unique or exclusion constraint matching the ON CONFLICT specification",
+        details: "some details",
+        hint: "some hint",
       },
     ]);
   });
 
-  it("stays silent on an offline network throw (no code)", () => {
-    const listener = vi.fn();
-    const off = onSyncError(listener);
+  it("surfaces an offline network throw as kind 'network' (no code)", () => {
+    const seen: SyncError[] = [];
+    const off = onSyncError((e) => seen.push(e));
     reportSyncError("loadProgress", new TypeError("Failed to fetch"));
-    reportSyncError("saveState", null);
-    reportSyncError("loadState", { code: "" });
     off();
-    expect(listener).not.toHaveBeenCalled();
+    expect(seen).toEqual([
+      { op: "loadProgress", kind: "network", code: undefined, message: "Failed to fetch", details: undefined, hint: undefined },
+    ]);
+  });
+
+  it("falls back to a stringified message for a non-error throw", () => {
+    const seen: SyncError[] = [];
+    const off = onSyncError((e) => seen.push(e));
+    reportSyncError("saveState", null);
+    off();
+    expect(seen[0]).toMatchObject({ op: "saveState", kind: "network", message: "null" });
+  });
+
+  it("treats an empty-string code as no code (kind 'network')", () => {
+    const seen: SyncError[] = [];
+    const off = onSyncError((e) => seen.push(e));
+    reportSyncError("loadState", { code: "", message: "weird" });
+    off();
+    expect(seen[0]).toMatchObject({ kind: "network", code: undefined, message: "weird" });
   });
 
   it("stops notifying after unsubscribe", () => {

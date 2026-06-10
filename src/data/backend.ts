@@ -30,26 +30,33 @@ const STATE_TABLE = "user_state";
 // --- sync-error reporting ---------------------------------------------------------------
 //
 // The store degrades to localStorage on ANY failure so the app keeps working offline. But that
-// also silently hid a real bug once: a schema/constraint mismatch (PostgREST 42P10) made every
-// upsert fail server-side, so progress only ever reached the device and the level never advanced.
-// To stop a server REJECTION from hiding like an offline blip, we surface those — and only those —
-// to subscribers. A server rejection is an in-band PostgREST error: it carries a string `code`
-// (e.g. "42P10" bad ON CONFLICT, "42501" RLS). An offline fetch throws a plain TypeError with no
-// `code`, which we intentionally do NOT report (the local fallback is the correct handling there).
+// also silently hid a real bug: a schema/constraint mismatch (PostgREST 42P10) made every upsert
+// fail server-side, so progress only ever reached the device and the level never advanced. To make
+// that diagnosable, EVERY caught backend failure is now surfaced to subscribers with its full
+// detail (code/message/details/hint for a PostgREST error; the stringified error otherwise). The
+// app still falls back to localStorage and keeps working — the banner is purely so a stuck sync is
+// visible instead of silent. `kind` distinguishes a server REJECTION (PostgREST error, has a code)
+// from a NETWORK reach failure (offline / fetch threw, no code), so the UI can word each correctly.
 
-/** A server-side persistence rejection worth showing the user (NOT an offline network blip). */
+/** A caught backend failure, surfaced for visibility (the store still degrades to localStorage). */
 export interface SyncError {
-  /** Which store operation was rejected. */
+  /** Which store operation failed. */
   op: "saveProgress" | "loadProgress" | "saveState" | "loadState";
-  /** PostgREST error code, e.g. "42P10" (bad ON CONFLICT target) or "42501" (RLS denied). */
-  code: string;
+  /** "rejected" = server refused it (PostgREST error w/ code); "network" = couldn't reach it. */
+  kind: "rejected" | "network";
+  /** PostgREST error code when present, e.g. "42P10" (bad ON CONFLICT) or "42501" (RLS denied). */
+  code?: string;
   message: string;
+  /** PostgREST `details`, if any (often the most specific clue). */
+  details?: string;
+  /** PostgREST `hint`, if any. */
+  hint?: string;
 }
 
 type SyncErrorListener = (err: SyncError) => void;
 const syncErrorListeners = new Set<SyncErrorListener>();
 
-/** Subscribe to server-rejection sync errors; returns an unsubscribe function. */
+/** Subscribe to backend sync errors; returns an unsubscribe function. */
 export function onSyncError(listener: SyncErrorListener): () => void {
   syncErrorListeners.add(listener);
   return () => {
@@ -57,16 +64,33 @@ export function onSyncError(listener: SyncErrorListener): () => void {
   };
 }
 
+const asStr = (v: unknown): string | undefined =>
+  typeof v === "string" && v !== "" ? v : undefined;
+
 /**
- * Report a caught failure to subscribers IFF it's a server rejection (a PostgREST error object
- * with a string `code`). Offline/network throws have no `code` and are swallowed silently — the
- * caller's localStorage fallback is the right behaviour for those. Exported for unit testing.
+ * Report a caught backend failure to subscribers with as much detail as the error carries. A
+ * PostgREST error is an object with `code`/`message`/`details`/`hint` (→ kind "rejected"); anything
+ * else (a thrown fetch/TypeError when offline, etc.) becomes kind "network" with a best-effort
+ * message. Exported for unit testing.
  */
 export function reportSyncError(op: SyncError["op"], err: unknown): void {
-  const e = err as { code?: unknown; message?: unknown } | null;
-  if (!e || typeof e !== "object" || typeof e.code !== "string" || e.code === "") return;
-  const message = typeof e.message === "string" ? e.message : String(err);
-  for (const listener of syncErrorListeners) listener({ op, code: e.code, message });
+  const e = (typeof err === "object" && err !== null ? err : {}) as {
+    code?: unknown;
+    message?: unknown;
+    details?: unknown;
+    hint?: unknown;
+  };
+  const code = asStr(e.code);
+  const message = asStr(e.message) ?? String(err);
+  const syncErr: SyncError = {
+    op,
+    kind: code ? "rejected" : "network",
+    code,
+    message,
+    details: asStr(e.details),
+    hint: asStr(e.hint),
+  };
+  for (const listener of syncErrorListeners) listener(syncErr);
 }
 
 /** Persistence contract the app codes against, regardless of backing store. */
