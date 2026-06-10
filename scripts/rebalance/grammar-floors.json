@@ -1,0 +1,36 @@
+{
+  "floors": [
+    {
+      "match": ["imperative", "älä"],
+      "minLevel": 8,
+      "label": "Imperatiivi (commands)"
+    },
+    {
+      "match": ["possessive suffix", "-ni", "-si", "-nsa", "-mme", "-nne", "mielestäni"],
+      "minLevel": 10,
+      "label": "Omistusliitteet (possessive suffixes)"
+    },
+    {
+      "match": ["imperfect", "past"],
+      "minLevel": 12,
+      "label": "Imperfekti (past tense)"
+    },
+    {
+      "match": ["passive"],
+      "minLevel": 15,
+      "label": "Passiivi"
+    },
+    {
+      "match": ["olen ", "oletko", "olemme ", "en ole ", "olleet", "käynyt", "ollut", "tehnyt", "nähnyt", "syönyt", "asuneet"],
+      "minLevel": 14,
+      "label": "Perfekti"
+    },
+    {
+      "match": ["conditional"],
+      "minLevel": 17,
+      "label": "Konditionaali"
+    }
+  ],
+  "textMoves": {},
+  "notes": "Floors are tested as lowercase substrings against each sentence's 'teaches' tag; a sentence takes the HIGHEST minLevel among all matching floors. Progression follows the CEFR map (A1.1=1-3, A1.2=4-7, A1.3=8-11, A2.1=12-16, A2.2=17-19): present tense, negation, partitive and the case basics stay in A1; then imperative (L8) as an easy A1.3 add; possessive suffixes (L10, where family/home vocab lands); imperfect as the A2.1 gateway (L12); passive (L15) and perfect (L14) once past tense is solid; conditional last at L17 (A2.2). IMPORTANT substring-collision notes for the matcher: (1) The word 'perfect' is a substring of 'imperfect', so the Perfekti floor does NOT match 'perfect' directly. Instead it matches the perfect auxiliary/participle signal ('olen ', 'oletko', 'olemme ', 'en ole ', 'kaynyt', 'ollut', 'tehnyt', 'nahnyt', 'syonyt', 'asuneet') — Finnish perfect = olla + past participle. None of those substrings occur in any imperfect tag (imperfect copula tags read 'oli'/'olin'/'olit', not 'olen'/'oletko'). The contrast tag 'imperfect vs perfect: finished period (asuin)' correctly resolves to L12 via 'imperfect' and is NOT pulled to L14 (it contains no perfect aux). (2) 'past' also occurs inside 'passive past'; that is harmless because the Passiivi floor (15) outranks Imperfekti (12) and MAX wins, correctly sending passive-past sentences to L15. (3) The Imperatiivi floor also matches 'negative imperative' and recipe imperatives (paista/keita/sekoita/lisaa) via 'imperative' — those recipe sentences already sit at L19 by vocab, so the floor is a no-op for them. SUGGESTED LEVEL-TITLE REFRAMING (optional, no new levels needed): L12 'Luonto Ja Matka' could gain an imperfekti framing (e.g. subtitle 'Imperfekti / прошедшее время') since it becomes the past-tense intro and will absorb ~30 of the 48 advanced sentences; L17 'Keho Ja Terveys' similarly becomes the konditionaali home. READING TEXTS: no moves required. All past/perfect/conditional teaching texts (t78 Eilen, t86 Elamani tarina, t87 Lapsuuteni, t88 Mita olet tehnyt, t89 Oletko kaynyt Suomessa -> L18; t90/t91/t92 household + t93 Jos voittaisin -> L19; recipe imperatives t94/t96/t97 -> L19) already sit in A2.2 after the rebalance. The single early case is t79 'Saisinko apua' (polite conditional) at L16; it is NOT moved because L16 would drop below the required 2 dialogs, and 'saisinko' is a frozen courtesy phrase rather than productive konditionaali drilling. Sentence gating alone fixes the reported problem."
+}
