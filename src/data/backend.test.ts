@@ -1,5 +1,15 @@
-import { beforeEach, describe, expect, it } from "vitest";
-import { loadProgress, loadState, progressToRow, rowToProgress, saveProgress, saveState } from "./backend";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import {
+  loadProgress,
+  loadState,
+  onSyncError,
+  progressToRow,
+  reportSyncError,
+  rowToProgress,
+  saveProgress,
+  saveState,
+  type SyncError,
+} from "./backend";
 import { emptyProgress, type ItemProgress } from "../core/progress";
 import { emptyState, type UserState } from "../core/daily";
 
@@ -74,6 +84,43 @@ describe("row mapping (Supabase schema contract)", () => {
     const row = progressToRow("u", fresh);
     expect(row.last_seen).toBeNull();
     expect(rowToProgress(row).lastSeen).toBe(0);
+  });
+});
+
+describe("sync-error reporting (server rejection vs offline)", () => {
+  it("surfaces a PostgREST rejection (it carries a code)", () => {
+    const seen: SyncError[] = [];
+    const off = onSyncError((e) => seen.push(e));
+    reportSyncError("saveProgress", {
+      code: "42P10",
+      message: "there is no unique or exclusion constraint matching the ON CONFLICT specification",
+    });
+    off();
+    expect(seen).toEqual([
+      {
+        op: "saveProgress",
+        code: "42P10",
+        message:
+          "there is no unique or exclusion constraint matching the ON CONFLICT specification",
+      },
+    ]);
+  });
+
+  it("stays silent on an offline network throw (no code)", () => {
+    const listener = vi.fn();
+    const off = onSyncError(listener);
+    reportSyncError("loadProgress", new TypeError("Failed to fetch"));
+    reportSyncError("saveState", null);
+    reportSyncError("loadState", { code: "" });
+    off();
+    expect(listener).not.toHaveBeenCalled();
+  });
+
+  it("stops notifying after unsubscribe", () => {
+    const listener = vi.fn();
+    onSyncError(listener)(); // subscribe then immediately unsubscribe
+    reportSyncError("saveProgress", { code: "42501", message: "RLS denied" });
+    expect(listener).not.toHaveBeenCalled();
   });
 });
 

@@ -27,6 +27,48 @@ import { nsKey, storageLang } from "./languages/storage";
 const TABLE = "progress";
 const STATE_TABLE = "user_state";
 
+// --- sync-error reporting ---------------------------------------------------------------
+//
+// The store degrades to localStorage on ANY failure so the app keeps working offline. But that
+// also silently hid a real bug once: a schema/constraint mismatch (PostgREST 42P10) made every
+// upsert fail server-side, so progress only ever reached the device and the level never advanced.
+// To stop a server REJECTION from hiding like an offline blip, we surface those — and only those —
+// to subscribers. A server rejection is an in-band PostgREST error: it carries a string `code`
+// (e.g. "42P10" bad ON CONFLICT, "42501" RLS). An offline fetch throws a plain TypeError with no
+// `code`, which we intentionally do NOT report (the local fallback is the correct handling there).
+
+/** A server-side persistence rejection worth showing the user (NOT an offline network blip). */
+export interface SyncError {
+  /** Which store operation was rejected. */
+  op: "saveProgress" | "loadProgress" | "saveState" | "loadState";
+  /** PostgREST error code, e.g. "42P10" (bad ON CONFLICT target) or "42501" (RLS denied). */
+  code: string;
+  message: string;
+}
+
+type SyncErrorListener = (err: SyncError) => void;
+const syncErrorListeners = new Set<SyncErrorListener>();
+
+/** Subscribe to server-rejection sync errors; returns an unsubscribe function. */
+export function onSyncError(listener: SyncErrorListener): () => void {
+  syncErrorListeners.add(listener);
+  return () => {
+    syncErrorListeners.delete(listener);
+  };
+}
+
+/**
+ * Report a caught failure to subscribers IFF it's a server rejection (a PostgREST error object
+ * with a string `code`). Offline/network throws have no `code` and are swallowed silently — the
+ * caller's localStorage fallback is the right behaviour for those. Exported for unit testing.
+ */
+export function reportSyncError(op: SyncError["op"], err: unknown): void {
+  const e = err as { code?: unknown; message?: unknown } | null;
+  if (!e || typeof e !== "object" || typeof e.code !== "string" || e.code === "") return;
+  const message = typeof e.message === "string" ? e.message : String(err);
+  for (const listener of syncErrorListeners) listener({ op, code: e.code, message });
+}
+
 /** Persistence contract the app codes against, regardless of backing store. */
 export interface ProgressStore {
   /** Establish identity (anon sign-in) eagerly, so a fresh visitor has a session. */
@@ -288,6 +330,7 @@ class SupabaseStore implements ProgressStore {
       return toProgressMap((data ?? []).map((row) => rowToProgress(row as ProgressRow)));
     } catch (err) {
       console.warn("[backend] loadProgress fell back to local:", err);
+      reportSyncError("loadProgress", err);
       return this.fallback.loadProgress();
     }
   }
@@ -306,6 +349,7 @@ class SupabaseStore implements ProgressStore {
       await this.fallback.saveProgress(items);
     } catch (err) {
       console.warn("[backend] saveProgress fell back to local:", err);
+      reportSyncError("saveProgress", err);
       await this.fallback.saveProgress(items);
     }
   }
@@ -324,6 +368,7 @@ class SupabaseStore implements ProgressStore {
       return data ? rowToUserState(data as UserStateRow) : emptyState();
     } catch (err) {
       console.warn("[backend] loadState fell back to local:", err);
+      reportSyncError("loadState", err);
       return this.fallback.loadState();
     }
   }
@@ -339,6 +384,7 @@ class SupabaseStore implements ProgressStore {
       await this.fallback.saveState(state);
     } catch (err) {
       console.warn("[backend] saveState fell back to local:", err);
+      reportSyncError("saveState", err);
       await this.fallback.saveState(state);
     }
   }

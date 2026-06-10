@@ -42,7 +42,14 @@ import {
   type ProgressMap,
 } from "../core/progress";
 import { reciteRoleDone, reciteRoleId, reciteRoles } from "../core/reading";
-import { loadProgress, loadState, saveProgress, saveState } from "../data/backend";
+import {
+  loadProgress,
+  loadState,
+  onSyncError,
+  saveProgress,
+  saveState,
+  type SyncError,
+} from "../data/backend";
 import { hiddenKey, loadHidden, saveHidden, type Group } from "./hidden";
 import { loadRead, saveRead } from "./readingState";
 import Roadmap, { type Mode } from "./Roadmap";
@@ -118,6 +125,10 @@ export default function App() {
   const progressRef = useRef<ProgressMap>(new Map());
   const [progressView, setProgressView] = useState<ProgressMap>(new Map());
   const [ready, setReady] = useState(false);
+  // Last server-side persistence REJECTION (e.g. a schema/constraint mismatch), surfaced as a
+  // banner so a silent fall-back to localStorage can't hide a "progress isn't saving" bug again.
+  // Only PostgREST rejections reach here (see backend.onSyncError) — offline blips stay quiet.
+  const [syncError, setSyncError] = useState<SyncError | null>(null);
   // Guards against double-recording the same card (e.g. a fast double-tap before re-render).
   const lastRecordedRef = useRef<string | null>(null);
   // Daily-loop state (streak + today's count), same ref+view pattern as progress.
@@ -140,6 +151,11 @@ export default function App() {
       active = false;
     };
   }, [lang]);
+
+  // Surface server-side persistence rejections (subscribed once for the app's lifetime). The
+  // backend keeps working via its localStorage fallback, but a rejection means progress isn't
+  // reaching the server — the user should know rather than silently lose cross-device sync.
+  useEffect(() => onSyncError(setSyncError), []);
 
   /**
    * Switch the target language: persist the choice, point storage at the new namespace, reload the
@@ -685,6 +701,26 @@ export default function App() {
     setRulesOpen(false);
   }
 
+  // A persistent, dismissible warning when the server is rejecting saves (so progress is only
+  // landing in this device's localStorage). Shown on every screen — the failure fires during a
+  // session but the user feels it as "my level won't advance" back on the home screen.
+  const syncBanner = syncError && (
+    <div className="syncbanner" role="alert">
+      <span className="syncbanner__text">
+        Прогресс сейчас сохраняется только на этом устройстве — сервер отклоняет запись
+        {syncError.code ? ` (${syncError.code})` : ""}. Синхронизация между устройствами не работает.
+      </span>
+      <button
+        type="button"
+        className="syncbanner__close"
+        onClick={() => setSyncError(null)}
+        aria-label="Скрыть предупреждение"
+      >
+        ×
+      </button>
+    </div>
+  );
+
   if (mode === null) {
     // The home shell: one of the home screens, with the persistent bottom tab bar that navigates
     // between them. (The standalone «Прогресс» screen was removed — per-item progress now lives on
@@ -768,6 +804,7 @@ export default function App() {
     }
     return (
       <div className="home">
+        {syncBanner}
         {screen}
         <BottomNav active={homeScreen} onSelect={setHomeScreen} />
       </div>
@@ -865,6 +902,7 @@ export default function App() {
 
   return (
     <main className={showingCard ? "app app--scroll" : "app"}>
+      {syncBanner}
       {/* Exit shown only while a card is on screen; the empty (total===0) and summary
           screens carry their own "В меню" button. */}
       {!finished && total > 0 && (
