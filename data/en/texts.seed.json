@@ -11,6 +11,7 @@
       "title": "Meeting",
       "titleRu": "Знакомство",
       "level": 1,
+      "theme": "acquaintance",
       "type": "dialog",
       "lines": [
         {
@@ -68,6 +69,7 @@
       "title": "At home",
       "titleRu": "Дома",
       "level": 2,
+      "theme": "home",
       "type": "dialog",
       "lines": [
         {
@@ -125,6 +127,7 @@
       "title": "At school",
       "titleRu": "В школе",
       "level": 1,
+      "theme": "school",
       "type": "dialog",
       "lines": [
         { "speaker": "Tom", "fi": "Hi! Are you a new student?", "ru": "Привет! Ты новый студент?", "glosses": { "hi": "привет", "are": "есть (быть)", "you": "ты", "new": "новый", "student": "студент" } },
@@ -143,6 +146,7 @@
       "title": "My friend",
       "titleRu": "Мой друг",
       "level": 1,
+      "theme": "acquaintance",
       "type": "text",
       "lines": [
         { "fi": "This is my friend.", "ru": "Это мой друг.", "glosses": { "this": "это", "is": "есть (быть)", "my": "мой", "friend": "друг" } },
@@ -160,6 +164,7 @@
       "title": "Good morning",
       "titleRu": "Доброе утро",
       "level": 1,
+      "theme": "greetings",
       "type": "text",
       "lines": [
         { "fi": "Good morning! I am Anna.", "ru": "Доброе утро! Я Анна.", "glosses": { "good": "хороший / добрый", "morning": "утро", "i": "я", "am": "есть (быть)" } },
@@ -177,6 +182,7 @@
       "title": "My family",
       "titleRu": "Моя семья",
       "level": 2,
+      "theme": "family",
       "type": "dialog",
       "lines": [
         { "speaker": "Sam", "fi": "Is this your family?", "ru": "Это твоя семья?", "glosses": { "is": "есть (быть)", "this": "это", "your": "твоя", "family": "семья" } },
@@ -195,6 +201,7 @@
       "title": "Our house",
       "titleRu": "Наш дом",
       "level": 2,
+      "theme": "home",
       "type": "text",
       "lines": [
         { "fi": "We live in a big house.", "ru": "Мы живём в большом доме.", "glosses": { "we": "мы", "live": "живём", "in": "в", "big": "большой", "house": "дом" } },
@@ -212,6 +219,7 @@
       "title": "My mother",
       "titleRu": "Моя мама",
       "level": 2,
+      "theme": "family",
       "type": "text",
       "lines": [
         { "fi": "My mother is a teacher.", "ru": "Моя мама — учитель.", "glosses": { "my": "моя", "mother": "мама", "is": "есть (быть)", "teacher": "учитель" } },
@@ -229,6 +237,7 @@
       "title": "At the restaurant",
       "titleRu": "В ресторане",
       "level": 3,
+      "theme": "cafe",
       "type": "dialog",
       "lines": [
         { "speaker": "Waiter", "fi": "Hello! What do you want?", "ru": "Здравствуйте! Что вы хотите?", "glosses": { "hello": "здравствуйте", "what": "что", "do": "вспомог. глагол (вопрос)", "you": "вы", "want": "хотите" } },
@@ -246,6 +255,7 @@
       "title": "In the shop",
       "titleRu": "В магазине",
       "level": 3,
+      "theme": "shopping",
       "type": "dialog",
       "lines": [
         { "speaker": "Mum", "fi": "We buy bread and milk today.", "ru": "Сегодня покупаем хлеб и молоко.", "glosses": { "we": "мы", "buy": "покупаем", "bread": "хлеб", "and": "и", "milk": "молоко", "today": "сегодня" } },
@@ -263,6 +273,7 @@
       "title": "My breakfast",
       "titleRu": "Мой завтрак",
       "level": 3,
+      "theme": "food",
       "type": "text",
       "lines": [
         { "fi": "I have breakfast every morning.", "ru": "Я завтракаю каждое утро.", "glosses": { "i": "я", "have": "имею / ем", "breakfast": "завтрак", "every": "каждое", "morning": "утро" } },
@@ -280,6 +291,7 @@
       "title": "Food I like",
       "titleRu": "Еда, которую я люблю",
       "level": 3,
+      "theme": "food",
       "type": "text",
       "lines": [
         { "fi": "I like fish and fruit.", "ru": "Я люблю рыбу и фрукты.", "glosses": { "i": "я", "like": "люблю", "fish": "рыба", "and": "и", "fruit": "фрукты" } },
@@ -297,6 +309,7 @@
       "title": "What time is it?",
       "titleRu": "Который час?",
       "level": 4,
+      "theme": "time",
       "type": "dialog",
       "lines": [
         { "speaker": "Ann", "fi": "What time is it?", "ru": "Который час?", "glosses": { "what": "что / какой", "time": "время", "is": "есть (быть)", "it": "оно" } },
@@ -314,6 +327,7 @@
       "title": "My week",
       "titleRu": "Моя неделя",
       "level": 4,
+      "theme": "routine",
       "type": "dialog",
       "lines": [
         { "speaker": "Joe", "fi": "Do you work every day?", "ru": "Ты работаешь каждый день?", "glosses": { "do": "вспомог. глагол (вопрос)", "you": "ты", "work": "работаешь", "every": "каждый", "day": "день" } },
@@ -331,6 +345,7 @@
       "title": "My morning",
       "titleRu": "Моё утро",
       "level": 4,
+      "theme": "routine",
       "type": "text",
       "lines": [
         { "fi": "I get up at six every morning.", "ru": "Я встаю в шесть каждое утро.", "glosses": { "i": "я", "get": "вставать (get up)", "up": "вставать (get up)", "at": "в (о времени)", "six": "шесть", "every": "каждое", "morning": "утро" } },
@@ -348,6 +363,7 @@
       "title": "Days and time",
       "titleRu": "Дни и время",
       "level": 4,
+      "theme": "calendar",
       "type": "text",
       "lines": [
         { "fi": "There are seven days in a week.", "ru": "В неделе семь дней.", "glosses": { "there": "вот / there are", "are": "есть (быть)", "seven": "семь", "days": "дней", "in": "в", "week": "неделя" } },

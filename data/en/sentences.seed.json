@@ -11,6 +11,7 @@
       "ru": "Я студент.",
       "uses": ["p1", "n4"],
       "level": 1,
+      "theme": "basics",
       "canonical": "I am a student.",
       "accepted": ["I am a student.", "I'm a student."],
       "wrong": [
@@ -24,6 +25,7 @@
       "ru": "Доброе утро!",
       "uses": ["a1", "n3"],
       "level": 1,
+      "theme": "basics",
       "canonical": "Good morning!",
       "accepted": ["Good morning!"],
       "wrong": [
@@ -36,6 +38,7 @@
       "ru": "Ты учитель?",
       "uses": ["p2", "n5"],
       "level": 1,
+      "theme": "basics",
       "canonical": "Are you a teacher?",
       "accepted": ["Are you a teacher?"],
       "wrong": [
@@ -49,6 +52,7 @@
       "ru": "Меня зовут Анна.",
       "uses": ["p8", "n1"],
       "level": 1,
+      "theme": "grammar",
       "canonical": "My name is Anna.",
       "accepted": ["My name is Anna."],
       "wrong": [
@@ -62,6 +66,7 @@
       "ru": "Спасибо большое!",
       "uses": ["f3"],
       "level": 1,
+      "theme": "greetings",
       "canonical": "Thank you!",
       "accepted": ["Thank you!", "Thanks!", "Thank you very much!"],
       "wrong": [],
@@ -72,6 +77,7 @@
       "ru": "Извините, я не знаю.",
       "uses": ["f5", "p1", "f17", "v11"],
       "level": 3,
+      "theme": "basics",
       "canonical": "Sorry, I don't know.",
       "accepted": ["Sorry, I don't know.", "Sorry, I do not know.", "I'm sorry, I don't know."],
       "wrong": [
@@ -85,6 +91,7 @@
       "ru": "У меня есть собака.",
       "uses": ["p1", "v2", "n14"],
       "level": 2,
+      "theme": "grammar",
       "canonical": "I have a dog.",
       "accepted": ["I have a dog.", "I've got a dog.", "I have got a dog."],
       "wrong": [
@@ -98,6 +105,7 @@
       "ru": "Это мой папа.",
       "uses": ["p8", "n7"],
       "level": 2,
+      "theme": "family",
       "canonical": "This is my father.",
       "accepted": ["This is my father.", "This is my dad.", "He is my father.", "He's my father."],
       "wrong": [
@@ -111,6 +119,7 @@
       "ru": "Она живёт в большом доме.",
       "uses": ["p4", "v5", "f15", "a3", "n10"],
       "level": 2,
+      "theme": "home",
       "canonical": "She lives in a big house.",
       "accepted": ["She lives in a big house."],
       "wrong": [
@@ -124,6 +133,7 @@
       "ru": "Мы идём домой.",
       "uses": ["p5", "v4", "n11"],
       "level": 2,
+      "theme": "directions",
       "canonical": "We go home.",
       "accepted": ["We go home.", "We are going home.", "We're going home."],
       "wrong": [
@@ -137,6 +147,7 @@
       "ru": "У меня большая семья.",
       "uses": ["p1", "v2", "a3", "n9"],
       "level": 2,
+      "theme": "grammar",
       "canonical": "I have a big family.",
       "accepted": ["I have a big family.", "I've got a big family."],
       "wrong": [
@@ -149,6 +160,7 @@
       "ru": "Я пью кофе.",
       "uses": ["p1", "v8", "n18"],
       "level": 3,
+      "theme": "food",
       "canonical": "I drink coffee.",
       "accepted": ["I drink coffee.", "I am drinking coffee.", "I'm drinking coffee."],
       "wrong": [
@@ -162,6 +174,7 @@
       "ru": "Я не пью чай.",
       "uses": ["p1", "f17", "v8", "n19"],
       "level": 3,
+      "theme": "food",
       "canonical": "I don't drink tea.",
       "accepted": ["I don't drink tea.", "I do not drink tea."],
       "wrong": [
@@ -175,6 +188,7 @@
       "ru": "Он любит хлеб и молоко.",
       "uses": ["p3", "v9", "n20", "f8", "n21"],
       "level": 3,
+      "theme": "feelings",
       "canonical": "He likes bread and milk.",
       "accepted": ["He likes bread and milk."],
       "wrong": [
@@ -187,6 +201,7 @@
       "ru": "Ты говоришь по-английски?",
       "uses": ["p2", "v10"],
       "level": 3,
+      "theme": "basics",
       "canonical": "Do you speak English?",
       "accepted": ["Do you speak English?"],
       "wrong": [
@@ -200,6 +215,7 @@
       "ru": "Я очень счастлив сегодня.",
       "uses": ["p1", "f11", "a6", "f13"],
       "level": 3,
+      "theme": "grammar",
       "canonical": "I am very happy today.",
       "accepted": ["I am very happy today.", "I'm very happy today."],
       "wrong": [
@@ -213,6 +229,7 @@
       "ru": "Я хочу воды, пожалуйста.",
       "uses": ["p1", "v3", "n17", "f4"],
       "level": 3,
+      "theme": "drinks",
       "canonical": "I want water, please.",
       "accepted": ["I want water, please.", "I would like water, please.", "I'd like water, please.", "I'd like some water, please.", "I want some water, please."],
       "wrong": [
@@ -225,6 +242,7 @@
       "ru": "Как тебя зовут?",
       "uses": ["p12", "p11", "n1"],
       "level": 1,
+      "theme": "grammar",
       "canonical": "What is your name?",
       "accepted": ["What is your name?", "What's your name?"],
       "wrong": [
@@ -238,6 +256,7 @@
       "ru": "Откуда ты?",
       "uses": ["f21", "p2", "f22"],
       "level": 1,
+      "theme": "grammar",
       "canonical": "Where are you from?",
       "accepted": ["Where are you from?"],
       "wrong": [
@@ -251,6 +270,7 @@
       "ru": "Это мой друг.",
       "uses": ["p9", "p8", "n23"],
       "level": 1,
+      "theme": "grammar",
       "canonical": "This is my friend.",
       "accepted": ["This is my friend.", "He is my friend.", "He's my friend."],
       "wrong": [
@@ -263,6 +283,7 @@
       "ru": "Кто этот мальчик?",
       "uses": ["p13", "p9", "n26"],
       "level": 1,
+      "theme": "grammar",
       "canonical": "Who is this boy?",
       "accepted": ["Who is this boy?", "Who's this boy?"],
       "wrong": [
@@ -276,6 +297,7 @@
       "ru": "У меня есть брат и сестра.",
       "uses": ["p1", "v2", "n28", "f8", "n29"],
       "level": 2,
+      "theme": "grammar",
       "canonical": "I have a brother and a sister.",
       "accepted": ["I have a brother and a sister.", "I have a brother and sister.", "I've got a brother and a sister."],
       "wrong": [
@@ -288,6 +310,7 @@
       "ru": "Моя сестра молодая.",
       "uses": ["p8", "n29", "a10"],
       "level": 2,
+      "theme": "family",
       "canonical": "My sister is young.",
       "accepted": ["My sister is young."],
       "wrong": [
@@ -300,6 +323,7 @@
       "ru": "Он работает в школе.",
       "uses": ["p3", "v13", "f15", "n13"],
       "level": 2,
+      "theme": "work",
       "canonical": "He works in a school.",
       "accepted": ["He works in a school.", "He works at a school."],
       "wrong": [
@@ -313,6 +337,7 @@
       "ru": "В комнате есть стол.",
       "uses": ["f23", "n35", "f15", "n32"],
       "level": 2,
+      "theme": "grammar",
       "canonical": "There is a table in the room.",
       "accepted": ["There is a table in the room.", "There's a table in the room."],
       "wrong": [
@@ -326,6 +351,7 @@
       "ru": "У неё есть собака.",
       "uses": ["p4", "v2", "n14"],
       "level": 2,
+      "theme": "grammar",
       "canonical": "She has a dog.",
       "accepted": ["She has a dog.", "She's got a dog.", "She has got a dog."],
       "wrong": [
@@ -339,6 +365,7 @@
       "ru": "Открой дверь, пожалуйста.",
       "uses": ["v23", "n33", "f4"],
       "level": 2,
+      "theme": "chores",
       "canonical": "Open the door, please.",
       "accepted": ["Open the door, please.", "Please open the door."],
       "wrong": [
@@ -352,6 +379,7 @@
       "ru": "Где твоя книга?",
       "uses": ["f21", "p11", "n12"],
       "level": 2,
+      "theme": "school",
       "canonical": "Where is your book?",
       "accepted": ["Where is your book?", "Where's your book?"],
       "wrong": [
@@ -364,6 +392,7 @@
       "ru": "Я вижу кошку в саду.",
       "uses": ["p1", "v12", "n15", "f15", "n36"],
       "level": 2,
+      "theme": "basics",
       "canonical": "I see a cat in the garden.",
       "accepted": ["I see a cat in the garden."],
       "wrong": [
@@ -376,6 +405,7 @@
       "ru": "Я ем завтрак каждое утро.",
       "uses": ["p1", "v7", "n37", "f26", "n3"],
       "level": 3,
+      "theme": "food",
       "canonical": "I eat breakfast every morning.",
       "accepted": ["I eat breakfast every morning.", "I have breakfast every morning."],
       "wrong": [
@@ -389,6 +419,7 @@
       "ru": "Она не ест мясо.",
       "uses": ["p4", "f17", "v7", "n42"],
       "level": 3,
+      "theme": "food",
       "canonical": "She doesn't eat meat.",
       "accepted": ["She doesn't eat meat.", "She does not eat meat."],
       "wrong": [
@@ -402,6 +433,7 @@
       "ru": "Ты любишь рыбу?",
       "uses": ["p2", "v9", "n41"],
       "level": 3,
+      "theme": "feelings",
       "canonical": "Do you like fish?",
       "accepted": ["Do you like fish?"],
       "wrong": [
@@ -415,6 +447,7 @@
       "ru": "Мой отец готовит ужин.",
       "uses": ["p8", "n7", "v15", "n39"],
       "level": 3,
+      "theme": "food",
       "canonical": "My father cooks dinner.",
       "accepted": ["My father cooks dinner.", "My dad cooks dinner."],
       "wrong": [
@@ -427,6 +460,7 @@
       "ru": "Я голоден и хочу есть.",
       "uses": ["p1", "a11", "f8", "v3", "v7"],
       "level": 3,
+      "theme": "food",
       "canonical": "I am hungry and I want to eat.",
       "accepted": ["I am hungry and I want to eat.", "I'm hungry and I want to eat."],
       "wrong": [
@@ -440,6 +474,7 @@
       "ru": "Кофе горячий.",
       "uses": ["n18", "a13"],
       "level": 3,
+      "theme": "drinks",
       "canonical": "The coffee is hot.",
       "accepted": ["The coffee is hot."],
       "wrong": [
@@ -452,6 +487,7 @@
       "ru": "Мы покупаем хлеб в магазине.",
       "uses": ["p5", "v16", "n20", "f25", "n46"],
       "level": 3,
+      "theme": "shopping",
       "canonical": "We buy bread at the shop.",
       "accepted": ["We buy bread at the shop.", "We buy bread in the shop."],
       "wrong": [
@@ -464,6 +500,7 @@
       "ru": "Эти яблоки очень вкусные.",
       "uses": ["p14", "n22", "f11", "a15"],
       "level": 3,
+      "theme": "grammar",
       "canonical": "These apples are very tasty.",
       "accepted": ["These apples are very tasty."],
       "wrong": [
@@ -477,6 +514,7 @@
       "ru": "Я люблю чай, но не люблю кофе.",
       "uses": ["p1", "v9", "n19", "f9", "f17", "n18"],
       "level": 3,
+      "theme": "feelings",
       "canonical": "I like tea, but I don't like coffee.",
       "accepted": ["I like tea, but I don't like coffee.", "I like tea but I don't like coffee."],
       "wrong": [
@@ -489,6 +527,7 @@
       "ru": "Сейчас три часа.",
       "uses": ["p7", "f30", "n54"],
       "level": 4,
+      "theme": "numbers",
       "canonical": "It is three o'clock.",
       "accepted": ["It is three o'clock.", "It's three o'clock."],
       "wrong": [
@@ -502,6 +541,7 @@
       "ru": "Я встаю в семь.",
       "uses": ["p1", "v17", "f25", "f34"],
       "level": 4,
+      "theme": "routine",
       "canonical": "I get up at seven.",
       "accepted": ["I get up at seven.", "I get up at seven o'clock."],
       "wrong": [
@@ -515,6 +555,7 @@
       "ru": "Он всегда завтракает рано.",
       "uses": ["p3", "f38", "v2", "n37", "a16"],
       "level": 4,
+      "theme": "routine",
       "canonical": "He always has breakfast early.",
       "accepted": ["He always has breakfast early.", "He always eats breakfast early."],
       "wrong": [
@@ -528,6 +569,7 @@
       "ru": "Я работаю пять дней в неделю.",
       "uses": ["p1", "v13", "f32", "n2", "n49"],
       "level": 4,
+      "theme": "numbers",
       "canonical": "I work five days a week.",
       "accepted": ["I work five days a week."],
       "wrong": [
@@ -541,6 +583,7 @@
       "ru": "Она никогда не спит поздно.",
       "uses": ["p4", "f39", "v18", "a17"],
       "level": 4,
+      "theme": "routine",
       "canonical": "She never sleeps late.",
       "accepted": ["She never sleeps late."],
       "wrong": [
@@ -554,6 +597,7 @@
       "ru": "У меня два брата.",
       "uses": ["p1", "v2", "f29", "n28"],
       "level": 4,
+      "theme": "numbers",
       "canonical": "I have two brothers.",
       "accepted": ["I have two brothers.", "I've got two brothers."],
       "wrong": [
@@ -567,6 +611,7 @@
       "ru": "Который час?",
       "uses": ["p12", "n47", "p7"],
       "level": 4,
+      "theme": "time",
       "canonical": "What time is it?",
       "accepted": ["What time is it?"],
       "wrong": [
@@ -580,6 +625,7 @@
       "ru": "Я начинаю работу в девять.",
       "uses": ["p1", "v19", "n51", "f25", "f36"],
       "level": 4,
+      "theme": "routine",
       "canonical": "I start work at nine.",
       "accepted": ["I start work at nine.", "I start work at nine o'clock."],
       "wrong": [

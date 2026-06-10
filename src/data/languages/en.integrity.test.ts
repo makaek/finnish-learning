@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { enPack } from "./en";
 import { levelOf } from "../../core/levels";
 import { glossKey, tokenizeLine } from "../../core/reading";
+import { THEMES } from "../themes";
 
 /**
  * Data-integrity guard for the authored ENGLISH A1 pack. Mirrors the Finnish integrity tests:
@@ -114,6 +115,15 @@ describe("english pack — reading", () => {
         }
       }
     }
+  });
+
+  it("every word carries a theme that resolves in the registry; sentence/text themes resolve too", () => {
+    for (const v of vocab) {
+      expect(v.theme, `word ${v.id} has no theme`).toBeTruthy();
+      expect(THEMES.has(v.theme!), `word ${v.id} theme "${v.theme}" not in registry`).toBe(true);
+    }
+    for (const s of sentences) if (s.theme) expect(THEMES.has(s.theme), `sentence ${s.id}`).toBe(true);
+    for (const t of texts) if (t.theme) expect(THEMES.has(t.theme), `text ${t.id}`).toBe(true);
   });
 
   // Per the content rule: every English level that has reading must offer at least TWO monologue
