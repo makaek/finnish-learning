@@ -177,7 +177,7 @@ export default function Dashboard({
             {summaries.map((s) => (
               <div key={s.level} className={"lrail__seg lrail__seg--" + s.status}>
                 {s.status === "current" && (
-                  <span className="lrail__fill" style={{ width: `${Math.round(s.fraction * 100)}%` }} />
+                  <span className="lrail__fill" style={{ width: `${Math.round(s.completion * 100)}%` }} />
                 )}
               </div>
             ))}

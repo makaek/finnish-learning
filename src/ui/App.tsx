@@ -18,6 +18,7 @@ import { applyOutcome } from "../core/srs";
 import {
   activeVocab,
   eligibleSentences,
+  hiddenMasteryWrites,
   masteringLevelGated,
   levelOf,
   LEARNED_BOX,
@@ -141,6 +142,19 @@ export default function App() {
     setReady(false);
     void Promise.all([loadProgress(), loadState()]).then(([loadedProgress, loadedState]) => {
       if (!active) return;
+      // Heal the "hidden ⇒ mastered" invariant: an item hidden via «Уже знаю» whose mastery write
+      // was lost (e.g. a failed sync the server later overwrote) would otherwise read as done on the
+      // ring (which excludes hidden items) while the level stays below 100% (completion counts them).
+      // Re-assert the missing mastery so every screen agrees, and persist it so the fix sticks.
+      const heal = hiddenMasteryWrites(
+        pack.vocab,
+        pack.sentences,
+        (group, id) => hidden.has(hiddenKey(group, id)),
+        loadedProgress,
+        Date.now(),
+      );
+      for (const w of heal) loadedProgress.set(progressKey(w.kind, w.itemId), w);
+      if (heal.length > 0) void saveProgress(heal);
       progressRef.current = loadedProgress;
       setProgressView(loadedProgress);
       dailyRef.current = loadedState;
@@ -150,6 +164,10 @@ export default function App() {
     return () => {
       active = false;
     };
+    // Keyed on `lang` only: a load is a per-language (re)fetch. It also reads `pack`/`hidden`, but
+    // those are intentionally NOT deps — the heal must use the hidden set AS OF the load, and adding
+    // them would re-fetch the whole store on every hide toggle (and could clobber in-session work).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lang]);
 
   // Surface server-side persistence rejections (subscribed once for the app's lifetime). The

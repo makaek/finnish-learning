@@ -12,7 +12,7 @@
  * `testMode` that bypasses all gating). No UI/DB imports — trivially unit-testable.
  */
 
-import { getProgress, type ItemKind, type ProgressMap } from "./progress";
+import { getProgress, type ItemKind, type ItemProgress, type ProgressMap } from "./progress";
 import { GATE_TARGET, type BalanceGroup } from "./balance";
 
 /** A word is "learned" once its Leitner box reaches this (≈ 2 clean first-attempt answers). */
@@ -408,6 +408,70 @@ export function masteringLevelGated(
 }
 
 /**
+ * Unified "% toward completing (advancing past) a level", in [0, 1] — the SINGLE progress number
+ * every surface should show (home CEFR meter + Levels screen), so they can never disagree. It reads
+ * 100% EXACTLY when {@link masteringLevelGated} would stop blocking the level, because it's the
+ * closer-to-done of the two conditions that drive advancement:
+ *   • learned breadth: (learned / total) / {@link LEVEL_COMPLETE_FRACTION}, and
+ *   • balance depth:   {@link levelGate} / {@link GATE_TARGET} (the weakest mode's mastery).
+ * Taking the min means the bar never claims more progress than the actual bottleneck allows — if a
+ * single mode is lagging, the % reflects that, matching what the ring shows. 1 for an empty level.
+ */
+export function levelCompletionProgress(
+  vocab: readonly VocabLike[],
+  sentences: readonly SentenceLike[],
+  texts: readonly TypedItem[],
+  progress: ProgressMap,
+  level: number,
+): number {
+  const stat = levelCompletionStats(vocab, sentences, texts, progress).find((s) => s.level === level);
+  if (!stat || stat.total === 0) return 1;
+  const learnedPct = stat.learned / stat.total / LEVEL_COMPLETE_FRACTION;
+  const gatePct = levelGate(levelModeStats(vocab, sentences, texts, progress, level)) / GATE_TARGET;
+  return Math.min(1, learnedPct, gatePct);
+}
+
+/**
+ * Heal the "hidden ⇒ mastered" invariant. «Уже знаю» both HIDES an item (a device-local view flag)
+ * and writes its mastery to progress; but the two can drift apart — most easily when the mastery
+ * write is lost to a failed sync that a later server load overwrites, leaving the item hidden yet
+ * unmastered. That desyncs every screen: the ring and lessons EXCLUDE hidden items (so the level
+ * looks "done"), while level completion + the gate COUNT them (so the level sits below 100% and
+ * can't advance). This returns the progress records needed to make every hidden item read as
+ * mastered (box ≥ {@link LEARNED_BOX} in each of its group's modes), skipping ones already there —
+ * so a reload self-heals and stays idempotent. `isHidden` keeps this core fn free of the UI's
+ * hidden-key format. Pure; empty result when nothing needs healing.
+ */
+export function hiddenMasteryWrites(
+  vocab: readonly VocabLike[],
+  sentences: readonly SentenceLike[],
+  isHidden: (group: "word" | "sentence", id: string) => boolean,
+  progress: ProgressMap,
+  now: number,
+): ItemProgress[] {
+  const writes: ItemProgress[] = [];
+  const ensure = (modes: readonly ItemKind[], id: string) => {
+    for (const kind of modes) {
+      const prev = getProgress(progress, kind, id);
+      if (prev.box >= LEARNED_BOX) continue; // already mastered in this mode — nothing to write
+      writes.push({
+        ...prev,
+        kind,
+        itemId: id,
+        box: LEARNED_BOX,
+        correctStreak: Math.max(prev.correctStreak, LEARNED_BOX),
+        totalCorrect: Math.max(prev.totalCorrect, LEARNED_BOX),
+        totalSeen: Math.max(prev.totalSeen, prev.totalCorrect, LEARNED_BOX),
+        lastSeen: prev.lastSeen || now,
+      });
+    }
+  };
+  for (const v of vocab) if (isHidden("word", v.id)) ensure(WORD_MODES, v.id);
+  for (const s of sentences) if (isHidden("sentence", s.id)) ensure(SENTENCE_MODES, s.id);
+  return writes;
+}
+
+/**
  * The lowest level among `items` that still has an item below mastery (`box < masteredBox`) in a
  * given exercise `kind`, or `undefined` if every item is mastered in that kind. Drives the
  * per-mode selection boost: practising a mode pushes the EARLIEST level you're weak in there to
@@ -512,15 +576,22 @@ export interface LevelSummary {
   counts: { words: number; sentences: number; texts: number };
   /** Combined completion fraction in [0, 1] (mean per-item mastery, as in {@link levelCompletionStats}). */
   fraction: number;
+  /**
+   * Unified "% toward completing this level" in [0, 1] — {@link levelCompletionProgress}, the SAME
+   * number the home CEFR meter shows, so the Levels card and the home header never disagree. Reads
+   * 100% exactly when the level advances. (Distinct from `fraction`, which is mean per-mode mastery.)
+   */
+  completion: number;
   /** Items in the level not yet learned (`total − learned`) — what marking it passed would skip. */
   remaining: number;
 }
 
 /**
  * One {@link LevelSummary} per level present in the content, in ascending order. `status` is derived
- * from {@link masteringLevelGated} (below it = done, equal = current, above = locked); `fraction` and
- * `remaining` come from the combined {@link levelCompletionStats}. Pure — drives the Levels timeline
- * and the hero rail without either re-deriving level state.
+ * from {@link masteringLevelGated} (below it = done, equal = current, above = locked); `fraction`,
+ * `completion` and `remaining` come from the combined {@link levelCompletionStats}/
+ * {@link levelCompletionProgress}. Pure — drives the Levels timeline and the hero rail without either
+ * re-deriving level state.
  */
 export function levelSummaries(
   vocab: readonly VocabLike[],
@@ -542,6 +613,7 @@ export function levelSummaries(
         texts: texts.filter((t) => levelOf(t) === level).length,
       },
       fraction: stat?.fraction ?? 1,
+      completion: levelCompletionProgress(vocab, sentences, texts, progress, level),
       remaining: stat ? Math.max(0, stat.total - stat.learned) : 0,
     };
   });

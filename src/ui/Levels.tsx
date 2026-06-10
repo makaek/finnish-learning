@@ -263,10 +263,10 @@ function LevelRow({
         {current && (
           <div className="lcur">
             <span className="lcur__track">
-              <span className="lcur__fill" style={{ width: `${Math.round(s.fraction * 100)}%` }} />
+              <span className="lcur__fill" style={{ width: `${Math.round(s.completion * 100)}%` }} />
             </span>
             <div className="lcur__meta">
-              <span>{Math.round(s.fraction * 100)}% освоено</span>
+              <span>{Math.round(s.completion * 100)}% освоено</span>
               <span className="lcur__left">осталось ~{s.remaining} элем.</span>
             </div>
             <div className="lcur__actions">

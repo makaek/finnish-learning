@@ -3,8 +3,10 @@ import {
   activeLevel,
   activeVocab,
   eligibleSentences,
+  hiddenMasteryWrites,
   LEARNED_BOX,
   LEVEL_COMPLETE_FRACTION,
+  levelCompletionProgress,
   levelCompletionStats,
   levelGate,
   levelModeStats,
@@ -13,6 +15,8 @@ import {
   levelStats,
   levelSummaries,
   masteringLevelGated,
+  SENTENCE_MODES,
+  WORD_MODES,
   listLevels,
   lowestUnmasteredLevel,
   overallProgress,
@@ -560,5 +564,81 @@ describe("levelSummaries («Уровни» screen helper)", () => {
     const s = levelSummaries(v, sents, txts, done);
     expect(s.find((x) => x.level === 1)!.status).toBe("done");
     expect(s.find((x) => x.level === 2)!.status).toBe("current");
+  });
+
+  it("exposes the unified completion % (same number the home meter shows)", () => {
+    // 1/2 L1 words learned (recognition only) → not balanced → completion 0; matches the home meter.
+    const partial = mk(["recognition", "w1", LEARNED_BOX]);
+    const s = levelSummaries(v, sents, txts, partial).find((x) => x.level === 1)!;
+    expect(s.completion).toBe(levelCompletionProgress(v, sents, txts, partial, 1));
+  });
+});
+
+describe("levelCompletionProgress (unified % shown on home + Levels)", () => {
+  const fiveWords: VocabLike[] = ["w1", "w2", "w3", "w4", "w5"].map((id) => ({ id, level: 1 }));
+  /** Master the given words in EVERY word mode (so each word counts fully toward depth + breadth). */
+  const allWordModes = (ids: string[]): ProgressMap => {
+    const m: ProgressMap = new Map();
+    for (const id of ids)
+      for (const kind of WORD_MODES)
+        m.set(progressKey(kind, id), {
+          kind, itemId: id, box: LEARNED_BOX, correctStreak: LEARNED_BOX,
+          totalCorrect: LEARNED_BOX, totalSeen: LEARNED_BOX, lastSeen: 1,
+        });
+    return m;
+  };
+
+  it("is 1 for an empty/absent level", () => {
+    expect(levelCompletionProgress(fiveWords, [], [], new Map(), 99)).toBe(1);
+  });
+
+  it("is 1 once every mode of the level is fully mastered", () => {
+    expect(levelCompletionProgress(fiveWords, [], [], allWordModes(["w1", "w2", "w3", "w4", "w5"]), 1)).toBe(1);
+  });
+
+  it("is bottlenecked by the learned fraction when balance is ahead", () => {
+    // 4/5 words fully mastered → every mode at 0.8 (gate ÷ 0.8 = 1.0), so learned 0.8 ÷ 0.93 wins.
+    expect(levelCompletionProgress(fiveWords, [], [], allWordModes(["w1", "w2", "w3", "w4"]), 1)).toBeCloseTo(
+      0.8 / LEVEL_COMPLETE_FRACTION,
+      5,
+    );
+  });
+
+  it("is bottlenecked by the balance gate when a mode lags (the ring-vs-% case)", () => {
+    // All 5 words learned in recognition only → learned 1.0 but say/listen/production at 0 → gate 0.
+    const recOnly: ProgressMap = new Map();
+    for (const id of ["w1", "w2", "w3", "w4", "w5"])
+      recOnly.set(progressKey("recognition", id), {
+        kind: "recognition", itemId: id, box: LEARNED_BOX, correctStreak: LEARNED_BOX,
+        totalCorrect: LEARNED_BOX, totalSeen: LEARNED_BOX, lastSeen: 1,
+      });
+    expect(levelCompletionProgress(fiveWords, [], [], recOnly, 1)).toBe(0);
+  });
+});
+
+describe("hiddenMasteryWrites (heal the hidden ⇒ mastered invariant)", () => {
+  const v: VocabLike[] = [{ id: "w1", level: 1 }, { id: "w2", level: 1 }];
+  const s: SentenceLike[] = [{ id: "s1", level: 1, uses: [] }];
+  const isHidden = (set: Set<string>) => (g: "word" | "sentence", id: string) => set.has(`${g}:${id}`);
+
+  it("writes nothing when nothing is hidden", () => {
+    expect(hiddenMasteryWrites(v, s, () => false, new Map(), 100)).toEqual([]);
+  });
+
+  it("masters a hidden-but-unmastered word in every word mode", () => {
+    const writes = hiddenMasteryWrites(v, s, isHidden(new Set(["word:w1"])), new Map(), 100);
+    expect(writes.map((w) => w.kind).sort()).toEqual([...WORD_MODES].sort());
+    expect(writes.every((w) => w.itemId === "w1" && w.box === LEARNED_BOX)).toBe(true);
+  });
+
+  it("skips modes already mastered (idempotent) and covers hidden sentences", () => {
+    const writes = hiddenMasteryWrites(
+      v, s, isHidden(new Set(["word:w1", "sentence:s1"])),
+      box("recognition", "w1", LEARNED_BOX), // w1 already mastered in recognition
+      100,
+    );
+    expect(writes.map((w) => `${w.kind}:${w.itemId}`)).not.toContain("recognition:w1");
+    expect(writes.filter((w) => w.itemId === "w1")).toHaveLength(WORD_MODES.length - 1);
+    expect(writes.filter((w) => w.itemId === "s1")).toHaveLength(SENTENCE_MODES.length);
   });
 });

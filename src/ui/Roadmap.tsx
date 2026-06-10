@@ -9,10 +9,10 @@ import {
   activeVocab,
   eligibleSentences,
   hasComprehensionQuiz,
+  levelCompletionProgress,
   levelCompletionStats,
   levelModeStats,
   levelOf,
-  levelProgressToNext,
   masteringLevelGated,
   readingMastered,
   unmasteredInLevel,
@@ -192,12 +192,10 @@ export default function Roadmap({
   }, [vocab, sentences, texts, progress, testMode, hidden, active]);
 
   // CEFR milestone progress (A1 → A2 …) over combined per-level completion — feeds the meter.
-  // Keep the combined stats around too, so the meter's current-cell % can read the active level's
-  // progress toward advancing (levelProgressToNext) rather than the whole-band average.
-  const { cefr, combinedStats } = useMemo(() => {
-    const stats = levelCompletionStats(vocab, sentences, texts, progress);
-    return { cefr: cefrProgress(stats), combinedStats: stats };
-  }, [vocab, sentences, texts, progress]);
+  const cefr = useMemo(
+    () => cefrProgress(levelCompletionStats(vocab, sentences, texts, progress)),
+    [vocab, sentences, texts, progress],
+  );
 
   // Current-level leftovers across every word & sentence mode (NOT reading) — the work the Микс
   // run would drill. Same per-mode `finish` counts the cards show, summed.
@@ -243,7 +241,9 @@ export default function Roadmap({
   const cefrState: CefrState = {
     bandIdx: cefrBandIdx,
     levelInBand: active - cefrBandIdx * 3,
-    pct: levelProgressToNext(combinedStats, active),
+    // Same unified completion % the Levels screen shows, so the two never disagree (reads 100%
+    // exactly when the level advances, bottlenecked by whichever of learned-breadth / balance lags).
+    pct: levelCompletionProgress(vocab, sentences, texts, progress, active),
     nextId: cefr.nextBand ?? bands[cefrBandIdx]!.id,
   };
 
