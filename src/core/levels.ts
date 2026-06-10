@@ -409,13 +409,19 @@ export function masteringLevelGated(
 
 /**
  * Unified "% toward completing (advancing past) a level", in [0, 1] — the SINGLE progress number
- * every surface should show (home CEFR meter + Levels screen), so they can never disagree. It reads
- * 100% EXACTLY when {@link masteringLevelGated} would stop blocking the level, because it's the
- * closer-to-done of the two conditions that drive advancement:
+ * every surface should show (home CEFR meter + Levels screen + Metrics rail), so they can never
+ * disagree. It reads 100% EXACTLY when {@link masteringLevelGated} would stop blocking the level,
+ * being the lesser of the two conditions that drive advancement:
  *   • learned breadth: (learned / total) / {@link LEVEL_COMPLETE_FRACTION}, and
- *   • balance depth:   {@link levelGate} / {@link GATE_TARGET} (the weakest mode's mastery).
- * Taking the min means the bar never claims more progress than the actual bottleneck allows — if a
- * single mode is lagging, the % reflects that, matching what the ring shows. 1 for an empty level.
+ *   • balance depth:   the MEAN over non-empty modes of each mode's mastery toward {@link GATE_TARGET}
+ *     (each capped at 1).
+ * The balance term is a SMOOTH MEAN, deliberately NOT {@link levelGate} (the min). The gate/min is
+ * the right rule for ADVANCEMENT (a single lagging mode must catch up), but as a progress BAR it
+ * reads 0 the moment any one mode is untouched — so marking words «Уже знаю» wouldn't move the bar
+ * while sentences/reading still sit at 0. The mean rises as ANY mode improves, yet still equals 1
+ * only when EVERY mode has reached the target (so the bar hits 100% exactly when the level advances).
+ * Taking the min with the learned term keeps it from ever claiming more than the weaker dimension.
+ * 1 for an empty level.
  */
 export function levelCompletionProgress(
   vocab: readonly VocabLike[],
@@ -427,8 +433,15 @@ export function levelCompletionProgress(
   const stat = levelCompletionStats(vocab, sentences, texts, progress).find((s) => s.level === level);
   if (!stat || stat.total === 0) return 1;
   const learnedPct = stat.learned / stat.total / LEVEL_COMPLETE_FRACTION;
-  const gatePct = levelGate(levelModeStats(vocab, sentences, texts, progress, level)) / GATE_TARGET;
-  return Math.min(1, learnedPct, gatePct);
+  let sum = 0;
+  let n = 0;
+  for (const m of levelModeStats(vocab, sentences, texts, progress, level)) {
+    if (m.total === 0) continue; // a mode with nothing to drill at this level isn't a gap
+    sum += Math.min(1, m.mastered / m.total / GATE_TARGET);
+    n += 1;
+  }
+  const balancePct = n === 0 ? 1 : sum / n;
+  return Math.min(1, learnedPct, balancePct);
 }
 
 /**

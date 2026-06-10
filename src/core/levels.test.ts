@@ -597,22 +597,27 @@ describe("levelCompletionProgress (unified % shown on home + Levels)", () => {
   });
 
   it("is bottlenecked by the learned fraction when balance is ahead", () => {
-    // 4/5 words fully mastered → every mode at 0.8 (gate ÷ 0.8 = 1.0), so learned 0.8 ÷ 0.93 wins.
+    // 4/5 words fully mastered → every mode at 0.8 (balance mean ÷ 0.8 = 1.0), so learned 0.8 ÷ 0.93 wins.
     expect(levelCompletionProgress(fiveWords, [], [], allWordModes(["w1", "w2", "w3", "w4"]), 1)).toBeCloseTo(
       0.8 / LEVEL_COMPLETE_FRACTION,
       5,
     );
   });
 
-  it("is bottlenecked by the balance gate when a mode lags (the ring-vs-% case)", () => {
-    // All 5 words learned in recognition only → learned 1.0 but say/listen/production at 0 → gate 0.
+  it("rises with partial progress instead of reading 0 when only some modes are done", () => {
+    // All 5 words learned in recognition only: 1 of the 4 word modes is full, the other 3 at 0.
+    // The OLD gate-min read 0 here; the smooth mean reads min(learned 1.0, mean[1,0,0,0]=0.25)=0.25.
     const recOnly: ProgressMap = new Map();
     for (const id of ["w1", "w2", "w3", "w4", "w5"])
       recOnly.set(progressKey("recognition", id), {
         kind: "recognition", itemId: id, box: LEARNED_BOX, correctStreak: LEARNED_BOX,
         totalCorrect: LEARNED_BOX, totalSeen: LEARNED_BOX, lastSeen: 1,
       });
-    expect(levelCompletionProgress(fiveWords, [], [], recOnly, 1)).toBe(0);
+    expect(levelCompletionProgress(fiveWords, [], [], recOnly, 1)).toBeCloseTo(0.25, 5);
+  });
+
+  it("is 0 only when nothing has been done", () => {
+    expect(levelCompletionProgress(fiveWords, [], [], new Map(), 1)).toBe(0);
   });
 });
 
