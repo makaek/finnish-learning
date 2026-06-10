@@ -2,7 +2,7 @@
   "_meta": {
     "language": "en",
     "l1": "ru",
-    "note": "English (target) A1 reading. Same schema as the Finnish seed: each line's 'fi' field holds the TARGET (English) text — the field name is kept for schema/loader compatibility. 'ru' is the Russian translation; 'glosses' map a surface token to a short Russian gloss. Verified by english-linguist 2026-06-10.",
+    "note": "English (target) A1 reading. Same schema as the Finnish seed: each line's 'fi' field holds the TARGET (English) text — the field name is kept for schema/loader compatibility. 'ru' is the Russian translation; 'glosses' map a surface token to a short Russian gloss. Levels 1-4 + 5 (city/places/directions) + 6 (Past Simple/shopping) verified by english-linguist 2026-06-10.",
     "needs_review": false
   },
   "texts": [
@@ -374,6 +374,158 @@
       "questions": [
         { "id": "t16q1", "q": "How many days are in a week?", "qRu": "Сколько дней в неделе?", "canonical": "Seven.", "accepted": ["Seven.", "Seven days.", "There are seven days.", "Seven"], "wrong": [{ "match": "five", "ru": "В неделе семь дней." }] },
         { "id": "t16q2", "q": "How many hours does the person sleep?", "qRu": "Сколько часов человек спит?", "canonical": "Eight hours.", "accepted": ["Eight hours.", "Eight.", "Eight", "Eight hours every night.", "Eight hours"], "wrong": [{ "match": "seven hours", "ru": "Человек спит восемь часов." }] }
+      ]
+    },
+    {
+      "id": "t17",
+      "title": "Asking the way",
+      "titleRu": "Спрашиваю дорогу",
+      "level": 5,
+      "theme": "directions",
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Tom", "fi": "Excuse me, can you help me?", "ru": "Извините, вы можете мне помочь?", "glosses": { "excuse": "извините (excuse me)", "me": "меня / мне", "can": "мочь", "you": "вы", "help": "помочь" } },
+        { "speaker": "Woman", "fi": "Yes, of course.", "ru": "Да, конечно.", "glosses": { "yes": "да", "of": "конечно (of course)", "course": "конечно (of course)" } },
+        { "speaker": "Tom", "fi": "Where is the station?", "ru": "Где находится станция?", "glosses": { "where": "где", "is": "есть (быть)", "the": "определённый артикль", "station": "станция" } },
+        { "speaker": "Woman", "fi": "Go straight and turn left.", "ru": "Идите прямо и поверните налево.", "glosses": { "go": "идите", "straight": "прямо", "and": "и", "turn": "поверните", "left": "налево" } },
+        { "speaker": "Woman", "fi": "It is next to the bank.", "ru": "Это рядом с банком.", "glosses": { "it": "оно / это", "next": "рядом (next to)", "to": "рядом (next to)", "bank": "банк" } },
+        { "speaker": "Tom", "fi": "Thank you very much!", "ru": "Большое спасибо!", "glosses": { "thank": "спасибо", "very": "очень", "much": "много" } }
+      ],
+      "questions": [
+        { "id": "t17q1", "q": "What does Tom want to find?", "qRu": "Что Том хочет найти?", "canonical": "The station.", "accepted": ["The station.", "The station", "Station.", "The station, next to the bank."], "wrong": [{ "match": "the park", "ru": "Том ищет станцию." }] },
+        { "id": "t17q2", "q": "Where is the station?", "qRu": "Где находится станция?", "canonical": "Next to the bank.", "accepted": ["Next to the bank.", "Next to the bank", "It is next to the bank.", "Near the bank."], "wrong": [{ "match": "behind the park", "ru": "Станция рядом с банком." }] }
+      ]
+    },
+    {
+      "id": "t18",
+      "title": "In the city",
+      "titleRu": "В городе",
+      "level": 5,
+      "theme": "city",
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Mia", "fi": "Is there a park in the city?", "ru": "В городе есть парк?", "glosses": { "is": "есть (быть)", "there": "there (there is)", "a": "артикль (один)", "park": "парк", "in": "в", "the": "определённый артикль", "city": "город" } },
+        { "speaker": "Joe", "fi": "Yes, there is a big park.", "ru": "Да, есть большой парк.", "glosses": { "yes": "да", "big": "большой" } },
+        { "speaker": "Mia", "fi": "Is it far?", "ru": "Это далеко?", "glosses": { "it": "оно / это", "far": "далеко" } },
+        { "speaker": "Joe", "fi": "No, it is near. You can walk.", "ru": "Нет, близко. Можно дойти пешком.", "glosses": { "no": "нет", "near": "близко", "you": "ты", "can": "мочь", "walk": "идти пешком" } },
+        { "speaker": "Mia", "fi": "Are there shops near the park?", "ru": "Рядом с парком есть магазины?", "glosses": { "are": "есть (быть)", "shops": "магазины" } },
+        { "speaker": "Joe", "fi": "Yes, there are two shops next to it.", "ru": "Да, рядом с ним два магазина.", "glosses": { "two": "два", "next": "рядом (next to)", "to": "рядом (next to)" } }
+      ],
+      "questions": [
+        { "id": "t18q1", "q": "Is the park far?", "qRu": "Парк далеко?", "canonical": "No, it is near.", "accepted": ["No, it is near.", "No.", "No", "It is near.", "Near."], "wrong": [{ "match": "yes", "ru": "Нет — «it is near» (близко)." }] },
+        { "id": "t18q2", "q": "How many shops are near the park?", "qRu": "Сколько магазинов рядом с парком?", "canonical": "Two.", "accepted": ["Two.", "Two", "Two shops.", "There are two shops."], "wrong": [{ "match": "three", "ru": "Рядом с парком два магазина." }] }
+      ]
+    },
+    {
+      "id": "t19",
+      "title": "My city",
+      "titleRu": "Мой город",
+      "level": 5,
+      "theme": "city",
+      "type": "text",
+      "lines": [
+        { "fi": "I live in a big city.", "ru": "Я живу в большом городе.", "glosses": { "i": "я", "live": "живу", "in": "в", "a": "артикль (один)", "big": "большой", "city": "город" } },
+        { "fi": "There is a park near my house.", "ru": "Рядом с моим домом есть парк.", "glosses": { "there": "there (there is)", "is": "есть (быть)", "park": "парк", "near": "около / рядом", "my": "мой", "house": "дом" } },
+        { "fi": "There are many shops in the street.", "ru": "На улице много магазинов.", "glosses": { "are": "есть (быть)", "many": "много", "shops": "магазины", "the": "определённый артикль", "street": "улица" } },
+        { "fi": "I can walk to the station.", "ru": "Я могу дойти до станции пешком.", "glosses": { "can": "мочь", "walk": "идти пешком", "to": "к / до", "station": "станция" } }
+      ],
+      "questions": [
+        { "id": "t19q1", "q": "What is near the house?", "qRu": "Что находится рядом с домом?", "canonical": "A park.", "accepted": ["A park.", "A park", "Park.", "There is a park."], "wrong": [{ "match": "a station", "ru": "Рядом с домом парк." }] },
+        { "id": "t19q2", "q": "Where are the shops?", "qRu": "Где находятся магазины?", "canonical": "In the street.", "accepted": ["In the street.", "In the street", "On the street.", "There are shops in the street."], "wrong": [{ "match": "in the park", "ru": "Магазины на улице." }] }
+      ]
+    },
+    {
+      "id": "t20",
+      "title": "My street",
+      "titleRu": "Моя улица",
+      "level": 5,
+      "theme": "city",
+      "type": "text",
+      "lines": [
+        { "fi": "My street is not big.", "ru": "Моя улица небольшая.", "glosses": { "my": "моя", "street": "улица", "is": "есть (быть)", "not": "не", "big": "большой" } },
+        { "fi": "There is a bank next to my house.", "ru": "Рядом с моим домом есть банк.", "glosses": { "there": "there (there is)", "bank": "банк", "next": "рядом (next to)", "to": "рядом (next to)", "house": "дом" } },
+        { "fi": "The hospital is behind the park.", "ru": "Больница за парком.", "glosses": { "the": "определённый артикль", "hospital": "больница", "behind": "за / позади", "park": "парк" } },
+        { "fi": "I can buy bread in the shop near the bank.", "ru": "Я могу купить хлеб в магазине рядом с банком.", "glosses": { "i": "я", "can": "мочь", "buy": "купить", "bread": "хлеб", "in": "в", "shop": "магазин", "near": "около / рядом" } }
+      ],
+      "questions": [
+        { "id": "t20q1", "q": "What is next to the house?", "qRu": "Что находится рядом с домом?", "canonical": "A bank.", "accepted": ["A bank.", "A bank", "Bank.", "There is a bank."], "wrong": [{ "match": "a hospital", "ru": "Рядом с домом банк." }] },
+        { "id": "t20q2", "q": "Where is the hospital?", "qRu": "Где находится больница?", "canonical": "Behind the park.", "accepted": ["Behind the park.", "Behind the park", "It is behind the park."], "wrong": [{ "match": "next to the bank", "ru": "Больница за парком." }] }
+      ]
+    },
+    {
+      "id": "t21",
+      "title": "At the shop",
+      "titleRu": "В магазине",
+      "level": 6,
+      "theme": "shopping",
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Seller", "fi": "Hello! Can I help you?", "ru": "Здравствуйте! Чем могу помочь?", "glosses": { "hello": "здравствуйте", "can": "мочь", "i": "я", "help": "помочь", "you": "вам" } },
+        { "speaker": "Kate", "fi": "Yes. How much is this shirt?", "ru": "Да. Сколько стоит эта рубашка?", "glosses": { "yes": "да", "how": "сколько (how much)", "much": "сколько (how much)", "is": "есть (быть)", "this": "эта", "shirt": "рубашка" } },
+        { "speaker": "Seller", "fi": "It is ten.", "ru": "Десять.", "glosses": { "it": "оно / это", "ten": "десять" } },
+        { "speaker": "Kate", "fi": "That is cheap. I bought a shirt here yesterday too.", "ru": "Это дёшево. Я и вчера купила здесь рубашку.", "glosses": { "that": "то / это", "cheap": "дешёвый", "bought": "купил (buy в прош.)", "here": "здесь", "yesterday": "вчера", "too": "тоже" } },
+        { "speaker": "Seller", "fi": "Do you want it?", "ru": "Вы хотите её?", "glosses": { "do": "вспомог. глагол (вопрос)", "want": "хотеть", "it": "её / это" } },
+        { "speaker": "Kate", "fi": "Yes, please. I can pay now.", "ru": "Да, пожалуйста. Я могу заплатить сейчас.", "glosses": { "please": "пожалуйста", "pay": "платить", "now": "сейчас" } }
+      ],
+      "questions": [
+        { "id": "t21q1", "q": "How much is the shirt?", "qRu": "Сколько стоит рубашка?", "canonical": "Ten.", "accepted": ["Ten.", "Ten", "It is ten.", "It's ten."], "wrong": [{ "match": "five", "ru": "Рубашка стоит десять." }] },
+        { "id": "t21q2", "q": "Is the shirt expensive?", "qRu": "Рубашка дорогая?", "canonical": "No, it is cheap.", "accepted": ["No, it is cheap.", "No.", "No", "It is cheap.", "Cheap."], "wrong": [{ "match": "yes", "ru": "Нет — Кейт говорит «that is cheap» (дёшево)." }] }
+      ]
+    },
+    {
+      "id": "t22",
+      "title": "At the market",
+      "titleRu": "На рынке",
+      "level": 6,
+      "theme": "shopping",
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Sam", "fi": "Where were you yesterday?", "ru": "Где ты был вчера?", "glosses": { "where": "где", "were": "был (be в прош.)", "you": "ты", "yesterday": "вчера" } },
+        { "speaker": "Mia", "fi": "I went to the market.", "ru": "Я ходила на рынок.", "glosses": { "i": "я", "went": "ходил (go в прош.)", "to": "на / к", "the": "определённый артикль", "market": "рынок" } },
+        { "speaker": "Sam", "fi": "What did you buy?", "ru": "Что ты купила?", "glosses": { "what": "что", "did": "вспомог. глагол (прош., вопрос)", "buy": "купить" } },
+        { "speaker": "Mia", "fi": "I bought fish and fruit.", "ru": "Я купила рыбу и фрукты.", "glosses": { "bought": "купил (buy в прош.)", "fish": "рыба", "and": "и", "fruit": "фрукты" } },
+        { "speaker": "Sam", "fi": "Was it expensive?", "ru": "Это было дорого?", "glosses": { "was": "был (be в прош.)", "it": "оно / это", "expensive": "дорогой" } },
+        { "speaker": "Mia", "fi": "No, it was cheap.", "ru": "Нет, было дёшево.", "glosses": { "no": "нет", "cheap": "дешёвый" } }
+      ],
+      "questions": [
+        { "id": "t22q1", "q": "Where did Mia go?", "qRu": "Куда ходила Мия?", "canonical": "To the market.", "accepted": ["To the market.", "To the market", "The market.", "She went to the market."], "wrong": [{ "match": "to the bank", "ru": "Мия ходила на рынок." }] },
+        { "id": "t22q2", "q": "What did Mia buy?", "qRu": "Что купила Мия?", "canonical": "Fish and fruit.", "accepted": ["Fish and fruit.", "Fish and fruit", "Fruit and fish.", "She bought fish and fruit."], "wrong": [{ "match": "meat", "ru": "Мия купила рыбу и фрукты." }] }
+      ]
+    },
+    {
+      "id": "t23",
+      "title": "Yesterday",
+      "titleRu": "Вчера",
+      "level": 6,
+      "theme": "past",
+      "type": "text",
+      "lines": [
+        { "fi": "Yesterday I was at home.", "ru": "Вчера я был дома.", "glosses": { "yesterday": "вчера", "i": "я", "was": "был (be в прош.)", "at": "в / у", "home": "дом (дома)" } },
+        { "fi": "In the morning I went to the shop.", "ru": "Утром я ходил в магазин.", "glosses": { "in": "в", "the": "определённый артикль", "morning": "утро", "went": "ходил (go в прош.)", "to": "в / к", "shop": "магазин" } },
+        { "fi": "I bought bread and milk.", "ru": "Я купил хлеб и молоко.", "glosses": { "bought": "купил (buy в прош.)", "bread": "хлеб", "and": "и", "milk": "молоко" } },
+        { "fi": "I had a good day.", "ru": "У меня был хороший день.", "glosses": { "had": "имел (have в прош.)", "a": "артикль (один)", "good": "хороший", "day": "день" } }
+      ],
+      "questions": [
+        { "id": "t23q1", "q": "Where did the person go?", "qRu": "Куда человек ходил?", "canonical": "To the shop.", "accepted": ["To the shop.", "To the shop", "The shop.", "He went to the shop."], "wrong": [{ "match": "to the market", "ru": "Человек ходил в магазин." }] },
+        { "id": "t23q2", "q": "What did the person buy?", "qRu": "Что человек купил?", "canonical": "Bread and milk.", "accepted": ["Bread and milk.", "Bread and milk", "Milk and bread.", "He bought bread and milk."], "wrong": [{ "match": "fish", "ru": "Человек купил хлеб и молоко." }] }
+      ]
+    },
+    {
+      "id": "t24",
+      "title": "My day in the city",
+      "titleRu": "Мой день в городе",
+      "level": 6,
+      "theme": "past",
+      "type": "text",
+      "lines": [
+        { "fi": "Last week I went to a big city.", "ru": "На прошлой неделе я ездил в большой город.", "glosses": { "last": "прошлый", "week": "неделя", "i": "я", "went": "ходил / поехал (go в прош.)", "to": "в / к", "a": "артикль (один)", "big": "большой", "city": "город" } },
+        { "fi": "I bought a ticket and went to the park.", "ru": "Я купил билет и пошёл в парк.", "glosses": { "bought": "купил (buy в прош.)", "ticket": "билет", "and": "и", "the": "определённый артикль", "park": "парк" } },
+        { "fi": "I saw many people in the street.", "ru": "Я видел много людей на улице.", "glosses": { "saw": "увидел (see в прош.)", "many": "много", "people": "люди", "in": "на / в", "street": "улица" } },
+        { "fi": "The day was very good.", "ru": "День был очень хороший.", "glosses": { "day": "день", "was": "был (be в прош.)", "very": "очень", "good": "хороший" } }
+      ],
+      "questions": [
+        { "id": "t24q1", "q": "Where did the person go last week?", "qRu": "Куда человек ездил на прошлой неделе?", "canonical": "To a big city.", "accepted": ["To a big city.", "To a big city", "A big city.", "To a city.", "He went to a big city."], "wrong": [{ "match": "to the market", "ru": "Человек ездил в большой город." }] },
+        { "id": "t24q2", "q": "Was the day good?", "qRu": "День был хороший?", "canonical": "Yes, it was.", "accepted": ["Yes, it was.", "Yes.", "Yes", "It was very good.", "It was good."], "wrong": [{ "match": "no", "ru": "Да — «The day was very good»." }] }
       ]
     }
   ]

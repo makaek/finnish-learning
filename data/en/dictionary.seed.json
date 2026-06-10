@@ -2,7 +2,7 @@
   "_meta": {
     "language": "en",
     "l1": "ru",
-    "note": "English (target) A1 deck for Russian speakers. The 'en' field holds the word to learn; it is loaded into VocabItem.fi (the engine's generic 'form to learn'). Levels 1-3 = CEFR A1.1, level 4 = start of A1.2. Verified by english-linguist 2026-06-10.",
+    "note": "English (target) A1 deck for Russian speakers. The 'en' field holds the word to learn; it is loaded into VocabItem.fi (the engine's generic 'form to learn'). Levels 1-3 = CEFR A1.1, level 4 = start of A1.2, level 5 = A1.2 (city/places/directions + can + there is/are), level 6 = A1.3 (Past Simple + shopping/money). Levels 5-6 added/verified by english-linguist 2026-06-10.",
     "needs_review": false
   },
   "pronouns": [
@@ -46,7 +46,20 @@
     { "id": "v17", "en": "get up", "ru": "вставать", "pos": "verb", "level": 4, "theme": "routine" },
     { "id": "v18", "en": "sleep", "ru": "спать", "pos": "verb", "level": 4, "theme": "routine" },
     { "id": "v19", "en": "start", "ru": "начинать", "pos": "verb", "level": 4, "theme": "routine" },
-    { "id": "v20", "en": "finish", "ru": "заканчивать", "pos": "verb", "level": 4, "theme": "routine" }
+    { "id": "v20", "en": "finish", "ru": "заканчивать", "pos": "verb", "level": 4, "theme": "routine" },
+    { "id": "v25", "en": "can", "ru": "мочь / уметь", "pos": "verb", "level": 5, "theme": "grammar" },
+    { "id": "v26", "en": "turn", "ru": "поворачивать", "pos": "verb", "level": 5, "theme": "directions" },
+    { "id": "v27", "en": "walk", "ru": "идти пешком / гулять", "pos": "verb", "level": 5, "theme": "directions" },
+    { "id": "v28", "en": "wait", "ru": "ждать", "pos": "verb", "level": 5, "theme": "city" },
+    { "id": "v29", "en": "help", "ru": "помогать", "pos": "verb", "level": 5, "theme": "city" },
+    { "id": "v30", "en": "was", "ru": "был / была / было (be в прош.)", "pos": "verb", "level": 6, "theme": "past" },
+    { "id": "v31", "en": "were", "ru": "был / были (be в прош., мн./you)", "pos": "verb", "level": 6, "theme": "past" },
+    { "id": "v32", "en": "went", "ru": "ходил / поехал (go в прош.)", "pos": "verb", "level": 6, "theme": "past" },
+    { "id": "v33", "en": "had", "ru": "имел / было (have в прош.)", "pos": "verb", "level": 6, "theme": "past" },
+    { "id": "v34", "en": "saw", "ru": "увидел (see в прош.)", "pos": "verb", "level": 6, "theme": "past" },
+    { "id": "v35", "en": "bought", "ru": "купил (buy в прош.)", "pos": "verb", "level": 6, "theme": "past" },
+    { "id": "v36", "en": "pay", "ru": "платить", "pos": "verb", "level": 6, "theme": "money" },
+    { "id": "v37", "en": "cost", "ru": "стоить", "pos": "verb", "level": 6, "theme": "money" }
   ],
   "nouns": [
     { "id": "n1", "en": "name", "ru": "имя", "pos": "noun", "level": 1, "theme": "acquaintance" },
@@ -102,7 +115,23 @@
     { "id": "n51", "en": "work", "ru": "работа", "pos": "noun", "level": 4, "theme": "work" },
     { "id": "n52", "en": "Monday", "ru": "понедельник", "pos": "noun", "level": 4, "theme": "calendar" },
     { "id": "n53", "en": "clock", "ru": "часы (настенные)", "pos": "noun", "level": 4, "theme": "time" },
-    { "id": "n54", "en": "o'clock", "ru": "час (ровно, о времени)", "pos": "adv", "level": 4, "theme": "time" }
+    { "id": "n54", "en": "o'clock", "ru": "час (ровно, о времени)", "pos": "adv", "level": 4, "theme": "time" },
+    { "id": "n55", "en": "city", "ru": "город", "pos": "noun", "level": 5, "theme": "city" },
+    { "id": "n56", "en": "street", "ru": "улица", "pos": "noun", "level": 5, "theme": "city" },
+    { "id": "n57", "en": "park", "ru": "парк", "pos": "noun", "level": 5, "theme": "places" },
+    { "id": "n58", "en": "station", "ru": "станция / вокзал", "pos": "noun", "level": 5, "theme": "places" },
+    { "id": "n59", "en": "bank", "ru": "банк", "pos": "noun", "level": 5, "theme": "places" },
+    { "id": "n60", "en": "hospital", "ru": "больница", "pos": "noun", "level": 5, "theme": "places" },
+    { "id": "n61", "en": "bus", "ru": "автобус", "pos": "noun", "level": 5, "theme": "transport" },
+    { "id": "n62", "en": "car", "ru": "машина", "pos": "noun", "level": 5, "theme": "transport" },
+    { "id": "n63", "en": "map", "ru": "карта", "pos": "noun", "level": 5, "theme": "directions" },
+    { "id": "n67", "en": "market", "ru": "рынок", "pos": "noun", "level": 6, "theme": "shopping" },
+    { "id": "n68", "en": "money", "ru": "деньги", "pos": "noun", "level": 6, "theme": "money" },
+    { "id": "n69", "en": "price", "ru": "цена", "pos": "noun", "level": 6, "theme": "money" },
+    { "id": "n70", "en": "shirt", "ru": "рубашка", "pos": "noun", "level": 6, "theme": "clothes" },
+    { "id": "n71", "en": "shoe", "ru": "туфля / ботинок", "pos": "noun", "level": 6, "theme": "clothes" },
+    { "id": "n72", "en": "ticket", "ru": "билет", "pos": "noun", "level": 6, "theme": "travel" },
+    { "id": "n73", "en": "yesterday", "ru": "вчера", "pos": "noun", "level": 6, "theme": "past" }
   ],
   "adjectives": [
     { "id": "a1", "en": "good", "ru": "хороший", "pos": "adj", "level": 1, "theme": "basics" },
@@ -121,7 +150,12 @@
     { "id": "a14", "en": "cold", "ru": "холодный", "pos": "adj", "level": 3, "theme": "food" },
     { "id": "a15", "en": "tasty", "ru": "вкусный", "pos": "adj", "level": 3, "theme": "food" },
     { "id": "a16", "en": "early", "ru": "ранний / рано", "pos": "adj", "level": 4, "theme": "time" },
-    { "id": "a17", "en": "late", "ru": "поздний / поздно", "pos": "adj", "level": 4, "theme": "time" }
+    { "id": "a17", "en": "late", "ru": "поздний / поздно", "pos": "adj", "level": 4, "theme": "time" },
+    { "id": "a18", "en": "near", "ru": "близкий / рядом", "pos": "adj", "level": 5, "theme": "directions" },
+    { "id": "a19", "en": "far", "ru": "далёкий / далеко", "pos": "adj", "level": 5, "theme": "directions" },
+    { "id": "a20", "en": "open", "ru": "открытый", "pos": "adj", "level": 5, "theme": "city" },
+    { "id": "a21", "en": "expensive", "ru": "дорогой", "pos": "adj", "level": 6, "theme": "money" },
+    { "id": "a22", "en": "cheap", "ru": "дешёвый", "pos": "adj", "level": 6, "theme": "money" }
   ],
   "function_words": [
     { "id": "f1", "en": "hello", "ru": "привет / здравствуйте", "pos": "interj", "level": 1, "theme": "greetings" },
@@ -164,6 +198,16 @@
     { "id": "f37", "en": "ten", "ru": "десять", "pos": "num", "level": 4, "theme": "numbers" },
     { "id": "f38", "en": "always", "ru": "всегда", "pos": "adv", "level": 4, "theme": "routine" },
     { "id": "f39", "en": "never", "ru": "никогда", "pos": "adv", "level": 4, "theme": "routine" },
-    { "id": "f40", "en": "sometimes", "ru": "иногда", "pos": "adv", "level": 4, "theme": "routine" }
+    { "id": "f40", "en": "sometimes", "ru": "иногда", "pos": "adv", "level": 4, "theme": "routine" },
+    { "id": "f42", "en": "left", "ru": "налево / лево", "pos": "adv", "level": 5, "theme": "directions" },
+    { "id": "f43", "en": "right", "ru": "направо / право", "pos": "adv", "level": 5, "theme": "directions" },
+    { "id": "f44", "en": "next to", "ru": "рядом с / возле", "pos": "adp", "level": 5, "theme": "directions" },
+    { "id": "f45", "en": "near", "ru": "около / рядом с", "pos": "adp", "level": 5, "theme": "directions" },
+    { "id": "f46", "en": "under", "ru": "под", "pos": "adp", "level": 5, "theme": "directions" },
+    { "id": "f47", "en": "behind", "ru": "за / позади", "pos": "adp", "level": 5, "theme": "directions" },
+    { "id": "f48", "en": "to", "ru": "к / в (направление)", "pos": "adp", "level": 5, "theme": "directions" },
+    { "id": "f49", "en": "how much", "ru": "сколько (цена)", "pos": "adv", "level": 6, "theme": "money" },
+    { "id": "f50", "en": "last", "ru": "прошлый", "pos": "adj", "level": 6, "theme": "past" },
+    { "id": "f51", "en": "ago", "ru": "назад (о времени)", "pos": "adv", "level": 6, "theme": "past" }
   ]
 }

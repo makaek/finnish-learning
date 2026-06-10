@@ -2,7 +2,7 @@
   "_meta": {
     "language": "en",
     "l1": "ru",
-    "note": "English (target) A1 sentence builder for Russian speakers. Same schema as the Finnish seed. 'wrong.match' is pre-normalized (lowercase, no punctuation, straight apostrophes). Accepted sets include contractions. Verified by english-linguist 2026-06-10.",
+    "note": "English (target) A1 sentence builder for Russian speakers. Same schema as the Finnish seed. 'wrong.match' is pre-normalized (lowercase, no punctuation, straight apostrophes). Accepted sets include contractions. Levels 1-4 + 5 (city/places/directions, can, there is/are) + 6 (Past Simple, shopping/money) verified by english-linguist 2026-06-10.",
     "needs_review": false
   },
   "sentences": [
@@ -633,6 +633,398 @@
         { "match": "i start a work at nine", "ru": "Здесь «work» без артикля: «start work»." }
       ],
       "teaches": "at + time + uncountable work"
+    },
+    {
+      "id": "s47",
+      "ru": "В городе есть большой парк.",
+      "uses": ["f23", "a3", "n57", "f15", "n55"],
+      "level": 5,
+      "theme": "city",
+      "canonical": "There is a big park in the city.",
+      "accepted": ["There is a big park in the city.", "There's a big park in the city."],
+      "wrong": [
+        { "match": "in the city is a big park", "ru": "Конструкция «there is»: «There is a big park in the city»." },
+        { "match": "there is big park in the city", "ru": "Нужен артикль «a»: «a big park»." }
+      ],
+      "teaches": "there is + place"
+    },
+    {
+      "id": "s48",
+      "ru": "На улице есть два магазина.",
+      "uses": ["f23", "f29", "n46", "f15", "n56"],
+      "level": 5,
+      "theme": "city",
+      "canonical": "There are two shops in the street.",
+      "accepted": ["There are two shops in the street.", "There are two shops on the street."],
+      "wrong": [
+        { "match": "there is two shops in the street", "ru": "Множественное число: «There ARE two shops»." },
+        { "match": "there are two shop in the street", "ru": "После числа существительное во мн. ч.: «two shops»." }
+      ],
+      "teaches": "there are + plural"
+    },
+    {
+      "id": "s49",
+      "ru": "Банк рядом со станцией.",
+      "uses": ["n59", "f44", "n58"],
+      "level": 5,
+      "theme": "places",
+      "canonical": "The bank is next to the station.",
+      "accepted": ["The bank is next to the station.", "The bank is near the station."],
+      "wrong": [
+        { "match": "the bank next to the station", "ru": "Нужен глагол is: «The bank is next to the station»." },
+        { "match": "the bank is next the station", "ru": "Предлог — «next to»: «next to the station»." }
+      ],
+      "teaches": "to be + next to"
+    },
+    {
+      "id": "s50",
+      "ru": "Магазин около парка.",
+      "uses": ["n46", "f45", "n57"],
+      "level": 5,
+      "theme": "places",
+      "canonical": "The shop is near the park.",
+      "accepted": ["The shop is near the park.", "The shop is next to the park."],
+      "wrong": [
+        { "match": "the shop near the park", "ru": "Нужен глагол is: «The shop is near the park»." },
+        { "match": "the shop is near to the park", "ru": "Предлог «near» используется без «to»: «near the park»." }
+      ],
+      "teaches": "to be + near"
+    },
+    {
+      "id": "s51",
+      "ru": "Кошка под столом.",
+      "uses": ["n15", "f46", "n35"],
+      "level": 5,
+      "theme": "directions",
+      "canonical": "The cat is under the table.",
+      "accepted": ["The cat is under the table."],
+      "wrong": [
+        { "match": "the cat under the table", "ru": "Нужен глагол is: «The cat is under the table»." },
+        { "match": "the cat is on the table", "ru": "«под» — это «under», не «on»: «under the table»." }
+      ],
+      "teaches": "to be + under"
+    },
+    {
+      "id": "s52",
+      "ru": "Я умею водить машину.",
+      "uses": ["p1", "v25", "v4", "f15", "n62"],
+      "level": 5,
+      "theme": "transport",
+      "canonical": "I can go by car.",
+      "accepted": ["I can go by car.", "I can drive a car."],
+      "wrong": [
+        { "match": "i can to go by car", "ru": "После «can» глагол без «to»: «I can go»." },
+        { "match": "i can going by car", "ru": "После «can» — начальная форма глагола: «I can go»." }
+      ],
+      "teaches": "can + bare infinitive"
+    },
+    {
+      "id": "s53",
+      "ru": "Ты можешь мне помочь?",
+      "uses": ["p2", "v25", "v29"],
+      "level": 5,
+      "theme": "city",
+      "canonical": "Can you help me?",
+      "accepted": ["Can you help me?"],
+      "wrong": [
+        { "match": "you can help me", "ru": "В вопросе «can» ставится перед подлежащим: «Can you help me?»" },
+        { "match": "can you help i", "ru": "После глагола — объектное местоимение «me», не «I»: «help me»." }
+      ],
+      "teaches": "can question + object pronoun"
+    },
+    {
+      "id": "s54",
+      "ru": "Здесь нельзя курить.",
+      "uses": ["p2", "v25", "f17"],
+      "level": 5,
+      "theme": "city",
+      "canonical": "You can't smoke here.",
+      "accepted": ["You can't smoke here.", "You cannot smoke here."],
+      "wrong": [
+        { "match": "you can not to smoke here", "ru": "После «can't» глагол без «to»: «You can't smoke here»." },
+        { "match": "here you can't smoke", "ru": "Обычный порядок: «You can't smoke here»." }
+      ],
+      "teaches": "can't + bare infinitive"
+    },
+    {
+      "id": "s55",
+      "ru": "Поверни налево.",
+      "uses": ["v26", "f42"],
+      "level": 5,
+      "theme": "directions",
+      "canonical": "Turn left.",
+      "accepted": ["Turn left.", "Turn to the left."],
+      "wrong": [
+        { "match": "turn on left", "ru": "Здесь без «on»: «Turn left» (или «turn to the left»)." },
+        { "match": "you turn left", "ru": "В повелительном предложении подлежащее не нужно: «Turn left»." }
+      ],
+      "teaches": "imperative + direction"
+    },
+    {
+      "id": "s56",
+      "ru": "Иди прямо и поверни направо.",
+      "uses": ["v4", "f8", "v26", "f43"],
+      "level": 5,
+      "theme": "directions",
+      "canonical": "Go straight and turn right.",
+      "accepted": ["Go straight and turn right.", "Go straight on and turn right."],
+      "wrong": [
+        { "match": "go straight and turn on right", "ru": "Здесь без «on»: «turn right»." },
+        { "match": "you go straight and turn right", "ru": "В повелительном предложении подлежащее не нужно: «Go straight…»." }
+      ],
+      "teaches": "imperative directions + and"
+    },
+    {
+      "id": "s57",
+      "ru": "Станция далеко?",
+      "uses": ["n58", "a19"],
+      "level": 5,
+      "theme": "directions",
+      "canonical": "Is the station far?",
+      "accepted": ["Is the station far?", "Is the station far away?"],
+      "wrong": [
+        { "match": "the station is far", "ru": "В вопросе глагол «is» ставится перед подлежащим: «Is the station far?»" },
+        { "match": "is the station far from", "ru": "Здесь без «from»: «Is the station far?»" }
+      ],
+      "teaches": "yes/no question — be-inversion"
+    },
+    {
+      "id": "s58",
+      "ru": "Я жду автобус.",
+      "uses": ["p1", "v28", "n61"],
+      "level": 5,
+      "theme": "transport",
+      "canonical": "I am waiting for the bus.",
+      "accepted": ["I am waiting for the bus.", "I'm waiting for the bus.", "I wait for the bus."],
+      "wrong": [
+        { "match": "i am waiting the bus", "ru": "Глагол «wait» требует предлог «for»: «wait for the bus»." },
+        { "match": "i waiting for the bus", "ru": "Нужен глагол be для Continuous: «I am waiting for the bus»." }
+      ],
+      "teaches": "wait FOR + preposition"
+    },
+    {
+      "id": "s59",
+      "ru": "Больница за парком.",
+      "uses": ["n60", "f47", "n57"],
+      "level": 5,
+      "theme": "places",
+      "canonical": "The hospital is behind the park.",
+      "accepted": ["The hospital is behind the park."],
+      "wrong": [
+        { "match": "the hospital behind the park", "ru": "Нужен глагол is: «The hospital is behind the park»." },
+        { "match": "the hospital is behind of the park", "ru": "Предлог «behind» без «of»: «behind the park»." }
+      ],
+      "teaches": "to be + behind"
+    },
+    {
+      "id": "s60",
+      "ru": "Я иду в банк.",
+      "uses": ["p1", "v4", "f48", "n59"],
+      "level": 5,
+      "theme": "places",
+      "canonical": "I am going to the bank.",
+      "accepted": ["I am going to the bank.", "I'm going to the bank.", "I go to the bank."],
+      "wrong": [
+        { "match": "i am going in the bank", "ru": "С глаголом движения — предлог «to»: «going to the bank»." },
+        { "match": "i am going to bank", "ru": "Нужен артикль: «to the bank»." }
+      ],
+      "teaches": "go TO + the"
+    },
+    {
+      "id": "s61",
+      "ru": "Вчера я был дома.",
+      "uses": ["n73", "p1", "v30", "n11"],
+      "level": 6,
+      "theme": "past",
+      "canonical": "Yesterday I was at home.",
+      "accepted": ["Yesterday I was at home.", "I was at home yesterday."],
+      "wrong": [
+        { "match": "yesterday i am at home", "ru": "О прошлом — прошедшая форма be: «I was at home»." },
+        { "match": "yesterday i were at home", "ru": "С «I» — форма «was»: «I was at home»." }
+      ],
+      "teaches": "past be — was"
+    },
+    {
+      "id": "s62",
+      "ru": "Мы были в парке.",
+      "uses": ["p5", "v31", "f15", "n57"],
+      "level": 6,
+      "theme": "past",
+      "canonical": "We were in the park.",
+      "accepted": ["We were in the park.", "We were at the park."],
+      "wrong": [
+        { "match": "we was in the park", "ru": "С «we» — форма «were»: «We were in the park»." },
+        { "match": "we are in the park", "ru": "О прошлом — «were», не «are»: «We were in the park»." }
+      ],
+      "teaches": "past be — were"
+    },
+    {
+      "id": "s63",
+      "ru": "Вчера я ходил в магазин.",
+      "uses": ["n73", "p1", "v32", "f48", "n46"],
+      "level": 6,
+      "theme": "past",
+      "canonical": "Yesterday I went to the shop.",
+      "accepted": ["Yesterday I went to the shop.", "I went to the shop yesterday."],
+      "wrong": [
+        { "match": "yesterday i goed to the shop", "ru": "«go» — неправильный глагол: прош. время «went», не «goed»." },
+        { "match": "yesterday i go to the shop", "ru": "О прошлом — «went»: «I went to the shop»." }
+      ],
+      "teaches": "irregular past — went"
+    },
+    {
+      "id": "s64",
+      "ru": "Я купил новую рубашку.",
+      "uses": ["p1", "v35", "a5", "n70"],
+      "level": 6,
+      "theme": "shopping",
+      "canonical": "I bought a new shirt.",
+      "accepted": ["I bought a new shirt."],
+      "wrong": [
+        { "match": "i buyed a new shirt", "ru": "«buy» — неправильный глагол: прош. время «bought», не «buyed»." },
+        { "match": "i bought new shirt", "ru": "Нужен артикль «a»: «a new shirt»." }
+      ],
+      "teaches": "irregular past — bought"
+    },
+    {
+      "id": "s65",
+      "ru": "Она увидела друга на рынке.",
+      "uses": ["p4", "v34", "n23", "f25", "n67"],
+      "level": 6,
+      "theme": "past",
+      "canonical": "She saw a friend at the market.",
+      "accepted": ["She saw a friend at the market.", "She saw her friend at the market."],
+      "wrong": [
+        { "match": "she seed a friend at the market", "ru": "«see» — неправильный глагол: прош. время «saw», не «seed»." },
+        { "match": "she saw friend at the market", "ru": "Нужен артикль: «a friend»." }
+      ],
+      "teaches": "irregular past — saw"
+    },
+    {
+      "id": "s66",
+      "ru": "У меня было много денег.",
+      "uses": ["p1", "v33", "n68"],
+      "level": 6,
+      "theme": "money",
+      "canonical": "I had a lot of money.",
+      "accepted": ["I had a lot of money.", "I had lots of money."],
+      "wrong": [
+        { "match": "i haved a lot of money", "ru": "«have» — неправильный глагол: прош. время «had», не «haved»." },
+        { "match": "i had a lot of moneys", "ru": "«money» неисчисляемое — без -s: «a lot of money»." }
+      ],
+      "teaches": "irregular past — had"
+    },
+    {
+      "id": "s67",
+      "ru": "Я работал вчера.",
+      "uses": ["p1", "v13", "n73"],
+      "level": 6,
+      "theme": "past",
+      "canonical": "I worked yesterday.",
+      "accepted": ["I worked yesterday."],
+      "wrong": [
+        { "match": "i work yesterday", "ru": "О прошлом — правильный глагол с -ed: «I worked yesterday»." },
+        { "match": "i worked yesterday day", "ru": "Просто «yesterday»: «I worked yesterday»." }
+      ],
+      "teaches": "regular past -ed"
+    },
+    {
+      "id": "s68",
+      "ru": "Мы жили в большом городе.",
+      "uses": ["p5", "v5", "f15", "a3", "n55"],
+      "level": 6,
+      "theme": "past",
+      "canonical": "We lived in a big city.",
+      "accepted": ["We lived in a big city."],
+      "wrong": [
+        { "match": "we live in a big city", "ru": "О прошлом — «lived» (с -ed): «We lived in a big city»." },
+        { "match": "we lived in big city", "ru": "Нужен артикль: «a big city»." }
+      ],
+      "teaches": "regular past -ed + article"
+    },
+    {
+      "id": "s69",
+      "ru": "Ты вчера ходил на работу?",
+      "uses": ["p2", "v32", "f48", "n51", "n73"],
+      "level": 6,
+      "theme": "past",
+      "canonical": "Did you go to work yesterday?",
+      "accepted": ["Did you go to work yesterday?"],
+      "wrong": [
+        { "match": "did you went to work yesterday", "ru": "После «did» глагол в начальной форме: «Did you go…?»" },
+        { "match": "you went to work yesterday", "ru": "Для вопроса в прошлом нужен «did»: «Did you go to work yesterday?»" }
+      ],
+      "teaches": "past question — did + bare verb"
+    },
+    {
+      "id": "s70",
+      "ru": "Я не покупал хлеб.",
+      "uses": ["p1", "f17", "v16", "n20"],
+      "level": 6,
+      "theme": "past",
+      "canonical": "I didn't buy bread.",
+      "accepted": ["I didn't buy bread.", "I did not buy bread."],
+      "wrong": [
+        { "match": "i didn't bought bread", "ru": "После «didn't» глагол в начальной форме: «didn't buy»." },
+        { "match": "i not buy bread", "ru": "Для отрицания в прошлом нужен «didn't»: «I didn't buy bread»." }
+      ],
+      "teaches": "past negation — didn't + bare verb"
+    },
+    {
+      "id": "s71",
+      "ru": "Сколько стоит билет?",
+      "uses": ["f49", "v37", "n72"],
+      "level": 6,
+      "theme": "money",
+      "canonical": "How much is the ticket?",
+      "accepted": ["How much is the ticket?", "How much does the ticket cost?"],
+      "wrong": [
+        { "match": "how much cost the ticket", "ru": "Либо «How much is the ticket?», либо «How much does the ticket cost?»" },
+        { "match": "how many is the ticket", "ru": "О цене — «how much», не «how many»: «How much is the ticket?»" }
+      ],
+      "teaches": "how much + price"
+    },
+    {
+      "id": "s72",
+      "ru": "Эта рубашка дорогая.",
+      "uses": ["p9", "n70", "a21"],
+      "level": 6,
+      "theme": "money",
+      "canonical": "This shirt is expensive.",
+      "accepted": ["This shirt is expensive."],
+      "wrong": [
+        { "match": "this shirt expensive", "ru": "Нужен глагол is: «This shirt is expensive»." },
+        { "match": "this a shirt is expensive", "ru": "После «this» артикль не нужен: «This shirt is expensive»." }
+      ],
+      "teaches": "to be + adjective (price)"
+    },
+    {
+      "id": "s73",
+      "ru": "Туфли были дешёвые.",
+      "uses": ["p15", "n71", "v31", "a22"],
+      "level": 6,
+      "theme": "money",
+      "canonical": "The shoes were cheap.",
+      "accepted": ["The shoes were cheap.", "Those shoes were cheap."],
+      "wrong": [
+        { "match": "the shoes was cheap", "ru": "Множественное число: «The shoes WERE cheap»." },
+        { "match": "the shoes are cheap", "ru": "О прошлом — «were», не «are»: «The shoes were cheap»." }
+      ],
+      "teaches": "past be — were (plural)"
+    },
+    {
+      "id": "s74",
+      "ru": "Я заплатил за билеты.",
+      "uses": ["p1", "v36", "n72"],
+      "level": 6,
+      "theme": "money",
+      "canonical": "I paid for the tickets.",
+      "accepted": ["I paid for the tickets."],
+      "wrong": [
+        { "match": "i payed for the tickets", "ru": "«pay» — прош. время «paid», не «payed»." },
+        { "match": "i paid the tickets", "ru": "Глагол «pay» требует предлог «for»: «pay for the tickets»." }
+      ],
+      "teaches": "pay FOR + irregular past (paid)"
     }
   ]
 }
