@@ -285,9 +285,37 @@ export default function Roadmap({
     </details>
   );
 
+  // Streak chip (design_handoff_streak_header «Вариант 2»): flame tile · streak count · divider ·
+  // 7 week-dots, centred between the wordmark and the gear. The week strip reuses the same `dots`
+  // model as the goal block below; the check sits only on today's dot (last) when it's done.
+  const streakChip = (
+    <button
+      type="button"
+      className="streakchip"
+      onClick={onShowStats}
+      aria-label={`Серия ${streak} ${dayWord(streak)} — открыть метрики`}
+    >
+      <span className="streakchip__flame" aria-hidden="true">
+        <UiIcon name="flame" size={18} />
+      </span>
+      <span className="streakchip__num">{streak}</span>
+      <span className="streakchip__divider" aria-hidden="true" />
+      <span className="streakchip__week" aria-hidden="true">
+        {dots.map((d, i) => (
+          <span key={i} className={`scdot scdot--${d}`}>
+            {d === "done" && i === dots.length - 1 && <UiIcon name="check" size={8} strokeWidth={3.4} />}
+          </span>
+        ))}
+      </span>
+    </button>
+  );
+
   const header = (
     <header className="home-head">
       <span className="home-wordmark">{brand}</span>
+      <span className="home-head__spacer" aria-hidden="true" />
+      {streakChip}
+      <span className="home-head__spacer" aria-hidden="true" />
       {settings}
     </header>
   );
@@ -307,30 +335,22 @@ export default function Roadmap({
     <main className="app app--home">
       {header}
 
-      {/* Streak / daily-goal strip — the "did I show up today" loop; tap → Метрики. */}
+      {/* Daily-goal strip — the streak/week now lives in the header chip, so this block is purely
+          the "did I hit today's goal" loop (lessons toward goal + accuracy); tap → Метрики. */}
       <button type="button" className="mstrip" onClick={onShowStats} aria-label="Открыть метрики">
-        <span className="mstrip__flame" aria-hidden="true">
-          <UiIcon name="flame" size={24} />
+        <span className="mstrip__flame mstrip__flame--goal" aria-hidden="true">
+          <UiIcon name="target" size={24} />
         </span>
         <span className="mstrip__body">
-          <span className="mstrip__title">
-            {streak} {dayWord(streak)} подряд
-          </span>
-          <span className="mstrip__dots" aria-hidden="true">
-            {dots.map((d, i) => (
-              <span key={i} className={`mdot mdot--${d}`}>
-                {d === "done" && <UiIcon name="check" size={11} strokeWidth={3} />}
-                {d === "today" && <span className="mdot__pip" />}
-              </span>
-            ))}
-          </span>
+          <span className="mstrip__title">Цель на сегодня</span>
+          <span className="mstrip__acc">точность · {accuracyPct}%</span>
         </span>
         <span className="mstrip__goal">
           <span className="mstrip__lessons">
             {lessons}
             <small>/{DAILY_LESSONS_GOAL}</small>
           </span>
-          <span className="mstrip__acc">сегодня · {accuracyPct}%</span>
+          <span className="mstrip__acc">уроков</span>
         </span>
       </button>
 

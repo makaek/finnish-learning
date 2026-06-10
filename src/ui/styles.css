@@ -552,17 +552,87 @@ body {
 
 /* ===== Home (Direction A «Фокус»): header · streak strip · ring card · action cards ===== */
 
-/* Header: wordmark + settings gear. */
+/* Header: wordmark · streak chip (centred) · settings gear. */
 .home-head {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 12px;
+}
+.home-head__spacer {
+  flex: 1 1 auto;
 }
 .home-wordmark {
+  flex: 0 0 auto;
   font-size: 1.375rem;
   font-weight: 800;
   letter-spacing: -0.02em;
   color: var(--text);
+}
+
+/* Streak chip (design_handoff_streak_header): flame tile · count · divider · 7 week-dots. A quiet
+   status pill that taps through to Метрики — not a primary CTA, so feedback stays subtle. */
+.streakchip {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  height: 38px;
+  padding: 0 4px 0 5px;
+  font: inherit;
+  color: var(--text);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.08s ease;
+}
+.streakchip:active {
+  transform: scale(0.96);
+}
+.streakchip__flame {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  color: #d98324;
+  background: linear-gradient(160deg, #fbe3c4, #f6ce9b);
+}
+.streakchip__num {
+  padding: 0 8px 0 7px;
+  font-size: 1.0625rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+.streakchip__divider {
+  flex: 0 0 auto;
+  width: 1px;
+  height: 18px;
+  background: var(--border);
+}
+.streakchip__week {
+  display: flex;
+  gap: 4px;
+  padding: 0 8px;
+  align-items: center;
+}
+.scdot {
+  display: grid;
+  place-items: center;
+  width: 11px;
+  height: 11px;
+  border-radius: 999px;
+  background: var(--surface-2);
+}
+.scdot--done {
+  color: #fff;
+  background: var(--rd-green);
+}
+.scdot--today {
+  background: transparent;
+  border: 2px solid #cf9a4e;
 }
 
 /* Streak / daily-goal strip (tappable → Прогресс). */
@@ -594,43 +664,23 @@ body {
   color: #d98324;
   background: linear-gradient(160deg, #fbe3c4, #f6ce9b);
 }
+/* Goal tile: teal-tinted (the streak flame moved to the header chip), matching the lessons hue. */
+.mstrip__flame--goal {
+  color: var(--rd-teal);
+  background: var(--rd-green-soft);
+}
 .mstrip__body {
+  display: flex;
   flex: 1;
   min-width: 0;
+  flex-direction: column;
+  gap: 3px;
 }
 .mstrip__title {
   display: block;
   font-size: 1.0625rem;
   font-weight: 800;
   letter-spacing: -0.01em;
-}
-.mstrip__dots {
-  display: flex;
-  gap: 7px;
-  margin-top: 9px;
-}
-.mdot {
-  display: grid;
-  place-items: center;
-  width: 17px;
-  height: 17px;
-  border-radius: 999px;
-}
-.mdot--done {
-  color: #fff;
-  background: #3b9c6e;
-}
-.mdot--today {
-  border: 2px solid #cf9a4e;
-}
-.mdot--miss {
-  border: 1px solid var(--border);
-}
-.mdot__pip {
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: #cf9a4e;
 }
 .mstrip__goal {
   flex: 0 0 auto;
@@ -641,7 +691,7 @@ body {
   display: block;
   font-size: 1.25rem;
   font-weight: 800;
-  color: #1b8e84;
+  color: var(--rd-teal);
 }
 .mstrip__lessons small {
   font-size: 0.8125rem;
