@@ -24,52 +24,32 @@ export interface LevelTitle {
   ru: string;
 }
 
-/** Topic name per curriculum level (1–12), authored from each level's actual seed content. */
+/**
+ * Topic name per curriculum level (1–19), assigned by the finnish-linguist in the 2026-06 curriculum
+ * REBALANCE (the old 15 levels were very uneven — L4 had 104 words; now ≤45/level, theme-grouped).
+ * Finnish + Russian titles in sentence case (capitalise the first word + proper nouns; «ja»/«и»
+ * stay lowercase). Each level's themes live on the items themselves (the `theme` field).
+ */
 export const LEVEL_TITLES: Readonly<Record<number, LevelTitle>> = {
-  // L1: hei/kiitos/anteeksi greetings, "minä olen…", juoda/syödä, työ/koti; texts
-  // "Tutustuminen", "Hyvää huomenta", "Kahvia ja leipää" — first contact & greetings.
-  1: { fi: "Tervehdykset", ru: "Приветствия" },
-  // L2: talo/auto/koulu/kirja/kissa/koira + asua/lukea/ostaa/tehdä; texts "Kotona",
-  // "Koulussa", "Uusi kirja" — home, school, everyday possessions.
-  2: { fi: "Koti ja koulu", ru: "Дом и школа" },
-  // L3: äiti/isä/lapsi/mies/nainen + demonstratives (tämä/se/kuka); texts "Minun perheeni",
-  // "Kuka tuo on?", "Lemmikkini" — family & describing people.
-  3: { fi: "Perhe", ru: "Семья" },
-  // L4: food (kala/liha/kana/juusto/leipä…), euro, maksaa/tilata + café/restaurant/shop;
-  // texts "Kahvilassa", "Ravintolassa", "Kaupassa" — eating out & food. (Months & language
-  // names are parked here as A1.2 breadth, but the dominant theme is food & café.)
-  4: { fi: "Ruoka ja kahvila", ru: "Еда и кафе" },
-  // L5: sää/ilma/päivä/aamu/kello + voida/osata/saada/pitää/täytyä + asema/kirjasto;
-  // texts "Millainen sää on?", "Paljonko kello on?", "Matka töihin" — weather, time, getting around.
-  5: { fi: "Sää ja aika", ru: "Погода и время" },
-  // L6: tunti/viikko/ilta/yö/kello + huone/pöytä/ovi/ikkuna + nukkua/herätä/katsoa/kuunnella;
-  // texts "Minun päiväni", "Aamulla", "Mitä teet illalla?" — clock time & the daily routine.
-  6: { fi: "Kello ja päivä", ru: "Время и день" },
-  // L7: perhe/veli/sisko/poika/tyttö + juna/bussi/polkupyörä/matka; texts "Perheeni ja minä",
-  // "Minä matkustan junalla", "Polkupyörällä kouluun" — family revisited + getting around.
-  7: { fi: "Perhe ja liikkuminen", ru: "Семья и передвижение" },
-  // L8: metsä/järvi/meri/puu/aurinko/sade/lumi, days of week, hotelli/lentokenttä/lippu/kartta;
-  // texts "Junamatka", "Metsässä", "Matka merelle" — travelling & nature.
-  8: { fi: "Matkustaminen ja luonto", ru: "Путешествия и природа" },
-  // L9: kysymys/vastaus/asia/onni/tunne + seasons; texts "Hyvä kysymys", "Iloinen päivä",
-  // "Vuodenajat", "Lentokentällä" — questions, feelings and abstract talk.
-  9: { fi: "Kysymykset ja tunteet", ru: "Вопросы и чувства" },
-  // L10: keittiö/makuuhuone/olohuone + tuoli/sohva/kaappi/lamppu/matto…; texts "Minun huoneeni",
-  // "Keittiössä", "Olohuoneessa", "Kotini" — the home interior, rooms & furniture.
-  10: { fi: "Koti ja huonekalut", ru: "Дом и мебель" },
-  // L11: tori/pankki/posti/apteekki/keskusta/kauppakeskus + clothes takki/kenkä/paita/kortti/kassa;
-  // texts "Keskustassa", "Vaatekaupassa", "Miten pääsen pankkiin?" — running errands & shopping in town.
-  11: { fi: "Kaupungilla ja ostoksilla", ru: "В городе и за покупками" },
-  // L12: body keho/pää/käsi/jalka + kuume/flunssa/lääke/terveys + seasons kevät/kesä/syksy/talvi;
-  // texts "Lääkärissä", "Syksyn sää", "Kesäsuunnitelmani" — health & seasons.
-  12: { fi: "Terveys ja vuodenajat", ru: "Здоровье и времена года" },
-  // --- A2.2 (new levels 13–15, authored by the finnish-linguist for the A2 build-out) ---
-  // L13: personal history → imperfect + perfect contrast (syntyä/kasvaa/muutto/lapsuus/elämä).
-  13: { fi: "Menneisyys ja muistot", ru: "Прошлое и воспоминания" },
-  // L14: household problems, moving → passive + conditional hypothetical (hana/putki/vuokranantaja).
-  14: { fi: "Koti, muutto ja arki", ru: "Дом, переезд и быт" },
-  // L15: cooking/store/doctor/hobbies depth → 3rd/4th infinitive + rektio, full conjunctions.
-  15: { fi: "Ruoka, terveys ja harrastukset", ru: "Еда, здоровье и хобби" },
+  1: { fi: "Tervehdykset ja minä", ru: "Приветствия и я" },
+  2: { fi: "Arki ja toiminta", ru: "Будни и действия" },
+  3: { fi: "Koulu ja eläimet", ru: "Школа и животные" },
+  4: { fi: "Numerot", ru: "Числительные" },
+  5: { fi: "Suuret numerot ja kielet", ru: "Большие числа и языки" },
+  6: { fi: "Ruoka ja kahvila", ru: "Еда и кафе" },
+  7: { fi: "Kaupungissa ja kalenteri", ru: "В городе и календарь" },
+  8: { fi: "Sää ja kello", ru: "Погода и часы" },
+  9: { fi: "Päivän rytmi ja huone", ru: "Распорядок дня и комната" },
+  10: { fi: "Perhe ja ammatit", ru: "Семья и профессии" },
+  11: { fi: "Liikkuminen ja värit", ru: "Передвижение и цвета" },
+  12: { fi: "Luonto ja matka", ru: "Природа и путешествие" },
+  13: { fi: "Kalenteri, vuodenajat ja tunteet", ru: "Календарь, времена года и чувства" },
+  14: { fi: "Koti sisältä", ru: "Дом изнутри" },
+  15: { fi: "Kaupunki ja ostokset", ru: "Город и покупки" },
+  16: { fi: "Harrastukset ja mielipiteet", ru: "Хобби и мнения" },
+  17: { fi: "Keho ja terveys", ru: "Тело и здоровье" },
+  18: { fi: "Vuodenajat ja menneisyys", ru: "Времена года и прошлое" },
+  19: { fi: "Koti, muutto ja terveelliset tavat", ru: "Дом, переезд и здоровый образ жизни" },
 };
 
 /**

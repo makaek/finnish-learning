@@ -20,7 +20,8 @@
       "id": "s1",
       "ru": "Я иду на работу.",
       "uses": ["v2", "n1"],
-      "level": 1,
+      "level": 2,
+      "theme": "basics",
       "canonical": "Menen töihin.",
       "accepted": ["Menen töihin.", "Minä menen töihin."],
       "wrong": [
@@ -36,6 +37,7 @@
       "ru": "Я ел блины.",
       "uses": ["v3", "n10"],
       "level": 2,
+      "theme": "basics",
       "canonical": "Söin lettuja.",
       "accepted": ["Söin lettuja.", "Minä söin lettuja."],
       "wrong": [
@@ -50,7 +52,8 @@
       "id": "s3",
       "ru": "Я пью кофе.",
       "uses": ["v4", "n8"],
-      "level": 1,
+      "level": 2,
+      "theme": "basics",
       "canonical": "Juon kahvia.",
       "accepted": ["Juon kahvia.", "Minä juon kahvia."],
       "wrong": [
@@ -65,6 +68,7 @@
       "ru": "Я живу в Хельсинки.",
       "uses": ["v7"],
       "level": 1,
+      "theme": "acquaintance",
       "canonical": "Asun Helsingissä.",
       "accepted": ["Asun Helsingissä.", "Minä asun Helsingissä."],
       "wrong": [
@@ -79,6 +83,7 @@
       "ru": "Я не говорю по-фински.",
       "uses": ["v6", "f6", "n16"],
       "level": 1,
+      "theme": "acquaintance",
       "canonical": "En puhu suomea.",
       "accepted": ["En puhu suomea.", "Minä en puhu suomea."],
       "wrong": [
@@ -93,7 +98,8 @@
       "id": "s6",
       "ru": "Я иду домой.",
       "uses": ["v2", "n2"],
-      "level": 1,
+      "level": 2,
+      "theme": "basics",
       "canonical": "Menen kotiin.",
       "accepted": ["Menen kotiin.", "Minä menen kotiin."],
       "wrong": [
@@ -109,6 +115,7 @@
       "ru": "Я дома.",
       "uses": ["v1", "n2"],
       "level": 1,
+      "theme": "basics",
       "canonical": "Olen kotona.",
       "accepted": ["Olen kotona.", "Minä olen kotona."],
       "wrong": [
@@ -123,7 +130,8 @@
       "id": "s8",
       "ru": "Ты идёшь в магазин.",
       "uses": ["v2", "n3"],
-      "level": 1,
+      "level": 2,
+      "theme": "basics",
       "canonical": "Menet kauppaan.",
       "accepted": ["Menet kauppaan.", "Sinä menet kauppaan."],
       "wrong": [
@@ -139,6 +147,7 @@
       "ru": "Он в магазине.",
       "uses": ["v1", "n3"],
       "level": 1,
+      "theme": "basics",
       "canonical": "Hän on kaupassa.",
       "accepted": ["Hän on kaupassa."],
       "wrong": [
@@ -154,6 +163,7 @@
       "ru": "Мы едем на машине.",
       "uses": ["v2", "n5"],
       "level": 2,
+      "theme": "basics",
       "canonical": "Menemme autolla.",
       "accepted": ["Menemme autolla.", "Me menemme autolla."],
       "wrong": [
@@ -168,7 +178,8 @@
       "id": "s11",
       "ru": "Они живут в городе.",
       "uses": ["v7", "n12"],
-      "level": 2,
+      "level": 7,
+      "theme": "places",
       "canonical": "He asuvat kaupungissa.",
       "accepted": ["He asuvat kaupungissa."],
       "wrong": [
@@ -183,7 +194,8 @@
       "id": "s12",
       "ru": "Я живу в большом доме.",
       "uses": ["v7", "a2", "n4"],
-      "level": 2,
+      "level": 1,
+      "theme": "acquaintance",
       "canonical": "Asun isossa talossa.",
       "accepted": ["Asun isossa talossa.", "Minä asun isossa talossa."],
       "wrong": [
@@ -198,7 +210,8 @@
       "id": "s13",
       "ru": "Дом большой.",
       "uses": ["v1", "n4", "a2"],
-      "level": 2,
+      "level": 1,
+      "theme": "basics",
       "canonical": "Talo on iso.",
       "accepted": ["Talo on iso."],
       "wrong": [
@@ -214,6 +227,7 @@
       "ru": "Кофе хороший.",
       "uses": ["n8", "v1", "a1"],
       "level": 1,
+      "theme": "food",
       "canonical": "Kahvi on hyvää.",
       "accepted": ["Kahvi on hyvää."],
       "wrong": [
@@ -228,7 +242,8 @@
       "id": "s15",
       "ru": "Я не пью кофе.",
       "uses": ["f6", "v4", "n8"],
-      "level": 1,
+      "level": 2,
+      "theme": "basics",
       "canonical": "En juo kahvia.",
       "accepted": ["En juo kahvia.", "Minä en juo kahvia."],
       "wrong": [
@@ -243,7 +258,8 @@
       "id": "s16",
       "ru": "Я не ем хлеб.",
       "uses": ["f6", "v3", "n9"],
-      "level": 1,
+      "level": 2,
+      "theme": "basics",
       "canonical": "En syö leipää.",
       "accepted": ["En syö leipää.", "Minä en syö leipää."],
       "wrong": [
@@ -258,7 +274,8 @@
       "id": "s17",
       "ru": "Я пью воду.",
       "uses": ["v4", "n11"],
-      "level": 1,
+      "level": 2,
+      "theme": "basics",
       "canonical": "Juon vettä.",
       "accepted": ["Juon vettä.", "Minä juon vettä."],
       "wrong": [
@@ -274,6 +291,7 @@
       "ru": "Я читаю книгу.",
       "uses": ["v9", "n7"],
       "level": 2,
+      "theme": "acquaintance",
       "canonical": "Luen kirjaa.",
       "accepted": ["Luen kirjaa.", "Minä luen kirjaa."],
       "wrong": [
@@ -289,6 +307,7 @@
       "ru": "Он читает книгу.",
       "uses": ["v9", "n7"],
       "level": 2,
+      "theme": "acquaintance",
       "canonical": "Hän lukee kirjaa.",
       "accepted": ["Hän lukee kirjaa."],
       "wrong": [
@@ -304,6 +323,7 @@
       "ru": "Я купил книгу.",
       "uses": ["v8", "n7"],
       "level": 2,
+      "theme": "acquaintance",
       "canonical": "Ostin kirjan.",
       "accepted": ["Ostin kirjan.", "Minä ostin kirjan."],
       "wrong": [
@@ -319,6 +339,7 @@
       "ru": "Мы купили новую машину.",
       "uses": ["v8", "a4", "n5"],
       "level": 2,
+      "theme": "acquaintance",
       "canonical": "Ostimme uuden auton.",
       "accepted": ["Ostimme uuden auton.", "Me ostimme uuden auton."],
       "wrong": [
@@ -334,6 +355,7 @@
       "ru": "Я хочу есть.",
       "uses": ["v5", "v3"],
       "level": 2,
+      "theme": "basics",
       "canonical": "Haluan syödä.",
       "accepted": ["Haluan syödä.", "Minä haluan syödä."],
       "wrong": [
@@ -349,6 +371,7 @@
       "ru": "Я хочу воды.",
       "uses": ["v5", "n11"],
       "level": 2,
+      "theme": "basics",
       "canonical": "Haluan vettä.",
       "accepted": ["Haluan vettä.", "Minä haluan vettä."],
       "wrong": [
@@ -364,6 +387,7 @@
       "ru": "Ты говоришь по-фински?",
       "uses": ["v6", "n16"],
       "level": 1,
+      "theme": "acquaintance",
       "canonical": "Puhutko suomea?",
       "accepted": ["Puhutko suomea?", "Puhutko sinä suomea?"],
       "wrong": [
@@ -379,6 +403,7 @@
       "ru": "Я говорю по-фински, но он не говорит.",
       "uses": ["v6", "f2", "f6", "n16"],
       "level": 2,
+      "theme": "grammar",
       "canonical": "Puhun suomea, mutta hän ei puhu.",
       "accepted": ["Puhun suomea, mutta hän ei puhu.", "Minä puhun suomea, mutta hän ei puhu."],
       "wrong": [
@@ -393,7 +418,8 @@
       "id": "s26",
       "ru": "Я ем хлеб и пью воду.",
       "uses": ["v3", "n9", "f1", "v4", "n11"],
-      "level": 1,
+      "level": 2,
+      "theme": "basics",
       "canonical": "Syön leipää ja juon vettä.",
       "accepted": ["Syön leipää ja juon vettä.", "Minä syön leipää ja juon vettä."],
       "wrong": [
@@ -409,6 +435,7 @@
       "ru": "Сегодня я иду в школу.",
       "uses": ["f4", "v2", "n6"],
       "level": 2,
+      "theme": "grammar",
       "canonical": "Tänään menen kouluun.",
       "accepted": ["Tänään menen kouluun.", "Tänään minä menen kouluun.", "Menen tänään kouluun.", "Minä menen tänään kouluun."],
       "wrong": [
@@ -424,6 +451,7 @@
       "ru": "Завтра я куплю книгу.",
       "uses": ["f5", "v8", "n7"],
       "level": 2,
+      "theme": "grammar",
       "canonical": "Huomenna ostan kirjan.",
       "accepted": ["Huomenna ostan kirjan.", "Huomenna minä ostan kirjan.", "Ostan huomenna kirjan.", "Minä ostan huomenna kirjan."],
       "wrong": [
@@ -438,7 +466,8 @@
       "id": "s29",
       "ru": "Я студент.",
       "uses": ["v1", "n15"],
-      "level": 2,
+      "level": 3,
+      "theme": "school",
       "canonical": "Olen opiskelija.",
       "accepted": ["Olen opiskelija.", "Minä olen opiskelija."],
       "wrong": [
@@ -454,6 +483,7 @@
       "ru": "Вчера он был дома.",
       "uses": ["f7", "v1", "n2"],
       "level": 2,
+      "theme": "grammar",
       "canonical": "Eilen hän oli kotona.",
       "accepted": ["Eilen hän oli kotona.", "Hän oli eilen kotona."],
       "wrong": [
@@ -469,7 +499,8 @@
       "id": "s31",
       "ru": "Что это?",
       "uses": ["p7", "p9", "v1"],
-      "level": 3,
+      "level": 2,
+      "theme": "people",
       "canonical": "Mikä tämä on?",
       "accepted": ["Mikä tämä on?", "Mikä se on?"],
       "wrong": [
@@ -484,7 +515,8 @@
       "id": "s32",
       "ru": "Кто ты?",
       "uses": ["p8", "v1"],
-      "level": 3,
+      "level": 2,
+      "theme": "people",
       "canonical": "Kuka sinä olet?",
       "accepted": ["Kuka sinä olet?", "Kuka olet?"],
       "wrong": [
@@ -500,6 +532,7 @@
       "ru": "Где ты живёшь?",
       "uses": ["f8", "v7"],
       "level": 3,
+      "theme": "grammar",
       "canonical": "Missä sinä asut?",
       "accepted": ["Missä sinä asut?", "Missä asut?"],
       "wrong": [
@@ -514,7 +547,8 @@
       "id": "s34",
       "ru": "Что ты ешь?",
       "uses": ["p7", "v3"],
-      "level": 3,
+      "level": 2,
+      "theme": "people",
       "canonical": "Mitä sinä syöt?",
       "accepted": ["Mitä sinä syöt?", "Mitä syöt?"],
       "wrong": [
@@ -529,7 +563,8 @@
       "id": "s35",
       "ru": "У меня есть машина.",
       "uses": ["v1", "n5"],
-      "level": 3,
+      "level": 2,
+      "theme": "basics",
       "canonical": "Minulla on auto.",
       "accepted": ["Minulla on auto."],
       "wrong": [
@@ -544,7 +579,8 @@
       "id": "s36",
       "ru": "У меня есть деньги.",
       "uses": ["v1", "n29"],
-      "level": 4,
+      "level": 7,
+      "theme": "money",
       "canonical": "Minulla on rahaa.",
       "accepted": ["Minulla on rahaa."],
       "wrong": [
@@ -559,7 +595,8 @@
       "id": "s37",
       "ru": "Это моя мама.",
       "uses": ["p9", "v1", "n17"],
-      "level": 3,
+      "level": 2,
+      "theme": "people",
       "canonical": "Tämä on minun äiti.",
       "accepted": ["Tämä on minun äiti.", "Tämä on äitini.", "Se on minun äiti."],
       "wrong": [
@@ -574,7 +611,8 @@
       "id": "s38",
       "ru": "Я вижу мать.",
       "uses": ["v12", "n17"],
-      "level": 3,
+      "level": 2,
+      "theme": "acquaintance",
       "canonical": "Näen äidin.",
       "accepted": ["Näen äidin.", "Minä näen äidin."],
       "wrong": [
@@ -589,7 +627,8 @@
       "id": "s39",
       "ru": "Он приходит домой.",
       "uses": ["v11", "n2"],
-      "level": 3,
+      "level": 2,
+      "theme": "acquaintance",
       "canonical": "Hän tulee kotiin.",
       "accepted": ["Hän tulee kotiin."],
       "wrong": [
@@ -604,7 +643,8 @@
       "id": "s40",
       "ru": "Я знаю, что он придёт.",
       "uses": ["v14", "f27", "v11"],
-      "level": 5,
+      "level": 8,
+      "theme": "grammar",
       "canonical": "Tiedän, että hän tulee.",
       "accepted": ["Tiedän, että hän tulee.", "Minä tiedän, että hän tulee."],
       "wrong": [
@@ -619,7 +659,8 @@
       "id": "s41",
       "ru": "Спасибо, я не хочу кофе.",
       "uses": ["f32", "f6", "v5", "n8"],
-      "level": 3,
+      "level": 2,
+      "theme": "basics",
       "canonical": "Kiitos, en halua kahvia.",
       "accepted": ["Kiitos, en halua kahvia.", "Kiitos, minä en halua kahvia."],
       "wrong": [
@@ -634,7 +675,8 @@
       "id": "s42",
       "ru": "Я иду в ресторан.",
       "uses": ["v2", "n23"],
-      "level": 4,
+      "level": 6,
+      "theme": "cafe",
       "canonical": "Menen ravintolaan.",
       "accepted": ["Menen ravintolaan.", "Minä menen ravintolaan."],
       "wrong": [
@@ -649,7 +691,8 @@
       "id": "s43",
       "ru": "Я в библиотеке.",
       "uses": ["v1", "n25"],
-      "level": 4,
+      "level": 7,
+      "theme": "places",
       "canonical": "Olen kirjastossa.",
       "accepted": ["Olen kirjastossa.", "Minä olen kirjastossa."],
       "wrong": [
@@ -664,7 +707,8 @@
       "id": "s44",
       "ru": "Я иду из магазина домой.",
       "uses": ["v2", "n3", "n2"],
-      "level": 4,
+      "level": 2,
+      "theme": "basics",
       "canonical": "Menen kaupasta kotiin.",
       "accepted": ["Menen kaupasta kotiin.", "Minä menen kaupasta kotiin."],
       "wrong": [
@@ -679,7 +723,8 @@
       "id": "s45",
       "ru": "Сколько это стоит?",
       "uses": ["f12", "f11", "p10", "v16"],
-      "level": 4,
+      "level": 6,
+      "theme": "cafe",
       "canonical": "Paljonko se maksaa?",
       "accepted": ["Paljonko se maksaa?", "Kuinka paljon se maksaa?"],
       "wrong": [
@@ -694,7 +739,8 @@
       "id": "s46",
       "ru": "Это стоит пять евро.",
       "uses": ["p10", "v16", "f19", "n31"],
-      "level": 4,
+      "level": 7,
+      "theme": "money",
       "canonical": "Se maksaa viisi euroa.",
       "accepted": ["Se maksaa viisi euroa."],
       "wrong": [
@@ -709,7 +755,8 @@
       "id": "s47",
       "ru": "Я заказываю кофе и воду.",
       "uses": ["v17", "n8", "f1", "n11"],
-      "level": 4,
+      "level": 6,
+      "theme": "cafe",
       "canonical": "Tilaan kahvia ja vettä.",
       "accepted": ["Tilaan kahvia ja vettä.", "Minä tilaan kahvia ja vettä."],
       "wrong": [
@@ -724,7 +771,8 @@
       "id": "s48",
       "ru": "Машина дорогая.",
       "uses": ["n5", "v1", "a11"],
-      "level": 4,
+      "level": 7,
+      "theme": "money",
       "canonical": "Auto on kallis.",
       "accepted": ["Auto on kallis."],
       "wrong": [
@@ -739,7 +787,8 @@
       "id": "s49",
       "ru": "Я ем рыбу.",
       "uses": ["v3", "n35"],
-      "level": 4,
+      "level": 6,
+      "theme": "food",
       "canonical": "Syön kalaa.",
       "accepted": ["Syön kalaa.", "Minä syön kalaa."],
       "wrong": [
@@ -754,7 +803,8 @@
       "id": "s50",
       "ru": "Где станция?",
       "uses": ["f8", "v1", "n24"],
-      "level": 4,
+      "level": 7,
+      "theme": "places",
       "canonical": "Missä asema on?",
       "accepted": ["Missä asema on?", "Missä on asema?"],
       "wrong": [
@@ -769,7 +819,8 @@
       "id": "s51",
       "ru": "Мне надо идти.",
       "uses": ["v22", "v2"],
-      "level": 5,
+      "level": 8,
+      "theme": "grammar",
       "canonical": "Minun täytyy mennä.",
       "accepted": ["Minun täytyy mennä."],
       "wrong": [
@@ -784,7 +835,8 @@
       "id": "s52",
       "ru": "Я могу прийти завтра.",
       "uses": ["v18", "v11", "f5"],
-      "level": 5,
+      "level": 8,
+      "theme": "grammar",
       "canonical": "Voin tulla huomenna.",
       "accepted": ["Voin tulla huomenna.", "Minä voin tulla huomenna.", "Voin huomenna tulla."],
       "wrong": [
@@ -799,7 +851,8 @@
       "id": "s53",
       "ru": "Я умею говорить по-фински.",
       "uses": ["v19", "v6", "n16"],
-      "level": 5,
+      "level": 8,
+      "theme": "grammar",
       "canonical": "Osaan puhua suomea.",
       "accepted": ["Osaan puhua suomea.", "Minä osaan puhua suomea."],
       "wrong": [
@@ -814,7 +867,8 @@
       "id": "s54",
       "ru": "Мне нравится кофе.",
       "uses": ["v21", "n8"],
-      "level": 5,
+      "level": 8,
+      "theme": "grammar",
       "canonical": "Pidän kahvista.",
       "accepted": ["Pidän kahvista.", "Minä pidän kahvista."],
       "wrong": [
@@ -829,7 +883,8 @@
       "id": "s55",
       "ru": "Вода холодная.",
       "uses": ["n11", "v1", "a5"],
-      "level": 5,
+      "level": 8,
+      "theme": "weather",
       "canonical": "Vesi on kylmää.",
       "accepted": ["Vesi on kylmää."],
       "wrong": [
@@ -844,7 +899,8 @@
       "id": "s56",
       "ru": "Сегодня хорошая погода.",
       "uses": ["f4", "n37", "v1", "a1"],
-      "level": 5,
+      "level": 8,
+      "theme": "weather",
       "canonical": "Tänään on kaunis ilma.",
       "accepted": ["Tänään on kaunis ilma.", "Tänään ilma on kaunis."],
       "wrong": [
@@ -859,7 +915,8 @@
       "id": "s57",
       "ru": "Когда я дома, я читаю книгу.",
       "uses": ["f29", "v1", "n2", "v9", "n7"],
-      "level": 5,
+      "level": 8,
+      "theme": "grammar",
       "canonical": "Kun olen kotona, luen kirjaa.",
       "accepted": ["Kun olen kotona, luen kirjaa.", "Kun minä olen kotona, minä luen kirjaa.", "Kun minä olen kotona, luen kirjaa."],
       "wrong": [
@@ -874,7 +931,8 @@
       "id": "s58",
       "ru": "Если хочешь, можешь прийти.",
       "uses": ["f30", "v5", "v18", "v11"],
-      "level": 5,
+      "level": 8,
+      "theme": "grammar",
       "canonical": "Jos haluat, voit tulla.",
       "accepted": ["Jos haluat, voit tulla."],
       "wrong": [
@@ -889,7 +947,8 @@
       "id": "s59",
       "ru": "Я не пойду в школу, потому что я дома.",
       "uses": ["f6", "v2", "n6", "f28", "v1", "n2"],
-      "level": 5,
+      "level": 8,
+      "theme": "grammar",
       "canonical": "En mene kouluun, koska olen kotona.",
       "accepted": ["En mene kouluun, koska olen kotona.", "Minä en mene kouluun, koska olen kotona."],
       "wrong": [
@@ -904,7 +963,8 @@
       "id": "s60",
       "ru": "Финский язык трудный, но я хочу читать.",
       "uses": ["n16", "v1", "a9", "f2", "v5", "v9"],
-      "level": 5,
+      "level": 8,
+      "theme": "grammar",
       "canonical": "Suomi on vaikeaa, mutta haluan lukea.",
       "accepted": ["Suomi on vaikeaa, mutta haluan lukea.", "Suomi on vaikeaa, mutta minä haluan lukea."],
       "wrong": [
@@ -919,7 +979,8 @@
       "id": "s61",
       "ru": "Я сплю хорошо.",
       "uses": ["v23", "a1"],
-      "level": 6,
+      "level": 9,
+      "theme": "routine",
       "canonical": "Nukun hyvin.",
       "accepted": ["Nukun hyvin.", "Minä nukun hyvin."],
       "wrong": [
@@ -934,7 +995,8 @@
       "id": "s62",
       "ru": "Я просыпаюсь утром.",
       "uses": ["v24", "n39"],
-      "level": 6,
+      "level": 9,
+      "theme": "routine",
       "canonical": "Herään aamulla.",
       "accepted": ["Herään aamulla.", "Minä herään aamulla."],
       "wrong": [
@@ -949,7 +1011,8 @@
       "id": "s63",
       "ru": "Я смотрю на часы вечером.",
       "uses": ["v25", "n44", "n42"],
-      "level": 6,
+      "level": 9,
+      "theme": "time",
       "canonical": "Katson kelloa illalla.",
       "accepted": ["Katson kelloa illalla.", "Minä katson kelloa illalla.", "Illalla katson kelloa."],
       "wrong": [
@@ -964,7 +1027,8 @@
       "id": "s64",
       "ru": "Я слушаю маму.",
       "uses": ["v26", "n17"],
-      "level": 6,
+      "level": 9,
+      "theme": "routine",
       "canonical": "Kuuntelen äitiä.",
       "accepted": ["Kuuntelen äitiä.", "Minä kuuntelen äitiä."],
       "wrong": [
@@ -979,7 +1043,8 @@
       "id": "s65",
       "ru": "Он пишет книгу.",
       "uses": ["v27", "n7"],
-      "level": 6,
+      "level": 9,
+      "theme": "routine",
       "canonical": "Hän kirjoittaa kirjaa.",
       "accepted": ["Hän kirjoittaa kirjaa."],
       "wrong": [
@@ -994,7 +1059,8 @@
       "id": "s66",
       "ru": "Я помогаю маме.",
       "uses": ["v28", "n17"],
-      "level": 6,
+      "level": 9,
+      "theme": "routine",
       "canonical": "Autan äitiä.",
       "accepted": ["Autan äitiä.", "Minä autan äitiä."],
       "wrong": [
@@ -1009,7 +1075,8 @@
       "id": "s67",
       "ru": "Я жду автобус.",
       "uses": ["v29", "n57"],
-      "level": 7,
+      "level": 11,
+      "theme": "transport",
       "canonical": "Odotan bussia.",
       "accepted": ["Odotan bussia.", "Minä odotan bussia."],
       "wrong": [
@@ -1024,7 +1091,8 @@
       "id": "s68",
       "ru": "Я изучаю финский.",
       "uses": ["v30", "n16"],
-      "level": 6,
+      "level": 9,
+      "theme": "routine",
       "canonical": "Opiskelen suomea.",
       "accepted": ["Opiskelen suomea.", "Minä opiskelen suomea."],
       "wrong": [
@@ -1039,7 +1107,8 @@
       "id": "s69",
       "ru": "Я часто читаю книгу вечером.",
       "uses": ["f35", "v9", "n7", "n42"],
-      "level": 6,
+      "level": 9,
+      "theme": "grammar",
       "canonical": "Luen usein kirjaa illalla.",
       "accepted": ["Luen usein kirjaa illalla.", "Minä luen usein kirjaa illalla.", "Usein luen kirjaa illalla."],
       "wrong": [
@@ -1054,7 +1123,8 @@
       "id": "s70",
       "ru": "Я всегда дома вечером.",
       "uses": ["f36", "v1", "n2", "n42"],
-      "level": 6,
+      "level": 9,
+      "theme": "grammar",
       "canonical": "Olen aina kotona illalla.",
       "accepted": ["Olen aina kotona illalla.", "Minä olen aina kotona illalla.", "Illalla olen aina kotona."],
       "wrong": [
@@ -1069,7 +1139,8 @@
       "id": "s71",
       "ru": "Стол старый.",
       "uses": ["n46", "v1", "a13"],
-      "level": 6,
+      "level": 9,
+      "theme": "furniture",
       "canonical": "Pöytä on vanha.",
       "accepted": ["Pöytä on vanha."],
       "wrong": [
@@ -1084,7 +1155,8 @@
       "id": "s72",
       "ru": "Я устал.",
       "uses": ["v1", "a15"],
-      "level": 6,
+      "level": 9,
+      "theme": "grammar",
       "canonical": "Olen väsynyt.",
       "accepted": ["Olen väsynyt.", "Minä olen väsynyt."],
       "wrong": [
@@ -1099,7 +1171,8 @@
       "id": "s73",
       "ru": "Я живу в старом доме.",
       "uses": ["v7", "a13", "n4"],
-      "level": 6,
+      "level": 9,
+      "theme": "grammar",
       "canonical": "Asun vanhassa talossa.",
       "accepted": ["Asun vanhassa talossa.", "Minä asun vanhassa talossa."],
       "wrong": [
@@ -1114,7 +1187,8 @@
       "id": "s74",
       "ru": "У меня есть телефон.",
       "uses": ["v1", "n50"],
-      "level": 6,
+      "level": 9,
+      "theme": "furniture",
       "canonical": "Minulla on puhelin.",
       "accepted": ["Minulla on puhelin."],
       "wrong": [
@@ -1129,7 +1203,8 @@
       "id": "s75",
       "ru": "Книга на столе.",
       "uses": ["n7", "v1", "n46"],
-      "level": 6,
+      "level": 9,
+      "theme": "furniture",
       "canonical": "Kirja on pöydällä.",
       "accepted": ["Kirja on pöydällä."],
       "wrong": [
@@ -1144,7 +1219,8 @@
       "id": "s76",
       "ru": "Мне надо спать.",
       "uses": ["v22", "v23"],
-      "level": 6,
+      "level": 9,
+      "theme": "routine",
       "canonical": "Minun täytyy nukkua.",
       "accepted": ["Minun täytyy nukkua."],
       "wrong": [
@@ -1159,7 +1235,8 @@
       "id": "s77",
       "ru": "Это моя семья.",
       "uses": ["p9", "v1", "n51"],
-      "level": 7,
+      "level": 10,
+      "theme": "family",
       "canonical": "Tämä on minun perhe.",
       "accepted": ["Tämä on minun perhe.", "Tämä on perheeni.", "Se on minun perhe."],
       "wrong": [
@@ -1174,7 +1251,8 @@
       "id": "s78",
       "ru": "У меня есть брат и сестра.",
       "uses": ["v1", "n52", "f1", "n53"],
-      "level": 7,
+      "level": 10,
+      "theme": "family",
       "canonical": "Minulla on veli ja sisko.",
       "accepted": ["Minulla on veli ja sisko."],
       "wrong": [
@@ -1189,7 +1267,8 @@
       "id": "s79",
       "ru": "Я люблю сестру.",
       "uses": ["v31", "n53"],
-      "level": 7,
+      "level": 11,
+      "theme": "routine",
       "canonical": "Rakastan siskoa.",
       "accepted": ["Rakastan siskoa.", "Minä rakastan siskoa."],
       "wrong": [
@@ -1204,7 +1283,8 @@
       "id": "s80",
       "ru": "Брат и сестра играют.",
       "uses": ["n52", "f1", "n53", "v32"],
-      "level": 7,
+      "level": 11,
+      "theme": "routine",
       "canonical": "Veli ja sisko pelaavat.",
       "accepted": ["Veli ja sisko pelaavat."],
       "wrong": [
@@ -1219,7 +1299,8 @@
       "id": "s81",
       "ru": "Я еду на поезде.",
       "uses": ["v33", "n56"],
-      "level": 7,
+      "level": 11,
+      "theme": "transport",
       "canonical": "Matkustan junalla.",
       "accepted": ["Matkustan junalla.", "Minä matkustan junalla."],
       "wrong": [
@@ -1234,7 +1315,8 @@
       "id": "s82",
       "ru": "Мы едем на автобусе в город.",
       "uses": ["v2", "n57", "n12"],
-      "level": 7,
+      "level": 11,
+      "theme": "transport",
       "canonical": "Menemme bussilla kaupunkiin.",
       "accepted": ["Menemme bussilla kaupunkiin.", "Me menemme bussilla kaupunkiin."],
       "wrong": [
@@ -1249,7 +1331,8 @@
       "id": "s83",
       "ru": "Поезд быстрый.",
       "uses": ["n56", "v1", "a19"],
-      "level": 7,
+      "level": 11,
+      "theme": "transport",
       "canonical": "Juna on nopea.",
       "accepted": ["Juna on nopea."],
       "wrong": [
@@ -1264,7 +1347,8 @@
       "id": "s84",
       "ru": "У меня красная машина.",
       "uses": ["v1", "a23", "n5"],
-      "level": 7,
+      "level": 11,
+      "theme": "people",
       "canonical": "Minulla on punainen auto.",
       "accepted": ["Minulla on punainen auto."],
       "wrong": [
@@ -1279,7 +1363,8 @@
       "id": "s85",
       "ru": "Я вижу синий поезд.",
       "uses": ["v12", "a24", "n56"],
-      "level": 7,
+      "level": 11,
+      "theme": "people",
       "canonical": "Näen sinisen junan.",
       "accepted": ["Näen sinisen junan.", "Minä näen sinisen junan."],
       "wrong": [
@@ -1294,7 +1379,8 @@
       "id": "s86",
       "ru": "Дом белый.",
       "uses": ["n4", "v1", "a25"],
-      "level": 7,
+      "level": 11,
+      "theme": "people",
       "canonical": "Talo on valkoinen.",
       "accepted": ["Talo on valkoinen."],
       "wrong": [
@@ -1309,7 +1395,8 @@
       "id": "s87",
       "ru": "Я люблю чёрный кофе.",
       "uses": ["v31", "a26", "n8"],
-      "level": 7,
+      "level": 11,
+      "theme": "routine",
       "canonical": "Rakastan mustaa kahvia.",
       "accepted": ["Rakastan mustaa kahvia.", "Minä rakastan mustaa kahvia."],
       "wrong": [
@@ -1324,7 +1411,8 @@
       "id": "s88",
       "ru": "Я не понимаю по-фински.",
       "uses": ["f6", "v35", "n16"],
-      "level": 7,
+      "level": 11,
+      "theme": "routine",
       "canonical": "En ymmärrä suomea.",
       "accepted": ["En ymmärrä suomea.", "Minä en ymmärrä suomea."],
       "wrong": [
@@ -1339,7 +1427,8 @@
       "id": "s89",
       "ru": "Ты помнишь моё имя?",
       "uses": ["v36", "n20"],
-      "level": 7,
+      "level": 11,
+      "theme": "routine",
       "canonical": "Muistatko nimeni?",
       "accepted": ["Muistatko nimeni?", "Muistatko sinä nimeni?", "Muistatko minun nimeni?"],
       "wrong": [
@@ -1354,7 +1443,8 @@
       "id": "s90",
       "ru": "Я иду к врачу.",
       "uses": ["v2", "n60"],
-      "level": 7,
+      "level": 10,
+      "theme": "work",
       "canonical": "Menen lääkäriin.",
       "accepted": ["Menen lääkäriin.", "Minä menen lääkäriin."],
       "wrong": [
@@ -1369,7 +1459,8 @@
       "id": "s91",
       "ru": "Дорога длинная, но поезд быстрый.",
       "uses": ["n59", "v1", "a17", "f2", "n56", "a19"],
-      "level": 7,
+      "level": 11,
+      "theme": "transport",
       "canonical": "Matka on pitkä, mutta juna on nopea.",
       "accepted": ["Matka on pitkä, mutta juna on nopea."],
       "wrong": [
@@ -1384,7 +1475,8 @@
       "id": "s92",
       "ru": "Если ты помнишь дорогу, мы едем на велосипеде.",
       "uses": ["f30", "v36", "n59", "v2", "n58"],
-      "level": 7,
+      "level": 11,
+      "theme": "routine",
       "canonical": "Jos muistat matkan, menemme polkupyörällä.",
       "accepted": ["Jos muistat matkan, menemme polkupyörällä."],
       "wrong": [
@@ -1399,7 +1491,8 @@
       "id": "s93",
       "ru": "Я гуляю в лесу.",
       "uses": ["v39", "n61"],
-      "level": 8,
+      "level": 12,
+      "theme": "travel",
       "canonical": "Kävelen metsässä.",
       "accepted": ["Kävelen metsässä.", "Minä kävelen metsässä."],
       "wrong": [
@@ -1414,7 +1507,8 @@
       "id": "s94",
       "ru": "Я плаваю в озере.",
       "uses": ["v42", "n62"],
-      "level": 8,
+      "level": 12,
+      "theme": "travel",
       "canonical": "Uin järvessä.",
       "accepted": ["Uin järvessä.", "Minä uin järvessä."],
       "wrong": [
@@ -1429,7 +1523,8 @@
       "id": "s95",
       "ru": "Дети бегают в парке.",
       "uses": ["n19", "v40", "n27"],
-      "level": 8,
+      "level": 12,
+      "theme": "travel",
       "canonical": "Lapset juoksevat puistossa.",
       "accepted": ["Lapset juoksevat puistossa."],
       "wrong": [
@@ -1444,7 +1539,8 @@
       "id": "s96",
       "ru": "Я уезжаю в город завтра.",
       "uses": ["v37", "n12", "f5"],
-      "level": 8,
+      "level": 12,
+      "theme": "travel",
       "canonical": "Lähden kaupunkiin huomenna.",
       "accepted": ["Lähden kaupunkiin huomenna.", "Minä lähden kaupunkiin huomenna.", "Huomenna lähden kaupunkiin."],
       "wrong": [
@@ -1459,7 +1555,8 @@
       "id": "s97",
       "ru": "Поезд прибывает на вокзал.",
       "uses": ["n56", "v38", "n24"],
-      "level": 8,
+      "level": 12,
+      "theme": "travel",
       "canonical": "Juna saapuu asemalle.",
       "accepted": ["Juna saapuu asemalle."],
       "wrong": [
@@ -1474,7 +1571,8 @@
       "id": "s98",
       "ru": "Я лечу в Финляндию.",
       "uses": ["v41", "n16"],
-      "level": 8,
+      "level": 12,
+      "theme": "travel",
       "canonical": "Lennän Suomeen.",
       "accepted": ["Lennän Suomeen.", "Minä lennän Suomeen."],
       "wrong": [
@@ -1489,7 +1587,8 @@
       "id": "s99",
       "ru": "Я покупаю билет.",
       "uses": ["v8", "n73"],
-      "level": 8,
+      "level": 12,
+      "theme": "travel",
       "canonical": "Ostan lipun.",
       "accepted": ["Ostan lipun.", "Minä ostan lipun."],
       "wrong": [
@@ -1504,7 +1603,8 @@
       "id": "s100",
       "ru": "Я в гостинице.",
       "uses": ["v1", "n71"],
-      "level": 8,
+      "level": 12,
+      "theme": "travel",
       "canonical": "Olen hotellissa.",
       "accepted": ["Olen hotellissa.", "Minä olen hotellissa."],
       "wrong": [
@@ -1519,7 +1619,8 @@
       "id": "s101",
       "ru": "Солнце на небе.",
       "uses": ["n66", "v1", "n69"],
-      "level": 8,
+      "level": 12,
+      "theme": "nature",
       "canonical": "Aurinko on taivaalla.",
       "accepted": ["Aurinko on taivaalla."],
       "wrong": [
@@ -1534,7 +1635,8 @@
       "id": "s102",
       "ru": "Идёт дождь.",
       "uses": ["v50", "n67"],
-      "level": 8,
+      "level": 12,
+      "theme": "travel",
       "canonical": "Sataa.",
       "accepted": ["Sataa.", "Sataa vettä."],
       "wrong": [
@@ -1549,7 +1651,8 @@
       "id": "s103",
       "ru": "Идёт снег.",
       "uses": ["v50", "n68"],
-      "level": 8,
+      "level": 12,
+      "theme": "travel",
       "canonical": "Sataa lunta.",
       "accepted": ["Sataa lunta."],
       "wrong": [
@@ -1564,7 +1667,8 @@
       "id": "s104",
       "ru": "Сегодня понедельник.",
       "uses": ["f4", "v1", "n75"],
-      "level": 8,
+      "level": 13,
+      "theme": "calendar",
       "canonical": "Tänään on maanantai.",
       "accepted": ["Tänään on maanantai."],
       "wrong": [
@@ -1579,7 +1683,8 @@
       "id": "s105",
       "ru": "Завтра суббота.",
       "uses": ["f5", "v1", "n80"],
-      "level": 8,
+      "level": 13,
+      "theme": "calendar",
       "canonical": "Huomenna on lauantai.",
       "accepted": ["Huomenna on lauantai."],
       "wrong": [
@@ -1594,7 +1699,8 @@
       "id": "s106",
       "ru": "Море большое.",
       "uses": ["n63", "v1", "a2"],
-      "level": 8,
+      "level": 12,
+      "theme": "nature",
       "canonical": "Meri on iso.",
       "accepted": ["Meri on iso."],
       "wrong": [
@@ -1609,7 +1715,8 @@
       "id": "s107",
       "ru": "Я еду на поезде из города в гостиницу.",
       "uses": ["v33", "n56", "n12", "n71"],
-      "level": 8,
+      "level": 12,
+      "theme": "travel",
       "canonical": "Matkustan junalla kaupungista hotelliin.",
       "accepted": ["Matkustan junalla kaupungista hotelliin.", "Minä matkustan junalla kaupungista hotelliin."],
       "wrong": [
@@ -1624,7 +1731,8 @@
       "id": "s108",
       "ru": "Сегодня воскресенье, и я дома.",
       "uses": ["f4", "v1", "n81", "f1", "n2"],
-      "level": 8,
+      "level": 13,
+      "theme": "calendar",
       "canonical": "Tänään on sunnuntai, ja olen kotona.",
       "accepted": ["Tänään on sunnuntai, ja olen kotona.", "Tänään on sunnuntai, ja minä olen kotona."],
       "wrong": [
@@ -1639,7 +1747,8 @@
       "id": "s109",
       "ru": "Я спрашиваю маму.",
       "uses": ["v43", "n17"],
-      "level": 9,
+      "level": 13,
+      "theme": "grammar",
       "canonical": "Kysyn äidiltä.",
       "accepted": ["Kysyn äidiltä.", "Minä kysyn äidiltä."],
       "wrong": [
@@ -1654,7 +1763,8 @@
       "id": "s110",
       "ru": "Я отвечаю маме.",
       "uses": ["v44", "n17"],
-      "level": 9,
+      "level": 13,
+      "theme": "grammar",
       "canonical": "Vastaan äidille.",
       "accepted": ["Vastaan äidille.", "Minä vastaan äidille."],
       "wrong": [
@@ -1669,7 +1779,8 @@
       "id": "s111",
       "ru": "Я звоню другу.",
       "uses": ["v45", "n13"],
-      "level": 9,
+      "level": 13,
+      "theme": "grammar",
       "canonical": "Soitan ystävälle.",
       "accepted": ["Soitan ystävälle.", "Minä soitan ystävälle."],
       "wrong": [
@@ -1684,7 +1795,8 @@
       "id": "s112",
       "ru": "Я думаю о тебе.",
       "uses": ["v48", "p2"],
-      "level": 9,
+      "level": 13,
+      "theme": "grammar",
       "canonical": "Ajattelen sinua.",
       "accepted": ["Ajattelen sinua.", "Minä ajattelen sinua."],
       "wrong": [
@@ -1699,7 +1811,8 @@
       "id": "s113",
       "ru": "Это хороший вопрос.",
       "uses": ["p9", "v1", "a1", "n82"],
-      "level": 9,
+      "level": 13,
+      "theme": "grammar",
       "canonical": "Tämä on hyvä kysymys.",
       "accepted": ["Tämä on hyvä kysymys.", "Se on hyvä kysymys."],
       "wrong": [
@@ -1714,7 +1827,8 @@
       "id": "s114",
       "ru": "У меня большая проблема.",
       "uses": ["v1", "a2", "n85"],
-      "level": 9,
+      "level": 13,
+      "theme": "grammar",
       "canonical": "Minulla on iso ongelma.",
       "accepted": ["Minulla on iso ongelma."],
       "wrong": [
@@ -1729,7 +1843,8 @@
       "id": "s115",
       "ru": "Я счастлив.",
       "uses": ["v1", "a27"],
-      "level": 9,
+      "level": 13,
+      "theme": "feelings",
       "canonical": "Olen onnellinen.",
       "accepted": ["Olen onnellinen.", "Minä olen onnellinen."],
       "wrong": [
@@ -1744,7 +1859,8 @@
       "id": "s116",
       "ru": "Он грустный, но я счастлив.",
       "uses": ["v1", "a29", "f2", "a27"],
-      "level": 9,
+      "level": 13,
+      "theme": "feelings",
       "canonical": "Hän on surullinen, mutta minä olen onnellinen.",
       "accepted": ["Hän on surullinen, mutta minä olen onnellinen.", "Hän on surullinen, mutta olen onnellinen."],
       "wrong": [
@@ -1759,7 +1875,8 @@
       "id": "s117",
       "ru": "Эта книга интересная.",
       "uses": ["p9", "n7", "v1", "a31"],
-      "level": 9,
+      "level": 13,
+      "theme": "feelings",
       "canonical": "Tämä kirja on kiinnostava.",
       "accepted": ["Tämä kirja on kiinnostava."],
       "wrong": [
@@ -1774,7 +1891,8 @@
       "id": "s118",
       "ru": "Я думаю, что финский язык интересный.",
       "uses": ["v48", "f27", "n16", "v1", "a31"],
-      "level": 9,
+      "level": 13,
+      "theme": "grammar",
       "canonical": "Ajattelen, että suomi on kiinnostavaa.",
       "accepted": ["Ajattelen, että suomi on kiinnostavaa.", "Minä ajattelen, että suomi on kiinnostavaa."],
       "wrong": [
@@ -1789,7 +1907,8 @@
       "id": "s119",
       "ru": "Я не понимаю вопрос.",
       "uses": ["f6", "v35", "n82"],
-      "level": 9,
+      "level": 13,
+      "theme": "grammar",
       "canonical": "En ymmärrä kysymystä.",
       "accepted": ["En ymmärrä kysymystä.", "Minä en ymmärrä kysymystä."],
       "wrong": [
@@ -1804,7 +1923,8 @@
       "id": "s120",
       "ru": "Поезд быстрее, чем автобус.",
       "uses": ["n56", "v1", "a19", "f37", "n57"],
-      "level": 9,
+      "level": 13,
+      "theme": "grammar",
       "canonical": "Juna on nopeampi kuin bussi.",
       "accepted": ["Juna on nopeampi kuin bussi."],
       "wrong": [
@@ -1819,7 +1939,8 @@
       "id": "s121",
       "ru": "Эта книга лучше.",
       "uses": ["p9", "n7", "v1", "a1"],
-      "level": 9,
+      "level": 2,
+      "theme": "people",
       "canonical": "Tämä kirja on parempi.",
       "accepted": ["Tämä kirja on parempi."],
       "wrong": [
@@ -1834,7 +1955,8 @@
       "id": "s122",
       "ru": "Брат старше, чем сестра.",
       "uses": ["n52", "v1", "a13", "f37", "n53"],
-      "level": 9,
+      "level": 13,
+      "theme": "grammar",
       "canonical": "Veli on vanhempi kuin sisko.",
       "accepted": ["Veli on vanhempi kuin sisko."],
       "wrong": [
@@ -1849,7 +1971,8 @@
       "id": "s123",
       "ru": "Я рассказываю другу о проблеме.",
       "uses": ["v47", "n13", "n85"],
-      "level": 9,
+      "level": 13,
+      "theme": "grammar",
       "canonical": "Kerron ystävälle ongelmasta.",
       "accepted": ["Kerron ystävälle ongelmasta.", "Minä kerron ystävälle ongelmasta."],
       "wrong": [
@@ -1864,7 +1987,8 @@
       "id": "s124",
       "ru": "Я верю, что ты счастлив.",
       "uses": ["v49", "f27", "v1", "a27"],
-      "level": 9,
+      "level": 13,
+      "theme": "grammar",
       "canonical": "Uskon, että olet onnellinen.",
       "accepted": ["Uskon, että olet onnellinen.", "Minä uskon, että sinä olet onnellinen.", "Uskon, että sinä olet onnellinen."],
       "wrong": [
@@ -1879,7 +2003,8 @@
       "id": "s125",
       "ru": "У меня есть стол.",
       "uses": ["v1", "n46"],
-      "level": 10,
+      "level": 9,
+      "theme": "furniture",
       "canonical": "Minulla on pöytä.",
       "accepted": ["Minulla on pöytä."],
       "wrong": [
@@ -1894,7 +2019,8 @@
       "id": "s126",
       "ru": "В кухне есть окно.",
       "uses": ["v1", "n88", "n48"],
-      "level": 10,
+      "level": 14,
+      "theme": "furniture",
       "canonical": "Keittiössä on ikkuna.",
       "accepted": ["Keittiössä on ikkuna."],
       "wrong": [
@@ -1909,7 +2035,8 @@
       "id": "s127",
       "ru": "Я открываю дверь.",
       "uses": ["v51", "n47"],
-      "level": 10,
+      "level": 14,
+      "theme": "home",
       "canonical": "Avaan oven.",
       "accepted": ["Avaan oven.", "Minä avaan oven."],
       "wrong": [
@@ -1924,7 +2051,8 @@
       "id": "s128",
       "ru": "Я закрываю окно.",
       "uses": ["v52", "n48"],
-      "level": 10,
+      "level": 14,
+      "theme": "home",
       "canonical": "Suljen ikkunan.",
       "accepted": ["Suljen ikkunan.", "Minä suljen ikkunan."],
       "wrong": [
@@ -1939,7 +2067,8 @@
       "id": "s129",
       "ru": "Комната большая.",
       "uses": ["n45", "v1", "a2"],
-      "level": 10,
+      "level": 9,
+      "theme": "furniture",
       "canonical": "Huone on iso.",
       "accepted": ["Huone on iso."],
       "wrong": [
@@ -1954,7 +2083,8 @@
       "id": "s130",
       "ru": "Книга на столе.",
       "uses": ["n7", "v1", "n46"],
-      "level": 10,
+      "level": 9,
+      "theme": "furniture",
       "canonical": "Kirja on pöydällä.",
       "accepted": ["Kirja on pöydällä."],
       "wrong": [
@@ -1969,7 +2099,8 @@
       "id": "s131",
       "ru": "Я живу в большом доме.",
       "uses": ["v7", "a2", "n4"],
-      "level": 10,
+      "level": 1,
+      "theme": "acquaintance",
       "canonical": "Asun isossa talossa.",
       "accepted": ["Asun isossa talossa.", "Minä asun isossa talossa."],
       "wrong": [
@@ -1984,7 +2115,8 @@
       "id": "s132",
       "ru": "Кровать в спальне.",
       "uses": ["n49", "v1", "n89"],
-      "level": 10,
+      "level": 14,
+      "theme": "furniture",
       "canonical": "Sänky on makuuhuoneessa.",
       "accepted": ["Sänky on makuuhuoneessa."],
       "wrong": [
@@ -1999,7 +2131,8 @@
       "id": "s133",
       "ru": "Я иду на кухню.",
       "uses": ["v2", "n88"],
-      "level": 10,
+      "level": 14,
+      "theme": "furniture",
       "canonical": "Menen keittiöön.",
       "accepted": ["Menen keittiöön.", "Minä menen keittiöön."],
       "wrong": [
@@ -2014,7 +2147,8 @@
       "id": "s134",
       "ru": "В гостиной есть диван.",
       "uses": ["v1", "n91", "n93"],
-      "level": 10,
+      "level": 14,
+      "theme": "furniture",
       "canonical": "Olohuoneessa on sohva.",
       "accepted": ["Olohuoneessa on sohva."],
       "wrong": [
@@ -2029,7 +2163,8 @@
       "id": "s135",
       "ru": "У меня есть новый холодильник.",
       "uses": ["v1", "a4", "n100"],
-      "level": 10,
+      "level": 14,
+      "theme": "furniture",
       "canonical": "Minulla on uusi jääkaappi.",
       "accepted": ["Minulla on uusi jääkaappi."],
       "wrong": [
@@ -2044,7 +2179,8 @@
       "id": "s136",
       "ru": "Лампа на полу.",
       "uses": ["n94", "v1", "n97"],
-      "level": 10,
+      "level": 14,
+      "theme": "furniture",
       "canonical": "Lamppu on lattialla.",
       "accepted": ["Lamppu on lattialla."],
       "wrong": [
@@ -2059,7 +2195,8 @@
       "id": "s137",
       "ru": "Комната чистая.",
       "uses": ["n45", "v1", "a33"],
-      "level": 10,
+      "level": 14,
+      "theme": "home",
       "canonical": "Huone on puhdas.",
       "accepted": ["Huone on puhdas."],
       "wrong": [
@@ -2074,7 +2211,8 @@
       "id": "s138",
       "ru": "Пол грязный.",
       "uses": ["n97", "v1", "a34"],
-      "level": 10,
+      "level": 14,
+      "theme": "furniture",
       "canonical": "Lattia on likainen.",
       "accepted": ["Lattia on likainen."],
       "wrong": [
@@ -2089,7 +2227,8 @@
       "id": "s139",
       "ru": "Я открываю окно на кухне.",
       "uses": ["v51", "n48", "n88"],
-      "level": 10,
+      "level": 14,
+      "theme": "home",
       "canonical": "Avaan ikkunan keittiössä.",
       "accepted": ["Avaan ikkunan keittiössä.", "Minä avaan ikkunan keittiössä.", "Keittiössä avaan ikkunan."],
       "wrong": [
@@ -2104,7 +2243,8 @@
       "id": "s140",
       "ru": "У меня есть ключ.",
       "uses": ["v1", "n104"],
-      "level": 10,
+      "level": 14,
+      "theme": "home",
       "canonical": "Minulla on avain.",
       "accepted": ["Minulla on avain."],
       "wrong": [
@@ -2119,7 +2259,8 @@
       "id": "s141",
       "ru": "Я ищу банк.",
       "uses": ["v53", "n109"],
-      "level": 11,
+      "level": 15,
+      "theme": "directions",
       "canonical": "Etsin pankkia.",
       "accepted": ["Etsin pankkia.", "Minä etsin pankkia."],
       "wrong": [
@@ -2134,7 +2275,8 @@
       "id": "s142",
       "ru": "Магазин далеко.",
       "uses": ["n3", "a35"],
-      "level": 11,
+      "level": 15,
+      "theme": "directions",
       "canonical": "Kauppa on kaukana.",
       "accepted": ["Kauppa on kaukana."],
       "wrong": [
@@ -2149,7 +2291,8 @@
       "id": "s143",
       "ru": "Поверни направо.",
       "uses": ["v54", "f38"],
-      "level": 11,
+      "level": 15,
+      "theme": "directions",
       "canonical": "Käänny oikealle.",
       "accepted": ["Käänny oikealle."],
       "wrong": [
@@ -2164,7 +2307,8 @@
       "id": "s144",
       "ru": "Иди прямо.",
       "uses": ["v2", "f40"],
-      "level": 11,
+      "level": 15,
+      "theme": "directions",
       "canonical": "Mene suoraan.",
       "accepted": ["Mene suoraan."],
       "wrong": [
@@ -2178,7 +2322,8 @@
       "id": "s145",
       "ru": "Я плачу картой.",
       "uses": ["v16", "n117"],
-      "level": 11,
+      "level": 15,
+      "theme": "shopping",
       "canonical": "Maksan kortilla.",
       "accepted": ["Maksan kortilla.", "Minä maksan kortilla."],
       "wrong": [
@@ -2193,7 +2338,8 @@
       "id": "s146",
       "ru": "Я иду в банк.",
       "uses": ["v2", "n109"],
-      "level": 11,
+      "level": 15,
+      "theme": "city",
       "canonical": "Menen pankkiin.",
       "accepted": ["Menen pankkiin.", "Minä menen pankkiin."],
       "wrong": [
@@ -2208,7 +2354,8 @@
       "id": "s147",
       "ru": "Мне нужны деньги.",
       "uses": ["v56", "n29"],
-      "level": 11,
+      "level": 16,
+      "theme": "sports",
       "canonical": "Tarvitsen rahaa.",
       "accepted": ["Tarvitsen rahaa.", "Minä tarvitsen rahaa."],
       "wrong": [
@@ -2223,7 +2370,8 @@
       "id": "s148",
       "ru": "Магазин открыт.",
       "uses": ["n3", "a37"],
-      "level": 11,
+      "level": 15,
+      "theme": "directions",
       "canonical": "Kauppa on auki.",
       "accepted": ["Kauppa on auki."],
       "wrong": [
@@ -2237,7 +2385,8 @@
       "id": "s149",
       "ru": "Я покупаю куртку.",
       "uses": ["v8", "n114"],
-      "level": 11,
+      "level": 15,
+      "theme": "clothes",
       "canonical": "Ostan takin.",
       "accepted": ["Ostan takin.", "Minä ostan takin."],
       "wrong": [
@@ -2251,7 +2400,8 @@
       "id": "s150",
       "ru": "Сколько это стоит?",
       "uses": ["f12", "p10", "v16"],
-      "level": 11,
+      "level": 6,
+      "theme": "cafe",
       "canonical": "Paljonko se maksaa?",
       "accepted": ["Paljonko se maksaa?"],
       "wrong": [
@@ -2265,7 +2415,8 @@
       "id": "s151",
       "ru": "Я выбираю синюю рубашку.",
       "uses": ["v57", "a24", "n116"],
-      "level": 11,
+      "level": 15,
+      "theme": "shopping",
       "canonical": "Valitsen sinisen paidan.",
       "accepted": ["Valitsen sinisen paidan.", "Minä valitsen sinisen paidan."],
       "wrong": [
@@ -2280,7 +2431,8 @@
       "id": "s152",
       "ru": "Аптека близко.",
       "uses": ["n111", "a36"],
-      "level": 11,
+      "level": 15,
+      "theme": "city",
       "canonical": "Apteekki on lähellä.",
       "accepted": ["Apteekki on lähellä."],
       "wrong": [
@@ -2294,7 +2446,8 @@
       "id": "s153",
       "ru": "Эта куртка мне подходит.",
       "uses": ["p9", "n114", "v58", "p1"],
-      "level": 11,
+      "level": 15,
+      "theme": "clothes",
       "canonical": "Tämä takki sopii minulle.",
       "accepted": ["Tämä takki sopii minulle."],
       "wrong": [
@@ -2308,7 +2461,8 @@
       "id": "s154",
       "ru": "У меня мало денег.",
       "uses": ["v1", "f43", "n29", "p1"],
-      "level": 11,
+      "level": 7,
+      "theme": "directions",
       "canonical": "Minulla on vähän rahaa.",
       "accepted": ["Minulla on vähän rahaa."],
       "wrong": [
@@ -2323,7 +2477,8 @@
       "id": "s155",
       "ru": "Я иду в центр.",
       "uses": ["v2", "n112"],
-      "level": 11,
+      "level": 15,
+      "theme": "city",
       "canonical": "Menen keskustaan.",
       "accepted": ["Menen keskustaan.", "Minä menen keskustaan."],
       "wrong": [
@@ -2337,7 +2492,8 @@
       "id": "s156",
       "ru": "У меня температура.",
       "uses": ["v1", "n125", "p1"],
-      "level": 12,
+      "level": 17,
+      "theme": "health",
       "canonical": "Minulla on kuume.",
       "accepted": ["Minulla on kuume."],
       "wrong": [
@@ -2352,7 +2508,8 @@
       "id": "s157",
       "ru": "Я болен.",
       "uses": ["v1", "a39"],
-      "level": 12,
+      "level": 17,
+      "theme": "health",
       "canonical": "Olen sairas.",
       "accepted": ["Olen sairas.", "Minä olen sairas."],
       "wrong": [
@@ -2367,7 +2524,8 @@
       "id": "s158",
       "ru": "Я иду к врачу.",
       "uses": ["v2", "n60"],
-      "level": 12,
+      "level": 10,
+      "theme": "work",
       "canonical": "Menen lääkäriin.",
       "accepted": ["Menen lääkäriin.", "Minä menen lääkäriin."],
       "wrong": [
@@ -2382,7 +2540,8 @@
       "id": "s159",
       "ru": "Я принимаю лекарство.",
       "uses": ["v20", "n127"],
-      "level": 12,
+      "level": 17,
+      "theme": "health",
       "canonical": "Otan lääkettä.",
       "accepted": ["Otan lääkettä.", "Minä otan lääkettä."],
       "wrong": [
@@ -2396,7 +2555,8 @@
       "id": "s160",
       "ru": "Я заболел вчера.",
       "uses": ["v60", "f7"],
-      "level": 12,
+      "level": 17,
+      "theme": "health",
       "canonical": "Sairastuin eilen.",
       "accepted": ["Sairastuin eilen.", "Minä sairastuin eilen.", "Eilen sairastuin."],
       "wrong": [
@@ -2410,7 +2570,8 @@
       "id": "s161",
       "ru": "Я собираюсь к врачу.",
       "uses": ["v62", "v2", "n60"],
-      "level": 12,
+      "level": 18,
+      "theme": "feelings",
       "canonical": "Aion mennä lääkäriin.",
       "accepted": ["Aion mennä lääkäriin.", "Minä aion mennä lääkäriin."],
       "wrong": [
@@ -2424,7 +2585,8 @@
       "id": "s162",
       "ru": "Я отдыхаю дома.",
       "uses": ["v61", "n2"],
-      "level": 12,
+      "level": 17,
+      "theme": "health",
       "canonical": "Lepään kotona.",
       "accepted": ["Lepään kotona.", "Minä lepään kotona."],
       "wrong": [
@@ -2438,7 +2600,8 @@
       "id": "s163",
       "ru": "Сегодня солнечно.",
       "uses": ["f4", "v1", "a43"],
-      "level": 12,
+      "level": 18,
+      "theme": "weather",
       "canonical": "Tänään on aurinkoista.",
       "accepted": ["Tänään on aurinkoista."],
       "wrong": [
@@ -2452,7 +2615,8 @@
       "id": "s164",
       "ru": "Зимой идёт снег.",
       "uses": ["n132", "v50", "n68"],
-      "level": 12,
+      "level": 18,
+      "theme": "seasons",
       "canonical": "Talvella sataa lunta.",
       "accepted": ["Talvella sataa lunta."],
       "wrong": [
@@ -2466,7 +2630,8 @@
       "id": "s165",
       "ru": "Лето тёплое.",
       "uses": ["n130", "v1", "a7"],
-      "level": 12,
+      "level": 18,
+      "theme": "seasons",
       "canonical": "Kesä on lämmin.",
       "accepted": ["Kesä on lämmin."],
       "wrong": [
@@ -2480,7 +2645,8 @@
       "id": "s166",
       "ru": "Голова болит.",
       "uses": ["n120", "v1", "a41"],
-      "level": 12,
+      "level": 17,
+      "theme": "body",
       "canonical": "Pää on kipeä.",
       "accepted": ["Pää on kipeä."],
       "wrong": [
@@ -2495,7 +2661,8 @@
       "id": "s167",
       "ru": "Я скоро поправлюсь.",
       "uses": ["v59", "f45"],
-      "level": 12,
+      "level": 18,
+      "theme": "feelings",
       "canonical": "Parannun pian.",
       "accepted": ["Parannun pian.", "Minä parannun pian."],
       "wrong": [
@@ -2509,7 +2676,8 @@
       "id": "s168",
       "ru": "Может быть, завтра пойдёт дождь.",
       "uses": ["f46", "f5", "v50"],
-      "level": 12,
+      "level": 18,
+      "theme": "feelings",
       "canonical": "Ehkä huomenna sataa.",
       "accepted": ["Ehkä huomenna sataa.", "Ehkä sataa huomenna."],
       "wrong": [
@@ -2523,7 +2691,8 @@
       "id": "s169",
       "ru": "Я хожу к врачу.",
       "uses": ["v63", "n60"],
-      "level": 12,
+      "level": 17,
+      "theme": "health",
       "canonical": "Käyn lääkärissä.",
       "accepted": ["Käyn lääkärissä.", "Minä käyn lääkärissä."],
       "wrong": [
@@ -2538,7 +2707,8 @@
       "id": "s170",
       "ru": "У меня двадцать пять евро.",
       "uses": ["f25", "f19", "n31"],
-      "level": 4,
+      "level": 7,
+      "theme": "money",
       "canonical": "Minulla on kaksikymmentäviisi euroa.",
       "accepted": ["Minulla on kaksikymmentäviisi euroa."],
       "wrong": [
@@ -2553,7 +2723,8 @@
       "id": "s171",
       "ru": "Это стоит пятнадцать евро.",
       "uses": ["v16", "f53", "n31", "p10"],
-      "level": 4,
+      "level": 7,
+      "theme": "money",
       "canonical": "Se maksaa viisitoista euroa.",
       "accepted": ["Se maksaa viisitoista euroa."],
       "wrong": [
@@ -2568,7 +2739,8 @@
       "id": "s172",
       "ru": "В магазине тридцать яблок.",
       "uses": ["n3", "f58", "n164"],
-      "level": 4,
+      "level": 6,
+      "theme": "food",
       "canonical": "Kaupassa on kolmekymmentä omenaa.",
       "accepted": ["Kaupassa on kolmekymmentä omenaa.", "Kaupassa on kolmekymmentä omenoita."],
       "wrong": [
@@ -2582,7 +2754,8 @@
       "id": "s173",
       "ru": "Сегодня третий день.",
       "uses": ["f4", "v1", "f68", "n38"],
-      "level": 5,
+      "level": 8,
+      "theme": "time",
       "canonical": "Tänään on kolmas päivä.",
       "accepted": ["Tänään on kolmas päivä."],
       "wrong": [
@@ -2597,6 +2770,7 @@
       "ru": "Это мой первый раз.",
       "uses": ["p9", "v1", "f66"],
       "level": 5,
+      "theme": "numbers",
       "canonical": "Tämä on ensimmäinen kerta.",
       "accepted": ["Tämä on ensimmäinen kerta.", "Tämä on minun ensimmäinen kertani."],
       "wrong": [
@@ -2610,7 +2784,8 @@
       "id": "s175",
       "ru": "Который час?",
       "uses": ["f12", "n44", "v1"],
-      "level": 5,
+      "level": 8,
+      "theme": "time",
       "canonical": "Paljonko kello on?",
       "accepted": ["Paljonko kello on?", "Mitä kello on?"],
       "wrong": [
@@ -2624,7 +2799,8 @@
       "id": "s176",
       "ru": "Половина третьего.",
       "uses": ["n44", "v1", "f74", "f17"],
-      "level": 5,
+      "level": 8,
+      "theme": "time",
       "canonical": "Kello on puoli kolme.",
       "accepted": ["Kello on puoli kolme.", "Puoli kolme."],
       "wrong": [
@@ -2638,7 +2814,8 @@
       "id": "s177",
       "ru": "Я приду в два часа.",
       "uses": ["v11", "n44", "f16"],
-      "level": 5,
+      "level": 8,
+      "theme": "time",
       "canonical": "Tulen kello kahdelta.",
       "accepted": ["Tulen kello kahdelta.", "Minä tulen kello kahdelta.", "Tulen kahdelta."],
       "wrong": [
@@ -2652,7 +2829,8 @@
       "id": "s178",
       "ru": "Откуда ты?",
       "uses": ["f79", "v1"],
-      "level": 4,
+      "level": 7,
+      "theme": "directions",
       "canonical": "Mistä sinä olet?",
       "accepted": ["Mistä sinä olet?", "Mistä olet?"],
       "wrong": [
@@ -2666,7 +2844,8 @@
       "id": "s179",
       "ru": "Я из России.",
       "uses": ["v1", "n149"],
-      "level": 4,
+      "level": 5,
+      "theme": "people",
       "canonical": "Olen Venäjältä.",
       "accepted": ["Olen Venäjältä.", "Minä olen Venäjältä."],
       "wrong": [
@@ -2680,7 +2859,8 @@
       "id": "s180",
       "ru": "Куда ты идёшь?",
       "uses": ["f78", "v2"],
-      "level": 4,
+      "level": 7,
+      "theme": "directions",
       "canonical": "Mihin sinä menet?",
       "accepted": ["Mihin sinä menet?", "Mihin menet?"],
       "wrong": [
@@ -2694,7 +2874,8 @@
       "id": "s181",
       "ru": "Я иду в магазин.",
       "uses": ["v2", "n3"],
-      "level": 4,
+      "level": 2,
+      "theme": "basics",
       "canonical": "Menen kauppaan.",
       "accepted": ["Menen kauppaan.", "Minä menen kauppaan."],
       "wrong": [
@@ -2708,7 +2889,8 @@
       "id": "s182",
       "ru": "Я русский.",
       "uses": ["v1", "a45"],
-      "level": 4,
+      "level": 5,
+      "theme": "people",
       "canonical": "Olen venäläinen.",
       "accepted": ["Olen venäläinen.", "Minä olen venäläinen."],
       "wrong": [
@@ -2722,7 +2904,8 @@
       "id": "s183",
       "ru": "Он финн.",
       "uses": ["p3", "v1", "a44"],
-      "level": 4,
+      "level": 5,
+      "theme": "people",
       "canonical": "Hän on suomalainen.",
       "accepted": ["Hän on suomalainen."],
       "wrong": [
@@ -2736,7 +2919,8 @@
       "id": "s184",
       "ru": "На каком языке ты говоришь?",
       "uses": ["v6", "n147"],
-      "level": 4,
+      "level": 5,
+      "theme": "people",
       "canonical": "Mitä kieltä sinä puhut?",
       "accepted": ["Mitä kieltä sinä puhut?", "Mitä kieltä puhut?"],
       "wrong": [
@@ -2750,7 +2934,8 @@
       "id": "s185",
       "ru": "Я говорю по-русски и немного по-фински.",
       "uses": ["v6", "n149", "f1", "f43", "n16"],
-      "level": 4,
+      "level": 7,
+      "theme": "directions",
       "canonical": "Puhun venäjää ja vähän suomea.",
       "accepted": ["Puhun venäjää ja vähän suomea.", "Minä puhun venäjää ja vähän suomea."],
       "wrong": [
@@ -2764,7 +2949,8 @@
       "id": "s186",
       "ru": "Я говорю по-английски.",
       "uses": ["v6", "n148"],
-      "level": 4,
+      "level": 5,
+      "theme": "people",
       "canonical": "Puhun englantia.",
       "accepted": ["Puhun englantia.", "Minä puhun englantia."],
       "wrong": [
@@ -2778,7 +2964,8 @@
       "id": "s187",
       "ru": "Я сижу на стуле.",
       "uses": ["v66", "n92"],
-      "level": 10,
+      "level": 14,
+      "theme": "furniture",
       "canonical": "Istun tuolilla.",
       "accepted": ["Istun tuolilla.", "Minä istun tuolilla."],
       "wrong": [
@@ -2792,7 +2979,8 @@
       "id": "s188",
       "ru": "Ребёнок играет.",
       "uses": ["n19", "v68"],
-      "level": 5,
+      "level": 9,
+      "theme": "routine",
       "canonical": "Lapsi leikkii.",
       "accepted": ["Lapsi leikkii."],
       "wrong": [
@@ -2806,7 +2994,8 @@
       "id": "s189",
       "ru": "Мы смотрим телевизор.",
       "uses": ["v25", "n155"],
-      "level": 6,
+      "level": 7,
+      "theme": "directions",
       "canonical": "Katsomme televisiota.",
       "accepted": ["Katsomme televisiota.", "Me katsomme televisiota."],
       "wrong": [
@@ -2820,7 +3009,8 @@
       "id": "s190",
       "ru": "Это моя сестра.",
       "uses": ["p9", "v1", "n53"],
-      "level": 7,
+      "level": 10,
+      "theme": "family",
       "canonical": "Tämä on siskoni.",
       "accepted": ["Tämä on siskoni.", "Tämä on minun siskoni."],
       "wrong": [
@@ -2834,7 +3024,8 @@
       "id": "s191",
       "ru": "Моя семья большая.",
       "uses": ["n51", "v1", "a2"],
-      "level": 7,
+      "level": 10,
+      "theme": "family",
       "canonical": "Perheeni on iso.",
       "accepted": ["Perheeni on iso.", "Minun perheeni on iso."],
       "wrong": [
@@ -2848,7 +3039,8 @@
       "id": "s192",
       "ru": "Где твоя комната?",
       "uses": ["f8", "n45", "v1"],
-      "level": 7,
+      "level": 9,
+      "theme": "furniture",
       "canonical": "Missä huoneesi on?",
       "accepted": ["Missä huoneesi on?", "Missä on huoneesi?"],
       "wrong": [
@@ -2862,7 +3054,8 @@
       "id": "s193",
       "ru": "Я ем хлеб, сыр и огурец.",
       "uses": ["v3", "n9", "n161", "f1", "n163"],
-      "level": 4,
+      "level": 6,
+      "theme": "food",
       "canonical": "Syön leipää, juustoa ja kurkkua.",
       "accepted": ["Syön leipää, juustoa ja kurkkua.", "Minä syön leipää, juustoa ja kurkkua."],
       "wrong": [
@@ -2876,7 +3069,8 @@
       "id": "s194",
       "ru": "Я покупаю яблоки и картошку.",
       "uses": ["v8", "n164", "f1", "n165"],
-      "level": 4,
+      "level": 6,
+      "theme": "food",
       "canonical": "Ostan omenoita ja perunoita.",
       "accepted": ["Ostan omenoita ja perunoita.", "Minä ostan omenoita ja perunoita."],
       "wrong": [
@@ -2890,7 +3084,8 @@
       "id": "s195",
       "ru": "Как дела?",
       "uses": ["v72"],
-      "level": 3,
+      "level": 2,
+      "theme": "acquaintance",
       "canonical": "Mitä kuuluu?",
       "accepted": ["Mitä kuuluu?"],
       "wrong": [
@@ -2904,7 +3099,8 @@
       "id": "s196",
       "ru": "Спасибо, хорошо.",
       "uses": ["f32", "a1"],
-      "level": 3,
+      "level": 1,
+      "theme": "greetings",
       "canonical": "Kiitos, hyvää.",
       "accepted": ["Kiitos, hyvää."],
       "wrong": [
@@ -2918,7 +3114,8 @@
       "id": "s197",
       "ru": "Я хочу записаться на приём.",
       "uses": ["v5", "v71", "n183"],
-      "level": 5,
+      "level": 8,
+      "theme": "grammar",
       "canonical": "Haluan varata ajan.",
       "accepted": ["Haluan varata ajan.", "Minä haluan varata ajan."],
       "wrong": [
@@ -2932,7 +3129,8 @@
       "id": "s198",
       "ru": "У меня запись на два.",
       "uses": ["n183", "f16"],
-      "level": 5,
+      "level": 8,
+      "theme": "time",
       "canonical": "Minulla on aika kahdelta.",
       "accepted": ["Minulla on aika kahdelta."],
       "wrong": [
@@ -2947,7 +3145,8 @@
       "id": "s199",
       "ru": "У меня есть кошка и собака.",
       "uses": ["n153", "f1", "n154"],
-      "level": 2,
+      "level": 3,
+      "theme": "nature",
       "canonical": "Minulla on kissa ja koira.",
       "accepted": ["Minulla on kissa ja koira."],
       "wrong": [
@@ -2961,7 +3160,8 @@
       "id": "s200",
       "ru": "Собака большая.",
       "uses": ["n154", "v1", "a2"],
-      "level": 2,
+      "level": 3,
+      "theme": "nature",
       "canonical": "Koira on iso.",
       "accepted": ["Koira on iso."],
       "wrong": [
@@ -2975,7 +3175,8 @@
       "id": "s201",
       "ru": "У меня есть компьютер.",
       "uses": ["n156"],
-      "level": 5,
+      "level": 8,
+      "theme": "grammar",
       "canonical": "Minulla on tietokone.",
       "accepted": ["Minulla on tietokone."],
       "wrong": [
@@ -2989,7 +3190,8 @@
       "id": "s202",
       "ru": "Я пишу ручкой на бумаге.",
       "uses": ["v27", "n157", "n158"],
-      "level": 6,
+      "level": 9,
+      "theme": "routine",
       "canonical": "Kirjoitan kynällä paperille.",
       "accepted": ["Kirjoitan kynällä paperille.", "Minä kirjoitan kynällä paperille."],
       "wrong": [
@@ -3003,7 +3205,8 @@
       "id": "s203",
       "ru": "Я читаю газету.",
       "uses": ["v9", "n159"],
-      "level": 4,
+      "level": 7,
+      "theme": "places",
       "canonical": "Luen lehteä.",
       "accepted": ["Luen lehteä.", "Minä luen lehteä."],
       "wrong": [
@@ -3017,7 +3220,8 @@
       "id": "s204",
       "ru": "Я смотрю на фотографию.",
       "uses": ["v25", "n160"],
-      "level": 4,
+      "level": 7,
+      "theme": "directions",
       "canonical": "Katson kuvaa.",
       "accepted": ["Katson kuvaa.", "Minä katson kuvaa."],
       "wrong": [
@@ -3031,7 +3235,8 @@
       "id": "s205",
       "ru": "Я ем мясо и рис.",
       "uses": ["v3", "n166", "f1", "n168"],
-      "level": 4,
+      "level": 6,
+      "theme": "food",
       "canonical": "Syön lihaa ja riisiä.",
       "accepted": ["Syön lihaa ja riisiä.", "Minä syön lihaa ja riisiä."],
       "wrong": [
@@ -3045,7 +3250,8 @@
       "id": "s206",
       "ru": "Я покупаю курицу и колбасу.",
       "uses": ["v8", "n167", "f1", "n169"],
-      "level": 4,
+      "level": 6,
+      "theme": "food",
       "canonical": "Ostan kanaa ja makkaraa.",
       "accepted": ["Ostan kanaa ja makkaraa.", "Minä ostan kanaa ja makkaraa."],
       "wrong": [
@@ -3059,7 +3265,8 @@
       "id": "s207",
       "ru": "Я беру сахар и соль.",
       "uses": ["v20", "n170", "f1", "n171"],
-      "level": 5,
+      "level": 8,
+      "theme": "grammar",
       "canonical": "Otan sokeria ja suolaa.",
       "accepted": ["Otan sokeria ja suolaa.", "Minä otan sokeria ja suolaa."],
       "wrong": [
@@ -3073,7 +3280,8 @@
       "id": "s208",
       "ru": "Я ем масло.",
       "uses": ["v3", "n162"],
-      "level": 4,
+      "level": 6,
+      "theme": "food",
       "canonical": "Syön voita.",
       "accepted": ["Syön voita.", "Minä syön voita."],
       "wrong": [
@@ -3087,7 +3295,8 @@
       "id": "s209",
       "ru": "Я ем фрукты и овощи.",
       "uses": ["v3", "n172", "f1", "n173"],
-      "level": 5,
+      "level": 8,
+      "theme": "grammar",
       "canonical": "Syön hedelmiä ja vihanneksia.",
       "accepted": ["Syön hedelmiä ja vihanneksia.", "Minä syön hedelmiä ja vihanneksia."],
       "wrong": [
@@ -3101,7 +3310,8 @@
       "id": "s210",
       "ru": "У меня есть бабушка и дедушка.",
       "uses": ["n174", "f1", "n175"],
-      "level": 7,
+      "level": 10,
+      "theme": "family",
       "canonical": "Minulla on isoäiti ja isoisä.",
       "accepted": ["Minulla on isoäiti ja isoisä."],
       "wrong": [
@@ -3115,7 +3325,8 @@
       "id": "s211",
       "ru": "Это моя жена.",
       "uses": ["p9", "v1", "n176"],
-      "level": 7,
+      "level": 10,
+      "theme": "family",
       "canonical": "Tämä on vaimoni.",
       "accepted": ["Tämä on vaimoni.", "Tämä on minun vaimoni."],
       "wrong": [
@@ -3129,7 +3340,8 @@
       "id": "s212",
       "ru": "У меня есть дочь.",
       "uses": ["n177"],
-      "level": 7,
+      "level": 10,
+      "theme": "family",
       "canonical": "Minulla on tytär.",
       "accepted": ["Minulla on tytär."],
       "wrong": [
@@ -3143,7 +3355,8 @@
       "id": "s213",
       "ru": "Мои родители живут в Хельсинки.",
       "uses": ["n178", "v7"],
-      "level": 7,
+      "level": 10,
+      "theme": "family",
       "canonical": "Vanhempani asuvat Helsingissä.",
       "accepted": ["Vanhempani asuvat Helsingissä.", "Minun vanhempani asuvat Helsingissä."],
       "wrong": [
@@ -3157,7 +3370,8 @@
       "id": "s214",
       "ru": "Я покупаю брюки и носки.",
       "uses": ["v8", "n179", "f1", "n181"],
-      "level": 11,
+      "level": 15,
+      "theme": "clothes",
       "canonical": "Ostan housut ja sukat.",
       "accepted": ["Ostan housut ja sukat.", "Minä ostan housut ja sukat."],
       "wrong": [
@@ -3171,7 +3385,8 @@
       "id": "s215",
       "ru": "У меня красное платье.",
       "uses": ["a23", "n182"],
-      "level": 11,
+      "level": 15,
+      "theme": "clothes",
       "canonical": "Minulla on punainen mekko.",
       "accepted": ["Minulla on punainen mekko."],
       "wrong": [
@@ -3185,7 +3400,8 @@
       "id": "s216",
       "ru": "У меня есть шляпа.",
       "uses": ["n180"],
-      "level": 11,
+      "level": 15,
+      "theme": "clothes",
       "canonical": "Minulla on hattu.",
       "accepted": ["Minulla on hattu."],
       "wrong": [
@@ -3199,7 +3415,8 @@
       "id": "s217",
       "ru": "Я одеваюсь утром.",
       "uses": ["v69", "n39"],
-      "level": 6,
+      "level": 9,
+      "theme": "routine",
       "canonical": "Pukeudun aamulla.",
       "accepted": ["Pukeudun aamulla.", "Minä pukeudun aamulla."],
       "wrong": [
@@ -3213,7 +3430,8 @@
       "id": "s218",
       "ru": "Я моюсь вечером.",
       "uses": ["v70", "n42"],
-      "level": 6,
+      "level": 9,
+      "theme": "routine",
       "canonical": "Peseydyn illalla.",
       "accepted": ["Peseydyn illalla.", "Minä peseydyn illalla."],
       "wrong": [
@@ -3227,7 +3445,8 @@
       "id": "s219",
       "ru": "Я стою на улице.",
       "uses": ["v67", "n28"],
-      "level": 4,
+      "level": 7,
+      "theme": "directions",
       "canonical": "Seison kadulla.",
       "accepted": ["Seison kadulla.", "Minä seison kadulla."],
       "wrong": [
@@ -3241,7 +3460,8 @@
       "id": "s220",
       "ru": "У меня болит голова.",
       "uses": ["n120", "v74"],
-      "level": 12,
+      "level": 17,
+      "theme": "body",
       "canonical": "Päätä särkee.",
       "accepted": ["Päätä särkee."],
       "wrong": [
@@ -3255,7 +3475,8 @@
       "id": "s221",
       "ru": "У меня болит живот.",
       "uses": ["n124", "v73"],
-      "level": 12,
+      "level": 17,
+      "theme": "body",
       "canonical": "Vatsaan sattuu.",
       "accepted": ["Vatsaan sattuu.", "Vatsaani sattuu."],
       "wrong": [
@@ -3269,7 +3490,8 @@
       "id": "s222",
       "ru": "Сколько евро?",
       "uses": ["f80", "n31"],
-      "level": 4,
+      "level": 7,
+      "theme": "directions",
       "canonical": "Montako euroa?",
       "accepted": ["Montako euroa?", "Kuinka monta euroa?"],
       "wrong": [
@@ -3283,7 +3505,8 @@
       "id": "s223",
       "ru": "Можно чек и пакет?",
       "uses": ["v20", "n184", "f1", "n185"],
-      "level": 11,
+      "level": 15,
+      "theme": "shopping",
       "canonical": "Saanko kuitin ja pussin?",
       "accepted": ["Saanko kuitin ja pussin?"],
       "wrong": [
@@ -3297,7 +3520,8 @@
       "id": "s224",
       "ru": "Сегодня второе марта.",
       "uses": ["f4", "v1", "f67", "n137"],
-      "level": 5,
+      "level": 7,
+      "theme": "calendar",
       "canonical": "Tänään on toinen maaliskuuta.",
       "accepted": ["Tänään on toinen maaliskuuta."],
       "wrong": [
@@ -3311,7 +3535,8 @@
       "id": "s225",
       "ru": "В июне тепло.",
       "uses": ["n140", "v1", "a7"],
-      "level": 5,
+      "level": 8,
+      "theme": "weather",
       "canonical": "Kesäkuussa on lämmin.",
       "accepted": ["Kesäkuussa on lämmin.", "Kesäkuussa on lämmintä."],
       "wrong": [
@@ -3325,7 +3550,8 @@
       "id": "s226",
       "ru": "В декабре идёт снег.",
       "uses": ["n146", "v50", "n68"],
-      "level": 8,
+      "level": 12,
+      "theme": "travel",
       "canonical": "Joulukuussa sataa lunta.",
       "accepted": ["Joulukuussa sataa lunta."],
       "wrong": [
@@ -3339,7 +3565,8 @@
       "id": "s227",
       "ru": "Это стоит тысячу евро.",
       "uses": ["v16", "f65", "n31", "p10"],
-      "level": 4,
+      "level": 7,
+      "theme": "money",
       "canonical": "Se maksaa tuhat euroa.",
       "accepted": ["Se maksaa tuhat euroa."],
       "wrong": [
@@ -3353,7 +3580,8 @@
       "id": "s228",
       "ru": "Четверть третьего.",
       "uses": ["f75", "f76", "f17"],
-      "level": 5,
+      "level": 8,
+      "theme": "time",
       "canonical": "Vartin yli kaksi.",
       "accepted": ["Vartin yli kaksi.", "Kello on vartin yli kaksi."],
       "wrong": [
@@ -3367,7 +3595,8 @@
       "id": "s229",
       "ru": "Без четверти два.",
       "uses": ["f75", "f77", "f16"],
-      "level": 5,
+      "level": 8,
+      "theme": "time",
       "canonical": "Varttia vaille kaksi.",
       "accepted": ["Varttia vaille kaksi.", "Kello on varttia vaille kaksi."],
       "wrong": [
@@ -3381,7 +3610,8 @@
       "id": "s230",
       "ru": "Он американец.",
       "uses": ["p3", "v1", "a48"],
-      "level": 4,
+      "level": 5,
+      "theme": "people",
       "canonical": "Hän on amerikkalainen.",
       "accepted": ["Hän on amerikkalainen."],
       "wrong": [
@@ -3395,7 +3625,8 @@
       "id": "s231",
       "ru": "Ты швед?",
       "uses": ["v1", "a47"],
-      "level": 4,
+      "level": 5,
+      "theme": "people",
       "canonical": "Oletko sinä ruotsalainen?",
       "accepted": ["Oletko sinä ruotsalainen?", "Oletko ruotsalainen?"],
       "wrong": [
@@ -3409,7 +3640,8 @@
       "id": "s232",
       "ru": "Я понимаю английский, но не говорю по-немецки.",
       "uses": ["v35", "n148", "f2", "f6", "v6", "n152"],
-      "level": 7,
+      "level": 11,
+      "theme": "routine",
       "canonical": "Ymmärrän englantia, mutta en puhu saksaa.",
       "accepted": ["Ymmärrän englantia, mutta en puhu saksaa.", "Minä ymmärrän englantia, mutta en puhu saksaa."],
       "wrong": [
@@ -3423,7 +3655,8 @@
       "id": "s233",
       "ru": "Я учу французский язык.",
       "uses": ["v30", "n151"],
-      "level": 6,
+      "level": 9,
+      "theme": "routine",
       "canonical": "Opiskelen ranskaa.",
       "accepted": ["Opiskelen ranskaa.", "Minä opiskelen ranskaa."],
       "wrong": [
@@ -3438,6 +3671,7 @@
       "ru": "Я говорю на двух языках.",
       "uses": ["v6", "f16", "n147"],
       "level": 5,
+      "theme": "people",
       "canonical": "Puhun kahta kieltä.",
       "accepted": ["Puhun kahta kieltä.", "Minä puhun kahta kieltä."],
       "wrong": [
@@ -3452,7 +3686,8 @@
       "id": "s235",
       "ru": "У меня одиннадцать евро.",
       "uses": ["f49", "n31"],
-      "level": 4,
+      "level": 7,
+      "theme": "money",
       "canonical": "Minulla on yksitoista euroa.",
       "accepted": ["Minulla on yksitoista euroa."],
       "wrong": [
@@ -3467,6 +3702,7 @@
       "ru": "У меня двенадцать книг.",
       "uses": ["f50", "n7"],
       "level": 4,
+      "theme": "numbers",
       "canonical": "Minulla on kaksitoista kirjaa.",
       "accepted": ["Minulla on kaksitoista kirjaa."],
       "wrong": [
@@ -3480,7 +3716,8 @@
       "id": "s237",
       "ru": "Здесь шестнадцать студентов.",
       "uses": ["f42", "f54", "n15"],
-      "level": 4,
+      "level": 7,
+      "theme": "directions",
       "canonical": "Täällä on kuusitoista opiskelijaa.",
       "accepted": ["Täällä on kuusitoista opiskelijaa."],
       "wrong": [
@@ -3494,7 +3731,8 @@
       "id": "s238",
       "ru": "В городе сорок улиц.",
       "uses": ["n12", "f59", "n28"],
-      "level": 4,
+      "level": 7,
+      "theme": "places",
       "canonical": "Kaupungissa on neljäkymmentä katua.",
       "accepted": ["Kaupungissa on neljäkymmentä katua."],
       "wrong": [
@@ -3508,7 +3746,8 @@
       "id": "s239",
       "ru": "Это стоит пятьдесят евро.",
       "uses": ["v16", "f60", "n31", "p10"],
-      "level": 4,
+      "level": 7,
+      "theme": "money",
       "canonical": "Se maksaa viisikymmentä euroa.",
       "accepted": ["Se maksaa viisikymmentä euroa."],
       "wrong": [
@@ -3522,7 +3761,8 @@
       "id": "s240",
       "ru": "Ему семьдесят лет.",
       "uses": ["p3", "v1", "f62"],
-      "level": 4,
+      "level": 5,
+      "theme": "numbers",
       "canonical": "Hän on seitsemänkymmentä vuotta.",
       "accepted": ["Hän on seitsemänkymmentä vuotta."],
       "wrong": [
@@ -3536,7 +3776,8 @@
       "id": "s241",
       "ru": "В магазине восемьдесят яблок.",
       "uses": ["n3", "f63", "n164"],
-      "level": 4,
+      "level": 6,
+      "theme": "food",
       "canonical": "Kaupassa on kahdeksankymmentä omenaa.",
       "accepted": ["Kaupassa on kahdeksankymmentä omenaa."],
       "wrong": [
@@ -3550,7 +3791,8 @@
       "id": "s242",
       "ru": "Девяносто евро — это дорого.",
       "uses": ["f64", "n31", "v1", "a11"],
-      "level": 4,
+      "level": 7,
+      "theme": "money",
       "canonical": "Yhdeksänkymmentä euroa on kallista.",
       "accepted": ["Yhdeksänkymmentä euroa on kallista.", "Yhdeksänkymmentä euroa on kallis."],
       "wrong": [
@@ -3564,7 +3806,8 @@
       "id": "s243",
       "ru": "Сегодня тринадцатое число.",
       "uses": ["f4", "v1", "f51"],
-      "level": 5,
+      "level": 4,
+      "theme": "numbers",
       "canonical": "Tänään on kolmastoista.",
       "accepted": ["Tänään on kolmastoista.", "Tänään on kolmastoista päivä."],
       "wrong": [
@@ -3578,7 +3821,8 @@
       "id": "s244",
       "ru": "Это мой четвёртый день в Хельсинки.",
       "uses": ["p9", "v1", "f69", "n38"],
-      "level": 5,
+      "level": 8,
+      "theme": "time",
       "canonical": "Tämä on neljäs päivä Helsingissä.",
       "accepted": ["Tämä on neljäs päivä Helsingissä."],
       "wrong": [
@@ -3593,6 +3837,7 @@
       "ru": "Это пятый раз.",
       "uses": ["p9", "v1", "f70"],
       "level": 5,
+      "theme": "numbers",
       "canonical": "Tämä on viides kerta.",
       "accepted": ["Tämä on viides kerta."],
       "wrong": [
@@ -3606,7 +3851,8 @@
       "id": "s246",
       "ru": "Десять минут третьего.",
       "uses": ["f24", "f76", "f17"],
-      "level": 5,
+      "level": 8,
+      "theme": "time",
       "canonical": "Kymmenen yli kaksi.",
       "accepted": ["Kymmenen yli kaksi.", "Kello on kymmenen yli kaksi."],
       "wrong": [
@@ -3620,7 +3866,8 @@
       "id": "s247",
       "ru": "Без десяти два.",
       "uses": ["f24", "f77", "f16"],
-      "level": 5,
+      "level": 8,
+      "theme": "time",
       "canonical": "Kymmenen vaille kaksi.",
       "accepted": ["Kymmenen vaille kaksi.", "Kello on kymmenen vaille kaksi."],
       "wrong": [
@@ -3634,7 +3881,8 @@
       "id": "s248",
       "ru": "Я говорю по-шведски немного.",
       "uses": ["v6", "n150", "f43"],
-      "level": 4,
+      "level": 7,
+      "theme": "directions",
       "canonical": "Puhun vähän ruotsia.",
       "accepted": ["Puhun vähän ruotsia.", "Minä puhun vähän ruotsia."],
       "wrong": [
@@ -3648,7 +3896,8 @@
       "id": "s249",
       "ru": "Она англичанка.",
       "uses": ["p3", "v1", "a46"],
-      "level": 4,
+      "level": 5,
+      "theme": "people",
       "canonical": "Hän on englantilainen.",
       "accepted": ["Hän on englantilainen."],
       "wrong": [
@@ -3662,7 +3911,8 @@
       "id": "s250",
       "ru": "Мой друг немец.",
       "uses": ["n13", "v1", "a49"],
-      "level": 4,
+      "level": 7,
+      "theme": "places",
       "canonical": "Ystäväni on saksalainen.",
       "accepted": ["Ystäväni on saksalainen.", "Minun ystäväni on saksalainen."],
       "wrong": [
@@ -3676,7 +3926,8 @@
       "id": "s251",
       "ru": "Это его книга.",
       "uses": ["p9", "v1", "n7"],
-      "level": 7,
+      "level": 2,
+      "theme": "people",
       "canonical": "Tämä on hänen kirjansa.",
       "accepted": ["Tämä on hänen kirjansa."],
       "wrong": [
@@ -3690,7 +3941,8 @@
       "id": "s252",
       "ru": "Это наша комната.",
       "uses": ["p9", "v1", "n45"],
-      "level": 7,
+      "level": 9,
+      "theme": "furniture",
       "canonical": "Tämä on huoneemme.",
       "accepted": ["Tämä on huoneemme.", "Tämä on meidän huoneemme."],
       "wrong": [
@@ -3704,7 +3956,8 @@
       "id": "s253",
       "ru": "Где ваш дом?",
       "uses": ["f8", "n4", "v1"],
-      "level": 7,
+      "level": 3,
+      "theme": "grammar",
       "canonical": "Missä talonne on?",
       "accepted": ["Missä talonne on?", "Missä on talonne?"],
       "wrong": [
@@ -3718,7 +3971,8 @@
       "id": "s254",
       "ru": "Я сижу и читаю книгу.",
       "uses": ["v66", "f1", "v9", "n7"],
-      "level": 4,
+      "level": 7,
+      "theme": "directions",
       "canonical": "Istun ja luen kirjaa.",
       "accepted": ["Istun ja luen kirjaa.", "Minä istun ja luen kirjaa."],
       "wrong": [
@@ -3732,7 +3986,8 @@
       "id": "s255",
       "ru": "Дети играют во дворе.",
       "uses": ["n19", "v68", "n105"],
-      "level": 10,
+      "level": 14,
+      "theme": "home",
       "canonical": "Lapset leikkivät pihalla.",
       "accepted": ["Lapset leikkivät pihalla."],
       "wrong": [
@@ -3746,7 +4001,8 @@
       "id": "s256",
       "ru": "У меня болит горло.",
       "uses": ["n163", "v1", "a41"],
-      "level": 12,
+      "level": 17,
+      "theme": "health",
       "canonical": "Kurkku on kipeä.",
       "accepted": ["Kurkku on kipeä.", "Minulla on kipeä kurkku."],
       "wrong": [
@@ -3760,7 +4016,8 @@
       "id": "s257",
       "ru": "Я заболел в январе.",
       "uses": ["v60", "n135"],
-      "level": 12,
+      "level": 17,
+      "theme": "health",
       "canonical": "Sairastuin tammikuussa.",
       "accepted": ["Sairastuin tammikuussa.", "Minä sairastuin tammikuussa."],
       "wrong": [
@@ -3774,7 +4031,8 @@
       "id": "s258",
       "ru": "В феврале холодно.",
       "uses": ["n136", "v1", "a5"],
-      "level": 5,
+      "level": 8,
+      "theme": "weather",
       "canonical": "Helmikuussa on kylmä.",
       "accepted": ["Helmikuussa on kylmä.", "Helmikuussa on kylmää."],
       "wrong": [
@@ -3788,7 +4046,8 @@
       "id": "s259",
       "ru": "Лето начинается в июле.",
       "uses": ["n130", "n141"],
-      "level": 12,
+      "level": 18,
+      "theme": "seasons",
       "canonical": "Kesä alkaa heinäkuussa.",
       "accepted": ["Kesä alkaa heinäkuussa."],
       "wrong": [
@@ -3802,7 +4061,8 @@
       "id": "s260",
       "ru": "В августе тепло.",
       "uses": ["n142", "v1", "a7"],
-      "level": 5,
+      "level": 8,
+      "theme": "weather",
       "canonical": "Elokuussa on lämmin.",
       "accepted": ["Elokuussa on lämmin.", "Elokuussa on lämmintä."],
       "wrong": [
@@ -3816,7 +4076,8 @@
       "id": "s261",
       "ru": "Осень начинается в сентябре.",
       "uses": ["n131", "n143"],
-      "level": 12,
+      "level": 18,
+      "theme": "seasons",
       "canonical": "Syksy alkaa syyskuussa.",
       "accepted": ["Syksy alkaa syyskuussa."],
       "wrong": [
@@ -3830,7 +4091,8 @@
       "id": "s262",
       "ru": "В октябре идёт дождь.",
       "uses": ["n144", "v50"],
-      "level": 8,
+      "level": 12,
+      "theme": "travel",
       "canonical": "Lokakuussa sataa.",
       "accepted": ["Lokakuussa sataa."],
       "wrong": [
@@ -3844,7 +4106,8 @@
       "id": "s263",
       "ru": "В ноябре облачно.",
       "uses": ["n145", "v1", "a42"],
-      "level": 12,
+      "level": 18,
+      "theme": "weather",
       "canonical": "Marraskuussa on pilvistä.",
       "accepted": ["Marraskuussa on pilvistä."],
       "wrong": [
@@ -3858,7 +4121,8 @@
       "id": "s264",
       "ru": "В апреле светит солнце.",
       "uses": ["n138", "n66"],
-      "level": 8,
+      "level": 12,
+      "theme": "nature",
       "canonical": "Huhtikuussa aurinko paistaa.",
       "accepted": ["Huhtikuussa aurinko paistaa."],
       "wrong": [
@@ -3872,7 +4136,8 @@
       "id": "s265",
       "ru": "В мае много цветов.",
       "uses": ["n139", "f44", "n65"],
-      "level": 8,
+      "level": 12,
+      "theme": "nature",
       "canonical": "Toukokuussa on paljon kukkia.",
       "accepted": ["Toukokuussa on paljon kukkia."],
       "wrong": [
@@ -3886,7 +4151,8 @@
       "id": "s266",
       "ru": "Я смотрю на картину на стене.",
       "uses": ["v25", "n160", "n96"],
-      "level": 10,
+      "level": 14,
+      "theme": "furniture",
       "canonical": "Katson kuvaa seinällä.",
       "accepted": ["Katson kuvaa seinällä.", "Minä katson kuvaa seinällä."],
       "wrong": [
@@ -3900,7 +4166,8 @@
       "id": "s267",
       "ru": "Я пишу письмо на бумаге.",
       "uses": ["v27", "n158"],
-      "level": 6,
+      "level": 9,
+      "theme": "routine",
       "canonical": "Kirjoitan paperille.",
       "accepted": ["Kirjoitan paperille.", "Minä kirjoitan paperille."],
       "wrong": [
@@ -3915,6 +4182,7 @@
       "ru": "У меня есть две ручки.",
       "uses": ["f16", "n157"],
       "level": 4,
+      "theme": "numbers",
       "canonical": "Minulla on kaksi kynää.",
       "accepted": ["Minulla on kaksi kynää."],
       "wrong": [
@@ -3928,7 +4196,8 @@
       "id": "s269",
       "ru": "Бабушка отдыхает на диване.",
       "uses": ["n174", "v61", "n93"],
-      "level": 12,
+      "level": 17,
+      "theme": "health",
       "canonical": "Isoäiti lepää sohvalla.",
       "accepted": ["Isoäiti lepää sohvalla."],
       "wrong": [
@@ -3942,7 +4211,8 @@
       "id": "s270",
       "ru": "Дедушка читает газету.",
       "uses": ["n175", "v9", "n159"],
-      "level": 7,
+      "level": 10,
+      "theme": "family",
       "canonical": "Isoisä lukee lehteä.",
       "accepted": ["Isoisä lukee lehteä."],
       "wrong": [
@@ -3956,7 +4226,8 @@
       "id": "s271",
       "ru": "Я хочу записаться к парикмахеру в третьем часу.",
       "uses": ["v5", "v71", "n183", "f17"],
-      "level": 5,
+      "level": 8,
+      "theme": "grammar",
       "canonical": "Haluan varata ajan kolmelta.",
       "accepted": ["Haluan varata ajan kolmelta.", "Minä haluan varata ajan kolmelta."],
       "wrong": [
@@ -3970,7 +4241,8 @@
       "id": "s272",
       "ru": "Кошка спит на стуле.",
       "uses": ["n153", "v23", "n92"],
-      "level": 10,
+      "level": 14,
+      "theme": "furniture",
       "canonical": "Kissa nukkuu tuolilla.",
       "accepted": ["Kissa nukkuu tuolilla."],
       "wrong": [
@@ -3984,7 +4256,8 @@
       "id": "s273",
       "ru": "Собака бежит в парк.",
       "uses": ["n154", "v40", "n27"],
-      "level": 8,
+      "level": 12,
+      "theme": "travel",
       "canonical": "Koira juoksee puistoon.",
       "accepted": ["Koira juoksee puistoon."],
       "wrong": [
@@ -3998,7 +4271,8 @@
       "id": "s274",
       "ru": "У меня двадцать один евро.",
       "uses": ["f25", "f15", "n31"],
-      "level": 4,
+      "level": 7,
+      "theme": "money",
       "canonical": "Minulla on kaksikymmentäyksi euroa.",
       "accepted": ["Minulla on kaksikymmentäyksi euroa."],
       "wrong": [
@@ -4012,7 +4286,8 @@
       "id": "s275",
       "ru": "Это стоит сорок три евро.",
       "uses": ["v16", "f59", "f17", "n31", "p10"],
-      "level": 4,
+      "level": 7,
+      "theme": "money",
       "canonical": "Se maksaa neljäkymmentäkolme euroa.",
       "accepted": ["Se maksaa neljäkymmentäkolme euroa."],
       "wrong": [
@@ -4026,7 +4301,8 @@
       "id": "s276",
       "ru": "В классе шестьдесят детей.",
       "uses": ["n6", "f61", "n19"],
-      "level": 4,
+      "level": 5,
+      "theme": "numbers",
       "canonical": "Koulussa on kuusikymmentä lasta.",
       "accepted": ["Koulussa on kuusikymmentä lasta."],
       "wrong": [
@@ -4041,6 +4317,7 @@
       "ru": "Сегодня шестое число.",
       "uses": ["f4", "v1", "f71"],
       "level": 5,
+      "theme": "numbers",
       "canonical": "Tänään on kuudes.",
       "accepted": ["Tänään on kuudes.", "Tänään on kuudes päivä."],
       "wrong": [
@@ -4054,7 +4331,8 @@
       "id": "s278",
       "ru": "Это седьмой день.",
       "uses": ["p9", "v1", "f72", "n38"],
-      "level": 5,
+      "level": 8,
+      "theme": "time",
       "canonical": "Tämä on seitsemäs päivä.",
       "accepted": ["Tämä on seitsemäs päivä."],
       "wrong": [
@@ -4069,6 +4347,7 @@
       "ru": "Это десятый раз.",
       "uses": ["p9", "v1", "f73"],
       "level": 5,
+      "theme": "numbers",
       "canonical": "Tämä on kymmenes kerta.",
       "accepted": ["Tämä on kymmenes kerta."],
       "wrong": [
@@ -4082,7 +4361,8 @@
       "id": "s280",
       "ru": "Я хочу яблоко.",
       "uses": ["v5", "n164"],
-      "level": 4,
+      "level": 6,
+      "theme": "food",
       "canonical": "Haluan omenan.",
       "accepted": ["Haluan omenan.", "Minä haluan omenan.", "Haluan omenaa."],
       "wrong": [
@@ -4096,7 +4376,8 @@
       "id": "s281",
       "ru": "Ребёнок одевается сам.",
       "uses": ["n19", "v69"],
-      "level": 6,
+      "level": 9,
+      "theme": "routine",
       "canonical": "Lapsi pukeutuu itse.",
       "accepted": ["Lapsi pukeutuu itse."],
       "wrong": [
@@ -4110,7 +4391,8 @@
       "id": "s282",
       "ru": "Я моюсь и одеваюсь утром.",
       "uses": ["v70", "f1", "v69", "n39"],
-      "level": 6,
+      "level": 9,
+      "theme": "routine",
       "canonical": "Peseydyn ja pukeudun aamulla.",
       "accepted": ["Peseydyn ja pukeudun aamulla.", "Minä peseydyn ja pukeudun aamulla."],
       "wrong": [
@@ -4125,6 +4407,7 @@
       "ru": "Я говорю по-фински, по-английски и по-русски.",
       "uses": ["v6", "n16", "n148", "f1", "n149"],
       "level": 5,
+      "theme": "people",
       "canonical": "Puhun suomea, englantia ja venäjää.",
       "accepted": ["Puhun suomea, englantia ja venäjää.", "Minä puhun suomea, englantia ja venäjää."],
       "wrong": [
@@ -4138,7 +4421,8 @@
       "id": "s284",
       "ru": "Сейчас декабрь.",
       "uses": ["f3", "v1", "n146"],
-      "level": 4,
+      "level": 7,
+      "theme": "calendar",
       "canonical": "Nyt on joulukuu.",
       "accepted": ["Nyt on joulukuu."],
       "wrong": [
@@ -4153,7 +4437,8 @@
       "id": "s285",
       "ru": "Я иду в кафе.",
       "uses": ["v2", "n188"],
-      "level": 4,
+      "level": 6,
+      "theme": "cafe",
       "canonical": "Menen kahvilaan.",
       "accepted": ["Menen kahvilaan.", "Minä menen kahvilaan."],
       "wrong": [
@@ -4167,7 +4452,8 @@
       "id": "s286",
       "ru": "Магазин на дороге.",
       "uses": ["n3", "v1", "n186"],
-      "level": 4,
+      "level": 7,
+      "theme": "places",
       "canonical": "Kauppa on tiellä.",
       "accepted": ["Kauppa on tiellä."],
       "wrong": [
@@ -4181,7 +4467,8 @@
       "id": "s287",
       "ru": "Я стою на мосту.",
       "uses": ["v67", "n187"],
-      "level": 7,
+      "level": 10,
+      "theme": "places",
       "canonical": "Seison sillalla.",
       "accepted": ["Seison sillalla.", "Minä seison sillalla."],
       "wrong": [
@@ -4195,7 +4482,8 @@
       "id": "s288",
       "ru": "Бабушка живёт в деревне.",
       "uses": ["n174", "v7", "n189"],
-      "level": 7,
+      "level": 10,
+      "theme": "family",
       "canonical": "Isoäiti asuu kylässä.",
       "accepted": ["Isoäiti asuu kylässä."],
       "wrong": [
@@ -4209,7 +4497,8 @@
       "id": "s289",
       "ru": "Дети играют на пляже.",
       "uses": ["n19", "v68", "n191"],
-      "level": 8,
+      "level": 12,
+      "theme": "nature",
       "canonical": "Lapset leikkivät rannalla.",
       "accepted": ["Lapset leikkivät rannalla."],
       "wrong": [
@@ -4223,7 +4512,8 @@
       "id": "s290",
       "ru": "Птица поёт.",
       "uses": ["n192", "v79"],
-      "level": 8,
+      "level": 12,
+      "theme": "nature",
       "canonical": "Lintu laulaa.",
       "accepted": ["Lintu laulaa."],
       "wrong": [
@@ -4237,7 +4527,8 @@
       "id": "s291",
       "ru": "На небе звёзды и луна.",
       "uses": ["n69", "v1", "n193", "f1", "n194"],
-      "level": 8,
+      "level": 12,
+      "theme": "nature",
       "canonical": "Taivaalla on tähtiä ja kuu.",
       "accepted": ["Taivaalla on tähtiä ja kuu."],
       "wrong": [
@@ -4251,7 +4542,8 @@
       "id": "s292",
       "ru": "Мы плаваем у острова.",
       "uses": ["v42", "n195"],
-      "level": 8,
+      "level": 12,
+      "theme": "travel",
       "canonical": "Uimme saaressa.",
       "accepted": ["Uimme saaressa.", "Me uimme saaressa."],
       "wrong": [
@@ -4265,7 +4557,8 @@
       "id": "s293",
       "ru": "Дом на горе.",
       "uses": ["n4", "v1", "n196"],
-      "level": 8,
+      "level": 12,
+      "theme": "nature",
       "canonical": "Talo on vuorella.",
       "accepted": ["Talo on vuorella."],
       "wrong": [
@@ -4279,7 +4572,8 @@
       "id": "s294",
       "ru": "У меня есть очки.",
       "uses": ["n197"],
-      "level": 11,
+      "level": 15,
+      "theme": "clothes",
       "canonical": "Minulla on silmälasit.",
       "accepted": ["Minulla on silmälasit."],
       "wrong": [
@@ -4293,7 +4587,8 @@
       "id": "s295",
       "ru": "У меня болит зуб.",
       "uses": ["n198", "v74"],
-      "level": 12,
+      "level": 17,
+      "theme": "body",
       "canonical": "Hammasta särkee.",
       "accepted": ["Hammasta särkee."],
       "wrong": [
@@ -4307,7 +4602,8 @@
       "id": "s296",
       "ru": "У меня болит ухо.",
       "uses": ["n199", "v73"],
-      "level": 12,
+      "level": 17,
+      "theme": "body",
       "canonical": "Korvaan sattuu.",
       "accepted": ["Korvaan sattuu.", "Korvaani sattuu."],
       "wrong": [
@@ -4321,7 +4617,8 @@
       "id": "s297",
       "ru": "У меня болит спина.",
       "uses": ["n202", "v74"],
-      "level": 12,
+      "level": 17,
+      "theme": "body",
       "canonical": "Selkää särkee.",
       "accepted": ["Selkää särkee."],
       "wrong": [
@@ -4335,7 +4632,8 @@
       "id": "s298",
       "ru": "У ребёнка маленький нос и большой рот.",
       "uses": ["n19", "v1", "a3", "n200", "f1", "a2", "n201"],
-      "level": 12,
+      "level": 17,
+      "theme": "body",
       "canonical": "Lapsella on pieni nenä ja iso suu.",
       "accepted": ["Lapsella on pieni nenä ja iso suu."],
       "wrong": [
@@ -4349,7 +4647,8 @@
       "id": "s299",
       "ru": "У меня доброе сердце.",
       "uses": ["a1", "n203"],
-      "level": 12,
+      "level": 17,
+      "theme": "body",
       "canonical": "Minulla on hyvä sydän.",
       "accepted": ["Minulla on hyvä sydän."],
       "wrong": [
@@ -4363,7 +4662,8 @@
       "id": "s300",
       "ru": "Я пью сок.",
       "uses": ["v4", "n205"],
-      "level": 4,
+      "level": 6,
+      "theme": "food",
       "canonical": "Juon mehua.",
       "accepted": ["Juon mehua.", "Minä juon mehua."],
       "wrong": [
@@ -4377,7 +4677,8 @@
       "id": "s301",
       "ru": "Я хочу холодный напиток.",
       "uses": ["v5", "a5", "n204"],
-      "level": 5,
+      "level": 8,
+      "theme": "weather",
       "canonical": "Haluan kylmän juoman.",
       "accepted": ["Haluan kylmän juoman.", "Minä haluan kylmän juoman.", "Haluan kylmää juomaa."],
       "wrong": [
@@ -4391,7 +4692,8 @@
       "id": "s302",
       "ru": "Я ем суп и салат.",
       "uses": ["v3", "n206", "f1", "n207"],
-      "level": 4,
+      "level": 6,
+      "theme": "food",
       "canonical": "Syön keittoa ja salaattia.",
       "accepted": ["Syön keittoa ja salaattia.", "Minä syön keittoa ja salaattia."],
       "wrong": [
@@ -4405,7 +4707,8 @@
       "id": "s303",
       "ru": "На десерт я ем мороженое и торт.",
       "uses": ["v3", "n208", "f1", "n209"],
-      "level": 4,
+      "level": 6,
+      "theme": "food",
       "canonical": "Syön jäätelöä ja kakkua.",
       "accepted": ["Syön jäätelöä ja kakkua.", "Minä syön jäätelöä ja kakkua."],
       "wrong": [
@@ -4419,7 +4722,8 @@
       "id": "s304",
       "ru": "Я покупаю яйца.",
       "uses": ["v8", "n210"],
-      "level": 4,
+      "level": 6,
+      "theme": "food",
       "canonical": "Ostan munia.",
       "accepted": ["Ostan munia.", "Minä ostan munia."],
       "wrong": [
@@ -4433,7 +4737,8 @@
       "id": "s305",
       "ru": "Я беру кофе.",
       "uses": ["v75", "n8"],
-      "level": 4,
+      "level": 6,
+      "theme": "cafe",
       "canonical": "Otan kahvin.",
       "accepted": ["Otan kahvin.", "Minä otan kahvin.", "Otan kahvia."],
       "wrong": [
@@ -4447,7 +4752,8 @@
       "id": "s306",
       "ru": "Я приношу кофе другу.",
       "uses": ["v76", "n8", "n13"],
-      "level": 7,
+      "level": 11,
+      "theme": "transport",
       "canonical": "Tuon kahvia ystävälle.",
       "accepted": ["Tuon kahvia ystävälle.", "Minä tuon kahvia ystävälle."],
       "wrong": [
@@ -4461,7 +4767,8 @@
       "id": "s307",
       "ru": "Я отношу книгу в библиотеку.",
       "uses": ["v77", "n7", "n25"],
-      "level": 7,
+      "level": 11,
+      "theme": "transport",
       "canonical": "Vien kirjan kirjastoon.",
       "accepted": ["Vien kirjan kirjastoon.", "Minä vien kirjan kirjastoon."],
       "wrong": [
@@ -4475,7 +4782,8 @@
       "id": "s308",
       "ru": "Я забыл ключ.",
       "uses": ["v78", "n104"],
-      "level": 10,
+      "level": 14,
+      "theme": "home",
       "canonical": "Unohdin avaimen.",
       "accepted": ["Unohdin avaimen.", "Minä unohdin avaimen."],
       "wrong": [
@@ -4489,7 +4797,8 @@
       "id": "s309",
       "ru": "Девочка смеётся, а мальчик плачет.",
       "uses": ["n55", "v81", "f2", "n54", "v82"],
-      "level": 7,
+      "level": 11,
+      "theme": "routine",
       "canonical": "Tyttö nauraa, mutta poika itkee.",
       "accepted": ["Tyttö nauraa, mutta poika itkee."],
       "wrong": [
@@ -4503,7 +4812,8 @@
       "id": "s310",
       "ru": "Я встаю рано.",
       "uses": ["v83", "f83"],
-      "level": 6,
+      "level": 9,
+      "theme": "routine",
       "canonical": "Nousen aikaisin.",
       "accepted": ["Nousen aikaisin.", "Minä nousen aikaisin."],
       "wrong": [
@@ -4517,7 +4827,8 @@
       "id": "s311",
       "ru": "Я сажусь на стул.",
       "uses": ["v84", "n92"],
-      "level": 10,
+      "level": 14,
+      "theme": "furniture",
       "canonical": "Istuudun tuolille.",
       "accepted": ["Istuudun tuolille.", "Minä istuudun tuolille."],
       "wrong": [
@@ -4531,7 +4842,8 @@
       "id": "s312",
       "ru": "Я мою машину.",
       "uses": ["v85", "n5"],
-      "level": 7,
+      "level": 11,
+      "theme": "routine",
       "canonical": "Pesen auton.",
       "accepted": ["Pesen auton.", "Minä pesen auton.", "Pesen autoa."],
       "wrong": [
@@ -4545,7 +4857,8 @@
       "id": "s313",
       "ru": "Я убираю комнату.",
       "uses": ["v86", "n45"],
-      "level": 8,
+      "level": 12,
+      "theme": "travel",
       "canonical": "Siivoan huoneen.",
       "accepted": ["Siivoan huoneen.", "Minä siivoan huoneen."],
       "wrong": [
@@ -4559,7 +4872,8 @@
       "id": "s314",
       "ru": "Мама готовит еду.",
       "uses": ["n17", "v87", "n14"],
-      "level": 7,
+      "level": 11,
+      "theme": "routine",
       "canonical": "Äiti laittaa ruokaa.",
       "accepted": ["Äiti laittaa ruokaa."],
       "wrong": [
@@ -4573,7 +4887,8 @@
       "id": "s315",
       "ru": "Они строят дом.",
       "uses": ["p6", "v88", "n4"],
-      "level": 9,
+      "level": 13,
+      "theme": "grammar",
       "canonical": "He rakentavat talon.",
       "accepted": ["He rakentavat talon."],
       "wrong": [
@@ -4587,7 +4902,8 @@
       "id": "s316",
       "ru": "Папа чинит велосипед.",
       "uses": ["n18", "v89", "n58"],
-      "level": 9,
+      "level": 13,
+      "theme": "grammar",
       "canonical": "Isä korjaa polkupyörän.",
       "accepted": ["Isä korjaa polkupyörän."],
       "wrong": [
@@ -4601,7 +4917,8 @@
       "id": "s317",
       "ru": "Я продаю машину.",
       "uses": ["v90", "n5"],
-      "level": 7,
+      "level": 10,
+      "theme": "work",
       "canonical": "Myyn auton.",
       "accepted": ["Myyn auton.", "Minä myyn auton."],
       "wrong": [
@@ -4615,7 +4932,8 @@
       "id": "s318",
       "ru": "Урок начинается в восемь.",
       "uses": ["n40", "v94", "f22"],
-      "level": 8,
+      "level": 12,
+      "theme": "travel",
       "canonical": "Tunti alkaa kahdeksalta.",
       "accepted": ["Tunti alkaa kahdeksalta."],
       "wrong": [
@@ -4629,7 +4947,8 @@
       "id": "s319",
       "ru": "Урок заканчивается в три.",
       "uses": ["n40", "v95", "f17"],
-      "level": 8,
+      "level": 12,
+      "theme": "travel",
       "canonical": "Tunti loppuu kolmelta.",
       "accepted": ["Tunti loppuu kolmelta."],
       "wrong": [
@@ -4643,7 +4962,8 @@
       "id": "s320",
       "ru": "Поезд медленный, а машина быстрая.",
       "uses": ["n56", "v1", "a50", "f2", "n5", "a19"],
-      "level": 7,
+      "level": 11,
+      "theme": "transport",
       "canonical": "Juna on hidas, mutta auto on nopea.",
       "accepted": ["Juna on hidas, mutta auto on nopea."],
       "wrong": [
@@ -4657,7 +4977,8 @@
       "id": "s321",
       "ru": "Книга весёлая.",
       "uses": ["n7", "v1", "a51"],
-      "level": 7,
+      "level": 11,
+      "theme": "grammar",
       "canonical": "Kirja on hauska.",
       "accepted": ["Kirja on hauska."],
       "wrong": [
@@ -4671,7 +4992,8 @@
       "id": "s322",
       "ru": "Дом некрасивый, но большой.",
       "uses": ["n4", "v1", "a52", "f2", "a2"],
-      "level": 7,
+      "level": 11,
+      "theme": "grammar",
       "canonical": "Talo on ruma, mutta iso.",
       "accepted": ["Talo on ruma, mutta iso."],
       "wrong": [
@@ -4685,7 +5007,8 @@
       "id": "s323",
       "ru": "Земля мокрая, а воздух сухой.",
       "uses": ["n70", "v1", "a53", "f2", "n37", "a54"],
-      "level": 8,
+      "level": 13,
+      "theme": "weather",
       "canonical": "Maa on märkä, mutta ilma on kuiva.",
       "accepted": ["Maa on märkä, mutta ilma on kuiva."],
       "wrong": [
@@ -4699,7 +5022,8 @@
       "id": "s324",
       "ru": "Шкаф полный, а холодильник пустой.",
       "uses": ["n98", "v1", "a55", "f2", "n100", "a56"],
-      "level": 10,
+      "level": 14,
+      "theme": "furniture",
       "canonical": "Kaappi on täysi, mutta jääkaappi on tyhjä.",
       "accepted": ["Kaappi on täysi, mutta jääkaappi on tyhjä."],
       "wrong": [
@@ -4713,7 +5037,8 @@
       "id": "s325",
       "ru": "Стул свободен?",
       "uses": ["n92", "v1", "a57"],
-      "level": 10,
+      "level": 14,
+      "theme": "furniture",
       "canonical": "Onko tuoli vapaa?",
       "accepted": ["Onko tuoli vapaa?"],
       "wrong": [
@@ -4727,7 +5052,8 @@
       "id": "s326",
       "ru": "У меня зелёная сумка.",
       "uses": ["a58", "n222"],
-      "level": 7,
+      "level": 11,
+      "theme": "people",
       "canonical": "Minulla on vihreä laukku.",
       "accepted": ["Minulla on vihreä laukku."],
       "wrong": [
@@ -4741,7 +5067,8 @@
       "id": "s327",
       "ru": "У меня жёлтая ручка и коричневая сумка.",
       "uses": ["a59", "n157", "f1", "a60", "n222"],
-      "level": 7,
+      "level": 11,
+      "theme": "people",
       "canonical": "Minulla on keltainen kynä ja ruskea laukku.",
       "accepted": ["Minulla on keltainen kynä ja ruskea laukku."],
       "wrong": [
@@ -4755,7 +5082,8 @@
       "id": "s328",
       "ru": "Небо серое.",
       "uses": ["n69", "v1", "a61"],
-      "level": 8,
+      "level": 12,
+      "theme": "nature",
       "canonical": "Taivas on harmaa.",
       "accepted": ["Taivas on harmaa."],
       "wrong": [
@@ -4769,7 +5097,8 @@
       "id": "s329",
       "ru": "Он богатый, а я бедный.",
       "uses": ["p3", "v1", "a63", "f2", "a64"],
-      "level": 9,
+      "level": 13,
+      "theme": "grammar",
       "canonical": "Hän on rikas, mutta minä olen köyhä.",
       "accepted": ["Hän on rikas, mutta minä olen köyhä."],
       "wrong": [
@@ -4783,7 +5112,8 @@
       "id": "s330",
       "ru": "Кофе крепкий, а чай слабый.",
       "uses": ["n8", "v1", "a65", "f2", "n32", "a66"],
-      "level": 9,
+      "level": 13,
+      "theme": "grammar",
       "canonical": "Kahvi on vahva, mutta tee on heikko.",
       "accepted": ["Kahvi on vahva, mutta tee on heikko."],
       "wrong": [
@@ -4798,7 +5128,8 @@
       "id": "s331",
       "ru": "Мы танцуем вместе.",
       "uses": ["v80", "f89"],
-      "level": 6,
+      "level": 9,
+      "theme": "routine",
       "canonical": "Tanssimme yhdessä.",
       "accepted": ["Tanssimme yhdessä.", "Me tanssimme yhdessä."],
       "wrong": [
@@ -4812,7 +5143,8 @@
       "id": "s332",
       "ru": "Я иду на работу рано.",
       "uses": ["v2", "n1", "f83"],
-      "level": 6,
+      "level": 9,
+      "theme": "grammar",
       "canonical": "Menen töihin aikaisin.",
       "accepted": ["Menen töihin aikaisin.", "Minä menen töihin aikaisin."],
       "wrong": [
@@ -4826,7 +5158,8 @@
       "id": "s333",
       "ru": "Я работаю в офисе.",
       "uses": ["v7", "n212"],
-      "level": 7,
+      "level": 10,
+      "theme": "work",
       "canonical": "Olen töissä toimistossa.",
       "accepted": ["Olen töissä toimistossa.", "Minä olen töissä toimistossa."],
       "wrong": [
@@ -4840,7 +5173,8 @@
       "id": "s334",
       "ru": "Моё место работы далеко.",
       "uses": ["n211", "v1", "a35"],
-      "level": 11,
+      "level": 15,
+      "theme": "directions",
       "canonical": "Työpaikkani on kaukana.",
       "accepted": ["Työpaikkani on kaukana.", "Minun työpaikkani on kaukana."],
       "wrong": [
@@ -4854,7 +5188,8 @@
       "id": "s335",
       "ru": "Я получаю хорошую зарплату.",
       "uses": ["v20", "a1", "n214"],
-      "level": 9,
+      "level": 13,
+      "theme": "grammar",
       "canonical": "Saan hyvää palkkaa.",
       "accepted": ["Saan hyvää palkkaa.", "Minä saan hyvää palkkaa."],
       "wrong": [
@@ -4868,7 +5203,8 @@
       "id": "s336",
       "ru": "В часе шестьдесят минут.",
       "uses": ["n40", "f61", "n216"],
-      "level": 6,
+      "level": 9,
+      "theme": "time",
       "canonical": "Tunnissa on kuusikymmentä minuuttia.",
       "accepted": ["Tunnissa on kuusikymmentä minuuttia."],
       "wrong": [
@@ -4882,7 +5218,8 @@
       "id": "s337",
       "ru": "Мне двадцать лет.",
       "uses": ["v1", "f25", "n217"],
-      "level": 4,
+      "level": 5,
+      "theme": "calendar",
       "canonical": "Olen kaksikymmentä vuotta.",
       "accepted": ["Olen kaksikymmentä vuotta.", "Minä olen kaksikymmentä vuotta."],
       "wrong": [
@@ -4896,7 +5233,8 @@
       "id": "s338",
       "ru": "Я живу здесь два месяца.",
       "uses": ["v7", "f42", "f16", "n218"],
-      "level": 4,
+      "level": 7,
+      "theme": "directions",
       "canonical": "Asun täällä kaksi kuukautta.",
       "accepted": ["Asun täällä kaksi kuukautta.", "Minä asun täällä kaksi kuukautta."],
       "wrong": [
@@ -4910,7 +5248,8 @@
       "id": "s339",
       "ru": "Мой коллега — мой сосед.",
       "uses": ["n219", "v1", "n220"],
-      "level": 7,
+      "level": 10,
+      "theme": "family",
       "canonical": "Työkaverini on naapurini.",
       "accepted": ["Työkaverini on naapurini.", "Minun työkaverini on naapurini."],
       "wrong": [
@@ -4924,7 +5263,8 @@
       "id": "s340",
       "ru": "Я покупаю новую одежду.",
       "uses": ["v8", "a4", "n221"],
-      "level": 11,
+      "level": 15,
+      "theme": "clothes",
       "canonical": "Ostan uusia vaatteita.",
       "accepted": ["Ostan uusia vaatteita.", "Minä ostan uusia vaatteita."],
       "wrong": [
@@ -4938,7 +5278,8 @@
       "id": "s341",
       "ru": "На улице туман.",
       "uses": ["n28", "v1", "n224"],
-      "level": 12,
+      "level": 18,
+      "theme": "weather",
       "canonical": "Kadulla on sumua.",
       "accepted": ["Kadulla on sumua."],
       "wrong": [
@@ -4952,7 +5293,8 @@
       "id": "s342",
       "ru": "Озеро подо льдом.",
       "uses": ["n62", "v1", "n225"],
-      "level": 12,
+      "level": 18,
+      "theme": "weather",
       "canonical": "Järvi on jäässä.",
       "accepted": ["Järvi on jäässä."],
       "wrong": [
@@ -4966,7 +5308,8 @@
       "id": "s343",
       "ru": "Иногда я хожу в кафе, но редко в ресторан.",
       "uses": ["f81", "v63", "n188", "f2", "f82", "n23"],
-      "level": 12,
+      "level": 17,
+      "theme": "health",
       "canonical": "Joskus käyn kahvilassa, mutta harvoin ravintolassa.",
       "accepted": ["Joskus käyn kahvilassa, mutta harvoin ravintolassa."],
       "wrong": [
@@ -4980,7 +5323,8 @@
       "id": "s344",
       "ru": "Я говорю медленно, но хорошо.",
       "uses": ["v6", "f86", "f2", "f87"],
-      "level": 7,
+      "level": 11,
+      "theme": "grammar",
       "canonical": "Puhun hitaasti, mutta hyvin.",
       "accepted": ["Puhun hitaasti, mutta hyvin.", "Minä puhun hitaasti, mutta hyvin."],
       "wrong": [
@@ -4994,7 +5338,8 @@
       "id": "s345",
       "ru": "Я бегаю быстро, но плохо.",
       "uses": ["v40", "f85", "f2", "f88"],
-      "level": 8,
+      "level": 12,
+      "theme": "travel",
       "canonical": "Juoksen nopeasti, mutta huonosti.",
       "accepted": ["Juoksen nopeasti, mutta huonosti.", "Minä juoksen nopeasti, mutta huonosti."],
       "wrong": [
@@ -5008,7 +5353,8 @@
       "id": "s346",
       "ru": "Я тоже хочу кофе.",
       "uses": ["f90", "v5", "n8"],
-      "level": 5,
+      "level": 8,
+      "theme": "grammar",
       "canonical": "Haluan myös kahvia.",
       "accepted": ["Haluan myös kahvia.", "Minä haluan myös kahvia."],
       "wrong": [
@@ -5022,7 +5368,8 @@
       "id": "s347",
       "ru": "Я уже готов.",
       "uses": ["f92", "v1", "a16"],
-      "level": 6,
+      "level": 9,
+      "theme": "grammar",
       "canonical": "Olen jo valmis.",
       "accepted": ["Olen jo valmis.", "Minä olen jo valmis."],
       "wrong": [
@@ -5036,7 +5383,8 @@
       "id": "s348",
       "ru": "Я ещё дома.",
       "uses": ["f91", "n2"],
-      "level": 6,
+      "level": 9,
+      "theme": "grammar",
       "canonical": "Olen vielä kotona.",
       "accepted": ["Olen vielä kotona.", "Minä olen vielä kotona."],
       "wrong": [
@@ -5050,7 +5398,8 @@
       "id": "s349",
       "ru": "У меня только один евро.",
       "uses": ["f93", "f15", "n31"],
-      "level": 5,
+      "level": 8,
+      "theme": "grammar",
       "canonical": "Minulla on vain yksi euro.",
       "accepted": ["Minulla on vain yksi euro."],
       "wrong": [
@@ -5064,7 +5413,8 @@
       "id": "s350",
       "ru": "Сначала я ем, потом читаю.",
       "uses": ["f96", "v3", "f95", "v9"],
-      "level": 5,
+      "level": 8,
+      "theme": "grammar",
       "canonical": "Ensin syön, sitten luen.",
       "accepted": ["Ensin syön, sitten luen.", "Ensin minä syön, sitten luen."],
       "wrong": [
@@ -5078,7 +5428,8 @@
       "id": "s351",
       "ru": "Ты пьёшь чай или кофе?",
       "uses": ["v4", "n32", "f98", "n8"],
-      "level": 6,
+      "level": 9,
+      "theme": "grammar",
       "canonical": "Juotko teetä vai kahvia?",
       "accepted": ["Juotko teetä vai kahvia?", "Juotko sinä teetä vai kahvia?"],
       "wrong": [
@@ -5092,7 +5443,8 @@
       "id": "s352",
       "ru": "Я пью чай или сок.",
       "uses": ["v4", "n32", "f97", "n205"],
-      "level": 6,
+      "level": 7,
+      "theme": "directions",
       "canonical": "Juon teetä tai mehua.",
       "accepted": ["Juon teetä tai mehua.", "Minä juon teetä tai mehua."],
       "wrong": [
@@ -5106,7 +5458,8 @@
       "id": "s353",
       "ru": "Я иду в кафе с другом.",
       "uses": ["v2", "n188", "n13", "f99"],
-      "level": 7,
+      "level": 11,
+      "theme": "grammar",
       "canonical": "Menen kahvilaan ystävän kanssa.",
       "accepted": ["Menen kahvilaan ystävän kanssa.", "Minä menen kahvilaan ystävän kanssa."],
       "wrong": [
@@ -5120,7 +5473,8 @@
       "id": "s354",
       "ru": "Я пью кофе без сахара.",
       "uses": ["v4", "n8", "f100", "n170"],
-      "level": 8,
+      "level": 13,
+      "theme": "weather",
       "canonical": "Juon kahvia ilman sokeria.",
       "accepted": ["Juon kahvia ilman sokeria.", "Minä juon kahvia ilman sokeria."],
       "wrong": [
@@ -5134,7 +5488,8 @@
       "id": "s355",
       "ru": "Кофе очень хороший.",
       "uses": ["n8", "v1", "f94", "a1"],
-      "level": 6,
+      "level": 9,
+      "theme": "grammar",
       "canonical": "Kahvi on tosi hyvää.",
       "accepted": ["Kahvi on tosi hyvää.", "Kahvi on hyvin hyvää."],
       "wrong": [
@@ -5149,7 +5504,8 @@
       "id": "s357",
       "ru": "Иди сюда!",
       "uses": ["v11"],
-      "level": 4,
+      "level": 2,
+      "theme": "acquaintance",
       "canonical": "Tule tänne!",
       "accepted": ["Tule tänne!"],
       "wrong": [
@@ -5163,7 +5519,8 @@
       "id": "s358",
       "ru": "Подожди меня!",
       "uses": ["v29", "p1"],
-      "level": 6,
+      "level": 9,
+      "theme": "routine",
       "canonical": "Odota minua!",
       "accepted": ["Odota minua!"],
       "wrong": [
@@ -5177,7 +5534,8 @@
       "id": "s359",
       "ru": "Ешь хлеб!",
       "uses": ["v3", "n9"],
-      "level": 4,
+      "level": 2,
+      "theme": "basics",
       "canonical": "Syö leipää!",
       "accepted": ["Syö leipää!"],
       "wrong": [
@@ -5191,7 +5549,8 @@
       "id": "s360",
       "ru": "Возьми кофе!",
       "uses": ["v75", "n8"],
-      "level": 4,
+      "level": 6,
+      "theme": "cafe",
       "canonical": "Ota kahvia!",
       "accepted": ["Ota kahvia!", "Ota kahvi!"],
       "wrong": [
@@ -5205,7 +5564,8 @@
       "id": "s361",
       "ru": "Не уходи!",
       "uses": ["v2", "f6"],
-      "level": 4,
+      "level": 2,
+      "theme": "basics",
       "canonical": "Älä mene!",
       "accepted": ["Älä mene!"],
       "wrong": [
@@ -5220,7 +5580,8 @@
       "id": "s362",
       "ru": "Не пей кофе!",
       "uses": ["v4", "n8", "f6"],
-      "level": 4,
+      "level": 2,
+      "theme": "basics",
       "canonical": "Älä juo kahvia!",
       "accepted": ["Älä juo kahvia!"],
       "wrong": [
@@ -5235,7 +5596,8 @@
       "id": "s363",
       "ru": "Заходите!",
       "uses": ["v11"],
-      "level": 4,
+      "level": 2,
+      "theme": "acquaintance",
       "canonical": "Tulkaa sisään!",
       "accepted": ["Tulkaa sisään!"],
       "wrong": [
@@ -5249,7 +5611,8 @@
       "id": "s364",
       "ru": "Подождите меня!",
       "uses": ["v29", "p1"],
-      "level": 6,
+      "level": 9,
+      "theme": "routine",
       "canonical": "Odottakaa minua!",
       "accepted": ["Odottakaa minua!"],
       "wrong": [
@@ -5264,7 +5627,8 @@
       "id": "s365",
       "ru": "Мне нравится кофе.",
       "uses": ["v96", "n8"],
-      "level": 5,
+      "level": 8,
+      "theme": "grammar",
       "canonical": "Tykkään kahvista.",
       "accepted": ["Tykkään kahvista."],
       "wrong": [
@@ -5279,7 +5643,8 @@
       "id": "s366",
       "ru": "Тебе нравится финский?",
       "uses": ["v96", "n16"],
-      "level": 5,
+      "level": 8,
+      "theme": "grammar",
       "canonical": "Tykkäätkö sinä suomesta?",
       "accepted": ["Tykkäätkö sinä suomesta?", "Tykkäätkö suomesta?"],
       "wrong": [
@@ -5293,7 +5658,8 @@
       "id": "s367",
       "ru": "Я не люблю чай.",
       "uses": ["v96", "n32", "f6"],
-      "level": 5,
+      "level": 8,
+      "theme": "grammar",
       "canonical": "En tykkää teestä.",
       "accepted": ["En tykkää teestä."],
       "wrong": [
@@ -5307,7 +5673,8 @@
       "id": "s368",
       "ru": "Нам нравится музыка.",
       "uses": ["v96", "n268"],
-      "level": 6,
+      "level": 9,
+      "theme": "routine",
       "canonical": "Tykkäämme musiikista.",
       "accepted": ["Tykkäämme musiikista."],
       "wrong": [
@@ -5322,7 +5689,8 @@
       "id": "s369",
       "ru": "Вот, пожалуйста.",
       "uses": ["v1", "a1"],
-      "level": 3,
+      "level": 1,
+      "theme": "basics",
       "canonical": "Ole hyvä.",
       "accepted": ["Ole hyvä."],
       "wrong": [
@@ -5336,7 +5704,8 @@
       "id": "s370",
       "ru": "Увидимся завтра!",
       "uses": ["f103", "f5"],
-      "level": 3,
+      "level": 2,
+      "theme": "grammar",
       "canonical": "Nähdään huomenna!",
       "accepted": ["Nähdään huomenna!"],
       "wrong": [
@@ -5349,7 +5718,8 @@
       "id": "s371",
       "ru": "До свидания!",
       "uses": ["f102"],
-      "level": 3,
+      "level": 1,
+      "theme": "greetings",
       "canonical": "Näkemiin!",
       "accepted": ["Näkemiin!"],
       "wrong": [
@@ -5362,7 +5732,8 @@
       "id": "s372",
       "ru": "Приятно познакомиться.",
       "uses": ["a51"],
-      "level": 7,
+      "level": 11,
+      "theme": "grammar",
       "canonical": "Hauska tutustua.",
       "accepted": ["Hauska tutustua."],
       "wrong": [
@@ -5376,7 +5747,8 @@
       "id": "s373",
       "ru": "Можно меню?",
       "uses": ["v20", "n232"],
-      "level": 5,
+      "level": 8,
+      "theme": "grammar",
       "canonical": "Saanko ruokalistan?",
       "accepted": ["Saanko ruokalistan?", "Saanko minä ruokalistan?"],
       "wrong": [
@@ -5390,7 +5762,8 @@
       "id": "s374",
       "ru": "Можно салфетку?",
       "uses": ["v20", "n231"],
-      "level": 5,
+      "level": 8,
+      "theme": "grammar",
       "canonical": "Saanko servietin?",
       "accepted": ["Saanko servietin?", "Saanko minä servietin?"],
       "wrong": [
@@ -5404,7 +5777,8 @@
       "id": "s375",
       "ru": "На столе тарелка и вилка.",
       "uses": ["n46", "v1", "n227", "f1", "n228"],
-      "level": 6,
+      "level": 9,
+      "theme": "furniture",
       "canonical": "Pöydällä on lautanen ja haarukka.",
       "accepted": ["Pöydällä on lautanen ja haarukka."],
       "wrong": [
@@ -5418,7 +5792,8 @@
       "id": "s376",
       "ru": "Я ем вилкой.",
       "uses": ["v3", "n228"],
-      "level": 4,
+      "level": 6,
+      "theme": "cafe",
       "canonical": "Syön haarukalla.",
       "accepted": ["Syön haarukalla."],
       "wrong": [
@@ -5432,7 +5807,8 @@
       "id": "s377",
       "ru": "Я беру нож и ложку.",
       "uses": ["v75", "n229", "f1", "n230"],
-      "level": 4,
+      "level": 6,
+      "theme": "cafe",
       "canonical": "Otan veitsen ja lusikan.",
       "accepted": ["Otan veitsen ja lusikan."],
       "wrong": [
@@ -5447,7 +5823,8 @@
       "id": "s378",
       "ru": "Лошадь бежит.",
       "uses": ["n238", "v40"],
-      "level": 8,
+      "level": 12,
+      "theme": "travel",
       "canonical": "Hevonen juoksee.",
       "accepted": ["Hevonen juoksee."],
       "wrong": [
@@ -5460,7 +5837,8 @@
       "id": "s379",
       "ru": "Корова ест траву.",
       "uses": ["n239", "v3", "n260"],
-      "level": 8,
+      "level": 12,
+      "theme": "nature",
       "canonical": "Lehmä syö ruohoa.",
       "accepted": ["Lehmä syö ruohoa."],
       "wrong": [
@@ -5473,7 +5851,8 @@
       "id": "s380",
       "ru": "В лесу медведь.",
       "uses": ["n61", "v1", "n240"],
-      "level": 8,
+      "level": 12,
+      "theme": "nature",
       "canonical": "Metsässä on karhu.",
       "accepted": ["Metsässä on karhu."],
       "wrong": [
@@ -5486,7 +5865,8 @@
       "id": "s381",
       "ru": "У меня есть собака и кошка.",
       "uses": ["p1", "v1", "n154", "f1", "n153"],
-      "level": 2,
+      "level": 3,
+      "theme": "nature",
       "canonical": "Minulla on koira ja kissa.",
       "accepted": ["Minulla on koira ja kissa."],
       "wrong": [
@@ -5500,7 +5880,8 @@
       "id": "s382",
       "ru": "Я учитель.",
       "uses": ["v1", "n244"],
-      "level": 7,
+      "level": 10,
+      "theme": "work",
       "canonical": "Olen opettaja.",
       "accepted": ["Olen opettaja."],
       "wrong": [
@@ -5513,7 +5894,8 @@
       "id": "s383",
       "ru": "Повар готовит еду.",
       "uses": ["n248", "v87", "n14"],
-      "level": 7,
+      "level": 11,
+      "theme": "routine",
       "canonical": "Kokki laittaa ruokaa.",
       "accepted": ["Kokki laittaa ruokaa."],
       "wrong": [
@@ -5526,7 +5908,8 @@
       "id": "s384",
       "ru": "Я иду в музей.",
       "uses": ["v2", "n251"],
-      "level": 7,
+      "level": 10,
+      "theme": "places",
       "canonical": "Menen museoon.",
       "accepted": ["Menen museoon.", "Minä menen museoon."],
       "wrong": [
@@ -5540,7 +5923,8 @@
       "id": "s385",
       "ru": "Я хожу в театр.",
       "uses": ["v63", "n252"],
-      "level": 12,
+      "level": 17,
+      "theme": "health",
       "canonical": "Käyn teatterissa.",
       "accepted": ["Käyn teatterissa.", "Minä käyn teatterissa."],
       "wrong": [
@@ -5553,7 +5937,8 @@
       "id": "s386",
       "ru": "Я плаваю в бассейне.",
       "uses": ["v42", "n254"],
-      "level": 8,
+      "level": 12,
+      "theme": "travel",
       "canonical": "Uin uimahallissa.",
       "accepted": ["Uin uimahallissa.", "Minä uin uimahallissa."],
       "wrong": [
@@ -5566,7 +5951,8 @@
       "id": "s387",
       "ru": "В реке вода.",
       "uses": ["n257", "v1", "n11"],
-      "level": 8,
+      "level": 12,
+      "theme": "nature",
       "canonical": "Joessa on vettä.",
       "accepted": ["Joessa on vettä."],
       "wrong": [
@@ -5580,7 +5966,8 @@
       "id": "s388",
       "ru": "Я слушаю музыку.",
       "uses": ["v26", "n268"],
-      "level": 6,
+      "level": 9,
+      "theme": "routine",
       "canonical": "Kuuntelen musiikkia.",
       "accepted": ["Kuuntelen musiikkia.", "Minä kuuntelen musiikkia."],
       "wrong": [
@@ -5593,7 +5980,8 @@
       "id": "s389",
       "ru": "Я смотрю фильм.",
       "uses": ["v25", "n256"],
-      "level": 4,
+      "level": 7,
+      "theme": "directions",
       "canonical": "Katson elokuvaa.",
       "accepted": ["Katson elokuvaa.", "Minä katson elokuvaa."],
       "wrong": [
@@ -5606,7 +5994,8 @@
       "id": "s390",
       "ru": "Подушка мягкая.",
       "uses": ["n264", "v1", "a72"],
-      "level": 10,
+      "level": 14,
+      "theme": "furniture",
       "canonical": "Tyyny on pehmeä.",
       "accepted": ["Tyyny on pehmeä."],
       "wrong": [
@@ -5619,7 +6008,8 @@
       "id": "s391",
       "ru": "Еда вкусная.",
       "uses": ["n14", "v1", "a71"],
-      "level": 7,
+      "level": 11,
+      "theme": "grammar",
       "canonical": "Ruoka on herkullista.",
       "accepted": ["Ruoka on herkullista."],
       "wrong": [
@@ -5632,7 +6022,8 @@
       "id": "s392",
       "ru": "Я еду на работу на машине.",
       "uses": ["v97", "n1", "n5"],
-      "level": 7,
+      "level": 11,
+      "theme": "transport",
       "canonical": "Ajan töihin autolla.",
       "accepted": ["Ajan töihin autolla.", "Minä ajan töihin autolla."],
       "wrong": [
@@ -5647,7 +6038,8 @@
       "id": "s393",
       "ru": "Я купил вчера книгу.",
       "uses": ["v8", "f7", "n7"],
-      "level": 10,
+      "level": 2,
+      "theme": "acquaintance",
       "canonical": "Ostin eilen kirjan.",
       "accepted": ["Ostin eilen kirjan.", "Eilen ostin kirjan."],
       "wrong": [
@@ -5661,7 +6053,8 @@
       "id": "s394",
       "ru": "Я хотел спать.",
       "uses": ["v5", "v23"],
-      "level": 10,
+      "level": 9,
+      "theme": "routine",
       "canonical": "Halusin nukkua.",
       "accepted": ["Halusin nukkua.", "Minä halusin nukkua."],
       "wrong": [
@@ -5675,7 +6068,8 @@
       "id": "s395",
       "ru": "Ты читал книгу?",
       "uses": ["v9", "n7"],
-      "level": 10,
+      "level": 2,
+      "theme": "acquaintance",
       "canonical": "Luitko kirjaa?",
       "accepted": ["Luitko kirjaa?", "Luitko sinä kirjaa?"],
       "wrong": [
@@ -5689,7 +6083,8 @@
       "id": "s396",
       "ru": "Я ел рыбу.",
       "uses": ["v3", "n35"],
-      "level": 10,
+      "level": 6,
+      "theme": "food",
       "canonical": "Söin kalaa.",
       "accepted": ["Söin kalaa.", "Minä söin kalaa."],
       "wrong": [
@@ -5703,7 +6098,8 @@
       "id": "s397",
       "ru": "Мне было нужно лекарство.",
       "uses": ["v56", "n127"],
-      "level": 12,
+      "level": 17,
+      "theme": "health",
       "canonical": "Tarvitsin lääkettä.",
       "accepted": ["Tarvitsin lääkettä.", "Minä tarvitsin lääkettä."],
       "wrong": [
@@ -5717,7 +6113,8 @@
       "id": "s398",
       "ru": "Он знал ответ.",
       "uses": ["p3", "v14", "n83"],
-      "level": 10,
+      "level": 13,
+      "theme": "grammar",
       "canonical": "Hän tiesi vastauksen.",
       "accepted": ["Hän tiesi vastauksen."],
       "wrong": [
@@ -5731,7 +6128,8 @@
       "id": "s399",
       "ru": "Мы жили в Хельсинки.",
       "uses": ["v7", "p4"],
-      "level": 10,
+      "level": 1,
+      "theme": "acquaintance",
       "canonical": "Asuimme Helsingissä.",
       "accepted": ["Asuimme Helsingissä.", "Me asuimme Helsingissä."],
       "wrong": [
@@ -5745,7 +6143,8 @@
       "id": "s400",
       "ru": "Они пришли вчера.",
       "uses": ["p6", "v11", "f7"],
-      "level": 10,
+      "level": 2,
+      "theme": "acquaintance",
       "canonical": "He tulivat eilen.",
       "accepted": ["He tulivat eilen.", "Eilen he tulivat."],
       "wrong": [
@@ -5759,7 +6158,8 @@
       "id": "s401",
       "ru": "Он купил машину.",
       "uses": ["p3", "v8", "n5"],
-      "level": 10,
+      "level": 2,
+      "theme": "acquaintance",
       "canonical": "Hän osti auton.",
       "accepted": ["Hän osti auton."],
       "wrong": [
@@ -5773,7 +6173,8 @@
       "id": "s402",
       "ru": "Она пошла домой.",
       "uses": ["p3", "v2", "n2"],
-      "level": 10,
+      "level": 2,
+      "theme": "basics",
       "canonical": "Hän meni kotiin.",
       "accepted": ["Hän meni kotiin."],
       "wrong": [
@@ -5787,7 +6188,8 @@
       "id": "s403",
       "ru": "Можно мне стакан воды?",
       "uses": ["v20", "n226", "n11"],
-      "level": 10,
+      "level": 8,
+      "theme": "grammar",
       "canonical": "Saisinko lasin vettä?",
       "accepted": ["Saisinko lasin vettä?"],
       "wrong": [
@@ -5801,7 +6203,8 @@
       "id": "s404",
       "ru": "Я хотел бы заказать кофе.",
       "uses": ["v5", "v17", "n8"],
-      "level": 10,
+      "level": 6,
+      "theme": "cafe",
       "canonical": "Haluaisin tilata kahvin.",
       "accepted": ["Haluaisin tilata kahvin.", "Haluaisin tilata kahvia."],
       "wrong": [
@@ -5815,7 +6218,8 @@
       "id": "s405",
       "ru": "Не мог бы ты помочь?",
       "uses": ["v18", "v28"],
-      "level": 10,
+      "level": 9,
+      "theme": "routine",
       "canonical": "Voisitko auttaa?",
       "accepted": ["Voisitko auttaa?", "Voisitko sinä auttaa?"],
       "wrong": [
@@ -5829,7 +6233,8 @@
       "id": "s406",
       "ru": "Если бы я мог, я бы пришёл.",
       "uses": ["f30", "v18", "v11"],
-      "level": 10,
+      "level": 8,
+      "theme": "grammar",
       "canonical": "Jos voisin, tulisin.",
       "accepted": ["Jos voisin, tulisin."],
       "wrong": [
@@ -5843,7 +6248,8 @@
       "id": "s407",
       "ru": "Я купил книгу.",
       "uses": ["v8", "n7"],
-      "level": 11,
+      "level": 2,
+      "theme": "acquaintance",
       "canonical": "Ostin kirjan.",
       "accepted": ["Ostin kirjan.", "Minä ostin kirjan."],
       "wrong": [
@@ -5857,7 +6263,8 @@
       "id": "s408",
       "ru": "Я читал книгу весь вечер.",
       "uses": ["v9", "n7", "n42"],
-      "level": 11,
+      "level": 9,
+      "theme": "time",
       "canonical": "Luin kirjaa koko illan.",
       "accepted": ["Luin kirjaa koko illan."],
       "wrong": [
@@ -5870,7 +6277,8 @@
       "id": "s409",
       "ru": "Я не читал книгу.",
       "uses": ["f6", "v9", "n7"],
-      "level": 11,
+      "level": 2,
+      "theme": "acquaintance",
       "canonical": "En lukenut kirjaa.",
       "accepted": ["En lukenut kirjaa.", "Minä en lukenut kirjaa."],
       "wrong": [
@@ -5885,6 +6293,7 @@
       "ru": "Я жду автобус.",
       "uses": ["v29", "n57"],
       "level": 11,
+      "theme": "transport",
       "canonical": "Odotan bussia.",
       "accepted": ["Odotan bussia.", "Minä odotan bussia."],
       "wrong": [
@@ -5897,7 +6306,8 @@
       "id": "s411",
       "ru": "Я помогаю маме.",
       "uses": ["v28", "n17"],
-      "level": 11,
+      "level": 9,
+      "theme": "routine",
       "canonical": "Autan äitiä.",
       "accepted": ["Autan äitiä.", "Minä autan äitiä."],
       "wrong": [
@@ -5911,7 +6321,8 @@
       "id": "s412",
       "ru": "Мне нужны деньги.",
       "uses": ["v56", "n29"],
-      "level": 11,
+      "level": 16,
+      "theme": "sports",
       "canonical": "Tarvitsen rahaa.",
       "accepted": ["Tarvitsen rahaa.", "Minä tarvitsen rahaa."],
       "wrong": [
@@ -5924,7 +6335,8 @@
       "id": "s413",
       "ru": "Пойдём в город!",
       "uses": ["v2", "n12"],
-      "level": 11,
+      "level": 7,
+      "theme": "places",
       "canonical": "Mennään kaupungille!",
       "accepted": ["Mennään kaupungille!"],
       "wrong": [
@@ -5938,7 +6350,8 @@
       "id": "s414",
       "ru": "Давай поедим!",
       "uses": ["v3"],
-      "level": 11,
+      "level": 2,
+      "theme": "basics",
       "canonical": "Syödään!",
       "accepted": ["Syödään!"],
       "wrong": [
@@ -5952,7 +6365,8 @@
       "id": "s415",
       "ru": "Давай посмотрим фильм.",
       "uses": ["v25", "n256"],
-      "level": 11,
+      "level": 7,
+      "theme": "directions",
       "canonical": "Katsotaan elokuva.",
       "accepted": ["Katsotaan elokuva.", "Katsotaan elokuvaa."],
       "wrong": [
@@ -5965,7 +6379,8 @@
       "id": "s416",
       "ru": "В Финляндии говорят по-фински.",
       "uses": ["n16", "v6"],
-      "level": 11,
+      "level": 1,
+      "theme": "acquaintance",
       "canonical": "Suomessa puhutaan suomea.",
       "accepted": ["Suomessa puhutaan suomea."],
       "wrong": [
@@ -5979,7 +6394,8 @@
       "id": "s417",
       "ru": "В Финляндии пьют много кофе.",
       "uses": ["n16", "v4", "f44", "n8"],
-      "level": 11,
+      "level": 7,
+      "theme": "directions",
       "canonical": "Suomessa juodaan paljon kahvia.",
       "accepted": ["Suomessa juodaan paljon kahvia."],
       "wrong": [
@@ -5992,7 +6408,8 @@
       "id": "s418",
       "ru": "Можешь повторить?",
       "uses": ["v18", "v99"],
-      "level": 10,
+      "level": 14,
+      "theme": "grammar",
       "canonical": "Voitko toistaa?",
       "accepted": ["Voitko toistaa?", "Voitko sinä toistaa?"],
       "wrong": [
@@ -6005,7 +6422,8 @@
       "id": "s419",
       "ru": "Можешь объяснить?",
       "uses": ["v18", "v100"],
-      "level": 10,
+      "level": 14,
+      "theme": "grammar",
       "canonical": "Voitko selittää?",
       "accepted": ["Voitko selittää?", "Voitko sinä selittää?"],
       "wrong": [
@@ -6018,7 +6436,8 @@
       "id": "s420",
       "ru": "Что это значит?",
       "uses": ["p7", "p9", "v101"],
-      "level": 10,
+      "level": 14,
+      "theme": "grammar",
       "canonical": "Mitä tämä tarkoittaa?",
       "accepted": ["Mitä tämä tarkoittaa?"],
       "wrong": [
@@ -6031,7 +6450,8 @@
       "id": "s421",
       "ru": "Что случилось?",
       "uses": ["p7", "v102"],
-      "level": 11,
+      "level": 16,
+      "theme": "feelings",
       "canonical": "Mitä tapahtui?",
       "accepted": ["Mitä tapahtui?"],
       "wrong": [
@@ -6045,7 +6465,8 @@
       "id": "s422",
       "ru": "Говори медленнее, пожалуйста.",
       "uses": ["v6", "v1", "a1"],
-      "level": 10,
+      "level": 1,
+      "theme": "acquaintance",
       "canonical": "Puhu hitaammin, ole hyvä.",
       "accepted": ["Puhu hitaammin, ole hyvä."],
       "wrong": [
@@ -6058,7 +6479,8 @@
       "id": "s423",
       "ru": "Вчера шёл дождь.",
       "uses": ["f7", "v50"],
-      "level": 10,
+      "level": 12,
+      "theme": "travel",
       "canonical": "Eilen satoi.",
       "accepted": ["Eilen satoi.", "Satoi eilen."],
       "wrong": [
@@ -6071,7 +6493,8 @@
       "id": "s424",
       "ru": "Я открыл дверь.",
       "uses": ["v51", "n47"],
-      "level": 10,
+      "level": 14,
+      "theme": "home",
       "canonical": "Avasin oven.",
       "accepted": ["Avasin oven.", "Minä avasin oven."],
       "wrong": [
@@ -6085,7 +6508,8 @@
       "id": "s425",
       "ru": "Она закрыла окно.",
       "uses": ["p3", "v52", "n48"],
-      "level": 10,
+      "level": 14,
+      "theme": "home",
       "canonical": "Hän sulki ikkunan.",
       "accepted": ["Hän sulki ikkunan."],
       "wrong": [
@@ -6099,7 +6523,8 @@
       "id": "s426",
       "ru": "Я кашлял всю ночь.",
       "uses": ["v107", "n43"],
-      "level": 12,
+      "level": 17,
+      "theme": "health",
       "canonical": "Yskin koko yön.",
       "accepted": ["Yskin koko yön."],
       "wrong": [
@@ -6112,7 +6537,8 @@
       "id": "s427",
       "ru": "Что произошло вчера?",
       "uses": ["p7", "f7", "v102"],
-      "level": 11,
+      "level": 16,
+      "theme": "feelings",
       "canonical": "Mitä eilen tapahtui?",
       "accepted": ["Mitä eilen tapahtui?", "Mitä tapahtui eilen?"],
       "wrong": [
@@ -6125,7 +6551,8 @@
       "id": "s428",
       "ru": "Я хотел бы примерить куртку.",
       "uses": ["v5", "v106", "n114"],
-      "level": 11,
+      "level": 15,
+      "theme": "clothes",
       "canonical": "Haluaisin kokeilla takkia.",
       "accepted": ["Haluaisin kokeilla takkia."],
       "wrong": [
@@ -6139,7 +6566,8 @@
       "id": "s429",
       "ru": "Не мог бы ты повторить?",
       "uses": ["v18", "v99"],
-      "level": 10,
+      "level": 14,
+      "theme": "grammar",
       "canonical": "Voisitko toistaa?",
       "accepted": ["Voisitko toistaa?", "Voisitko sinä toistaa?"],
       "wrong": [
@@ -6152,7 +6580,8 @@
       "id": "s430",
       "ru": "Давай послушаем музыку.",
       "uses": ["v26", "n268"],
-      "level": 11,
+      "level": 9,
+      "theme": "routine",
       "canonical": "Kuunnellaan musiikkia.",
       "accepted": ["Kuunnellaan musiikkia."],
       "wrong": [
@@ -6165,7 +6594,8 @@
       "id": "s431",
       "ru": "Я использовал карту.",
       "uses": ["v105", "n117"],
-      "level": 11,
+      "level": 16,
+      "theme": "sports",
       "canonical": "Käytin korttia.",
       "accepted": ["Käytin korttia.", "Minä käytin korttia."],
       "wrong": [
@@ -6179,7 +6609,8 @@
       "id": "s432",
       "ru": "Я объяснил проблему.",
       "uses": ["v100", "n85"],
-      "level": 10,
+      "level": 14,
+      "theme": "grammar",
       "canonical": "Selitin ongelman.",
       "accepted": ["Selitin ongelman.", "Minä selitin ongelman."],
       "wrong": [
@@ -6193,7 +6624,8 @@
       "id": "s433",
       "ru": "Если бы у меня было время, я бы читал.",
       "uses": ["f30", "p1", "v1", "n183", "v9"],
-      "level": 10,
+      "level": 8,
+      "theme": "grammar",
       "canonical": "Jos minulla olisi aikaa, lukisin.",
       "accepted": ["Jos minulla olisi aikaa, lukisin."],
       "wrong": [
@@ -6207,7 +6639,8 @@
       "id": "s434",
       "ru": "Что ты делал вчера?",
       "uses": ["p7", "v10", "f7"],
-      "level": 10,
+      "level": 2,
+      "theme": "people",
       "canonical": "Mitä teit eilen?",
       "accepted": ["Mitä teit eilen?", "Mitä sinä teit eilen?"],
       "wrong": [
@@ -6222,7 +6655,8 @@
       "id": "s435",
       "ru": "Я люблю футбол, потому что это весело.",
       "uses": ["v96", "n271", "f28", "p10", "v1", "a51"],
-      "level": 11,
+      "level": 16,
+      "theme": "sports",
       "canonical": "Tykkään jalkapallosta, koska se on hauskaa.",
       "accepted": ["Tykkään jalkapallosta, koska se on hauskaa."],
       "wrong": [
@@ -6236,7 +6670,8 @@
       "id": "s436",
       "ru": "Моё хобби — фотография.",
       "uses": ["n276", "v1", "n275"],
-      "level": 11,
+      "level": 16,
+      "theme": "hobbies",
       "canonical": "Harrastukseni on valokuvaus.",
       "accepted": ["Harrastukseni on valokuvaus."],
       "wrong": [
@@ -6250,7 +6685,8 @@
       "id": "s437",
       "ru": "Я играю в теннис каждый день.",
       "uses": ["v32", "n272", "n38"],
-      "level": 11,
+      "level": 16,
+      "theme": "sports",
       "canonical": "Pelaan tennistä joka päivä.",
       "accepted": ["Pelaan tennistä joka päivä."],
       "wrong": [
@@ -6264,7 +6700,8 @@
       "id": "s438",
       "ru": "Я боюсь собак.",
       "uses": ["v109", "n154"],
-      "level": 11,
+      "level": 16,
+      "theme": "feelings",
       "canonical": "Pelkään koiria.",
       "accepted": ["Pelkään koiria.", "Minä pelkään koiria."],
       "wrong": [
@@ -6278,7 +6715,8 @@
       "id": "s439",
       "ru": "Я ненавижу зиму.",
       "uses": ["v110", "n132"],
-      "level": 12,
+      "level": 18,
+      "theme": "seasons",
       "canonical": "Vihaan talvea.",
       "accepted": ["Vihaan talvea.", "Minä vihaan talvea."],
       "wrong": [
@@ -6292,7 +6730,8 @@
       "id": "s440",
       "ru": "Я надеюсь, что ты придёшь.",
       "uses": ["v111", "f27", "v11"],
-      "level": 11,
+      "level": 16,
+      "theme": "feelings",
       "canonical": "Toivon, että tulet.",
       "accepted": ["Toivon, että tulet.", "Toivon, että sinä tulet."],
       "wrong": [
@@ -6305,7 +6744,8 @@
       "id": "s441",
       "ru": "Мне обидно.",
       "uses": ["p1", "v112"],
-      "level": 12,
+      "level": 18,
+      "theme": "feelings",
       "canonical": "Minua harmittaa.",
       "accepted": ["Minua harmittaa."],
       "wrong": [
@@ -6319,7 +6759,8 @@
       "id": "s442",
       "ru": "Я увлёкся хоккеем.",
       "uses": ["v113", "n273"],
-      "level": 12,
+      "level": 18,
+      "theme": "feelings",
       "canonical": "Innostuin jääkiekosta.",
       "accepted": ["Innostuin jääkiekosta.", "Minä innostuin jääkiekosta."],
       "wrong": [
@@ -6333,7 +6774,8 @@
       "id": "s443",
       "ru": "Я рисую картинку.",
       "uses": ["v114", "n160"],
-      "level": 11,
+      "level": 16,
+      "theme": "hobbies",
       "canonical": "Piirrän kuvan.",
       "accepted": ["Piirrän kuvan.", "Minä piirrän kuvan."],
       "wrong": [
@@ -6347,7 +6789,8 @@
       "id": "s444",
       "ru": "Вчера я рисовал красками.",
       "uses": ["f7", "v115"],
-      "level": 11,
+      "level": 16,
+      "theme": "hobbies",
       "canonical": "Eilen maalasin.",
       "accepted": ["Eilen maalasin.", "Maalasin eilen."],
       "wrong": [
@@ -6360,7 +6803,8 @@
       "id": "s445",
       "ru": "По-моему, чтение приятно.",
       "uses": ["p1", "n270", "n274", "v1", "a21"],
-      "level": 11,
+      "level": 16,
+      "theme": "feelings",
       "canonical": "Minun mielestäni lukeminen on mukavaa.",
       "accepted": ["Minun mielestäni lukeminen on mukavaa.", "Mielestäni lukeminen on mukavaa."],
       "wrong": [
@@ -6373,7 +6817,8 @@
       "id": "s446",
       "ru": "Я играю в команде.",
       "uses": ["v32", "n277"],
-      "level": 11,
+      "level": 16,
+      "theme": "sports",
       "canonical": "Pelaan joukkueessa.",
       "accepted": ["Pelaan joukkueessa.", "Minä pelaan joukkueessa."],
       "wrong": [
@@ -6387,7 +6832,8 @@
       "id": "s447",
       "ru": "Какое у тебя мнение?",
       "uses": ["p7", "v1", "p2", "n269"],
-      "level": 11,
+      "level": 16,
+      "theme": "feelings",
       "canonical": "Mikä on sinun mielipiteesi?",
       "accepted": ["Mikä on sinun mielipiteesi?", "Mikä on mielipiteesi?"],
       "wrong": [
@@ -6400,7 +6846,8 @@
       "id": "s448",
       "ru": "Я горжусь тобой.",
       "uses": ["v1", "a77", "p2"],
-      "level": 12,
+      "level": 18,
+      "theme": "feelings",
       "canonical": "Olen ylpeä sinusta.",
       "accepted": ["Olen ylpeä sinusta.", "Minä olen ylpeä sinusta."],
       "wrong": [
@@ -6413,7 +6860,8 @@
       "id": "s449",
       "ru": "Матч был захватывающий.",
       "uses": ["n278", "v1", "a75"],
-      "level": 11,
+      "level": 16,
+      "theme": "sports",
       "canonical": "Peli oli jännittävä.",
       "accepted": ["Peli oli jännittävä."],
       "wrong": [
@@ -6427,7 +6875,8 @@
       "id": "s450",
       "ru": "Аренда дорогая.",
       "uses": ["n279", "v1", "a11"],
-      "level": 10,
+      "level": 14,
+      "theme": "home",
       "canonical": "Vuokra on kallis.",
       "accepted": ["Vuokra on kallis."],
       "wrong": [
@@ -6440,7 +6889,8 @@
       "id": "s451",
       "ru": "Я живу в многоквартирном доме.",
       "uses": ["v7", "n280"],
-      "level": 10,
+      "level": 14,
+      "theme": "home",
       "canonical": "Asun kerrostalossa.",
       "accepted": ["Asun kerrostalossa.", "Minä asun kerrostalossa."],
       "wrong": [
@@ -6453,7 +6903,8 @@
       "id": "s452",
       "ru": "У нас ремонт.",
       "uses": ["p4", "v1", "n283"],
-      "level": 10,
+      "level": 14,
+      "theme": "home",
       "canonical": "Meillä on remontti.",
       "accepted": ["Meillä on remontti."],
       "wrong": [
@@ -6466,7 +6917,8 @@
       "id": "s453",
       "ru": "Здесь много движения.",
       "uses": ["f42", "v1", "f44", "n284"],
-      "level": 11,
+      "level": 15,
+      "theme": "city",
       "canonical": "Täällä on paljon liikennettä.",
       "accepted": ["Täällä on paljon liikennettä."],
       "wrong": [
@@ -6479,7 +6931,8 @@
       "id": "s454",
       "ru": "Я жду на остановке.",
       "uses": ["v29", "n285"],
-      "level": 11,
+      "level": 15,
+      "theme": "city",
       "canonical": "Odotan pysäkillä.",
       "accepted": ["Odotan pysäkillä.", "Minä odotan pysäkillä."],
       "wrong": [
@@ -6492,7 +6945,8 @@
       "id": "s455",
       "ru": "Я еду на трамвае.",
       "uses": ["v2", "n286"],
-      "level": 11,
+      "level": 15,
+      "theme": "city",
       "canonical": "Menen raitiovaunulla.",
       "accepted": ["Menen raitiovaunulla.", "Minä menen raitiovaunulla."],
       "wrong": [
@@ -6505,7 +6959,8 @@
       "id": "s456",
       "ru": "Я был в пробке.",
       "uses": ["v1", "n289"],
-      "level": 11,
+      "level": 15,
+      "theme": "city",
       "canonical": "Olin ruuhkassa.",
       "accepted": ["Olin ruuhkassa.", "Minä olin ruuhkassa."],
       "wrong": [
@@ -6518,7 +6973,8 @@
       "id": "s457",
       "ru": "Какой лучший маршрут?",
       "uses": ["p7", "v1", "n288"],
-      "level": 11,
+      "level": 15,
+      "theme": "city",
       "canonical": "Mikä on paras reitti?",
       "accepted": ["Mikä on paras reitti?"],
       "wrong": [
@@ -6531,7 +6987,8 @@
       "id": "s458",
       "ru": "Можно поменять размер?",
       "uses": ["v18", "v116", "n290"],
-      "level": 11,
+      "level": 15,
+      "theme": "shopping",
       "canonical": "Voinko vaihtaa koon?",
       "accepted": ["Voinko vaihtaa koon?"],
       "wrong": [
@@ -6545,7 +7002,8 @@
       "id": "s459",
       "ru": "Есть скидка?",
       "uses": ["v1", "n291"],
-      "level": 11,
+      "level": 15,
+      "theme": "shopping",
       "canonical": "Onko alennusta?",
       "accepted": ["Onko alennusta?"],
       "wrong": [
@@ -6558,7 +7016,8 @@
       "id": "s460",
       "ru": "Я завтракаю дома.",
       "uses": ["v3", "n292", "n2"],
-      "level": 10,
+      "level": 14,
+      "theme": "food",
       "canonical": "Syön aamiaista kotona.",
       "accepted": ["Syön aamiaista kotona.", "Minä syön aamiaista kotona."],
       "wrong": [
@@ -6572,7 +7031,8 @@
       "id": "s461",
       "ru": "Мы ужинаем вместе.",
       "uses": ["v3", "n294", "f89"],
-      "level": 10,
+      "level": 14,
+      "theme": "food",
       "canonical": "Syömme päivällistä yhdessä.",
       "accepted": ["Syömme päivällistä yhdessä."],
       "wrong": [
@@ -6585,7 +7045,8 @@
       "id": "s462",
       "ru": "Я ем морковь.",
       "uses": ["v3", "n296"],
-      "level": 10,
+      "level": 14,
+      "theme": "food",
       "canonical": "Syön porkkanaa.",
       "accepted": ["Syön porkkanaa.", "Minä syön porkkanaa."],
       "wrong": [
@@ -6598,7 +7059,8 @@
       "id": "s463",
       "ru": "Я покупаю помидоры и клубнику.",
       "uses": ["v8", "n297", "f1", "n300"],
-      "level": 10,
+      "level": 14,
+      "theme": "food",
       "canonical": "Ostan tomaatteja ja mansikoita.",
       "accepted": ["Ostan tomaatteja ja mansikoita."],
       "wrong": [
@@ -6611,7 +7073,8 @@
       "id": "s464",
       "ru": "Спорт полезен.",
       "uses": ["n301", "v1", "a79"],
-      "level": 12,
+      "level": 17,
+      "theme": "health",
       "canonical": "Liikunta on terveellistä.",
       "accepted": ["Liikunta on terveellistä."],
       "wrong": [
@@ -6625,7 +7088,8 @@
       "id": "s465",
       "ru": "Я бывал в Финляндии.",
       "uses": ["v1", "v63", "n16"],
-      "level": 13,
+      "level": 17,
+      "theme": "health",
       "canonical": "Olen käynyt Suomessa.",
       "accepted": ["Olen käynyt Suomessa.", "Minä olen käynyt Suomessa."],
       "wrong": [
@@ -6639,7 +7103,8 @@
       "id": "s466",
       "ru": "Ты видел этот фильм?",
       "uses": ["v1", "v12", "p9", "n256"],
-      "level": 13,
+      "level": 7,
+      "theme": "places",
       "canonical": "Oletko nähnyt tämän elokuvan?",
       "accepted": ["Oletko nähnyt tämän elokuvan?", "Oletko sinä nähnyt tämän elokuvan?"],
       "wrong": [
@@ -6653,7 +7118,8 @@
       "id": "s467",
       "ru": "Я не ел завтрак.",
       "uses": ["f6", "v1", "v3", "n292"],
-      "level": 13,
+      "level": 14,
+      "theme": "food",
       "canonical": "En ole syönyt aamiaista.",
       "accepted": ["En ole syönyt aamiaista.", "Minä en ole syönyt aamiaista."],
       "wrong": [
@@ -6667,7 +7133,8 @@
       "id": "s468",
       "ru": "Мы живём здесь два года.",
       "uses": ["v1", "v7", "f42", "f16", "n217"],
-      "level": 13,
+      "level": 7,
+      "theme": "directions",
       "canonical": "Olemme asuneet täällä kaksi vuotta.",
       "accepted": ["Olemme asuneet täällä kaksi vuotta.", "Me olemme asuneet täällä kaksi vuotta."],
       "wrong": [
@@ -6681,7 +7148,8 @@
       "id": "s469",
       "ru": "Ты был в России?",
       "uses": ["v1", "n149"],
-      "level": 13,
+      "level": 5,
+      "theme": "people",
       "canonical": "Oletko ollut Venäjällä?",
       "accepted": ["Oletko ollut Venäjällä?", "Oletko sinä ollut Venäjällä?"],
       "wrong": [
@@ -6695,7 +7163,8 @@
       "id": "s470",
       "ru": "Я никогда не был в Швеции.",
       "uses": ["f6", "v1", "n150"],
-      "level": 13,
+      "level": 5,
+      "theme": "people",
       "canonical": "En ole koskaan ollut Ruotsissa.",
       "accepted": ["En ole koskaan ollut Ruotsissa."],
       "wrong": [
@@ -6708,7 +7177,8 @@
       "id": "s471",
       "ru": "Я прожил в Финляндии два года.",
       "uses": ["v7", "n16", "f16", "n217"],
-      "level": 13,
+      "level": 5,
+      "theme": "calendar",
       "canonical": "Asuin Suomessa kaksi vuotta.",
       "accepted": ["Asuin Suomessa kaksi vuotta.", "Minä asuin Suomessa kaksi vuotta."],
       "wrong": [
@@ -6721,7 +7191,8 @@
       "id": "s472",
       "ru": "Я родился в 1990 году.",
       "uses": ["v117", "n217"],
-      "level": 13,
+      "level": 18,
+      "theme": "past",
       "canonical": "Synnyin vuonna 1990.",
       "accepted": ["Synnyin vuonna 1990.", "Minä synnyin vuonna 1990."],
       "wrong": [
@@ -6734,7 +7205,8 @@
       "id": "s473",
       "ru": "Я вырос в России.",
       "uses": ["v118", "n149"],
-      "level": 13,
+      "level": 18,
+      "theme": "past",
       "canonical": "Kasvoin Venäjällä.",
       "accepted": ["Kasvoin Venäjällä.", "Minä kasvoin Venäjällä."],
       "wrong": [
@@ -6748,7 +7220,8 @@
       "id": "s474",
       "ru": "Я переехал в Финляндию.",
       "uses": ["v119", "n16"],
-      "level": 13,
+      "level": 18,
+      "theme": "past",
       "canonical": "Muutin Suomeen.",
       "accepted": ["Muutin Suomeen.", "Minä muutin Suomeen."],
       "wrong": [
@@ -6762,7 +7235,8 @@
       "id": "s475",
       "ru": "Моё детство было счастливым.",
       "uses": ["n304", "v1", "a27"],
-      "level": 13,
+      "level": 18,
+      "theme": "past",
       "canonical": "Lapsuuteni oli onnellinen.",
       "accepted": ["Lapsuuteni oli onnellinen."],
       "wrong": [
@@ -6775,7 +7249,8 @@
       "id": "s476",
       "ru": "У меня хорошие воспоминания.",
       "uses": ["p1", "v1", "a1", "n308"],
-      "level": 13,
+      "level": 18,
+      "theme": "past",
       "canonical": "Minulla on hyviä muistoja.",
       "accepted": ["Minulla on hyviä muistoja."],
       "wrong": [
@@ -6788,7 +7263,8 @@
       "id": "s477",
       "ru": "По-моему, хоккей весёлый.",
       "uses": ["p1", "n273", "v1", "a51"],
-      "level": 13,
+      "level": 16,
+      "theme": "sports",
       "canonical": "Minusta jääkiekko on hauskaa.",
       "accepted": ["Minusta jääkiekko on hauskaa."],
       "wrong": [
@@ -6802,7 +7278,8 @@
       "id": "s478",
       "ru": "По моему мнению, фильм был скучным.",
       "uses": ["n270", "n256", "v1", "a32"],
-      "level": 13,
+      "level": 16,
+      "theme": "feelings",
       "canonical": "Mielestäni elokuva oli tylsä.",
       "accepted": ["Mielestäni elokuva oli tylsä.", "Minun mielestäni elokuva oli tylsä."],
       "wrong": [
@@ -6816,6 +7293,7 @@
       "ru": "Я думаю, что это важно.",
       "uses": ["v48", "f27", "p10", "v1", "a20"],
       "level": 13,
+      "theme": "grammar",
       "canonical": "Ajattelen, että se on tärkeää.",
       "accepted": ["Ajattelen, että se on tärkeää."],
       "wrong": [
@@ -6828,7 +7306,8 @@
       "id": "s480",
       "ru": "Я говорю и по-фински, и по-английски.",
       "uses": ["v6", "f104", "n16", "f27", "n148"],
-      "level": 13,
+      "level": 18,
+      "theme": "grammar",
       "canonical": "Puhun sekä suomea että englantia.",
       "accepted": ["Puhun sekä suomea että englantia."],
       "wrong": [
@@ -6841,7 +7320,8 @@
       "id": "s481",
       "ru": "Я выйду, хотя идёт дождь.",
       "uses": ["v2", "f105", "v50"],
-      "level": 13,
+      "level": 18,
+      "theme": "grammar",
       "canonical": "Menen ulos, vaikka sataa.",
       "accepted": ["Menen ulos, vaikka sataa."],
       "wrong": [
@@ -6854,7 +7334,8 @@
       "id": "s482",
       "ru": "Я устал, поэтому спал.",
       "uses": ["v1", "a15", "f106", "v23"],
-      "level": 13,
+      "level": 18,
+      "theme": "grammar",
       "canonical": "Olin väsynyt, siksi nukuin.",
       "accepted": ["Olin väsynyt, siksi nukuin."],
       "wrong": [
@@ -6867,7 +7348,8 @@
       "id": "s483",
       "ru": "Я устал. Всё же пошёл на работу.",
       "uses": ["v1", "a15", "v2", "f107", "n1"],
-      "level": 13,
+      "level": 18,
+      "theme": "grammar",
       "canonical": "Olin väsynyt. Menin kuitenkin töihin.",
       "accepted": ["Olin väsynyt. Menin kuitenkin töihin."],
       "wrong": [
@@ -6880,7 +7362,8 @@
       "id": "s484",
       "ru": "Я пью не кофе, а чай.",
       "uses": ["f6", "v4", "n8", "f109", "n32"],
-      "level": 13,
+      "level": 18,
+      "theme": "grammar",
       "canonical": "En juo kahvia, vaan teetä.",
       "accepted": ["En juo kahvia, vaan teetä."],
       "wrong": [
@@ -6893,7 +7376,8 @@
       "id": "s485",
       "ru": "Кроме того, я люблю чтение.",
       "uses": ["f108", "v96", "n274"],
-      "level": 13,
+      "level": 18,
+      "theme": "grammar",
       "canonical": "Lisäksi tykkään lukemisesta.",
       "accepted": ["Lisäksi tykkään lukemisesta."],
       "wrong": [
@@ -6906,7 +7390,8 @@
       "id": "s486",
       "ru": "Ты был в музее?",
       "uses": ["v1", "v63", "n251"],
-      "level": 13,
+      "level": 17,
+      "theme": "health",
       "canonical": "Oletko käynyt museossa?",
       "accepted": ["Oletko käynyt museossa?", "Oletko sinä käynyt museossa?"],
       "wrong": [
@@ -6919,7 +7404,8 @@
       "id": "s487",
       "ru": "Я ещё не сделал работу.",
       "uses": ["f6", "v1", "f91", "v10", "n1"],
-      "level": 13,
+      "level": 9,
+      "theme": "grammar",
       "canonical": "En ole vielä tehnyt työtä.",
       "accepted": ["En ole vielä tehnyt työtä."],
       "wrong": [
@@ -6933,7 +7419,8 @@
       "id": "s488",
       "ru": "Моё прошлое было трудным.",
       "uses": ["n309", "v1", "a9"],
-      "level": 13,
+      "level": 18,
+      "theme": "past",
       "canonical": "Menneisyyteni oli vaikeaa.",
       "accepted": ["Menneisyyteni oli vaikeaa."],
       "wrong": [
@@ -6947,7 +7434,8 @@
       "id": "s489",
       "ru": "Я рассказал историю моей жизни.",
       "uses": ["v47", "n306", "n310"],
-      "level": 13,
+      "level": 18,
+      "theme": "past",
       "canonical": "Kerroin elämäni tarinan.",
       "accepted": ["Kerroin elämäni tarinan."],
       "wrong": [
@@ -6961,7 +7449,8 @@
       "id": "s490",
       "ru": "Это хороший опыт.",
       "uses": ["p10", "v1", "a1", "n311"],
-      "level": 13,
+      "level": 18,
+      "theme": "past",
       "canonical": "Se on hyvä kokemus.",
       "accepted": ["Se on hyvä kokemus."],
       "wrong": [
@@ -6975,7 +7464,8 @@
       "id": "s491",
       "ru": "Если бы у меня были деньги, я бы купил квартиру.",
       "uses": ["f30", "p1", "v1", "n29", "v8", "n322"],
-      "level": 14,
+      "level": 19,
+      "theme": "chores",
       "canonical": "Jos minulla olisi rahaa, ostaisin asunnon.",
       "accepted": ["Jos minulla olisi rahaa, ostaisin asunnon."],
       "wrong": [
@@ -6989,7 +7479,8 @@
       "id": "s492",
       "ru": "Если бы я жил в центре, я бы ходил пешком на работу.",
       "uses": ["f30", "v7", "n112", "v39", "n1"],
-      "level": 14,
+      "level": 15,
+      "theme": "city",
       "canonical": "Jos asuisin keskustassa, kävelisin töihin.",
       "accepted": ["Jos asuisin keskustassa, kävelisin töihin."],
       "wrong": [
@@ -7003,7 +7494,8 @@
       "id": "s493",
       "ru": "Если бы я выиграл в лото, я бы переехал.",
       "uses": ["f30", "v124", "n321", "v119"],
-      "level": 14,
+      "level": 19,
+      "theme": "chores",
       "canonical": "Jos voittaisin lotossa, muuttaisin.",
       "accepted": ["Jos voittaisin lotossa, muuttaisin."],
       "wrong": [
@@ -7017,7 +7509,8 @@
       "id": "s494",
       "ru": "Я хотел бы новую квартиру.",
       "uses": ["v5", "a4", "n322"],
-      "level": 14,
+      "level": 19,
+      "theme": "chores",
       "canonical": "Haluaisin uuden asunnon.",
       "accepted": ["Haluaisin uuden asunnon.", "Minä haluaisin uuden asunnon."],
       "wrong": [
@@ -7031,7 +7524,8 @@
       "id": "s495",
       "ru": "Не мог бы ты починить кран?",
       "uses": ["v18", "v89", "n312"],
-      "level": 14,
+      "level": 19,
+      "theme": "chores",
       "canonical": "Voisitko korjata hanan?",
       "accepted": ["Voisitko korjata hanan?", "Voisitko sinä korjata hanan?"],
       "wrong": [
@@ -7045,7 +7539,8 @@
       "id": "s496",
       "ru": "Дом был построен в 1990.",
       "uses": ["n4", "v88", "n217"],
-      "level": 14,
+      "level": 13,
+      "theme": "grammar",
       "canonical": "Talo rakennettiin vuonna 1990.",
       "accepted": ["Talo rakennettiin vuonna 1990."],
       "wrong": [
@@ -7058,7 +7553,8 @@
       "id": "s497",
       "ru": "Еду приготовили вчера.",
       "uses": ["n14", "v10", "f7"],
-      "level": 14,
+      "level": 2,
+      "theme": "acquaintance",
       "canonical": "Ruoka tehtiin eilen.",
       "accepted": ["Ruoka tehtiin eilen."],
       "wrong": [
@@ -7071,7 +7567,8 @@
       "id": "s498",
       "ru": "Квартиру убрали утром.",
       "uses": ["n322", "v86", "n39"],
-      "level": 14,
+      "level": 19,
+      "theme": "chores",
       "canonical": "Asunto siivottiin aamulla.",
       "accepted": ["Asunto siivottiin aamulla."],
       "wrong": [
@@ -7084,7 +7581,8 @@
       "id": "s499",
       "ru": "В Финляндии много строят.",
       "uses": ["n16", "v88", "f44"],
-      "level": 14,
+      "level": 13,
+      "theme": "grammar",
       "canonical": "Suomessa rakennetaan paljon.",
       "accepted": ["Suomessa rakennetaan paljon."],
       "wrong": [
@@ -7097,7 +7595,8 @@
       "id": "s500",
       "ru": "Давай упакуем коробки.",
       "uses": ["v123", "n316"],
-      "level": 14,
+      "level": 19,
+      "theme": "chores",
       "canonical": "Pakataan muuttolaatikot.",
       "accepted": ["Pakataan muuttolaatikot."],
       "wrong": [
@@ -7110,7 +7609,8 @@
       "id": "s501",
       "ru": "Кран течёт.",
       "uses": ["n312", "v120"],
-      "level": 14,
+      "level": 19,
+      "theme": "chores",
       "canonical": "Hana vuotaa.",
       "accepted": ["Hana vuotaa."],
       "wrong": [
@@ -7123,7 +7623,8 @@
       "id": "s502",
       "ru": "Лампа не работает.",
       "uses": ["n94", "f6", "v122"],
-      "level": 14,
+      "level": 19,
+      "theme": "chores",
       "canonical": "Lamppu ei toimi.",
       "accepted": ["Lamppu ei toimi."],
       "wrong": [
@@ -7136,7 +7637,8 @@
       "id": "s503",
       "ru": "Лифт сломан.",
       "uses": ["n320", "v1", "a80"],
-      "level": 14,
+      "level": 19,
+      "theme": "chores",
       "canonical": "Hissi on rikki.",
       "accepted": ["Hissi on rikki."],
       "wrong": [
@@ -7149,7 +7651,8 @@
       "id": "s504",
       "ru": "Стиральная машина сломалась.",
       "uses": ["n263", "v121"],
-      "level": 14,
+      "level": 19,
+      "theme": "chores",
       "canonical": "Pesukone rikkoutui.",
       "accepted": ["Pesukone rikkoutui."],
       "wrong": [
@@ -7162,7 +7665,8 @@
       "id": "s505",
       "ru": "Отопление не работает.",
       "uses": ["n318", "f6", "v122"],
-      "level": 14,
+      "level": 19,
+      "theme": "chores",
       "canonical": "Lämmitys ei toimi.",
       "accepted": ["Lämmitys ei toimi."],
       "wrong": [
@@ -7175,7 +7679,8 @@
       "id": "s506",
       "ru": "В лифте неисправность.",
       "uses": ["n320", "v1", "n323"],
-      "level": 14,
+      "level": 19,
+      "theme": "chores",
       "canonical": "Hississä on vika.",
       "accepted": ["Hississä on vika."],
       "wrong": [
@@ -7189,7 +7694,8 @@
       "id": "s507",
       "ru": "Мы переезжаем завтра.",
       "uses": ["v119", "f5"],
-      "level": 14,
+      "level": 18,
+      "theme": "past",
       "canonical": "Muutamme huomenna.",
       "accepted": ["Muutamme huomenna.", "Me muutamme huomenna."],
       "wrong": [
@@ -7202,7 +7708,8 @@
       "id": "s508",
       "ru": "Я упаковал коробки.",
       "uses": ["v123", "n316"],
-      "level": 14,
+      "level": 19,
+      "theme": "chores",
       "canonical": "Pakkasin muuttolaatikot.",
       "accepted": ["Pakkasin muuttolaatikot.", "Minä pakkasin muuttolaatikot."],
       "wrong": [
@@ -7216,7 +7723,8 @@
       "id": "s509",
       "ru": "Я звоню арендодателю.",
       "uses": ["v45", "n315"],
-      "level": 14,
+      "level": 19,
+      "theme": "chores",
       "canonical": "Soitan vuokranantajalle.",
       "accepted": ["Soitan vuokranantajalle.", "Minä soitan vuokranantajalle."],
       "wrong": [
@@ -7230,7 +7738,8 @@
       "id": "s510",
       "ru": "Я плачу счёт.",
       "uses": ["v16", "n324"],
-      "level": 14,
+      "level": 19,
+      "theme": "chores",
       "canonical": "Maksan laskun.",
       "accepted": ["Maksan laskun.", "Minä maksan laskun."],
       "wrong": [
@@ -7244,7 +7753,8 @@
       "id": "s511",
       "ru": "Я живу на третьем этаже.",
       "uses": ["v7", "f68", "n319"],
-      "level": 14,
+      "level": 19,
+      "theme": "chores",
       "canonical": "Asun kolmannessa kerroksessa.",
       "accepted": ["Asun kolmannessa kerroksessa.", "Minä asun kolmannessa kerroksessa."],
       "wrong": [
@@ -7258,7 +7768,8 @@
       "id": "s512",
       "ru": "Квартира сырая.",
       "uses": ["n322", "v1", "a81"],
-      "level": 14,
+      "level": 19,
+      "theme": "chores",
       "canonical": "Asunto on kostea.",
       "accepted": ["Asunto on kostea."],
       "wrong": [
@@ -7271,7 +7782,8 @@
       "id": "s513",
       "ru": "Я бы помог тебе, если бы мог.",
       "uses": ["v28", "p2", "f30", "v18"],
-      "level": 14,
+      "level": 9,
+      "theme": "routine",
       "canonical": "Auttaisin sinua, jos voisin.",
       "accepted": ["Auttaisin sinua, jos voisin.", "Minä auttaisin sinua, jos voisin."],
       "wrong": [
@@ -7285,7 +7797,8 @@
       "id": "s514",
       "ru": "Квартиру покрасили.",
       "uses": ["n322", "v115"],
-      "level": 14,
+      "level": 19,
+      "theme": "chores",
       "canonical": "Asunto maalattiin.",
       "accepted": ["Asunto maalattiin."],
       "wrong": [
@@ -7299,7 +7812,8 @@
       "id": "s515",
       "ru": "Пожарь рыбу.",
       "uses": ["v125", "n35"],
-      "level": 15,
+      "level": 19,
+      "theme": "food",
       "canonical": "Paista kala.",
       "accepted": ["Paista kala.", "Paista kalaa."],
       "wrong": [
@@ -7312,7 +7826,8 @@
       "id": "s516",
       "ru": "Свари воду.",
       "uses": ["v126", "n11"],
-      "level": 15,
+      "level": 19,
+      "theme": "food",
       "canonical": "Keitä vesi.",
       "accepted": ["Keitä vesi.", "Keitä vettä."],
       "wrong": [
@@ -7325,7 +7840,8 @@
       "id": "s517",
       "ru": "Смешай ингредиенты.",
       "uses": ["v127", "n325"],
-      "level": 15,
+      "level": 19,
+      "theme": "food",
       "canonical": "Sekoita ainesosat.",
       "accepted": ["Sekoita ainesosat."],
       "wrong": [
@@ -7339,7 +7855,8 @@
       "id": "s518",
       "ru": "Добавь соли.",
       "uses": ["v129", "n171"],
-      "level": 15,
+      "level": 19,
+      "theme": "food",
       "canonical": "Lisää suolaa.",
       "accepted": ["Lisää suolaa."],
       "wrong": [
@@ -7353,7 +7870,8 @@
       "id": "s519",
       "ru": "Я режу лук.",
       "uses": ["v128", "n298"],
-      "level": 15,
+      "level": 19,
+      "theme": "food",
       "canonical": "Leikkaan sipulia.",
       "accepted": ["Leikkaan sipulia.", "Minä leikkaan sipulia."],
       "wrong": [
@@ -7367,7 +7885,8 @@
       "id": "s520",
       "ru": "Я пробую суп.",
       "uses": ["v130", "n206"],
-      "level": 15,
+      "level": 19,
+      "theme": "food",
       "canonical": "Maistan keittoa.",
       "accepted": ["Maistan keittoa.", "Minä maistan keittoa."],
       "wrong": [
@@ -7381,6 +7900,7 @@
       "ru": "Я плачу на кассе.",
       "uses": ["v16", "n118"],
       "level": 15,
+      "theme": "shopping",
       "canonical": "Maksan kassalla.",
       "accepted": ["Maksan kassalla.", "Minä maksan kassalla."],
       "wrong": [
@@ -7393,7 +7913,8 @@
       "id": "s522",
       "ru": "Я взвешиваю яблоки.",
       "uses": ["v131", "n164"],
-      "level": 15,
+      "level": 19,
+      "theme": "food",
       "canonical": "Punnitsen omenat.",
       "accepted": ["Punnitsen omenat.", "Minä punnitsen omenat."],
       "wrong": [
@@ -7407,7 +7928,8 @@
       "id": "s523",
       "ru": "Я составляю список покупок.",
       "uses": ["v10", "n328"],
-      "level": 15,
+      "level": 19,
+      "theme": "food",
       "canonical": "Teen ostoslistan.",
       "accepted": ["Teen ostoslistan.", "Minä teen ostoslistan."],
       "wrong": [
@@ -7420,7 +7942,8 @@
       "id": "s524",
       "ru": "Очередь на кассе длинная.",
       "uses": ["n329", "v1", "a17"],
-      "level": 15,
+      "level": 19,
+      "theme": "food",
       "canonical": "Kassajono on pitkä.",
       "accepted": ["Kassajono on pitkä."],
       "wrong": [
@@ -7433,7 +7956,8 @@
       "id": "s525",
       "ru": "У меня симптомы.",
       "uses": ["p1", "v1", "n331"],
-      "level": 15,
+      "level": 19,
+      "theme": "health",
       "canonical": "Minulla on oireita.",
       "accepted": ["Minulla on oireita."],
       "wrong": [
@@ -7446,7 +7970,8 @@
       "id": "s526",
       "ru": "Я записываюсь к стоматологу.",
       "uses": ["v71", "n183", "n330"],
-      "level": 15,
+      "level": 19,
+      "theme": "health",
       "canonical": "Varaan ajan hammaslääkärille.",
       "accepted": ["Varaan ajan hammaslääkärille.", "Minä varaan ajan hammaslääkärille."],
       "wrong": [
@@ -7460,7 +7985,8 @@
       "id": "s527",
       "ru": "Мне нужна прививка.",
       "uses": ["v56", "n332"],
-      "level": 15,
+      "level": 19,
+      "theme": "health",
       "canonical": "Tarvitsen rokotuksen.",
       "accepted": ["Tarvitsen rokotuksen.", "Tarvitsen rokotusta.", "Minä tarvitsen rokotuksen."],
       "wrong": [
@@ -7473,7 +7999,8 @@
       "id": "s528",
       "ru": "Приём врача в три.",
       "uses": ["n60", "n333", "v1", "f17"],
-      "level": 15,
+      "level": 19,
+      "theme": "health",
       "canonical": "Lääkärin vastaanotto on kolmelta.",
       "accepted": ["Lääkärin vastaanotto on kolmelta."],
       "wrong": [
@@ -7486,7 +8013,8 @@
       "id": "s529",
       "ru": "Плавание полезно.",
       "uses": ["n337", "v1", "a79"],
-      "level": 15,
+      "level": 19,
+      "theme": "sports",
       "canonical": "Uiminen on terveellistä.",
       "accepted": ["Uiminen on terveellistä."],
       "wrong": [
@@ -7499,7 +8027,8 @@
       "id": "s530",
       "ru": "Мне нравится готовить.",
       "uses": ["v21", "n338"],
-      "level": 15,
+      "level": 19,
+      "theme": "food",
       "canonical": "Pidän kokkaamisesta.",
       "accepted": ["Pidän kokkaamisesta.", "Minä pidän kokkaamisesta."],
       "wrong": [
@@ -7512,7 +8041,8 @@
       "id": "s531",
       "ru": "Бег трудный.",
       "uses": ["n339", "v1", "a9"],
-      "level": 15,
+      "level": 19,
+      "theme": "sports",
       "canonical": "Juokseminen on vaikeaa.",
       "accepted": ["Juokseminen on vaikeaa."],
       "wrong": [
@@ -7525,7 +8055,8 @@
       "id": "s532",
       "ru": "По-моему, здоровый рацион важен.",
       "uses": ["p1", "a79", "n336", "v1", "a20"],
-      "level": 15,
+      "level": 19,
+      "theme": "sports",
       "canonical": "Minusta terveellinen ruokavalio on tärkeää.",
       "accepted": ["Minusta terveellinen ruokavalio on tärkeää."],
       "wrong": [
@@ -7538,7 +8069,8 @@
       "id": "s533",
       "ru": "Я хожу плавать каждую неделю.",
       "uses": ["v63", "v42", "n41"],
-      "level": 15,
+      "level": 17,
+      "theme": "health",
       "canonical": "Käyn uimassa joka viikko.",
       "accepted": ["Käyn uimassa joka viikko.", "Minä käyn uimassa joka viikko."],
       "wrong": [
@@ -7552,7 +8084,8 @@
       "id": "s534",
       "ru": "Я иду спать.",
       "uses": ["v2", "v23"],
-      "level": 15,
+      "level": 9,
+      "theme": "routine",
       "canonical": "Menen nukkumaan.",
       "accepted": ["Menen nukkumaan.", "Minä menen nukkumaan."],
       "wrong": [
@@ -7566,7 +8099,8 @@
       "id": "s535",
       "ru": "Я хожу в спортзал тренироваться.",
       "uses": ["v63", "n334", "v132"],
-      "level": 15,
+      "level": 19,
+      "theme": "sports",
       "canonical": "Käyn kuntosalilla treenaamassa.",
       "accepted": ["Käyn kuntosalilla treenaamassa.", "Minä käyn kuntosalilla treenaamassa."],
       "wrong": [
@@ -7580,7 +8114,8 @@
       "id": "s536",
       "ru": "Я хожу на пробежку.",
       "uses": ["v63", "n335"],
-      "level": 15,
+      "level": 19,
+      "theme": "sports",
       "canonical": "Käyn lenkillä.",
       "accepted": ["Käyn lenkillä.", "Minä käyn lenkillä."],
       "wrong": [
@@ -7593,7 +8128,8 @@
       "id": "s537",
       "ru": "Свари картошку и добавь соли.",
       "uses": ["v126", "n165", "f1", "v129", "n171"],
-      "level": 15,
+      "level": 19,
+      "theme": "food",
       "canonical": "Keitä peruna ja lisää suolaa.",
       "accepted": ["Keitä peruna ja lisää suolaa."],
       "wrong": [
@@ -7606,7 +8142,8 @@
       "id": "s538",
       "ru": "Прочитай рецепт, прежде чем готовить.",
       "uses": ["v9", "n295", "v133"],
-      "level": 15,
+      "level": 19,
+      "theme": "food",
       "canonical": "Lue resepti ennen kuin kokkaat.",
       "accepted": ["Lue resepti ennen kuin kokkaat."],
       "wrong": [
@@ -7619,7 +8156,8 @@
       "id": "s539",
       "ru": "Я ем не мясо, а рыбу.",
       "uses": ["f6", "v3", "n166", "f109", "n35"],
-      "level": 15,
+      "level": 18,
+      "theme": "grammar",
       "canonical": "En syö lihaa vaan kalaa.",
       "accepted": ["En syö lihaa vaan kalaa."],
       "wrong": [
@@ -7632,7 +8170,8 @@
       "id": "s540",
       "ru": "Мне нравится и плавание, и бег.",
       "uses": ["v21", "f104", "n337", "f27", "n339"],
-      "level": 15,
+      "level": 19,
+      "theme": "sports",
       "canonical": "Pidän sekä uimisesta että juoksemisesta.",
       "accepted": ["Pidän sekä uimisesta että juoksemisesta."],
       "wrong": [

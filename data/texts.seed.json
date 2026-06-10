@@ -14,6 +14,7 @@
       "title": "Tutustuminen",
       "titleRu": "Знакомство",
       "level": 1,
+      "theme": "greetings",
       "type": "dialog",
       "lines": [
         { "speaker": "Antti", "fi": "Hei! Mitä kuuluu?", "ru": "Привет! Как дела?", "glosses": { "hei": "привет", "mitä": "что", "kuuluu": "слышно (как дела)" } },
@@ -58,6 +59,7 @@
       "title": "Olen opiskelija",
       "titleRu": "Я студент",
       "level": 1,
+      "theme": "acquaintance",
       "type": "text",
       "lines": [
         { "fi": "Hei! Minä olen Antti.", "ru": "Привет! Я Антти.", "glosses": { "hei": "привет", "minä": "я", "olen": "я есть" } },
@@ -100,6 +102,7 @@
       "title": "Minun perheeni",
       "titleRu": "Моя семья",
       "level": 2,
+      "theme": "family",
       "type": "text",
       "lines": [
         { "fi": "Minä olen Mikko.", "ru": "Я Микко.", "glosses": { "minä": "я", "olen": "я есть" } },
@@ -143,6 +146,7 @@
       "title": "Missä sinä asut?",
       "titleRu": "Где ты живёшь?",
       "level": 3,
+      "theme": "grammar",
       "type": "dialog",
       "lines": [
         { "speaker": "Mika", "fi": "Missä sinä asut?", "ru": "Где ты живёшь?", "glosses": { "missä": "где", "sinä": "ты", "asut": "ты живёшь" } },
@@ -185,7 +189,8 @@
       "id": "t5",
       "title": "Kahvilassa",
       "titleRu": "В кафе",
-      "level": 4,
+      "level": 6,
+      "theme": "cafe",
       "type": "dialog",
       "lines": [
         { "speaker": "Juho", "fi": "Hei! Saanko kahvia?", "ru": "Здравствуйте! Можно мне кофе?", "glosses": { "hei": "привет", "saanko": "можно мне (получить)", "kahvia": "кофе (партитив)" } },
@@ -228,7 +233,8 @@
       "id": "t6",
       "title": "Kaupassa",
       "titleRu": "В магазине",
-      "level": 4,
+      "level": 7,
+      "theme": "places",
       "type": "dialog",
       "lines": [
         { "speaker": "Mika", "fi": "Anteeksi, paljonko tämä kirja maksaa?", "ru": "Извините, сколько стоит эта книга?", "glosses": { "anteeksi": "извините", "paljonko": "сколько", "tämä": "эта", "kirja": "книга", "maksaa": "стоит" } },
@@ -271,7 +277,8 @@
       "id": "t7",
       "title": "Miten pääsen asemalle?",
       "titleRu": "Как пройти на вокзал?",
-      "level": 5,
+      "level": 8,
+      "theme": "weather",
       "type": "dialog",
       "lines": [
         { "speaker": "Ville", "fi": "Anteeksi, missä asema on?", "ru": "Извините, где вокзал?", "glosses": { "anteeksi": "извините", "missä": "где", "asema": "вокзал / станция", "on": "находится" } },
@@ -315,7 +322,8 @@
       "id": "t8",
       "title": "Paljonko kello on?",
       "titleRu": "Который час?",
-      "level": 6,
+      "level": 9,
+      "theme": "time",
       "type": "dialog",
       "lines": [
         { "speaker": "Pekka", "fi": "Anteeksi, paljonko kello on?", "ru": "Извините, который час?", "glosses": { "anteeksi": "извините", "paljonko": "сколько", "kello": "часы (время)", "on": "есть" } },
@@ -358,7 +366,8 @@
       "id": "t9",
       "title": "Minun päiväni",
       "titleRu": "Мой день",
-      "level": 6,
+      "level": 9,
+      "theme": "routine",
       "type": "text",
       "lines": [
         { "fi": "Minä herään aamulla aikaisin.", "ru": "Я просыпаюсь рано утром.", "glosses": { "minä": "я", "herään": "я просыпаюсь", "aamulla": "утром", "aikaisin": "рано" } },
@@ -401,7 +410,8 @@
       "id": "t10",
       "title": "Viikonlopun suunnitelmat",
       "titleRu": "Планы на выходные",
-      "level": 7,
+      "level": 10,
+      "theme": "work",
       "type": "dialog",
       "lines": [
         { "speaker": "Mika", "fi": "Mitä sinä teet lauantaina?", "ru": "Что ты делаешь в субботу?", "glosses": { "mitä": "что", "sinä": "ты", "teet": "ты делаешь", "lauantaina": "в субботу" } },
@@ -444,7 +454,8 @@
       "id": "t11",
       "title": "Junamatka",
       "titleRu": "Путешествие на поезде",
-      "level": 8,
+      "level": 12,
+      "theme": "travel",
       "type": "dialog",
       "lines": [
         { "speaker": "Antti", "fi": "Hei! Minä matkustan huomenna junalla.", "ru": "Привет! Завтра я еду на поезде.", "glosses": { "hei": "привет", "minä": "я", "matkustan": "я еду / путешествую", "huomenna": "завтра", "junalla": "на поезде" } },
@@ -488,7 +499,8 @@
       "id": "t12",
       "title": "Rakastan kotiani",
       "titleRu": "Я люблю свой дом",
-      "level": 9,
+      "level": 17,
+      "theme": "health",
       "type": "text",
       "lines": [
         { "fi": "Minä asun pienessä talossa.", "ru": "Я живу в маленьком доме.", "glosses": { "minä": "я", "asun": "я живу", "pienessä": "в маленьком", "talossa": "в доме" } },
@@ -532,6 +544,7 @@
       "title": "Hyvää huomenta",
       "titleRu": "Доброе утро",
       "level": 1,
+      "theme": "greetings",
       "type": "text",
       "lines": [
         { "fi": "Hyvää huomenta! Minä olen Liisa.", "ru": "Доброе утро! Я Лийса.", "glosses": { "hyvää": "доброго", "huomenta": "утра", "minä": "я", "olen": "я есть" } },
@@ -573,6 +586,7 @@
       "title": "Kotona",
       "titleRu": "Дома",
       "level": 2,
+      "theme": "home",
       "type": "text",
       "lines": [
         { "fi": "Minä olen kotona.", "ru": "Я дома.", "glosses": { "minä": "я", "olen": "я есть", "kotona": "дома" } },
@@ -614,7 +628,8 @@
       "id": "t15",
       "title": "Koulussa",
       "titleRu": "В школе",
-      "level": 2,
+      "level": 3,
+      "theme": "school",
       "type": "dialog",
       "lines": [
         { "speaker": "Mika", "fi": "Missä sinä olet?", "ru": "Где ты?", "glosses": { "missä": "где", "sinä": "ты", "olet": "ты есть" } },
@@ -656,7 +671,8 @@
       "id": "t16",
       "title": "Paljonko se maksaa?",
       "titleRu": "Сколько это стоит?",
-      "level": 3,
+      "level": 4,
+      "theme": "numbers",
       "type": "dialog",
       "lines": [
         { "speaker": "Anna", "fi": "Paljonko tämä kahvi maksaa?", "ru": "Сколько стоит этот кофе?", "glosses": { "paljonko": "сколько", "tämä": "этот", "kahvi": "кофе", "maksaa": "стоит" } },
@@ -697,7 +713,8 @@
       "id": "t17",
       "title": "Kuka tuo on?",
       "titleRu": "Кто это?",
-      "level": 3,
+      "level": 2,
+      "theme": "people",
       "type": "dialog",
       "lines": [
         { "speaker": "Mika", "fi": "Kuka tuo nainen on?", "ru": "Кто та женщина?", "glosses": { "kuka": "кто", "tuo": "та", "nainen": "женщина", "on": "есть" } },
@@ -739,7 +756,8 @@
       "id": "t18",
       "title": "Ravintolassa",
       "titleRu": "В ресторане",
-      "level": 4,
+      "level": 6,
+      "theme": "cafe",
       "type": "dialog",
       "lines": [
         { "speaker": "Juho", "fi": "Hei! Saanko ruokaa ja vettä?", "ru": "Здравствуйте! Можно мне еду и воду?", "glosses": { "hei": "привет", "saanko": "можно мне (получить)", "ruokaa": "еду (партитив)", "ja": "и", "vettä": "воду (партитив)" } },
@@ -781,7 +799,8 @@
       "id": "t19",
       "title": "Millainen sää on?",
       "titleRu": "Какая погода?",
-      "level": 5,
+      "level": 13,
+      "theme": "weather",
       "type": "dialog",
       "lines": [
         { "speaker": "Mika", "fi": "Millainen sää tänään on?", "ru": "Какая сегодня погода?", "glosses": { "millainen": "какой", "sää": "погода", "tänään": "сегодня", "on": "есть" } },
@@ -823,7 +842,8 @@
       "id": "t20",
       "title": "Minulla on iso perhe",
       "titleRu": "Моя семья большая",
-      "level": 7,
+      "level": 10,
+      "theme": "family",
       "type": "text",
       "lines": [
         { "fi": "Minulla on iso perhe.", "ru": "У меня большая семья.", "glosses": { "minulla": "у меня", "on": "есть", "iso": "большая", "perhe": "семья" } },
@@ -865,7 +885,8 @@
       "id": "t21",
       "title": "Matka järvelle",
       "titleRu": "Поездка к озеру",
-      "level": 8,
+      "level": 12,
+      "theme": "travel",
       "type": "dialog",
       "lines": [
         { "speaker": "Antti", "fi": "Huomenna minä matkustan järvelle.", "ru": "Завтра я еду на озеро.", "glosses": { "huomenna": "завтра", "minä": "я", "matkustan": "я еду", "järvelle": "на озеро" } },
@@ -908,7 +929,8 @@
       "id": "t22",
       "title": "Hyvä kysymys",
       "titleRu": "Хороший вопрос",
-      "level": 9,
+      "level": 13,
+      "theme": "grammar",
       "type": "dialog",
       "lines": [
         { "speaker": "Liisa", "fi": "Minulla on kysymys.", "ru": "У меня есть вопрос.", "glosses": { "minulla": "у меня", "on": "есть", "kysymys": "вопрос" } },
@@ -950,7 +972,8 @@
       "id": "t23",
       "title": "Minun huoneeni",
       "titleRu": "Моя комната",
-      "level": 10,
+      "level": 14,
+      "theme": "furniture",
       "type": "text",
       "lines": [
         { "fi": "Minun makuuhuoneeni on pieni mutta puhdas.", "ru": "Моя спальня маленькая, но чистая.", "glosses": { "minun": "моя", "makuuhuoneeni": "моя спальня", "on": "есть", "pieni": "маленькая", "mutta": "но", "puhdas": "чистая" } },
@@ -993,7 +1016,8 @@
       "id": "t24",
       "title": "Keittiössä",
       "titleRu": "На кухне",
-      "level": 10,
+      "level": 14,
+      "theme": "furniture",
       "type": "dialog",
       "lines": [
         { "speaker": "Anna", "fi": "Missä avain on?", "ru": "Где ключ?", "glosses": { "missä": "где", "avain": "ключ", "on": "находится" } },
@@ -1036,7 +1060,8 @@
       "id": "t25",
       "title": "Meidän talomme",
       "titleRu": "Наш дом",
-      "level": 3,
+      "level": 7,
+      "theme": "places",
       "type": "text",
       "lines": [
         { "fi": "Minä olen Mikko.", "ru": "Я Микко.", "glosses": { "minä": "я", "olen": "я есть" } },
@@ -1078,7 +1103,8 @@
       "id": "t26",
       "title": "Kaupassa",
       "titleRu": "В магазине",
-      "level": 4,
+      "level": 6,
+      "theme": "food",
       "type": "text",
       "lines": [
         { "fi": "Minä menen kauppaan.", "ru": "Я иду в магазин.", "glosses": { "minä": "я", "menen": "я иду", "kauppaan": "в магазин" } },
@@ -1120,7 +1146,8 @@
       "id": "t27",
       "title": "Matka töihin",
       "titleRu": "Дорога на работу",
-      "level": 5,
+      "level": 8,
+      "theme": "time",
       "type": "text",
       "lines": [
         { "fi": "Aamulla minä menen töihin.", "ru": "Утром я иду на работу.", "glosses": { "aamulla": "утром", "minä": "я", "menen": "я иду", "töihin": "на работу" } },
@@ -1161,7 +1188,8 @@
       "id": "t28",
       "title": "Matka merelle",
       "titleRu": "Путешествие к морю",
-      "level": 8,
+      "level": 12,
+      "theme": "travel",
       "type": "text",
       "lines": [
         { "fi": "Huomenna minä matkustan merelle.", "ru": "Завтра я еду к морю.", "glosses": { "huomenna": "завтра", "minä": "я", "matkustan": "я еду", "merelle": "к морю" } },
@@ -1203,7 +1231,8 @@
       "id": "t29",
       "title": "Keskustassa",
       "titleRu": "В центре города",
-      "level": 11,
+      "level": 15,
+      "theme": "city",
       "type": "text",
       "lines": [
         { "fi": "Tänään minä menen keskustaan.", "ru": "Сегодня я иду в центр.", "glosses": { "tänään": "сегодня", "minä": "я", "menen": "я иду", "keskustaan": "в центр" } },
@@ -1255,7 +1284,8 @@
       "id": "t30",
       "title": "Minun kaupunginosani",
       "titleRu": "Мой район",
-      "level": 11,
+      "level": 15,
+      "theme": "city",
       "type": "text",
       "lines": [
         { "fi": "Minä asun keskustassa.", "ru": "Я живу в центре.", "glosses": { "minä": "я", "asun": "я живу", "keskustassa": "в центре" } },
@@ -1306,7 +1336,8 @@
       "id": "t31",
       "title": "Vaatekaupassa",
       "titleRu": "В магазине одежды",
-      "level": 11,
+      "level": 15,
+      "theme": "clothes",
       "type": "dialog",
       "lines": [
         { "speaker": "Liisa", "fi": "Anteeksi, etsin uutta takkia.", "ru": "Извините, я ищу новую куртку.", "glosses": { "anteeksi": "извините", "etsin": "я ищу", "uutta": "новую", "takkia": "куртку" } },
@@ -1358,7 +1389,8 @@
       "id": "t32",
       "title": "Miten pääsen pankkiin?",
       "titleRu": "Как пройти в банк?",
-      "level": 11,
+      "level": 15,
+      "theme": "directions",
       "type": "dialog",
       "lines": [
         { "speaker": "Mika", "fi": "Anteeksi, missä pankki on?", "ru": "Извините, где банк?", "glosses": { "anteeksi": "извините", "missä": "где", "pankki": "банк", "on": "есть" } },
@@ -1410,7 +1442,8 @@
       "id": "t33",
       "title": "Syksyn sää",
       "titleRu": "Осенняя погода",
-      "level": 12,
+      "level": 13,
+      "theme": "weather",
       "type": "text",
       "lines": [
         { "fi": "Nyt on syksy.", "ru": "Сейчас осень.", "glosses": { "nyt": "сейчас", "on": "есть", "syksy": "осень" } },
@@ -1462,7 +1495,8 @@
       "id": "t34",
       "title": "Kesäsuunnitelmani",
       "titleRu": "Мои планы на лето",
-      "level": 12,
+      "level": 16,
+      "theme": "feelings",
       "type": "text",
       "lines": [
         { "fi": "Kesällä on lämmin ja aurinkoista.", "ru": "Летом тепло и солнечно.", "glosses": { "kesällä": "летом", "on": "есть", "lämmin": "тепло", "ja": "и", "aurinkoista": "солнечно" } },
@@ -1513,7 +1547,8 @@
       "id": "t35",
       "title": "Lääkärissä",
       "titleRu": "У врача",
-      "level": 12,
+      "level": 17,
+      "theme": "health",
       "type": "dialog",
       "lines": [
         { "speaker": "Lääkäri", "fi": "Päivää! Mikä on ongelma?", "ru": "Здравствуйте! В чём проблема?", "glosses": { "päivää": "добрый день", "mikä": "что / какая", "on": "есть", "ongelma": "проблема" } },
@@ -1565,7 +1600,8 @@
       "id": "t36",
       "title": "Millainen sää tänään on?",
       "titleRu": "Какая сегодня погода?",
-      "level": 12,
+      "level": 18,
+      "theme": "weather",
       "type": "dialog",
       "lines": [
         { "speaker": "Anna", "fi": "Millainen sää tänään on?", "ru": "Какая сегодня погода?", "glosses": { "millainen": "какая", "sää": "погода", "tänään": "сегодня", "on": "есть" } },
@@ -1617,6 +1653,7 @@
       "title": "Kahvia ja leipää",
       "titleRu": "Кофе и хлеб",
       "level": 1,
+      "theme": "food",
       "type": "dialog",
       "lines": [
         { "speaker": "Liisa", "fi": "Hei! Juotko kahvia?", "ru": "Привет! Ты пьёшь кофе?", "glosses": { "hei": "привет", "juotko": "пьёшь ли ты", "kahvia": "кофе (партитив)" } },
@@ -1659,6 +1696,7 @@
       "title": "Uusi kirja",
       "titleRu": "Новая книга",
       "level": 2,
+      "theme": "basics",
       "type": "dialog",
       "lines": [
         { "speaker": "Mika", "fi": "Minä ostin uuden kirjan.", "ru": "Я купил новую книгу.", "glosses": { "minä": "я", "ostin": "я купил", "uuden": "новую", "kirjan": "книгу" } },
@@ -1700,7 +1738,8 @@
       "id": "t39",
       "title": "Iso kaupunki",
       "titleRu": "Большой город",
-      "level": 3,
+      "level": 4,
+      "theme": "numbers",
       "type": "text",
       "lines": [
         { "fi": "Minä asun isossa kaupungissa.", "ru": "Я живу в большом городе.", "glosses": { "minä": "я", "asun": "я живу", "isossa": "в большом", "kaupungissa": "в городе" } },
@@ -1742,7 +1781,8 @@
       "id": "t40",
       "title": "Ravintolassa",
       "titleRu": "В ресторане",
-      "level": 4,
+      "level": 6,
+      "theme": "food",
       "type": "text",
       "lines": [
         { "fi": "Minä menen ravintolaan.", "ru": "Я иду в ресторан.", "glosses": { "minä": "я", "menen": "я иду", "ravintolaan": "в ресторан" } },
@@ -1784,7 +1824,8 @@
       "id": "t41",
       "title": "Kaunis sää",
       "titleRu": "Красивая погода",
-      "level": 5,
+      "level": 8,
+      "theme": "weather",
       "type": "text",
       "lines": [
         { "fi": "Tänään on kaunis ilma.", "ru": "Сегодня хорошая погода.", "glosses": { "tänään": "сегодня", "on": "есть", "kaunis": "красивая", "ilma": "погода" } },
@@ -1826,7 +1867,8 @@
       "id": "t42",
       "title": "Aamulla",
       "titleRu": "Утром",
-      "level": 6,
+      "level": 9,
+      "theme": "routine",
       "type": "text",
       "lines": [
         { "fi": "Minä herään aamulla.", "ru": "Я просыпаюсь утром.", "glosses": { "minä": "я", "herään": "я просыпаюсь", "aamulla": "утром" } },
@@ -1868,7 +1910,8 @@
       "id": "t43",
       "title": "Mitä teet illalla?",
       "titleRu": "Что ты делаешь вечером?",
-      "level": 6,
+      "level": 9,
+      "theme": "routine",
       "type": "dialog",
       "lines": [
         { "speaker": "Anna", "fi": "Mitä sinä teet illalla?", "ru": "Что ты делаешь вечером?", "glosses": { "mitä": "что", "sinä": "ты", "teet": "ты делаешь", "illalla": "вечером" } },
@@ -1910,7 +1953,8 @@
       "id": "t44",
       "title": "Minä matkustan junalla",
       "titleRu": "Я еду на поезде",
-      "level": 7,
+      "level": 5,
+      "theme": "calendar",
       "type": "text",
       "lines": [
         { "fi": "Huomenna minä matkustan junalla.", "ru": "Завтра я еду на поезде.", "glosses": { "huomenna": "завтра", "minä": "я", "matkustan": "я еду", "junalla": "на поезде" } },
@@ -1952,7 +1996,8 @@
       "id": "t45",
       "title": "Polkupyörällä kouluun",
       "titleRu": "На велосипеде в школу",
-      "level": 7,
+      "level": 11,
+      "theme": "transport",
       "type": "dialog",
       "lines": [
         { "speaker": "Pekka", "fi": "Miten sinä menet kouluun?", "ru": "Как ты едешь в школу?", "glosses": { "miten": "как", "sinä": "ты", "menet": "ты едешь", "kouluun": "в школу" } },
@@ -1994,7 +2039,8 @@
       "id": "t46",
       "title": "Metsässä",
       "titleRu": "В лесу",
-      "level": 8,
+      "level": 12,
+      "theme": "nature",
       "type": "text",
       "lines": [
         { "fi": "Lauantaina minä kävelen metsässä.", "ru": "В субботу я гуляю в лесу.", "glosses": { "lauantaina": "в субботу", "minä": "я", "kävelen": "я гуляю", "metsässä": "в лесу" } },
@@ -2036,7 +2082,8 @@
       "id": "t47",
       "title": "Lentokentällä",
       "titleRu": "В аэропорту",
-      "level": 9,
+      "level": 13,
+      "theme": "feelings",
       "type": "dialog",
       "lines": [
         { "speaker": "Antti", "fi": "Anteeksi, missä lentokenttä on?", "ru": "Извините, где аэропорт?", "glosses": { "anteeksi": "извините", "missä": "где", "lentokenttä": "аэропорт", "on": "находится" } },
@@ -2078,7 +2125,8 @@
       "id": "t48",
       "title": "Iloinen päivä",
       "titleRu": "Радостный день",
-      "level": 9,
+      "level": 11,
+      "theme": "routine",
       "type": "text",
       "lines": [
         { "fi": "Tänään minä olen iloinen.", "ru": "Сегодня я радостный.", "glosses": { "tänään": "сегодня", "minä": "я", "olen": "я есть", "iloinen": "радостный" } },
@@ -2120,7 +2168,8 @@
       "id": "t49",
       "title": "Olohuoneessa",
       "titleRu": "В гостиной",
-      "level": 10,
+      "level": 14,
+      "theme": "furniture",
       "type": "text",
       "lines": [
         { "fi": "Olohuoneessa on iso sohva.", "ru": "В гостиной есть большой диван.", "glosses": { "olohuoneessa": "в гостиной", "on": "есть", "iso": "большой", "sohva": "диван" } },
@@ -2162,7 +2211,8 @@
       "id": "t50",
       "title": "Avain on kateissa",
       "titleRu": "Ключ потерялся",
-      "level": 10,
+      "level": 14,
+      "theme": "furniture",
       "type": "dialog",
       "lines": [
         { "speaker": "Anna", "fi": "Missä minun avain on?", "ru": "Где мой ключ?", "glosses": { "missä": "где", "minun": "мой", "avain": "ключ", "on": "находится" } },
@@ -2204,7 +2254,8 @@
       "id": "t51",
       "title": "Mistä sinä olet?",
       "titleRu": "Откуда ты?",
-      "level": 4,
+      "level": 5,
+      "theme": "people",
       "type": "dialog",
       "lines": [
         { "speaker": "Anna", "fi": "Hei! Mistä sinä olet?", "ru": "Привет! Откуда ты?", "glosses": { "hei": "привет", "mistä": "откуда", "sinä": "ты", "olet": "ты есть" } },
@@ -2247,7 +2298,8 @@
       "id": "t52",
       "title": "Paljonko kello on?",
       "titleRu": "Который час?",
-      "level": 5,
+      "level": 8,
+      "theme": "time",
       "type": "dialog",
       "lines": [
         { "speaker": "Liisa", "fi": "Anteeksi, paljonko kello on?", "ru": "Извините, который час?", "glosses": { "anteeksi": "извините", "paljonko": "сколько", "kello": "часы/время", "on": "есть" } },
@@ -2290,7 +2342,8 @@
       "id": "t53",
       "title": "Kaupassa",
       "titleRu": "В магазине (простой диалог)",
-      "level": 4,
+      "level": 7,
+      "theme": "places",
       "type": "dialog",
       "lines": [
         { "speaker": "Asiakas", "fi": "Anteeksi, missä omenat ovat?", "ru": "Извините, где яблоки?", "glosses": { "anteeksi": "извините", "missä": "где", "omenat": "яблоки", "ovat": "находятся" } },
@@ -2333,7 +2386,8 @@
       "id": "t54",
       "title": "Varaan ajan",
       "titleRu": "Я записываюсь на приём",
-      "level": 5,
+      "level": 8,
+      "theme": "time",
       "type": "dialog",
       "lines": [
         { "speaker": "Vastaanotto", "fi": "Hyvää päivää! Kuinka voin auttaa?", "ru": "Добрый день! Чем могу помочь?", "glosses": { "hyvää": "добрый", "päivää": "день", "kuinka": "как", "voin": "я могу", "auttaa": "помочь" } },
@@ -2375,7 +2429,8 @@
       "id": "t55",
       "title": "Lääkärissä",
       "titleRu": "У врача (простой диалог)",
-      "level": 6,
+      "level": 17,
+      "theme": "health",
       "type": "dialog",
       "lines": [
         { "speaker": "Lääkäri", "fi": "Päivää! Mikä on hätänä?", "ru": "Здравствуйте! Что случилось?", "glosses": { "päivää": "здравствуйте", "mikä": "что", "on": "есть", "hätänä": "беда/проблема" } },
@@ -2419,6 +2474,7 @@
       "title": "Numerot ja ikä",
       "titleRu": "Числа и возраст",
       "level": 4,
+      "theme": "numbers",
       "type": "text",
       "lines": [
         { "fi": "Minä olen kaksikymmentäviisi vuotta.", "ru": "Мне двадцать пять лет.", "glosses": { "minä": "я", "olen": "есть", "kaksikymmentäviisi": "двадцать пять", "vuotta": "лет (партитив)" } },
@@ -2461,7 +2517,8 @@
       "id": "t57",
       "title": "Minun viikkoni",
       "titleRu": "Моя неделя",
-      "level": 8,
+      "level": 11,
+      "theme": "routine",
       "type": "text",
       "lines": [
         { "fi": "Maanantaina menen töihin kahdeksalta.", "ru": "В понедельник я иду на работу в восемь.", "glosses": { "maanantaina": "в понедельник", "menen": "я иду", "töihin": "на работу", "kahdeksalta": "в восемь часов" } },
@@ -2503,7 +2560,8 @@
       "id": "t58",
       "title": "Perheeni ja minä",
       "titleRu": "Моя семья и я",
-      "level": 7,
+      "level": 10,
+      "theme": "family",
       "type": "text",
       "lines": [
         { "fi": "Perheeni on iso.", "ru": "Моя семья большая.", "glosses": { "perheeni": "моя семья", "on": "есть", "iso": "большая" } },
@@ -2546,6 +2604,7 @@
       "title": "Lemmikkini",
       "titleRu": "Мой питомец",
       "level": 3,
+      "theme": "nature",
       "type": "text",
       "lines": [
         { "fi": "Minulla on kissa ja koira.", "ru": "У меня есть кошка и собака.", "glosses": { "minulla": "у меня", "on": "есть", "kissa": "кошка", "ja": "и", "koira": "собака" } },
@@ -2587,7 +2646,8 @@
       "id": "t60",
       "title": "Aamulla",
       "titleRu": "Утром",
-      "level": 6,
+      "level": 9,
+      "theme": "routine",
       "type": "text",
       "lines": [
         { "fi": "Herään aamulla kahdeksalta.", "ru": "Я просыпаюсь утром в восемь.", "glosses": { "herään": "я просыпаюсь", "aamulla": "утром", "kahdeksalta": "в восемь часов" } },
@@ -2629,7 +2689,8 @@
       "id": "t61",
       "title": "Mitä kuuluu?",
       "titleRu": "Как дела?",
-      "level": 3,
+      "level": 2,
+      "theme": "acquaintance",
       "type": "dialog",
       "lines": [
         { "speaker": "Mika", "fi": "Hei! Mitä kuuluu?", "ru": "Привет! Как дела?", "glosses": { "hei": "привет", "mitä": "что", "kuuluu": "слышно (как дела)" } },
@@ -2671,7 +2732,8 @@
       "id": "t62",
       "title": "Kotini",
       "titleRu": "Мой дом",
-      "level": 10,
+      "level": 14,
+      "theme": "home",
       "type": "text",
       "lines": [
         { "fi": "Huoneeni on pieni mutta mukava.", "ru": "Моя комната маленькая, но уютная.", "glosses": { "huoneeni": "моя комната", "on": "есть", "pieni": "маленькая", "mutta": "но", "mukava": "уютная" } },
@@ -2713,7 +2775,8 @@
       "id": "t63",
       "title": "Kaupassa ostoksilla",
       "titleRu": "Покупки в магазине",
-      "level": 5,
+      "level": 6,
+      "theme": "cafe",
       "type": "dialog",
       "lines": [
         { "speaker": "Olga", "fi": "Mitä ostamme tänään?", "ru": "Что мы покупаем сегодня?", "glosses": { "mitä": "что", "ostamme": "мы покупаем", "tänään": "сегодня" } },
@@ -2756,7 +2819,8 @@
       "id": "t64",
       "title": "Vaatekaupassa",
       "titleRu": "В магазине одежды",
-      "level": 11,
+      "level": 15,
+      "theme": "clothes",
       "type": "dialog",
       "lines": [
         { "speaker": "Asiakas", "fi": "Etsin punaista mekkoa.", "ru": "Я ищу красное платье.", "glosses": { "etsin": "я ищу", "punaista": "красное (партитив)", "mekkoa": "платье (партитив)" } },
@@ -2799,7 +2863,8 @@
       "id": "t65",
       "title": "Kuukaudet ja vuodenajat",
       "titleRu": "Месяцы и времена года",
-      "level": 8,
+      "level": 5,
+      "theme": "calendar",
       "type": "text",
       "lines": [
         { "fi": "Tammikuussa on kylmä ja sataa lunta.", "ru": "В январе холодно и идёт снег.", "glosses": { "tammikuussa": "в январе", "on": "есть", "kylmä": "холодно", "ja": "и", "sataa": "идёт", "lunta": "снег (партитив)" } },
@@ -2842,6 +2907,7 @@
       "title": "Mihin sinä menet?",
       "titleRu": "Куда ты идёшь?",
       "level": 4,
+      "theme": "numbers",
       "type": "dialog",
       "lines": [
         { "speaker": "Mika", "fi": "Mihin sinä menet?", "ru": "Куда ты идёшь?", "glosses": { "mihin": "куда", "sinä": "ты", "menet": "ты идёшь" } },
@@ -2884,6 +2950,7 @@
       "title": "Kaupungissa",
       "titleRu": "В городе",
       "level": 7,
+      "theme": "places",
       "type": "text",
       "lines": [
         { "fi": "Asun pienessä kaupungissa.", "ru": "Я живу в маленьком городе.", "glosses": { "asun": "я живу", "pienessä": "в маленьком", "kaupungissa": "в городе" } },
@@ -2925,7 +2992,8 @@
       "id": "t68",
       "title": "Luonnossa",
       "titleRu": "На природе",
-      "level": 8,
+      "level": 12,
+      "theme": "nature",
       "type": "text",
       "lines": [
         { "fi": "Kesällä menen rannalle.", "ru": "Летом я иду на пляж.", "glosses": { "kesällä": "летом", "menen": "я иду", "rannalle": "на пляж" } },
@@ -2968,6 +3036,7 @@
       "title": "Kahvilassa",
       "titleRu": "В кафе",
       "level": 6,
+      "theme": "cafe",
       "type": "dialog",
       "lines": [
         { "speaker": "Tarjoilija", "fi": "Hei! Mitä saa olla?", "ru": "Здравствуйте! Что желаете?", "glosses": { "hei": "здравствуйте", "mitä": "что", "saa": "можно", "olla": "быть" } },
@@ -3010,7 +3079,8 @@
       "id": "t70",
       "title": "Minun aamuni",
       "titleRu": "Моё утро",
-      "level": 8,
+      "level": 13,
+      "theme": "calendar",
       "type": "text",
       "lines": [
         { "fi": "Nousen aikaisin kuudelta.", "ru": "Я встаю рано в шесть.", "glosses": { "nousen": "я встаю", "aikaisin": "рано", "kuudelta": "в шесть часов" } },
@@ -3052,7 +3122,8 @@
       "id": "t71",
       "title": "Junalla Helsinkiin",
       "titleRu": "На поезде в Хельсинки",
-      "level": 8,
+      "level": 12,
+      "theme": "travel",
       "type": "dialog",
       "lines": [
         { "speaker": "Pavel", "fi": "Mihin sinä matkustat?", "ru": "Куда ты едешь?", "glosses": { "mihin": "куда", "sinä": "ты", "matkustat": "ты едешь" } },
@@ -3094,7 +3165,8 @@
       "id": "t72",
       "title": "Vuodenajat",
       "titleRu": "Времена года",
-      "level": 9,
+      "level": 13,
+      "theme": "weather",
       "type": "text",
       "lines": [
         { "fi": "Talvella on kylmä ja maa on valkoinen.", "ru": "Зимой холодно и земля белая.", "glosses": { "talvella": "зимой", "on": "есть", "kylmä": "холодно", "ja": "и", "maa": "земля", "valkoinen": "белая" } },
@@ -3136,7 +3208,8 @@
       "id": "t73",
       "title": "Tule sisään!",
       "titleRu": "Заходи!",
-      "level": 5,
+      "level": 10,
+      "theme": "places",
       "type": "dialog",
       "lines": [
         { "speaker": "Emma", "fi": "Hei, Olli! Tule sisään!", "ru": "Привет, Олли! Заходи!", "glosses": { "hei": "привет", "tule": "заходи (повел.)", "sisään": "внутрь" } },
@@ -3179,7 +3252,8 @@
       "id": "t74",
       "title": "Mistä sinä tykkäät?",
       "titleRu": "Что тебе нравится?",
-      "level": 5,
+      "level": 11,
+      "theme": "people",
       "type": "dialog",
       "lines": [
         { "speaker": "Sara", "fi": "Mistä sinä tykkäät?", "ru": "Что тебе нравится?", "glosses": { "mistä": "от чего", "sinä": "ты", "tykkäät": "тебе нравится" } },
@@ -3222,7 +3296,8 @@
       "id": "t75",
       "title": "Ravintolassa",
       "titleRu": "В ресторане (заказ)",
-      "level": 4,
+      "level": 6,
+      "theme": "cafe",
       "type": "dialog",
       "lines": [
         { "speaker": "Tarjoilija", "fi": "Hei! Saanko tuoda ruokalistan?", "ru": "Здравствуйте! Принести меню?", "glosses": { "hei": "здравствуйте", "saanko": "можно мне", "tuoda": "принести", "ruokalistan": "меню (объект)" } },
@@ -3266,6 +3341,7 @@
       "title": "Eläimet",
       "titleRu": "Животные",
       "level": 3,
+      "theme": "nature",
       "type": "text",
       "lines": [
         { "fi": "Minulla on kissa ja koira.", "ru": "У меня есть кошка и собака.", "glosses": { "minulla": "у меня", "on": "есть", "kissa": "кошка", "ja": "и", "koira": "собака" } },
@@ -3307,7 +3383,8 @@
       "id": "t77",
       "title": "Ammatit",
       "titleRu": "Профессии",
-      "level": 7,
+      "level": 5,
+      "theme": "people",
       "type": "dialog",
       "lines": [
         { "speaker": "Leena", "fi": "Mikä sinä olet ammatiltasi?", "ru": "Кто ты по профессии?", "glosses": { "mikä": "кто/какой", "sinä": "ты", "olet": "ты есть", "ammatiltasi": "по профессии" } },
@@ -3350,7 +3427,8 @@
       "id": "t78",
       "title": "Eilen",
       "titleRu": "Вчера",
-      "level": 12,
+      "level": 18,
+      "theme": "feelings",
       "type": "dialog",
       "lines": [
         { "speaker": "Mira", "fi": "Mitä sinä teit eilen?", "ru": "Что ты делал вчера?", "glosses": { "mitä": "что", "sinä": "ты", "teit": "ты делал (имперфект)", "eilen": "вчера" } },
@@ -3393,7 +3471,8 @@
       "id": "t79",
       "title": "Saisinko apua?",
       "titleRu": "Можно мне помощь?",
-      "level": 10,
+      "level": 16,
+      "theme": "feelings",
       "type": "dialog",
       "lines": [
         { "speaker": "Asiakas", "fi": "Anteeksi, saisinko apua?", "ru": "Извините, можно мне помощь?", "glosses": { "anteeksi": "извините", "saisinko": "можно мне (кондиционал)", "apua": "помощь (партитив)" } },
@@ -3436,7 +3515,8 @@
       "id": "t80",
       "title": "Mennään kaupungille!",
       "titleRu": "Пойдём в город!",
-      "level": 11,
+      "level": 16,
+      "theme": "city",
       "type": "text",
       "lines": [
         { "fi": "Tänään on kaunis päivä.", "ru": "Сегодня прекрасный день.", "glosses": { "tänään": "сегодня", "on": "есть", "kaunis": "прекрасный", "päivä": "день" } },
@@ -3479,7 +3559,8 @@
       "id": "t81",
       "title": "Voitko toistaa?",
       "titleRu": "Можешь повторить?",
-      "level": 11,
+      "level": 16,
+      "theme": "feelings",
       "type": "dialog",
       "lines": [
         { "speaker": "Opettaja", "fi": "Suomessa puhutaan suomea ja ruotsia.", "ru": "В Финляндии говорят по-фински и по-шведски.", "glosses": { "suomessa": "в Финляндии", "puhutaan": "говорят (пассив)", "suomea": "по-фински", "ja": "и", "ruotsia": "по-шведски" } },
@@ -3522,7 +3603,8 @@
       "id": "t82",
       "title": "Harrastukseni",
       "titleRu": "Мои хобби",
-      "level": 11,
+      "level": 16,
+      "theme": "hobbies",
       "type": "text",
       "lines": [
         { "fi": "Minulla on monta harrastusta.", "ru": "У меня много хобби.", "glosses": { "minulla": "у меня", "on": "есть", "monta": "много", "harrastusta": "хобби (партитив)" } },
@@ -3565,7 +3647,8 @@
       "id": "t83",
       "title": "Miltä sinusta tuntuu?",
       "titleRu": "Как ты себя чувствуешь?",
-      "level": 12,
+      "level": 17,
+      "theme": "body",
       "type": "dialog",
       "lines": [
         { "speaker": "Eeva", "fi": "Sinä näytät väsyneeltä. Miltä sinusta tuntuu?", "ru": "Ты выглядишь усталым. Как ты себя чувствуешь?", "glosses": { "sinä": "ты", "näytät": "ты выглядишь", "väsyneeltä": "усталым", "miltä": "как (от чего)", "sinusta": "тебе", "tuntuu": "чувствуется" } },
@@ -3608,7 +3691,8 @@
       "id": "t84",
       "title": "Asuntoni",
       "titleRu": "Моя квартира",
-      "level": 10,
+      "level": 14,
+      "theme": "home",
       "type": "text",
       "lines": [
         { "fi": "Asun pienessä kerrostalossa.", "ru": "Я живу в маленьком многоквартирном доме.", "glosses": { "asun": "я живу", "pienessä": "в маленьком", "kerrostalossa": "в многоквартирном доме" } },
@@ -3650,7 +3734,8 @@
       "id": "t85",
       "title": "Bussilla keskustaan",
       "titleRu": "На автобусе в центр",
-      "level": 11,
+      "level": 15,
+      "theme": "city",
       "type": "dialog",
       "lines": [
         { "speaker": "Turisti", "fi": "Anteeksi, miten pääsen keskustaan?", "ru": "Извините, как мне добраться до центра?", "glosses": { "anteeksi": "извините", "miten": "как", "pääsen": "я попаду", "keskustaan": "в центр" } },
@@ -3693,7 +3778,8 @@
       "id": "t86",
       "title": "Elämäni tarina",
       "titleRu": "История моей жизни",
-      "level": 13,
+      "level": 18,
+      "theme": "past",
       "type": "text",
       "lines": [
         { "fi": "Synnyin Venäjällä vuonna 1990.", "ru": "Я родился в России в 1990 году.", "glosses": { "synnyin": "я родился", "venäjällä": "в России", "vuonna": "в году" } },
@@ -3736,7 +3822,8 @@
       "id": "t87",
       "title": "Lapsuuteni",
       "titleRu": "Моё детство",
-      "level": 13,
+      "level": 18,
+      "theme": "past",
       "type": "text",
       "lines": [
         { "fi": "Lapsuuteni oli onnellinen.", "ru": "Моё детство было счастливым.", "glosses": { "lapsuuteni": "моё детство", "oli": "было", "onnellinen": "счастливым" } },
@@ -3778,7 +3865,8 @@
       "id": "t88",
       "title": "Mitä olet tehnyt?",
       "titleRu": "Что ты сделал?",
-      "level": 13,
+      "level": 18,
+      "theme": "past",
       "type": "dialog",
       "lines": [
         { "speaker": "Sanna", "fi": "Hei! Mitä olet tehnyt tänään?", "ru": "Привет! Что ты сегодня делал?", "glosses": { "hei": "привет", "mitä": "что", "olet": "ты", "tehnyt": "сделал (причастие)", "tänään": "сегодня" } },
@@ -3821,7 +3909,8 @@
       "id": "t89",
       "title": "Oletko käynyt Suomessa?",
       "titleRu": "Ты бывал в Финляндии?",
-      "level": 13,
+      "level": 18,
+      "theme": "past",
       "type": "dialog",
       "lines": [
         { "speaker": "Pekka", "fi": "Oletko käynyt Suomessa aiemmin?", "ru": "Ты бывал в Финляндии раньше?", "glosses": { "oletko": "ты ли", "käynyt": "бывал (причастие)", "suomessa": "в Финляндии", "aiemmin": "раньше" } },
@@ -3864,7 +3953,8 @@
       "id": "t90",
       "title": "Muutto uuteen asuntoon",
       "titleRu": "Переезд в новую квартиру",
-      "level": 14,
+      "level": 19,
+      "theme": "chores",
       "type": "text",
       "lines": [
         { "fi": "Muutimme viime viikolla uuteen asuntoon.", "ru": "Мы переехали на прошлой неделе в новую квартиру.", "glosses": { "muutimme": "мы переехали", "viime": "прошлой", "viikolla": "на неделе", "uuteen": "в новую", "asuntoon": "квартиру" } },
@@ -3907,7 +3997,8 @@
       "id": "t91",
       "title": "Kodin ongelmat",
       "titleRu": "Проблемы в доме",
-      "level": 14,
+      "level": 19,
+      "theme": "chores",
       "type": "text",
       "lines": [
         { "fi": "Asunnossani on tällä viikolla monta ongelmaa.", "ru": "В моей квартире на этой неделе много проблем.", "glosses": { "asunnossani": "в моей квартире", "on": "есть", "tällä": "на этой", "viikolla": "неделе", "monta": "много", "ongelmaa": "проблем (партитив)" } },
@@ -3949,7 +4040,8 @@
       "id": "t92",
       "title": "Vuokranantaja soittaa",
       "titleRu": "Звонит арендодатель",
-      "level": 14,
+      "level": 19,
+      "theme": "chores",
       "type": "dialog",
       "lines": [
         { "speaker": "Vuokranantaja", "fi": "Hei! Soitan asuntonne remontista.", "ru": "Здравствуйте! Звоню по поводу ремонта вашей квартиры.", "glosses": { "hei": "здравствуйте", "soitan": "я звоню", "asuntonne": "вашей квартиры", "remontista": "о ремонте (элатив)" } },
@@ -3992,7 +4084,8 @@
       "id": "t93",
       "title": "Jos voittaisin lotossa",
       "titleRu": "Если бы я выиграл в лото",
-      "level": 14,
+      "level": 19,
+      "theme": "chores",
       "type": "dialog",
       "lines": [
         { "speaker": "Ville", "fi": "Mitä tekisit, jos voittaisit lotossa?", "ru": "Что бы ты сделал, если бы выиграл в лото?", "glosses": { "mitä": "что", "tekisit": "ты бы сделал", "jos": "если", "voittaisit": "ты бы выиграл", "lotossa": "в лото" } },
@@ -4035,7 +4128,8 @@
       "id": "t94",
       "title": "Lempiruokani resepti",
       "titleRu": "Рецепт моего любимого блюда",
-      "level": 15,
+      "level": 19,
+      "theme": "food",
       "type": "text",
       "lines": [
         { "fi": "Lempiruokani on kalakeitto.", "ru": "Моё любимое блюдо — рыбный суп.", "glosses": { "lempiruokani": "моё любимое блюдо", "on": "есть", "kalakeitto": "рыбный суп" } },
@@ -4078,7 +4172,8 @@
       "id": "t95",
       "title": "Terveelliset elämäntavat",
       "titleRu": "Здоровый образ жизни",
-      "level": 15,
+      "level": 17,
+      "theme": "health",
       "type": "text",
       "lines": [
         { "fi": "Yritän elää terveellisesti.", "ru": "Я стараюсь жить здорово.", "glosses": { "yritän": "я стараюсь", "elää": "жить", "terveellisesti": "здорово" } },
@@ -4120,7 +4215,8 @@
       "id": "t96",
       "title": "Kaupan kassalla",
       "titleRu": "На кассе в магазине",
-      "level": 15,
+      "level": 19,
+      "theme": "food",
       "type": "dialog",
       "lines": [
         { "speaker": "Kassa", "fi": "Hei! Löysittekö kaiken?", "ru": "Здравствуйте! Всё нашли?", "glosses": { "hei": "здравствуйте", "löysittekö": "нашли ли вы", "kaiken": "всё" } },
@@ -4163,7 +4259,8 @@
       "id": "t97",
       "title": "Hammaslääkärissä",
       "titleRu": "У стоматолога",
-      "level": 15,
+      "level": 19,
+      "theme": "health",
       "type": "dialog",
       "lines": [
         { "speaker": "Hammaslääkäri", "fi": "Päivää! Mikä teitä vaivaa?", "ru": "Здравствуйте! Что вас беспокоит?", "glosses": { "päivää": "здравствуйте", "mikä": "что", "teitä": "вас", "vaivaa": "беспокоит" } },

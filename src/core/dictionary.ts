@@ -35,6 +35,9 @@ export interface VocabItem {
    * about leveling can omit it. `levels.ts` treats a missing value as level 1.
    */
   level?: number;
+  /** Thematic group id (e.g. "numbers", "home"); resolved to a Russian label via the THEMES
+   *  registry. Optional — items without one render in a single "Другое" group in the browser. */
+  theme?: string;
 }
 
 /** A raw entry from any category in the seed; only the fields we read are typed. The
@@ -47,6 +50,7 @@ interface RawEntry {
   ru?: unknown;
   pos?: unknown;
   level?: unknown;
+  theme?: unknown;
 }
 
 /** The shape of data/dictionary.seed.json (only the categories we flatten). */
@@ -87,7 +91,7 @@ export type WordField = "fi" | "en";
 function isVocabItem(
   entry: RawEntry,
   wordField: WordField,
-): entry is { id: string; ru: string; pos: Pos; level?: unknown } & Record<WordField, string> {
+): entry is { id: string; ru: string; pos: Pos; level?: unknown; theme?: unknown } & Record<WordField, string> {
   const word = entry[wordField];
   return (
     typeof entry.id === "string" &&
@@ -115,7 +119,9 @@ export function flattenDictionary(raw: RawDictionary, wordField: WordField = "fi
       if (isVocabItem(entry, wordField)) {
         const level =
           typeof entry.level === "number" && entry.level >= 1 ? Math.floor(entry.level) : 1;
-        items.push({ id: entry.id, fi: entry[wordField], ru: entry.ru, pos: entry.pos, level });
+        const item: VocabItem = { id: entry.id, fi: entry[wordField], ru: entry.ru, pos: entry.pos, level };
+        if (typeof entry.theme === "string" && entry.theme.length > 0) item.theme = entry.theme;
+        items.push(item);
       }
     }
   }

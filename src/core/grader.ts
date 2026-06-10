@@ -30,6 +30,8 @@ export interface SentenceItem {
   wrong: { match: string; ru: string }[];
   /** Curriculum level (1-based). Defaults to 1 when absent; gated by `levels.ts`. */
   level?: number;
+  /** Thematic group id (see VocabItem.theme); used to group items in the level browser. */
+  theme?: string;
   teaches?: string;
   needs_review?: boolean;
 }

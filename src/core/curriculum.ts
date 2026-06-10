@@ -21,22 +21,37 @@ export type Cefr = "A1.1" | "A1.2" | "A1.3" | "A2.1" | "A2.2";
 export const CEFR_ORDER: readonly Cefr[] = ["A1.1", "A1.2", "A1.3", "A2.1", "A2.2"];
 
 /**
- * Inclusive top level of each band, assigned by the finnish-linguist from content difficulty:
- * A1.1 → levels 1–3, A1.2 → 4–6, A1.3 → 7–9, A2.1 → 10–12, A2.2 → 13–15. A level above the last
- * boundary takes the final band.
+ * Inclusive top level of each band, assigned by the finnish-linguist from content difficulty
+ * (post-rebalance, 19 levels): A1.1 → levels 1–3, A1.2 → 4–7, A1.3 → 8–11, A2.1 → 12–16,
+ * A2.2 → 17–19. A level above the last boundary takes the final band.
  */
 const BAND_MAX_LEVEL: { band: Cefr; maxLevel: number }[] = [
   { band: "A1.1", maxLevel: 3 },
-  { band: "A1.2", maxLevel: 6 },
-  { band: "A1.3", maxLevel: 9 },
-  { band: "A2.1", maxLevel: 12 },
-  { band: "A2.2", maxLevel: 15 },
+  { band: "A1.2", maxLevel: 7 },
+  { band: "A1.3", maxLevel: 11 },
+  { band: "A2.1", maxLevel: 16 },
+  { band: "A2.2", maxLevel: 19 },
 ];
 
 /** The CEFR band a curriculum level belongs to. */
 export function cefrOfLevel(level: number): Cefr {
   for (const b of BAND_MAX_LEVEL) if (level <= b.maxLevel) return b.band;
   return BAND_MAX_LEVEL[BAND_MAX_LEVEL.length - 1]!.band;
+}
+
+/**
+ * How many curriculum levels each band spans, derived from {@link BAND_MAX_LEVEL} (a band covers
+ * the levels between the previous boundary and its own). Drives the CEFR meter rail, so the rail
+ * stays correct when the level count / band boundaries change (e.g. after a curriculum rebalance)
+ * — no hardcoded "3 levels per band".
+ */
+export function cefrBandSizes(): { band: Cefr; levels: number }[] {
+  let prev = 0;
+  return BAND_MAX_LEVEL.map(({ band, maxLevel }) => {
+    const levels = Math.max(0, maxLevel - prev);
+    prev = maxLevel;
+    return { band, levels };
+  });
 }
 
 /** The major CEFR band of a sub-band ("A1" spans A1.1–A1.3; "A2" spans A2.1–A2.2). */

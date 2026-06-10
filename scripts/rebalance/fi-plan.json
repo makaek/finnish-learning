@@ -1,0 +1,339 @@
+{
+  "levels": [
+    {
+      "level": 1,
+      "fi": "Tervehdykset Ja Minä",
+      "ru": "Приветствия И Я",
+      "band": "A1.1",
+      "themes": [
+        { "id": "greetings", "ru": "Приветствия", "wordIds": ["f31","f101","f102","f103","f32","f33","f34"] },
+        { "id": "basics", "ru": "Основные слова", "wordIds": ["p1","p2","p3","p4","p5","p6","v1","f1","f6","a1","a2"] },
+        { "id": "acquaintance", "ru": "Знакомство", "wordIds": ["v6","v7","n16","n20"] },
+        { "id": "home", "ru": "Дом и жильё", "wordIds": ["n1","n2","n3","n4","n6"] },
+        { "id": "food", "ru": "Еда", "wordIds": ["n8","n9","n11","n14","n10"] }
+      ]
+    },
+    {
+      "level": 2,
+      "fi": "Arki Ja Toiminta",
+      "ru": "Будни И Действия",
+      "band": "A1.1",
+      "themes": [
+        { "id": "basics", "ru": "Основные слова", "wordIds": ["v2","v3","v4","v5","n5","n7","a3","a4"] },
+        { "id": "grammar", "ru": "Связки и служебные слова", "wordIds": ["f2","f3","f4","f5","f7"] },
+        { "id": "family", "ru": "Семья", "wordIds": ["n17","n18","n19","n21","n22"] },
+        { "id": "people", "ru": "Люди и внешность", "wordIds": ["p9","p10","p7","p8"] },
+        { "id": "acquaintance", "ru": "Знакомство", "wordIds": ["v8","v9","v10","v11","v12","v13","v14","v15","v72"] }
+      ]
+    },
+    {
+      "level": 3,
+      "fi": "Koulu Ja Eläimet",
+      "ru": "Школа И Животные",
+      "band": "A1.1",
+      "themes": [
+        { "id": "school", "ru": "Школа и учёба", "wordIds": ["n15","n155","n157","n158","n160"] },
+        { "id": "nature", "ru": "Природа", "wordIds": ["n238","n239","n240","n241","n242","n243","n153","n154"] },
+        { "id": "grammar", "ru": "Связки и служебные слова", "wordIds": ["f8","f9","f10","f11","f12","f13"] }
+      ]
+    },
+    {
+      "level": 4,
+      "fi": "Numerot",
+      "ru": "Числительные",
+      "band": "A1.2",
+      "themes": [
+        { "id": "numbers", "ru": "Числительные", "wordIds": ["f14","f15","f16","f17","f18","f19","f20","f21","f22","f23","f24","f49","f50","f51","f52","f53","f54","f55","f56","f57","f25","f26"] }
+      ]
+    },
+    {
+      "level": 5,
+      "fi": "Suuret Numerot Ja Kielet",
+      "ru": "Большие Числа И Языки",
+      "band": "A1.2",
+      "themes": [
+        { "id": "numbers", "ru": "Числительные", "wordIds": ["f58","f59","f60","f61","f62","f63","f64","f65","f66","f67","f68","f69","f70","f71","f72","f73"] },
+        { "id": "calendar", "ru": "Дни и календарь", "wordIds": ["n217","n218"] },
+        { "id": "people", "ru": "Люди и внешность", "wordIds": ["n147","n148","n149","n150","n151","n152","a44","a45","a46","a47","a48","a49"] }
+      ]
+    },
+    {
+      "level": 6,
+      "fi": "Ruoka Ja Kahvila",
+      "ru": "Еда И Кафе",
+      "band": "A1.2",
+      "themes": [
+        { "id": "food", "ru": "Еда", "wordIds": ["n161","n162","n163","n164","n165","n166","n167","n168","n169","n170","n171","n172","n35","n210","n206","n207","n208","n209","n205","n204"] },
+        { "id": "drinks", "ru": "Напитки", "wordIds": ["n32","n33","n34"] },
+        { "id": "cafe", "ru": "Кафе и ресторан", "wordIds": ["v16","v17","v75","n23","n188","n232","n226","n227","n228","n229","n230","n231"] }
+      ]
+    },
+    {
+      "level": 7,
+      "fi": "Kaupungissa Ja Kalenteri",
+      "ru": "В Городе И Календарь",
+      "band": "A1.2",
+      "themes": [
+        { "id": "places", "ru": "Места и здания", "wordIds": ["n12","n13","n24","n25","n26","n27","n28","n186","n256","n159"] },
+        { "id": "money", "ru": "Деньги", "wordIds": ["n29","n30","n31","a11","a12"] },
+        { "id": "calendar", "ru": "Дни и календарь", "wordIds": ["n135","n136","n137","n138","n139","n140","n141","n142","n143","n144","n145","n146"] },
+        { "id": "directions", "ru": "Ориентация и направления", "wordIds": ["v25","v66","v67","f41","f42","f43","f44","f78","f79","f80","f87","f97"] }
+      ]
+    },
+    {
+      "level": 8,
+      "fi": "Sää Ja Kello",
+      "ru": "Погода И Часы",
+      "band": "A1.3",
+      "themes": [
+        { "id": "weather", "ru": "Погода", "wordIds": ["n36","n37","a5","a6","a7","a8"] },
+        { "id": "time", "ru": "Время и часы", "wordIds": ["n38","n39","n44","n183","f74","f75","f76","f77"] },
+        { "id": "grammar", "ru": "Связки и служебные слова", "wordIds": ["v18","v19","v20","v21","v22","v71","v96","a9","a10","f27","f28","f29","f30","f90","f92","f93","f95","f96","n156","n173","n267"] }
+      ]
+    },
+    {
+      "level": 9,
+      "fi": "Päivän Rytmi Ja Huone",
+      "ru": "Распорядок Дня И Комната",
+      "band": "A1.3",
+      "themes": [
+        { "id": "routine", "ru": "Распорядок дня", "wordIds": ["v23","v24","v26","v27","v28","v29","v30","v69","v70","v83","v79","v80","v68","n268"] },
+        { "id": "time", "ru": "Время и часы", "wordIds": ["n40","n41","n42","n43","n216"] },
+        { "id": "furniture", "ru": "Мебель и комната", "wordIds": ["n45","n46","n47","n48","n49","n50"] },
+        { "id": "grammar", "ru": "Связки и служебные слова", "wordIds": ["f35","f36","f81","f82","f83","f84","f88","f89","f91","f94","f98","a13","a14","a15","a16"] }
+      ]
+    },
+    {
+      "level": 10,
+      "fi": "Perhe Ja Ammatit",
+      "ru": "Семья И Профессии",
+      "band": "A1.3",
+      "themes": [
+        { "id": "family", "ru": "Семья", "wordIds": ["n51","n52","n53","n54","n55","n174","n175","n176","n177","n178","n219","n220"] },
+        { "id": "work", "ru": "Работа и профессии", "wordIds": ["n60","n211","n212","n244","n245","n246","n247","n248","n249","n250","v98","v90"] },
+        { "id": "places", "ru": "Места и здания", "wordIds": ["n251","n252","n253","n254","n255","n189","n187"] }
+      ]
+    },
+    {
+      "level": 11,
+      "fi": "Liikkuminen Ja Värit",
+      "ru": "Передвижение И Цвета",
+      "band": "A1.3",
+      "themes": [
+        { "id": "transport", "ru": "Транспорт", "wordIds": ["n56","n57","n58","n59","n222","v33","v97","v76","v77"] },
+        { "id": "routine", "ru": "Распорядок дня", "wordIds": ["v31","v32","v34","v35","v36","v78","v81","v82","v85","v87"] },
+        { "id": "people", "ru": "Люди и внешность", "wordIds": ["a23","a24","a25","a26","a58","a59","a60","a61","a67","a68"] },
+        { "id": "grammar", "ru": "Связки и служебные слова", "wordIds": ["a17","a18","a19","a20","a21","a22","a50","a51","a52","a69","a70","a71","f85","f86","f99"] }
+      ]
+    },
+    {
+      "level": 12,
+      "fi": "Luonto Ja Matka",
+      "ru": "Природа И Путешествие",
+      "band": "A2.1",
+      "themes": [
+        { "id": "nature", "ru": "Природа", "wordIds": ["n61","n62","n63","n64","n65","n66","n67","n68","n69","n70","n191","n192","n193","n194","n195","n196","n257","n258","n259","n260","n261"] },
+        { "id": "travel", "ru": "Путешествия", "wordIds": ["v37","v38","v39","v40","v41","v42","v50","v84","v86","v94","v95","n71","n72","n73","n74"] }
+      ]
+    },
+    {
+      "level": 13,
+      "fi": "Kalenteri, Vuodenajat Ja Tunteet",
+      "ru": "Календарь, Времена Года И Чувства",
+      "band": "A2.1",
+      "themes": [
+        { "id": "calendar", "ru": "Дни и календарь", "wordIds": ["n75","n76","n77","n78","n79","n80","n81"] },
+        { "id": "weather", "ru": "Погода", "wordIds": ["a53","a54","a55","a56","a57","a72","a73","a74","f100"] },
+        { "id": "feelings", "ru": "Чувства и эмоции", "wordIds": ["n86","n87","a27","a28","a29","a30","a31","a32"] },
+        { "id": "grammar", "ru": "Связки и служебные слова", "wordIds": ["v43","v44","v45","v46","v47","v48","v49","v88","v89","n82","n83","n84","n85","n214","a63","a64","a65","a66","f37"] }
+      ]
+    },
+    {
+      "level": 14,
+      "fi": "Koti Sisältä",
+      "ru": "Дом Изнутри",
+      "band": "A2.1",
+      "themes": [
+        { "id": "furniture", "ru": "Мебель и комната", "wordIds": ["n88","n89","n90","n91","n92","n93","n94","n95","n96","n97","n98","n99","n100","n101","n102","n103","n262","n263","n264","n265","n266"] },
+        { "id": "home", "ru": "Дом и жильё", "wordIds": ["n104","n105","n106","n107","n279","n280","n281","n282","n283","v51","v52","a33","a34"] },
+        { "id": "food", "ru": "Еда", "wordIds": ["n292","n293","n294","n296","n297","n298","n299","n300"] },
+        { "id": "grammar", "ru": "Связки и служебные слова", "wordIds": ["v99","v100","v101"] }
+      ]
+    },
+    {
+      "level": 15,
+      "fi": "Kaupunki Ja Ostokset",
+      "ru": "Город И Покупки",
+      "band": "A2.1",
+      "themes": [
+        { "id": "city", "ru": "Город", "wordIds": ["n108","n109","n110","n111","n112","n113","n284","n285","n286","n287","n288","n289"] },
+        { "id": "directions", "ru": "Ориентация и направления", "wordIds": ["v53","v54","v55","f38","f39","f40","a35","a36","a37","a38"] },
+        { "id": "shopping", "ru": "Покупки", "wordIds": ["v57","v58","v116","n117","n118","n184","n185","n290","n291","n295"] },
+        { "id": "clothes", "ru": "Одежда", "wordIds": ["v106","n114","n115","n116","n179","n180","n181","n182","n197","n221","n233","n234","n235"] }
+      ]
+    },
+    {
+      "level": 16,
+      "fi": "Harrastukset Ja Mielipiteet",
+      "ru": "Хобби И Мнения",
+      "band": "A2.1",
+      "themes": [
+        { "id": "hobbies", "ru": "Хобби и досуг", "wordIds": ["n274","n275","n276","v114","v115"] },
+        { "id": "sports", "ru": "Спорт", "wordIds": ["n271","n272","n273","n277","n278","v56","v105"] },
+        { "id": "feelings", "ru": "Чувства и эмоции", "wordIds": ["n269","n270","v102","v103","v104","v109","v110","v111","a75"] }
+      ]
+    },
+    {
+      "level": 17,
+      "fi": "Keho Ja Terveys",
+      "ru": "Тело И Здоровье",
+      "band": "A2.2",
+      "themes": [
+        { "id": "body", "ru": "Тело", "wordIds": ["n119","n120","n121","n122","n123","n124","n198","n199","n200","n201","n202","n203","n236","n237"] },
+        { "id": "health", "ru": "Здоровье", "wordIds": ["n125","n126","n127","n128","n301","n302","v59","v60","v61","v63","v64","v65","v73","v74","v107","v108","a39","a40","a41","a79"] }
+      ]
+    },
+    {
+      "level": 18,
+      "fi": "Vuodenajat Ja Menneisyys",
+      "ru": "Времена Года И Прошлое",
+      "band": "A2.2",
+      "themes": [
+        { "id": "seasons", "ru": "Времена года", "wordIds": ["n129","n130","n131","n132"] },
+        { "id": "weather", "ru": "Погода", "wordIds": ["n133","n134","n224","n225","a42","a43"] },
+        { "id": "feelings", "ru": "Чувства и эмоции", "wordIds": ["v62","v112","v113","a76","a77","a78","f45","f46","f47","f48"] },
+        { "id": "past", "ru": "Прошлое и воспоминания", "wordIds": ["v117","v118","v119","n303","n304","n305","n306","n307","n308","n309","n310","n311"] },
+        { "id": "grammar", "ru": "Связки и служебные слова", "wordIds": ["f104","f105","f106","f107","f108","f109"] }
+      ]
+    },
+    {
+      "level": 19,
+      "fi": "Koti, Muutto Ja Terveelliset Tavat",
+      "ru": "Дом, Переезд И Здоровый Образ Жизни",
+      "band": "A2.2",
+      "themes": [
+        { "id": "chores", "ru": "Быт и дела", "wordIds": ["v120","v121","v122","v123","v124","n312","n313","n314","n315","n316","n317","n318","n319","n320","n321","n322","n323","n324","a80","a81"] },
+        { "id": "food", "ru": "Еда", "wordIds": ["v125","v126","v127","v128","v129","v130","v131","v133","n325","n326","n327","n328","n329","n338"] },
+        { "id": "sports", "ru": "Спорт", "wordIds": ["v132","n334","n335","n336","n337","n339"] },
+        { "id": "health", "ru": "Здоровье", "wordIds": ["n330","n331","n332","n333"] }
+      ]
+    }
+  ],
+  "texts": {
+    "t1": { "level": 1, "theme": "greetings" },
+    "t37": { "level": 1, "theme": "food" },
+    "t13": { "level": 1, "theme": "greetings" },
+    "t2": { "level": 1, "theme": "acquaintance" },
+
+    "t38": { "level": 2, "theme": "basics" },
+    "t61": { "level": 2, "theme": "acquaintance" },
+    "t17": { "level": 2, "theme": "people" },
+    "t14": { "level": 2, "theme": "home" },
+    "t3": { "level": 2, "theme": "family" },
+
+    "t15": { "level": 3, "theme": "school" },
+    "t4": { "level": 3, "theme": "grammar" },
+    "t76": { "level": 3, "theme": "nature" },
+    "t59": { "level": 3, "theme": "nature" },
+
+    "t16": { "level": 4, "theme": "numbers" },
+    "t66": { "level": 4, "theme": "numbers" },
+    "t56": { "level": 4, "theme": "numbers" },
+    "t39": { "level": 4, "theme": "numbers" },
+
+    "t51": { "level": 5, "theme": "people" },
+    "t77": { "level": 5, "theme": "people" },
+    "t65": { "level": 5, "theme": "calendar" },
+    "t44": { "level": 5, "theme": "calendar" },
+
+    "t5": { "level": 6, "theme": "cafe" },
+    "t18": { "level": 6, "theme": "cafe" },
+    "t63": { "level": 6, "theme": "cafe" },
+    "t69": { "level": 6, "theme": "cafe" },
+    "t75": { "level": 6, "theme": "cafe" },
+    "t40": { "level": 6, "theme": "food" },
+    "t26": { "level": 6, "theme": "food" },
+
+    "t6": { "level": 7, "theme": "places" },
+    "t53": { "level": 7, "theme": "places" },
+    "t25": { "level": 7, "theme": "places" },
+    "t67": { "level": 7, "theme": "places" },
+
+    "t7": { "level": 8, "theme": "weather" },
+    "t52": { "level": 8, "theme": "time" },
+    "t54": { "level": 8, "theme": "time" },
+    "t41": { "level": 8, "theme": "weather" },
+    "t27": { "level": 8, "theme": "time" },
+
+    "t8": { "level": 9, "theme": "time" },
+    "t43": { "level": 9, "theme": "routine" },
+    "t9": { "level": 9, "theme": "routine" },
+    "t42": { "level": 9, "theme": "routine" },
+    "t60": { "level": 9, "theme": "routine" },
+
+    "t10": { "level": 10, "theme": "work" },
+    "t73": { "level": 10, "theme": "places" },
+    "t58": { "level": 10, "theme": "family" },
+    "t20": { "level": 10, "theme": "family" },
+
+    "t45": { "level": 11, "theme": "transport" },
+    "t74": { "level": 11, "theme": "people" },
+    "t48": { "level": 11, "theme": "routine" },
+    "t57": { "level": 11, "theme": "routine" },
+
+    "t11": { "level": 12, "theme": "travel" },
+    "t21": { "level": 12, "theme": "travel" },
+    "t71": { "level": 12, "theme": "travel" },
+    "t28": { "level": 12, "theme": "travel" },
+    "t46": { "level": 12, "theme": "nature" },
+    "t68": { "level": 12, "theme": "nature" },
+
+    "t19": { "level": 13, "theme": "weather" },
+    "t22": { "level": 13, "theme": "grammar" },
+    "t47": { "level": 13, "theme": "feelings" },
+    "t72": { "level": 13, "theme": "weather" },
+    "t70": { "level": 13, "theme": "calendar" },
+    "t33": { "level": 13, "theme": "weather" },
+
+    "t24": { "level": 14, "theme": "furniture" },
+    "t50": { "level": 14, "theme": "furniture" },
+    "t23": { "level": 14, "theme": "furniture" },
+    "t49": { "level": 14, "theme": "furniture" },
+    "t62": { "level": 14, "theme": "home" },
+    "t84": { "level": 14, "theme": "home" },
+
+    "t31": { "level": 15, "theme": "clothes" },
+    "t32": { "level": 15, "theme": "directions" },
+    "t64": { "level": 15, "theme": "clothes" },
+    "t85": { "level": 15, "theme": "city" },
+    "t29": { "level": 15, "theme": "city" },
+    "t30": { "level": 15, "theme": "city" },
+
+    "t81": { "level": 16, "theme": "feelings" },
+    "t79": { "level": 16, "theme": "feelings" },
+    "t82": { "level": 16, "theme": "hobbies" },
+    "t34": { "level": 16, "theme": "feelings" },
+    "t80": { "level": 16, "theme": "city" },
+
+    "t35": { "level": 17, "theme": "health" },
+    "t55": { "level": 17, "theme": "health" },
+    "t83": { "level": 17, "theme": "body" },
+    "t12": { "level": 17, "theme": "health" },
+    "t95": { "level": 17, "theme": "health" },
+
+    "t36": { "level": 18, "theme": "weather" },
+    "t78": { "level": 18, "theme": "feelings" },
+    "t88": { "level": 18, "theme": "past" },
+    "t89": { "level": 18, "theme": "past" },
+    "t86": { "level": 18, "theme": "past" },
+    "t87": { "level": 18, "theme": "past" },
+
+    "t92": { "level": 19, "theme": "chores" },
+    "t93": { "level": 19, "theme": "chores" },
+    "t96": { "level": 19, "theme": "food" },
+    "t97": { "level": 19, "theme": "health" },
+    "t90": { "level": 19, "theme": "chores" },
+    "t91": { "level": 19, "theme": "chores" },
+    "t94": { "level": 19, "theme": "food" }
+  }
+}

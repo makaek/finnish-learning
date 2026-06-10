@@ -20,7 +20,7 @@ import {
   type VocabLike,
 } from "../core/levels";
 import { computeBalance, type ModeInput } from "../core/balance";
-import { cefrProgress, cefrOfLevel, CEFR_ORDER } from "../core/curriculum";
+import { cefrProgress, cefrOfLevel, CEFR_ORDER, cefrBandSizes } from "../core/curriculum";
 import { bandName } from "../data/levelTitles";
 import CefrMeter, { type CefrBand, type CefrState } from "./CefrMeter";
 import type { ProgressMap } from "../core/progress";
@@ -127,8 +127,12 @@ export default function Roadmap({
 }: RoadmapProps) {
   // The four CEFR bands for the meter rail (3 levels each). Recomputed per language so the band
   // names follow the active pack (bandName reads the active titles, set by App before this renders).
+  // NB: cefrBandSizes() reflects the FINNISH curriculum (19 levels). The English pack has fewer
+  // levels but shares this CEFR mapping, so its meter rail over-counts cells — a pre-existing
+  // approximation (English CEFR banding is rough until English gets its own curriculum). Finnish,
+  // the focus here, is exact.
   const bands = useMemo<CefrBand[]>(
-    () => CEFR_ORDER.map((id) => ({ id, ru: bandName(id), levels: 3 })),
+    () => cefrBandSizes().map(({ band, levels }) => ({ id: band, ru: bandName(band), levels })),
     // `lang` isn't read in the body, but bandName() reads the active titles that App swaps on a
     // language change — so `lang` is the (only) correct trigger to recompute the band labels.
     // eslint-disable-next-line react-hooks/exhaustive-deps

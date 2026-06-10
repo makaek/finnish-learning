@@ -22,6 +22,7 @@ import {
   type LevelSummary,
 } from "../core/levels";
 import { levelTitle, bandName } from "../data/levelTitles";
+import { THEMES, OTHER_THEME, themeLabel, themeOrder } from "../data/themes";
 import { CEFR_ORDER, cefrOfLevel } from "../core/curriculum";
 import { hiddenKey, type Group } from "./hidden";
 import { UiIcon, type UiIconName } from "./icons";
@@ -307,6 +308,8 @@ interface WSItem {
   ru: string;
   group: Group;
   modes: number[];
+  /** Thematic group id (for the level-browser sub-headings); absent → "Другое". */
+  theme?: string;
 }
 /** A text/dialog item with its reading-quiz box + whether it's been opened. */
 interface TxItem {
@@ -316,6 +319,7 @@ interface TxItem {
   dialog: boolean;
   readingBox: number;
   opened: boolean;
+  theme?: string;
 }
 type StatusKind = "active" | "known" | "mastered";
 
@@ -467,6 +471,27 @@ interface ActiveEntry {
   node: ReactNode;
   /** Word/sentence cards are swipeable; text/dialog cards are not. */
   onSwipe?: () => void;
+  /** Thematic group id, for sub-heading grouping within the section. */
+  theme?: string;
+}
+
+/**
+ * Group active entries by theme, ordered by the registry. Unknown/absent themes collapse into a
+ * single "Другое" bucket sorted last. Used to render theme sub-headings; when there's only one
+ * group (e.g. an all-untagged level, or English) the caller renders it flat with no header.
+ */
+function groupByTheme(active: ActiveEntry[]): { key: string; label: string; entries: ActiveEntry[] }[] {
+  const buckets = new Map<string, ActiveEntry[]>();
+  for (const e of active) {
+    const key = e.theme && THEMES.has(e.theme) ? e.theme : OTHER_THEME;
+    const arr = buckets.get(key) ?? [];
+    arr.push(e);
+    buckets.set(key, arr);
+  }
+  const idOf = (k: string) => (k === OTHER_THEME ? undefined : k);
+  return [...buckets.entries()]
+    .map(([key, entries]) => ({ key, label: themeLabel(idOf(key)), entries }))
+    .sort((a, b) => themeOrder(idOf(a.key)) - themeOrder(idOf(b.key)));
 }
 interface HiddenEntry {
   id: string;
@@ -506,8 +531,8 @@ function Section({
       </div>
       {legend && active.length > 0 && legend}
 
-      <div className="lsec__list">
-        {active.map((e) =>
+      {(() => {
+        const renderEntry = (e: ActiveEntry) =>
           e.onSwipe ? (
             <SwipeCard key={e.id} onSwipe={e.onSwipe}>
               <div className="litemcard">{e.node}</div>
@@ -516,10 +541,33 @@ function Section({
             <div key={e.id} className="litemcard">
               {e.node}
             </div>
-          ),
-        )}
-        {active.length === 0 && hidden.length === 0 && <div className="lsec__empty">Нет элементов.</div>}
-      </div>
+          );
+        const groups = groupByTheme(active);
+        // One group (all-untagged, or a single-theme level) → flat list, no sub-headings.
+        if (groups.length <= 1) {
+          return (
+            <div className="lsec__list">
+              {active.map(renderEntry)}
+              {active.length === 0 && hidden.length === 0 && (
+                <div className="lsec__empty">Нет элементов.</div>
+              )}
+            </div>
+          );
+        }
+        return (
+          <div className="lsec__list">
+            {groups.map((g) => (
+              <div key={g.key} className="lthemegrp">
+                <div className="lthemehd">
+                  <span className="lthemehd__label">{g.label}</span>
+                  <span className="lthemehd__n">{g.entries.length}</span>
+                </div>
+                {g.entries.map(renderEntry)}
+              </div>
+            ))}
+          </div>
+        );
+      })()}
 
       {hidden.length > 0 && (
         <div className="lhidden">
@@ -595,6 +643,7 @@ function DetailView({
       ru: v.ru,
       group: "word",
       modes: WORD_MODES.map((k) => getProgress(progress, k, v.id).box),
+      theme: v.theme,
     }));
   const sents: WSItem[] = sentences
     .filter((s) => levelOf(s) === level)
@@ -604,6 +653,7 @@ function DetailView({
       ru: s.ru,
       group: "sentence",
       modes: SENTENCE_MODES.map((k) => getProgress(progress, k, s.id).box),
+      theme: s.theme,
     }));
   const levelTexts = texts.filter((t) => levelOf(t) === level);
   const textsOf = (dialog: boolean): TxItem[] =>
@@ -616,6 +666,7 @@ function DetailView({
         dialog: t.type === "dialog",
         readingBox: getProgress(progress, "reading", t.id).box,
         opened: read.has(t.id),
+        theme: t.theme,
       }));
 
   // «done» (hidden from the active list): word/sentence — swiped-known OR every mode mastered;
@@ -641,6 +692,7 @@ function DetailView({
         id: it.id,
         node: <WordCardBody it={it} status="active" />,
         onSwipe: () => onKnown(group, it.id),
+        theme: it.theme,
       }));
     const hiddenE: HiddenEntry[] = arr
       .filter(wsDone)
@@ -657,7 +709,7 @@ function DetailView({
     const arr = textsOf(tab === "d");
     const active: ActiveEntry[] = arr
       .filter((it) => !txDone(it))
-      .map((it) => ({ id: it.id, node: <TextCardBody it={it} /> }));
+      .map((it) => ({ id: it.id, node: <TextCardBody it={it} />, theme: it.theme }));
     const hiddenE: HiddenEntry[] = arr
       .filter(txDone)
       .map((it) => ({ id: it.id, node: <TextCardBody it={it} />, tag: "mastered", onReturn: () => onResetItem("text", it.id) }));

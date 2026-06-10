@@ -1,0 +1,43 @@
+{
+  "_meta": {
+    "note": "Thematic groups for organizing curriculum content. Ids are language-agnostic; labels are Russian (the L1 for every supported target language). Words/sentences/texts reference a theme by id via their optional `theme` field; the level browser groups a level's content under these labels in `order`. Items with no/unknown theme fall into a single 'Другое' group. `icon` is optional (a UiIcon name) and unused in v1.",
+    "owner": "finnish-linguist assigns items to these ids during the curriculum rebalance"
+  },
+  "themes": [
+    { "id": "basics", "ru": "Основные слова", "order": 10 },
+    { "id": "greetings", "ru": "Приветствия", "order": 20 },
+    { "id": "acquaintance", "ru": "Знакомство", "order": 30 },
+    { "id": "family", "ru": "Семья", "order": 40 },
+    { "id": "people", "ru": "Люди и внешность", "order": 50 },
+    { "id": "home", "ru": "Дом и жильё", "order": 60 },
+    { "id": "furniture", "ru": "Мебель и комната", "order": 70 },
+    { "id": "school", "ru": "Школа и учёба", "order": 80 },
+    { "id": "work", "ru": "Работа и профессии", "order": 90 },
+    { "id": "numbers", "ru": "Числительные", "order": 100 },
+    { "id": "time", "ru": "Время и часы", "order": 110 },
+    { "id": "calendar", "ru": "Дни и календарь", "order": 120 },
+    { "id": "routine", "ru": "Распорядок дня", "order": 130 },
+    { "id": "food", "ru": "Еда", "order": 140 },
+    { "id": "drinks", "ru": "Напитки", "order": 150 },
+    { "id": "cafe", "ru": "Кафе и ресторан", "order": 160 },
+    { "id": "shopping", "ru": "Покупки", "order": 170 },
+    { "id": "clothes", "ru": "Одежда", "order": 180 },
+    { "id": "money", "ru": "Деньги", "order": 190 },
+    { "id": "city", "ru": "Город", "order": 200 },
+    { "id": "places", "ru": "Места и здания", "order": 210 },
+    { "id": "transport", "ru": "Транспорт", "order": 220 },
+    { "id": "directions", "ru": "Ориентация и направления", "order": 230 },
+    { "id": "travel", "ru": "Путешествия", "order": 240 },
+    { "id": "nature", "ru": "Природа", "order": 250 },
+    { "id": "weather", "ru": "Погода", "order": 260 },
+    { "id": "seasons", "ru": "Времена года", "order": 270 },
+    { "id": "body", "ru": "Тело", "order": 280 },
+    { "id": "health", "ru": "Здоровье", "order": 290 },
+    { "id": "feelings", "ru": "Чувства и эмоции", "order": 300 },
+    { "id": "hobbies", "ru": "Хобби и досуг", "order": 310 },
+    { "id": "sports", "ru": "Спорт", "order": 320 },
+    { "id": "past", "ru": "Прошлое и воспоминания", "order": 330 },
+    { "id": "chores", "ru": "Быт и дела", "order": 340 },
+    { "id": "grammar", "ru": "Связки и служебные слова", "order": 350 }
+  ]
+}

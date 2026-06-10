@@ -53,6 +53,8 @@ export interface ReadingText {
   level: number;
   type: "text" | "dialog";
   lines: ReadingLine[];
+  /** Thematic group id (see VocabItem.theme); used to group items in the level browser. */
+  theme?: string;
   /** Optional comprehension questions, shown after reading/rehearsing (any `type`). */
   questions?: ReadingQuestion[];
 }
@@ -141,6 +143,7 @@ function parseText(raw: unknown): ReadingText | null {
   if (lines.length === 0) return null;
   const text: ReadingText = { id: r.id, title: r.title, level: levelOf(r as { level?: number }), type, lines };
   if (isNonEmptyString(r.titleRu)) text.titleRu = r.titleRu;
+  if (isNonEmptyString(r.theme)) text.theme = r.theme;
   const questions = Array.isArray(r.questions)
     ? r.questions.map(parseQuestion).filter((q): q is ReadingQuestion => q !== null)
     : [];
