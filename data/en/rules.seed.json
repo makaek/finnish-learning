@@ -2,8 +2,8 @@
   "_meta": {
     "language": "en",
     "l1": "ru",
-    "note": "English (target) A1 grammar book for Russian speakers. Same schema as the Finnish seed; example 'fi' field holds the English example. 'match.teaches' keywords are matched as substrings of a sentence's teaches tag. needs_review until verified.",
-    "needs_review": true
+    "note": "English (target) A1 grammar book for Russian speakers. Same schema as the Finnish seed; example 'fi' field holds the English example. 'match.teaches' keywords are matched as substrings of a sentence's teaches tag. Verified by english-linguist 2026-06-10.",
+    "needs_review": false
   },
   "rules": [
     {
@@ -63,6 +63,74 @@
         { "fi": "Are you a student?", "ru": "Ты студент?" }
       ],
       "match": { "teaches": ["question", "inversion", "word order"], "pos": ["pronoun"] }
+    },
+    {
+      "id": "plurals",
+      "title": "Множественное число (-s / -es)",
+      "summary": "Множественное число обычно образуется окончанием -s; после числа > 1 — всегда множественное.",
+      "body": "one dog → two dogs, three apples, five days. После -s/-sh/-ch/-x добавляется -es (box → boxes). С числом артикль «a» не нужен: «two brothers», не «a two brothers». Неисчисляемые (water, bread, money) множественного числа не имеют.",
+      "examples": [
+        { "fi": "two brothers", "ru": "два брата" },
+        { "fi": "five days a week", "ru": "пять дней в неделю" },
+        { "fi": "These apples are tasty.", "ru": "Эти яблоки вкусные." }
+      ],
+      "match": { "teaches": ["plural"], "pos": ["noun", "num"] }
+    },
+    {
+      "id": "there-is",
+      "title": "Оборот there is / there are",
+      "summary": "«Где-то есть …» передаётся через there is (ед. ч.) / there are (мн. ч.).",
+      "body": "«В комнате есть стол» — «There is a table in the room» (а не «In the room is a table»). Для множественного числа — «There are seven days in a week». После «there is» у исчисляемого нужен артикль «a».",
+      "examples": [
+        { "fi": "There is a table in the room.", "ru": "В комнате есть стол." },
+        { "fi": "There are seven days in a week.", "ru": "В неделе семь дней." }
+      ],
+      "match": { "teaches": ["there is"], "pos": [] }
+    },
+    {
+      "id": "prepositions",
+      "title": "Предлоги: in / on / at, at + время",
+      "summary": "Английские предлоги не совпадают с русскими один-к-одному; время — с предлогом at.",
+      "body": "О времени по часам — «at»: «at seven», «at nine o'clock» (не «in seven»). Место: «in a house», «on the table», «at school/work». «home» и «work» в идиомах идут без предлога/артикля: «go home», «start work».",
+      "examples": [
+        { "fi": "I get up at seven.", "ru": "Я встаю в семь." },
+        { "fi": "The book is on the table.", "ru": "Книга на столе." },
+        { "fi": "We go home.", "ru": "Мы идём домой." }
+      ],
+      "match": { "teaches": ["preposition", "at + time", "telling time"], "pos": ["adp"] }
+    },
+    {
+      "id": "demonstratives",
+      "title": "Указательные: this / that / these / those",
+      "summary": "this/that — для ед. числа, these/those — для мн. числа.",
+      "body": "this (этот, рядом) / that (тот, дальше); во множественном — these / those: «this apple» → «these apples». Сказуемое согласуется в числе: «These apples ARE tasty» (не «is»).",
+      "examples": [
+        { "fi": "This is my friend.", "ru": "Это мой друг." },
+        { "fi": "These apples are tasty.", "ru": "Эти яблоки вкусные." }
+      ],
+      "match": { "teaches": ["this is", "these", "possessive"], "pos": ["pronoun"] }
+    },
+    {
+      "id": "frequency",
+      "title": "Наречия частоты (always / never / often)",
+      "summary": "always/usually/often/sometimes/never ставятся ПЕРЕД смысловым глаголом, но ПОСЛЕ to be.",
+      "body": "«He always has breakfast» (перед глаголом), но «I am never late» (после to be). «never» само по себе отрицательное — двойное отрицание не нужно: «She never sleeps late», не «doesn't never».",
+      "examples": [
+        { "fi": "He always has breakfast early.", "ru": "Он всегда завтракает рано." },
+        { "fi": "I am never late.", "ru": "Я никогда не опаздываю." }
+      ],
+      "match": { "teaches": ["adverb of frequency", "never", "every"], "pos": ["adv"] }
+    },
+    {
+      "id": "telling-time",
+      "title": "Который час (What time is it?)",
+      "summary": "Время называют через «it»: It is … o'clock. Вопрос — «What time is it?».",
+      "body": "«Который час?» — «What time is it?» (не «How time…»). Ответ: «It is three o'clock» (с «it», не «now is»). Пишется «o'clock» с апострофом. «At» + время для расписания: «at seven».",
+      "examples": [
+        { "fi": "What time is it?", "ru": "Который час?" },
+        { "fi": "It is three o'clock.", "ru": "Сейчас три часа." }
+      ],
+      "match": { "teaches": ["telling time", "what time", "at + time"], "pos": ["num"] }
     }
   ]
 }

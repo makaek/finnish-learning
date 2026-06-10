@@ -2,8 +2,8 @@
   "_meta": {
     "language": "en",
     "l1": "ru",
-    "note": "English (target) A1 reading. Same schema as the Finnish seed: each line's 'fi' field holds the TARGET (English) text — the field name is kept for schema/loader compatibility. 'ru' is the Russian translation; 'glosses' map a surface token to a short Russian gloss. needs_review until verified.",
-    "needs_review": true
+    "note": "English (target) A1 reading. Same schema as the Finnish seed: each line's 'fi' field holds the TARGET (English) text — the field name is kept for schema/loader compatibility. 'ru' is the Russian translation; 'glosses' map a surface token to a short Russian gloss. Verified by english-linguist 2026-06-10.",
+    "needs_review": false
   },
   "texts": [
     {
@@ -118,6 +118,246 @@
           "accepted": ["Yes, he does.", "Yes.", "Yes", "He likes it.", "Yes, he likes it."],
           "wrong": [{ "match": "no", "ru": "Да — Том говорит «I like it» (мне нравится)." }]
         }
+      ]
+    },
+    {
+      "id": "t3",
+      "title": "At school",
+      "titleRu": "В школе",
+      "level": 1,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Tom", "fi": "Hi! Are you a new student?", "ru": "Привет! Ты новый студент?", "glosses": { "hi": "привет", "are": "есть (быть)", "you": "ты", "new": "новый", "student": "студент" } },
+        { "speaker": "Mia", "fi": "Yes, I am. My name is Mia.", "ru": "Да. Меня зовут Мия.", "glosses": { "yes": "да", "my": "мой", "name": "имя" } },
+        { "speaker": "Tom", "fi": "Nice to meet you. I am Tom.", "ru": "Приятно познакомиться. Я Том.", "glosses": { "nice": "приятно", "meet": "встретить", "i": "я", "am": "есть (быть)" } },
+        { "speaker": "Mia", "fi": "Are you a student too?", "ru": "Ты тоже студент?", "glosses": { "too": "тоже" } },
+        { "speaker": "Tom", "fi": "No, I am a teacher.", "ru": "Нет, я учитель.", "glosses": { "no": "нет", "teacher": "учитель" } }
+      ],
+      "questions": [
+        { "id": "t3q1", "q": "Is Mia a teacher?", "qRu": "Мия — учитель?", "canonical": "No, she is a student.", "accepted": ["No, she is a student.", "No.", "No", "She is a student."], "wrong": [{ "match": "yes", "ru": "Нет — учитель Том, а Мия студентка." }] },
+        { "id": "t3q2", "q": "What is the girl's name?", "qRu": "Как зовут девочку?", "canonical": "Mia.", "accepted": ["Mia.", "Mia", "Her name is Mia."], "wrong": [{ "match": "tom", "ru": "Том — это мальчик; девочку зовут Мия." }] }
+      ]
+    },
+    {
+      "id": "t5",
+      "title": "My friend",
+      "titleRu": "Мой друг",
+      "level": 1,
+      "type": "text",
+      "lines": [
+        { "fi": "This is my friend.", "ru": "Это мой друг.", "glosses": { "this": "это", "is": "есть (быть)", "my": "мой", "friend": "друг" } },
+        { "fi": "His name is Ben.", "ru": "Его зовут Бен.", "glosses": { "his": "его", "name": "имя" } },
+        { "fi": "He is a student and he is very nice.", "ru": "Он студент и он очень милый.", "glosses": { "he": "он", "student": "студент", "and": "и", "very": "очень", "nice": "милый" } },
+        { "fi": "We are happy today.", "ru": "Мы сегодня счастливы.", "glosses": { "we": "мы", "are": "есть (быть)", "happy": "счастливый", "today": "сегодня" } }
+      ],
+      "questions": [
+        { "id": "t5q1", "q": "Who is Ben?", "qRu": "Кто такой Бен?", "canonical": "My friend.", "accepted": ["My friend.", "He is my friend.", "A student."], "wrong": [{ "match": "my teacher", "ru": "Бен — друг и студент, не учитель." }] },
+        { "id": "t5q2", "q": "Is Ben nice?", "qRu": "Бен милый?", "canonical": "Yes, he is.", "accepted": ["Yes, he is.", "Yes.", "Yes", "He is very nice."], "wrong": [{ "match": "no", "ru": "Да — «he is very nice»." }] }
+      ]
+    },
+    {
+      "id": "t6",
+      "title": "Good morning",
+      "titleRu": "Доброе утро",
+      "level": 1,
+      "type": "text",
+      "lines": [
+        { "fi": "Good morning! I am Anna.", "ru": "Доброе утро! Я Анна.", "glosses": { "good": "хороший / добрый", "morning": "утро", "i": "я", "am": "есть (быть)" } },
+        { "fi": "I am a teacher.", "ru": "Я учитель.", "glosses": { "teacher": "учитель" } },
+        { "fi": "This is my school.", "ru": "Это моя школа.", "glosses": { "this": "это", "my": "моя", "school": "школа" } },
+        { "fi": "It is a good day.", "ru": "Это хороший день.", "glosses": { "it": "это", "day": "день" } }
+      ],
+      "questions": [
+        { "id": "t6q1", "q": "What is Anna?", "qRu": "Кто Анна по профессии?", "canonical": "A teacher.", "accepted": ["A teacher.", "She is a teacher.", "Teacher."], "wrong": [{ "match": "a student", "ru": "Анна — учитель, не студент." }] },
+        { "id": "t6q2", "q": "Is it a good day?", "qRu": "День хороший?", "canonical": "Yes, it is.", "accepted": ["Yes, it is.", "Yes.", "Yes"], "wrong": [{ "match": "no", "ru": "Да — «It is a good day»." }] }
+      ]
+    },
+    {
+      "id": "t4",
+      "title": "My family",
+      "titleRu": "Моя семья",
+      "level": 2,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Sam", "fi": "Is this your family?", "ru": "Это твоя семья?", "glosses": { "is": "есть (быть)", "this": "это", "your": "твоя", "family": "семья" } },
+        { "speaker": "Kate", "fi": "Yes. This is my mother and my father.", "ru": "Да. Это моя мама и мой папа.", "glosses": { "my": "мой", "mother": "мама", "and": "и", "father": "папа" } },
+        { "speaker": "Sam", "fi": "Do you have a brother?", "ru": "У тебя есть брат?", "glosses": { "do": "вспомог. глагол (вопрос)", "have": "иметь", "brother": "брат" } },
+        { "speaker": "Kate", "fi": "Yes, I have a brother and a sister.", "ru": "Да, у меня есть брат и сестра.", "glosses": { "sister": "сестра" } },
+        { "speaker": "Sam", "fi": "You have a big family!", "ru": "У тебя большая семья!", "glosses": { "big": "большая" } }
+      ],
+      "questions": [
+        { "id": "t4q1", "q": "Does Kate have a sister?", "qRu": "У Кейт есть сестра?", "canonical": "Yes, she does.", "accepted": ["Yes, she does.", "Yes.", "Yes", "She has a sister."], "wrong": [{ "match": "no", "ru": "Да — «I have a brother and a sister»." }] },
+        { "id": "t4q2", "q": "Is Kate's family big?", "qRu": "Семья Кейт большая?", "canonical": "Yes, it is.", "accepted": ["Yes, it is.", "Yes.", "Yes", "It is big.", "Big."], "wrong": [{ "match": "no", "ru": "Да — Сэм говорит «a big family»." }] }
+      ]
+    },
+    {
+      "id": "t7",
+      "title": "Our house",
+      "titleRu": "Наш дом",
+      "level": 2,
+      "type": "text",
+      "lines": [
+        { "fi": "We live in a big house.", "ru": "Мы живём в большом доме.", "glosses": { "we": "мы", "live": "живём", "in": "в", "big": "большой", "house": "дом" } },
+        { "fi": "My room has a table and a window.", "ru": "В моей комнате есть стол и окно.", "glosses": { "my": "моя", "room": "комната", "has": "имеет", "table": "стол", "and": "и", "window": "окно" } },
+        { "fi": "We have a dog and a cat.", "ru": "У нас есть собака и кошка.", "glosses": { "have": "иметь", "dog": "собака", "cat": "кошка" } },
+        { "fi": "The house has a small garden.", "ru": "У дома есть маленький сад.", "glosses": { "small": "маленький", "garden": "сад" } }
+      ],
+      "questions": [
+        { "id": "t7q1", "q": "What animals do they have?", "qRu": "Какие животные у них есть?", "canonical": "A dog and a cat.", "accepted": ["A dog and a cat.", "A dog and cat.", "A cat and a dog."], "wrong": [{ "match": "a fish", "ru": "У них собака и кошка." }] },
+        { "id": "t7q2", "q": "Is the garden big?", "qRu": "Сад большой?", "canonical": "No, it is small.", "accepted": ["No, it is small.", "No.", "No", "It is small.", "Small."], "wrong": [{ "match": "yes", "ru": "Нет — «a small garden»." }] }
+      ]
+    },
+    {
+      "id": "t8",
+      "title": "My mother",
+      "titleRu": "Моя мама",
+      "level": 2,
+      "type": "text",
+      "lines": [
+        { "fi": "My mother is a teacher.", "ru": "Моя мама — учитель.", "glosses": { "my": "моя", "mother": "мама", "is": "есть (быть)", "teacher": "учитель" } },
+        { "fi": "She works in a school.", "ru": "Она работает в школе.", "glosses": { "she": "она", "works": "работает", "in": "в", "school": "школа" } },
+        { "fi": "She is not old. She is young.", "ru": "Она не старая. Она молодая.", "glosses": { "not": "не", "old": "старая", "young": "молодая" } },
+        { "fi": "I love my mother.", "ru": "Я люблю свою маму.", "glosses": { "i": "я", "love": "люблю" } }
+      ],
+      "questions": [
+        { "id": "t8q1", "q": "Where does the mother work?", "qRu": "Где работает мама?", "canonical": "In a school.", "accepted": ["In a school.", "At a school.", "She works in a school.", "In a school"], "wrong": [{ "match": "in a shop", "ru": "Мама работает в школе." }] },
+        { "id": "t8q2", "q": "Is the mother old?", "qRu": "Мама старая?", "canonical": "No, she is young.", "accepted": ["No, she is young.", "No.", "No", "She is young."], "wrong": [{ "match": "yes", "ru": "Нет — «She is young»." }] }
+      ]
+    },
+    {
+      "id": "t9",
+      "title": "At the restaurant",
+      "titleRu": "В ресторане",
+      "level": 3,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Waiter", "fi": "Hello! What do you want?", "ru": "Здравствуйте! Что вы хотите?", "glosses": { "hello": "здравствуйте", "what": "что", "do": "вспомог. глагол (вопрос)", "you": "вы", "want": "хотите" } },
+        { "speaker": "Guest", "fi": "I want bread and fish, please.", "ru": "Я хочу хлеб и рыбу, пожалуйста.", "glosses": { "i": "я", "bread": "хлеб", "and": "и", "fish": "рыба", "please": "пожалуйста" } },
+        { "speaker": "Waiter", "fi": "Do you want coffee or tea?", "ru": "Вы хотите кофе или чай?", "glosses": { "coffee": "кофе", "or": "или", "tea": "чай" } },
+        { "speaker": "Guest", "fi": "Tea, please. I don't drink coffee.", "ru": "Чай, пожалуйста. Я не пью кофе.", "glosses": { "drink": "пить" } }
+      ],
+      "questions": [
+        { "id": "t9q1", "q": "What does the guest want to eat?", "qRu": "Что хочет поесть гость?", "canonical": "Bread and fish.", "accepted": ["Bread and fish.", "Fish and bread.", "Bread and fish"], "wrong": [{ "match": "meat", "ru": "Гость просит хлеб и рыбу." }] },
+        { "id": "t9q2", "q": "Does the guest drink coffee?", "qRu": "Гость пьёт кофе?", "canonical": "No, he doesn't.", "accepted": ["No, he doesn't.", "No.", "No", "He doesn't drink coffee."], "wrong": [{ "match": "yes", "ru": "Нет — «I don't drink coffee»." }] }
+      ]
+    },
+    {
+      "id": "t10",
+      "title": "In the shop",
+      "titleRu": "В магазине",
+      "level": 3,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Mum", "fi": "We buy bread and milk today.", "ru": "Сегодня покупаем хлеб и молоко.", "glosses": { "we": "мы", "buy": "покупаем", "bread": "хлеб", "and": "и", "milk": "молоко", "today": "сегодня" } },
+        { "speaker": "Kid", "fi": "I want apples too.", "ru": "Я тоже хочу яблоки.", "glosses": { "i": "я", "want": "хочу", "apples": "яблоки", "too": "тоже" } },
+        { "speaker": "Mum", "fi": "Yes, these apples are good.", "ru": "Да, эти яблоки хорошие.", "glosses": { "these": "эти", "are": "есть (быть)", "good": "хорошие" } },
+        { "speaker": "Kid", "fi": "I am hungry now!", "ru": "Я сейчас голоден!", "glosses": { "am": "есть (быть)", "hungry": "голодный", "now": "сейчас" } }
+      ],
+      "questions": [
+        { "id": "t10q1", "q": "What do they buy?", "qRu": "Что они покупают?", "canonical": "Bread and milk.", "accepted": ["Bread and milk.", "Bread and milk", "Milk and bread."], "wrong": [{ "match": "tea", "ru": "Они покупают хлеб и молоко." }] },
+        { "id": "t10q2", "q": "Is the child hungry?", "qRu": "Ребёнок голоден?", "canonical": "Yes, he is.", "accepted": ["Yes, he is.", "Yes.", "Yes", "He is hungry."], "wrong": [{ "match": "no", "ru": "Да — «I am hungry now»." }] }
+      ]
+    },
+    {
+      "id": "t11",
+      "title": "My breakfast",
+      "titleRu": "Мой завтрак",
+      "level": 3,
+      "type": "text",
+      "lines": [
+        { "fi": "I have breakfast every morning.", "ru": "Я завтракаю каждое утро.", "glosses": { "i": "я", "have": "имею / ем", "breakfast": "завтрак", "every": "каждое", "morning": "утро" } },
+        { "fi": "I eat bread and an egg.", "ru": "Я ем хлеб и яйцо.", "glosses": { "eat": "ем", "bread": "хлеб", "and": "и", "egg": "яйцо" } },
+        { "fi": "I drink tea, but I don't drink coffee.", "ru": "Я пью чай, но не пью кофе.", "glosses": { "drink": "пью", "tea": "чай", "but": "но", "coffee": "кофе" } },
+        { "fi": "The tea is hot.", "ru": "Чай горячий.", "glosses": { "is": "есть (быть)", "hot": "горячий" } }
+      ],
+      "questions": [
+        { "id": "t11q1", "q": "What does the person eat?", "qRu": "Что человек ест?", "canonical": "Bread and an egg.", "accepted": ["Bread and an egg.", "Bread and egg.", "An egg and bread.", "Bread and an egg"], "wrong": [{ "match": "fish", "ru": "Он ест хлеб и яйцо." }] },
+        { "id": "t11q2", "q": "Does the person drink coffee?", "qRu": "Человек пьёт кофе?", "canonical": "No.", "accepted": ["No.", "No", "No, he doesn't.", "He doesn't drink coffee."], "wrong": [{ "match": "yes", "ru": "Нет — «I don't drink coffee»." }] }
+      ]
+    },
+    {
+      "id": "t12",
+      "title": "Food I like",
+      "titleRu": "Еда, которую я люблю",
+      "level": 3,
+      "type": "text",
+      "lines": [
+        { "fi": "I like fish and fruit.", "ru": "Я люблю рыбу и фрукты.", "glosses": { "i": "я", "like": "люблю", "fish": "рыба", "and": "и", "fruit": "фрукты" } },
+        { "fi": "I don't like meat.", "ru": "Я не люблю мясо.", "glosses": { "meat": "мясо" } },
+        { "fi": "My father cooks dinner every day.", "ru": "Мой папа готовит ужин каждый день.", "glosses": { "my": "мой", "father": "папа", "cooks": "готовит", "dinner": "ужин", "every": "каждый", "day": "день" } },
+        { "fi": "The food is very tasty.", "ru": "Еда очень вкусная.", "glosses": { "food": "еда", "is": "есть (быть)", "very": "очень", "tasty": "вкусная" } }
+      ],
+      "questions": [
+        { "id": "t12q1", "q": "Does the person like meat?", "qRu": "Человек любит мясо?", "canonical": "No.", "accepted": ["No.", "No", "No, he doesn't.", "He doesn't like meat."], "wrong": [{ "match": "yes", "ru": "Нет — «I don't like meat»." }] },
+        { "id": "t12q2", "q": "Who cooks dinner?", "qRu": "Кто готовит ужин?", "canonical": "My father.", "accepted": ["My father.", "His father.", "Father.", "My dad.", "My father"], "wrong": [{ "match": "my mother", "ru": "Ужин готовит папа." }] }
+      ]
+    },
+    {
+      "id": "t13",
+      "title": "What time is it?",
+      "titleRu": "Который час?",
+      "level": 4,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Ann", "fi": "What time is it?", "ru": "Который час?", "glosses": { "what": "что / какой", "time": "время", "is": "есть (быть)", "it": "оно" } },
+        { "speaker": "Ben", "fi": "It is seven o'clock.", "ru": "Сейчас семь часов.", "glosses": { "seven": "семь", "o'clock": "часов (ровно)" } },
+        { "speaker": "Ann", "fi": "I get up at seven every day.", "ru": "Я встаю в семь каждый день.", "glosses": { "i": "я", "get": "вставать (get up)", "up": "вставать (get up)", "at": "в (о времени)", "every": "каждый", "day": "день" } },
+        { "speaker": "Ben", "fi": "I get up early too.", "ru": "Я тоже встаю рано.", "glosses": { "early": "рано", "too": "тоже" } }
+      ],
+      "questions": [
+        { "id": "t13q1", "q": "What time is it?", "qRu": "Который час?", "canonical": "Seven o'clock.", "accepted": ["Seven o'clock.", "It is seven o'clock.", "Seven.", "Seven", "Seven o'clock"], "wrong": [{ "match": "nine o'clock", "ru": "Бен говорит «seven o'clock»." }] },
+        { "id": "t13q2", "q": "When does Ann get up?", "qRu": "Когда встаёт Энн?", "canonical": "At seven.", "accepted": ["At seven.", "At seven o'clock.", "Seven o'clock.", "At seven"], "wrong": [{ "match": "at eight", "ru": "Энн встаёт в семь." }] }
+      ]
+    },
+    {
+      "id": "t14",
+      "title": "My week",
+      "titleRu": "Моя неделя",
+      "level": 4,
+      "type": "dialog",
+      "lines": [
+        { "speaker": "Joe", "fi": "Do you work every day?", "ru": "Ты работаешь каждый день?", "glosses": { "do": "вспомог. глагол (вопрос)", "you": "ты", "work": "работаешь", "every": "каждый", "day": "день" } },
+        { "speaker": "Mia", "fi": "I work five days a week.", "ru": "Я работаю пять дней в неделю.", "glosses": { "i": "я", "five": "пять", "days": "дней", "week": "неделя" } },
+        { "speaker": "Joe", "fi": "When do you start?", "ru": "Когда ты начинаешь?", "glosses": { "when": "когда", "start": "начинаешь" } },
+        { "speaker": "Mia", "fi": "I start at nine and finish at five.", "ru": "Я начинаю в девять и заканчиваю в пять.", "glosses": { "at": "в (о времени)", "nine": "девять", "and": "и", "finish": "заканчиваю" } }
+      ],
+      "questions": [
+        { "id": "t14q1", "q": "How many days does Mia work?", "qRu": "Сколько дней работает Мия?", "canonical": "Five days.", "accepted": ["Five days.", "Five.", "Five", "Five days a week.", "Five days"], "wrong": [{ "match": "seven days", "ru": "Мия работает пять дней в неделю." }] },
+        { "id": "t14q2", "q": "When does Mia finish?", "qRu": "Когда Мия заканчивает?", "canonical": "At five.", "accepted": ["At five.", "At five o'clock.", "Five.", "At five"], "wrong": [{ "match": "at nine", "ru": "В девять она начинает; заканчивает в пять." }] }
+      ]
+    },
+    {
+      "id": "t15",
+      "title": "My morning",
+      "titleRu": "Моё утро",
+      "level": 4,
+      "type": "text",
+      "lines": [
+        { "fi": "I get up at six every morning.", "ru": "Я встаю в шесть каждое утро.", "glosses": { "i": "я", "get": "вставать (get up)", "up": "вставать (get up)", "at": "в (о времени)", "six": "шесть", "every": "каждое", "morning": "утро" } },
+        { "fi": "I have breakfast and I go to work.", "ru": "Я завтракаю и иду на работу.", "glosses": { "have": "имею / ем", "breakfast": "завтрак", "and": "и", "go": "иду", "work": "работа" } },
+        { "fi": "I always start work at eight.", "ru": "Я всегда начинаю работу в восемь.", "glosses": { "always": "всегда", "start": "начинаю", "eight": "восемь" } },
+        { "fi": "I am never late.", "ru": "Я никогда не опаздываю.", "glosses": { "am": "есть (быть)", "never": "никогда", "late": "поздно / опаздывающий" } }
+      ],
+      "questions": [
+        { "id": "t15q1", "q": "When does the person get up?", "qRu": "Когда человек встаёт?", "canonical": "At six.", "accepted": ["At six.", "At six o'clock.", "Six.", "At six"], "wrong": [{ "match": "at eight", "ru": "Встаёт в шесть; работу начинает в восемь." }] },
+        { "id": "t15q2", "q": "Is the person ever late?", "qRu": "Человек опаздывает?", "canonical": "No, never.", "accepted": ["No, never.", "No.", "No", "Never.", "He is never late."], "wrong": [{ "match": "yes", "ru": "Нет — «I am never late»." }] }
+      ]
+    },
+    {
+      "id": "t16",
+      "title": "Days and time",
+      "titleRu": "Дни и время",
+      "level": 4,
+      "type": "text",
+      "lines": [
+        { "fi": "There are seven days in a week.", "ru": "В неделе семь дней.", "glosses": { "there": "вот / there are", "are": "есть (быть)", "seven": "семь", "days": "дней", "in": "в", "week": "неделя" } },
+        { "fi": "I sleep eight hours every night.", "ru": "Я сплю восемь часов каждую ночь.", "glosses": { "i": "я", "sleep": "сплю", "eight": "восемь", "hours": "часов", "every": "каждую", "night": "ночь" } },
+        { "fi": "I work from Monday.", "ru": "Я работаю с понедельника.", "glosses": { "work": "работаю", "from": "с / от", "monday": "понедельник" } },
+        { "fi": "I like my week.", "ru": "Мне нравится моя неделя.", "glosses": { "like": "нравится", "my": "моя" } }
+      ],
+      "questions": [
+        { "id": "t16q1", "q": "How many days are in a week?", "qRu": "Сколько дней в неделе?", "canonical": "Seven.", "accepted": ["Seven.", "Seven days.", "There are seven days.", "Seven"], "wrong": [{ "match": "five", "ru": "В неделе семь дней." }] },
+        { "id": "t16q2", "q": "How many hours does the person sleep?", "qRu": "Сколько часов человек спит?", "canonical": "Eight hours.", "accepted": ["Eight hours.", "Eight.", "Eight", "Eight hours every night.", "Eight hours"], "wrong": [{ "match": "seven hours", "ru": "Человек спит восемь часов." }] }
       ]
     }
   ]

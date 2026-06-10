@@ -43,11 +43,12 @@ const gradeQuestion = makeGrader(makeSentenceIndex(questions, NO_PRONOUNS));
 
 const rules = flattenRules(ruleSeed as RawRulesFile);
 
-/** A1 topic titles (levels 1–3). The `fi` field holds the TARGET (English) topic name. */
+/** A1 topic titles (levels 1–4). The `fi` field holds the TARGET (English) topic name. */
 const TITLES: Readonly<Record<number, LevelTitle>> = {
   1: { fi: "Greetings", ru: "Приветствия" },
   2: { fi: "Family & home", ru: "Семья и дом" },
   3: { fi: "Food & daily life", ru: "Еда и быт" },
+  4: { fi: "Numbers & time", ru: "Числа и время" },
 };
 
 export const enPack: LanguagePack = {

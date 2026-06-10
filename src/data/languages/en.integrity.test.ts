@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { enPack } from "./en";
 import { levelOf } from "../../core/levels";
+import { glossKey, tokenizeLine } from "../../core/reading";
 
 /**
  * Data-integrity guard for the authored ENGLISH A1 pack. Mirrors the Finnish integrity tests:
@@ -98,6 +99,33 @@ describe("english pack — reading", () => {
           expect(r.correct, `${q.id}: wrong accepted: "${w.match}"`).toBe(false);
         }
       }
+    }
+  });
+
+  it("has unique text ids and every gloss key is a real token in its line", () => {
+    const tIds = texts.map((t) => t.id);
+    expect(new Set(tIds).size).toBe(tIds.length);
+    for (const t of texts) {
+      for (const line of t.lines) {
+        if (!line.glosses) continue;
+        const lineKeys = new Set(tokenizeLine(line.fi).map(glossKey));
+        for (const key of Object.keys(line.glosses)) {
+          expect(lineKeys.has(key), `${t.id}: gloss key "${key}" not a token of: "${line.fi}"`).toBe(true);
+        }
+      }
+    }
+  });
+
+  // Per the content rule: every English level that has reading must offer at least TWO monologue
+  // texts AND at least TWO dialogs, so neither home reading card is ever thin on any level.
+  it("gives every level at least 2 texts and 2 dialogs", () => {
+    const levels = [...new Set(texts.map((t) => t.level))].sort((a, b) => a - b);
+    for (const lv of levels) {
+      const atLevel = texts.filter((t) => t.level === lv);
+      const monologues = atLevel.filter((t) => (t.type ?? "text") === "text").length;
+      const dialogs = atLevel.filter((t) => t.type === "dialog").length;
+      expect(monologues, `level ${lv}: only ${monologues} text(s), need ≥2`).toBeGreaterThanOrEqual(2);
+      expect(dialogs, `level ${lv}: only ${dialogs} dialog(s), need ≥2`).toBeGreaterThanOrEqual(2);
     }
   });
 });

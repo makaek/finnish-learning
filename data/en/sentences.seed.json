@@ -2,8 +2,8 @@
   "_meta": {
     "language": "en",
     "l1": "ru",
-    "note": "English (target) A1 sentence builder for Russian speakers. Same schema as the Finnish seed. 'wrong.match' is pre-normalized (lowercase, no punctuation, straight apostrophes). Accepted sets include contractions. needs_review until verified by english-linguist.",
-    "needs_review": true
+    "note": "English (target) A1 sentence builder for Russian speakers. Same schema as the Finnish seed. 'wrong.match' is pre-normalized (lowercase, no punctuation, straight apostrophes). Accepted sets include contractions. Verified by english-linguist 2026-06-10.",
+    "needs_review": false
   },
   "sentences": [
     {
@@ -17,8 +17,7 @@
         { "match": "i student", "ru": "Нужен глагол-связка to be: «I am a student» (русское «я студент» по-английски всегда с глаголом)." },
         { "match": "i am student", "ru": "Перед профессией нужен артикль «a»: «I am a student»." }
       ],
-      "teaches": "to be + article a",
-      "needs_review": true
+      "teaches": "to be + article a"
     },
     {
       "id": "s2",
@@ -30,8 +29,7 @@
       "wrong": [
         { "match": "good day morning", "ru": "Устойчивое приветствие — просто «Good morning!»" }
       ],
-      "teaches": "fixed greeting",
-      "needs_review": true
+      "teaches": "fixed greeting"
     },
     {
       "id": "s3",
@@ -44,8 +42,7 @@
         { "match": "you are a teacher", "ru": "В вопросе глагол «are» ставится перед подлежащим: «Are you a teacher?»" },
         { "match": "you teacher", "ru": "Нужен глагол и артикль: «Are you a teacher?»" }
       ],
-      "teaches": "yes/no question — be-inversion",
-      "needs_review": true
+      "teaches": "yes/no question — be-inversion"
     },
     {
       "id": "s4",
@@ -58,8 +55,7 @@
         { "match": "i name is anna", "ru": "«Меня зовут …» по-английски — «My name is …» (мой + name)." },
         { "match": "my name anna", "ru": "Нужен глагол is: «My name is Anna»." }
       ],
-      "teaches": "possessive my + is",
-      "needs_review": true
+      "teaches": "possessive my + is"
     },
     {
       "id": "s5",
@@ -69,8 +65,7 @@
       "canonical": "Thank you!",
       "accepted": ["Thank you!", "Thanks!", "Thank you very much!"],
       "wrong": [],
-      "teaches": "thanks",
-      "needs_review": true
+      "teaches": "thanks"
     },
     {
       "id": "s6",
@@ -83,8 +78,7 @@
         { "match": "sorry i not know", "ru": "Для отрицания нужен вспомогательный do: «I don't know»." },
         { "match": "sorry i don't know it", "ru": "Здесь без «it»: «I don't know»." }
       ],
-      "teaches": "do-support negation (don't)",
-      "needs_review": true
+      "teaches": "do-support negation (don't)"
     },
     {
       "id": "s7",
@@ -97,8 +91,7 @@
         { "match": "i have dog", "ru": "Перед исчисляемым существительным в ед. ч. нужен артикль «a»: «I have a dog»." },
         { "match": "me have a dog", "ru": "Подлежащее — «I», не «me»: «I have a dog»." }
       ],
-      "teaches": "have + article a",
-      "needs_review": true
+      "teaches": "have + article a"
     },
     {
       "id": "s8",
@@ -111,8 +104,7 @@
         { "match": "this my father", "ru": "Нужен глагол is: «This is my father»." },
         { "match": "this is my father's", "ru": "Просто «my father», без 's." }
       ],
-      "teaches": "this is + possessive",
-      "needs_review": true
+      "teaches": "this is + possessive"
     },
     {
       "id": "s9",
@@ -125,8 +117,7 @@
         { "match": "she live in a big house", "ru": "В 3-м лице ед. ч. к глаголу добавляется -s: «she lives»." },
         { "match": "she lives in big house", "ru": "Нужен артикль «a»: «in a big house»." }
       ],
-      "teaches": "3rd-person -s + article a",
-      "needs_review": true
+      "teaches": "3rd-person -s + article a"
     },
     {
       "id": "s10",
@@ -139,8 +130,7 @@
         { "match": "we go to home", "ru": "«home» здесь наречие — без «to»: «We go home»." },
         { "match": "we going home", "ru": "Нужен глагол be для Continuous: «We are going home» (или Present Simple «We go home»)." }
       ],
-      "teaches": "go home (no preposition)",
-      "needs_review": true
+      "teaches": "go home (no preposition)"
     },
     {
       "id": "s11",
@@ -152,8 +142,7 @@
       "wrong": [
         { "match": "i have big family", "ru": "Нужен артикль «a»: «a big family»." }
       ],
-      "teaches": "have + adjective + noun",
-      "needs_review": true
+      "teaches": "have + adjective + noun"
     },
     {
       "id": "s12",
@@ -166,8 +155,7 @@
         { "match": "i drinking coffee", "ru": "Нужен глагол be для Continuous: «I am drinking coffee» (или Present Simple «I drink coffee»)." },
         { "match": "i drink a coffee", "ru": "«coffee» здесь неисчисляемое — без артикля «a»: «I drink coffee»." }
       ],
-      "teaches": "uncountable noun (no article)",
-      "needs_review": true
+      "teaches": "uncountable noun (no article)"
     },
     {
       "id": "s13",
@@ -180,8 +168,7 @@
         { "match": "i not drink tea", "ru": "Для отрицания нужен вспомогательный глагол do: «I don't drink tea»." },
         { "match": "i don't drink a tea", "ru": "«tea» неисчисляемое — без «a»: «I don't drink tea»." }
       ],
-      "teaches": "do-support negation (don't)",
-      "needs_review": true
+      "teaches": "do-support negation (don't)"
     },
     {
       "id": "s14",
@@ -193,8 +180,7 @@
       "wrong": [
         { "match": "he like bread and milk", "ru": "3-е лицо ед. ч.: «he likes» (глагол с -s)." }
       ],
-      "teaches": "3rd-person -s + and",
-      "needs_review": true
+      "teaches": "3rd-person -s + and"
     },
     {
       "id": "s15",
@@ -207,8 +193,7 @@
         { "match": "you speak english", "ru": "Для вопроса нужен вспомогательный do: «Do you speak English?»" },
         { "match": "do you speak on english", "ru": "Без предлога: «speak English» (не «speak on English»)." }
       ],
-      "teaches": "do-support question",
-      "needs_review": true
+      "teaches": "do-support question"
     },
     {
       "id": "s16",
@@ -221,8 +206,7 @@
         { "match": "i very happy today", "ru": "Нужен глагол am: «I am very happy today»." },
         { "match": "i am happy very today", "ru": "«very» ставится перед прилагательным: «very happy»." }
       ],
-      "teaches": "to be + very + adjective",
-      "needs_review": true
+      "teaches": "to be + very + adjective"
     },
     {
       "id": "s17",
@@ -230,12 +214,379 @@
       "uses": ["p1", "v3", "n17", "f4"],
       "level": 3,
       "canonical": "I want water, please.",
-      "accepted": ["I want water, please.", "I would like water, please.", "I'd like some water, please.", "I want some water, please."],
+      "accepted": ["I want water, please.", "I would like water, please.", "I'd like water, please.", "I'd like some water, please.", "I want some water, please."],
       "wrong": [
         { "match": "i want a water please", "ru": "«water» неисчисляемое — без «a»: «I want water» (или «some water»)." }
       ],
-      "teaches": "want + uncountable + please",
-      "needs_review": true
+      "teaches": "want + uncountable + please"
+    },
+    {
+      "id": "s18",
+      "ru": "Как тебя зовут?",
+      "uses": ["p12", "p11", "n1"],
+      "level": 1,
+      "canonical": "What is your name?",
+      "accepted": ["What is your name?", "What's your name?"],
+      "wrong": [
+        { "match": "how is your name", "ru": "«Как тебя зовут?» по-английски — «What is your name?» (буквально «какое твоё имя»), не «how»." },
+        { "match": "what your name", "ru": "Нужен глагол is: «What is your name?»" }
+      ],
+      "teaches": "question word what + is"
+    },
+    {
+      "id": "s19",
+      "ru": "Откуда ты?",
+      "uses": ["f21", "p2", "f22"],
+      "level": 1,
+      "canonical": "Where are you from?",
+      "accepted": ["Where are you from?"],
+      "wrong": [
+        { "match": "from where you are", "ru": "Порядок слов: «Where are you from?»" },
+        { "match": "where you from", "ru": "Нужен глагол are: «Where are you from?»" }
+      ],
+      "teaches": "question — be-inversion + where"
+    },
+    {
+      "id": "s20",
+      "ru": "Это мой друг.",
+      "uses": ["p9", "p8", "n23"],
+      "level": 1,
+      "canonical": "This is my friend.",
+      "accepted": ["This is my friend.", "He is my friend.", "He's my friend."],
+      "wrong": [
+        { "match": "this my friend", "ru": "Нужен глагол is: «This is my friend»." }
+      ],
+      "teaches": "this is + possessive"
+    },
+    {
+      "id": "s21",
+      "ru": "Кто этот мальчик?",
+      "uses": ["p13", "p9", "n26"],
+      "level": 1,
+      "canonical": "Who is this boy?",
+      "accepted": ["Who is this boy?", "Who's this boy?"],
+      "wrong": [
+        { "match": "who this boy", "ru": "Нужен глагол is: «Who is this boy?»" },
+        { "match": "who is this a boy", "ru": "После «this» здесь артикль не нужен: «Who is this boy?»" }
+      ],
+      "teaches": "question word who + is"
+    },
+    {
+      "id": "s22",
+      "ru": "У меня есть брат и сестра.",
+      "uses": ["p1", "v2", "n28", "f8", "n29"],
+      "level": 2,
+      "canonical": "I have a brother and a sister.",
+      "accepted": ["I have a brother and a sister.", "I have a brother and sister.", "I've got a brother and a sister."],
+      "wrong": [
+        { "match": "i have brother and sister", "ru": "Перед исчисляемым существительным нужен артикль: «a brother and a sister»." }
+      ],
+      "teaches": "have + article a + and"
+    },
+    {
+      "id": "s23",
+      "ru": "Моя сестра молодая.",
+      "uses": ["p8", "n29", "a10"],
+      "level": 2,
+      "canonical": "My sister is young.",
+      "accepted": ["My sister is young."],
+      "wrong": [
+        { "match": "my sister young", "ru": "Нужен глагол is: «My sister is young»." }
+      ],
+      "teaches": "to be + adjective"
+    },
+    {
+      "id": "s24",
+      "ru": "Он работает в школе.",
+      "uses": ["p3", "v13", "f15", "n13"],
+      "level": 2,
+      "canonical": "He works in a school.",
+      "accepted": ["He works in a school.", "He works at a school."],
+      "wrong": [
+        { "match": "he work in a school", "ru": "3-е лицо ед. ч.: «he works» (с -s)." },
+        { "match": "he works in school", "ru": "Нужен артикль: «in a school»." }
+      ],
+      "teaches": "3rd-person -s + article"
+    },
+    {
+      "id": "s25",
+      "ru": "В комнате есть стол.",
+      "uses": ["f23", "n35", "f15", "n32"],
+      "level": 2,
+      "canonical": "There is a table in the room.",
+      "accepted": ["There is a table in the room.", "There's a table in the room."],
+      "wrong": [
+        { "match": "in the room is a table", "ru": "Конструкция «there is»: «There is a table in the room»." },
+        { "match": "there is table in the room", "ru": "Нужен артикль: «a table»." }
+      ],
+      "teaches": "there is + article"
+    },
+    {
+      "id": "s26",
+      "ru": "У неё есть собака.",
+      "uses": ["p4", "v2", "n14"],
+      "level": 2,
+      "canonical": "She has a dog.",
+      "accepted": ["She has a dog.", "She's got a dog.", "She has got a dog."],
+      "wrong": [
+        { "match": "she have a dog", "ru": "3-е лицо ед. ч.: «she has» (не «have»)." },
+        { "match": "she has dog", "ru": "Нужен артикль: «a dog»." }
+      ],
+      "teaches": "have 3rd-person (has) + article"
+    },
+    {
+      "id": "s27",
+      "ru": "Открой дверь, пожалуйста.",
+      "uses": ["v23", "n33", "f4"],
+      "level": 2,
+      "canonical": "Open the door, please.",
+      "accepted": ["Open the door, please.", "Please open the door."],
+      "wrong": [
+        { "match": "open door please", "ru": "Перед известным предметом нужен «the»: «Open the door»." },
+        { "match": "you open the door please", "ru": "В повелительном предложении подлежащее не нужно: «Open the door, please»." }
+      ],
+      "teaches": "imperative + the"
+    },
+    {
+      "id": "s28",
+      "ru": "Где твоя книга?",
+      "uses": ["f21", "p11", "n12"],
+      "level": 2,
+      "canonical": "Where is your book?",
+      "accepted": ["Where is your book?", "Where's your book?"],
+      "wrong": [
+        { "match": "where your book", "ru": "Нужен глагол is: «Where is your book?»" }
+      ],
+      "teaches": "question — where + is"
+    },
+    {
+      "id": "s29",
+      "ru": "Я вижу кошку в саду.",
+      "uses": ["p1", "v12", "n15", "f15", "n36"],
+      "level": 2,
+      "canonical": "I see a cat in the garden.",
+      "accepted": ["I see a cat in the garden."],
+      "wrong": [
+        { "match": "i see cat in the garden", "ru": "Нужен артикль: «a cat»." }
+      ],
+      "teaches": "see + article + preposition"
+    },
+    {
+      "id": "s30",
+      "ru": "Я ем завтрак каждое утро.",
+      "uses": ["p1", "v7", "n37", "f26", "n3"],
+      "level": 3,
+      "canonical": "I eat breakfast every morning.",
+      "accepted": ["I eat breakfast every morning.", "I have breakfast every morning."],
+      "wrong": [
+        { "match": "i eat breakfast every mornings", "ru": "После «every» существительное в ед. числе: «every morning»." },
+        { "match": "i eat a breakfast every morning", "ru": "Перед «breakfast» артикль не нужен: «eat breakfast»." }
+      ],
+      "teaches": "every + singular noun"
+    },
+    {
+      "id": "s31",
+      "ru": "Она не ест мясо.",
+      "uses": ["p4", "f17", "v7", "n42"],
+      "level": 3,
+      "canonical": "She doesn't eat meat.",
+      "accepted": ["She doesn't eat meat.", "She does not eat meat."],
+      "wrong": [
+        { "match": "she don't eat meat", "ru": "3-е лицо ед. ч.: «she doesn't» (не «don't»)." },
+        { "match": "she doesn't eats meat", "ru": "После «doesn't» глагол без -s: «doesn't eat»." }
+      ],
+      "teaches": "do-support negation 3rd-person (doesn't)"
+    },
+    {
+      "id": "s32",
+      "ru": "Ты любишь рыбу?",
+      "uses": ["p2", "v9", "n41"],
+      "level": 3,
+      "canonical": "Do you like fish?",
+      "accepted": ["Do you like fish?"],
+      "wrong": [
+        { "match": "you like fish", "ru": "Для вопроса нужен вспомогательный do: «Do you like fish?»" },
+        { "match": "do you like a fish", "ru": "«fish» здесь как тип еды — без артикля: «Do you like fish?»" }
+      ],
+      "teaches": "do-support question"
+    },
+    {
+      "id": "s33",
+      "ru": "Мой отец готовит ужин.",
+      "uses": ["p8", "n7", "v15", "n39"],
+      "level": 3,
+      "canonical": "My father cooks dinner.",
+      "accepted": ["My father cooks dinner.", "My dad cooks dinner."],
+      "wrong": [
+        { "match": "my father cook dinner", "ru": "3-е лицо ед. ч.: «cooks» (с -s)." }
+      ],
+      "teaches": "3rd-person -s"
+    },
+    {
+      "id": "s34",
+      "ru": "Я голоден и хочу есть.",
+      "uses": ["p1", "a11", "f8", "v3", "v7"],
+      "level": 3,
+      "canonical": "I am hungry and I want to eat.",
+      "accepted": ["I am hungry and I want to eat.", "I'm hungry and I want to eat."],
+      "wrong": [
+        { "match": "i hungry and i want to eat", "ru": "Нужен глагол am: «I am hungry»." },
+        { "match": "i am hungry and i want eat", "ru": "После «want» нужен «to»: «want to eat»." }
+      ],
+      "teaches": "to be + want to + verb"
+    },
+    {
+      "id": "s35",
+      "ru": "Кофе горячий.",
+      "uses": ["n18", "a13"],
+      "level": 3,
+      "canonical": "The coffee is hot.",
+      "accepted": ["The coffee is hot."],
+      "wrong": [
+        { "match": "the coffee hot", "ru": "Нужен глагол is: «The coffee is hot»." }
+      ],
+      "teaches": "to be + adjective"
+    },
+    {
+      "id": "s36",
+      "ru": "Мы покупаем хлеб в магазине.",
+      "uses": ["p5", "v16", "n20", "f25", "n46"],
+      "level": 3,
+      "canonical": "We buy bread at the shop.",
+      "accepted": ["We buy bread at the shop.", "We buy bread in the shop."],
+      "wrong": [
+        { "match": "we buy a bread at the shop", "ru": "«bread» неисчисляемое — без «a»: «buy bread»." }
+      ],
+      "teaches": "uncountable + preposition"
+    },
+    {
+      "id": "s37",
+      "ru": "Эти яблоки очень вкусные.",
+      "uses": ["p14", "n22", "f11", "a15"],
+      "level": 3,
+      "canonical": "These apples are very tasty.",
+      "accepted": ["These apples are very tasty."],
+      "wrong": [
+        { "match": "this apples are very tasty", "ru": "Для мн. числа — «these»: «These apples»." },
+        { "match": "these apples is very tasty", "ru": "Мн. число: «these apples ARE»." }
+      ],
+      "teaches": "these + plural agreement"
+    },
+    {
+      "id": "s38",
+      "ru": "Я люблю чай, но не люблю кофе.",
+      "uses": ["p1", "v9", "n19", "f9", "f17", "n18"],
+      "level": 3,
+      "canonical": "I like tea, but I don't like coffee.",
+      "accepted": ["I like tea, but I don't like coffee.", "I like tea but I don't like coffee."],
+      "wrong": [
+        { "match": "i like tea but i not like coffee", "ru": "Для отрицания нужен do: «I don't like coffee»." }
+      ],
+      "teaches": "but + do-support negation"
+    },
+    {
+      "id": "s39",
+      "ru": "Сейчас три часа.",
+      "uses": ["p7", "f30", "n54"],
+      "level": 4,
+      "canonical": "It is three o'clock.",
+      "accepted": ["It is three o'clock.", "It's three o'clock."],
+      "wrong": [
+        { "match": "now is three o'clock", "ru": "О времени говорят с «it»: «It is three o'clock»." },
+        { "match": "it is three o clock", "ru": "Пишется слитно через апостроф: «o'clock»." }
+      ],
+      "teaches": "telling time — it is ... o'clock"
+    },
+    {
+      "id": "s40",
+      "ru": "Я встаю в семь.",
+      "uses": ["p1", "v17", "f25", "f34"],
+      "level": 4,
+      "canonical": "I get up at seven.",
+      "accepted": ["I get up at seven.", "I get up at seven o'clock."],
+      "wrong": [
+        { "match": "i get up in seven", "ru": "О времени — предлог «at»: «at seven»." },
+        { "match": "i get up at the seven", "ru": "Перед временем артикль не нужен: «at seven»." }
+      ],
+      "teaches": "at + time"
+    },
+    {
+      "id": "s41",
+      "ru": "Он всегда завтракает рано.",
+      "uses": ["p3", "f38", "v2", "n37", "a16"],
+      "level": 4,
+      "canonical": "He always has breakfast early.",
+      "accepted": ["He always has breakfast early.", "He always eats breakfast early."],
+      "wrong": [
+        { "match": "he has always breakfast early", "ru": "Наречие частоты «always» ставится перед смысловым глаголом: «He always has…»." },
+        { "match": "he always have breakfast early", "ru": "3-е лицо ед. ч.: «he always has»." }
+      ],
+      "teaches": "adverb of frequency + 3rd-person"
+    },
+    {
+      "id": "s42",
+      "ru": "Я работаю пять дней в неделю.",
+      "uses": ["p1", "v13", "f32", "n2", "n49"],
+      "level": 4,
+      "canonical": "I work five days a week.",
+      "accepted": ["I work five days a week."],
+      "wrong": [
+        { "match": "i work five day a week", "ru": "После числа существительное во мн. ч.: «five days»." },
+        { "match": "i work five days in a week", "ru": "Устойчиво: «five days a week»." }
+      ],
+      "teaches": "plural after number"
+    },
+    {
+      "id": "s43",
+      "ru": "Она никогда не спит поздно.",
+      "uses": ["p4", "f39", "v18", "a17"],
+      "level": 4,
+      "canonical": "She never sleeps late.",
+      "accepted": ["She never sleeps late."],
+      "wrong": [
+        { "match": "she never sleep late", "ru": "3-е лицо ед. ч.: «she never sleeps» (с -s)." },
+        { "match": "she doesn't never sleep late", "ru": "«never» уже отрицание — двойное отрицание не нужно: «She never sleeps late»." }
+      ],
+      "teaches": "never + 3rd-person -s (no double negative)"
+    },
+    {
+      "id": "s44",
+      "ru": "У меня два брата.",
+      "uses": ["p1", "v2", "f29", "n28"],
+      "level": 4,
+      "canonical": "I have two brothers.",
+      "accepted": ["I have two brothers.", "I've got two brothers."],
+      "wrong": [
+        { "match": "i have two brother", "ru": "После числа существительное во мн. ч.: «two brothers»." },
+        { "match": "i have a two brothers", "ru": "С числом артикль не нужен: «two brothers»." }
+      ],
+      "teaches": "plural after number"
+    },
+    {
+      "id": "s45",
+      "ru": "Который час?",
+      "uses": ["p12", "n47", "p7"],
+      "level": 4,
+      "canonical": "What time is it?",
+      "accepted": ["What time is it?"],
+      "wrong": [
+        { "match": "how time is it", "ru": "Вопрос со словом «what»: «What time is it?»" },
+        { "match": "what is the time it", "ru": "Стандартный вопрос: «What time is it?»" }
+      ],
+      "teaches": "question — what time is it"
+    },
+    {
+      "id": "s46",
+      "ru": "Я начинаю работу в девять.",
+      "uses": ["p1", "v19", "n51", "f25", "f36"],
+      "level": 4,
+      "canonical": "I start work at nine.",
+      "accepted": ["I start work at nine.", "I start work at nine o'clock."],
+      "wrong": [
+        { "match": "i start work in nine", "ru": "О времени — предлог «at»: «at nine»." },
+        { "match": "i start a work at nine", "ru": "Здесь «work» без артикля: «start work»." }
+      ],
+      "teaches": "at + time + uncountable work"
     }
   ]
 }
