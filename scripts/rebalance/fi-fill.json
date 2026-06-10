@@ -1,0 +1,458 @@
+{
+  "sentences": [
+    {
+      "id": "s541",
+      "ru": "У меня есть работа.",
+      "uses": ["p1", "v1", "n1"],
+      "level": 1,
+      "theme": "basics",
+      "canonical": "Minulla on työ.",
+      "accepted": ["Minulla on työ."],
+      "wrong": [
+        { "match": "minä on työ", "ru": "Принадлежность по-фински — это «у меня есть» через адессив minulla (на мне), а не minä. Правильно: Minulla on työ." },
+        { "match": "minulla on työtä", "ru": "Здесь työ — конкретный предмет (счётное «есть работа»), нужен номинатив työ, а не партитив työtä." },
+        { "match": "minulla on töitä", "ru": "töitä — это партитив множественного «дел/работы вообще». Для «у меня есть работа» возьмите номинатив: työ." }
+      ],
+      "teaches": "adessive possession 'minulla on' + nominative subject",
+      "needs_review": false
+    },
+    {
+      "id": "s542",
+      "ru": "Школа большая.",
+      "uses": ["n6", "v1", "a2"],
+      "level": 1,
+      "theme": "home",
+      "canonical": "Koulu on iso.",
+      "accepted": ["Koulu on iso."],
+      "wrong": [
+        { "match": "koulu on isoa", "ru": "Прилагательное-сказуемое при счётном существительном стоит в номинативе: iso, а не в партитиве isoa." },
+        { "match": "koulu iso", "ru": "Нужна связка on (есть): Koulu on iso. В финском «быть» не опускается." }
+      ],
+      "teaches": "predicative adjective in nominative + copula 'on'",
+      "needs_review": false
+    },
+    {
+      "id": "s543",
+      "ru": "Хлеб вкусный.",
+      "uses": ["n9", "v1", "a1"],
+      "level": 1,
+      "theme": "food",
+      "canonical": "Leipä on hyvää.",
+      "accepted": ["Leipä on hyvää."],
+      "wrong": [
+        { "match": "leipä on hyvä", "ru": "leipä — вещественное (масса), поэтому сказуемое-прилагательное в партитиве: hyvää. hyvä подошло бы счётному предмету." },
+        { "match": "leivä on hyvää", "ru": "В номинативе подлежащее — leipä (с p), без чередования. Чередование p->v только в слабых формах (leivän)." }
+      ],
+      "teaches": "predicative partitive with a mass-noun subject (hyvää)",
+      "needs_review": false
+    },
+    {
+      "id": "s544",
+      "ru": "Меня нет дома.",
+      "uses": ["p1", "f6", "v1", "n2"],
+      "level": 1,
+      "theme": "home",
+      "canonical": "En ole kotona.",
+      "accepted": ["En ole kotona.", "Minä en ole kotona."],
+      "wrong": [
+        { "match": "en olen kotona", "ru": "После отрицательного глагола en идёт коннегатив ole (без личного окончания), а не olen." },
+        { "match": "en ole kotissa", "ru": "«Дома (где?)» — это нерегулярная форма kotona, а не kodissa/kotissa." },
+        { "match": "ei ole kotona", "ru": "Отрицание согласуется с лицом: «я не» = en, а ei — это «он/она не»." }
+      ],
+      "teaches": "negation en + connegative + irregular location 'kotona'",
+      "needs_review": false
+    },
+    {
+      "id": "s545",
+      "ru": "Мы говорим по-фински.",
+      "uses": ["p4", "v6", "n16"],
+      "level": 1,
+      "theme": "acquaintance",
+      "canonical": "Puhumme suomea.",
+      "accepted": ["Puhumme suomea.", "Me puhumme suomea."],
+      "wrong": [
+        { "match": "puhumme suomi", "ru": "Название языка как объект стоит в партитиве: suomea. suomi — это словарная форма/страна Финляндия." },
+        { "match": "puhumme suomeksi", "ru": "suomeksi = «по-фински, на финский лад» (транслатив); но при puhua язык-объект идёт в партитиве: puhua suomea." }
+      ],
+      "teaches": "1pl verb (puhumme) + partitive language object",
+      "needs_review": false
+    },
+
+    {
+      "id": "s546",
+      "ru": "Где собака?",
+      "uses": ["f8", "n154", "v1"],
+      "level": 3,
+      "theme": "grammar",
+      "canonical": "Missä koira on?",
+      "accepted": ["Missä koira on?", "Missä on koira?"],
+      "wrong": [
+        { "match": "mihin koira on", "ru": "missä = «где?» (местонахождение). mihin = «куда?» (направление). Здесь нужно missä." },
+        { "match": "missä koira", "ru": "Нужна связка on: Missä koira on? В финском «быть» не опускается." }
+      ],
+      "teaches": "question word 'missä' (where) + copula",
+      "needs_review": false
+    },
+    {
+      "id": "s547",
+      "ru": "Кошка маленькая.",
+      "uses": ["n153", "v1", "a3"],
+      "level": 3,
+      "theme": "nature",
+      "canonical": "Kissa on pieni.",
+      "accepted": ["Kissa on pieni."],
+      "wrong": [
+        { "match": "kissa on pientä", "ru": "При счётном подлежащем сказуемое-прилагательное в номинативе: pieni, а не партитив pientä." },
+        { "match": "kissa pieni", "ru": "Нужна связка on: Kissa on pieni." }
+      ],
+      "teaches": "predicative adjective 'pieni' in nominative",
+      "needs_review": false
+    },
+    {
+      "id": "s548",
+      "ru": "У меня есть лошадь.",
+      "uses": ["p1", "v1", "n238"],
+      "level": 3,
+      "theme": "nature",
+      "canonical": "Minulla on hevonen.",
+      "accepted": ["Minulla on hevonen."],
+      "wrong": [
+        { "match": "minä on hevonen", "ru": "«У меня есть» — адессив minulla, а не minä. Иначе получится «я — лошадь»." },
+        { "match": "minulla on hevosta", "ru": "Конкретный предмет владения — в номинативе: hevonen. hevosta — это партитив." }
+      ],
+      "teaches": "possession 'minulla on' + nominative (-nen noun)",
+      "needs_review": false
+    },
+    {
+      "id": "s549",
+      "ru": "Медведь большой.",
+      "uses": ["n240", "v1", "a2"],
+      "level": 3,
+      "theme": "nature",
+      "canonical": "Karhu on iso.",
+      "accepted": ["Karhu on iso."],
+      "wrong": [
+        { "match": "karhu on isoa", "ru": "Сказуемое-прилагательное при счётном подлежащем — в номинативе: iso, не isoa." },
+        { "match": "karhu iso", "ru": "Нужна связка on: Karhu on iso." }
+      ],
+      "teaches": "predicative adjective in nominative (animals)",
+      "needs_review": false
+    },
+    {
+      "id": "s550",
+      "ru": "Ты студент?",
+      "uses": ["v1", "n15"],
+      "level": 3,
+      "theme": "school",
+      "canonical": "Oletko opiskelija?",
+      "accepted": ["Oletko opiskelija?", "Oletko sinä opiskelija?"],
+      "wrong": [
+        { "match": "olet sinä opiskelija", "ru": "В вопросе клитика -ko присоединяется к глаголу: Oletko (sinä) opiskelija?" },
+        { "match": "oletko opiskelijaa", "ru": "В предикативе (кто ты по роли) — номинатив opiskelija, а не партитив opiskelijaa." }
+      ],
+      "teaches": "yes/no question clitic -ko + predicative nominative",
+      "needs_review": false
+    },
+    {
+      "id": "s551",
+      "ru": "Это карандаш.",
+      "uses": ["p9", "v1", "n157"],
+      "level": 3,
+      "theme": "school",
+      "canonical": "Tämä on kynä.",
+      "accepted": ["Tämä on kynä."],
+      "wrong": [
+        { "match": "tämä on kynää", "ru": "Предикатив-предмет в номинативе: kynä. kynää — партитив (например, после числа или при «немного»)." },
+        { "match": "se on kynä", "ru": "tämä = «это (вот это, рядом)». se = «то/оно». Для указания на близкий предмет берут tämä." }
+      ],
+      "teaches": "demonstrative 'tämä' + predicative nominative",
+      "needs_review": false
+    },
+    {
+      "id": "s552",
+      "ru": "Почему собака большая?",
+      "uses": ["f10", "n154", "v1", "a2"],
+      "level": 3,
+      "theme": "grammar",
+      "canonical": "Miksi koira on iso?",
+      "accepted": ["Miksi koira on iso?"],
+      "wrong": [
+        { "match": "miksi koira iso", "ru": "Нужна связка on: Miksi koira on iso?" },
+        { "match": "minkä takia koira on isoa", "ru": "Прилагательное-сказуемое в номинативе: iso, не isoa." }
+      ],
+      "teaches": "question word 'miksi' (why) + predicative adjective",
+      "needs_review": false
+    },
+    {
+      "id": "s553",
+      "ru": "Лошадь ест хлеб.",
+      "uses": ["n238", "v3", "n9"],
+      "level": 3,
+      "theme": "nature",
+      "canonical": "Hevonen syö leipää.",
+      "accepted": ["Hevonen syö leipää."],
+      "wrong": [
+        { "match": "hevonen syö leipä", "ru": "Объект процесса еды — в партитиве: leipää. Номинатив leipä здесь не годится." },
+        { "match": "hevonen syö leivää", "ru": "Партитив от leipä — это leipää (без чередования). Чередование p->v только в leivän/leivässä." }
+      ],
+      "teaches": "3sg verb 'syö' + partitive object (process)",
+      "needs_review": false
+    },
+    {
+      "id": "s554",
+      "ru": "У меня есть мышь.",
+      "uses": ["p1", "v1", "n242"],
+      "level": 3,
+      "theme": "nature",
+      "canonical": "Minulla on hiiri.",
+      "accepted": ["Minulla on hiiri."],
+      "wrong": [
+        { "match": "minulla on hiirtä", "ru": "Предмет владения — в номинативе: hiiri. hiirtä — это нерегулярный партитив (после числа/в отрицании)." },
+        { "match": "minä on hiiri", "ru": "«У меня есть» строится через адессив minulla, а не minä." }
+      ],
+      "teaches": "possession 'minulla on' + nominative (irregular -i noun)",
+      "needs_review": false
+    },
+    {
+      "id": "s555",
+      "ru": "Я покупаю карандаш и бумагу.",
+      "uses": ["v8", "n157", "f1", "n158"],
+      "level": 3,
+      "theme": "school",
+      "canonical": "Ostan kynän ja paperin.",
+      "accepted": ["Ostan kynän ja paperin.", "Minä ostan kynän ja paperin."],
+      "wrong": [
+        { "match": "ostan kynä ja paperi", "ru": "Завершённое действие = тотальный объект в форме генитива: kynän, paperin (а не номинатив kynä, paperi)." },
+        { "match": "ostan kynää ja paperia", "ru": "Тут покупка целиком завершена, нужен тотальный объект (kynän, paperin), а не партитив процесса." }
+      ],
+      "teaches": "type-1 verb 'ostan' + total (genitive) objects joined by 'ja'",
+      "needs_review": false
+    },
+    {
+      "id": "s556",
+      "ru": "Это хорошая фотография.",
+      "uses": ["p9", "v1", "a1", "n160"],
+      "level": 3,
+      "theme": "school",
+      "canonical": "Tämä on hyvä kuva.",
+      "accepted": ["Tämä on hyvä kuva."],
+      "wrong": [
+        { "match": "tämä on hyvää kuvaa", "ru": "Предикатив-предмет и его определение — в номинативе: hyvä kuva. Партитив hyvää kuvaa здесь не нужен." },
+        { "match": "tämä on hyvä kuvaa", "ru": "Прилагательное и существительное согласуются в падеже: оба в номинативе — hyvä kuva." }
+      ],
+      "teaches": "adjective-noun agreement in predicative nominative",
+      "needs_review": false
+    },
+
+    {
+      "id": "s557",
+      "ru": "У меня две кошки.",
+      "uses": ["f16", "n153"],
+      "level": 4,
+      "theme": "numbers",
+      "canonical": "Minulla on kaksi kissaa.",
+      "accepted": ["Minulla on kaksi kissaa."],
+      "wrong": [
+        { "match": "minulla on kaksi kissaa kissat", "ru": "После числа больше одного существительное стоит в партитиве ЕДИНСТВЕННОГО числа: kaksi kissaa, не kissat." },
+        { "match": "minulla on kaksi kissat", "ru": "После числительного 2+ — партитив единственного числа: kissaa. Множественное kissat здесь неверно." }
+      ],
+      "teaches": "number 2+ -> partitive singular (kaksi kissaa)",
+      "needs_review": false
+    },
+    {
+      "id": "s558",
+      "ru": "Здесь три собаки.",
+      "uses": ["p9", "f17", "n154", "v1"],
+      "level": 4,
+      "theme": "numbers",
+      "canonical": "Tässä on kolme koiraa.",
+      "accepted": ["Tässä on kolme koiraa."],
+      "wrong": [
+        { "match": "tässä on kolme koirat", "ru": "После числа 2+ — партитив ед. ч.: kolme koiraa, а не koirat." },
+        { "match": "tässä ovat kolme koiraa", "ru": "При количественном подлежащем глагол в ед. ч.: on, не ovat." }
+      ],
+      "teaches": "number + partitive singular; singular verb 'on'",
+      "needs_review": false
+    },
+    {
+      "id": "s559",
+      "ru": "У меня пять книг.",
+      "uses": ["f19", "n7"],
+      "level": 4,
+      "theme": "numbers",
+      "canonical": "Minulla on viisi kirjaa.",
+      "accepted": ["Minulla on viisi kirjaa."],
+      "wrong": [
+        { "match": "minulla on viisi kirjat", "ru": "После числа 2+ существительное — в партитиве ед. ч.: viisi kirjaa, не kirjat." },
+        { "match": "minulla on viisi kirjoja", "ru": "Нужен партитив ЕДИНСТВЕННОГО числа kirjaa, а не множественного kirjoja." }
+      ],
+      "teaches": "number + partitive singular (viisi kirjaa)",
+      "needs_review": false
+    },
+    {
+      "id": "s560",
+      "ru": "Одна кошка и две собаки.",
+      "uses": ["f15", "n153", "f1", "f16", "n154"],
+      "level": 4,
+      "theme": "numbers",
+      "canonical": "Yksi kissa ja kaksi koiraa.",
+      "accepted": ["Yksi kissa ja kaksi koiraa."],
+      "wrong": [
+        { "match": "yksi kissaa ja kaksi koiraa", "ru": "После yksi (один) — номинатив: kissa. Партитив нужен только после числа больше одного." },
+        { "match": "yksi kissa ja kaksi koirat", "ru": "После kaksi — партитив ед. ч.: koiraa, не koirat." }
+      ],
+      "teaches": "yksi + nominative vs 2+ partitive singular contrast",
+      "needs_review": false
+    },
+    {
+      "id": "s561",
+      "ru": "У тебя двенадцать книг?",
+      "uses": ["f50", "n7", "v1"],
+      "level": 4,
+      "theme": "numbers",
+      "canonical": "Onko sinulla kaksitoista kirjaa?",
+      "accepted": ["Onko sinulla kaksitoista kirjaa?"],
+      "wrong": [
+        { "match": "onko sinulla kaksitoista kirjat", "ru": "После числа 2+ — партитив ед. ч.: kirjaa, не множественное kirjat." },
+        { "match": "onko sinä kaksitoista kirjaa", "ru": "«У тебя» — адессив sinulla, а не sinä." }
+      ],
+      "teaches": "yes/no question 'onko' + number + partitive singular",
+      "needs_review": false
+    },
+    {
+      "id": "s562",
+      "ru": "Четыре ребёнка.",
+      "uses": ["f18", "n19"],
+      "level": 4,
+      "theme": "numbers",
+      "canonical": "Neljä lasta.",
+      "accepted": ["Neljä lasta."],
+      "wrong": [
+        { "match": "neljä lapsi", "ru": "После числа 2+ — партитив ед. ч.: lasta (нерегулярный, основа laps-), не номинатив lapsi." },
+        { "match": "neljä lapsia", "ru": "Нужен партитив ЕДИНСТВЕННОГО числа lasta, а не множественного lapsia." }
+      ],
+      "teaches": "number + irregular partitive singular (lapsi -> lasta)",
+      "needs_review": false
+    },
+    {
+      "id": "s563",
+      "ru": "У меня десять ручек.",
+      "uses": ["f24", "n157"],
+      "level": 4,
+      "theme": "numbers",
+      "canonical": "Minulla on kymmenen kynää.",
+      "accepted": ["Minulla on kymmenen kynää."],
+      "wrong": [
+        { "match": "minulla on kymmenen kynät", "ru": "После числа 2+ — партитив ед. ч.: kynää, не множественное kynät." },
+        { "match": "minulla on kymmenen kyniä", "ru": "Нужен партитив единственного числа kynää, а не множественного kyniä." }
+      ],
+      "teaches": "number + partitive singular (kymmenen kynää)",
+      "needs_review": false
+    },
+    {
+      "id": "s564",
+      "ru": "Семь лошадей.",
+      "uses": ["f21", "n238"],
+      "level": 4,
+      "theme": "numbers",
+      "canonical": "Seitsemän hevosta.",
+      "accepted": ["Seitsemän hevosta."],
+      "wrong": [
+        { "match": "seitsemän hevonen", "ru": "После числа 2+ — партитив ед. ч.: hevosta, не номинатив hevonen." },
+        { "match": "seitsemän hevosia", "ru": "Нужен партитив единственного числа hevosta, а не множественного hevosia." }
+      ],
+      "teaches": "number + partitive singular (hevonen -> hevosta)",
+      "needs_review": false
+    },
+    {
+      "id": "s565",
+      "ru": "Здесь пятнадцать студентов.",
+      "uses": ["p9", "f53", "n15", "v1"],
+      "level": 4,
+      "theme": "numbers",
+      "canonical": "Tässä on viisitoista opiskelijaa.",
+      "accepted": ["Tässä on viisitoista opiskelijaa."],
+      "wrong": [
+        { "match": "tässä on viisitoista opiskelijat", "ru": "После числа 2+ — партитив ед. ч.: opiskelijaa, не множественное opiskelijat." },
+        { "match": "tässä ovat viisitoista opiskelijaa", "ru": "При количественном подлежащем глагол в ед. ч.: on, не ovat." }
+      ],
+      "teaches": "teens (viisitoista) + partitive singular; singular verb",
+      "needs_review": false
+    },
+    {
+      "id": "s566",
+      "ru": "Восемь домов.",
+      "uses": ["f22", "n4"],
+      "level": 4,
+      "theme": "numbers",
+      "canonical": "Kahdeksan taloa.",
+      "accepted": ["Kahdeksan taloa."],
+      "wrong": [
+        { "match": "kahdeksan talo", "ru": "После числа 2+ — партитив ед. ч.: taloa, не номинатив talo." },
+        { "match": "kahdeksan taloja", "ru": "Нужен партитив единственного числа taloa, а не множественного taloja." }
+      ],
+      "teaches": "number + partitive singular (kahdeksan taloa)",
+      "needs_review": false
+    },
+    {
+      "id": "s567",
+      "ru": "Девять кошек.",
+      "uses": ["f23", "n153"],
+      "level": 4,
+      "theme": "numbers",
+      "canonical": "Yhdeksän kissaa.",
+      "accepted": ["Yhdeksän kissaa."],
+      "wrong": [
+        { "match": "yhdeksän kissa", "ru": "После числа 2+ — партитив ед. ч.: kissaa, не номинатив kissa." },
+        { "match": "yhdeksän kissoja", "ru": "Нужен партитив единственного числа kissaa, а не множественного kissoja." }
+      ],
+      "teaches": "number + partitive singular (yhdeksän kissaa)",
+      "needs_review": false
+    },
+    {
+      "id": "s568",
+      "ru": "Здесь сто домов.",
+      "uses": ["p9", "f26", "n4", "v1"],
+      "level": 4,
+      "theme": "numbers",
+      "canonical": "Tässä on sata taloa.",
+      "accepted": ["Tässä on sata taloa."],
+      "wrong": [
+        { "match": "tässä on sata talot", "ru": "После числа (в т. ч. sata) — партитив ед. ч.: taloa, не talot." },
+        { "match": "tässä on sata taloja", "ru": "Нужен партитив ЕДИНСТВЕННОГО числа taloa, а не множественного taloja." }
+      ],
+      "teaches": "number 'sata' + partitive singular",
+      "needs_review": false
+    },
+    {
+      "id": "s569",
+      "ru": "Шесть блинов.",
+      "uses": ["f20", "n10"],
+      "level": 4,
+      "theme": "numbers",
+      "canonical": "Kuusi lettua.",
+      "accepted": ["Kuusi lettua."],
+      "wrong": [
+        { "match": "kuusi lettu", "ru": "После числа 2+ — партитив ед. ч.: lettua, не номинатив lettu." },
+        { "match": "kuusi lettuja", "ru": "После числа нужен партитив ЕДИНСТВЕННОГО числа lettua; форма lettuja — это партитив множественного («блинов» без счёта)." }
+      ],
+      "teaches": "number + partitive singular vs partitive plural (lettua/lettuja)",
+      "needs_review": false
+    },
+    {
+      "id": "s570",
+      "ru": "Одиннадцать карандашей.",
+      "uses": ["f49", "n157"],
+      "level": 4,
+      "theme": "numbers",
+      "canonical": "Yksitoista kynää.",
+      "accepted": ["Yksitoista kynää."],
+      "wrong": [
+        { "match": "yksitoista kynä", "ru": "Числа 11-19 тоже требуют партитив ед. ч.: yksitoista kynää, не kynä." },
+        { "match": "yksitoista kyniä", "ru": "Нужен партитив единственного числа kynää, а не множественного kyniä." }
+      ],
+      "teaches": "teens (yksitoista) + partitive singular",
+      "needs_review": false
+    }
+  ]
+}
