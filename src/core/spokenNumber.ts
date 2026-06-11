@@ -8,8 +8,9 @@
  * an annoying false-reject:
  *
  *   - `numberToFinnish` / `digitsToFinnish` rewrite bare digit tokens back to their Finnish
- *     cardinal word across the whole curriculum range (0–1000, incl. the 11–99 compounds), so a
- *     "25" the engine returned still matches "kaksikymmentäviisi".
+ *     cardinal word across the curriculum-and-years range (0–9999, incl. the 11–99 compounds),
+ *     so a "25" the engine returned still matches "kaksikymmentäviisi" and a "1990" matches
+ *     "tuhatyhdeksänsataayhdeksänkymmentä".
  *   - `spokenCandidates` additionally expands the euro sign («€») to its word — both the partitive
  *     "euroa" ("5 €" → "viisi euroa") and the nominative "euro" ("1 €" → "yksi euro") — since voice
  *     can't disambiguate sign vs word.
@@ -40,14 +41,9 @@ function under100(n: number): string {
   return ONES[tens]! + "kymmentä" + (ones ? ONES[ones]! : "");
 }
 
-/**
- * Finnish cardinal for 0–1000 (the curriculum's number range), as a single written-together word
- * ("kaksikymmentäviisi", "satakaksikymmentäviisi", "tuhat"), or null outside the range.
- */
-export function numberToFinnish(n: number): string | null {
-  if (!Number.isInteger(n) || n < 0 || n > 1000) return null;
+/** Finnish cardinal for 0–999, as a single written-together word. */
+function under1000(n: number): string {
   if (n < 100) return under100(n);
-  if (n === 1000) return "tuhat";
   const hundreds = Math.floor(n / 100);
   const rest = n % 100;
   const head = hundreds === 1 ? "sata" : ONES[hundreds]! + "sataa";
@@ -55,8 +51,22 @@ export function numberToFinnish(n: number): string | null {
 }
 
 /**
+ * Finnish cardinal for 0–9999 (curriculum numbers + spoken years), as a single written-together
+ * word ("kaksikymmentäviisi", "satakaksikymmentäviisi", "tuhatyhdeksänsataayhdeksänkymmentä",
+ * "kaksituhattakaksikymmentäkuusi"), or null outside the range.
+ */
+export function numberToFinnish(n: number): string | null {
+  if (!Number.isInteger(n) || n < 0 || n > 9999) return null;
+  if (n < 1000) return under1000(n);
+  const thousands = Math.floor(n / 1000);
+  const rest = n % 1000;
+  const head = thousands === 1 ? "tuhat" : ONES[thousands]! + "tuhatta";
+  return head + (rest ? under1000(rest) : "");
+}
+
+/**
  * Rewrite each bare-digit token in `text` to its Finnish number word (keeping any trailing
- * punctuation). Non-digit tokens, and digits outside 0–1000, pass through unchanged.
+ * punctuation). Non-digit tokens, and digits outside 0–9999, pass through unchanged.
  */
 export function digitsToFinnish(text: string): string {
   return text

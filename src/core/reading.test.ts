@@ -187,6 +187,26 @@ describe("spokenMatches", () => {
     expect(spokenMatches("Hei", "")).toBe(false);
     expect(spokenMatches("", "hei")).toBe(false);
   });
+
+  it("accepts digits + «€» the recognizer substituted for spoken number words", () => {
+    // "Se maksaa kaksi euroa" recited correctly, transcribed as "se maksaa 2 €".
+    expect(spokenMatches("Se maksaa kaksi euroa.", "se maksaa 2 €")).toBe(true);
+    expect(spokenMatches("Se maksaa kaksi euroa.", "se maksaa 2€")).toBe(true);
+    // nominative "euro" too (subject in the nominative case)
+    expect(spokenMatches("Yksi euro riittää.", "1 € riittää")).toBe(true);
+  });
+
+  it("expands digits on the EXPECTED side too (seed line contains a year)", () => {
+    expect(
+      spokenMatches("Synnyin Venäjällä vuonna 1990.", "synnyin venäjällä vuonna tuhatyhdeksänsataayhdeksänkymmentä"),
+    ).toBe(true);
+    // and still matches when the recognizer also returns the digits
+    expect(spokenMatches("Synnyin Venäjällä vuonna 1990.", "synnyin venäjällä vuonna 1990")).toBe(true);
+  });
+
+  it("still rejects the wrong amount", () => {
+    expect(spokenMatches("Se maksaa kaksi euroa.", "5 €")).toBe(false);
+  });
 });
 
 describe("recite roles (наизусть mastery targets)", () => {

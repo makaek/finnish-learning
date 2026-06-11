@@ -7,7 +7,7 @@ import {
   pickBestSpokenAsync,
 } from "./spokenNumber";
 
-describe("numberToFinnish (0–1000 cardinals)", () => {
+describe("numberToFinnish (0–9999 cardinals)", () => {
   it("handles ones, teens, tens and compounds", () => {
     expect(numberToFinnish(0)).toBe("nolla");
     expect(numberToFinnish(7)).toBe("seitsemän");
@@ -25,9 +25,17 @@ describe("numberToFinnish (0–1000 cardinals)", () => {
     expect(numberToFinnish(1000)).toBe("tuhat");
   });
 
-  it("returns null outside the curriculum range", () => {
+  it("handles thousands and years", () => {
+    expect(numberToFinnish(1001)).toBe("tuhatyksi");
+    expect(numberToFinnish(1990)).toBe("tuhatyhdeksänsataayhdeksänkymmentä");
+    expect(numberToFinnish(2000)).toBe("kaksituhatta");
+    expect(numberToFinnish(2026)).toBe("kaksituhattakaksikymmentäkuusi");
+    expect(numberToFinnish(9999)).toBe("yhdeksäntuhattayhdeksänsataayhdeksänkymmentäyhdeksän");
+  });
+
+  it("returns null outside the supported range", () => {
     expect(numberToFinnish(-1)).toBeNull();
-    expect(numberToFinnish(1001)).toBeNull();
+    expect(numberToFinnish(10000)).toBeNull();
     expect(numberToFinnish(2.5)).toBeNull();
   });
 });
@@ -52,7 +60,7 @@ describe("digitsToFinnish", () => {
   it("passes through non-digit text and out-of-range numbers unchanged", () => {
     expect(digitsToFinnish("kaksi")).toBe("kaksi");
     expect(digitsToFinnish("the cat")).toBe("the cat");
-    expect(digitsToFinnish("9999")).toBe("9999"); // out of the 0–1000 range
+    expect(digitsToFinnish("10000")).toBe("10000"); // out of the 0–9999 range
   });
 });
 
