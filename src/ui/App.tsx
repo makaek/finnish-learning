@@ -126,10 +126,13 @@ export default function App() {
   const progressRef = useRef<ProgressMap>(new Map());
   const [progressView, setProgressView] = useState<ProgressMap>(new Map());
   const [ready, setReady] = useState(false);
-  // Last server-side persistence REJECTION (e.g. a schema/constraint mismatch), surfaced as a
-  // banner so a silent fall-back to localStorage can't hide a "progress isn't saving" bug again.
-  // Only PostgREST rejections reach here (see backend.onSyncError) — offline blips stay quiet.
+  // Last persistence failure (server rejection OR network/offline), surfaced as a banner so a
+  // silent fall-back to localStorage can't hide a "progress isn't saving" bug again. Failed writes
+  // are queued by the backend and retried; when the queue drains, the listener gets null and the
+  // banner clears itself.
   const [syncError, setSyncError] = useState<SyncError | null>(null);
+  // Transient "✓ Скопировано" feedback for the banner's copy button.
+  const [syncCopied, setSyncCopied] = useState(false);
   // Guards against double-recording the same card (e.g. a fast double-tap before re-render).
   const lastRecordedRef = useRef<string | null>(null);
   // Daily-loop state (streak + today's count), same ref+view pattern as progress.
@@ -545,6 +548,41 @@ export default function App() {
   }
 
   /**
+   * «Уже знаю» for a reading text/dialog — the reading analogue of {@link markItemKnown}: mark its
+   * comprehension-quiz track and EVERY recite role (plus the aggregate {@link readingMastered}
+   * reads) as learned, and flag it read, so it counts toward level completion without doing the
+   * quiz/recite. A coherent 2/2 record like markLevelPassed; Math.max never regresses real history.
+   * No hidden-set entry — texts live in the library, not in lesson rotation. Persisted.
+   */
+  function markTextKnown(textId: string) {
+    const text = pack.texts.find((t) => t.id === textId);
+    if (!text) return;
+    const now = Date.now();
+    const rows: ItemProgress[] = [];
+    const raise = (kind: ItemKind, id: string) => {
+      const prev = getProgress(progressRef.current, kind, id);
+      const p: ItemProgress = {
+        ...prev,
+        kind,
+        itemId: id,
+        box: Math.max(prev.box, LEARNED_BOX),
+        correctStreak: Math.max(prev.correctStreak, 2),
+        totalCorrect: Math.max(prev.totalCorrect, 2),
+        totalSeen: Math.max(prev.totalSeen, prev.totalCorrect, 2),
+        lastSeen: now,
+      };
+      progressRef.current.set(progressKey(kind, id), p);
+      rows.push(p);
+    };
+    raise("reading", textId); // comprehension-quiz track
+    for (const role of reciteRoles(text)) raise("recite", reciteRoleId(textId, role));
+    raise("recite", textId); // role-agnostic aggregate that readingMastered reads
+    markRead(textId);
+    setProgressView(new Map(progressRef.current));
+    void saveProgress(rows);
+  }
+
+  /**
    * «Вернуть в уроки» — per-item reset (undo «Уже знаю» / un-master). Zeroes every track of the item
    * (word: 4 modes / sentence: 3 / text: the reading quiz + the recite aggregate & per-role records)
    * and removes it from the hidden set, so it re-enters the active list with a cleared strip. The
@@ -720,9 +758,41 @@ export default function App() {
   }
 
   // A persistent, dismissible diagnostic when a backend request failed (so progress is only landing
-  // in this device's localStorage). Shown on every screen — the failure fires during a session but
-  // the user feels it as "my level won't advance" on the home screen. Shows the FULL error detail
-  // (op · code · message · details · hint) so a stuck sync can be diagnosed straight from the phone.
+  // in this device's localStorage until the queued retry succeeds). Shown on every screen — the
+  // failure fires during a session but the user feels it as "my level won't advance" on the home
+  // screen. Shows the FULL error detail (op · code · message · details · hint) plus a copy button,
+  // because on an installed PWA there is no devtools console — the banner IS the diagnostic. It
+  // clears itself when a later sync drains the queue (the backend notifies listeners with null).
+  const syncErrorText =
+    syncError &&
+    [
+      `${syncError.op}${syncError.code ? ` · ${syncError.code}` : ""} · ${syncError.message}`,
+      syncError.details ? `details: ${syncError.details}` : "",
+      syncError.hint ? `hint: ${syncError.hint}` : "",
+    ]
+      .filter(Boolean)
+      .join("\n");
+  const copySyncError = async () => {
+    if (!syncErrorText) return;
+    try {
+      await navigator.clipboard.writeText(syncErrorText);
+    } catch {
+      // Clipboard API needs a secure context — fall back to the legacy path (http LAN testing).
+      const ta = document.createElement("textarea");
+      ta.value = syncErrorText;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand("copy");
+      } finally {
+        ta.remove();
+      }
+    }
+    setSyncCopied(true);
+    window.setTimeout(() => setSyncCopied(false), 2000);
+  };
   const syncBanner = syncError && (
     <div className="syncbanner" role="alert">
       <div className="syncbanner__body">
@@ -731,12 +801,15 @@ export default function App() {
             ? "Сервер отклонил сохранение — прогресс только на этом устройстве"
             : "Не удалось связаться с сервером — прогресс только на этом устройстве"}
         </strong>
-        <code className="syncbanner__detail">
-          {syncError.op}
-          {syncError.code ? ` · ${syncError.code}` : ""} · {syncError.message}
-          {syncError.details ? `\ndetails: ${syncError.details}` : ""}
-          {syncError.hint ? `\nhint: ${syncError.hint}` : ""}
-        </code>
+        <code className="syncbanner__detail">{syncErrorText}</code>
+        {syncError.pending > 0 && (
+          <span className="syncbanner__pending">
+            В очереди: {syncError.pending} — отправим, когда сервер станет доступен.
+          </span>
+        )}
+        <button type="button" className="syncbanner__copy" onClick={() => void copySyncError()}>
+          {syncCopied ? "✓ Скопировано" : "Копировать ошибку"}
+        </button>
       </div>
       <button
         type="button"
@@ -767,6 +840,7 @@ export default function App() {
           onLessonDone={countReadingLesson}
           onReadingResult={recordReading}
           onRecited={recordRecite}
+          onTextKnown={markTextKnown}
           filterType={readingFilter}
           onBack={() => setHomeScreen("roadmap")}
         />

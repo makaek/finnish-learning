@@ -35,6 +35,8 @@ interface TextReaderProps {
   onReadingResult: (textId: string, allCorrect: boolean) => void;
   /** Record that this text was recited наизусть in one role (the second part of mastery). */
   onRecited: (textId: string, role: string) => void;
+  /** «Уже знаю» — mark the whole text learned (quiz + recite) without doing the steps. */
+  onKnown: () => void;
 }
 
 /** One chat bubble: Finnish line + tap-to-translate + per-line TTS. */
@@ -162,6 +164,7 @@ export default function TextReader({
   onLessonDone,
   onReadingResult,
   onRecited,
+  onKnown,
 }: TextReaderProps) {
   const [translateAll, setTranslateAll] = useState(false);
   const [openLines, setOpenLines] = useState<Set<number>>(new Set());
@@ -352,6 +355,12 @@ export default function TextReader({
                 onClick={() => setPlaying(true)}
               />
             </div>
+            {/* Same descope affordance as word/sentence cards: count this item as learned without
+                doing the steps. The mastered banner replaces the footer on the next render. */}
+            <button type="button" className="rd-known" onClick={onKnown}>
+              <UiIcon name="check" size={15} strokeWidth={2.4} />
+              Уже знаю — засчитать «Прочитано»
+            </button>
           </div>
         )}
       </section>

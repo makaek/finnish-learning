@@ -40,6 +40,8 @@ interface ReadingProps {
   onReadingResult: (textId: string, allCorrect: boolean) => void;
   /** Record that the text was recited наизусть in one role (drives the second part of mastery). */
   onRecited: (textId: string, role: string) => void;
+  /** «Уже знаю» — mark the whole text/dialog learned (quiz + all recite roles) without doing it. */
+  onTextKnown: (textId: string) => void;
   /** Show only this kind ("text" monologues or "dialog"s); both when omitted. */
   filterType?: "text" | "dialog";
   /** Return to the home grid (the library is opened from there, not the footer). */
@@ -74,6 +76,7 @@ export default function Reading({
   onLessonDone,
   onReadingResult,
   onRecited,
+  onTextKnown,
   filterType,
   onBack,
 }: ReadingProps) {
@@ -120,6 +123,7 @@ export default function Reading({
         onLessonDone={onLessonDone}
         onReadingResult={onReadingResult}
         onRecited={onRecited}
+        onKnown={() => onTextKnown(openText.id)}
       />
     );
   }

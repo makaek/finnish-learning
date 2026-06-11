@@ -37,6 +37,10 @@ const STATE_TABLE = "user_state";
 // app still falls back to localStorage and keeps working — the banner is purely so a stuck sync is
 // visible instead of silent. `kind` distinguishes a server REJECTION (PostgREST error, has a code)
 // from a NETWORK reach failure (offline / fetch threw, no code), so the UI can word each correctly.
+//
+// On top of visibility, every failed write is QUEUED (an outbox in localStorage) and retried —
+// when connectivity returns ("online" event), on the next save, and on the next app load — so
+// progress made offline reaches the server once it's reachable instead of staying device-only.
 
 /** A caught backend failure, surfaced for visibility (the store still degrades to localStorage). */
 export interface SyncError {
@@ -51,9 +55,12 @@ export interface SyncError {
   details?: string;
   /** PostgREST `hint`, if any. */
   hint?: string;
+  /** Writes currently queued for retry (progress records + the daily state, if pending). */
+  pending: number;
 }
 
-type SyncErrorListener = (err: SyncError) => void;
+/** Listeners get each failure, and `null` once a later sync succeeds (so a banner can clear). */
+type SyncErrorListener = (err: SyncError | null) => void;
 const syncErrorListeners = new Set<SyncErrorListener>();
 
 /** Subscribe to backend sync errors; returns an unsubscribe function. */
@@ -89,8 +96,14 @@ export function reportSyncError(op: SyncError["op"], err: unknown): void {
     message,
     details: asStr(e.details),
     hint: asStr(e.hint),
+    pending: pendingWrites(),
   };
   for (const listener of syncErrorListeners) listener(syncErr);
+}
+
+/** Tell subscribers the queue fully drained — everything previously stuck is on the server now. */
+function reportSyncOk(): void {
+  for (const listener of syncErrorListeners) listener(null);
 }
 
 /** Persistence contract the app codes against, regardless of backing store. */
@@ -187,6 +200,71 @@ function writeLocalState(state: UserState): void {
   } catch {
     /* best-effort */
   }
+}
+
+// --- offline outbox ----------------------------------------------------------------------
+//
+// Writes that failed to reach the server (offline, rejection, no session) are queued here —
+// per language, like every other local bucket — and retried until they land. The local MIRROR
+// (readLocal/writeLocal) is the source of truth for display; the outbox is strictly "what the
+// server hasn't acknowledged yet".
+
+/** Pending progress writes, merged by key (a later write to the same item replaces the older). */
+function readOutbox(): ItemProgress[] {
+  try {
+    const raw = globalThis.localStorage?.getItem(nsKey("outbox"));
+    if (!raw) return [];
+    const parsed: unknown = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed.filter(isItemProgress) : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeOutbox(items: readonly ItemProgress[]): void {
+  try {
+    const ls = globalThis.localStorage;
+    if (!ls) return;
+    if (items.length === 0) ls.removeItem(nsKey("outbox"));
+    else ls.setItem(nsKey("outbox"), JSON.stringify(items));
+  } catch {
+    /* best-effort */
+  }
+}
+
+/** The daily state pending upload, if the last saveState failed (a single row — latest wins). */
+function readStateOutbox(): UserState | null {
+  try {
+    const raw = globalThis.localStorage?.getItem(nsKey("state-outbox"));
+    if (!raw) return null;
+    const parsed: unknown = JSON.parse(raw);
+    return isUserState(parsed) ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeStateOutbox(state: UserState | null): void {
+  try {
+    const ls = globalThis.localStorage;
+    if (!ls) return;
+    if (state === null) ls.removeItem(nsKey("state-outbox"));
+    else ls.setItem(nsKey("state-outbox"), JSON.stringify(state));
+  } catch {
+    /* best-effort */
+  }
+}
+
+/** How many writes are queued for retry (shown in the sync banner). */
+export function pendingWrites(): number {
+  return readOutbox().length + (readStateOutbox() ? 1 : 0);
+}
+
+/** Merge progress lists by item key; later lists win over earlier ones. */
+function mergeProgress(...lists: readonly (readonly ItemProgress[])[]): ItemProgress[] {
+  const map: ProgressMap = new Map();
+  for (const list of lists) for (const p of list) map.set(progressKey(p.kind, p.itemId), p);
+  return [...map.values()];
 }
 
 class LocalStore implements ProgressStore {
@@ -306,11 +384,72 @@ export function userStateToRow(userId: string, s: UserState): UserStateRow {
 class SupabaseStore implements ProgressStore {
   /** In-flight anonymous sign-in, shared so concurrent callers don't each trigger one. */
   private pendingSignIn: Promise<string | null> | null = null;
+  /**
+   * Serializes ALL writes (saves and queue flushes) so no two operations can race the outbox
+   * read-modify-write — an unserialized flush could clear items a concurrent save just queued.
+   * Every chained task catches internally, so the chain can't wedge on a rejection.
+   */
+  private writeChain: Promise<void> = Promise.resolve();
+
+  private enqueue(task: () => Promise<void>): Promise<void> {
+    this.writeChain = this.writeChain.then(task);
+    return this.writeChain;
+  }
 
   constructor(
     private readonly client: SupabaseClient,
     private readonly fallback: ProgressStore,
-  ) {}
+  ) {
+    // The moment connectivity returns, push anything queued while offline.
+    if (typeof window !== "undefined") {
+      window.addEventListener("online", () => void this.flushPending());
+    }
+  }
+
+  /**
+   * Upload queued writes (progress outbox + pending daily state). Reports ok when all drained.
+   * Note: the outbox keys are per-language (nsKey), so this flushes the ACTIVE language's queue;
+   * the other language's queue (if any) flushes when its loadProgress runs on the next switch.
+   */
+  private flushPending(): Promise<void> {
+    return this.enqueue(() => this.doFlushPending());
+  }
+
+  private async doFlushPending(): Promise<void> {
+    const uid = await this.userId().catch(() => null);
+    if (!uid) return; // still no session — the queue stays and the next trigger retries
+    const pending = readOutbox();
+    if (pending.length > 0) {
+      try {
+        const { error } = await this.client
+          .from(TABLE)
+          .upsert(pending.map((p) => progressToRow(uid, p)), {
+            onConflict: "user_id,language,kind,item_id",
+          });
+        if (error) throw error;
+        writeOutbox([]);
+      } catch (err) {
+        console.warn("[backend] flushing queued progress failed (will retry):", err);
+        reportSyncError("saveProgress", err);
+        return; // leave the state queued too; the next trigger retries both
+      }
+    }
+    const pendingState = readStateOutbox();
+    if (pendingState) {
+      try {
+        const { error } = await this.client
+          .from(STATE_TABLE)
+          .upsert(userStateToRow(uid, pendingState), { onConflict: "user_id,language" });
+        if (error) throw error;
+        writeStateOutbox(null);
+      } catch (err) {
+        console.warn("[backend] flushing queued state failed (will retry):", err);
+        reportSyncError("saveState", err);
+        return;
+      }
+    }
+    if (pending.length > 0 || pendingState) reportSyncOk();
+  }
 
   /** Resolve (or lazily create) the anonymous user id, or null if auth is unavailable. */
   private async userId(): Promise<string | null> {
@@ -344,6 +483,7 @@ class SupabaseStore implements ProgressStore {
   async loadProgress(): Promise<ProgressMap> {
     try {
       const uid = await this.userId();
+      // No session (offline): the local mirror already holds everything, queued writes included.
       if (!uid) return this.fallback.loadProgress();
       const { data, error } = await this.client
         .from(TABLE)
@@ -351,7 +491,29 @@ class SupabaseStore implements ProgressStore {
         .eq("user_id", uid)
         .eq("language", storageLang());
       if (error) throw error;
-      return toProgressMap((data ?? []).map((row) => rowToProgress(row as ProgressRow)));
+      const merged = toProgressMap((data ?? []).map((row) => rowToProgress(row as ProgressRow)));
+      // RESCUE: a local-mirror record AHEAD of the server (missing there, or answered more
+      // recently) is progress the server never received — a save that failed offline, possibly
+      // before the outbox existed. Overlay it so it shows NOW, and queue it so it uploads.
+      const rescued: ItemProgress[] = [];
+      for (const local of readLocal()) {
+        const server = merged.get(progressKey(local.kind, local.itemId));
+        if (!server || local.lastSeen > server.lastSeen) {
+          merged.set(progressKey(local.kind, local.itemId), local);
+          rescued.push(local);
+        }
+      }
+      // Combine with the queue. Per key: a rescued record wins over a queued one (the mirror is
+      // written before the outbox on every save, so for a shared key the mirror is never older),
+      // while queue-only records (e.g. lastSeen-0 resets, which the mirror comparison above
+      // would lose) survive untouched.
+      const queued = mergeProgress(readOutbox(), rescued);
+      for (const p of queued) merged.set(progressKey(p.kind, p.itemId), p);
+      if (rescued.length > 0) writeOutbox(queued);
+      // Refresh the mirror to the merged truth, then push the queue (failure → visible banner).
+      writeLocal([...merged.values()]);
+      if (pendingWrites() > 0) void this.flushPending();
+      return merged;
     } catch (err) {
       console.warn("[backend] loadProgress fell back to local:", err);
       reportSyncError("loadProgress", err);
@@ -359,22 +521,32 @@ class SupabaseStore implements ProgressStore {
     }
   }
 
-  async saveProgress(items: readonly ItemProgress[]): Promise<void> {
-    if (items.length === 0) return;
+  saveProgress(items: readonly ItemProgress[]): Promise<void> {
+    if (items.length === 0) return Promise.resolve();
+    return this.enqueue(() => this.doSaveProgress(items));
+  }
+
+  private async doSaveProgress(items: readonly ItemProgress[]): Promise<void> {
+    // Mirror locally FIRST — whatever the network does, this device never loses the write.
+    await this.fallback.saveProgress(items);
+    // One upsert carries the new items plus anything still queued from earlier failures.
+    const batch = mergeProgress(readOutbox(), items);
     try {
       const uid = await this.userId();
-      if (!uid) return this.fallback.saveProgress(items);
-      const rows = items.map((item) => progressToRow(uid, item));
+      if (!uid) throw new Error("нет сессии — анонимный вход не выполнен (offline?)");
+      const rows = batch.map((item) => progressToRow(uid, item));
       const { error } = await this.client
         .from(TABLE)
         .upsert(rows, { onConflict: "user_id,language,kind,item_id" });
       if (error) throw error;
-      // Mirror to local so an offline load later still sees this session's progress.
-      await this.fallback.saveProgress(items);
+      writeOutbox([]);
+      // The daily state may still be queued; drain it too before declaring the sync clean.
+      if (readStateOutbox()) void this.flushPending();
+      else reportSyncOk();
     } catch (err) {
-      console.warn("[backend] saveProgress fell back to local:", err);
+      writeOutbox(batch); // queue the whole batch for retry (online event / next save / next load)
+      console.warn("[backend] saveProgress queued for retry:", err);
       reportSyncError("saveProgress", err);
-      await this.fallback.saveProgress(items);
     }
   }
 
@@ -389,7 +561,26 @@ class SupabaseStore implements ProgressStore {
         .eq("language", storageLang())
         .maybeSingle();
       if (error) throw error;
-      return data ? rowToUserState(data as UserStateRow) : emptyState();
+      const server = data ? rowToUserState(data as UserStateRow) : emptyState();
+      // RESCUE (like loadProgress): the freshest local candidate — the queued (unsynced) state
+      // if present, else the mirror — wins over the server only when it's actually AHEAD (a save
+      // that never landed). The server is always consulted, so a stale leftover queue entry
+      // can't pin the visible state to an older day — it gets dropped instead.
+      const local = readStateOutbox() ?? (await this.fallback.loadState());
+      const localAhead =
+        local.todayDate > server.todayDate ||
+        (local.todayDate === server.todayDate &&
+          (local.lessons > server.lessons ||
+            (local.lessons === server.lessons && local.answered > server.answered)));
+      if (localAhead) {
+        writeStateOutbox(local);
+        await this.fallback.saveState(local);
+        void this.flushPending();
+        return local;
+      }
+      writeStateOutbox(null); // anything still queued is not newer than the server — drop it
+      await this.fallback.saveState(server); // keep the offline mirror fresh
+      return server;
     } catch (err) {
       console.warn("[backend] loadState fell back to local:", err);
       reportSyncError("loadState", err);
@@ -397,19 +588,27 @@ class SupabaseStore implements ProgressStore {
     }
   }
 
-  async saveState(state: UserState): Promise<void> {
+  saveState(state: UserState): Promise<void> {
+    return this.enqueue(() => this.doSaveState(state));
+  }
+
+  private async doSaveState(state: UserState): Promise<void> {
+    // Mirror locally first, same rationale as saveProgress.
+    await this.fallback.saveState(state);
     try {
       const uid = await this.userId();
-      if (!uid) return this.fallback.saveState(state);
+      if (!uid) throw new Error("нет сессии — анонимный вход не выполнен (offline?)");
       const { error } = await this.client
         .from(STATE_TABLE)
         .upsert(userStateToRow(uid, state), { onConflict: "user_id,language" });
       if (error) throw error;
-      await this.fallback.saveState(state);
+      writeStateOutbox(null);
+      if (readOutbox().length > 0) void this.flushPending();
+      else reportSyncOk();
     } catch (err) {
-      console.warn("[backend] saveState fell back to local:", err);
+      writeStateOutbox(state); // latest state wins — a single queued row is enough
+      console.warn("[backend] saveState queued for retry:", err);
       reportSyncError("saveState", err);
-      await this.fallback.saveState(state);
     }
   }
 }

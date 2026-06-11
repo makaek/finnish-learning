@@ -3,6 +3,7 @@ import {
   loadProgress,
   loadState,
   onSyncError,
+  pendingWrites,
   progressToRow,
   reportSyncError,
   rowToProgress,
@@ -88,8 +89,10 @@ describe("row mapping (Supabase schema contract)", () => {
 });
 
 describe("sync-error reporting", () => {
+  beforeEach(() => localStorage.clear());
+
   it("surfaces a PostgREST rejection with its full detail", () => {
-    const seen: SyncError[] = [];
+    const seen: (SyncError | null)[] = [];
     const off = onSyncError((e) => seen.push(e));
     reportSyncError("saveProgress", {
       code: "42P10",
@@ -107,22 +110,47 @@ describe("sync-error reporting", () => {
           "there is no unique or exclusion constraint matching the ON CONFLICT specification",
         details: "some details",
         hint: "some hint",
+        pending: 0,
       },
     ]);
   });
 
   it("surfaces an offline network throw as kind 'network' (no code)", () => {
-    const seen: SyncError[] = [];
+    const seen: (SyncError | null)[] = [];
     const off = onSyncError((e) => seen.push(e));
     reportSyncError("loadProgress", new TypeError("Failed to fetch"));
     off();
     expect(seen).toEqual([
-      { op: "loadProgress", kind: "network", code: undefined, message: "Failed to fetch", details: undefined, hint: undefined },
+      {
+        op: "loadProgress",
+        kind: "network",
+        code: undefined,
+        message: "Failed to fetch",
+        details: undefined,
+        hint: undefined,
+        pending: 0,
+      },
     ]);
   });
 
+  it("reports the queued-write count alongside the error", () => {
+    localStorage.setItem(
+      "finnish-trainer/fi/outbox",
+      JSON.stringify([
+        { ...emptyProgress("reading", "t1"), lastSeen: 5 },
+        { ...emptyProgress("recite", "t1"), lastSeen: 5 },
+      ]),
+    );
+    expect(pendingWrites()).toBe(2);
+    const seen: (SyncError | null)[] = [];
+    const off = onSyncError((e) => seen.push(e));
+    reportSyncError("saveProgress", new TypeError("Failed to fetch"));
+    off();
+    expect(seen[0]?.pending).toBe(2);
+  });
+
   it("falls back to a stringified message for a non-error throw", () => {
-    const seen: SyncError[] = [];
+    const seen: (SyncError | null)[] = [];
     const off = onSyncError((e) => seen.push(e));
     reportSyncError("saveState", null);
     off();
@@ -130,7 +158,7 @@ describe("sync-error reporting", () => {
   });
 
   it("treats an empty-string code as no code (kind 'network')", () => {
-    const seen: SyncError[] = [];
+    const seen: (SyncError | null)[] = [];
     const off = onSyncError((e) => seen.push(e));
     reportSyncError("loadState", { code: "", message: "weird" });
     off();
