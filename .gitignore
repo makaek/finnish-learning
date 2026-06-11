@@ -16,6 +16,9 @@ coverage/
 # Claude Code transient runtime files
 .claude/scheduled_tasks.lock
 
+# design-handoff / debug archives dropped in the repo root
+*.zip
+
 # OS / editor
 .DS_Store
 Thumbs.db

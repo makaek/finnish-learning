@@ -29,6 +29,10 @@ Verified error patterns and conventions for the English-for-Russian-speakers con
 - When a sentence's `uses` names a specific verb (e.g. eat=v7), an `accepted` paraphrase using a
   different verb (have) is grammatical but doesn't exercise the taught vocab — acceptable, just be aware.
 
+## Detail files (same directory)
+- [Content pack layout](content-pack-layout.md) — where EN content lives, id ranges, level→topic map, integrity-test constraints
+- [RU-speaker error patterns](ru-error-patterns.md) — recurring mistakes to encode in `wrong[]` and flag in grading feedback
+
 ## Status
 - 2026-06-10: Seeded A1 (levels 1–3): ~55 vocab, 17 sentences, 2 dialogs, 5 grammar rules.
   Authored by Claude during the multi-language build; all carry `needs_review: true` pending a

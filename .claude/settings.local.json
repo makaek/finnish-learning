@@ -1,6 +1,8 @@
 {
   "permissions": {
     "allow": [
+      "Edit",
+      "Write",
       "Bash(cd /tmp)",
       "Bash(rm -rf ft_inspect)",
       "Bash(mkdir ft_inspect)",
@@ -14,7 +16,11 @@
       "Bash(node *)",
       "Bash(git commit *)",
       "Bash(git push *)",
-      "PowerShell(npm run *)"
+      "PowerShell(npm run *)",
+      "Bash(unzip -l \"text-restyle.zip\")",
+      "Bash(npx eslint *)",
+      "Bash(sort -t s -k2 -n)",
+      "Bash(sort -t t -k2 -n)"
     ]
   }
 }
