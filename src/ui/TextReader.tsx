@@ -25,6 +25,8 @@ interface TextReaderProps {
   progress: ProgressMap;
   /** Comprehension grader (from data/texts.ts), used by the quiz. */
   grade: Grade;
+  /** BCP-47 locale for TTS/recognition so the target language sounds native (e.g. "en-US"). */
+  speechLang: string;
   onBack: () => void;
   onMarkRead: () => void;
   /** Count a finished role-play / quiz toward today's lessons. */
@@ -154,6 +156,7 @@ export default function TextReader({
   text,
   progress,
   grade,
+  speechLang,
   onBack,
   onMarkRead,
   onLessonDone,
@@ -165,7 +168,7 @@ export default function TextReader({
   const [playing, setPlaying] = useState(false);
   const [quizzing, setQuizzing] = useState(false);
   const [showMastered, setShowMastered] = useState(false);
-  const tts = useSpeechSynthesis("fi-FI");
+  const tts = useSpeechSynthesis(speechLang);
 
   const roles = rolesOf(text);
   const isDialog = text.type === "dialog" && roles.length >= 2;
@@ -200,6 +203,7 @@ export default function TextReader({
     return (
       <DialogPlay
         text={text}
+        speechLang={speechLang}
         recitedRoles={new Set(reciteRoles(text).filter((r) => reciteRoleDone(progress, text.id, r)))}
         onExit={() => setPlaying(false)}
         onRoleComplete={(role) => {
@@ -216,6 +220,7 @@ export default function TextReader({
       <ReadingQuiz
         text={text}
         grade={grade}
+        speechLang={speechLang}
         onExit={() => setQuizzing(false)}
         onComplete={(allCorrect) => {
           onReadingResult(text.id, allCorrect);

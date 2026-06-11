@@ -58,6 +58,7 @@ export const enPack: LanguagePack = {
   label: "English",
   flag: "🇬🇧",
   brand: "Английский",
+  speechLang: "en-US",
   vocab,
   sentences,
   texts,

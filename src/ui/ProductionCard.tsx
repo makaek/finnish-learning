@@ -10,6 +10,8 @@ interface ProductionCardProps {
   /** 1-based position in the session, for the progress label. */
   questionNumber: number;
   total: number;
+  /** BCP-47 locale for TTS/recognition so the target language sounds native (e.g. "en-US"). */
+  speechLang: string;
   /** Voice mode: the answer is spoken (Finnish), recognized into the same input + grader. */
   voice?: boolean;
   /** Listen (dictation) mode: the Finnish word is spoken (TTS) and the learner types it; the
@@ -30,6 +32,7 @@ export default function ProductionCard({
   question,
   questionNumber,
   total,
+  speechLang,
   voice = false,
   listen = false,
   onAnswered,
@@ -47,18 +50,18 @@ export default function ProductionCard({
   // Finnish answer wins over an English-looking top guess; digits like "2" → "kaksi" first).
   const accepts = (candidate: string) => gradeTyped(question.answerFi, candidate).correct;
   const speech = useSpeechRecognition({
-    lang: "fi-FI",
+    lang: speechLang,
     enabled: voice && !answered,
     onResult: (alts) => setValue(pickBestSpoken(alts, accepts)),
   });
   const correctionSpeech = useSpeechRecognition({
-    lang: "fi-FI",
+    lang: speechLang,
     enabled: voice && graded !== null && !graded.correct,
     onResult: (alts) => setCorrection(pickBestSpoken(alts, accepts)),
   });
   // In voice mode: hear the correct word before re-saying it. In listen mode: TTS speaks the
   // word as the prompt (the whole exercise). Same hook serves both.
-  const tts = useSpeechSynthesis("fi-FI");
+  const tts = useSpeechSynthesis(speechLang);
 
   // Listen mode: play the word once when the question appears. The card is keyed by index so a
   // new question remounts it (resetting the guard); the ref guard makes the play strictly

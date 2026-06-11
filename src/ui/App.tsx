@@ -760,6 +760,7 @@ export default function App() {
           vocab={pack.vocab}
           texts={pack.texts}
           gradeQuestion={pack.gradeQuestion}
+          speechLang={pack.speechLang}
           progress={progressView}
           testMode={testMode}
           onMarkRead={markRead}
@@ -895,6 +896,7 @@ export default function App() {
           questionNumber={index + 1}
           total={total}
           grade={pack.grade}
+          speechLang={pack.speechLang}
           voice={m.voice}
           listen={m.listen}
           onAnswered={handleAnswered}
@@ -909,6 +911,7 @@ export default function App() {
           question={m.q}
           questionNumber={index + 1}
           total={total}
+          speechLang={pack.speechLang}
           voice={m.voice}
           listen={m.listen}
           onAnswered={handleAnswered}
@@ -979,6 +982,7 @@ export default function App() {
           questionNumber={index + 1}
           total={total}
           grade={pack.grade}
+          speechLang={pack.speechLang}
           voice={mode === "say_sentence"}
           listen={mode === "listen_sentence"}
           onAnswered={handleAnswered}
@@ -990,6 +994,7 @@ export default function App() {
           question={productionSession[index]!}
           questionNumber={index + 1}
           total={total}
+          speechLang={pack.speechLang}
           voice={mode === "say_word"}
           listen={mode === "listen_word"}
           onAnswered={handleAnswered}

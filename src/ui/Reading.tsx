@@ -28,6 +28,8 @@ interface ReadingProps {
   texts: readonly ReadingText[];
   /** The active language's reading-comprehension grader. */
   gradeQuestion: Grade;
+  /** BCP-47 locale for TTS/recognition so the target language sounds native (e.g. "en-US"). */
+  speechLang: string;
   progress: ProgressMap;
   testMode: boolean;
   /** Mark a text/dialog as finished (counts a lesson / sets the read flag). */
@@ -65,6 +67,7 @@ export default function Reading({
   vocab,
   texts,
   gradeQuestion,
+  speechLang,
   progress,
   testMode,
   onMarkRead,
@@ -111,6 +114,7 @@ export default function Reading({
         text={openText}
         progress={progress}
         grade={gradeQuestion}
+        speechLang={speechLang}
         onBack={() => setOpenId(null)}
         onMarkRead={() => onMarkRead(openText.id)}
         onLessonDone={onLessonDone}

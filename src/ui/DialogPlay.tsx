@@ -17,6 +17,8 @@ import { plReplika, speakerColor } from "./readingFormat";
 
 interface DialogPlayProps {
   text: ReadingText;
+  /** BCP-47 locale for TTS/recognition so the target language sounds native (e.g. "en-US"). */
+  speechLang: string;
   /** Roles already recited (from saved progress) — shown as done in the picker. */
   recitedRoles: ReadonlySet<string>;
   /** Called when a role is fully recited; `role` is the speaker (or {@link SOLO_ROLE} for a monologue). */
@@ -31,7 +33,7 @@ const recallMs = (fi: string) => Math.min(6000, 1800 + fi.length * 55);
 const readMs = (fi: string) => Math.min(7000, 1200 + fi.length * 55);
 const SOLO = SOLO_ROLE;
 
-export default function DialogPlay({ text, recitedRoles, onRoleComplete, onExit }: DialogPlayProps) {
+export default function DialogPlay({ text, speechLang, recitedRoles, onRoleComplete, onExit }: DialogPlayProps) {
   const roles = useMemo(() => rolesOf(text), [text]);
   const isMonologue = roles.length < 2;
 
@@ -45,7 +47,7 @@ export default function DialogPlay({ text, recitedRoles, onRoleComplete, onExit 
   const [justFinished, setJustFinished] = useState(false);
   const finishedRef = useRef(false);
 
-  const tts = useSpeechSynthesis("fi-FI");
+  const tts = useSpeechSynthesis(speechLang);
   const { supported: ttsSupported, speak, cancel } = tts;
 
   const started = myRole !== null;
@@ -56,7 +58,7 @@ export default function DialogPlay({ text, recitedRoles, onRoleComplete, onExit 
   // Recognition is available on the learner's turn and gates advancing (a matching utterance
   // passes the line). Disabled once `matched` so the recognizer is released between turns.
   const speech = useSpeechRecognition({
-    lang: "fi-FI",
+    lang: speechLang,
     enabled: started && mine && running && !matched,
     onResult: (alts) => {
       setHeard(alts[0] ?? "");

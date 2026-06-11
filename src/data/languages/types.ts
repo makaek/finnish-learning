@@ -29,6 +29,9 @@ export interface LanguagePack {
   flag: string;
   /** Home wordmark in Russian ("Финский" / "Английский"). */
   brand: string;
+  /** BCP-47 locale for speech synthesis (TTS) and recognition, so the target language is
+   * spoken/heard with a native voice (e.g. "fi-FI" / "en-US") instead of a Finnish accent. */
+  speechLang: string;
   vocab: VocabItem[];
   sentences: SentenceItem[];
   texts: ReadingText[];

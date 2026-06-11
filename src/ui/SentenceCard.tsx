@@ -12,6 +12,8 @@ interface SentenceCardProps {
   total: number;
   /** The bound grader (from data/sentences.ts). */
   grade: Grade;
+  /** BCP-47 locale for TTS/recognition so the target language sounds native (e.g. "en-US"). */
+  speechLang: string;
   /** Voice mode: the answer is spoken (Finnish), recognized into the same input + grader. */
   voice?: boolean;
   /** Listen (dictation) mode: the Finnish sentence is spoken (TTS) and the learner types it;
@@ -34,6 +36,7 @@ export default function SentenceCard({
   questionNumber,
   total,
   grade,
+  speechLang,
   voice = false,
   listen = false,
   onAnswered,
@@ -57,18 +60,18 @@ export default function SentenceCard({
   const accepts = (candidate: string) =>
     grade({ sentenceId: question.id, answer: candidate }).then((g) => g.correct);
   const speech = useSpeechRecognition({
-    lang: "fi-FI",
+    lang: speechLang,
     enabled: voice && !answered,
     onResult: (alts) => void pickBestSpokenAsync(alts, accepts).then(setValue),
   });
   const correctionSpeech = useSpeechRecognition({
-    lang: "fi-FI",
+    lang: speechLang,
     enabled: voice && result !== null && !result.correct,
     onResult: (alts) => void pickBestSpokenAsync(alts, accepts).then(checkCorrection),
   });
   // In voice mode: hear the correct sentence before re-saying it. In listen mode: TTS speaks
   // the sentence as the prompt (the whole exercise). Same hook serves both.
-  const tts = useSpeechSynthesis("fi-FI");
+  const tts = useSpeechSynthesis(speechLang);
 
   // Listen mode: play the sentence once when the question appears. The card is keyed by index
   // so a new question remounts it (resetting the guard); the ref guard makes the play strictly

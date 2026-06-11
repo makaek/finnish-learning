@@ -18,6 +18,8 @@ interface ReadingQuizProps {
   text: ReadingText;
   /** The bound comprehension grader (from data/texts.ts). */
   grade: Grade;
+  /** BCP-47 locale for TTS/recognition so the target language sounds native (e.g. "en-US"). */
+  speechLang: string;
   onExit: () => void;
   /** Called once when the learner finishes all questions; `allCorrect` = every first attempt right. */
   onComplete: (allCorrect: boolean) => void;
@@ -30,6 +32,7 @@ function QuestionCard({
   total,
   textTitle,
   grade,
+  speechLang,
   onAnswered,
 }: {
   question: ReadingQuestion;
@@ -37,6 +40,7 @@ function QuestionCard({
   total: number;
   textTitle: string;
   grade: Grade;
+  speechLang: string;
   onAnswered: (wasCorrect: boolean) => void;
 }) {
   const [value, setValue] = useState("");
@@ -48,18 +52,18 @@ function QuestionCard({
   const [advanced, setAdvanced] = useState(false);
   const answered = result !== null;
 
-  const tts = useSpeechSynthesis("fi-FI");
+  const tts = useSpeechSynthesis(speechLang);
 
   // Prefer the recognizer hypothesis the grader accepts (English-looking top guess loses).
   const accepts = (candidate: string) =>
     grade({ sentenceId: question.id, answer: candidate }).then((g) => g.correct);
   const answerSpeech = useSpeechRecognition({
-    lang: "fi-FI",
+    lang: speechLang,
     enabled: !answered,
     onResult: (alts) => void pickBestSpokenAsync(alts, accepts).then(setValue),
   });
   const correctionSpeech = useSpeechRecognition({
-    lang: "fi-FI",
+    lang: speechLang,
     enabled: result !== null && !result.correct,
     onResult: (alts) => void pickBestSpokenAsync(alts, accepts).then(checkCorrection),
   });
@@ -277,7 +281,7 @@ function QuestionCard({
   );
 }
 
-export default function ReadingQuiz({ text, grade, onExit, onComplete }: ReadingQuizProps) {
+export default function ReadingQuiz({ text, grade, speechLang, onExit, onComplete }: ReadingQuizProps) {
   const questions = text.questions ?? [];
   const [idx, setIdx] = useState(0);
   const [score, setScore] = useState(0);
@@ -336,6 +340,7 @@ export default function ReadingQuiz({ text, grade, onExit, onComplete }: Reading
         total={questions.length}
         textTitle={text.title}
         grade={grade}
+        speechLang={speechLang}
         onAnswered={(wasCorrect) => {
           if (wasCorrect) setScore((s) => s + 1);
           if (idx + 1 >= questions.length) setDone(true);

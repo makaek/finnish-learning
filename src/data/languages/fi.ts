@@ -19,6 +19,7 @@ export const fiPack: LanguagePack = {
   label: "Suomi",
   flag: "🇫🇮",
   brand: "Финский",
+  speechLang: "fi-FI",
   vocab: VOCAB,
   sentences: SENTENCES,
   texts: TEXTS,
