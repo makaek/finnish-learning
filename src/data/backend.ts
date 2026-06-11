@@ -1,14 +1,19 @@
 /**
  * data/backend.ts — persistence boundary for learning progress.
  *
- * Keeps `src/core` pure (no I/O there) by owning all storage here. Progress is saved to
- * **Supabase** when `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` are configured;
- * otherwise — and on any network error — it transparently falls back to `localStorage`,
- * so `npm run dev`, tests, and offline use all work with zero credentials.
+ * Keeps `src/core` pure (no I/O there) by owning all storage here.
  *
- * Identity is a Supabase **anonymous** session (no login UI): every visitor gets a stable
- * `user_id`, and row-level security limits each user to their own rows. The anon key is
- * public by design.
+ * **The Supabase backend is currently DISABLED** (see {@link BACKEND_ENABLED}): all state lives
+ * in localStorage only, so the app is fully offline-first — nothing at startup can stall on the
+ * network. The entire Supabase path (anonymous auth, outbox/retry, merge-on-load, sync-error
+ * reporting) is kept compiled and dormant; flip the flag (with `VITE_SUPABASE_URL` /
+ * `VITE_SUPABASE_ANON_KEY` configured) to restore server sync.
+ *
+ * When enabled: progress is saved to **Supabase**, and on any failure it transparently falls
+ * back to `localStorage` + an outbox that retries, so `npm run dev`, tests, and offline use all
+ * work with zero credentials. Identity is a Supabase **anonymous** session (no login UI): every
+ * visitor gets a stable `user_id`, and row-level security limits each user to their own rows.
+ * The anon key is public by design.
  */
 
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
@@ -615,11 +620,20 @@ class SupabaseStore implements ProgressStore {
 
 // --- store selection --------------------------------------------------------------------
 
+/**
+ * Master switch for the Supabase backend. `false` = local-only persistence (the current mode):
+ * the app never touches the network for progress, so an offline PWA boots instantly. Flip to
+ * `true` (with the VITE_SUPABASE_* env vars set) to restore server sync — stale outbox entries
+ * left in localStorage are then drained by the rescue/flush logic on the next load; do NOT
+ * clear them while disabled.
+ */
+const BACKEND_ENABLED = false;
+
 function createStore(): ProgressStore {
   const url = import.meta.env.VITE_SUPABASE_URL;
   const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
   const local = new LocalStore();
-  if (url && key) {
+  if (BACKEND_ENABLED && url && key) {
     const client = createClient(url, key, {
       auth: { persistSession: true, autoRefreshToken: true },
     });

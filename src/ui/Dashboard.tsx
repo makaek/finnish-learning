@@ -34,6 +34,8 @@ interface DashboardProps {
   /** Open the «Уровни» screen (hero footer button). */
   onGoLevels: () => void;
   /** Start a practice session for a word/sentence mode (weak-link «Тренировать»). */
+  /** Mode ids unavailable right now (offline locks) — skipped by the weak-link nudge. */
+  locked: ReadonlySet<string>;
   onStart: (mode: Mode) => void;
   /** Open the reading library when the weakest mode is reading. */
   onOpenReading: (type: "text" | "dialog") => void;
@@ -85,6 +87,7 @@ export default function Dashboard({
   daily,
   testMode,
   onGoLevels,
+  locked,
   onStart,
   onOpenReading,
 }: DashboardProps) {
@@ -138,8 +141,10 @@ export default function Dashboard({
     return list;
   }, [d.modes, d.reading, texts, progress]);
 
+  // The weak-link nudge never targets an offline-locked mode (reading rows have no `start`,
+  // so they always qualify). The full per-mode list below still SHOWS locked rows, tagged.
   const weakest = rows.reduce<PracticeRow | null>(
-    (a, b) => (a === null || b.mastery < a.mastery ? b : a),
+    (a, b) => (b.start && locked.has(b.start) ? a : a === null || b.mastery < a.mastery ? b : a),
     null,
   );
   const trainWeakest = () => {
@@ -300,13 +305,15 @@ export default function Dashboard({
                 </div>
                 {groupRows.map((r) => {
                   const weak = r === weakest;
+                  const isLocked = !!r.start && locked.has(r.start);
                   return (
-                    <div key={r.id} className="mprow">
+                    <div key={r.id} className={"mprow" + (isLocked ? " mprow--locked" : "")}>
                       <span className={"mprow__ic mprow__ic--" + r.group}>
                         <UiIcon name={r.icon} size={16} strokeWidth={1.8} />
                       </span>
                       <span className={"mprow__label" + (weak ? " mprow__label--weak" : "")}>
                         {r.label}
+                        {isLocked && <small className="mprow__off"> · офлайн</small>}
                       </span>
                       <span className="mprow__track">
                         <span

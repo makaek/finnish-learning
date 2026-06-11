@@ -52,6 +52,9 @@ import {
   type SyncError,
 } from "../data/backend";
 import { hiddenKey, loadHidden, saveHidden, type Group } from "./hidden";
+import { useOnline } from "./useOnline";
+import { useLocalTtsVoice } from "./useSpeechSynthesis";
+import { lockedModes } from "../core/offlineLocks";
 import { loadRead, saveRead } from "./readingState";
 import Roadmap, { type Mode } from "./Roadmap";
 import Dashboard from "./Dashboard";
@@ -104,6 +107,13 @@ export default function App() {
   // Items excluded from every lesson — the learner's hidden / «уже знаю» set, persisted locally.
   // Added to in-lesson via «Уже знаю» (descope an item you already know); legacy hides load too.
   const [hidden, setHidden] = useState<Set<string>>(loadHidden);
+  // OFFLINE mode-locks: say_* needs the cloud recognizer (always locked offline); listen_* needs
+  // TTS, locked offline only when no LOCAL voice can speak the target language. Live (event-driven),
+  // but sessions snapshot it via lockedRef on `start` so a mid-run flip never reshuffles questions.
+  const online = useOnline();
+  const ttsLocal = useLocalTtsVoice(pack.speechLang);
+  const locked = useMemo(() => lockedModes(online, ttsLocal), [online, ttsLocal]);
+  const lockedRef = useRef<ReadonlySet<string>>(locked);
   // Texts/dialogs the learner has finished (read or rehearsed). Lifted here from Reading so the
   // home/dashboard/progress screens can fold reading into level completion. Device-local, like
   // `hidden` — same persistence rationale (a view marker, not graded data).
@@ -323,6 +333,8 @@ export default function App() {
   // Микс ("добить уровень"): one run interleaving every word/sentence mode's NOT-yet-mastered
   // items at the current (gated) level — no reading. Each question carries the track it records,
   // so it routes to the right card + progress kind. Same pools/gating as the dedicated modes.
+  // Offline-locked kinds are excluded via lockedRef (a ref, like progressRef, snapshotted on
+  // `start` — a connectivity flip mid-run must NOT reshuffle the session under the current index).
   const mixed = useMemo(() => {
     const level = masteringLevelGated(pack.vocab, pack.sentences, pack.texts, progressRef.current);
     const words = activeVocab(pack.vocab, progressRef.current, testMode).filter(
@@ -331,10 +343,16 @@ export default function App() {
     const sents = eligibleSentences(pack.sentences, pack.vocab, progressRef.current, testMode).filter(
       (s) => !hidden.has(hiddenKey("sentence", s.id)),
     );
-    return buildMixedSession(words, sents, progressRef.current, level, seed, MIX_SESSION_SIZE);
+    return buildMixedSession(
+      words, sents, progressRef.current, level, seed, MIX_SESSION_SIZE, lockedRef.current,
+    );
   }, [seed, testMode, hidden, pack]);
 
   function start(next: Mode) {
+    // Backstop for every entry point: an offline-locked mode is not startable, period.
+    if (locked.has(next)) return;
+    // Snapshot the lock set for the session being seeded (the mixed memo reads it via the ref).
+    lockedRef.current = locked;
     // Refresh the home view now so it's current whenever we return — covers restart(), which
     // re-enters a mode without passing through goHome().
     setProgressView(new Map(progressRef.current));
@@ -856,6 +874,7 @@ export default function App() {
           progress={progressView}
           daily={dailyView}
           testMode={testMode}
+          locked={locked}
           onGoLevels={() => setHomeScreen("levels")}
           onStart={start}
           onOpenReading={(type) => {
@@ -894,6 +913,7 @@ export default function App() {
           ready={ready}
           brand={pack.brand}
           lang={lang}
+          locked={locked}
           onChangeLang={changeLang}
           onStart={start}
           onOpenReading={(type) => {
@@ -1035,6 +1055,12 @@ export default function App() {
               ? "Нет предложений для этого уровня."
               : "Нет заданий для тренировки."}
           </p>
+          {/* The offline mix excludes voice/dictation tasks — if only those remain, say so. */}
+          {!online && mode === "mix" && (
+            <p className="hint">
+              Офлайн доступны не все режимы — подключитесь к сети, чтобы добить уровень.
+            </p>
+          )}
           <button type="button" className="next" onClick={goHome}>
             В меню
           </button>

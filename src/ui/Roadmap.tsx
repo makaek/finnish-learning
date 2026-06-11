@@ -98,6 +98,8 @@ interface RoadmapProps {
   brand: string;
   /** Active target language + its setter, for the in-settings language switch. */
   lang: LangId;
+  /** Mode ids unavailable right now (offline locks) — rendered locked, never routed to. */
+  locked: ReadonlySet<string>;
   onChangeLang: (lang: LangId) => void;
   onStart: (mode: Mode) => void;
   /** Open the reading library, filtered to texts or dialogs. */
@@ -119,6 +121,7 @@ export default function Roadmap({
   ready,
   brand,
   lang,
+  locked,
   onChangeLang,
   onStart,
   onOpenReading,
@@ -198,15 +201,13 @@ export default function Roadmap({
   );
 
   // Current-level leftovers across every word & sentence mode (NOT reading) — the work the Микс
-  // run would drill. Same per-mode `finish` counts the cards show, summed.
-  const mixLeft =
-    finish.recognition +
-    finish.production +
-    finish.say_word +
-    finish.listen_word +
-    finish.sentences +
-    finish.say_sentence +
-    finish.listen_sentence;
+  // run would drill. Same per-mode `finish` counts the cards show, summed — minus offline-locked
+  // modes, so the badge matches what the (exclude-filtered) mix actually contains.
+  const MIX_KINDS = [
+    "recognition", "production", "say_word", "listen_word",
+    "sentences", "say_sentence", "listen_sentence",
+  ] as const;
+  const mixLeft = MIX_KINDS.filter((k) => !locked.has(k)).reduce((sum, k) => sum + finish[k], 0);
 
   // Per-spoke leftover counts for the ring badges, keyed by ModeInput.id. Sourced from `finish`
   // (the same hidden/eligibility-filtered counts the cards used), so a badge always matches what
@@ -233,6 +234,7 @@ export default function Roadmap({
     icon: c.icon as IconName,
     mastery: c.mastery,
     remaining: ringLeft[c.id] ?? Math.max(0, c.total - c.mastered),
+    locked: locked.has(c.id),
   }));
 
   // CEFR meter state: the band + level-in-band from the gated current level, and a current-cell %
@@ -329,11 +331,31 @@ export default function Roadmap({
     );
   }
 
-  const weak = balance.weakest;
+  // Weak-link routing target: the balance's weakest, unless it's offline-locked — then the
+  // weakest UNLOCKED mode that still has work; the card hides when nothing qualifies. Pure
+  // presentation routing — core/balance.ts stays connectivity-independent.
+  const weakCandidates = balance.cells.filter(
+    (c) => !locked.has(c.id) && (ringLeft[c.id] ?? Math.max(0, c.total - c.mastered)) > 0,
+  );
+  const weak =
+    balance.weakest && !locked.has(balance.weakest.id)
+      ? balance.weakest
+      : weakCandidates.reduce<(typeof weakCandidates)[number] | null>(
+          (a, b) => (a === null || b.mastery < a.mastery ? b : a),
+          null,
+        );
 
   return (
     <main className="app app--home">
       {header}
+
+      {/* Offline cover: which capability is missing right now (the locked spokes echo it). */}
+      {locked.size > 0 && (
+        <p className="offnote" role="status">
+          Офлайн · голосовые режимы недоступны
+          {locked.has("listen_word") ? " · аудирование тоже (нет локального голоса)" : ""}
+        </p>
+      )}
 
       {/* Daily-goal strip — the streak/week now lives in the header chip, so this block is purely
           the "did I hit today's goal" loop (lessons toward goal + accuracy); tap → Метрики. */}

@@ -61,6 +61,9 @@ export type MixQuestion =
  * NOTE: this intentionally ignores the home leader-PAUSE — a "paused" mode is a runaway leader
  * (high mastery), so its few stray leftovers are exactly what a clean-up run should finish off;
  * pausing only blocks STARTING that mode directly, not closing it out via the mix.
+ *
+ * `exclude` drops whole modes from the run — used for the OFFLINE locks (say_* needs the cloud
+ * recognizer; listen_* needs a TTS voice), so an offline mix only contains answerable tasks.
  */
 export function buildMixedSession(
   vocab: readonly VocabItem[],
@@ -69,6 +72,7 @@ export function buildMixedSession(
   level: number,
   seed: number,
   size: number = MIX_SESSION_SIZE,
+  exclude?: ReadonlySet<string>,
 ): MixQuestion[] {
   const qRng = makeRng(seed);
   const tasks: { box: number; q: MixQuestion }[] = [];
@@ -76,6 +80,7 @@ export function buildMixedSession(
   for (const v of vocab) {
     if (levelOf(v) !== level) continue;
     for (const kind of WORD_MIX_MODES) {
+      if (exclude?.has(kind)) continue;
       const box = getProgress(progress, kind, v.id).box;
       if (box >= LEARNED_BOX) continue;
       const q: MixQuestion =
@@ -95,6 +100,7 @@ export function buildMixedSession(
   for (const s of sentences) {
     if (levelOf(s) !== level) continue;
     for (const kind of SENTENCE_MIX_MODES) {
+      if (exclude?.has(kind)) continue;
       const box = getProgress(progress, kind, s.id).box;
       if (box >= LEARNED_BOX) continue;
       tasks.push({

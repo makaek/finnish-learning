@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import type { SentenceQuestion } from "../core/sentenceSession";
 import type { Grade, GradeResult } from "../core/grader.contract";
 import { pickBestSpokenAsync } from "../core/spokenNumber";
-import { useSpeechRecognition } from "./useSpeechRecognition";
+import { speechTroubleRu, useSpeechRecognition } from "./useSpeechRecognition";
+import { useOnline } from "./useOnline";
 import { useSpeechSynthesis } from "./useSpeechSynthesis";
 
 interface SentenceCardProps {
@@ -72,6 +73,11 @@ export default function SentenceCard({
   // In voice mode: hear the correct sentence before re-saying it. In listen mode: TTS speaks
   // the sentence as the prompt (the whole exercise). Same hook serves both.
   const tts = useSpeechSynthesis(speechLang);
+  // Offline / recognizer trouble, surfaced on the card (voice mode has no typing fallback, so
+  // the learner must know WHY the mic is dead; «Засчитать верным» stays as the escape hatch).
+  const online = useOnline();
+  const trouble = voice ? speechTroubleRu(online, speech.error) : null;
+  const correctionTrouble = voice ? speechTroubleRu(online, correctionSpeech.error) : null;
 
   // Listen mode: play the sentence once when the question appears. The card is keyed by index
   // so a new question remounts it (resetting the guard); the ref guard makes the play strictly
@@ -193,14 +199,18 @@ export default function SentenceCard({
         />
         {voice && !answered && (
           speech.supported ? (
-            <button
-              type="button"
-              className={"mic" + (speech.listening ? " mic--on" : "")}
-              onClick={() => (speech.listening ? speech.stop() : speech.start())}
-              aria-label="Говорить"
-            >
-              {speech.listening ? "● Слушаю…" : value ? "🎤 Сказать заново" : "🎤 Говорить"}
-            </button>
+            <>
+              <button
+                type="button"
+                className={"mic" + (speech.listening ? " mic--on" : "")}
+                disabled={!online}
+                onClick={() => (speech.listening ? speech.stop() : speech.start())}
+                aria-label="Говорить"
+              >
+                {speech.listening ? "● Слушаю…" : value ? "🎤 Сказать заново" : "🎤 Говорить"}
+              </button>
+              {trouble && <p className="hint">{trouble}</p>}
+            </>
           ) : (
             <p className="hint">Голосовой ввод не поддерживается в этом браузере.</p>
           )
@@ -274,6 +284,7 @@ export default function SentenceCard({
                     <button
                       type="button"
                       className={"mic" + (correctionSpeech.listening ? " mic--on" : "")}
+                      disabled={!online}
                       onClick={() =>
                         correctionSpeech.listening ? correctionSpeech.stop() : correctionSpeech.start()
                       }
@@ -299,6 +310,7 @@ export default function SentenceCard({
                   </button>
                 </div>
               )}
+              {voice && correctionTrouble && <p className="hint">{correctionTrouble}</p>}
             </>
           )}
           <button

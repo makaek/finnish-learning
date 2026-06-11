@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import type { ProductionQuestion } from "../core/produce";
 import { gradeTyped, type TypedGrade } from "../core/produce";
 import { pickBestSpoken } from "../core/spokenNumber";
-import { useSpeechRecognition } from "./useSpeechRecognition";
+import { speechTroubleRu, useSpeechRecognition } from "./useSpeechRecognition";
+import { useOnline } from "./useOnline";
 import { useSpeechSynthesis } from "./useSpeechSynthesis";
 
 interface ProductionCardProps {
@@ -59,6 +60,11 @@ export default function ProductionCard({
     enabled: voice && graded !== null && !graded.correct,
     onResult: (alts) => setCorrection(pickBestSpoken(alts, accepts)),
   });
+  // Offline / recognizer trouble, surfaced on the card (voice mode has no typing fallback, so
+  // the learner must know WHY the mic is dead; «Засчитать верным» stays as the escape hatch).
+  const online = useOnline();
+  const trouble = voice ? speechTroubleRu(online, speech.error) : null;
+  const correctionTrouble = voice ? speechTroubleRu(online, correctionSpeech.error) : null;
   // In voice mode: hear the correct word before re-saying it. In listen mode: TTS speaks the
   // word as the prompt (the whole exercise). Same hook serves both.
   const tts = useSpeechSynthesis(speechLang);
@@ -168,14 +174,18 @@ export default function ProductionCard({
         />
         {voice && !answered && (
           speech.supported ? (
-            <button
-              type="button"
-              className={"mic" + (speech.listening ? " mic--on" : "")}
-              onClick={() => (speech.listening ? speech.stop() : speech.start())}
-              aria-label="Говорить"
-            >
-              {speech.listening ? "● Слушаю…" : value ? "🎤 Сказать заново" : "🎤 Говорить"}
-            </button>
+            <>
+              <button
+                type="button"
+                className={"mic" + (speech.listening ? " mic--on" : "")}
+                disabled={!online}
+                onClick={() => (speech.listening ? speech.stop() : speech.start())}
+                aria-label="Говорить"
+              >
+                {speech.listening ? "● Слушаю…" : value ? "🎤 Сказать заново" : "🎤 Говорить"}
+              </button>
+              {trouble && <p className="hint">{trouble}</p>}
+            </>
           ) : (
             <p className="hint">Голосовой ввод не поддерживается в этом браузере.</p>
           )
@@ -233,6 +243,7 @@ export default function ProductionCard({
                     <button
                       type="button"
                       className={"mic" + (correctionSpeech.listening ? " mic--on" : "")}
+                      disabled={!online}
                       onClick={() =>
                         correctionSpeech.listening ? correctionSpeech.stop() : correctionSpeech.start()
                       }
@@ -258,6 +269,7 @@ export default function ProductionCard({
                   </button>
                 </div>
               )}
+              {voice && correctionTrouble && <p className="hint">{correctionTrouble}</p>}
             </>
           )}
           <button

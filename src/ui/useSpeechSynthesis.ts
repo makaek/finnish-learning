@@ -17,9 +17,24 @@ function getSynth(): SpeechSynthesis | undefined {
   return window.speechSynthesis;
 }
 
+/**
+ * Whether some installed voice can speak `lang` WITHOUT the network: a language-prefix match
+ * that is `localService` (on-device). Remote voices (e.g. desktop Chrome's "Google …" set)
+ * silently produce no audio offline, so this is the signal the offline mode-locks need.
+ */
+export function hasLocalVoice(
+  voices: readonly SpeechSynthesisVoice[],
+  lang: string,
+): boolean {
+  const base = lang.slice(0, 2).toLowerCase();
+  return voices.some((v) => v.localService && v.lang?.toLowerCase().startsWith(base));
+}
+
 export interface SpeechSynthesisApi {
   supported: boolean;
   speaking: boolean;
+  /** A LOCAL (on-device) voice exists for the language — TTS will work offline. */
+  offlineCapable: boolean;
   /** Speak the given text (cancels anything already playing). No-op when unsupported/empty.
    * `onDone` fires only on natural completion (not when preempted by cancel/another speak). */
   speak: (text: string, onDone?: () => void) => void;
@@ -34,7 +49,10 @@ export function useSpeechSynthesis(lang = "fi-FI"): SpeechSynthesisApi {
   // `in window` check runs.
   const supported = getSynth() !== undefined && "SpeechSynthesisUtterance" in window;
   const [speaking, setSpeaking] = useState(false);
-  // Resolved Finnish voice (voices can load asynchronously, hence the voiceschanged listener).
+  // True when an on-device voice can speak the language (TTS works offline). State, not a ref:
+  // the offline locks must re-render when Chrome's async getVoices() population lands.
+  const [offlineCapable, setOfflineCapable] = useState(false);
+  // Resolved target-language voice (voices can load asynchronously, hence the voiceschanged listener).
   const voiceRef = useRef<SpeechSynthesisVoice | null>(null);
   // Stamps each utterance so a cancelled one's late onerror/onend can't flip `speaking` for a
   // newer utterance (cancel() fires an "interrupted" error on the preempted one).
@@ -46,8 +64,11 @@ export function useSpeechSynthesis(lang = "fi-FI"): SpeechSynthesisApi {
     const base = lang.slice(0, 2).toLowerCase();
     const pick = () => {
       const voices = synth.getVoices();
-      voiceRef.current =
-        voices.find((v) => v.lang?.toLowerCase().startsWith(base)) ?? null;
+      const matches = voices.filter((v) => v.lang?.toLowerCase().startsWith(base));
+      // Prefer an on-device voice: remote ones (desktop Chrome's "Google …") silently fail
+      // offline; preferring local is harmless online.
+      voiceRef.current = matches.find((v) => v.localService) ?? matches[0] ?? null;
+      setOfflineCapable(hasLocalVoice(voices, lang));
     };
     pick();
     synth.addEventListener("voiceschanged", pick);
@@ -152,5 +173,26 @@ export function useSpeechSynthesis(lang = "fi-FI"): SpeechSynthesisApi {
     setSpeaking(false);
   }, []);
 
-  return { supported, speaking, speak, speakMany, cancel };
+  return { supported, speaking, offlineCapable, speak, speakMany, cancel };
+}
+
+/**
+ * Standalone "does TTS work offline for this language?" signal — same getVoices() +
+ * voiceschanged subscription as the full hook, without instantiating the speak/cancel API.
+ * Used by App to compute the offline mode-locks without mounting a card.
+ */
+export function useLocalTtsVoice(lang: string): boolean {
+  const [capable, setCapable] = useState(false);
+  useEffect(() => {
+    const synth = getSynth();
+    if (!synth) {
+      setCapable(false);
+      return;
+    }
+    const check = () => setCapable(hasLocalVoice(synth.getVoices(), lang));
+    check();
+    synth.addEventListener("voiceschanged", check);
+    return () => synth.removeEventListener("voiceschanged", check);
+  }, [lang]);
+  return capable;
 }

@@ -25,7 +25,7 @@
  * same in both themes.
  */
 
-export type IconName = "eye" | "keyboard" | "mic" | "phones" | "book" | "masks" | "check";
+export type IconName = "eye" | "keyboard" | "mic" | "phones" | "book" | "masks" | "check" | "lock";
 export type BalanceGroup = "words" | "sent" | "read";
 export type ChipShape = "circle" | "square" | "hex";
 
@@ -37,6 +37,8 @@ export interface RingMode {
   icon: IconName;
   mastery: number;     // 0..1
   remaining: number;   // items left to master (= total − mastered); 0 ⇒ done
+  /** Unavailable right now (offline mode-lock): rendered dimmed with a lock badge, not startable. */
+  locked?: boolean;
 }
 
 /* ===================================================================== icons
@@ -52,6 +54,7 @@ const ICONS: Record<IconName, JSX.Element> = {
   book: (<><path d="M12 6S9.5 4 4 4v14c5.5 0 8 2 8 2s2.5-2 8-2V4c-5.5 0-8 2-8 2Z" /><path d="M12 6v14" /></>),
   masks: (<><path d="M3.5 5h8v6a4 4 0 0 1-8 0V5Z" /><path d="M12.5 9h8v6a4 4 0 0 1-8 0" /><path d="M5.5 8.5h1M8.5 8.5h1M14.5 12h1M17.5 12h1" /></>),
   check: (<><path d="M4 12.5 9.5 18 20 6" /></>),
+  lock: (<><rect x="5" y="11" width="14" height="9" rx="2" /><path d="M8 11V7.5a4 4 0 0 1 8 0V11" /></>),
 };
 
 /** Standalone monoline mode icon (reused by the home's «слабое звено» card). */
@@ -139,14 +142,14 @@ export default function BalanceRing({ level, modes, shapes = true, onPick }: {
         return <path key={g} d={arcPath(ARC_R, a0, a1)} stroke={GROUP_HUE[g]} strokeWidth={4} fill="none" strokeLinecap="round" opacity={0.92} />;
       })}
 
-      {/* spokes: faint full track + group-hued mastery fill */}
+      {/* spokes: faint full track + group-hued mastery fill (locked = dimmed, never weak-red) */}
       {modes.map((m, i) => {
-        const ang = -90 + i * step, weak = i === weakIdx;
+        const ang = -90 + i * step, weak = i === weakIdx && !m.locked;
         const [tx0, ty0] = pol(T0, ang), [tx1, ty1] = pol(T1, ang);
         const [fx, fy] = pol(fillR(m.mastery), ang);
         const col = weak ? COL.red : GROUP_HUE[m.group];
         return (
-          <g key={`sp${i}`}>
+          <g key={`sp${i}`} opacity={m.locked ? 0.45 : undefined}>
             <line x1={tx0} y1={ty0} x2={tx1} y2={ty1} stroke={COL.track} strokeWidth={9} strokeLinecap="round" />
             {m.mastery > 0.001 && <line x1={tx0} y1={ty0} x2={fx} y2={fy} stroke={col} strokeWidth={9} strokeLinecap="round" opacity={weak ? 1 : 0.92} />}
           </g>
@@ -155,7 +158,10 @@ export default function BalanceRing({ level, modes, shapes = true, onPick }: {
 
       {/* chips on the fixed orbit + adaptive count badge */}
       {modes.map((m, i) => {
-        const ang = -90 + i * step, weak = i === weakIdx;
+        const ang = -90 + i * step;
+        // Locked (offline) styling wins over the weak-red highlight: a locked mode must not
+        // read as "tap me", even when it's the weakest.
+        const weak = i === weakIdx && !m.locked;
         const [x, y] = pol(ORBIT, ang);
         const r = weak ? R_WEAK : R_CHIP;
         const col = weak ? COL.red : GROUP_HUE[m.group];
@@ -166,17 +172,24 @@ export default function BalanceRing({ level, modes, shapes = true, onPick }: {
         const [bx, by] = pol(BADGE_R, ang);
         const txt = m.remaining > 99 ? "99+" : String(m.remaining);
         const bw = Math.max(20, 12 + txt.length * 7), bh = 20;
-        const startable = !done && !!onPick;
+        const startable = !done && !m.locked && !!onPick;
         return (
           <g key={`ch${i}`} onClick={startable ? () => onPick!(m.id) : undefined}
             style={startable ? { cursor: "pointer" } : undefined}
             role={startable ? "button" : undefined}
-            aria-label={`${m.label}: освоено ${Math.round(m.mastery * 100)}%${done ? ", выучено" : `, осталось ${m.remaining}`}`}>
+            opacity={m.locked ? 0.45 : undefined}
+            aria-label={`${m.label}: освоено ${Math.round(m.mastery * 100)}%${done ? ", выучено" : `, осталось ${m.remaining}`}${m.locked ? ", недоступно офлайн" : ""}`}>
             {weak && <ChipShapeEl shape={shape} x={x} y={y} r={r + 6} fill="none" stroke={col} strokeWidth={2.2} opacity={0.4} />}
             <ChipShapeEl shape={shape} x={x} y={y} r={r} fill={soft} stroke={col} strokeWidth={2.4} />
             <svg x={x - isz / 2} y={y - isz / 2} width={isz} height={isz} viewBox="0 0 24 24" fill="none"
               stroke={col} strokeWidth={1.9} strokeLinecap="round" strokeLinejoin="round">{ICONS[m.icon]}</svg>
-            {done ? (
+            {m.locked ? (
+              /* lock badge replaces the count — neutral grey, same rim geometry */
+              <g>
+                <circle cx={bx} cy={by} r={10} fill={COL.sub} stroke={COL.card} strokeWidth={2} />
+                <svg x={bx - 6} y={by - 6} width={12} height={12} viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth={2.6} strokeLinecap="round" strokeLinejoin="round">{ICONS.lock}</svg>
+              </g>
+            ) : done ? (
               <g>
                 <circle cx={bx} cy={by} r={10} fill={COL.green} stroke={COL.card} strokeWidth={2} />
                 <svg x={bx - 7} y={by - 7} width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round">{ICONS.check}</svg>

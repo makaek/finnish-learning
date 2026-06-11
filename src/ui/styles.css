@@ -2001,6 +2001,28 @@ body {
   align-items: center;
   gap: 0.8rem;
 }
+/* Offline notice on the home — which capability the locked ring spokes are missing. */
+.offnote {
+  margin: 0;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--muted);
+  background: var(--surface-2);
+  border-radius: var(--r-sm);
+}
+
+/* Метрики: a mode unavailable offline — muted row + an «офлайн» tag. */
+.mprow--locked {
+  opacity: 0.55;
+}
+.mprow__off {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
 /* «Уже знаю» in the reader footer — quiet, below the task cards (a descope, not a goal). */
 .rd-known {
   display: inline-flex;

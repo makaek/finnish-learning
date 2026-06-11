@@ -10,6 +10,7 @@ import type { ReadingQuestion, ReadingText } from "../core/reading";
 import type { Grade, GradeResult } from "../core/grader.contract";
 import { pickBestSpokenAsync } from "../core/spokenNumber";
 import { useSpeechRecognition } from "./useSpeechRecognition";
+import { useOnline } from "./useOnline";
 import { useSpeechSynthesis } from "./useSpeechSynthesis";
 import { UiIcon } from "./icons";
 import { Avatar, ChatHead } from "./readingKit";
@@ -53,6 +54,7 @@ function QuestionCard({
   const answered = result !== null;
 
   const tts = useSpeechSynthesis(speechLang);
+  const online = useOnline();
 
   // Prefer the recognizer hypothesis the grader accepts (English-looking top guess loses).
   const accepts = (candidate: string) =>
@@ -178,7 +180,8 @@ function QuestionCard({
             onChange={(e) => setValue(e.target.value)}
             aria-label="Ответ на финском"
           />
-          {answerSpeech.supported && (
+          {/* Mic hidden offline (cloud recognizer) — typing always remains, so no wedge risk. */}
+          {answerSpeech.supported && online && (
             <button
               type="button"
               className={"rd-circle" + (answerSpeech.listening ? " rd-circle--on" : "")}
@@ -239,7 +242,7 @@ function QuestionCard({
                 aria-label="Исправление"
               />
               <div className="voicerow">
-                {correctionSpeech.supported && (
+                {correctionSpeech.supported && online && (
                   <button
                     type="button"
                     className={"mic" + (correctionSpeech.listening ? " mic--on" : "")}

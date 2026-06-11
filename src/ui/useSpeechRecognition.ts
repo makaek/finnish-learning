@@ -51,6 +51,21 @@ export interface SpeechRecognitionApi {
   stop: () => void;
 }
 
+/**
+ * Russian description of a recognition problem worth surfacing on a card, or null for routine
+ * noise ("no-speech" fires whenever the learner stays quiet; "aborted" is our own teardown).
+ * The offline case is keyed on BOTH navigator.onLine and the recognizer's own "network" error —
+ * a captive portal reads as online but still fails with "network" at runtime.
+ */
+export function speechTroubleRu(online: boolean, error: string | null): string | null {
+  if (!online || error === "network")
+    return "Нет соединения — распознавание речи не работает офлайн.";
+  if (error === "not-allowed" || error === "service-not-allowed")
+    return "Нет доступа к микрофону — разрешите его в настройках браузера.";
+  if (!error || error === "no-speech" || error === "aborted") return null;
+  return `Ошибка распознавания: ${error}`;
+}
+
 export function useSpeechRecognition(opts: {
   lang: string;
   enabled: boolean;

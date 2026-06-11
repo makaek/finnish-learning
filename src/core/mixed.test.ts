@@ -82,6 +82,37 @@ describe("buildMixedSession", () => {
     }
   });
 
+  it("excludes whole modes via `exclude` (the offline say_* lock), keeping the rest intact", () => {
+    const session = buildMixedSession(
+      vocab, sentences, new Map(), 1, 7, 99,
+      new Set(["say_word", "say_sentence"]),
+    );
+    // 11 tasks minus w1/w2 say_word (2) and s1 say_sentence (1) = 8.
+    expect(session).toHaveLength(8);
+    const kinds = new Set<string>(session.map((q) => q.kind));
+    expect(kinds.has("say_word")).toBe(false);
+    expect(kinds.has("say_sentence")).toBe(false);
+    for (const k of ["recognition", "production", "listen_word", "sentences", "listen_sentence"]) {
+      expect(kinds.has(k)).toBe(true);
+    }
+  });
+
+  it("excluding say_* AND listen_* (offline without a local TTS voice) leaves typed modes only", () => {
+    const session = buildMixedSession(
+      vocab, sentences, new Map(), 1, 7, 99,
+      new Set(["say_word", "say_sentence", "listen_word", "listen_sentence"]),
+    );
+    expect(session.map((q) => q.kind).sort()).toEqual([
+      "production", "production", "recognition", "recognition", "sentences",
+    ]);
+  });
+
+  it("an omitted/empty exclude matches today's behavior", () => {
+    const a = buildMixedSession(vocab, sentences, new Map(), 1, 7, 99);
+    const b = buildMixedSession(vocab, sentences, new Map(), 1, 7, 99, new Set());
+    expect(b).toEqual(a);
+  });
+
   it("orders weakest-box-first so the least-known leftovers lead", () => {
     // Give w1's recognition box 1 (still < LEARNED_BOX=2) and everything else box 0.
     const progress = mk(["recognition", "w1", 1]);

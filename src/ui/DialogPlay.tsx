@@ -11,6 +11,7 @@ import type { ReadingText } from "../core/reading";
 import { SOLO_ROLE, rolesOf, spokenMatches } from "../core/reading";
 import { useSpeechSynthesis } from "./useSpeechSynthesis";
 import { useSpeechRecognition } from "./useSpeechRecognition";
+import { useOnline } from "./useOnline";
 import { UiIcon } from "./icons";
 import { Avatar, ChatHead, IconBtn } from "./readingKit";
 import { plReplika, speakerColor } from "./readingFormat";
@@ -55,11 +56,19 @@ export default function DialogPlay({ text, speechLang, recitedRoles, onRoleCompl
   const mine = !!(started && line && (isMonologue || line.speaker === myRole));
   const doneRole = (r: string) => recitedRoles.has(r) || localDone.has(r);
 
+  // Offline / recognizer-failure handling: recognition needs the cloud service, so when offline
+  // (or after a runtime "network" error — captive portals read as online) the recite falls back
+  // to the SAME timed-recall flow used for unsupported browsers, instead of wedging the learner
+  // on a mic that will never hear them. `recogFailed` clears once connectivity returns.
+  const online = useOnline();
+  const [recogFailed, setRecogFailed] = useState(false);
+
   // Recognition is available on the learner's turn and gates advancing (a matching utterance
-  // passes the line). Disabled once `matched` so the recognizer is released between turns.
+  // passes the line). Disabled once `matched` so the recognizer is released between turns, and
+  // while voice is unusable (offline) so a dead recognizer is never started.
   const speech = useSpeechRecognition({
     lang: speechLang,
-    enabled: started && mine && running && !matched,
+    enabled: started && mine && running && !matched && online && !recogFailed,
     onResult: (alts) => {
       setHeard(alts[0] ?? "");
       if (line && alts.some((a) => spokenMatches(line.fi, a))) setMatched(true);
@@ -67,6 +76,16 @@ export default function DialogPlay({ text, speechLang, recitedRoles, onRoleCompl
   });
   const { supported: recogSupported, listening, start: startListening, stop: stopListening } =
     speech;
+
+  useEffect(() => {
+    if (speech.error === "network") setRecogFailed(true);
+  }, [speech.error]);
+  useEffect(() => {
+    if (online) setRecogFailed(false);
+  }, [online]);
+
+  /** Voice can actually gate this turn (API present AND the cloud service reachable). */
+  const voiceUsable = recogSupported && online && !recogFailed;
 
   // Stage: partner line → speak then advance; your line → wait for voice (or, with no recognizer,
   // a timed recall then reveal + advance). Timers/TTS are torn down on every change.
@@ -98,7 +117,7 @@ export default function DialogPlay({ text, speechLang, recitedRoles, onRoleCompl
       setRevealed(true);
       if (ttsSupported) speakThenAdvance(l.fi);
       else after(readMs(l.fi), goNext);
-    } else if (!recogSupported) {
+    } else if (!voiceUsable) {
       setRevealed(false);
       after(recallMs(l.fi), () => {
         setRevealed(true);
@@ -114,15 +133,17 @@ export default function DialogPlay({ text, speechLang, recitedRoles, onRoleCompl
       timers.forEach((t) => clearTimeout(t));
       cancel();
     };
-  }, [idx, running, myRole, text, ttsSupported, speak, cancel, started, isMonologue, recogSupported]);
+    // `voiceUsable` IS a dep: a mid-line network error re-runs the stage into the timed branch
+    // (resetting heard/matched — acceptable), which un-wedges the learner.
+  }, [idx, running, myRole, text, ttsSupported, speak, cancel, started, isMonologue, voiceUsable]);
 
   // Listening: keep the mic open on a voice-gated turn until the learner says the line.
   useEffect(() => {
-    if (!started || !running || !mine || matched || !recogSupported) return;
+    if (!started || !running || !mine || matched || !voiceUsable) return;
     if (listening) return;
     const id = window.setTimeout(() => startListening(), 300);
     return () => clearTimeout(id);
-  }, [started, running, mine, matched, recogSupported, listening, startListening, idx]);
+  }, [started, running, mine, matched, voiceUsable, listening, startListening, idx]);
 
   // Advance-on-match: once the line is said (or force-accepted), briefly reveal it and move on.
   useEffect(() => {
@@ -197,11 +218,13 @@ export default function DialogPlay({ text, speechLang, recitedRoles, onRoleCompl
             </div>
           </div>
           <p className="hint">
-            {recogSupported
+            {voiceUsable
               ? isMonologue
                 ? "Произнесите каждую реплику по памяти — приложение слушает."
                 : "Чтобы освоить диалог, расскажите его наизусть в каждой роли. Можно в любом порядке."
-              : "Микрофон недоступен — отвечайте по памяти, по таймеру."}
+              : recogSupported
+                ? "Нет сети — рассказывайте по памяти, по таймеру."
+                : "Микрофон недоступен — отвечайте по памяти, по таймеру."}
           </p>
           <div className="rd-rolepick">
             {pickRoles.map((r) => {
@@ -320,7 +343,7 @@ export default function DialogPlay({ text, speechLang, recitedRoles, onRoleCompl
                           ))}
                         </span>
                         <span style={{ color: "var(--read)", fontWeight: 700, fontSize: "0.9rem" }}>
-                          {recogSupported
+                          {voiceUsable
                             ? listening
                               ? "Слушаю…"
                               : "Скажите реплику"
@@ -369,9 +392,9 @@ export default function DialogPlay({ text, speechLang, recitedRoles, onRoleCompl
               <button
                 type="button"
                 className="rd-hero"
-                aria-label={recogSupported ? "Слушать" : "Дальше"}
+                aria-label={voiceUsable ? "Слушать" : "Дальше"}
                 onClick={() =>
-                  recogSupported ? (listening ? stopListening() : startListening()) : setMatched(true)
+                  voiceUsable ? (listening ? stopListening() : startListening()) : setMatched(true)
                 }
               >
                 <UiIcon name="mic" size={30} />
@@ -388,7 +411,7 @@ export default function DialogPlay({ text, speechLang, recitedRoles, onRoleCompl
                 Пропустить
               </button>
             </div>
-            {recogSupported && !matched && (
+            {voiceUsable && !matched && (
               <button
                 type="button"
                 className="rd-ghost"
