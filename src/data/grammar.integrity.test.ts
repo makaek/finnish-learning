@@ -11,7 +11,13 @@
 import { describe, it, expect } from "vitest";
 import seed from "../../data/grammar.seed.json";
 import ruleSeed from "../../data/rules.seed.json";
-import { flattenGrammar, lessonItems, stripForm, type RawGrammarFile } from "../core/grammar";
+import {
+  flattenGrammar,
+  lessonItems,
+  setCount,
+  stripForm,
+  type RawGrammarFile,
+} from "../core/grammar";
 import { flattenRules, type RawRulesFile } from "../core/rules";
 import { normalizeFi } from "../core/normalize";
 
@@ -61,11 +67,22 @@ describe("grammar seed: shape", () => {
     expect(new Set(itemIds).size).toBe(itemIds.length);
   });
 
-  it("gives every topic a warmup and a drill", () => {
+  it("gives every topic ≥2 variant sets, each a complete lesson (warmup + drill)", () => {
     for (const t of content.topics) {
-      const items = lessonItems(content.items, t.id);
-      expect(items.some((i) => i.stage === "warmup"), `${t.id}: no warmup items`).toBe(true);
-      expect(items.some((i) => i.stage === "drill"), `${t.id}: no drill items`).toBe(true);
+      const sets = setCount(content.items, t.id);
+      expect(sets, `${t.id}: needs ≥2 variant sets`).toBeGreaterThanOrEqual(2);
+      for (let s = 1; s <= sets; s++) {
+        const items = lessonItems(content.items, t.id, s);
+        expect(items.some((i) => i.stage === "warmup"), `${t.id} set ${s}: no warmup`).toBe(true);
+        expect(items.some((i) => i.stage === "drill"), `${t.id} set ${s}: no drill`).toBe(true);
+      }
+    }
+  });
+
+  it("assigns every topic a curriculum level within the content's range", () => {
+    for (const t of content.topics) {
+      expect(t.level, `${t.id}: bad level`).toBeGreaterThanOrEqual(1);
+      expect(t.level, `${t.id}: level beyond the 19-level curriculum`).toBeLessThanOrEqual(19);
     }
   });
 
@@ -84,6 +101,20 @@ describe("grammar seed: topic graph", () => {
       expect(moduleIds.has(t.module), `${t.id}: unknown module ${t.module}`).toBe(true);
       for (const p of t.prereq) expect(ids.has(p), `${t.id}: unknown prereq ${p}`).toBe(true);
       for (const r of t.ruleIds) expect(ruleIds.has(r), `${t.id}: unknown rule ${r}`).toBe(true);
+    }
+  });
+
+  it("never places a prereq at a LATER level than its dependent (no impossible gates)", () => {
+    const byId = new Map(content.topics.map((t) => [t.id, t]));
+    for (const t of content.topics) {
+      for (const p of t.prereq) {
+        const pre = byId.get(p);
+        if (!pre) continue;
+        expect(
+          pre.level,
+          `${t.id} (L${t.level}) requires ${p} (L${pre.level}) from a later level`,
+        ).toBeLessThanOrEqual(t.level);
+      }
     }
   });
 

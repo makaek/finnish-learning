@@ -936,9 +936,9 @@
 
   "adjectives": [
     {"id":"a1","fi":"hyvä","ru":"хороший","pos":"adj","level":1,"part_sg":"hyvää","notes":"","theme":"basics"},
-    {"id":"a2","fi":"iso","ru":"большой","pos":"adj","level":1,"part_sg":"isoa","notes":"Synonym: suuri.","theme":"basics"},
-    {"id":"a3","fi":"pieni","ru":"маленький","pos":"adj","level":2,"gen_sg":"pienen","part_sg":"pientä","notes":"","theme":"basics"},
-    {"id":"a4","fi":"uusi","ru":"новый","pos":"adj","level":2,"gen_sg":"uuden","part_sg":"uutta","notes":"","theme":"basics"},
+    {"id":"a2","fi":"iso","ru":"большой","pos":"adj","level":1,"gen_sg":"ison","part_sg":"isoa","iness_sg":"isossa","illat_sg":"isoon","notes":"Synonym: suuri. No gradation. Agreement: 'isossa talossa' (оба в инессиве), 'ison auton' (генитив).","needs_review":false,"theme":"basics"},
+    {"id":"a3","fi":"pieni","ru":"маленький","pos":"adj","level":2,"gen_sg":"pienen","part_sg":"pientä","iness_sg":"pienessä","illat_sg":"pieneen","notes":"Stem piene-: gen pienen, iness pienessä. Agreement: 'pienessä talossa'.","needs_review":false,"theme":"basics"},
+    {"id":"a4","fi":"uusi","ru":"новый","pos":"adj","level":2,"gen_sg":"uuden","part_sg":"uutta","iness_sg":"uudessa","illat_sg":"uuteen","notes":"Stem uude-: gen uuden, iness uudessa. Agreement: 'uudessa autossa' (инессив), 'uuden auton' (генитив).","needs_review":false,"theme":"basics"},
     {"id":"a5","fi":"kylmä","ru":"холодный","pos":"adj","level":8,"part_sg":"kylmää","notes":"Mass-subject predicative: 'Vesi on kylmää' = Вода холодная. 'Sää on kylmä' (countable-ish weather).","theme":"weather"},
     {"id":"a6","fi":"kuuma","ru":"горячий","pos":"adj","level":8,"part_sg":"kuumaa","notes":"For hot weather often 'kuuma'; for very warm/cosy use lämmin.","theme":"weather"},
     {"id":"a7","fi":"lämmin","ru":"тёплый","pos":"adj","level":8,"gen_sg":"lämpimän","part_sg":"lämmintä","notes":"IRREGULAR -min adj, stem lämpimä-: gen lämpimän, part lämmintä. 'Kahvi on lämmintä' (mass, partitive).","theme":"weather"},
@@ -948,7 +948,7 @@
     {"id":"a11","fi":"kallis","ru":"дорогой","pos":"adj","level":7,"gen_sg":"kalliin","part_sg":"kallista","notes":"Stem kallii-: gen kalliin, part kallista. 'Auto on kallis' = Машина дорогая.","theme":"money"},
     {"id":"a12","fi":"halpa","ru":"дешёвый","pos":"adj","level":7,"gen_sg":"halvan","part_sg":"halpaa","notes":"Gradation p->v: halPa but halVan.","theme":"money"},
 
-    {"id":"a13","fi":"vanha","ru":"старый","pos":"adj","level":9,"gen_sg":"vanhan","part_sg":"vanhaa","notes":"No gradation. 'vanha talo' = старый дом. Predicative: 'Talo on vanha'.","theme":"grammar"},
+    {"id":"a13","fi":"vanha","ru":"старый","pos":"adj","level":9,"gen_sg":"vanhan","part_sg":"vanhaa","iness_sg":"vanhassa","illat_sg":"vanhaan","notes":"No gradation. 'vanha talo' = старый дом. Predicative: 'Talo on vanha'. Agreement: 'vanhassa talossa'.","needs_review":false,"theme":"grammar"},
     {"id":"a14","fi":"nuori","ru":"молодой","pos":"adj","level":9,"gen_sg":"nuoren","part_sg":"nuorta","notes":"Stem nuore-: gen nuoren, part nuorta. 'nuori mies' = молодой человек.","theme":"grammar"},
     {"id":"a15","fi":"väsynyt","ru":"усталый","pos":"adj","level":9,"gen_sg":"väsyneen","part_sg":"väsynyttä","notes":"-nyt participle adj, stem väsynee-: gen väsyneen, part väsynyttä. 'Olen väsynyt' = Я устал.","theme":"grammar"},
     {"id":"a16","fi":"valmis","ru":"готовый","pos":"adj","level":9,"gen_sg":"valmiin","part_sg":"valmista","notes":"Stem valmii-: gen valmiin, part valmista. 'Olen valmis' = Я готов.","theme":"grammar"},

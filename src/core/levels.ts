@@ -14,6 +14,7 @@
 
 import { getProgress, type ItemKind, type ItemProgress, type ProgressMap } from "./progress";
 import { GATE_TARGET, type BalanceGroup } from "./balance";
+import { topicMastered, topicMasteryPct } from "./grammar";
 
 /** A word is "learned" once its Leitner box reaches this (≈ 2 clean first-attempt answers). */
 export const LEARNED_BOX = 2;
@@ -237,36 +238,44 @@ export function activeLevel(stats: readonly LevelStat[], unlocked: ReadonlySet<n
 }
 
 /**
- * Per-level COMBINED completion: words + sentences + texts/dialogs, each item weighted equally.
+ * Per-level COMBINED completion: words + sentences + texts/dialogs + grammar topics, each item
+ * weighted equally.
  *
  * Unlike {@link levelStats} (words only, which drives unlocks and must NOT change), this folds in
- * the level's sentences and reading texts so the home level and progress reflect ALL the level's
- * content. A level's `total` = its words + sentences + texts; `learned` = learned words
- * ({@link wordLearned}) + learned sentences ({@link sentenceLearned}) + completed texts; `fraction`
- * = mean per-item mastery (word→{@link wordMastery}, sentence→{@link sentenceMastery}, text→done
- * 0/1). Empty groups simply contribute nothing (an empty level → fraction 1, as in
- * {@link levelStats}). Pass the result to {@link masteringLevelGated} for the combined current level.
+ * the level's sentences, reading texts and grammar topics so the home level and progress reflect
+ * ALL the level's content. A level's `total` = its words + sentences + texts + grammar topics;
+ * `learned` = learned words ({@link wordLearned}) + learned sentences ({@link sentenceLearned}) +
+ * completed texts + mastered topics ({@link topicMastered}); `fraction` = mean per-item mastery
+ * (word→{@link wordMastery}, sentence→{@link sentenceMastery}, text→done 0/1,
+ * topic→{@link topicMasteryPct}). Empty groups simply contribute nothing (an empty level →
+ * fraction 1, as in {@link levelStats}). Pass the result to {@link masteringLevelGated} for the
+ * combined current level. `grammar` defaults to [] so languages without grammar lessons are
+ * unaffected.
  */
 export function levelCompletionStats(
   vocab: readonly VocabLike[],
   sentences: readonly SentenceLike[],
   texts: readonly ReadingLike[],
   progress: ProgressMap,
+  grammar: readonly VocabLike[] = [],
 ): LevelStat[] {
-  const levels = listLevels([...vocab, ...sentences, ...texts]);
+  const levels = listLevels([...vocab, ...sentences, ...texts, ...grammar]);
   return levels.map((level) => {
     const w = vocab.filter((v) => levelOf(v) === level);
     const s = sentences.filter((x) => levelOf(x) === level);
     const t = texts.filter((x) => levelOf(x) === level);
-    const total = w.length + s.length + t.length;
+    const g = grammar.filter((x) => levelOf(x) === level);
+    const total = w.length + s.length + t.length + g.length;
     const learned =
       w.filter((v) => wordLearned(progress, v.id)).length +
       s.filter((x) => sentenceLearned(progress, x.id)).length +
-      t.filter((x) => readingMastered(progress, x.id, hasComprehensionQuiz(x))).length;
+      t.filter((x) => readingMastered(progress, x.id, hasComprehensionQuiz(x))).length +
+      g.filter((x) => topicMastered(progress, x.id)).length;
     const masterySum =
       w.reduce((sum, v) => sum + wordMastery(progress, v.id), 0) +
       s.reduce((sum, x) => sum + sentenceMastery(progress, x.id), 0) +
-      t.reduce((sum, x) => sum + readingMastery(progress, x.id, hasComprehensionQuiz(x)), 0);
+      t.reduce((sum, x) => sum + readingMastery(progress, x.id, hasComprehensionQuiz(x)), 0) +
+      g.reduce((sum, x) => sum + topicMasteryPct(progress, x.id), 0);
     return { level, total, learned, fraction: total === 0 ? 1 : masterySum / total };
   });
 }
@@ -276,6 +285,7 @@ export interface LevelRemaining {
   words: number;
   sentences: number;
   texts: number;
+  grammar: number;
 }
 
 /**
@@ -290,6 +300,7 @@ export function remainingForLevel(
   texts: readonly ReadingLike[],
   progress: ProgressMap,
   level: number,
+  grammar: readonly VocabLike[] = [],
 ): LevelRemaining {
   return {
     words: vocab.filter((v) => levelOf(v) === level && !wordLearned(progress, v.id)).length,
@@ -298,6 +309,7 @@ export function remainingForLevel(
     texts: texts.filter(
       (t) => levelOf(t) === level && !readingMastered(progress, t.id, hasComprehensionQuiz(t)),
     ).length,
+    grammar: grammar.filter((g) => levelOf(g) === level && !topicMastered(progress, g.id)).length,
   };
 }
 
@@ -344,16 +356,18 @@ export function levelModeStats(
   texts: readonly TypedItem[],
   progress: ProgressMap,
   level: number,
+  grammar: readonly VocabLike[] = [],
 ): LevelModeStat[] {
   const w = vocab.filter((v) => levelOf(v) === level);
   const s = sentences.filter((x) => levelOf(x) === level);
   const t = texts.filter((x) => levelOf(x) === level && x.type !== "dialog");
   const d = texts.filter((x) => levelOf(x) === level && x.type === "dialog");
+  const g = grammar.filter((x) => levelOf(x) === level);
   // Reading spokes use the full two-part mastery (quiz + recite all roles), not the quiz track
   // alone, so the ring/gate only credit a text once it's truly «Прочитано».
   const masteredReading = (items: readonly ReadingLike[]): number =>
     items.filter((i) => readingMastered(progress, i.id, hasComprehensionQuiz(i))).length;
-  return [
+  const stats: LevelModeStat[] = [
     { id: "recognition", group: "words", mastered: masteredIn(w, progress, "recognition"), total: w.length },
     { id: "production", group: "words", mastered: masteredIn(w, progress, "production"), total: w.length },
     { id: "say_word", group: "words", mastered: masteredIn(w, progress, "say_word"), total: w.length },
@@ -364,6 +378,17 @@ export function levelModeStats(
     { id: "read:text", group: "read", mastered: masteredReading(t), total: t.length },
     { id: "read:dialog", group: "read", mastered: masteredReading(d), total: d.length },
   ];
+  // The grammar spoke joins the ring + gate only when the language HAS grammar lessons — for a
+  // pack without them no row appears at all (vs. an always-green empty spoke on the ring).
+  if (grammar.length > 0) {
+    stats.push({
+      id: "grammar",
+      group: "gram",
+      mastered: g.filter((x) => topicMastered(progress, x.id)).length,
+      total: g.length,
+    });
+  }
+  return stats;
 }
 
 /**
@@ -395,14 +420,17 @@ export function masteringLevelGated(
   sentences: readonly SentenceLike[],
   texts: readonly TypedItem[],
   progress: ProgressMap,
+  grammar: readonly VocabLike[] = [],
 ): number {
-  const ordered = [...levelCompletionStats(vocab, sentences, texts, progress)].sort(
+  const ordered = [...levelCompletionStats(vocab, sentences, texts, progress, grammar)].sort(
     (a, b) => a.level - b.level,
   );
   const blocked = ordered.find((s) => {
     if (s.total === 0) return false;
     if (s.learned / s.total < LEVEL_COMPLETE_FRACTION) return true; // not learned enough yet
-    return levelGate(levelModeStats(vocab, sentences, texts, progress, s.level)) < GATE_TARGET;
+    return (
+      levelGate(levelModeStats(vocab, sentences, texts, progress, s.level, grammar)) < GATE_TARGET
+    );
   });
   return blocked ? blocked.level : (ordered[ordered.length - 1]?.level ?? 1);
 }
@@ -429,13 +457,16 @@ export function levelCompletionProgress(
   texts: readonly TypedItem[],
   progress: ProgressMap,
   level: number,
+  grammar: readonly VocabLike[] = [],
 ): number {
-  const stat = levelCompletionStats(vocab, sentences, texts, progress).find((s) => s.level === level);
+  const stat = levelCompletionStats(vocab, sentences, texts, progress, grammar).find(
+    (s) => s.level === level,
+  );
   if (!stat || stat.total === 0) return 1;
   const learnedPct = stat.learned / stat.total / LEVEL_COMPLETE_FRACTION;
   let sum = 0;
   let n = 0;
-  for (const m of levelModeStats(vocab, sentences, texts, progress, level)) {
+  for (const m of levelModeStats(vocab, sentences, texts, progress, level, grammar)) {
     if (m.total === 0) continue; // a mode with nothing to drill at this level isn't a gap
     sum += Math.min(1, m.mastered / m.total / GATE_TARGET);
     n += 1;
@@ -586,7 +617,7 @@ export interface LevelSummary {
   level: number;
   status: LevelStatus;
   /** Item counts in the level, by group. */
-  counts: { words: number; sentences: number; texts: number };
+  counts: { words: number; sentences: number; texts: number; grammar: number };
   /** Combined completion fraction in [0, 1] (mean per-item mastery, as in {@link levelCompletionStats}). */
   fraction: number;
   /**
@@ -611,11 +642,12 @@ export function levelSummaries(
   sentences: readonly SentenceLike[],
   texts: readonly TypedItem[],
   progress: ProgressMap,
+  grammar: readonly VocabLike[] = [],
 ): LevelSummary[] {
-  const current = masteringLevelGated(vocab, sentences, texts, progress);
-  const stats = levelCompletionStats(vocab, sentences, texts, progress);
+  const current = masteringLevelGated(vocab, sentences, texts, progress, grammar);
+  const stats = levelCompletionStats(vocab, sentences, texts, progress, grammar);
   const byLevel = new Map(stats.map((s) => [s.level, s]));
-  return listLevels([...vocab, ...sentences, ...texts]).map((level) => {
+  return listLevels([...vocab, ...sentences, ...texts, ...grammar]).map((level) => {
     const stat = byLevel.get(level);
     return {
       level,
@@ -624,9 +656,10 @@ export function levelSummaries(
         words: vocab.filter((v) => levelOf(v) === level).length,
         sentences: sentences.filter((s) => levelOf(s) === level).length,
         texts: texts.filter((t) => levelOf(t) === level).length,
+        grammar: grammar.filter((g) => levelOf(g) === level).length,
       },
       fraction: stat?.fraction ?? 1,
-      completion: levelCompletionProgress(vocab, sentences, texts, progress, level),
+      completion: levelCompletionProgress(vocab, sentences, texts, progress, level, grammar),
       remaining: stat ? Math.max(0, stat.total - stat.learned) : 0,
     };
   });

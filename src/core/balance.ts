@@ -12,8 +12,8 @@
  * PURE: no UI, no DB, no React. Depends on nothing in ../ui. All tunables live here.
  */
 
-/** The three home groups (mirror Roadmap's section split). */
-export type BalanceGroup = "words" | "sent" | "read";
+/** The four home groups (mirror Roadmap's section split + the grammar spoke). */
+export type BalanceGroup = "words" | "sent" | "read" | "gram";
 
 /** What the ring needs per mode — a per-level {mastered, total} count plus its label/icon. */
 export interface ModeInput {

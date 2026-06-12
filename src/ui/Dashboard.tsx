@@ -16,6 +16,7 @@ import type { ProgressMap } from "../core/progress";
 import type { UserState } from "../core/daily";
 import { dateKey } from "../core/daily";
 import { computeDashboard, type DashText } from "../core/dashboard";
+import { topicMasteryPct } from "../core/grammar";
 import { levelSummaries } from "../core/levels";
 import { getProgress } from "../core/progress";
 import { cefrProgress, CEFR_ORDER } from "../core/curriculum";
@@ -28,6 +29,8 @@ interface DashboardProps {
   sentences: readonly SentenceItem[];
   /** Reading texts/dialogs — folded into coverage and the weak-link card. */
   texts: readonly DashText[];
+  /** Grammar topics ({id, level}) — folded into level completion + the level KPI. */
+  grammar: readonly { id: string; level?: number }[];
   progress: ProgressMap;
   daily: UserState;
   testMode: boolean;
@@ -39,17 +42,20 @@ interface DashboardProps {
   onStart: (mode: Mode) => void;
   /** Open the reading library when the weakest mode is reading. */
   onOpenReading: (type: "text" | "dialog") => void;
+  /** Open the grammar topic map when the weakest mode is grammar. */
+  onOpenGrammar: () => void;
 }
 
 const pct = (x: number) => `${Math.round(x * 100)}%`;
 /** ≥80% green · ≥50% amber · else red — the shared accuracy thresholds. */
 const accTone = (a: number) => (a >= 0.8 ? "green" : a >= 0.5 ? "amber" : "red");
 
-/** Group → accent + Russian label, matching the home ring's word/sentence/reading hues. */
+/** Group → accent + Russian label, matching the home ring's word/sentence/reading/grammar hues. */
 const GROUPS = [
   { key: "w", label: "Слова" },
   { key: "s", label: "Предложения" },
   { key: "r", label: "Чтение" },
+  { key: "g", label: "Грамматика" },
 ] as const;
 type GroupKey = (typeof GROUPS)[number]["key"];
 
@@ -77,12 +83,15 @@ interface PracticeRow {
   accuracy: number;
   start?: Mode;
   reading?: "text";
+  /** Routes to the grammar topic map instead of a session mode. */
+  gram?: boolean;
 }
 
 export default function Dashboard({
   vocab,
   sentences,
   texts,
+  grammar,
   progress,
   daily,
   testMode,
@@ -90,16 +99,18 @@ export default function Dashboard({
   locked,
   onStart,
   onOpenReading,
+  onOpenGrammar,
 }: DashboardProps) {
   const d = useMemo(
-    () => computeDashboard(vocab, sentences, progress, daily, dateKey(), Date.now(), testMode, texts),
-    [vocab, sentences, texts, progress, daily, testMode],
+    () =>
+      computeDashboard(vocab, sentences, progress, daily, dateKey(), Date.now(), testMode, texts, grammar),
+    [vocab, sentences, texts, grammar, progress, daily, testMode],
   );
   const k = d.kpis;
   const cefr = cefrProgress(d.levels);
   const summaries = useMemo(
-    () => levelSummaries(vocab, sentences, texts, progress),
-    [vocab, sentences, texts, progress],
+    () => levelSummaries(vocab, sentences, texts, progress, grammar),
+    [vocab, sentences, texts, grammar, progress],
   );
 
   // Per-mode rows for «Что подтянуть»: word + sentence modes from the dashboard, plus one reading
@@ -138,8 +149,30 @@ export default function Dashboard({
         reading: "text",
       });
     }
+    if (grammar.length > 0) {
+      // Mastery = mean topic mastery; accuracy = passing lesson runs over all runs (the topic
+      // records count RUNS, not items — see core/grammar.ts applyLessonOutcome).
+      let mastery = 0;
+      let good = 0;
+      let runs = 0;
+      for (const g of grammar) {
+        const p = getProgress(progress, "grammar", g.id);
+        mastery += topicMasteryPct(progress, g.id);
+        good += p.totalCorrect;
+        runs += p.totalSeen;
+      }
+      list.push({
+        id: "grammar",
+        group: "g",
+        icon: "pen",
+        label: "Грамматика",
+        mastery: mastery / grammar.length,
+        accuracy: runs > 0 ? good / runs : 0,
+        gram: true,
+      });
+    }
     return list;
-  }, [d.modes, d.reading, texts, progress]);
+  }, [d.modes, d.reading, texts, grammar, progress]);
 
   // The weak-link nudge never targets an offline-locked mode (reading rows have no `start`,
   // so they always qualify). The full per-mode list below still SHOWS locked rows, tagged.
@@ -149,7 +182,8 @@ export default function Dashboard({
   );
   const trainWeakest = () => {
     if (!weakest) return;
-    if (weakest.reading) onOpenReading(weakest.reading);
+    if (weakest.gram) onOpenGrammar();
+    else if (weakest.reading) onOpenReading(weakest.reading);
     else if (weakest.start) onStart(weakest.start);
   };
 

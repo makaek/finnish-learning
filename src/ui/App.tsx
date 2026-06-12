@@ -43,7 +43,12 @@ import {
   type ProgressMap,
 } from "../core/progress";
 import { reciteRoleDone, reciteRoleId, reciteRoles } from "../core/reading";
-import { applyLessonOutcome, newlyUnlocked, GRAMMAR_KIND } from "../core/grammar";
+import {
+  applyLessonOutcome,
+  newlyUnlocked,
+  GRAMMAR_KIND,
+  GRAMMAR_MASTERED_BOX,
+} from "../core/grammar";
 import { cefrOfLevel } from "../core/curriculum";
 import {
   loadProgress,
@@ -220,7 +225,12 @@ export default function App() {
   // out (it unlocks everything, so a tester must be able to drill any level). Seed-keyed so it
   // re-reads the live mastery on each `start`.
   const sessionLevel = useMemo(
-    () => (testMode ? undefined : masteringLevelGated(pack.vocab, pack.sentences, pack.texts, progressRef.current)),
+    () =>
+      testMode
+        ? undefined
+        : masteringLevelGated(
+            pack.vocab, pack.sentences, pack.texts, progressRef.current, pack.grammar.topics,
+          ),
     // `seed` is intentional (like the pool memos): it re-reads progressRef.current on each `start`.
     // `pack` is listed so a language switch recomputes the gated level from the new content.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -342,7 +352,9 @@ export default function App() {
   // Offline-locked kinds are excluded via lockedRef (a ref, like progressRef, snapshotted on
   // `start` — a connectivity flip mid-run must NOT reshuffle the session under the current index).
   const mixed = useMemo(() => {
-    const level = masteringLevelGated(pack.vocab, pack.sentences, pack.texts, progressRef.current);
+    const level = masteringLevelGated(
+      pack.vocab, pack.sentences, pack.texts, progressRef.current, pack.grammar.topics,
+    );
     const words = activeVocab(pack.vocab, progressRef.current, testMode).filter(
       (v) => !hidden.has(hiddenKey("word", v.id)),
     );
@@ -406,6 +418,9 @@ export default function App() {
     for (const t of pack.texts) {
       mark("reading", t.id);
     }
+    for (const g of pack.grammar.topics) {
+      mark(GRAMMAR_KIND, g.id);
+    }
     setProgressView(new Map(progressRef.current));
     void saveProgress(rows);
   }
@@ -438,6 +453,10 @@ export default function App() {
       for (const role of reciteRoles(t)) visit("recite", reciteRoleId(t.id, role)); // per-role recite
       visit("recite", t.id); // role-agnostic aggregate that readingMastered reads
     }
+    for (const g of pack.grammar.topics) {
+      if (levelOf(g) !== level) continue;
+      visit(GRAMMAR_KIND, g.id); // one record per topic
+    }
   }
 
   /**
@@ -454,11 +473,15 @@ export default function App() {
     const rows: ItemProgress[] = [];
     forEachLevelTrack(level, (kind, id) => {
       const prev = getProgress(progressRef.current, kind, id);
+      // Grammar topics are "mastered" at a higher box than the per-item LEARNED_BOX (their single
+      // record folds whole lesson runs), so mark-passed must raise them to THEIR threshold or the
+      // level's grammar gate would still read unmastered.
+      const target = kind === GRAMMAR_KIND ? GRAMMAR_MASTERED_BOX : LEARNED_BOX;
       const p: ItemProgress = {
         ...prev,
         kind,
         itemId: id,
-        box: Math.max(prev.box, LEARNED_BOX),
+        box: Math.max(prev.box, target),
         correctStreak: Math.max(prev.correctStreak, 2),
         totalCorrect: Math.max(prev.totalCorrect, 2),
         totalSeen: Math.max(prev.totalSeen, prev.totalCorrect, 2),
@@ -892,12 +915,15 @@ export default function App() {
       );
     } else if (homeScreen === "grammar") {
       // CEFR chip for the map header — the band of the gated current level (already "A1.2"-style).
-      const gLevel = masteringLevelGated(pack.vocab, pack.sentences, pack.texts, progressView);
+      const gLevel = masteringLevelGated(
+        pack.vocab, pack.sentences, pack.texts, progressView, pack.grammar.topics,
+      );
       screen = (
         <Grammar
           content={pack.grammar}
           rules={pack.rules}
           progress={progressView}
+          speechLang={pack.speechLang}
           cefr={cefrOfLevel(gLevel)}
           initialTopicId={grammarTopic}
           onBack={() => setHomeScreen("roadmap")}
@@ -912,6 +938,7 @@ export default function App() {
           vocab={pack.vocab}
           sentences={pack.sentences}
           texts={pack.texts}
+          grammar={pack.grammar.topics}
           progress={progressView}
           daily={dailyView}
           testMode={testMode}
@@ -922,6 +949,10 @@ export default function App() {
             setReadingFilter(type);
             setHomeScreen("reading");
           }}
+          onOpenGrammar={() => {
+            setGrammarTopic(undefined);
+            setHomeScreen("grammar");
+          }}
         />
       );
     } else if (homeScreen === "levels") {
@@ -930,6 +961,7 @@ export default function App() {
           vocab={pack.vocab}
           sentences={pack.sentences}
           texts={pack.texts}
+          grammar={pack.grammar.topics}
           progress={progressView}
           hidden={hidden}
           read={read}

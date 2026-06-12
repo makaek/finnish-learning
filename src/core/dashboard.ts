@@ -215,12 +215,14 @@ export function computeDashboard(
   now: number = Date.now(),
   testMode = false,
   texts: readonly DashText[] = [],
+  grammar: readonly VocabLike[] = [],
 ): DashboardData {
   // Word-only stats still decide UNLOCKS (the curriculum gate is unchanged); the combined stats
-  // (words + sentences + texts) drive the displayed level bars and the "current level" KPI.
+  // (words + sentences + texts + grammar topics) drive the displayed level bars and the
+  // "current level" KPI.
   const stats = levelStats(vocab, progress);
   const unlocked = unlockedLevelsWith(stats, testMode);
-  const completionStats = levelCompletionStats(vocab, sentences, texts, progress);
+  const completionStats = levelCompletionStats(vocab, sentences, texts, progress, grammar);
   const words = overallProgress(vocab, progress);
   const eligible = eligibleSentences(sentences, vocab, progress, testMode);
 
@@ -318,8 +320,8 @@ export function computeDashboard(
     sentencesEligible: eligible.length,
     // The displayed "current level" is balance-gated (same as the home), so a lopsided level
     // doesn't read as complete here while the home still holds it. Unlocks stay word-driven.
-    level: masteringLevelGated(vocab, sentences, texts, progress),
-    levelsTotal: listLevels([...vocab, ...sentences, ...texts]).length,
+    level: masteringLevelGated(vocab, sentences, texts, progress, grammar),
+    levelsTotal: listLevels([...vocab, ...sentences, ...texts, ...grammar]).length,
     streak: currentStreak(daily, today),
     bestStreak: daily.bestStreak,
     accuracy: totalReps === 0 ? 0 : totalCorrect / totalReps,

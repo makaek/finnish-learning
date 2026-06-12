@@ -65,6 +65,7 @@ const RING_MODES: Record<string, { label: string; icon: IconName }> = {
   listen_sentence: { label: "На слух", icon: "phones" },
   "read:text": { label: "Тексты", icon: "book" },
   "read:dialog": { label: "Диалоги", icon: "masks" },
+  grammar: { label: "Грамматика", icon: "pen" },
 };
 
 export type Mode =
@@ -154,22 +155,25 @@ export default function Roadmap({
   // dialogs fills the bar and advances the level. (Unlocks stay word-driven, so nothing relocks.)
   const { active, balance } = useMemo(() => {
     // Gated current level: advances only once a level is both learned-enough AND balanced across
-    // every mode (the Кольцо-баланса gate). Content unlocks stay word-driven, so nothing relocks.
-    const a = masteringLevelGated(vocab, sentences, texts, progress);
+    // every mode (the Кольцо-баланса gate) — grammar topics now count as a 10th mode, so a level
+    // also requires its grammar mastered. Content unlocks stay word-driven, so nothing relocks.
+    const a = masteringLevelGated(vocab, sentences, texts, progress, grammar.topics);
     // The ring/gate are driven by CURRENT-LEVEL mastery: per mode, items mastered (box ≥
     // LEARNED_BOX) over the items that mode drills at level `a`. Core gives {mastered,total,group};
     // the Roadmap attaches the label/icon. The ring itself is now the level-progress display
     // (center = level, dashed ceiling = the gate), so the old header level bar is gone.
-    const modes: ModeInput[] = levelModeStats(vocab, sentences, texts, progress, a).map((m) => ({
-      ...m,
-      label: RING_MODES[m.id]?.label ?? m.id,
-      icon: RING_MODES[m.id]?.icon ?? "•",
-    }));
+    const modes: ModeInput[] = levelModeStats(vocab, sentences, texts, progress, a, grammar.topics).map(
+      (m) => ({
+        ...m,
+        label: RING_MODES[m.id]?.label ?? m.id,
+        icon: RING_MODES[m.id]?.icon ?? "•",
+      }),
+    );
     return {
       active: a,
       balance: computeBalance(modes, a),
     };
-  }, [vocab, sentences, texts, progress]);
+  }, [vocab, sentences, texts, grammar.topics, progress]);
 
   // Per-mode "finish" counts: current-level items still unmastered in each mode (box below
   // LEARNED_BOX) — what each spoke still has to drill. Feeds the ring badges and the Микс CTA count.
@@ -203,8 +207,8 @@ export default function Roadmap({
 
   // CEFR milestone progress (A1 → A2 …) over combined per-level completion — feeds the meter.
   const cefr = useMemo(
-    () => cefrProgress(levelCompletionStats(vocab, sentences, texts, progress)),
-    [vocab, sentences, texts, progress],
+    () => cefrProgress(levelCompletionStats(vocab, sentences, texts, progress, grammar.topics)),
+    [vocab, sentences, texts, grammar.topics, progress],
   );
 
   // Current-level leftovers across every word & sentence mode (NOT reading) — the work the Микс
@@ -231,16 +235,15 @@ export default function Roadmap({
     "read:dialog": finish.dialog,
   };
 
-  // Grammar rollup: the 10th spoke + the full-width action card. NOT part of computeBalance —
-  // grammar has its own prereq tree (no levels), so it shows on the ring but does not gate the
-  // level or compete for the «Слабое звено» card.
+  // Grammar action-card rollup: the weakest startable topic ACROSS the whole tree (the card is a
+  // deep link into the curriculum, not a current-level stat — the ring spoke covers that).
   const gram = useMemo(() => grammarStats(grammar.topics, progress), [grammar.topics, progress]);
   const gramWeak = useMemo(() => weakestTopic(grammar.topics, progress), [grammar.topics, progress]);
 
   // Ring spokes for the redesigned BalanceRing: fixed-orbit chips whose fill = mastery and badge =
-  // items left. Built from the balance cells (ordered words→sent→read, so the group arcs are
-  // contiguous); `remaining` uses the same hidden/eligibility-filtered counts the badges need.
-  // The grammar spoke (diamond, --gram hue) is appended last; its badge counts startable topics.
+  // items left. Built from the balance cells (ordered words→sent→read→gram, so the group arcs are
+  // contiguous); `remaining` uses the same hidden/eligibility-filtered counts the badges need
+  // (grammar has no hidden/eligibility filter — its cell counts are already what a tap opens).
   const ringModes: RingMode[] = balance.cells.map((c) => ({
     group: c.group,
     id: c.id,
@@ -250,16 +253,6 @@ export default function Roadmap({
     remaining: ringLeft[c.id] ?? Math.max(0, c.total - c.mastered),
     locked: locked.has(c.id),
   }));
-  if (gram.total > 0) {
-    ringModes.push({
-      group: "gram",
-      id: "grammar",
-      label: "Грамматика",
-      icon: "pen",
-      mastery: gram.mastery,
-      remaining: gram.remaining,
-    });
-  }
 
   // CEFR meter state: the band + level-in-band from the gated current level, and a current-cell %
   // = how far the active level is toward advancing (reads ~100% right as the level rolls over).
@@ -269,7 +262,7 @@ export default function Roadmap({
     levelInBand: active - cefrBandIdx * 3,
     // Same unified completion % the Levels screen shows, so the two never disagree (reads 100%
     // exactly when the level advances, bottlenecked by whichever of learned-breadth / balance lags).
-    pct: levelCompletionProgress(vocab, sentences, texts, progress, active),
+    pct: levelCompletionProgress(vocab, sentences, texts, progress, active, grammar.topics),
     nextId: cefr.nextBand ?? bands[cefrBandIdx]!.id,
   };
 

@@ -1,6 +1,8 @@
 import { describe, it, expect } from "vitest";
 import {
+  activeSet,
   applyLessonOutcome,
+  choiceOrder,
   editDistanceCapped,
   errorWord,
   flattenGrammar,
@@ -14,6 +16,7 @@ import {
   parseForm,
   parseRu,
   reviewPatterns,
+  setCount,
   stripForm,
   topicMasteryPct,
   topicStates,
@@ -175,6 +178,16 @@ describe("form markup", () => {
     expect(parseForm("nuk{uu")).toEqual([{ text: "nuk{uu" }]);
   });
 
+  it("accepts an empty [] span (zero-width k→∅ gradation marker)", () => {
+    expect(parseForm("lu[]e{n}")).toEqual([
+      { text: "lu" },
+      { text: "", hl: "alt" },
+      { text: "e" },
+      { text: "n", hl: "main" },
+    ]);
+    expect(stripForm("lu[]e{n}")).toBe("luen");
+  });
+
   it("strips markup to the plain form", () => {
     expect(stripForm("nu[kk]{uu}")).toBe("nukkuu");
     expect(stripForm("asun")).toBe("asun");
@@ -310,6 +323,51 @@ describe("lessonItems", () => {
   });
 });
 
+describe("variant sets", () => {
+  // Two sets: the original fixture items default to set 1; add a set-2 pair.
+  const withSets = [
+    ...content.items,
+    { ...content.items[0]!, id: "vt1-w1b", set: 2 },
+    { ...content.items[1]!, id: "vt1-d1b", set: 2 },
+  ];
+
+  it("items default to set 1; setCount reads the topic's max set", () => {
+    expect(content.items.every((i) => i.set === 1)).toBe(true);
+    expect(setCount(content.items, "vt1")).toBe(1);
+    expect(setCount(withSets, "vt1")).toBe(2);
+    expect(setCount(withSets, "endings")).toBe(1);
+  });
+
+  it("lessonItems filters to one set when given", () => {
+    expect(lessonItems(withSets, "vt1", 1).map((i) => i.id)).toEqual([
+      "vt1-w1",
+      "vt1-d1",
+      "vt1-d2",
+    ]);
+    expect(lessonItems(withSets, "vt1", 2).map((i) => i.id)).toEqual(["vt1-w1b", "vt1-d1b"]);
+  });
+
+  it("activeSet rotates with the run count, so consecutive runs hit different sets", () => {
+    const fresh: ProgressMap = new Map();
+    expect(activeSet(fresh, "vt1", 2)).toBe(1);
+    const afterOneRun: ProgressMap = new Map([
+      [
+        progressKey(GRAMMAR_KIND, "vt1"),
+        { ...emptyProgress(GRAMMAR_KIND, "vt1"), box: 2, totalSeen: 1 },
+      ],
+    ]);
+    expect(activeSet(afterOneRun, "vt1", 2)).toBe(2);
+    const afterTwo: ProgressMap = new Map([
+      [
+        progressKey(GRAMMAR_KIND, "vt1"),
+        { ...emptyProgress(GRAMMAR_KIND, "vt1"), box: 4, totalSeen: 2 },
+      ],
+    ]);
+    expect(activeSet(afterTwo, "vt1", 2)).toBe(1);
+    expect(activeSet(afterOneRun, "vt1", 1)).toBe(1); // single-set topic never rotates
+  });
+});
+
 describe("rollups", () => {
   it("grammarStats counts mastered/remaining and averages mastery", () => {
     const p = progressWith({ endings: GRAMMAR_MASTERED_BOX, vt1: 2 });
@@ -334,6 +392,31 @@ describe("rollups", () => {
     const after = progressWith({ endings: GRAMMAR_MASTERED_BOX });
     expect(newlyUnlocked(content.topics, before, after).map((t) => t.id)).toEqual(["vt1"]);
     expect(newlyUnlocked(content.topics, after, after)).toEqual([]);
+  });
+});
+
+describe("choiceOrder", () => {
+  const base = content.items[0]!; // the classify fixture
+  it("keeps classify options in their semantic order", () => {
+    expect(choiceOrder(base as never)).toEqual([0, 1, 2]);
+  });
+
+  it("shuffles case_id options deterministically (a stable permutation per id)", () => {
+    const caseItem = {
+      ...base,
+      type: "case_id" as const,
+      id: "stems-s1-w2",
+      optionsRu: ["инессив (где?)", "элатив (откуда?)", "иллатив (куда?)", "генитив (чей?)"],
+    };
+    const order = choiceOrder(caseItem as never);
+    expect([...order].sort()).toEqual([0, 1, 2, 3]); // a permutation…
+    expect(choiceOrder(caseItem as never)).toEqual(order); // …and a stable one
+    // Different ids shuffle differently somewhere across a handful of items (answer can't
+    // always land first — the whole point of the shuffle).
+    const firsts = ["a", "b", "c", "d", "e", "f"].map(
+      (id) => choiceOrder({ ...caseItem, id } as never)[0],
+    );
+    expect(new Set(firsts).size).toBeGreaterThan(1);
   });
 });
 

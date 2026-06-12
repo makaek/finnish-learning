@@ -76,6 +76,8 @@ export interface GrammarTopic {
   order: number;
   title: string;
   summary: string;
+  /** Curriculum level (1-based) the topic belongs to — feeds level completion + the gate. */
+  level: number;
   tags: GrammarTag[];
   /** Topic ids that must be MASTERED before this topic unlocks. */
   prereq: string[];
@@ -97,6 +99,9 @@ interface ItemBase {
   id: string;
   topic: string;
   stage: GrammarStage;
+  /** Variant assessment set this item belongs to (1-based). A lesson run drills ONE set;
+   *  runs rotate sets, so mastery (2 strong runs) requires passing 2 DIFFERENT sets. */
+  set: number;
   /** Short error-pattern label for the summary «Повторите» list (shared across items). */
   reviewRu?: string;
 }
@@ -268,6 +273,7 @@ function parseTopic(v: unknown): GrammarTopic | undefined {
     order: typeof t.order === "number" ? t.order : 0,
     title,
     summary: str(t.summary) ?? "",
+    level: typeof t.level === "number" && t.level >= 1 ? Math.floor(t.level) : 1,
     tags: (isStringArray(t.tags) ? t.tags : []).filter((x): x is GrammarTag =>
       (TAGS as readonly string[]).includes(x),
     ),
@@ -308,7 +314,8 @@ function parseItem(v: unknown): GrammarItem | undefined {
     r.stage === "warmup" ? "warmup" : r.stage === "drill" ? "drill" : undefined;
   const type = str(r.type);
   if (!id || !topic || !stage || !type) return undefined;
-  const base = { id, topic, stage, reviewRu: str(r.review_ru) };
+  const set = typeof r.set === "number" && r.set >= 1 ? Math.floor(r.set) : 1;
+  const base = { id, topic, stage, set, reviewRu: str(r.review_ru) };
 
   if (type === "classify" || type === "case_id") {
     const promptFi = str(r.prompt_fi);
@@ -548,6 +555,36 @@ export function gradeCell(input: string, cell: FillCell): boolean {
   return cell.accepted.some((a) => normalizeFi(a) === norm);
 }
 
+/**
+ * Display order for a choice item's options. `case_id` options are AUTHORED canonical-first
+ * (answer at index 0), so showing them as-is would teach "always tap the first option" — they
+ * get a deterministic shuffle seeded by the item id (stable across renders/sessions, varied
+ * across items). `classify` options are a fixed semantic scale («Тип 1…Тип 6») and keep their
+ * order. Returns original-option indices in display order.
+ */
+export function choiceOrder(item: ChoiceRuItem): number[] {
+  const idx = item.optionsRu.map((_, i) => i);
+  if (item.type !== "case_id") return idx;
+  // FNV-1a over the id → mulberry32 → Fisher–Yates: tiny, dependency-free, deterministic.
+  let h = 2166136261 >>> 0;
+  for (let i = 0; i < item.id.length; i++) {
+    h ^= item.id.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  let s = h >>> 0;
+  const rnd = () => {
+    s = (s + 0x6d2b79f5) | 0;
+    let t = Math.imul(s ^ (s >>> 15), 1 | s);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+  for (let i = idx.length - 1; i > 0; i--) {
+    const j = Math.floor(rnd() * (i + 1));
+    [idx[i], idx[j]] = [idx[j]!, idx[i]!];
+  }
+  return idx;
+}
+
 /* ===================================================================== topic mastery */
 
 /** A topic is MASTERED at this box (two strong lesson runs from scratch). */
@@ -623,10 +660,34 @@ export function applyLessonOutcome(
 
 /* ===================================================================== lesson assembly */
 
-/** A topic's lesson: its warmup items then its drill items, in authored (seed) order. */
-export function lessonItems(items: readonly GrammarItem[], topicId: string): GrammarItem[] {
-  const mine = items.filter((i) => i.topic === topicId);
+/**
+ * A topic's lesson: its warmup items then its drill items, in authored (seed) order.
+ * With `set` given, only that variant set's items; without it, every set (integrity checks).
+ */
+export function lessonItems(
+  items: readonly GrammarItem[],
+  topicId: string,
+  set?: number,
+): GrammarItem[] {
+  const mine = items.filter((i) => i.topic === topicId && (set === undefined || i.set === set));
   return [...mine.filter((i) => i.stage === "warmup"), ...mine.filter((i) => i.stage === "drill")];
+}
+
+/** How many variant sets a topic has (≥ 1; the max `set` among its items). */
+export function setCount(items: readonly GrammarItem[], topicId: string): number {
+  let max = 1;
+  for (const i of items) if (i.topic === topicId && i.set > max) max = i.set;
+  return max;
+}
+
+/**
+ * Which variant set the NEXT lesson run should drill: rotates with the run count
+ * (`totalSeen` counts runs), so consecutive runs — and therefore the two strong runs
+ * mastery requires — always hit different sets when more than one exists.
+ */
+export function activeSet(progress: ProgressMap, topicId: string, count: number): number {
+  if (count <= 1) return 1;
+  return (getProgress(progress, GRAMMAR_KIND, topicId).totalSeen % count) + 1;
 }
 
 /* ===================================================================== rollups */

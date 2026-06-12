@@ -12,6 +12,20 @@ vt56, negation`. Structure: `{ _meta, modules, topics, items }`. Each topic carr
 `stage: warmup|drill`. Six item types: classify, choose_form, case_id, produce_form,
 transform, fill_table. Prereqs: endings→vt1; vt1→vt2/vt3/vt4/negation; vt4→vt56.
 
+**Topic `level` + item `set` (added 2026-06):** every TOPIC has `level` (1-19 curriculum
+level it feeds; mastery now feeds level completion + balance gate). Every ITEM has
+`set: 1|2|3` — variant lessons. A run uses ONE set (rotation by run count); mastery
+needs passing 2 DIFFERENT sets. Each set = a complete lesson (>=1 warmup + >=1 drill,
+in practice 4 warmup + 5-6 drill), SAME skill but DIFFERENT lemmas. Theory card is
+shared per topic. Reuse the SAME `review_ru` labels across sets so «Повторите» stays
+coherent. Module B now has 3 sets/topic (~28 items each topic; 194 items total).
+Per-topic lemma rotation used (so sets don't repeat words): vt1 set1 nukkua/lukea/antaa,
+set2 antaa/sanoa, set3 tietää/maksaa; vt2 set1 syödä, set2 tehdä/nähdä/juoda, set3
+voida/saada; vt3 set1 mennä, set2 tulla/opiskella/nousta, set3 olla/kuunnella/mennä;
+vt4 set1 haluta, set2 tilata/osata/varata, set3 herätä/pelata; vt56 set1 tarvita/vanheta,
+set2 valita/tarvita/vanheta, set3 tarvita/vanheta/valita; negation rotates persons+verbs.
+The full A1 topic→level plan lives in [[grammar-a1-plan]] — follow it in later passes.
+
 **Markup conventions (code parses these):**
 - Finnish form strings (`f`, `canonical`, cell canonical, case_id `prompt_fi`):
   `{…}` = primary highlight (личное/падежное окончание), `[…]` = alt highlight

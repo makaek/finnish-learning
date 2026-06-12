@@ -8,4 +8,5 @@
 - [Weather & location cases](reference_weather_and_location_cases.md) — L11/L12 verified: impersonal weather on+PARTITIVE adj; which places take adessive -lla vs inessive; käydä/mennä/sopia/aikoa government
 - [Texts schema & weather register](reference_texts_schema_and_weather_register.md) — texts.seed.json bilingual titles (title=FI + titleRu); corpus keeps NOMINATIVE on kylmä/lämmin for impersonal weather (deliberate, don't "fix")
 - [Numbers, time & possessives](reference_numbers_time_possessives.md) — A1-completion drop facts: compound numbers (one word, partitive sg after), puoli=half-TO trap, possessive suffixes, nationalities/languages, ablative origin
-- [Grammar mode & verb types](reference_grammar_mode_verbtypes.md) — grammar.seed.json schema + markup ({}/[]/*), verb-type 1-6 classification rules, herätä type fix, encoded learner-error distractors
+- [Grammar mode & verb types](reference_grammar_mode_verbtypes.md) — grammar.seed.json schema + markup ({}/[]/*), topic.level + item.set, verb-type 1-6 rules, herätä fix, learner-error distractors
+- [Grammar A1 plan](reference_grammar_a1_plan.md) — full A1 topic→level map (Modules A/B/C/D) — ALL DONE, 20 topics/545 items; per-pass dictionary edits (adj case fields, tori/katu)

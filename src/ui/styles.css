@@ -2354,6 +2354,15 @@ body {
 .lirow__ic--r {
   color: var(--read);
 }
+.lcounts__ic--g,
+.mprow__ic--g {
+  color: var(--gram);
+}
+.mcov__fill--g,
+.mprow__fill--g,
+.mprac__gdot--g {
+  background: var(--gram);
+}
 .mcov__fill--w,
 .mprow__fill--w,
 .mprac__gdot--w {

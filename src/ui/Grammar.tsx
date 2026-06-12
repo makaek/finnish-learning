@@ -11,12 +11,15 @@
 
 import { useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
 import {
+  activeSet,
+  choiceOrder,
   gradeCell,
   gradeTyped,
   grammarStats,
   lessonItems,
   reviewPatterns,
   errorWord,
+  setCount,
   stripForm,
   topicMasteryPct,
   topicStates,
@@ -34,7 +37,11 @@ import {
 } from "../core/grammar";
 import type { ItemProgress, ProgressMap } from "../core/progress";
 import type { RuleItem } from "../core/rules";
+import { normalizeFi } from "../core/normalize";
+import { pickBestSpoken } from "../core/spokenNumber";
 import RulesBook from "./RulesBook";
+import { useOnline } from "./useOnline";
+import { speechTroubleRu, useSpeechRecognition } from "./useSpeechRecognition";
 import { UiIcon } from "./icons";
 import {
   FormText,
@@ -63,6 +70,8 @@ interface GrammarProps {
   content: GrammarContent;
   rules: RuleItem[];
   progress: ProgressMap;
+  /** BCP-47 locale for the typed items' voice input (e.g. "fi-FI"). */
+  speechLang: string;
   /** CEFR chip for the map header (e.g. "A1.2"). */
   cefr?: string;
   /** Deep link: open this topic's lesson immediately (the home card's weak topic). */
@@ -88,11 +97,14 @@ export default function Grammar({
   content,
   rules,
   progress,
+  speechLang,
   cefr,
   initialTopicId,
   onBack,
   onLessonDone,
 }: GrammarProps) {
+  // Voice input availability for the typed items: the cloud recognizer needs the network.
+  const online = useOnline();
   const [view, setView] = useState<View>(() => {
     // Deep-link only into a topic that exists AND is startable — a locked topic falls back to
     // the map (its lock hint explains why), so no caller can play past the prereq gate.
@@ -105,12 +117,20 @@ export default function Grammar({
 
   if (view.kind === "lesson") {
     const topic = content.topics.find((t) => t.id === view.topicId)!;
+    // Variant rotation: runs walk the topic's sets in order (totalSeen counts runs), so the two
+    // strong runs mastery requires always land on DIFFERENT sets. «Ещё раз» after a run therefore
+    // opens the next variant, not a repeat of the same drill.
+    const sets = setCount(content.items, topic.id);
+    const set = activeSet(progress, topic.id, sets);
     return (
       <Lesson
         key={`${view.topicId}:${view.run}`}
         topic={topic}
-        items={lessonItems(content.items, topic.id)}
+        items={lessonItems(content.items, topic.id, set)}
+        variant={sets > 1 ? { set, sets } : undefined}
         rules={rules}
+        speechLang={speechLang}
+        online={online}
         onExit={() => setView({ kind: "map" })}
         onFinish={(score, total, missed) => {
           const record = onLessonDone(topic.id, score, total);
@@ -206,13 +226,14 @@ function TopicMap({
         </div>
       </div>
 
-      {modules.map((mod) => {
+      {modules.map((mod, idx) => {
         const topics = content.topics.filter((t) => t.module === mod.id);
         const done = topics.filter((t) => states.get(t.id) === "mastered").length;
         return (
           <div key={mod.id} style={{ display: "contents" }}>
             <div className="gmod">
-              <span className="gmod__n">Модуль {mod.n}</span>
+              {/* Display number = sort position (mod.n only orders; it may be 0-based). */}
+              <span className="gmod__n">Модуль {idx + 1}</span>
               <span className="gmod__t">{mod.title}</span>
               <span className="gmod__line" aria-hidden="true" />
               <span className="gmod__count">
@@ -305,13 +326,20 @@ function TopicCard({
 function Lesson({
   topic,
   items,
+  variant,
   rules,
+  speechLang,
+  online,
   onExit,
   onFinish,
 }: {
   topic: GrammarTopic;
   items: GrammarItem[];
+  /** Which variant set this run drills, when the topic has more than one. */
+  variant?: { set: number; sets: number };
   rules: RuleItem[];
+  speechLang: string;
+  online: boolean;
   onExit: () => void;
   onFinish: (score: number, total: number, missed: GrammarItem[]) => void;
 }) {
@@ -343,7 +371,12 @@ function Lesson({
   return (
     <main className="app app--scroll">
       <div className="gshell">
-        <LessonTop topic={topic.title} step={step} count={count} onExit={onExit} />
+        <LessonTop
+          topic={variant ? `${topic.title} · вариант ${variant.set}/${variant.sets}` : topic.title}
+          step={step}
+          count={count}
+          onExit={onExit}
+        />
         {current === undefined ? (
           <TheoryScreen
             topic={topic}
@@ -352,7 +385,13 @@ function Lesson({
             onNext={() => (items.length > 0 ? setPhase(0) : onExit())}
           />
         ) : (
-          <ItemScreen key={`${current.id}:${phase}`} item={current} onComplete={completeItem} />
+          <ItemScreen
+            key={`${current.id}:${phase}`}
+            item={current}
+            speechLang={speechLang}
+            online={online}
+            onComplete={completeItem}
+          />
         )}
       </div>
       {rulesOpen && (
@@ -435,9 +474,13 @@ function TheoryScreen({
 
 function ItemScreen({
   item,
+  speechLang,
+  online,
   onComplete,
 }: {
   item: GrammarItem;
+  speechLang: string;
+  online: boolean;
   onComplete: (item: GrammarItem, correct: boolean) => void;
 }) {
   switch (item.type) {
@@ -448,7 +491,7 @@ function ItemScreen({
       return <ChooseFormCard item={item} onComplete={onComplete} />;
     case "produce_form":
     case "transform":
-      return <TypedCard item={item} onComplete={onComplete} />;
+      return <TypedCard item={item} speechLang={speechLang} online={online} onComplete={onComplete} />;
     case "fill_table":
       return <FillTableCard item={item} onComplete={onComplete} />;
   }
@@ -477,6 +520,8 @@ function ChoiceRuCard({
   const correct = picked === item.answer;
   const chips = item.type === "classify";
   const pickedReason = picked !== null ? item.reasonsRu[picked] : undefined;
+  // case_id options are authored answer-first — render in the item's deterministic shuffle.
+  const order = useMemo(() => choiceOrder(item), [item]);
 
   return (
     <>
@@ -488,7 +533,7 @@ function ChoiceRuCard({
           — {item.promptRu}
         </p>
         <div className={"options" + (chips ? " options--chips" : "")}>
-          {item.optionsRu.map((o, i) => {
+          {order.map((i) => {
             let cls = "option" + (chips ? " option--chip" : "");
             if (answered) {
               if (i === item.answer) cls += " option--correct";
@@ -503,7 +548,7 @@ function ChoiceRuCard({
                 disabled={answered}
                 onClick={() => setPicked(i)}
               >
-                {o}
+                {item.optionsRu[i]}
               </button>
             );
           })}
@@ -622,18 +667,35 @@ function ChooseFormCard({
   );
 }
 
-/** produce_form / transform — typed input with ä/ö keys and near-miss grading. */
+/** produce_form / transform — typed input with ä/ö keys, optional voice input, near-miss grading. */
 function TypedCard({
   item,
+  speechLang,
+  online,
   onComplete,
 }: {
   item: TypedFormItem;
+  speechLang: string;
+  online: boolean;
   onComplete: (item: GrammarItem, correct: boolean) => void;
 }) {
   const [value, setValue] = useState("");
   const [grade, setGrade] = useState<TypedGrade | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const graded = grade !== null;
+
+  // Voice input (free Web Speech API): the mic fills the input — grading stays the same typed
+  // path. Per the project rule, transcripts go through pickBestSpoken so the recognizer's N-best
+  // list is searched for a hypothesis the item actually accepts (digits→Finnish words included).
+  const accepts = (candidate: string) =>
+    item.accepted.some((a) => normalizeFi(a) === normalizeFi(candidate));
+  const speech = useSpeechRecognition({
+    lang: speechLang,
+    enabled: online && !graded,
+    onResult: (alternatives) => setValue(pickBestSpoken(alternatives, accepts)),
+  });
+  const voiceReady = online && speech.supported && !graded;
+  const speechHint = speechTroubleRu(online, speech.error);
 
   const submit = (e?: FormEvent) => {
     e?.preventDefault();
@@ -675,6 +737,16 @@ function TypedCard({
             onChange={(e) => setValue(e.target.value)}
           />
           {!graded && <QuickKeys inputRef={inputRef} onChange={setValue} />}
+          {voiceReady && (
+            <button
+              type="button"
+              className={"mic" + (speech.listening ? " mic--on" : "")}
+              onClick={speech.listening ? speech.stop : speech.start}
+            >
+              {speech.listening ? "Говорите…" : "🎤 Сказать вслух"}
+            </button>
+          )}
+          {speechHint && !graded && <p className="gprompt__hint">{speechHint}</p>}
         </form>
         {grade && (
           <div className="gxstack">

@@ -406,6 +406,7 @@ describe("levelCompletionStats / levelCompletionLearnProgress (combined completi
       words: 5,
       sentences: 1,
       texts: 1,
+      grammar: 0,
     });
     // Learn one word (any mode), the sentence (via dictation — any mode counts), and the text.
     const progress = new Map([
@@ -417,6 +418,7 @@ describe("levelCompletionStats / levelCompletionLearnProgress (combined completi
       words: 4,
       sentences: 0,
       texts: 0,
+      grammar: 0,
     });
   });
 });
@@ -511,6 +513,33 @@ describe("levelModeStats / levelGate / masteringLevelGated (balance-to-progress 
     // L1 complete AND balanced → the displayed level rolls on to L2 (where x1 is untouched).
     expect(masteringLevelGated(v, sents, txts, balanced)).toBe(2);
   });
+
+  it("grammar topics join the gate: an unmastered topic holds its level", () => {
+    const grammarTopics: VocabLike[] = [{ id: "g1", level: 1 }];
+    const balanced = mk(
+      ["recognition", "w1", LEARNED_BOX], ["recognition", "w2", LEARNED_BOX],
+      ["production", "w1", LEARNED_BOX], ["production", "w2", LEARNED_BOX],
+      ["say_word", "w1", LEARNED_BOX], ["say_word", "w2", LEARNED_BOX],
+      ["listen_word", "w1", LEARNED_BOX], ["listen_word", "w2", LEARNED_BOX],
+      ["sentences", "s1", LEARNED_BOX],
+      ["say_sentence", "s1", LEARNED_BOX],
+      ["listen_sentence", "s1", LEARNED_BOX],
+      ["recite", "t1", LEARNED_BOX], ["recite", "d1", LEARNED_BOX],
+    );
+    // Everything else done, but the L1 grammar topic isn't mastered → the gate holds level 1…
+    expect(masteringLevelGated(v, sents, txts, balanced, grammarTopics)).toBe(1);
+    const gramRow = levelModeStats(v, sents, txts, balanced, 1, grammarTopics).find(
+      (m) => m.id === "grammar",
+    );
+    expect(gramRow).toMatchObject({ group: "gram", mastered: 0, total: 1 });
+    // …and mastering the topic (box ≥ 4 — two strong lesson runs) releases it.
+    const withGrammar = new Map([...balanced, ...mk(["grammar", "g1", 4])]);
+    expect(masteringLevelGated(v, sents, txts, withGrammar, grammarTopics)).toBe(2);
+  });
+
+  it("a pack without grammar topics gets NO grammar row (no phantom spoke)", () => {
+    expect(levelModeStats(v, sents, txts, new Map(), 1).some((m) => m.id === "grammar")).toBe(false);
+  });
 });
 
 describe("levelSummaries («Уровни» screen helper)", () => {
@@ -545,7 +574,7 @@ describe("levelSummaries («Уровни» screen helper)", () => {
     expect(s.map((x) => x.level)).toEqual([1, 2]);
     const l1 = s.find((x) => x.level === 1)!;
     expect(l1.status).toBe("current");
-    expect(l1.counts).toEqual({ words: 2, sentences: 1, texts: 2 });
+    expect(l1.counts).toEqual({ words: 2, sentences: 1, texts: 2, grammar: 0 });
     expect(l1.remaining).toBe(5); // 2 words + 1 sentence + 2 texts, none learned
     expect(s.find((x) => x.level === 2)!.status).toBe("locked");
   });

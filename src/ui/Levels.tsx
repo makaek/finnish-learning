@@ -32,6 +32,8 @@ interface LevelsProps {
   vocab: readonly VocabItem[];
   sentences: readonly SentenceItem[];
   texts: readonly ReadingText[];
+  /** Grammar topics ({id, level}) — folded into level completion/status. */
+  grammar: readonly { id: string; level?: number }[];
   progress: ProgressMap;
   /** Items swiped «Уже знаю» (the hidden set), keyed by hiddenKey. */
   hidden: ReadonlySet<string>;
@@ -52,7 +54,8 @@ type View = "list" | "detail";
 /** A pending destructive action awaiting confirmation in the bottom sheet. */
 type ConfirmAction = { kind: "mark" | "clean" | "rollback"; level: number };
 /** Total items in a level (across groups). */
-const totalOf = (s: LevelSummary) => s.counts.words + s.counts.sentences + s.counts.texts;
+const totalOf = (s: LevelSummary) =>
+  s.counts.words + s.counts.sentences + s.counts.texts + s.counts.grammar;
 
 /** Count chips (words/sentences/texts) shown on each level card and the detail header. */
 function Counts({ s, muted }: { s: LevelSummary; muted?: boolean }) {
@@ -69,6 +72,7 @@ function Counts({ s, muted }: { s: LevelSummary; muted?: boolean }) {
       {item("star", s.counts.words, "w")}
       {item("chat", s.counts.sentences, "s")}
       {item("book", s.counts.texts, "r")}
+      {s.counts.grammar > 0 && item("pen", s.counts.grammar, "g")}
     </div>
   );
 }
@@ -77,6 +81,7 @@ export default function Levels({
   vocab,
   sentences,
   texts,
+  grammar,
   progress,
   hidden,
   read,
@@ -91,7 +96,7 @@ export default function Levels({
   const [detailLv, setDetailLv] = useState<number>(1);
   const [confirm, setConfirm] = useState<ConfirmAction | null>(null);
 
-  const summaries = levelSummaries(vocab, sentences, texts, progress);
+  const summaries = levelSummaries(vocab, sentences, texts, progress, grammar);
   const byLevel = new Map(summaries.map((s) => [s.level, s]));
   const curIdx = summaries.findIndex((s) => s.status === "current");
   const current = curIdx >= 0 ? summaries[curIdx]! : null;
