@@ -52,6 +52,7 @@ export const MODE_LABEL: Record<ItemKind, string> = {
   listen_sentence: "Аудио · фразы",
   reading: "Чтение",
   recite: "Наизусть",
+  grammar: "Грамматика",
 };
 
 /** Russian labels for parts of speech (dictionary `pos`). */

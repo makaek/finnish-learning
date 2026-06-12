@@ -1,0 +1,962 @@
+{
+  "_meta": {
+    "purpose": "Precomputed grammar-mode content (slice 1 = Module B, verbs). Each topic = one lesson: theory card + warmup (recognition) + drill (production). All forms are real and verified against data/dictionary.seed.json; distractors are deliberate plausible learner errors with Russian explanations. Grading is local: normalize (lowercase, strip punctuation, collapse spaces), match `accepted`, look up `wrong.match` for explanations, Levenshtein-1 -> near-miss.",
+    "authoring": "finnish-linguist. All Russian copy follows rules.seed.json tone.",
+    "markup": {
+      "fi_forms": "In Finnish form strings (f, canonical, prompt_fi of case_id): {...} = primary highlight (личное/падежное окончание), [...] = alt highlight (чередование / гласная основы). accepted/wrong.match are PLAIN (no markup).",
+      "ru_strings": "In Russian strings: *...* marks a Finnish fragment (rendered bold + tinted)."
+    }
+  },
+
+  "modules": [
+    { "id": "verb", "title": "Глагол", "n": 1 }
+  ],
+
+  "topics": [
+    {
+      "id": "endings",
+      "module": "verb",
+      "order": 1,
+      "title": "Личные окончания",
+      "summary": "minä -n, sinä -t, me -mme, te -tte; местоимение можно опускать",
+      "tags": ["verbtype"],
+      "prereq": [],
+      "rule_ids": ["verb-conjugation", "dropped-pronoun"],
+      "needs_review": false,
+      "theory": {
+        "title": "Личные окончания глагола",
+        "summary": "Глагол меняется по лицу: окончание само показывает, кто действует.",
+        "body_ru": "В финском у каждого лица своё окончание: *-n* (я), *-t* (ты), *-mme* (мы), *-tte* (вы), *-vat/-vät* (они). У *hän* (он/она) личного окончания нет — гласная основы удлиняется: *puhuu*. Поскольку окончание уже показывает лицо, местоимения *minä* и *sinä* обычно опускают: *Puhun suomea* = *Minä puhun suomea*. А вот *hän* и *he* чаще оставляют. Окончание подчиняется гармонии гласных: *-vat* при a/o/u, *-vät* при ä/ö/y.",
+        "examples": [
+          { "fi": "Minä puhun suomea.", "ru": "Я говорю по-фински." },
+          { "fi": "Sinä asut Helsingissä.", "ru": "Ты живёшь в Хельсинки." },
+          { "fi": "He puhuvat suomea.", "ru": "Они говорят по-фински." }
+        ],
+        "paradigm": {
+          "caption": "puhua · настоящее время",
+          "rows": [
+            { "l": "minä", "f": "puhu{n}" },
+            { "l": "sinä", "f": "puhu{t}" },
+            { "l": "hän", "f": "puhu[u]" },
+            { "l": "me", "f": "puhu{mme}" },
+            { "l": "te", "f": "puhu{tte}" },
+            { "l": "he", "f": "puhu{vat}" }
+          ],
+          "key": [
+            { "hl": "main", "label": "личное окончание" },
+            { "hl": "alt", "label": "удлинение гласной (hän)" }
+          ]
+        },
+        "note_ru": "У *hän* нет окончания — удваивается последняя гласная основы: *puhuu, asuu, lukee*. Не путайте *puhuu* (он говорит) и *puhuvat* (они говорят)."
+      }
+    },
+    {
+      "id": "vt1",
+      "module": "verb",
+      "order": 2,
+      "title": "Тип глагола 1",
+      "summary": "Глаголы на -a/-ä: puhua, asua, nukkua",
+      "tags": ["verbtype", "grad"],
+      "prereq": ["endings"],
+      "rule_ids": ["verb-conjugation", "consonant-gradation"],
+      "needs_review": false,
+      "theory": {
+        "title": "Тип глагола 1",
+        "summary": "Самый большой тип: инфинитив = две гласные + a/ä.",
+        "body_ru": "Тип 1 — глаголы, у которых перед конечным *-a/-ä* стоит гласная: *puhua, asua, ostaa, lukea*. Основа = инфинитив без *-a/-ä*: *puhu-, asu-, osta-*. К ней добавляют личные окончания. У многих глаголов тип 1 есть чередование согласных: сильная ступень — у *hän* и *he* и в инфинитиве, слабая — перед окончаниями *-n, -t, -mme, -tte*.",
+        "examples": [
+          { "fi": "Minä luen kirjaa.", "ru": "Я читаю книгу." },
+          { "fi": "Hän lukee kirjaa.", "ru": "Он читает книгу." },
+          { "fi": "Me ostamme leipää.", "ru": "Мы покупаем хлеб." }
+        ],
+        "paradigm": {
+          "caption": "nukkua · настоящее время",
+          "rows": [
+            { "l": "minä", "f": "nu[k]u{n}" },
+            { "l": "sinä", "f": "nu[k]u{t}" },
+            { "l": "hän", "f": "nu[kk]u[u]" },
+            { "l": "me", "f": "nu[k]u{mme}" },
+            { "l": "te", "f": "nu[k]u{tte}" },
+            { "l": "he", "f": "nu[kk]u{vat}" }
+          ],
+          "key": [
+            { "hl": "main", "label": "личное окончание" },
+            { "hl": "alt", "label": "чередование kk → k" }
+          ]
+        },
+        "note_ru": "Слабая ступень — перед окончаниями *-n, -t, -mme, -tte*: *nukun, luen, ostan*. Сильная — у *hän/he*: *nukkuu, lukee*. Сравните: *lukea* теряет k (*luen*), но *lukee* его сохраняет."
+      }
+    },
+    {
+      "id": "vt2",
+      "module": "verb",
+      "order": 3,
+      "title": "Тип глагола 2",
+      "summary": "Глаголы на -da/-dä: syödä, juoda, tehdä, nähdä",
+      "tags": ["verbtype"],
+      "prereq": ["vt1"],
+      "rule_ids": ["verb-conjugation"],
+      "needs_review": false,
+      "theory": {
+        "title": "Тип глагола 2",
+        "summary": "Инфинитив на -da/-dä; основа без -da/-dä, без чередования.",
+        "body_ru": "Тип 2 — глаголы на *-da/-dä*: *syödä, juoda, voida, saada*. Основа = инфинитив без *-da/-dä*: *syö-, juo-, voi-*. Окончания добавляют прямо к этой основе, и чередования согласных в типе 2 нет. У *hän* гласная НЕ удваивается, если основа уже кончается на долгую гласную или дифтонг: *syö, juo, voi*.",
+        "examples": [
+          { "fi": "Minä juon kahvia.", "ru": "Я пью кофе." },
+          { "fi": "Hän syö leipää.", "ru": "Он ест хлеб." },
+          { "fi": "Me teemme työtä.", "ru": "Мы делаем работу." }
+        ],
+        "paradigm": {
+          "caption": "syödä · настоящее время",
+          "rows": [
+            { "l": "minä", "f": "syö{n}" },
+            { "l": "sinä", "f": "syö{t}" },
+            { "l": "hän", "f": "syö" },
+            { "l": "me", "f": "syö{mme}" },
+            { "l": "te", "f": "syö{tte}" },
+            { "l": "he", "f": "syö{vät}" }
+          ],
+          "key": [
+            { "hl": "main", "label": "личное окончание" }
+          ]
+        },
+        "note_ru": "У *hän* форма часто совпадает с основой: *syö, juo, voi* — гласная не удваивается, потому что основа уже оканчивается на долгий гласный или дифтонг. Гармония: *syövät* (ä), но *juovat* (a)."
+      }
+    },
+    {
+      "id": "vt3",
+      "module": "verb",
+      "order": 4,
+      "title": "Тип глагола 3",
+      "summary": "Глаголы на -lla/-nna/-rra/-sta: olla, mennä, tulla, opiskella",
+      "tags": ["verbtype"],
+      "prereq": ["vt1"],
+      "rule_ids": ["verb-conjugation"],
+      "needs_review": false,
+      "theory": {
+        "title": "Тип глагола 3",
+        "summary": "Инфинитив на две согласные + a/ä; в основу вставляется -e-.",
+        "body_ru": "Тип 3 — глаголы на *-lla/-llä, -nna/-nnä, -rra/-rrä, -sta/-stä*: *olla, mennä, tulla, opiskella*. Чтобы получить основу, уберите эти две буквы и добавьте *-e-*: *men-* → *mene-*, *tul-* → *tule-*, *opiskel-* → *opiskele-*. К основе на *-e-* добавляют окончания. У *hän* удваивается это *e*: *menee, tulee*.",
+        "examples": [
+          { "fi": "Minä menen kauppaan.", "ru": "Я иду в магазин." },
+          { "fi": "Hän tulee kotiin.", "ru": "Он приходит домой." },
+          { "fi": "Me opiskelemme suomea.", "ru": "Мы учим финский." }
+        ],
+        "paradigm": {
+          "caption": "mennä · настоящее время",
+          "rows": [
+            { "l": "minä", "f": "men[e]{n}" },
+            { "l": "sinä", "f": "men[e]{t}" },
+            { "l": "hän", "f": "men[ee]" },
+            { "l": "me", "f": "men[e]{mme}" },
+            { "l": "te", "f": "men[e]{tte}" },
+            { "l": "he", "f": "men[e]{vät}" }
+          ],
+          "key": [
+            { "hl": "main", "label": "личное окончание" },
+            { "hl": "alt", "label": "вставка основы -e-" }
+          ]
+        },
+        "note_ru": "Главная примета типа 3 — вставное *-e-* в основе: *menen, tulen, olen*. У *hän* это *e* удваивается: *menee, tulee*. Не путайте инфинитив *mennä* и форму *menen*."
+      }
+    },
+    {
+      "id": "vt4",
+      "module": "verb",
+      "order": 5,
+      "title": "Тип глагола 4",
+      "summary": "Глаголы на -ata/-ätä: haluta, tilata, osata, herätä",
+      "tags": ["verbtype"],
+      "prereq": ["vt1"],
+      "rule_ids": ["verb-conjugation"],
+      "needs_review": false,
+      "theory": {
+        "title": "Тип глагола 4",
+        "summary": "Инфинитив на гласный + -ta/-tä; основа теряет t и удваивает гласную.",
+        "body_ru": "Тип 4 — глаголы на *-ata/-ätä, -ota, -uta* и т. п.: *haluta, tilata, osata, herätä*. Уберите *-ta/-tä* — останется основа на гласную: *halua-, tilaa-, osaa-*. У многих этих глаголов перед окончанием получается двойная гласная: *halua+n → haluan*, *tilaa+n → tilaan*. У *hän* — длинная гласная: *haluaa, tilaa*.",
+        "examples": [
+          { "fi": "Minä haluan syödä.", "ru": "Я хочу есть." },
+          { "fi": "Hän tilaa kahvia.", "ru": "Он заказывает кофе." },
+          { "fi": "Me osaamme suomea.", "ru": "Мы знаем финский." }
+        ],
+        "paradigm": {
+          "caption": "haluta · настоящее время",
+          "rows": [
+            { "l": "minä", "f": "halu[a]{n}" },
+            { "l": "sinä", "f": "halu[a]{t}" },
+            { "l": "hän", "f": "halu[aa]" },
+            { "l": "me", "f": "halu[a]{mme}" },
+            { "l": "te", "f": "halu[a]{tte}" },
+            { "l": "he", "f": "halu[a]{vat}" }
+          ],
+          "key": [
+            { "hl": "main", "label": "личное окончание" },
+            { "hl": "alt", "label": "гласная основы (без t)" }
+          ]
+        },
+        "note_ru": "В основе типа 4 нет *t* из инфинитива: *haluta → halua-, herätä → herää-*. У *hän* гласная долгая: *haluaa, herää, tilaa*. Сравните инфинитив *haluta* и форму *haluan*."
+      }
+    },
+    {
+      "id": "vt56",
+      "module": "verb",
+      "order": 6,
+      "title": "Типы 5 и 6",
+      "summary": "Тип 5 (-ita → -tse-): tarvita; тип 6 (-eta → -ne-): vanheta",
+      "tags": ["verbtype"],
+      "prereq": ["vt4"],
+      "rule_ids": ["verb-conjugation"],
+      "needs_review": false,
+      "theory": {
+        "title": "Типы глаголов 5 и 6",
+        "summary": "Два редких типа: основа на -tse- (5) и на -ne- (6).",
+        "body_ru": "Тип 5 — глаголы на *-ita/-itä*: *tarvita, valita*. Основа меняет *-ita* на *-tse-*: *tarvit-* → *tarvitse-*, поэтому *tarvitsen, tarvitset*. Тип 6 — глаголы на *-eta/-etä*: *vanheta*. Основа меняет *-eta* на *-ne-*: *vanhe-* → *vanhene-*, поэтому *vanhenen, vanhenet*. Эти типы редкие, но окончания в них обычные: *-n, -t, -mme, -tte*.",
+        "examples": [
+          { "fi": "Minä tarvitsen rahaa.", "ru": "Мне нужны деньги." },
+          { "fi": "Hän tarvitsee apua.", "ru": "Ему нужна помощь." },
+          { "fi": "Minä vanhenen joka vuosi.", "ru": "Я старею каждый год." }
+        ],
+        "paradigm": {
+          "caption": "tarvita · настоящее время",
+          "rows": [
+            { "l": "minä", "f": "tarvi[tse]{n}" },
+            { "l": "sinä", "f": "tarvi[tse]{t}" },
+            { "l": "hän", "f": "tarvi[tse]{e}" },
+            { "l": "me", "f": "tarvi[tse]{mme}" },
+            { "l": "te", "f": "tarvi[tse]{tte}" },
+            { "l": "he", "f": "tarvi[tse]{vat}" }
+          ],
+          "key": [
+            { "hl": "main", "label": "личное окончание" },
+            { "hl": "alt", "label": "основа -tse- (тип 5)" }
+          ]
+        },
+        "note_ru": "Тип 5: *-ita → -tse-* (*tarvitsen*). Тип 6: *-eta → -ne-* (*vanhenen*). У *hän* в типе 5 добавляется *-e*: *tarvitsee*; в типе 6 — *vanhenee*."
+      }
+    },
+    {
+      "id": "negation",
+      "module": "verb",
+      "order": 7,
+      "title": "Отрицание",
+      "summary": "ei спрягается (en/et/ei…), смысловой глагол — коннегатив без -n",
+      "tags": ["neg"],
+      "prereq": ["vt1"],
+      "rule_ids": ["negation"],
+      "needs_review": false,
+      "theory": {
+        "title": "Отрицание: ei + коннегатив",
+        "summary": "Отрицает отдельный глагол ei, который сам спрягается по лицу.",
+        "body_ru": "В финском нет «не» как частицы — отрицает отдельный глагол *ei*, и спрягается именно он: *en* (я не), *et* (ты не), *ei* (он не), *emme* (мы не), *ette* (вы не), *eivät* (они не). Смысловой глагол при этом теряет личное окончание и стоит в форме коннегатива (= основа): *puhun → en puhu*, а не *en puhun*. Коннегатив совпадает с формой повеления: *puhu, mene, syö*. Объект после отрицания обычно в партитиве: *en juo kahvia*.",
+        "examples": [
+          { "fi": "En puhu suomea.", "ru": "Я не говорю по-фински." },
+          { "fi": "Hän ei asu täällä.", "ru": "Он здесь не живёт." },
+          { "fi": "Me emme syö lihaa.", "ru": "Мы не едим мясо." }
+        ],
+        "paradigm": {
+          "caption": "ei + puhua (коннегатив puhu)",
+          "rows": [
+            { "l": "minä", "f": "{en} puhu" },
+            { "l": "sinä", "f": "{et} puhu" },
+            { "l": "hän", "f": "{ei} puhu" },
+            { "l": "me", "f": "{emme} puhu" },
+            { "l": "te", "f": "{ette} puhu" },
+            { "l": "he", "f": "{eivät} puhu" }
+          ],
+          "key": [
+            { "hl": "main", "label": "форма глагола ei" }
+          ]
+        },
+        "note_ru": "Спрягается только *ei*; смысловой глагол всегда один и тот же — коннегатив (*puhu, mene, asu*). Ошибка *en puhun*: после *en* окончание *-n* не нужно."
+      }
+    }
+  ],
+
+  "items": [
+
+    { "id": "endings-w1", "topic": "endings", "stage": "warmup", "type": "choose_form", "needs_review": false, "review_ru": "окончание -n (я)",
+      "prompt_fi": "Minä ___ suomea.", "hint_ru": "Выберите форму глагола puhua",
+      "options": [
+        { "fi": "puhun" },
+        { "fi": "puhut", "why_ru": "*-t* — окончание для sinä (ты), а здесь minä." },
+        { "fi": "puhuu", "why_ru": "*puhuu* — форма для hän (он/она), а не для minä." },
+        { "fi": "puhuvat", "why_ru": "*-vat* — окончание для he (они)." }
+      ],
+      "answer": "puhun", "ok_ru": "Верно! *minä* — окончание *-n*: puhun." },
+
+    { "id": "endings-w2", "topic": "endings", "stage": "warmup", "type": "choose_form", "needs_review": false, "review_ru": "окончание -t (ты)",
+      "prompt_fi": "Sinä ___ Helsingissä.", "hint_ru": "Выберите форму глагола asua",
+      "options": [
+        { "fi": "asut" },
+        { "fi": "asun", "why_ru": "*-n* — окончание для minä (я), а здесь sinä." },
+        { "fi": "asuu", "why_ru": "*asuu* — форма для hän, а не для sinä." },
+        { "fi": "asumme", "why_ru": "*-mme* — окончание для me (мы)." }
+      ],
+      "answer": "asut", "ok_ru": "Верно! *sinä* — окончание *-t*: asut." },
+
+    { "id": "endings-w3", "topic": "endings", "stage": "warmup", "type": "choose_form", "needs_review": false, "review_ru": "hän — удлинение гласной",
+      "prompt_fi": "Hän ___ suomea.", "hint_ru": "Выберите форму глагола puhua",
+      "options": [
+        { "fi": "puhuu" },
+        { "fi": "puhun", "why_ru": "*-n* — окончание для minä (я)." },
+        { "fi": "puhuvat", "why_ru": "*puhuvat* — это he (они), а hän — один человек." },
+        { "fi": "puhu", "why_ru": "*puhu* без удлинения — это коннегатив (после ei) или повеление." }
+      ],
+      "answer": "puhuu", "ok_ru": "Верно! У *hän* нет окончания — гласная удлиняется: puhuu." },
+
+    { "id": "endings-w4", "topic": "endings", "stage": "warmup", "type": "choose_form", "needs_review": false, "review_ru": "окончание -mme (мы)",
+      "prompt_fi": "Me ___ leipää.", "hint_ru": "Выберите форму глагола ostaa",
+      "options": [
+        { "fi": "ostamme" },
+        { "fi": "ostatte", "why_ru": "*-tte* — окончание для te (вы), а здесь me." },
+        { "fi": "ostavat", "why_ru": "*-vat* — окончание для he (они)." },
+        { "fi": "ostan", "why_ru": "*-n* — окончание для minä (я)." }
+      ],
+      "answer": "ostamme", "ok_ru": "Верно! *me* — окончание *-mme*: ostamme." },
+
+    { "id": "endings-d1", "topic": "endings", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "окончание -n (я)",
+      "prompt_fi": "puhua → minä", "hint_ru": "настоящее время",
+      "canonical": "puhu{n}", "accepted": ["puhun", "minä puhun"],
+      "wrong": [
+        { "match": "puhua", "ru": "Это словарная форма. Для minä нужна основа + окончание *-n*: *puhun*." },
+        { "match": "puhuu", "ru": "*puhuu* — форма для hän. Для minä окончание *-n*: *puhun*." }
+      ],
+      "ok_ru": "Верно! *minä* — окончание *-n*.", "near_ru": "Почти! Для minä нужно окончание *-n*: *puhun*." },
+
+    { "id": "endings-d2", "topic": "endings", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "окончание -t (ты)",
+      "prompt_fi": "asua → sinä", "hint_ru": "настоящее время",
+      "canonical": "asu{t}", "accepted": ["asut", "sinä asut"],
+      "wrong": [
+        { "match": "asua", "ru": "Это инфинитив. Для sinä: основа *asu-* + *-t* → *asut*." },
+        { "match": "asun", "ru": "*asun* — для minä. Для sinä окончание *-t*: *asut*." }
+      ],
+      "ok_ru": "Верно! *sinä* — окончание *-t*.", "near_ru": "Почти! Для sinä окончание *-t*: *asut*." },
+
+    { "id": "endings-d3", "topic": "endings", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "hän — удлинение гласной",
+      "prompt_fi": "asua → hän", "hint_ru": "настоящее время",
+      "canonical": "asu[u]", "accepted": ["asuu", "hän asuu"],
+      "wrong": [
+        { "match": "asu", "ru": "У hän гласная удлиняется: *asuu* (не *asu*)." },
+        { "match": "asuvat", "ru": "*asuvat* — это he (они). hän — один: *asuu*." }
+      ],
+      "ok_ru": "Верно! У hän удлиняется гласная: *asuu*.", "near_ru": "Почти! У hän гласная удлиняется: *asuu*." },
+
+    { "id": "endings-d4", "topic": "endings", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "окончание -mme (мы)",
+      "prompt_fi": "puhua → me", "hint_ru": "настоящее время",
+      "canonical": "puhu{mme}", "accepted": ["puhumme", "me puhumme"],
+      "wrong": [
+        { "match": "puhumma", "ru": "Окончание для me — *-mme* (с e на конце): *puhumme*." },
+        { "match": "puhuu", "ru": "*puhuu* — для hän. Для me окончание *-mme*: *puhumme*." }
+      ],
+      "ok_ru": "Верно! *me* — окончание *-mme*.", "near_ru": "Почти! Окончание для me — *-mme*: *puhumme*." },
+
+    { "id": "endings-d5", "topic": "endings", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "he -vat / -vät (гармония)",
+      "prompt_fi": "puhua → he", "hint_ru": "настоящее время",
+      "canonical": "puhu{vat}", "accepted": ["puhuvat", "he puhuvat"],
+      "wrong": [
+        { "match": "puhuvät", "ru": "В слове puhu- гласные a/u → твёрдое окончание *-vat* (гармония гласных)." },
+        { "match": "puhuu", "ru": "*puhuu* — это hän (один). Для he (они): *puhuvat*." }
+      ],
+      "ok_ru": "Верно! *he* — окончание *-vat* (гармония: a/u).", "near_ru": "Почти! Для he нужно *-vat*: *puhuvat*." },
+
+    { "id": "endings-d6", "topic": "endings", "stage": "drill", "type": "fill_table", "needs_review": false, "review_ru": "личные окончания",
+      "prompt_fi": "asua", "prompt_ru": "заполните все формы", "hint_ru": "настоящее время",
+      "cells": [
+        { "l": "minä", "canonical": "asu{n}", "accepted": ["asun"] },
+        { "l": "sinä", "canonical": "asu{t}", "accepted": ["asut"] },
+        { "l": "hän", "canonical": "asu[u]", "accepted": ["asuu"] },
+        { "l": "me", "canonical": "asu{mme}", "accepted": ["asumme"] },
+        { "l": "te", "canonical": "asu{tte}", "accepted": ["asutte"] },
+        { "l": "he", "canonical": "asu{vat}", "accepted": ["asuvat"] }
+      ],
+      "summary_ru": "Повторите окончания, отмеченные красным." },
+
+
+    { "id": "vt1-w1", "topic": "vt1", "stage": "warmup", "type": "classify", "needs_review": false, "review_ru": "тип 1 (гласная + a/ä)",
+      "prompt_fi": "puhua", "prompt_ru": "какой это тип глагола?",
+      "options_ru": ["Тип 1", "Тип 2", "Тип 3", "Тип 4", "Тип 5", "Тип 6"],
+      "answer": 0,
+      "reasons_ru": {
+        "1": "Тип 2 — глаголы на *-da/-dä*: syödä, juoda. У *puhua* перед a стоит гласная — это тип 1.",
+        "2": "Тип 3 — глаголы на *-lla, -nna, -sta*: mennä, opiskella.",
+        "3": "Тип 4 — глаголы на гласный + *-ta*: haluta, tilata."
+      },
+      "ok_ru": "Верно! Перед *-a* стоит гласная (puhu-a) — это тип 1.",
+      "correct_ru": "Правильный ответ — тип 1: перед конечным *-a* стоит гласная, как в puhua, asua, lukea." },
+
+    { "id": "vt1-w2", "topic": "vt1", "stage": "warmup", "type": "classify", "needs_review": false, "review_ru": "тип 1 (гласная + a/ä)",
+      "prompt_fi": "lukea", "prompt_ru": "какой это тип глагола?",
+      "options_ru": ["Тип 1", "Тип 2", "Тип 3", "Тип 4", "Тип 5", "Тип 6"],
+      "answer": 0,
+      "reasons_ru": {
+        "1": "Тип 2 — на *-da/-dä*. У *lukea* окончание *-ea* (гласная + a) — это тип 1.",
+        "2": "Тип 3 — на *-lla, -nna, -sta*: mennä, opiskella."
+      },
+      "ok_ru": "Верно! *luke-a* — гласная + a, тип 1 (с чередованием k → исчезает).",
+      "correct_ru": "Правильный ответ — тип 1. *lukea* теряет k в слабой ступени: *luen*, но *lukee*." },
+
+    { "id": "vt1-w3", "topic": "vt1", "stage": "warmup", "type": "choose_form", "needs_review": false, "review_ru": "hän — сильная ступень",
+      "prompt_fi": "Hän ___ kirjaa.", "hint_ru": "Выберите форму глагола lukea",
+      "options": [
+        { "fi": "lukee" },
+        { "fi": "luee", "why_ru": "У hän сильная ступень — k сохраняется: *lukee*, а не *luee*." },
+        { "fi": "luen", "why_ru": "*luen* — это minä (я). Для hän: *lukee*." },
+        { "fi": "lukevat", "why_ru": "*lukevat* — это he (они). hän — один: *lukee*." }
+      ],
+      "answer": "lukee", "ok_ru": "Верно! У hän сильная ступень: k остаётся — *lukee*." },
+
+    { "id": "vt1-w4", "topic": "vt1", "stage": "warmup", "type": "choose_form", "needs_review": false, "review_ru": "чередование kk → k",
+      "prompt_fi": "Minä ___ hyvin.", "hint_ru": "Выберите форму глагола nukkua",
+      "options": [
+        { "fi": "nukun" },
+        { "fi": "nukkun", "why_ru": "Перед окончанием *-n* нужна слабая ступень: kk → k, поэтому *nukun*." },
+        { "fi": "nukkuu", "why_ru": "*nukkuu* — форма для hän. Для minä: *nukun*." },
+        { "fi": "nukkua", "why_ru": "Это словарная форма (инфинитив)." }
+      ],
+      "answer": "nukun", "ok_ru": "Верно! Перед *-n* слабая ступень: kk → k → *nukun*." },
+
+    { "id": "vt1-d1", "topic": "vt1", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "чередование k → исчезает",
+      "prompt_fi": "lukea → minä", "hint_ru": "настоящее время",
+      "canonical": "lu[]e{n}", "accepted": ["luen", "minä luen"],
+      "wrong": [
+        { "match": "luken", "ru": "Перед окончанием *-n* k исчезает (слабая ступень): *luen*." },
+        { "match": "lukea", "ru": "Это инфинитив. Для minä: *luen*." }
+      ],
+      "ok_ru": "Верно! Слабая ступень: k исчезает → *luen*.", "near_ru": "Почти! У minä k исчезает: *luen*." },
+
+    { "id": "vt1-d2", "topic": "vt1", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "hän — сильная ступень",
+      "prompt_fi": "lukea → hän", "hint_ru": "настоящее время",
+      "canonical": "lu[k]e[e]", "accepted": ["lukee", "hän lukee"],
+      "wrong": [
+        { "match": "luee", "ru": "У hän сильная ступень — k сохраняется: *lukee*." },
+        { "match": "luen", "ru": "*luen* — это minä. Для hän: *lukee*." }
+      ],
+      "ok_ru": "Верно! У hän сильная ступень: *lukee*.", "near_ru": "Почти! У hän k сохраняется: *lukee*." },
+
+    { "id": "vt1-d3", "topic": "vt1", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "чередование kk → k",
+      "prompt_fi": "nukkua → minä", "hint_ru": "настоящее время",
+      "canonical": "nu[k]u{n}", "accepted": ["nukun", "minä nukun"],
+      "wrong": [
+        { "match": "nukkun", "ru": "Перед *-n* нужна слабая ступень: kk → k → *nukun*." },
+        { "match": "nukkua", "ru": "Это инфинитив. Для minä: *nukun*." }
+      ],
+      "ok_ru": "Верно! kk → k перед окончанием: *nukun*.", "near_ru": "Почти! kk → k: *nukun*." },
+
+    { "id": "vt1-d4", "topic": "vt1", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "чередование nt → nn",
+      "prompt_fi": "antaa → minä", "hint_ru": "настоящее время",
+      "canonical": "a[nn]a{n}", "accepted": ["annan", "minä annan"],
+      "wrong": [
+        { "match": "antan", "ru": "Слабая ступень nt → nn: *annan*, а не *antan*." },
+        { "match": "antaa", "ru": "*antaa* — это hän или инфинитив. Для minä: *annan*." }
+      ],
+      "ok_ru": "Верно! nt → nn в слабой ступени: *annan*.", "near_ru": "Почти! nt → nn: *annan*." },
+
+    { "id": "vt1-d5", "topic": "vt1", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "hän — удлинение гласной",
+      "prompt_fi": "ostaa → hän", "hint_ru": "настоящее время",
+      "canonical": "osta[a]", "accepted": ["ostaa", "hän ostaa"],
+      "wrong": [
+        { "match": "ostan", "ru": "*ostan* — это minä. Для hän гласная долгая: *ostaa*." },
+        { "match": "ostavat", "ru": "*ostavat* — это he. hän — один: *ostaa*." }
+      ],
+      "ok_ru": "Верно! У hän долгая гласная: *ostaa*.", "near_ru": "Почти! У hän: *ostaa*." },
+
+    { "id": "vt1-d6", "topic": "vt1", "stage": "drill", "type": "fill_table", "needs_review": false, "review_ru": "чередование kk → k",
+      "prompt_fi": "nukkua", "prompt_ru": "заполните все формы", "hint_ru": "следите за чередованием kk / k",
+      "cells": [
+        { "l": "minä", "canonical": "nu[k]u{n}", "accepted": ["nukun"] },
+        { "l": "sinä", "canonical": "nu[k]u{t}", "accepted": ["nukut"] },
+        { "l": "hän", "canonical": "nu[kk]u[u]", "accepted": ["nukkuu"] },
+        { "l": "me", "canonical": "nu[k]u{mme}", "accepted": ["nukumme"] },
+        { "l": "te", "canonical": "nu[k]u{tte}", "accepted": ["nukutte"] },
+        { "l": "he", "canonical": "nu[kk]u{vat}", "accepted": ["nukkuvat"] }
+      ],
+      "summary_ru": "Сильная ступень *kk* — только у hän и he; в остальных формах *k*." },
+
+
+    { "id": "vt2-w1", "topic": "vt2", "stage": "warmup", "type": "classify", "needs_review": false, "review_ru": "тип 2 (-da/-dä)",
+      "prompt_fi": "syödä", "prompt_ru": "какой это тип глагола?",
+      "options_ru": ["Тип 1", "Тип 2", "Тип 3", "Тип 4", "Тип 5", "Тип 6"],
+      "answer": 1,
+      "reasons_ru": {
+        "0": "Тип 1 — гласная + a/ä без d: puhua, asua. У *syödä* есть *-dä* — это тип 2.",
+        "2": "Тип 3 — на *-lla, -nna, -sta*: mennä."
+      },
+      "ok_ru": "Верно! Окончание *-dä* — это тип 2.",
+      "correct_ru": "Правильный ответ — тип 2: глаголы на *-da/-dä* (syödä, juoda, tehdä)." },
+
+    { "id": "vt2-w2", "topic": "vt2", "stage": "warmup", "type": "classify", "needs_review": false, "review_ru": "тип 2 (-da/-dä)",
+      "prompt_fi": "juoda", "prompt_ru": "какой это тип глагола?",
+      "options_ru": ["Тип 1", "Тип 2", "Тип 3", "Тип 4", "Тип 5", "Тип 6"],
+      "answer": 1,
+      "reasons_ru": {
+        "0": "Тип 1 — без d (puhua). У *juoda* есть *-da* — тип 2.",
+        "3": "Тип 4 — гласный + *-ta* (haluta), а здесь *-da*."
+      },
+      "ok_ru": "Верно! *juo-da* — тип 2.",
+      "correct_ru": "Правильный ответ — тип 2: окончание *-da*." },
+
+    { "id": "vt2-w3", "topic": "vt2", "stage": "warmup", "type": "choose_form", "needs_review": false, "review_ru": "основа без -da",
+      "prompt_fi": "Minä ___ kahvia.", "hint_ru": "Выберите форму глагола juoda",
+      "options": [
+        { "fi": "juon" },
+        { "fi": "juodan", "why_ru": "*d* из инфинитива в основу не входит: основа *juo-* → *juon*." },
+        { "fi": "juo", "why_ru": "*juo* — это hän (или повеление). Для minä нужно *-n*: *juon*." },
+        { "fi": "juovat", "why_ru": "*juovat* — это he (они)." }
+      ],
+      "answer": "juon", "ok_ru": "Верно! Основа *juo-* + *-n* → *juon* (d уходит)." },
+
+    { "id": "vt2-w4", "topic": "vt2", "stage": "warmup", "type": "choose_form", "needs_review": false, "review_ru": "hän без удвоения",
+      "prompt_fi": "Hän ___ leipää.", "hint_ru": "Выберите форму глагола syödä",
+      "options": [
+        { "fi": "syö" },
+        { "fi": "syöö", "why_ru": "Основа уже кончается на долгий гласный, поэтому удвоения нет: *syö*." },
+        { "fi": "syön", "why_ru": "*syön* — это minä. Для hän: *syö*." },
+        { "fi": "syödä", "why_ru": "Это словарная форма (инфинитив)." }
+      ],
+      "answer": "syö", "ok_ru": "Верно! У hän форма = основа: *syö* (гласная не удваивается)." },
+
+    { "id": "vt2-d1", "topic": "vt2", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "основа без -da",
+      "prompt_fi": "juoda → minä", "hint_ru": "настоящее время",
+      "canonical": "juo{n}", "accepted": ["juon", "minä juon"],
+      "wrong": [
+        { "match": "juodan", "ru": "*d* из инфинитива в основу не входит: *juon*." },
+        { "match": "juoda", "ru": "Это инфинитив. Для minä: *juon*." }
+      ],
+      "ok_ru": "Верно! Основа *juo-* + *-n* → *juon*.", "near_ru": "Почти! Основа без d: *juon*." },
+
+    { "id": "vt2-d2", "topic": "vt2", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "hän без удвоения",
+      "prompt_fi": "syödä → hän", "hint_ru": "настоящее время",
+      "canonical": "syö", "accepted": ["syö", "hän syö"],
+      "wrong": [
+        { "match": "syöö", "ru": "Гласная не удваивается — основа уже долгая: *syö*." },
+        { "match": "syön", "ru": "*syön* — это minä. Для hän: *syö*." }
+      ],
+      "ok_ru": "Верно! У hän форма = основа: *syö*.", "near_ru": "Почти! У hän просто *syö*." },
+
+    { "id": "vt2-d3", "topic": "vt2", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "основа без -dä",
+      "prompt_fi": "syödä → me", "hint_ru": "настоящее время",
+      "canonical": "syö{mme}", "accepted": ["syömme", "me syömme"],
+      "wrong": [
+        { "match": "syödämme", "ru": "*d* в основу не входит: *syö-* + *-mme* → *syömme*." },
+        { "match": "syömma", "ru": "Окончание для me — *-mme*: *syömme*." }
+      ],
+      "ok_ru": "Верно! *syö-* + *-mme* → *syömme*.", "near_ru": "Почти! Окончание *-mme*: *syömme*." },
+
+    { "id": "vt2-d4", "topic": "vt2", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "he -vät (гармония ä)",
+      "prompt_fi": "syödä → he", "hint_ru": "настоящее время",
+      "canonical": "syö{vät}", "accepted": ["syövät", "he syövät"],
+      "wrong": [
+        { "match": "syövat", "ru": "В слове *syö-* гласная ö → мягкое окончание *-vät* (гармония гласных)." },
+        { "match": "syö", "ru": "*syö* — это hän (один). Для he: *syövät*." }
+      ],
+      "ok_ru": "Верно! Гармония: ö → *-vät* → *syövät*.", "near_ru": "Почти! Нужно *-vät*: *syövät*." },
+
+    { "id": "vt2-d5", "topic": "vt2", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "tehdä — основа tee-",
+      "prompt_fi": "tehdä → minä", "hint_ru": "настоящее время (основа tee-)",
+      "canonical": "tee{n}", "accepted": ["teen", "minä teen"],
+      "wrong": [
+        { "match": "tehden", "ru": "У *tehdä* особая основа *tee-*: *teen* (не *tehden*)." },
+        { "match": "tehdän", "ru": "Основа *tee-*, а не *tehd-*: *teen*." }
+      ],
+      "ok_ru": "Верно! Основа *tee-* + *-n* → *teen*.", "near_ru": "Почти! Основа *tee-*: *teen*." },
+
+    { "id": "vt2-d6", "topic": "vt2", "stage": "drill", "type": "fill_table", "needs_review": false, "review_ru": "тип 2 — основа без -da",
+      "prompt_fi": "juoda", "prompt_ru": "заполните все формы", "hint_ru": "основа juo- (d уходит)",
+      "cells": [
+        { "l": "minä", "canonical": "juo{n}", "accepted": ["juon"] },
+        { "l": "sinä", "canonical": "juo{t}", "accepted": ["juot"] },
+        { "l": "hän", "canonical": "juo", "accepted": ["juo"] },
+        { "l": "me", "canonical": "juo{mme}", "accepted": ["juomme"] },
+        { "l": "te", "canonical": "juo{tte}", "accepted": ["juotte"] },
+        { "l": "he", "canonical": "juo{vat}", "accepted": ["juovat"] }
+      ],
+      "summary_ru": "Тип 2: к основе на гласную прибавляют окончания, *d* исчезает." },
+
+
+    { "id": "vt3-w1", "topic": "vt3", "stage": "warmup", "type": "classify", "needs_review": false, "review_ru": "тип 3 (-lla/-nna/-sta)",
+      "prompt_fi": "mennä", "prompt_ru": "какой это тип глагола?",
+      "options_ru": ["Тип 1", "Тип 2", "Тип 3", "Тип 4", "Тип 5", "Тип 6"],
+      "answer": 2,
+      "reasons_ru": {
+        "0": "Тип 1 — гласная + a/ä: puhua. А *mennä* кончается на *-nnä* — тип 3.",
+        "1": "Тип 2 — на *-da/-dä*: syödä. Здесь *-nnä* — тип 3."
+      },
+      "ok_ru": "Верно! Окончание *-nnä* — это тип 3.",
+      "correct_ru": "Правильный ответ — тип 3: на *-lla, -nna, -rra, -sta* (mennä, tulla, opiskella)." },
+
+    { "id": "vt3-w2", "topic": "vt3", "stage": "warmup", "type": "classify", "needs_review": false, "review_ru": "тип 3 (-lla/-nna/-sta)",
+      "prompt_fi": "opiskella", "prompt_ru": "какой это тип глагола?",
+      "options_ru": ["Тип 1", "Тип 2", "Тип 3", "Тип 4", "Тип 5", "Тип 6"],
+      "answer": 2,
+      "reasons_ru": {
+        "0": "Тип 1 — гласная + a: puhua. А *opiskella* кончается на *-lla* — тип 3.",
+        "3": "Тип 4 — гласный + *-ta* (haluta), а здесь *-lla*."
+      },
+      "ok_ru": "Верно! *-lla* — это тип 3.",
+      "correct_ru": "Правильный ответ — тип 3: окончание *-lla*." },
+
+    { "id": "vt3-w3", "topic": "vt3", "stage": "warmup", "type": "choose_form", "needs_review": false, "review_ru": "вставка основы -e-",
+      "prompt_fi": "Minä ___ kauppaan.", "hint_ru": "Выберите форму глагола mennä",
+      "options": [
+        { "fi": "menen" },
+        { "fi": "mennän", "why_ru": "В типе 3 в основу вставляется *-e-*: *mene-* → *menen* (не *mennän*)." },
+        { "fi": "menän", "why_ru": "Основа *mene-* с *-e-*: *menen*, а не *menän*." },
+        { "fi": "menee", "why_ru": "*menee* — это hän. Для minä: *menen*." }
+      ],
+      "answer": "menen", "ok_ru": "Верно! Основа *mene-* (вставное e) + *-n* → *menen*." },
+
+    { "id": "vt3-w4", "topic": "vt3", "stage": "warmup", "type": "choose_form", "needs_review": false, "review_ru": "hän — удвоение e",
+      "prompt_fi": "Hän ___ kotiin.", "hint_ru": "Выберите форму глагола tulla",
+      "options": [
+        { "fi": "tulee" },
+        { "fi": "tule", "why_ru": "*tule* — это коннегатив/повеление. У hän *e* удваивается: *tulee*." },
+        { "fi": "tulen", "why_ru": "*tulen* — это minä. Для hän: *tulee*." },
+        { "fi": "tullee", "why_ru": "Основа *tule-* с одной l: *tulee* (двойная l только в инфинитиве)." }
+      ],
+      "answer": "tulee", "ok_ru": "Верно! У hän *e* удваивается: *tulee*." },
+
+    { "id": "vt3-d1", "topic": "vt3", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "вставка основы -e-",
+      "prompt_fi": "mennä → minä", "hint_ru": "настоящее время",
+      "canonical": "men[e]{n}", "accepted": ["menen", "minä menen"],
+      "wrong": [
+        { "match": "mennän", "ru": "В типе 3 основа на *-e-*: *mene-* → *menen* (одна n)." },
+        { "match": "mennä", "ru": "Это инфинитив. Для minä: *menen*." }
+      ],
+      "ok_ru": "Верно! Основа *mene-* + *-n* → *menen*.", "near_ru": "Почти! Основа *mene-*: *menen*." },
+
+    { "id": "vt3-d2", "topic": "vt3", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "hän — удвоение e",
+      "prompt_fi": "tulla → hän", "hint_ru": "настоящее время",
+      "canonical": "tul[ee]", "accepted": ["tulee", "hän tulee"],
+      "wrong": [
+        { "match": "tule", "ru": "У hän *e* удваивается: *tulee* (а *tule* — это повеление/коннегатив)." },
+        { "match": "tulen", "ru": "*tulen* — это minä. Для hän: *tulee*." }
+      ],
+      "ok_ru": "Верно! У hän *e* долгое: *tulee*.", "near_ru": "Почти! У hän: *tulee*." },
+
+    { "id": "vt3-d3", "topic": "vt3", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "olla — основа ole-",
+      "prompt_fi": "olla → minä", "hint_ru": "настоящее время",
+      "canonical": "ol[e]{n}", "accepted": ["olen", "minä olen"],
+      "wrong": [
+        { "match": "ollan", "ru": "Основа *ole-* (вставное e), одна l: *olen*." },
+        { "match": "olla", "ru": "Это инфинитив. Для minä: *olen*." }
+      ],
+      "ok_ru": "Верно! Основа *ole-* + *-n* → *olen*.", "near_ru": "Почти! Основа *ole-*: *olen*." },
+
+    { "id": "vt3-d4", "topic": "vt3", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "вставка основы -e-",
+      "prompt_fi": "opiskella → me", "hint_ru": "настоящее время",
+      "canonical": "opiskel[e]{mme}", "accepted": ["opiskelemme", "me opiskelemme"],
+      "wrong": [
+        { "match": "opiskellamme", "ru": "Основа *opiskele-* (вставное e, одна l): *opiskelemme*." },
+        { "match": "opiskellemme", "ru": "В основе одна l: *opiskele-* → *opiskelemme*." }
+      ],
+      "ok_ru": "Верно! Основа *opiskele-* + *-mme*.", "near_ru": "Почти! Основа *opiskele-*: *opiskelemme*." },
+
+    { "id": "vt3-d5", "topic": "vt3", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "olla → hän on",
+      "prompt_fi": "olla → hän", "hint_ru": "настоящее время (особая форма)",
+      "canonical": "on", "accepted": ["on", "hän on"],
+      "wrong": [
+        { "match": "olee", "ru": "У *olla* форма hän особая: *on* (не *olee*)." },
+        { "match": "olen", "ru": "*olen* — это minä. Для hän: *on*." }
+      ],
+      "ok_ru": "Верно! У *olla* hän = *on* (особая форма).", "near_ru": "Почти! У hän особая форма: *on*." },
+
+    { "id": "vt3-d6", "topic": "vt3", "stage": "drill", "type": "fill_table", "needs_review": false, "review_ru": "вставка основы -e-",
+      "prompt_fi": "mennä", "prompt_ru": "заполните все формы", "hint_ru": "основа mene- (вставное e)",
+      "cells": [
+        { "l": "minä", "canonical": "men[e]{n}", "accepted": ["menen"] },
+        { "l": "sinä", "canonical": "men[e]{t}", "accepted": ["menet"] },
+        { "l": "hän", "canonical": "men[ee]", "accepted": ["menee"] },
+        { "l": "me", "canonical": "men[e]{mme}", "accepted": ["menemme"] },
+        { "l": "te", "canonical": "men[e]{tte}", "accepted": ["menette"] },
+        { "l": "he", "canonical": "men[e]{vät}", "accepted": ["menevät"] }
+      ],
+      "summary_ru": "Тип 3: в основу вставляется *-e-*; у hän оно удваивается (*menee*)." },
+
+
+    { "id": "vt4-w1", "topic": "vt4", "stage": "warmup", "type": "classify", "needs_review": false, "review_ru": "тип 4 (гласный + -ta)",
+      "prompt_fi": "haluta", "prompt_ru": "какой это тип глагола?",
+      "options_ru": ["Тип 1", "Тип 2", "Тип 3", "Тип 4", "Тип 5", "Тип 6"],
+      "answer": 3,
+      "reasons_ru": {
+        "1": "Тип 2 — на *-da/-dä* после долгого гласного/дифтонга (syödä). У *haluta* — *-ta* после краткого a: тип 4.",
+        "2": "Тип 3 — на *-lla, -nna, -sta*: mennä."
+      },
+      "ok_ru": "Верно! *halu-ta* (гласный + ta) — это тип 4.",
+      "correct_ru": "Правильный ответ — тип 4: гласный + *-ta/-tä* (haluta, tilata, herätä)." },
+
+    { "id": "vt4-w2", "topic": "vt4", "stage": "warmup", "type": "classify", "needs_review": false, "review_ru": "тип 4 (гласный + -tä)",
+      "prompt_fi": "herätä", "prompt_ru": "какой это тип глагола?",
+      "options_ru": ["Тип 1", "Тип 2", "Тип 3", "Тип 4", "Тип 5", "Тип 6"],
+      "answer": 3,
+      "reasons_ru": {
+        "5": "Тип 6 — на *-eta/-etä* с основой *-ne-* (vanheta → vanhenen). У *herätä* основа *herää-* — это тип 4.",
+        "1": "Тип 2 — на *-da/-dä*, а здесь *-tä* после краткого ä: тип 4."
+      },
+      "ok_ru": "Верно! *herä-tä* — тип 4 (основа herää-).",
+      "correct_ru": "Правильный ответ — тип 4: основа *herää-*, как *herään*." },
+
+    { "id": "vt4-w3", "topic": "vt4", "stage": "warmup", "type": "choose_form", "needs_review": false, "review_ru": "основа без t (двойная гласная)",
+      "prompt_fi": "Minä ___ syödä.", "hint_ru": "Выберите форму глагола haluta",
+      "options": [
+        { "fi": "haluan" },
+        { "fi": "halutan", "why_ru": "*t* из инфинитива в основу не входит: *halua-* → *haluan*." },
+        { "fi": "halun", "why_ru": "Основа *halua-* (с двойной гласной): *haluan*, а не *halun*." },
+        { "fi": "haluaa", "why_ru": "*haluaa* — это hän. Для minä: *haluan*." }
+      ],
+      "answer": "haluan", "ok_ru": "Верно! Основа *halua-* + *-n* → *haluan* (t уходит)." },
+
+    { "id": "vt4-w4", "topic": "vt4", "stage": "warmup", "type": "choose_form", "needs_review": false, "review_ru": "hän — долгая гласная",
+      "prompt_fi": "Hän ___ kahvia.", "hint_ru": "Выберите форму глагола tilata",
+      "options": [
+        { "fi": "tilaa" },
+        { "fi": "tilataa", "why_ru": "*t* в основу не входит: *tilaa* (а не *tilataa*)." },
+        { "fi": "tilaan", "why_ru": "*tilaan* — это minä. Для hän: *tilaa*." },
+        { "fi": "tilata", "why_ru": "Это словарная форма (инфинитив)." }
+      ],
+      "answer": "tilaa", "ok_ru": "Верно! У hän долгая гласная: *tilaa* (t уходит)." },
+
+    { "id": "vt4-d1", "topic": "vt4", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "основа без t",
+      "prompt_fi": "haluta → minä", "hint_ru": "настоящее время",
+      "canonical": "halu[a]{n}", "accepted": ["haluan", "minä haluan"],
+      "wrong": [
+        { "match": "halutan", "ru": "*t* из инфинитива в основу не входит: *haluan*." },
+        { "match": "haluta", "ru": "Это инфинитив. Для minä: *haluan*." }
+      ],
+      "ok_ru": "Верно! Основа *halua-* + *-n* → *haluan*.", "near_ru": "Почти! Основа *halua-*: *haluan*." },
+
+    { "id": "vt4-d2", "topic": "vt4", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "hän — долгая гласная",
+      "prompt_fi": "tilata → hän", "hint_ru": "настоящее время",
+      "canonical": "tila[a]", "accepted": ["tilaa", "hän tilaa"],
+      "wrong": [
+        { "match": "tilataa", "ru": "*t* в основу не входит: *tilaa*." },
+        { "match": "tilaan", "ru": "*tilaan* — это minä. Для hän: *tilaa*." }
+      ],
+      "ok_ru": "Верно! У hän долгая гласная: *tilaa*.", "near_ru": "Почти! У hän: *tilaa*." },
+
+    { "id": "vt4-d3", "topic": "vt4", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "основа herää-",
+      "prompt_fi": "herätä → minä", "hint_ru": "настоящее время",
+      "canonical": "herä[ä]{n}", "accepted": ["herään", "minä herään"],
+      "wrong": [
+        { "match": "herätän", "ru": "*t* из инфинитива в основу не входит: *herään*." },
+        { "match": "heränen", "ru": "*herätä* — это тип 4, не тип 6. Основа *herää-* → *herään*." }
+      ],
+      "ok_ru": "Верно! Основа *herää-* + *-n* → *herään*.", "near_ru": "Почти! Основа *herää-*: *herään*." },
+
+    { "id": "vt4-d4", "topic": "vt4", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "тип 4 — основа без t",
+      "prompt_fi": "osata → me", "hint_ru": "настоящее время",
+      "canonical": "osa[a]{mme}", "accepted": ["osaamme", "me osaamme"],
+      "wrong": [
+        { "match": "osatamme", "ru": "*t* в основу не входит: *osaa-* → *osaamme*." },
+        { "match": "osamme", "ru": "Основа двойная *osaa-*: *osaamme*." }
+      ],
+      "ok_ru": "Верно! Основа *osaa-* + *-mme* → *osaamme*.", "near_ru": "Почти! Основа *osaa-*: *osaamme*." },
+
+    { "id": "vt4-d5", "topic": "vt4", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "he -vat (гармония a)",
+      "prompt_fi": "haluta → he", "hint_ru": "настоящее время",
+      "canonical": "halu[a]{vat}", "accepted": ["haluavat", "he haluavat"],
+      "wrong": [
+        { "match": "halutavat", "ru": "*t* в основу не входит: *halua-* → *haluavat*." },
+        { "match": "haluvat", "ru": "Основа *halua-* (с a): *haluavat*." }
+      ],
+      "ok_ru": "Верно! Основа *halua-* + *-vat* → *haluavat*.", "near_ru": "Почти! *haluavat*." },
+
+    { "id": "vt4-d6", "topic": "vt4", "stage": "drill", "type": "fill_table", "needs_review": false, "review_ru": "тип 4 — основа без t",
+      "prompt_fi": "haluta", "prompt_ru": "заполните все формы", "hint_ru": "основа halua- (t уходит)",
+      "cells": [
+        { "l": "minä", "canonical": "halu[a]{n}", "accepted": ["haluan"] },
+        { "l": "sinä", "canonical": "halu[a]{t}", "accepted": ["haluat"] },
+        { "l": "hän", "canonical": "halu[aa]", "accepted": ["haluaa"] },
+        { "l": "me", "canonical": "halu[a]{mme}", "accepted": ["haluamme"] },
+        { "l": "te", "canonical": "halu[a]{tte}", "accepted": ["haluatte"] },
+        { "l": "he", "canonical": "halu[a]{vat}", "accepted": ["haluavat"] }
+      ],
+      "summary_ru": "Тип 4: убираем *t*, основа кончается на гласную; у hän она долгая (*haluaa*)." },
+
+
+    { "id": "vt56-w1", "topic": "vt56", "stage": "warmup", "type": "classify", "needs_review": false, "review_ru": "тип 5 (-ita)",
+      "prompt_fi": "tarvita", "prompt_ru": "какой это тип глагола?",
+      "options_ru": ["Тип 1", "Тип 2", "Тип 3", "Тип 4", "Тип 5", "Тип 6"],
+      "answer": 4,
+      "reasons_ru": {
+        "3": "Тип 4 — гласный + *-ta* (haluta). У *tarvita* основа на *-tse-* (*tarvitsen*) — это тип 5.",
+        "5": "Тип 6 — на *-eta* с основой *-ne-* (vanheta). А здесь *-ita* → *-tse-*: тип 5."
+      },
+      "ok_ru": "Верно! *-ita* с основой *-tse-* — это тип 5.",
+      "correct_ru": "Правильный ответ — тип 5: *-ita → -tse-* (tarvita → tarvitsen)." },
+
+    { "id": "vt56-w2", "topic": "vt56", "stage": "warmup", "type": "classify", "needs_review": false, "review_ru": "тип 6 (-eta)",
+      "prompt_fi": "vanheta", "prompt_ru": "какой это тип глагола?",
+      "options_ru": ["Тип 1", "Тип 2", "Тип 3", "Тип 4", "Тип 5", "Тип 6"],
+      "answer": 5,
+      "reasons_ru": {
+        "4": "Тип 5 — на *-ita* с основой *-tse-* (tarvita). У *vanheta* основа на *-ne-* (*vanhenen*) — это тип 6.",
+        "3": "Тип 4 — гласный + *-ta* без -ne-. Здесь *-eta → -ne-*: тип 6."
+      },
+      "ok_ru": "Верно! *-eta* с основой *-ne-* — это тип 6.",
+      "correct_ru": "Правильный ответ — тип 6: *-eta → -ne-* (vanheta → vanhenen)." },
+
+    { "id": "vt56-w3", "topic": "vt56", "stage": "warmup", "type": "choose_form", "needs_review": false, "review_ru": "основа -tse- (тип 5)",
+      "prompt_fi": "Minä ___ rahaa.", "hint_ru": "Выберите форму глагола tarvita",
+      "options": [
+        { "fi": "tarvitsen" },
+        { "fi": "tarvin", "why_ru": "Основа типа 5 на *-tse-*: *tarvitse-* → *tarvitsen*." },
+        { "fi": "tarvitan", "why_ru": "Это не тип 4: основа *tarvitse-* → *tarvitsen*, а не *tarvitan*." },
+        { "fi": "tarvitsee", "why_ru": "*tarvitsee* — это hän. Для minä: *tarvitsen*." }
+      ],
+      "answer": "tarvitsen", "ok_ru": "Верно! Основа *tarvitse-* + *-n* → *tarvitsen*." },
+
+    { "id": "vt56-w4", "topic": "vt56", "stage": "warmup", "type": "choose_form", "needs_review": false, "review_ru": "основа -ne- (тип 6)",
+      "prompt_fi": "Minä ___ joka vuosi.", "hint_ru": "Выберите форму глагола vanheta",
+      "options": [
+        { "fi": "vanhenen" },
+        { "fi": "vanhetan", "why_ru": "Основа типа 6 на *-ne-*: *vanhene-* → *vanhenen*, а не *vanhetan*." },
+        { "fi": "vanhen", "why_ru": "Основа *vanhene-*: нужно *vanhenen*." },
+        { "fi": "vanhenee", "why_ru": "*vanhenee* — это hän. Для minä: *vanhenen*." }
+      ],
+      "answer": "vanhenen", "ok_ru": "Верно! Основа *vanhene-* + *-n* → *vanhenen*." },
+
+    { "id": "vt56-d1", "topic": "vt56", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "основа -tse- (тип 5)",
+      "prompt_fi": "tarvita → minä", "hint_ru": "настоящее время (основа tarvitse-)",
+      "canonical": "tarvi[tse]{n}", "accepted": ["tarvitsen", "minä tarvitsen"],
+      "wrong": [
+        { "match": "tarvitan", "ru": "Тип 5: основа на *-tse-* → *tarvitsen* (не *tarvitan*)." },
+        { "match": "tarvita", "ru": "Это инфинитив. Для minä: *tarvitsen*." }
+      ],
+      "ok_ru": "Верно! Основа *tarvitse-* + *-n* → *tarvitsen*.", "near_ru": "Почти! Основа *tarvitse-*: *tarvitsen*." },
+
+    { "id": "vt56-d2", "topic": "vt56", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "тип 5 — hän + e",
+      "prompt_fi": "tarvita → hän", "hint_ru": "настоящее время",
+      "canonical": "tarvi[tse]{e}", "accepted": ["tarvitsee", "hän tarvitsee"],
+      "wrong": [
+        { "match": "tarvitse", "ru": "У hän добавляется *-e*: *tarvitsee*." },
+        { "match": "tarvitsen", "ru": "*tarvitsen* — это minä. Для hän: *tarvitsee*." }
+      ],
+      "ok_ru": "Верно! У hän: *tarvitsee*.", "near_ru": "Почти! У hän: *tarvitsee*." },
+
+    { "id": "vt56-d3", "topic": "vt56", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "основа -ne- (тип 6)",
+      "prompt_fi": "vanheta → minä", "hint_ru": "настоящее время (основа vanhene-)",
+      "canonical": "vanhe[ne]{n}", "accepted": ["vanhenen", "minä vanhenen"],
+      "wrong": [
+        { "match": "vanhetan", "ru": "Тип 6: основа на *-ne-* → *vanhenen* (не *vanhetan*)." },
+        { "match": "vanheta", "ru": "Это инфинитив. Для minä: *vanhenen*." }
+      ],
+      "ok_ru": "Верно! Основа *vanhene-* + *-n* → *vanhenen*.", "near_ru": "Почти! Основа *vanhene-*: *vanhenen*." },
+
+    { "id": "vt56-d4", "topic": "vt56", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "тип 6 — hän",
+      "prompt_fi": "vanheta → hän", "hint_ru": "настоящее время",
+      "canonical": "vanhe[ne]{e}", "accepted": ["vanhenee", "hän vanhenee"],
+      "wrong": [
+        { "match": "vanhene", "ru": "У hän добавляется *-e*: *vanhenee*." },
+        { "match": "vanhenen", "ru": "*vanhenen* — это minä. Для hän: *vanhenee*." }
+      ],
+      "ok_ru": "Верно! У hän: *vanhenee*.", "near_ru": "Почти! У hän: *vanhenee*." },
+
+    { "id": "vt56-d5", "topic": "vt56", "stage": "drill", "type": "fill_table", "needs_review": false, "review_ru": "основа -tse- (тип 5)",
+      "prompt_fi": "tarvita", "prompt_ru": "заполните все формы", "hint_ru": "основа tarvitse-",
+      "cells": [
+        { "l": "minä", "canonical": "tarvi[tse]{n}", "accepted": ["tarvitsen"] },
+        { "l": "sinä", "canonical": "tarvi[tse]{t}", "accepted": ["tarvitset"] },
+        { "l": "hän", "canonical": "tarvi[tse]{e}", "accepted": ["tarvitsee"] },
+        { "l": "me", "canonical": "tarvi[tse]{mme}", "accepted": ["tarvitsemme"] },
+        { "l": "te", "canonical": "tarvi[tse]{tte}", "accepted": ["tarvitsette"] },
+        { "l": "he", "canonical": "tarvi[tse]{vat}", "accepted": ["tarvitsevat"] }
+      ],
+      "summary_ru": "Тип 5: основа на *-tse-* во всех лицах (*tarvitsen, tarvitsee*)." },
+
+
+    { "id": "negation-w1", "topic": "negation", "stage": "warmup", "type": "choose_form", "needs_review": false, "review_ru": "ei спрягается (en для я)",
+      "prompt_fi": "___ puhu suomea. (я)", "hint_ru": "Выберите отрицание для «я»",
+      "options": [
+        { "fi": "en" },
+        { "fi": "ei", "why_ru": "*ei* — отрицание для hän. Для «я» — *en*." },
+        { "fi": "et", "why_ru": "*et* — отрицание для sinä (ты). Для «я» — *en*." },
+        { "fi": "emme", "why_ru": "*emme* — отрицание для me (мы)." }
+      ],
+      "answer": "en", "ok_ru": "Верно! Для «я» отрицание — *en*: en puhu." },
+
+    { "id": "negation-w2", "topic": "negation", "stage": "warmup", "type": "choose_form", "needs_review": false, "review_ru": "коннегатив без -n",
+      "prompt_fi": "En ___ suomea.", "hint_ru": "Выберите форму глагола puhua после en",
+      "options": [
+        { "fi": "puhu" },
+        { "fi": "puhun", "why_ru": "После *en* глагол теряет окончание *-n*: *en puhu*, а не *en puhun*." },
+        { "fi": "puhuu", "why_ru": "*puhuu* — это hän. После en — коннегатив *puhu*." },
+        { "fi": "puhua", "why_ru": "Это инфинитив. После en — коннегатив *puhu*." }
+      ],
+      "answer": "puhu", "ok_ru": "Верно! После en — коннегатив без окончания: *puhu*." },
+
+    { "id": "negation-w3", "topic": "negation", "stage": "warmup", "type": "choose_form", "needs_review": false, "review_ru": "ei спрягается (ei для hän)",
+      "prompt_fi": "Hän ___ asu täällä.", "hint_ru": "Выберите отрицание для «он/она»",
+      "options": [
+        { "fi": "ei" },
+        { "fi": "en", "why_ru": "*en* — для «я». Для hän — *ei*." },
+        { "fi": "et", "why_ru": "*et* — для «ты». Для hän — *ei*." },
+        { "fi": "eivät", "why_ru": "*eivät* — для he (они). hän — один: *ei*." }
+      ],
+      "answer": "ei", "ok_ru": "Верно! Для hän отрицание — *ei*: hän ei asu." },
+
+    { "id": "negation-w4", "topic": "negation", "stage": "warmup", "type": "choose_form", "needs_review": false, "review_ru": "ei спрягается (emme для мы)",
+      "prompt_fi": "Me ___ syö lihaa.", "hint_ru": "Выберите отрицание для «мы»",
+      "options": [
+        { "fi": "emme" },
+        { "fi": "ette", "why_ru": "*ette* — для te (вы). Для «мы» — *emme*." },
+        { "fi": "eivät", "why_ru": "*eivät* — для he (они)." },
+        { "fi": "ei", "why_ru": "*ei* — для hän (один). Для «мы» — *emme*." }
+      ],
+      "answer": "emme", "ok_ru": "Верно! Для «мы» отрицание — *emme*: emme syö." },
+
+    { "id": "negation-d1", "topic": "negation", "stage": "drill", "type": "transform", "needs_review": false, "review_ru": "ei спрягается / коннегатив",
+      "prompt_fi": "Puhun suomea.", "prompt_ru": "сделайте отрицание",
+      "canonical": "{En} puhu suomea.", "accepted": ["en puhu suomea", "minä en puhu suomea"],
+      "wrong": [
+        { "match": "ei puhu suomea", "ru": "Для «я» отрицание — *en*. *ei* — форма для hän." },
+        { "match": "en puhun suomea", "ru": "После *en* глагол теряет окончание *-n*: *en puhu*." }
+      ],
+      "ok_ru": "Верно! *en* + коннегатив *puhu*." },
+
+    { "id": "negation-d2", "topic": "negation", "stage": "drill", "type": "transform", "needs_review": false, "review_ru": "ei спрягается (et для ты)",
+      "prompt_fi": "Asut Helsingissä.", "prompt_ru": "сделайте отрицание (ты)",
+      "canonical": "{Et} asu Helsingissä.", "accepted": ["et asu helsingissä", "sinä et asu helsingissä"],
+      "wrong": [
+        { "match": "ei asu helsingissä", "ru": "Для «ты» отрицание — *et*. *ei* — форма для hän." },
+        { "match": "et asut helsingissä", "ru": "После *et* глагол теряет окончание *-t*: *et asu*." }
+      ],
+      "ok_ru": "Верно! *et* + коннегатив *asu*." },
+
+    { "id": "negation-d3", "topic": "negation", "stage": "drill", "type": "transform", "needs_review": false, "review_ru": "ei спрягается (ei для hän)",
+      "prompt_fi": "Hän juo kahvia.", "prompt_ru": "сделайте отрицание",
+      "canonical": "Hän {ei} juo kahvia.", "accepted": ["hän ei juo kahvia"],
+      "wrong": [
+        { "match": "hän en juo kahvia", "ru": "Для hän отрицание — *ei*, а не *en* (это для «я»)." },
+        { "match": "hän ei juon kahvia", "ru": "После *ei* глагол теряет окончание *-n*: *ei juo*." }
+      ],
+      "ok_ru": "Верно! hän + *ei* + коннегатив *juo*." },
+
+    { "id": "negation-d4", "topic": "negation", "stage": "drill", "type": "transform", "needs_review": false, "review_ru": "ei спрягается (emme для мы)",
+      "prompt_fi": "Menemme kauppaan.", "prompt_ru": "сделайте отрицание (мы)",
+      "canonical": "{Emme} mene kauppaan.", "accepted": ["emme mene kauppaan", "me emme mene kauppaan"],
+      "wrong": [
+        { "match": "ei mene kauppaan", "ru": "Для «мы» отрицание — *emme*, а не *ei*." },
+        { "match": "emme menemme kauppaan", "ru": "После *emme* глагол теряет окончание: коннегатив *mene*." }
+      ],
+      "ok_ru": "Верно! *emme* + коннегатив *mene*." },
+
+    { "id": "negation-d5", "topic": "negation", "stage": "drill", "type": "transform", "needs_review": false, "review_ru": "ei спрягается (eivät для они)",
+      "prompt_fi": "He asuvat täällä.", "prompt_ru": "сделайте отрицание",
+      "canonical": "He {eivät} asu täällä.", "accepted": ["he eivät asu täällä"],
+      "wrong": [
+        { "match": "he ei asu täällä", "ru": "Для he (они) отрицание — *eivät*, а не *ei*." },
+        { "match": "he eivät asuvat täällä", "ru": "После *eivät* глагол теряет окончание: коннегатив *asu*." }
+      ],
+      "ok_ru": "Верно! *eivät* + коннегатив *asu*." },
+
+    { "id": "negation-d6", "topic": "negation", "stage": "drill", "type": "produce_form", "needs_review": false, "review_ru": "коннегатив = основа",
+      "prompt_fi": "lukea → коннегатив (после en)", "hint_ru": "форма после en/et/ei…",
+      "canonical": "lue", "accepted": ["lue", "en lue"],
+      "wrong": [
+        { "match": "luen", "ru": "Коннегатив — без окончания *-n*: *en lue* (не *en luen*)." },
+        { "match": "lukea", "ru": "Коннегатив — это основа без d/окончания: *lue*." }
+      ],
+      "ok_ru": "Верно! Коннегатив *lukea* — это *lue* (en lue).", "near_ru": "Почти! Коннегатив — *lue*." }
+
+  ]
+}

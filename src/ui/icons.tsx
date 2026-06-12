@@ -99,6 +99,13 @@ const PATHS: Record<string, ReactElement> = {
       <path d="M8 10V7a4 4 0 0 1 8 0v3" />
     </>
   ),
+  lockOpen: (
+    <>
+      <rect x="4.5" y="10" width="15" height="10" rx="2.2" />
+      <path d="M8 10V7a4 4 0 0 1 7.6-1.7" />
+    </>
+  ),
+  x: <path d="M6 6l12 12M18 6 6 18" />,
   // --- Progress/Metrics/Levels redesign set (mode glyphs + chrome, from kit.jsx / ModeIcon) ---
   pen: (
     <>

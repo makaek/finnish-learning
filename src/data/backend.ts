@@ -140,7 +140,8 @@ function isItemProgress(value: unknown): value is ItemProgress {
       v.kind === "listen_word" ||
       v.kind === "listen_sentence" ||
       v.kind === "reading" ||
-      v.kind === "recite") &&
+      v.kind === "recite" ||
+      v.kind === "grammar") &&
     typeof v.itemId === "string" &&
     typeof v.box === "number" &&
     v.box >= MIN_BOX &&

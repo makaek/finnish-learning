@@ -20,6 +20,7 @@ import {
   type VocabLike,
 } from "../core/levels";
 import { computeBalance, type ModeInput } from "../core/balance";
+import { grammarStats, weakestTopic, type GrammarContent } from "../core/grammar";
 import { cefrProgress, cefrOfLevel, CEFR_ORDER, cefrBandSizes } from "../core/curriculum";
 import { bandName } from "../data/levelTitles";
 import CefrMeter, { type CefrBand, type CefrState } from "./CefrMeter";
@@ -88,6 +89,8 @@ interface RoadmapProps {
   sentences: readonly SentenceLike[];
   /** Reading texts/dialogs (levelled) — folded into level completion AND the Чтение home cards. */
   texts: readonly ReadingLike[];
+  /** Grammar-mode curriculum (empty topics ⇒ no gram spoke / action card). */
+  grammar: GrammarContent;
   progress: ProgressMap;
   daily: UserState;
   /** Items hidden from lessons — excluded from the per-mode readiness pools. */
@@ -104,6 +107,8 @@ interface RoadmapProps {
   onStart: (mode: Mode) => void;
   /** Open the reading library, filtered to texts or dialogs. */
   onOpenReading: (type: "text" | "dialog") => void;
+  /** Open the grammar topic map (optionally deep-linked into a topic's lesson). */
+  onOpenGrammar: (topicId?: string) => void;
   /** Open the Метрики screen (the streak strip taps through to it). */
   onShowStats: () => void;
   /** Test-mode only: mark everything mastered, to exercise unlocks without grinding. */
@@ -114,6 +119,7 @@ export default function Roadmap({
   vocab,
   sentences,
   texts,
+  grammar,
   progress,
   daily,
   hidden,
@@ -125,6 +131,7 @@ export default function Roadmap({
   onChangeLang,
   onStart,
   onOpenReading,
+  onOpenGrammar,
   onShowStats,
   onTestFill,
 }: RoadmapProps) {
@@ -224,9 +231,16 @@ export default function Roadmap({
     "read:dialog": finish.dialog,
   };
 
+  // Grammar rollup: the 10th spoke + the full-width action card. NOT part of computeBalance —
+  // grammar has its own prereq tree (no levels), so it shows on the ring but does not gate the
+  // level or compete for the «Слабое звено» card.
+  const gram = useMemo(() => grammarStats(grammar.topics, progress), [grammar.topics, progress]);
+  const gramWeak = useMemo(() => weakestTopic(grammar.topics, progress), [grammar.topics, progress]);
+
   // Ring spokes for the redesigned BalanceRing: fixed-orbit chips whose fill = mastery and badge =
   // items left. Built from the balance cells (ordered words→sent→read, so the group arcs are
   // contiguous); `remaining` uses the same hidden/eligibility-filtered counts the badges need.
+  // The grammar spoke (diamond, --gram hue) is appended last; its badge counts startable topics.
   const ringModes: RingMode[] = balance.cells.map((c) => ({
     group: c.group,
     id: c.id,
@@ -236,6 +250,16 @@ export default function Roadmap({
     remaining: ringLeft[c.id] ?? Math.max(0, c.total - c.mastered),
     locked: locked.has(c.id),
   }));
+  if (gram.total > 0) {
+    ringModes.push({
+      group: "gram",
+      id: "grammar",
+      label: "Грамматика",
+      icon: "pen",
+      mastery: gram.mastery,
+      remaining: gram.remaining,
+    });
+  }
 
   // CEFR meter state: the band + level-in-band from the gated current level, and a current-cell %
   // = how far the active level is toward advancing (reads ~100% right as the level rolls over).
@@ -254,6 +278,7 @@ export default function Roadmap({
   const startById = (id: string) => {
     if (id === "read:text") return onOpenReading("text");
     if (id === "read:dialog") return onOpenReading("dialog");
+    if (id === "grammar") return onOpenGrammar();
     return onStart(id as Mode);
   };
 
@@ -382,8 +407,36 @@ export default function Roadmap({
       {/* Ring card — the fixed-orbit balance ring (fills the card) + the group/shape legend. */}
       <div className="ringcard">
         <BalanceRing level={active} modes={ringModes} shapes onPick={startById} />
-        <RingLegend shapes />
+        <RingLegend
+          shapes
+          groups={gram.total > 0 ? ["words", "sent", "read", "gram"] : ["words", "sent", "read"]}
+        />
       </div>
+
+      {/* Грамматика — full-width action card deep-linking into the weakest topic's lesson. */}
+      {gram.total > 0 && (
+        <button
+          type="button"
+          className="ctacard ctacard--gram ctacard--row"
+          onClick={() => onOpenGrammar(gramWeak?.id)}
+        >
+          <span className="ctacard__tile" aria-hidden="true">
+            <UiIcon name="pen" size={21} strokeWidth={1.85} />
+          </span>
+          <span className="ctacard__main">
+            <span className="ctacard__kicker">Грамматика</span>
+            <span className="ctacard__title">
+              {gramWeak ? `Слабая тема: ${gramWeak.title}` : "Все темы освоены"}
+            </span>
+            <span className="ctacard__sub">
+              {gramWeak ? "3–5 мин · продолжить урок" : "открыть карту тем"}
+            </span>
+          </span>
+          <span className="ctacard__play" aria-hidden="true">
+            <UiIcon name="play" size={15} strokeWidth={2.4} />
+          </span>
+        </button>
+      )}
 
       {/* Two equal action cards: Слабое звено (gently leads via warm colour) + Микс. */}
       {(weak || mixLeft > 0) && (

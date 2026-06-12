@@ -25,9 +25,11 @@
  * same in both themes.
  */
 
-export type IconName = "eye" | "keyboard" | "mic" | "phones" | "book" | "masks" | "check" | "lock";
-export type BalanceGroup = "words" | "sent" | "read";
-export type ChipShape = "circle" | "square" | "hex";
+import type { CSSProperties } from "react";
+
+export type IconName = "eye" | "keyboard" | "mic" | "phones" | "book" | "masks" | "check" | "lock" | "pen";
+export type BalanceGroup = "words" | "sent" | "read" | "gram";
+export type ChipShape = "circle" | "square" | "hex" | "diamond";
 
 /** One mode on the ring. Map from your readiness output (mastery = mastered/total). */
 export interface RingMode {
@@ -55,6 +57,7 @@ const ICONS: Record<IconName, JSX.Element> = {
   masks: (<><path d="M3.5 5h8v6a4 4 0 0 1-8 0V5Z" /><path d="M12.5 9h8v6a4 4 0 0 1-8 0" /><path d="M5.5 8.5h1M8.5 8.5h1M14.5 12h1M17.5 12h1" /></>),
   check: (<><path d="M4 12.5 9.5 18 20 6" /></>),
   lock: (<><rect x="5" y="11" width="14" height="9" rx="2" /><path d="M8 11V7.5a4 4 0 0 1 8 0V11" /></>),
+  pen: (<><path d="M12 20h9" /><path d="M16.6 3.6a2.1 2.1 0 0 1 3 3L7 19.2 3 20l.8-4Z" /></>),
 };
 
 /** Standalone monoline mode icon (reused by the home's «слабое звено» card). */
@@ -74,10 +77,22 @@ const COL = {
   track: "var(--surface-2)", green: "#3B9C6E", red: "#CE6A57", blue: "#3B68C9",
   goldSoft: "#F6EEDC",
 };
-const GROUP_HUE: Record<BalanceGroup, string> = { words: "#5B53C6", sent: "#1B8E84", read: "#BB6A39" };
-const GROUP_SOFT: Record<BalanceGroup, string> = { words: "#ECEBFA", sent: "#E3F1EF", read: "#F6EBE1" };
-const GROUP_LABEL: Record<BalanceGroup, string> = { words: "Слова", sent: "Предложения", read: "Чтение" };
-const GROUP_SHAPE: Record<BalanceGroup, ChipShape> = { words: "circle", sent: "square", read: "hex" };
+/* The gram hue is the THEME TOKEN (light/dark-aware), so it's applied via style=… (CSS vars
+ * don't resolve inside SVG presentation attributes — every group colour below goes through
+ * style for the same reason). The other three stay literal per the original handoff. */
+const GROUP_HUE: Record<BalanceGroup, string> = {
+  words: "#5B53C6", sent: "#1B8E84", read: "#BB6A39", gram: "var(--gram)",
+};
+const GROUP_SOFT: Record<BalanceGroup, string> = {
+  words: "#ECEBFA", sent: "#E3F1EF", read: "#F6EBE1",
+  gram: "color-mix(in srgb, var(--gram) 13%, var(--card))",
+};
+const GROUP_LABEL: Record<BalanceGroup, string> = {
+  words: "Слова", sent: "Предложения", read: "Чтение", gram: "Грамматика",
+};
+const GROUP_SHAPE: Record<BalanceGroup, ChipShape> = {
+  words: "circle", sent: "square", read: "hex", gram: "diamond",
+};
 const WEAK_SOFT = "#FBEDEA";
 
 /* ================================================================== geometry
@@ -100,15 +115,21 @@ function arcPath(r: number, a0: number, a1: number): string {
 }
 const fillR = (m: number) => T0 + Math.max(0, Math.min(1, m)) * (T1 - T0);
 
-/** circle | rounded-square | hexagon centred at (x,y), circum-radius r. */
+/** circle | rounded-square | hexagon | diamond centred at (x,y), circum-radius r.
+ *  Colours go through style so CSS vars / color-mix resolve (gram group). */
 function ChipShapeEl({ shape, x, y, r, fill, stroke, strokeWidth, opacity }: {
   shape: ChipShape; x: number; y: number; r: number;
   fill: string; stroke?: string; strokeWidth?: number; opacity?: number;
 }) {
-  const common = { fill, stroke, strokeWidth, opacity };
+  const common = { style: { fill, stroke } as CSSProperties, strokeWidth, opacity };
   if (shape === "square") {
     const s = r * 1.62, rx = r * 0.42;
     return <rect x={x - s / 2} y={y - s / 2} width={s} height={s} rx={rx} {...common} />;
+  }
+  if (shape === "diamond") {
+    const s = r * 1.52, rx = r * 0.34;
+    return <rect x={x - s / 2} y={y - s / 2} width={s} height={s} rx={rx}
+      transform={`rotate(45 ${x} ${y})`} {...common} />;
   }
   if (shape === "hex") {
     const pts = Array.from({ length: 6 }, (_, i) => {
@@ -139,7 +160,7 @@ export default function BalanceRing({ level, modes, shapes = true, onPick }: {
       {/* group arcs */}
       {[...spans.entries()].map(([g, [a, b]]) => {
         const a0 = -90 + a * step - step / 2 + 5, a1 = -90 + b * step + step / 2 - 5;
-        return <path key={g} d={arcPath(ARC_R, a0, a1)} stroke={GROUP_HUE[g]} strokeWidth={4} fill="none" strokeLinecap="round" opacity={0.92} />;
+        return <path key={g} d={arcPath(ARC_R, a0, a1)} style={{ stroke: GROUP_HUE[g] }} strokeWidth={4} fill="none" strokeLinecap="round" opacity={0.92} />;
       })}
 
       {/* spokes: faint full track + group-hued mastery fill (locked = dimmed, never weak-red) */}
@@ -150,8 +171,8 @@ export default function BalanceRing({ level, modes, shapes = true, onPick }: {
         const col = weak ? COL.red : GROUP_HUE[m.group];
         return (
           <g key={`sp${i}`} opacity={m.locked ? 0.45 : undefined}>
-            <line x1={tx0} y1={ty0} x2={tx1} y2={ty1} stroke={COL.track} strokeWidth={9} strokeLinecap="round" />
-            {m.mastery > 0.001 && <line x1={tx0} y1={ty0} x2={fx} y2={fy} stroke={col} strokeWidth={9} strokeLinecap="round" opacity={weak ? 1 : 0.92} />}
+            <line x1={tx0} y1={ty0} x2={tx1} y2={ty1} style={{ stroke: COL.track }} strokeWidth={9} strokeLinecap="round" />
+            {m.mastery > 0.001 && <line x1={tx0} y1={ty0} x2={fx} y2={fy} style={{ stroke: col }} strokeWidth={9} strokeLinecap="round" opacity={weak ? 1 : 0.92} />}
           </g>
         );
       })}
@@ -182,7 +203,7 @@ export default function BalanceRing({ level, modes, shapes = true, onPick }: {
             {weak && <ChipShapeEl shape={shape} x={x} y={y} r={r + 6} fill="none" stroke={col} strokeWidth={2.2} opacity={0.4} />}
             <ChipShapeEl shape={shape} x={x} y={y} r={r} fill={soft} stroke={col} strokeWidth={2.4} />
             <svg x={x - isz / 2} y={y - isz / 2} width={isz} height={isz} viewBox="0 0 24 24" fill="none"
-              stroke={col} strokeWidth={1.9} strokeLinecap="round" strokeLinejoin="round">{ICONS[m.icon]}</svg>
+              style={{ stroke: col }} strokeWidth={1.9} strokeLinecap="round" strokeLinejoin="round">{ICONS[m.icon]}</svg>
             {m.locked ? (
               /* lock badge replaces the count — neutral grey, same rim geometry */
               <g>
@@ -215,8 +236,11 @@ export default function BalanceRing({ level, modes, shapes = true, onPick }: {
 
 /* ============================================================ shapes legend
  * Renders the group→shape→colour key under the ring. */
-export function RingLegend({ shapes = true }: { shapes?: boolean }) {
-  const groups: BalanceGroup[] = ["words", "sent", "read"];
+export function RingLegend({ shapes = true, groups = ["words", "sent", "read"] }: {
+  shapes?: boolean;
+  /** Which groups to show (pass the groups actually on the ring, e.g. + "gram"). */
+  groups?: BalanceGroup[];
+}) {
   return (
     <div style={{ display: "flex", justifyContent: "center", gap: 18, flexWrap: "wrap", marginTop: 6 }}>
       {groups.map((g) => (
@@ -230,8 +254,9 @@ export function RingLegend({ shapes = true }: { shapes?: boolean }) {
 function LegendSwatch({ group, shapes }: { group: BalanceGroup; shapes: boolean }) {
   const c = GROUP_HUE[group];
   if (shapes && GROUP_SHAPE[group] === "square") return <span style={{ width: 12, height: 12, borderRadius: 3, background: c, display: "inline-block" }} />;
+  if (shapes && GROUP_SHAPE[group] === "diamond") return <span style={{ width: 10, height: 10, borderRadius: 2.5, background: c, display: "inline-block", transform: "rotate(45deg)" }} />;
   if (shapes && GROUP_SHAPE[group] === "hex") return (
-    <svg width={15} height={15} viewBox="0 0 12 12"><polygon points="6,0.4 11,3.2 11,8.8 6,11.6 1,8.8 1,3.2" fill={c} /></svg>
+    <svg width={15} height={15} viewBox="0 0 12 12"><polygon points="6,0.4 11,3.2 11,8.8 6,11.6 1,8.8 1,3.2" style={{ fill: c }} /></svg>
   );
   return <span style={{ width: 12, height: 12, borderRadius: 999, background: c, display: "inline-block" }} />;
 }

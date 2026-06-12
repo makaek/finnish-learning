@@ -13,6 +13,7 @@ import type { VocabItem } from "../../core/dictionary";
 import type { SentenceItem, Pronouns } from "../../core/grader";
 import type { ReadingText } from "../../core/reading";
 import type { RuleItem } from "../../core/rules";
+import type { GrammarContent } from "../../core/grammar";
 import type { Grade } from "../../core/grader.contract";
 import type { LevelTitle } from "../../core/levelTitles";
 import type { Cefr } from "../../core/curriculum";
@@ -36,6 +37,8 @@ export interface LanguagePack {
   sentences: SentenceItem[];
   texts: ReadingText[];
   rules: RuleItem[];
+  /** Grammar-mode curriculum (empty content where the language has no grammar lessons yet). */
+  grammar: GrammarContent;
   /** Sentence-builder grader (precomputed O(1) lookup index). */
   grade: Grade;
   /** Reading-comprehension grader (same shape, over the texts' questions). */

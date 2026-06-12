@@ -63,6 +63,8 @@ export const enPack: LanguagePack = {
   sentences,
   texts,
   rules,
+  // No grammar lessons authored for English yet — the mode simply doesn't surface.
+  grammar: { modules: [], topics: [], items: [] },
   grade,
   gradeQuestion,
   pronouns: NO_PRONOUNS,

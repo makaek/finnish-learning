@@ -8,12 +8,13 @@
 
 import { UiIcon, type UiIconName } from "./icons";
 
-// "reading" and "levels" are valid home screens but intentionally have NO footer tab — each is
-// opened from another screen (reading from the home "Чтение" cards, levels from the Метрики hero)
-// and exits via its own back button, so while either is active no tab is highlighted (by design).
-// The standalone «Прогресс» screen was removed — its per-item progress now lives on each level page
-// (Метрики → Уровни). The remaining three values each map to a tab below.
-export type HomeScreen = "roadmap" | "reading" | "rules" | "dashboard" | "levels";
+// "reading", "levels" and "grammar" are valid home screens but intentionally have NO footer tab —
+// each is opened from another screen (reading from the home "Чтение" cards, levels from the
+// Метрики hero, grammar from the home ring/card) and exits via its own back button, so while any
+// is active no tab is highlighted (by design). The standalone «Прогресс» screen was removed — its
+// per-item progress now lives on each level page (Метрики → Уровни). The remaining three values
+// each map to a tab below.
+export type HomeScreen = "roadmap" | "reading" | "rules" | "dashboard" | "levels" | "grammar";
 
 // Icons are monoline SVGs (UiIcon), matching the home/reading design system — no emoji.
 const TABS: { key: HomeScreen; icon: UiIconName; label: string }[] = [

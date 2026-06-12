@@ -14,6 +14,7 @@
  * "say_sentence", and dictation "listen_sentence" tracks; a reading text/dialog has one
  * "reading" track recording comprehension-quiz mastery, plus a "recite" track recording
  * by-memory recitation (one record per role, plus an aggregate when every role is done).
+ * Grammar lessons record one "grammar" record per TOPIC (not per item) — see core/grammar.ts.
  */
 export type ItemKind =
   | "recognition"
@@ -24,7 +25,8 @@ export type ItemKind =
   | "listen_word"
   | "listen_sentence"
   | "reading"
-  | "recite";
+  | "recite"
+  | "grammar";
 
 /** Lowest / highest Leitner box. Box 0 = brand new / just missed; MAX_BOX = mastered. */
 export const MIN_BOX = 0;

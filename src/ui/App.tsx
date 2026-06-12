@@ -43,6 +43,8 @@ import {
   type ProgressMap,
 } from "../core/progress";
 import { reciteRoleDone, reciteRoleId, reciteRoles } from "../core/reading";
+import { applyLessonOutcome, newlyUnlocked, GRAMMAR_KIND } from "../core/grammar";
+import { cefrOfLevel } from "../core/curriculum";
 import {
   loadProgress,
   loadState,
@@ -61,6 +63,7 @@ import Dashboard from "./Dashboard";
 import Levels from "./Levels";
 import RulesBook from "./RulesBook";
 import Reading from "./Reading";
+import Grammar, { type GrammarLessonRecord } from "./Grammar";
 import BottomNav, { type HomeScreen } from "./BottomNav";
 import { UiIcon } from "./icons";
 import RecognitionCard from "./RecognitionCard";
@@ -98,6 +101,9 @@ export default function App() {
   const [homeScreen, setHomeScreen] = useState<HomeScreen>("roadmap");
   // When the reading library is open, which kind it shows (set by the home "Чтение" cards).
   const [readingFilter, setReadingFilter] = useState<"text" | "dialog">("text");
+  // When grammar is opened from the home action card, the topic whose lesson to deep-link into
+  // (undefined = open the topic map). Keyed per open, so re-entering resets the deep link.
+  const [grammarTopic, setGrammarTopic] = useState<string | undefined>(undefined);
   // In-lesson grammar overlay: open over the current card, highlighting the relevant rules.
   const [rulesOpen, setRulesOpen] = useState(false);
   const [seed, setSeed] = useState(() => Date.now());
@@ -686,6 +692,27 @@ export default function App() {
     return recognition.length;
   }
 
+  /**
+   * Record a finished grammar lesson on the topic's single `grammar` record (one record per
+   * TOPIC — the lesson score folds into the Leitner box via {@link applyLessonOutcome}) and
+   * count it toward today's goal, like a reading role-play. Returns the before/after records
+   * plus any topics the run unlocked, which the summary screen renders. Persisted
+   * (fire-and-forget).
+   */
+  function recordGrammarLesson(topicId: string, score: number, total: number): GrammarLessonRecord {
+    const before = new Map(progressRef.current);
+    const prev = getProgress(progressRef.current, GRAMMAR_KIND, topicId);
+    const after = applyLessonOutcome(prev, score, total, Date.now());
+    progressRef.current.set(progressKey(GRAMMAR_KIND, topicId), after);
+    setProgressView(new Map(progressRef.current));
+    void saveProgress([after]);
+    const nextDaily = completeLesson(dailyRef.current, dateKey());
+    dailyRef.current = nextDaily;
+    setDailyView(nextDaily);
+    void saveState(nextDaily);
+    return { before: prev, after, unlocked: newlyUnlocked(pack.grammar.topics, before, progressRef.current) };
+  }
+
   /** Reading: count a finished role-play as one lesson (no answer → accuracy untouched). */
   function countReadingLesson() {
     const next = completeLesson(dailyRef.current, dateKey());
@@ -863,6 +890,20 @@ export default function App() {
           onBack={() => setHomeScreen("roadmap")}
         />
       );
+    } else if (homeScreen === "grammar") {
+      // CEFR chip for the map header — the band of the gated current level (already "A1.2"-style).
+      const gLevel = masteringLevelGated(pack.vocab, pack.sentences, pack.texts, progressView);
+      screen = (
+        <Grammar
+          content={pack.grammar}
+          rules={pack.rules}
+          progress={progressView}
+          cefr={cefrOfLevel(gLevel)}
+          initialTopicId={grammarTopic}
+          onBack={() => setHomeScreen("roadmap")}
+          onLessonDone={recordGrammarLesson}
+        />
+      );
     } else if (homeScreen === "rules") {
       screen = <RulesBook rules={pack.rules} />;
     } else if (homeScreen === "dashboard") {
@@ -906,6 +947,7 @@ export default function App() {
           vocab={pack.vocab}
           sentences={pack.sentences}
           texts={pack.texts}
+          grammar={pack.grammar}
           progress={progressView}
           daily={dailyView}
           hidden={hidden}
@@ -919,6 +961,10 @@ export default function App() {
           onOpenReading={(type) => {
             setReadingFilter(type);
             setHomeScreen("reading");
+          }}
+          onOpenGrammar={(topicId) => {
+            setGrammarTopic(topicId);
+            setHomeScreen("grammar");
           }}
           onTestFill={fillAllMastered}
           onShowStats={() => setHomeScreen("dashboard")}

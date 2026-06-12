@@ -1,0 +1,853 @@
+/* grammar.css — «Грамматика» mode. Extends app/app.css with a gram-* namespace.
+   One new mode hue --gram (tweakable from the Tweaks panel); every derived tint
+   is composed via color-mix so the whole mode re-colours from a single token. */
+
+:root {
+  --gram: #a8487f; /* «ягода» — default; the Tweaks panel overrides this */
+  --gram-deep: color-mix(in srgb, var(--gram) 82%, #2d2733);
+  --gram-soft: color-mix(in srgb, var(--gram) 10%, var(--card));
+  --gram-line: color-mix(in srgb, var(--gram) 28%, var(--border));
+  --gram-wash: color-mix(in srgb, var(--gram) 18%, transparent);
+}
+
+/* ---- Phone shell (artboard frame) ---- */
+.gram-phone {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  padding: 16px 18px 20px;
+  color: var(--text);
+  background: radial-gradient(120% 80% at 50% -10%, var(--bg-2), transparent 60%), var(--bg);
+  overflow: hidden;
+}
+.gram-phone--center {
+  justify-content: center;
+}
+.gram-phone--nav {
+  padding-bottom: 84px;
+}
+.gram-phone .bnav {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+}
+.gram-spacer {
+  flex: 1 1 auto;
+}
+
+/* Specimen stacks (item-type boards) */
+.gstack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.gspec {
+  display: grid;
+  gap: 7px;
+}
+.gcap {
+  margin: 0 2px;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.gcap--ok { color: var(--ok); }
+.gcap--no { color: var(--no); }
+.gcap--near { color: var(--known); }
+.gcap--gram { color: var(--gram); }
+
+/* Compact card for specimens + lesson bodies */
+.gcard {
+  padding: 1.1rem;
+  box-shadow: var(--shadow-sm);
+}
+.gprompt {
+  margin: 0 0 0.85rem;
+  font-size: 1.25rem;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  font-weight: 700;
+}
+.gprompt .fi {
+  font-weight: 800;
+}
+.gprompt__hint {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* ---- Concept tags (падеж · тип глагола · чередование · …) ---- */
+.gtags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.gtag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: var(--c);
+  background: color-mix(in srgb, var(--c) 11%, var(--card));
+  border: 1px solid color-mix(in srgb, var(--c) 26%, var(--border));
+  border-radius: 7px;
+  white-space: nowrap;
+}
+.gtag__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 3px;
+  background: var(--c);
+}
+.gtag--verbtype { --c: var(--rd-violet); }
+.gtag--case { --c: var(--rd-teal); }
+.gtag--grad { --c: var(--gold); }
+.gtag--neg { --c: var(--weak-deep); }
+.gtag--part { --c: var(--read); }
+.gtag--vh { --c: var(--rd-green); }
+
+/* ---- Explanation block (the learning moment; reused everywhere) ---- */
+.gx {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--c) 9%, var(--card));
+  border: 1px solid color-mix(in srgb, var(--c) 22%, var(--border));
+}
+.gx__ic {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  border-radius: 999px;
+  background: var(--c);
+  color: #fff;
+}
+.gx__t {
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--text);
+}
+.gx__t .fi {
+  font-weight: 800;
+  color: var(--c);
+}
+.gx--ok { --c: var(--ok); }
+.gx--no { --c: var(--no); }
+.gx--near { --c: var(--known); }
+.gx--info { --c: var(--gram); }
+
+/* ---- Mastery indicators (ring ↔ bar, switchable via Tweaks) ---- */
+.gmast {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: none;
+}
+.gmast__pct {
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.gbar {
+  width: 52px;
+  height: 6px;
+  border-radius: var(--pill);
+  background: var(--surface-2);
+  overflow: hidden;
+}
+.gbar__fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--pill);
+  background: var(--gram);
+}
+.gdone {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px 3px 6px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--ok);
+  background: var(--ok-soft);
+  border-radius: var(--pill);
+}
+
+/* ---- Topic map ---- */
+.gmap__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.gmap__title {
+  flex: 1;
+  margin: 0;
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.glevel {
+  flex: none;
+  padding: 3px 8px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: var(--rd-teal);
+  background: color-mix(in srgb, var(--rd-teal) 12%, var(--card));
+  border-radius: 7px;
+}
+.ghero {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 13px 15px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--shadow-sm);
+}
+.ghero__main {
+  flex: 1;
+  min-width: 0;
+}
+.ghero__t {
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.ghero__bar {
+  display: block;
+  height: 7px;
+  margin-top: 7px;
+  border-radius: var(--pill);
+  background: var(--surface-2);
+  overflow: hidden;
+}
+.ghero__fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--pill);
+  background: var(--gram);
+}
+.ghero__sub {
+  margin-top: 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.ghero__sub b {
+  color: var(--gram);
+}
+
+.gmod {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 4px 2px 0;
+}
+.gmod__n {
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gram);
+}
+.gmod__t {
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+.gmod__line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.gmod__count {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.gtopics {
+  display: grid;
+  gap: 9px;
+}
+.gtopic {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  padding: 12px 13px;
+  font: inherit;
+  text-align: left;
+  color: var(--text);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: background 0.14s ease, transform 0.08s ease;
+}
+.gtopic:active:not(:disabled) {
+  transform: scale(0.985);
+}
+.gtopic__tile {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  color: var(--gram);
+  background: var(--gram-soft);
+  border: 1px solid var(--gram-line);
+}
+.gtopic--mastered .gtopic__tile {
+  color: var(--ok);
+  background: var(--ok-soft);
+  border-color: transparent;
+}
+.gtopic--locked .gtopic__tile {
+  color: var(--muted);
+  background: var(--surface-2);
+  border-color: transparent;
+}
+.gtopic__main {
+  flex: 1;
+  min-width: 0;
+}
+.gtopic__title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.gtopic__sub {
+  margin-top: 1px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.gtopic__tags {
+  margin-top: 6px;
+}
+.gtopic__hint {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 5px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+.gtopic--locked {
+  background: transparent;
+  box-shadow: none;
+  cursor: default;
+  opacity: 0.62;
+}
+.gtopic__go {
+  flex: none;
+  color: var(--gram);
+  display: inline-flex;
+}
+
+/* ---- Lesson chrome ---- */
+.gles {
+  display: grid;
+  gap: 10px;
+}
+.gles__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.gexit {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  color: var(--muted);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+}
+.gles__mid {
+  flex: 1;
+  min-width: 0;
+}
+.gles__eyebrow {
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--gram);
+}
+.gles__stage {
+  font-size: 0.98rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.gles__stage span {
+  font-weight: 700;
+  color: var(--muted);
+}
+.gles__count {
+  flex: none;
+  padding: 4px 9px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: var(--muted);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--pill);
+  font-variant-numeric: tabular-nums;
+}
+.gsteps {
+  display: flex;
+  gap: 5px;
+}
+.gstep {
+  flex: 1;
+  height: 5px;
+  border-radius: var(--pill);
+  background: var(--surface-2);
+}
+.gstep--done {
+  background: color-mix(in srgb, var(--gram) 45%, var(--surface-2));
+}
+.gstep--on {
+  background: var(--gram);
+}
+
+/* Theory card */
+.gth__title {
+  margin: 0.55rem 0 0.15rem;
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.gth__summary {
+  margin: 0 0 0.7rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.gth__body {
+  margin: 0 0 0.9rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+.gth__sec {
+  margin: 0.9rem 0 0.45rem;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Example pairs (fi + ru, visually paired) */
+.gexs {
+  display: grid;
+  gap: 6px;
+}
+.gex {
+  display: grid;
+  gap: 1px;
+  padding: 8px 11px;
+  background: var(--surface);
+  border-radius: 12px;
+}
+.gex__fi {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--gram-deep);
+}
+.gex__ru {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+/* Paradigm table: 2 columns (person / form), phone-friendly */
+.gpara {
+  display: grid;
+  grid-template-columns: minmax(4.2rem, auto) 1fr;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.gpara__p,
+.gpara__f {
+  padding: 8px 12px;
+  border-top: 1px solid var(--border);
+}
+.gpara__p {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--muted);
+  background: var(--surface);
+}
+.gpara__f {
+  font-size: 1.06rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  background: var(--card);
+}
+.gpara > .gpara__p:first-child,
+.gpara > .gpara__p:first-child + .gpara__f {
+  border-top: none;
+}
+.gpara__ru {
+  margin-left: 7px;
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+mark.ghl {
+  padding: 0 2px;
+  border-radius: 4px;
+  font-weight: 800;
+  color: inherit;
+  background: var(--gram-wash);
+}
+mark.ghl--alt {
+  background: color-mix(in srgb, var(--gold) 24%, transparent);
+}
+.gparakey {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-top: 8px;
+}
+.gparakey__i {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+.gparakey__sw {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+}
+
+/* ---- Items ---- */
+.options--chips {
+  grid-template-columns: repeat(3, 1fr);
+}
+.option--chip {
+  min-height: 2.8rem;
+  padding: 0.6rem 0.4rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-align: center;
+}
+.option__why {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--no);
+}
+.gblank {
+  display: inline-block;
+  min-width: 3.6em;
+  border-bottom: 2px solid var(--gram);
+  transform: translateY(-2px);
+}
+.gfill-in {
+  padding: 0 3px;
+  border-radius: 5px;
+  font-weight: 800;
+  color: var(--ok);
+  background: var(--ok-soft);
+}
+
+/* Typed input states */
+.ginput--ok {
+  border-color: var(--ok) !important;
+  background: var(--ok-soft) !important;
+}
+.ginput--no {
+  border-color: var(--no) !important;
+  background: var(--no-soft) !important;
+  color: var(--no) !important;
+  text-decoration: line-through;
+}
+.ginput--near {
+  border-color: var(--known) !important;
+  background: var(--known-soft) !important;
+}
+
+/* Quick-insert keys (ä / ö) */
+.gkeys {
+  display: flex;
+  gap: 8px;
+}
+.gkey {
+  flex: 1;
+  min-height: 44px;
+  font: inherit;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+}
+.gkey:active {
+  transform: scale(0.95);
+}
+
+/* Canonical correct answer (after wrong / near-miss) */
+.gcanon {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  padding: 9px 12px;
+  background: var(--surface);
+  border-radius: 12px;
+}
+.gcanon__k {
+  flex: none;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.gcanon__v {
+  font-size: 1.12rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+/* fill_table rows */
+.gfills {
+  display: grid;
+  gap: 7px;
+}
+.gfill {
+  display: grid;
+  grid-template-columns: 3.6rem 1fr;
+  gap: 8px;
+  align-items: center;
+}
+.gfill__p {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+.gfill__in {
+  width: 100%;
+  padding: 0.55rem 0.8rem;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 11px;
+}
+.gfill__fix {
+  grid-column: 2;
+  margin-top: -2px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: var(--ok);
+}
+
+/* ---- Buttons ---- */
+.gnext {
+  width: 100%;
+  min-height: 3.25rem;
+  padding: 0.85rem 1.1rem;
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #fff;
+  background: var(--gram);
+  border: none;
+  border-radius: var(--pill);
+  box-shadow: 0 6px 16px var(--gram-wash);
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.08s ease;
+}
+.gnext:active {
+  transform: scale(0.98);
+}
+.gnext--ghost {
+  color: var(--text);
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.gbtnrow {
+  display: flex;
+  gap: 9px;
+}
+.gbtnrow .gnext {
+  flex: 1;
+}
+
+/* ---- End-of-lesson summary ---- */
+.gsum {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.gsum__delta {
+  display: inline-flex;
+  margin-top: -14px;
+  padding: 3px 9px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: #fff;
+  background: var(--gram);
+  border-radius: var(--pill);
+  box-shadow: var(--shadow-sm);
+}
+.gsum__title {
+  margin: 0.6rem 0 0.1rem;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.gsum__sub {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.gsum__score {
+  margin-top: 0.35rem;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--gram);
+}
+.gsum__score small {
+  font-size: 1.05rem;
+  color: var(--muted);
+  font-weight: 700;
+}
+.gsumcard {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+  padding: 13px 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--shadow-sm);
+  text-align: left;
+}
+.gsumcard__t {
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.gunlock {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  padding: 11px 13px;
+  background: var(--gram-soft);
+  border: 1px solid var(--gram-line);
+  border-radius: 16px;
+  text-align: left;
+}
+.gunlock__disc {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  color: #fff;
+  background: var(--gram);
+}
+.gunlock__k {
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gram);
+}
+.gunlock__t {
+  margin-top: 1px;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+/* ---- Home integration ---- */
+.ctacard--gram {
+  --acc: var(--gram);
+}
+.ctacard--row {
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+.ctacard--row .ctacard__main {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ---- Component-board panels ---- */
+.gpanel__t {
+  margin: 0 0 0.7rem;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.gpanel__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.gpanel__stack {
+  display: grid;
+  gap: 8px;
+}
+.gpanel__note {
+  margin: 0.6rem 0 0;
+  font-size: 0.76rem;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--muted);
+}

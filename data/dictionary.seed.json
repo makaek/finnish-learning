@@ -117,10 +117,10 @@
       "present":{"minä":"nukun","sinä":"nukut","hän":"nukkuu","me":"nukumme","te":"nukutte","he":"nukkuvat"},
       "past_1sg":"nukuin","past_3sg":"nukkui","conneg":"nuku",
       "notes":"Gradation kk->k: nuKKuu but nuKun. 'Nukun hyvin' = Я хорошо сплю.","needs_review":false,"theme":"routine"},
-    {"id":"v24","fi":"herätä","ru":"просыпаться","pos":"verb","level":9,"verb_type":6,
+    {"id":"v24","fi":"herätä","ru":"просыпаться","pos":"verb","level":9,"verb_type":4,
       "present":{"minä":"herään","sinä":"heräät","hän":"herää","me":"heräämme","te":"heräätte","he":"heräävät"},
       "past_1sg":"heräsin","past_3sg":"heräsi","conneg":"herää",
-      "notes":"Type 6 (-tä, stem herä-). 'Herään aamulla' = Я просыпаюсь утром.","needs_review":false,"theme":"routine"},
+      "notes":"Type 4 (-tä, stem herä-): herä+än -> herään. 'Herään aamulla' = Я просыпаюсь утром. Спрягается как haluta/tilata.","needs_review":false,"theme":"routine"},
     {"id":"v25","fi":"katsoa","ru":"смотреть","pos":"verb","level":7,"verb_type":1,
       "present":{"minä":"katson","sinä":"katsot","hän":"katsoo","me":"katsomme","te":"katsotte","he":"katsovat"},
       "past_1sg":"katsoin","past_3sg":"katsoi","conneg":"katso",
@@ -558,7 +558,11 @@
     {"id":"v133","fi":"kokata","ru":"готовить (разг.)","pos":"verb","level":19,"verb_type":4,
       "present":{"minä":"kokkaan","sinä":"kokkaat","hän":"kokkaa","me":"kokkaamme","te":"kokkaatte","he":"kokkaavat"},
       "past_1sg":"kokkasin","past_3sg":"kokkasi","conneg":"kokkaa",
-      "notes":"Type 4 (-ata), gradation k->kk: kokaTa but koKKaan. Разговорный синоним laittaa ruokaa. 4-й инфинитив: 'Pidän kokkaamisesta' = Я люблю готовить.","needs_review":false,"theme":"food"}
+      "notes":"Type 4 (-ata), gradation k->kk: kokaTa but koKKaan. Разговорный синоним laittaa ruokaa. 4-й инфинитив: 'Pidän kokkaamisesta' = Я люблю готовить.","needs_review":false,"theme":"food"},
+    {"id":"v134","fi":"vanheta","ru":"стареть / стариться","pos":"verb","level":19,"verb_type":6,
+      "present":{"minä":"vanhenen","sinä":"vanhenet","hän":"vanhenee","me":"vanhenemme","te":"vanhenette","he":"vanhenevat"},
+      "past_1sg":"vanhenin","past_3sg":"vanheni","conneg":"vanhene",
+      "notes":"Type 6 (-eta/-etä), stem vanhene-: vanhenen. Образует основу на -ne-. 'Vanhenen joka vuosi' = Я старею каждый год. Как paeta -> pakenen, kylmetä -> kylmenen.","needs_review":false,"theme":"basics"}
   ],
 
   "nouns": [
