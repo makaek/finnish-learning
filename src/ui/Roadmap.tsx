@@ -29,9 +29,6 @@ import {
   currentStreak,
   dateKey,
   goalMet,
-  todayAccuracy,
-  todayLessons,
-  DAILY_LESSONS_GOAL,
   type UserState,
 } from "../core/daily";
 import { hiddenKey } from "./hidden";
@@ -281,8 +278,6 @@ export default function Roadmap({
 
   const today = dateKey();
   const streak = currentStreak(daily, today);
-  const lessons = todayLessons(daily, today);
-  const accuracyPct = Math.round(todayAccuracy(daily, today) * 100);
   const goalReached = goalMet(daily, today);
   // Seven rolling dots (oldest → today). No per-day history is stored, so derive from the live
   // streak: the trailing `streak` qualifying days are "done"; today is "done" once its goal is met,
@@ -378,25 +373,6 @@ export default function Roadmap({
           {locked.has("listen_word") ? " · аудирование тоже (нет локального голоса)" : ""}
         </p>
       )}
-
-      {/* Daily-goal strip — the streak/week now lives in the header chip, so this block is purely
-          the "did I hit today's goal" loop (lessons toward goal + accuracy); tap → Метрики. */}
-      <button type="button" className="mstrip" onClick={onShowStats} aria-label="Открыть метрики">
-        <span className="mstrip__flame mstrip__flame--goal" aria-hidden="true">
-          <UiIcon name="target" size={24} />
-        </span>
-        <span className="mstrip__body">
-          <span className="mstrip__title">Цель на сегодня</span>
-          <span className="mstrip__acc">точность · {accuracyPct}%</span>
-        </span>
-        <span className="mstrip__goal">
-          <span className="mstrip__lessons">
-            {lessons}
-            <small>/{DAILY_LESSONS_GOAL}</small>
-          </span>
-          <span className="mstrip__acc">уроков</span>
-        </span>
-      </button>
 
       {/* CEFR meter — current step + a 12-level rail toward A2. */}
       <CefrMeter bands={bands} state={cefrState} />
