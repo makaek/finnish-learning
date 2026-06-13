@@ -1,0 +1,897 @@
+{
+  "_meta": {
+    "language": "en",
+    "l1": "ru",
+    "purpose": "Precomputed grammar-mode content for the ENGLISH (target) pack, for Russian speakers. Same schema as data/grammar.seed.json (the Finnish seed): each topic = one lesson (theory card + warmup recognition + drill production). The 'fi'/'canonical'/'prompt_fi' fields hold the ENGLISH string; Russian copy is in *_ru fields. Forms use real A1 vocabulary from data/en/dictionary.seed.json (examples may use a few extra high-frequency words). Distractors are deliberate Russian-speaker errors with Russian explanations. Grading is local: normalize (lowercase, fold apostrophes, strip punctuation), match `accepted`, look up `wrong.match`, Levenshtein-1 -> near-miss.",
+    "authoring": "Drafted from the engine contract; English correctness to be signed off by english-linguist. Russian copy follows data/en/rules.seed.json tone.",
+    "markup": {
+      "en_forms": "In English form strings (f, canonical, prompt_fi of case_id): {...} = primary highlight (грамматическое окончание: -s, -ed, -ing, артикль, вспомогательный глагол), [...] = alt highlight (неправильная форма: go->went, be->was). accepted/wrong.match are PLAIN (no markup).",
+      "ru_strings": "In Russian strings: *...* marks an English fragment (rendered bold + tinted)."
+    },
+    "needs_review": false
+  },
+
+  "modules": [
+    { "id": "verb", "title": "Глагол", "n": 0 },
+    { "id": "noun", "title": "Существительное и артикль", "n": 1 },
+    { "id": "syntax", "title": "Вопросы и обороты", "n": 2 }
+  ],
+
+  "topics": [
+    {
+      "id": "to_be",
+      "module": "verb",
+      "order": 1,
+      "level": 1,
+      "title": "Глагол to be",
+      "summary": "am / is / are — связка, которой в русском нет",
+      "tags": ["tense"],
+      "prereq": [],
+      "rule_ids": ["to-be"],
+      "needs_review": false,
+      "theory": {
+        "title": "Глагол to be (am / is / are)",
+        "summary": "В английском «Я студент» — это «I am a student»: связка обязательна.",
+        "body_ru": "Русское предложение «Я студент» по-английски всегда с глаголом: *I am a student*. Формы зависят от лица: *I am*, *he / she / it is*, *you / we / they are*. В разговорной речи — сокращения: *I'm, he's, you're, we're, they're*. Без *to be* предложение неполное: не *She happy*, а *She is happy*.",
+        "examples": [
+          { "fi": "I am a teacher.", "ru": "Я учитель." },
+          { "fi": "She is happy.", "ru": "Она счастлива." },
+          { "fi": "We are at home.", "ru": "Мы дома." }
+        ],
+        "paradigm": {
+          "caption": "be · настоящее время",
+          "rows": [
+            { "l": "I", "f": "{am}" },
+            { "l": "you", "f": "{are}" },
+            { "l": "he / she / it", "f": "{is}" },
+            { "l": "we", "f": "{are}" },
+            { "l": "they", "f": "{are}" }
+          ],
+          "key": [
+            { "hl": "main", "label": "форма to be" }
+          ]
+        },
+        "note_ru": "У *I* всегда *am*. У *he / she / it* — *is*. У *you / we / they* — *are*. Связку нельзя опустить: *She is a doctor*, не *She a doctor*."
+      }
+    },
+    {
+      "id": "articles",
+      "module": "noun",
+      "order": 2,
+      "level": 1,
+      "title": "Артикли a / an / the",
+      "summary": "a / an перед исчисляемым; the — про известное; вода/кофе — без a",
+      "tags": ["article"],
+      "prereq": [],
+      "rule_ids": ["articles"],
+      "needs_review": false,
+      "theory": {
+        "title": "Артикли a / an / the",
+        "summary": "Перед исчисляемым существительным в ед. числе нужен артикль.",
+        "body_ru": "*a* ставится перед согласным звуком: *a dog, a book*. *an* — перед гласным: *an apple, an hour*. *the* — про конкретный, уже известный предмет: *the door is open*. Неисчисляемые (*water, coffee, bread, milk, money*) употребляются без *a*: *I drink coffee*, а не *a coffee*. Перед профессией нужен артикль: *I am a student*.",
+        "examples": [
+          { "fi": "I have a dog.", "ru": "У меня есть собака." },
+          { "fi": "She eats an apple.", "ru": "Она ест яблоко." },
+          { "fi": "I drink water.", "ru": "Я пью воду." }
+        ],
+        "note_ru": "Выбор *a / an* — по звуку: *a university* (звук «ю»), но *an hour* (h не читается). Неисчисляемое — без *a*: *bread, water, money*."
+      }
+    },
+    {
+      "id": "present_simple",
+      "module": "verb",
+      "order": 3,
+      "level": 2,
+      "title": "Present Simple",
+      "summary": "I / you / we / they + базовая форма глагола; порядок SVO",
+      "tags": ["tense", "syntax"],
+      "prereq": ["to_be"],
+      "rule_ids": ["word-order"],
+      "needs_review": false,
+      "theory": {
+        "title": "Present Simple (настоящее простое)",
+        "summary": "Регулярные действия: глагол в базовой форме, без -ing и без to be.",
+        "body_ru": "Для *I / you / we / they* глагол стоит в базовой форме: *I live, you work, we read, they speak*. Это время для привычек и фактов: *I work every day*. Важно: глагол сам по себе — не нужен ни *am*, ни *-ing*: не *I am work*, не *I working*, а *I work*. Порядок слов жёсткий: подлежащее — глагол — дополнение (*I read books*).",
+        "examples": [
+          { "fi": "I live in a big house.", "ru": "Я живу в большом доме." },
+          { "fi": "We read books.", "ru": "Мы читаем книги." },
+          { "fi": "They speak English.", "ru": "Они говорят по-английски." }
+        ],
+        "note_ru": "В Present Simple не ставят *am / is / are* перед смысловым глаголом: *I work*, а не *I am work*. Форма *-ing* — это другое время (Present Continuous)."
+      }
+    },
+    {
+      "id": "possessives",
+      "module": "noun",
+      "order": 4,
+      "level": 2,
+      "title": "Притяжательные my / your / 's",
+      "summary": "my, your, his, her, our, their + 's для принадлежности (Tom's)",
+      "tags": ["pron"],
+      "prereq": [],
+      "rule_ids": [],
+      "needs_review": false,
+      "theory": {
+        "title": "Притяжательные: my / your и 's",
+        "summary": "«Чей?» — притяжательное слово или окончание 's.",
+        "body_ru": "Притяжательные слова: *my* (мой), *your* (твой/ваш), *his* (его), *her* (её), *our* (наш), *their* (их). Они стоят перед существительным: *my mother, her dog, our house*. Не путайте с подлежащим: «моя» — *my*, а не *I*. Принадлежность человеку показывают окончанием *'s*: *Tom's sister* (сестра Тома), *my father's car*.",
+        "examples": [
+          { "fi": "This is my book.", "ru": "Это моя книга." },
+          { "fi": "Her name is Anna.", "ru": "Её зовут Анна." },
+          { "fi": "This is Tom's sister.", "ru": "Это сестра Тома." }
+        ],
+        "note_ru": "«Моя книга» — *my book*, не *I book* и не *me book*. Принадлежность — через *'s*: *Tom's sister*, а не *the sister of Tom*."
+      }
+    },
+    {
+      "id": "third_person_s",
+      "module": "verb",
+      "order": 5,
+      "level": 3,
+      "title": "-s в 3-м лице",
+      "summary": "he / she / it + глагол с -s/-es; have -> has, go -> goes",
+      "tags": ["tense"],
+      "prereq": ["present_simple"],
+      "rule_ids": ["third-person-s"],
+      "needs_review": false,
+      "theory": {
+        "title": "-s в 3-м лице (he / she / it)",
+        "summary": "В Present Simple к глаголу he/she/it добавляется -s.",
+        "body_ru": "У *I / you / we / they* глагол без окончания, но у *he / she / it* добавляется *-s*: *I like — he likes*, *we live — she lives*. После *-o, -s, -sh, -ch, -x* пишут *-es*: *go — goes*, *watch — watches*. Особые формы: *have — has*. Это окончание — частая ошибка: легко забыть *-s* в 3-м лице.",
+        "examples": [
+          { "fi": "He likes bread.", "ru": "Он любит хлеб." },
+          { "fi": "She goes home.", "ru": "Она идёт домой." },
+          { "fi": "She has a cat.", "ru": "У неё есть кошка." }
+        ],
+        "paradigm": {
+          "caption": "live · настоящее время",
+          "rows": [
+            { "l": "I", "f": "live" },
+            { "l": "you", "f": "live" },
+            { "l": "he / she / it", "f": "live{s}" },
+            { "l": "we", "f": "live" },
+            { "l": "they", "f": "live" }
+          ],
+          "key": [
+            { "hl": "main", "label": "окончание -s (3-е лицо)" }
+          ]
+        },
+        "note_ru": "*-s* только у *he / she / it*. У остальных лиц глагол без окончания: *they live*, но *she lives*. Особые: *have -> has*, *go -> goes*, *do -> does*."
+      }
+    },
+    {
+      "id": "plurals",
+      "module": "noun",
+      "order": 6,
+      "level": 3,
+      "title": "Множественное число",
+      "summary": "-s / -es; man -> men, child -> children; вода — без мн. числа",
+      "tags": ["plural"],
+      "prereq": ["articles"],
+      "rule_ids": ["plurals"],
+      "needs_review": false,
+      "theory": {
+        "title": "Множественное число (-s / -es)",
+        "summary": "Обычно -s; после -s/-sh/-ch/-x — -es; есть особые формы.",
+        "body_ru": "Множественное число обычно образуется окончанием *-s*: *one dog -> two dogs, three apples*. После *-s, -sh, -ch, -x* добавляют *-es*: *box -> boxes*. Особые формы надо запомнить: *man -> men, woman -> women, child -> children, person -> people*. После числа больше одного — всегда множественное и без *a*: *two brothers*, не *a two brothers*. Неисчисляемые (*water, bread, money*) множественного числа не имеют.",
+        "examples": [
+          { "fi": "two brothers", "ru": "два брата" },
+          { "fi": "five days", "ru": "пять дней" },
+          { "fi": "three children", "ru": "трое детей" }
+        ],
+        "note_ru": "С числом артикль *a* не нужен: *two dogs*, не *a two dogs*. Особые формы: *children, men, women, people* — у них нет второго *-s*."
+      }
+    },
+    {
+      "id": "this_these",
+      "module": "noun",
+      "order": 7,
+      "level": 3,
+      "title": "this / that / these / those",
+      "summary": "this/that — ед. число, these/those — мн.; сказуемое согласуется",
+      "tags": ["pron", "plural"],
+      "prereq": ["plurals"],
+      "rule_ids": ["demonstratives"],
+      "needs_review": false,
+      "theory": {
+        "title": "Указательные: this / that / these / those",
+        "summary": "this/that для одного, these/those для многих.",
+        "body_ru": "*this* (этот, рядом) и *that* (тот, дальше) — для единственного числа. Во множественном они меняются: *this -> these*, *that -> those*: *this apple -> these apples*. Сказуемое согласуется в числе: *This apple is tasty*, но *These apples are tasty* (не *is*).",
+        "examples": [
+          { "fi": "This is my friend.", "ru": "Это мой друг." },
+          { "fi": "These apples are tasty.", "ru": "Эти яблоки вкусные." },
+          { "fi": "Those dogs are big.", "ru": "Те собаки большие." }
+        ],
+        "note_ru": "Множественное — *these / those*, и глагол тоже во мн. числе: *These books are new* (не *is*)."
+      }
+    },
+    {
+      "id": "do_questions",
+      "module": "syntax",
+      "order": 8,
+      "level": 4,
+      "title": "Вопрос и отрицание (do / does)",
+      "summary": "Do / Does …? и don't / doesn't + базовая форма",
+      "tags": ["syntax"],
+      "prereq": ["present_simple", "third_person_s"],
+      "rule_ids": ["do-support", "word-order"],
+      "needs_review": false,
+      "theory": {
+        "title": "Вопросы и отрицания через do / does",
+        "summary": "В Present Simple вопрос и отрицание строятся с do/does.",
+        "body_ru": "Со смысловым глаголом вопрос и отрицание требуют вспомогательного *do*: *Do you speak English?*, *I don't drink tea*. В 3-м лице берётся *does*, и тогда *-s* переходит на него, а сам глагол остаётся в базовой форме: *Does he like tea?*, *She doesn't drink coffee* (не *doesn't drinks*). Нельзя строить вопрос простой перестановкой: не *You speak English?*, а *Do you speak English?*",
+        "examples": [
+          { "fi": "Do you speak English?", "ru": "Ты говоришь по-английски?" },
+          { "fi": "He doesn't like coffee.", "ru": "Он не любит кофе." },
+          { "fi": "Where do you live?", "ru": "Где ты живёшь?" }
+        ],
+        "note_ru": "После *do / does / don't / doesn't* глагол всегда в базовой форме: *Does she like…?*, *He doesn't like…*. *-s* уже «забрал» *does*."
+      }
+    },
+    {
+      "id": "can",
+      "module": "verb",
+      "order": 9,
+      "level": 5,
+      "title": "Модальный глагол can",
+      "summary": "can + базовая форма; can't; Can you …? без do",
+      "tags": ["modal"],
+      "prereq": ["present_simple"],
+      "rule_ids": [],
+      "needs_review": false,
+      "theory": {
+        "title": "Модальный глагол can (уметь / мочь)",
+        "summary": "can + базовый глагол, без to и без -s.",
+        "body_ru": "*can* выражает умение и возможность: *I can swim, she can cook*. После *can* глагол стоит в базовой форме — без *to* и без *-s*: *can speak*, не *can to speak* и не *can speaks*. Сам *can* не меняется по лицам: *he can* (не *cans*). Отрицание — *can't* (= cannot); вопрос — простой перестановкой, без *do*: *Can you help?*",
+        "examples": [
+          { "fi": "I can speak English.", "ru": "Я умею говорить по-английски." },
+          { "fi": "She can't come.", "ru": "Она не может прийти." },
+          { "fi": "Can you help me?", "ru": "Ты можешь мне помочь?" }
+        ],
+        "note_ru": "После *can* — базовая форма: *can cook*, не *can cooks*. С *can* не нужен *do*: вопрос *Can you…?*, отрицание *can't*."
+      }
+    },
+    {
+      "id": "there_is_are",
+      "module": "syntax",
+      "order": 10,
+      "level": 5,
+      "title": "Оборот there is / there are",
+      "summary": "«где-то есть …»: there is (ед.) / there are (мн.)",
+      "tags": ["syntax"],
+      "prereq": ["to_be"],
+      "rule_ids": ["there-is"],
+      "needs_review": false,
+      "theory": {
+        "title": "Оборот there is / there are",
+        "summary": "«Где-то есть что-то» — через there is / there are.",
+        "body_ru": "Чтобы сказать, что где-то что-то есть, начинают с *there is* (для ед. числа) или *there are* (для мн.): *There is a table in the room*, *There are seven days in a week*. Нельзя начинать с обстоятельства места: не *In the room is a table*. После *there is* у исчисляемого нужен артикль *a*: *There is a window*.",
+        "examples": [
+          { "fi": "There is a table in the room.", "ru": "В комнате есть стол." },
+          { "fi": "There are two parks in the city.", "ru": "В городе два парка." },
+          { "fi": "There is a book on the table.", "ru": "На столе книга." }
+        ],
+        "note_ru": "Ед. число — *There is a …*; мн. число — *There are … (s)*. Оборот всегда начинается с *there*, а не с места."
+      }
+    },
+    {
+      "id": "past_simple",
+      "module": "verb",
+      "order": 11,
+      "level": 6,
+      "title": "Past Simple",
+      "summary": "правильные -ed; was/were, went, had, bought",
+      "tags": ["tense"],
+      "prereq": ["present_simple"],
+      "rule_ids": [],
+      "needs_review": false,
+      "theory": {
+        "title": "Past Simple (прошедшее простое)",
+        "summary": "Правильные глаголы -ed; неправильные надо запомнить.",
+        "body_ru": "Прошедшее правильных глаголов — с окончанием *-ed*: *work -> worked, open -> opened*. Многие частые глаголы неправильные — их форму учат: *be -> was / were, go -> went, have -> had, see -> saw, buy -> bought*. Форма прошедшего одинакова для всех лиц (*I worked, she worked*), кроме *to be*: *I / he / she / it was*, *you / we / they were*.",
+        "examples": [
+          { "fi": "I worked yesterday.", "ru": "Вчера я работал." },
+          { "fi": "We went to the shop.", "ru": "Мы ходили в магазин." },
+          { "fi": "She bought a shirt.", "ru": "Она купила рубашку." }
+        ],
+        "paradigm": {
+          "caption": "be · прошедшее время",
+          "rows": [
+            { "l": "I", "f": "{was}" },
+            { "l": "you", "f": "{were}" },
+            { "l": "he / she / it", "f": "{was}" },
+            { "l": "we", "f": "{were}" },
+            { "l": "they", "f": "{were}" }
+          ],
+          "key": [
+            { "hl": "main", "label": "форма прошедшего to be" }
+          ]
+        },
+        "note_ru": "*was* — для I / he / she / it; *were* — для you / we / they. Неправильные глаголы (*go -> went, buy -> bought*) не берут *-ed*."
+      }
+    },
+    {
+      "id": "present_continuous",
+      "module": "verb",
+      "order": 12,
+      "level": 7,
+      "title": "Present Continuous",
+      "summary": "am/is/are + глагол с -ing: действие прямо сейчас",
+      "tags": ["tense"],
+      "prereq": ["present_simple", "to_be"],
+      "rule_ids": [],
+      "needs_review": false,
+      "theory": {
+        "title": "Present Continuous (настоящее длительное)",
+        "summary": "Действие происходит в момент речи: be + V-ing.",
+        "body_ru": "Когда действие происходит прямо сейчас, используют *to be + глагол с -ing*: *I am reading now*, *She is cooking*, *They are playing*. Нужны обе части: и *am / is / are*, и *-ing* — не *She cooking* и не *She is cook*. Слова-подсказки: *now, right now, at the moment*. Сравните: *I work every day* (привычка, Present Simple) — но *I am working now* (прямо сейчас).",
+        "examples": [
+          { "fi": "I am reading now.", "ru": "Я сейчас читаю." },
+          { "fi": "She is cooking.", "ru": "Она готовит." },
+          { "fi": "They are playing.", "ru": "Они играют." }
+        ],
+        "paradigm": {
+          "caption": "read · сейчас (be + V-ing)",
+          "rows": [
+            { "l": "I", "f": "{am} read{ing}" },
+            { "l": "you", "f": "{are} read{ing}" },
+            { "l": "he / she / it", "f": "{is} read{ing}" },
+            { "l": "we", "f": "{are} read{ing}" },
+            { "l": "they", "f": "{are} read{ing}" }
+          ],
+          "key": [
+            { "hl": "main", "label": "be + окончание -ing" }
+          ]
+        },
+        "note_ru": "Обе части обязательны: *is cooking*, не *cooking* и не *is cook*. Для действия сейчас — Continuous (*is cooking*), а не Present Simple (*cooks*)."
+      }
+    }
+  ],
+
+
+  "items": [
+    { "id": "tobe-s1-w1", "topic": "to_be", "set": 1, "stage": "warmup", "type": "choose_form",
+      "prompt_fi": "I ___ a teacher.", "hint_ru": "(я)",
+      "options": [
+        { "fi": "am" },
+        { "fi": "is", "why_ru": "*is* — для he/she/it. У *I* всегда *am*." },
+        { "fi": "are", "why_ru": "*are* — для you/we/they. У *I* — *am*." }
+      ],
+      "answer": "am", "ok_ru": "Верно: у *I* всегда форма *am* — *I am a teacher*." },
+
+    { "id": "tobe-s1-d1", "topic": "to_be", "set": 1, "stage": "drill", "type": "fill_table",
+      "prompt_fi": "be · настоящее время", "prompt_ru": "Поставьте нужную форму to be.",
+      "review_ru": "формы to be",
+      "cells": [
+        { "l": "I", "canonical": "{am}", "accepted": ["am"] },
+        { "l": "you", "canonical": "{are}", "accepted": ["are"] },
+        { "l": "he", "canonical": "{is}", "accepted": ["is"] },
+        { "l": "we", "canonical": "{are}", "accepted": ["are"] },
+        { "l": "they", "canonical": "{are}", "accepted": ["are"] }
+      ],
+      "summary_ru": "*am* — I; *is* — he/she/it; *are* — you/we/they." },
+
+    { "id": "tobe-s2-w1", "topic": "to_be", "set": 2, "stage": "warmup", "type": "choose_form",
+      "prompt_fi": "They ___ students.", "hint_ru": "(они)",
+      "options": [
+        { "fi": "are" },
+        { "fi": "is", "why_ru": "*is* — для одного (he/she/it). Для *they* — *are*." },
+        { "fi": "am", "why_ru": "*am* — только для *I*." }
+      ],
+      "answer": "are", "ok_ru": "Да: *They are students* — у *they* форма *are*." },
+
+    { "id": "tobe-s2-d1", "topic": "to_be", "set": 2, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "She ___ at home.", "prompt_ru": "Она дома.", "hint_ru": "форма to be",
+      "canonical": "{is}", "accepted": ["is"],
+      "wrong": [
+        { "match": "are", "ru": "У *she* — *is*, не *are*: *She is at home*." },
+        { "match": "am", "ru": "*am* — только для *I*." }
+      ],
+      "review_ru": "формы to be", "ok_ru": "Верно: *She is at home*." },
+
+    { "id": "tobe-s2-d2", "topic": "to_be", "set": 2, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "We ___ students.", "prompt_ru": "Мы студенты.", "hint_ru": "форма to be",
+      "canonical": "{are}", "accepted": ["are"],
+      "wrong": [
+        { "match": "is", "ru": "У *we* — *are*: *We are students*." },
+        { "match": "am", "ru": "*am* — только для *I*." }
+      ],
+      "review_ru": "формы to be", "ok_ru": "Да: *We are students*." },
+
+    { "id": "art-s1-w1", "topic": "articles", "set": 1, "stage": "warmup", "type": "choose_form",
+      "prompt_fi": "I have ___ dog.", "hint_ru": "(собака)",
+      "options": [
+        { "fi": "a" },
+        { "fi": "an", "why_ru": "*an* — перед гласным звуком (*an apple*). Перед согласным — *a*." },
+        { "fi": "the", "why_ru": "*the* — про уже известный предмет. Здесь впервые — *a dog*." }
+      ],
+      "answer": "a", "ok_ru": "Верно: перед согласным звуком — *a*: *a dog*." },
+
+    { "id": "art-s1-d1", "topic": "articles", "set": 1, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "She eats ___ apple.", "prompt_ru": "Она ест яблоко.", "hint_ru": "артикль перед apple",
+      "canonical": "{an}", "accepted": ["an"],
+      "wrong": [
+        { "match": "a", "ru": "Перед гласным звуком — *an*: *an apple*." },
+        { "match": "the", "ru": "Яблоко упоминается впервые, оно не выделено — нужен *an*, а не *the*." }
+      ],
+      "review_ru": "a / an", "ok_ru": "Да: *an apple* — перед гласным звуком *an*." },
+
+    { "id": "art-s2-w1", "topic": "articles", "set": 2, "stage": "warmup", "type": "case_id",
+      "prompt_fi": "I drink ___ water.", "prompt_ru": "Какой артикль нужен перед water?",
+      "options_ru": ["ничего — water неисчисляемо", "a", "the"],
+      "answer": 0,
+      "reasons_ru": {
+        "1": "*water* неисчисляемо — артикль *a* не ставится: *I drink water*.",
+        "2": "*the* здесь не нужен — речь о воде вообще."
+      },
+      "ok_ru": "Верно: вода неисчисляема — без артикля: *I drink water*.",
+      "correct_ru": "Правильно: артикль не нужен — *I drink water*." },
+
+    { "id": "art-s2-d1", "topic": "articles", "set": 2, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "I am ___ student.", "prompt_ru": "Я студент.", "hint_ru": "артикль перед профессией",
+      "canonical": "{a}", "accepted": ["a"],
+      "wrong": [
+        { "match": "an", "ru": "*student* начинается с согласного звука — нужен *a*." },
+        { "match": "the", "ru": "С профессией — *a*: *I am a student*." }
+      ],
+      "review_ru": "артикль перед профессией", "ok_ru": "Да: *I am a student*." },
+
+    { "id": "ps-s1-w1", "topic": "present_simple", "set": 1, "stage": "warmup", "type": "choose_form",
+      "prompt_fi": "I ___ in a big house.", "hint_ru": "(жить)",
+      "options": [
+        { "fi": "live" },
+        { "fi": "lives", "why_ru": "*-s* — только для he/she/it. У *I* — *live*." },
+        { "fi": "am live", "why_ru": "Не нужен *am*: в Present Simple глагол сам по себе — *I live*." }
+      ],
+      "answer": "live", "ok_ru": "Верно: *I live in a big house* — базовая форма." },
+
+    { "id": "ps-s1-d1", "topic": "present_simple", "set": 1, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "We ___ books.", "prompt_ru": "Мы читаем книги.", "hint_ru": "глагол read",
+      "canonical": "read", "accepted": ["read"],
+      "wrong": [
+        { "match": "reads", "ru": "*-s* — только для he/she/it. У *we* — *read*." },
+        { "match": "are read", "ru": "Лишний *are*: *We read books*." }
+      ],
+      "review_ru": "Present Simple без to be", "ok_ru": "Да: *We read books*." },
+
+    { "id": "ps-s2-w1", "topic": "present_simple", "set": 2, "stage": "warmup", "type": "choose_form",
+      "prompt_fi": "They ___ English.", "hint_ru": "(говорить)",
+      "options": [
+        { "fi": "speak" },
+        { "fi": "speaks", "why_ru": "*-s* — только в 3-м лице. У *they* — *speak*." },
+        { "fi": "are speak", "why_ru": "Лишний *are*: *They speak English*." }
+      ],
+      "answer": "speak", "ok_ru": "Верно: *They speak English*." },
+
+    { "id": "ps-s2-d1", "topic": "present_simple", "set": 2, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "I ___ every day.", "prompt_ru": "Я работаю каждый день.", "hint_ru": "глагол work",
+      "canonical": "work", "accepted": ["work"],
+      "wrong": [
+        { "match": "working", "ru": "В Present Simple — базовая форма без *-ing*: *I work*." },
+        { "match": "am work", "ru": "Лишний *am*: *I work every day*." }
+      ],
+      "review_ru": "Present Simple без to be", "ok_ru": "Да: *I work every day*." },
+
+    { "id": "ps-s2-d2", "topic": "present_simple", "set": 2, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "You ___ here.", "prompt_ru": "Ты живёшь здесь.", "hint_ru": "глагол live",
+      "canonical": "live", "accepted": ["live"],
+      "wrong": [
+        { "match": "lives", "ru": "*-s* — только в 3-м лице. У *you* — *live*." }
+      ],
+      "review_ru": "Present Simple без to be", "ok_ru": "Да: *You live here*." },
+
+    { "id": "pos-s1-w1", "topic": "possessives", "set": 1, "stage": "warmup", "type": "choose_form",
+      "prompt_fi": "He loves ___ dog.", "hint_ru": "(его собаку)",
+      "options": [
+        { "fi": "his" },
+        { "fi": "he", "why_ru": "*he* — подлежащее. «Его» (чья собака) — притяжательное *his*." },
+        { "fi": "him", "why_ru": "*him* — дополнение. «Его» здесь — *his*." }
+      ],
+      "answer": "his", "ok_ru": "Верно: *He loves his dog* — притяжательное *his*." },
+
+    { "id": "pos-s1-d1", "topic": "possessives", "set": 1, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "This is ___ book.", "prompt_ru": "Это моя книга.", "hint_ru": "«моя»",
+      "canonical": "my", "accepted": ["my"],
+      "wrong": [
+        { "match": "i", "ru": "«Моя» — притяжательное *my*, не *I*." },
+        { "match": "me", "ru": "«Моя» — *my*, не *me*." }
+      ],
+      "review_ru": "притяжательные слова", "ok_ru": "Да: *This is my book*." },
+
+    { "id": "pos-s2-w1", "topic": "possessives", "set": 2, "stage": "warmup", "type": "choose_form",
+      "prompt_fi": "___ name is Anna.", "hint_ru": "(её)",
+      "options": [
+        { "fi": "Her" },
+        { "fi": "She", "why_ru": "*she* — подлежащее. «Её имя» — *her name*." },
+        { "fi": "Hers", "why_ru": "*hers* — без существительного. Перед словом — *her*." }
+      ],
+      "answer": "Her", "ok_ru": "Верно: *Her name is Anna*." },
+
+    { "id": "pos-s2-d1", "topic": "possessives", "set": 2, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "This is ___ sister.", "prompt_ru": "Это сестра Тома.", "hint_ru": "принадлежность: Tom + 's",
+      "canonical": "Tom{'s}", "accepted": ["tom's", "toms"],
+      "wrong": [
+        { "match": "tom", "ru": "Принадлежность — через *'s*: *Tom's sister*." }
+      ],
+      "review_ru": "окончание 's", "ok_ru": "Да: *This is Tom's sister*." },
+
+    { "id": "pos-s2-d2", "topic": "possessives", "set": 2, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "___ house is big.", "prompt_ru": "Наш дом большой.", "hint_ru": "«наш»",
+      "canonical": "Our", "accepted": ["our"],
+      "wrong": [
+        { "match": "we", "ru": "«Наш» — притяжательное *our*, не *we*." }
+      ],
+      "review_ru": "притяжательные слова", "ok_ru": "Да: *Our house is big*." },
+
+    { "id": "tps-s1-w1", "topic": "third_person_s", "set": 1, "stage": "warmup", "type": "choose_form",
+      "prompt_fi": "She ___ in a big house.", "hint_ru": "(жить)",
+      "options": [
+        { "fi": "lives" },
+        { "fi": "live", "why_ru": "Для he/she/it нужно *-s*: *lives*." },
+        { "fi": "living", "why_ru": "*-ing* — другое время. В Present Simple — *lives*." }
+      ],
+      "answer": "lives", "ok_ru": "Верно: *She lives* — в 3-м лице добавляем *-s*." },
+
+    { "id": "tps-s1-d1", "topic": "third_person_s", "set": 1, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "He ___ bread.", "prompt_ru": "Он любит хлеб.", "hint_ru": "глагол like в 3-м лице",
+      "canonical": "like{s}", "accepted": ["likes"],
+      "wrong": [
+        { "match": "like", "ru": "3-е лицо — с *-s*: *He likes bread*." }
+      ],
+      "review_ru": "-s в 3-м лице", "ok_ru": "Да: *He likes bread*." },
+
+    { "id": "tps-s1-d2", "topic": "third_person_s", "set": 1, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "She ___ home.", "prompt_ru": "Она идёт домой.", "hint_ru": "глагол go в 3-м лице",
+      "canonical": "go{es}", "accepted": ["goes"],
+      "wrong": [
+        { "match": "go", "ru": "3-е лицо: *She goes home*." },
+        { "match": "gos", "ru": "После *-o* пишем *-es*: *go -> goes*." }
+      ],
+      "review_ru": "-s в 3-м лице", "ok_ru": "Да: *She goes home* (после -o пишем -es)." },
+
+    { "id": "tps-s2-w1", "topic": "third_person_s", "set": 2, "stage": "warmup", "type": "choose_form",
+      "prompt_fi": "He ___ tea.", "hint_ru": "(пить)",
+      "options": [
+        { "fi": "drinks" },
+        { "fi": "drink", "why_ru": "Для he нужно *-s*: *drinks*." },
+        { "fi": "drinkes", "why_ru": "После обычного согласного — просто *-s*: *drinks*, не *drinkes*." }
+      ],
+      "answer": "drinks", "ok_ru": "Верно: *He drinks tea*." },
+
+    { "id": "tps-s2-d1", "topic": "third_person_s", "set": 2, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "She ___ a cat.", "prompt_ru": "У неё есть кошка.", "hint_ru": "глагол have в 3-м лице",
+      "canonical": "[has]", "accepted": ["has"],
+      "wrong": [
+        { "match": "have", "ru": "3-е лицо: *She has a cat*." },
+        { "match": "haves", "ru": "*have* в 3-м лице — особая форма *has*." }
+      ],
+      "review_ru": "have -> has", "ok_ru": "Да: *She has a cat*." },
+
+    { "id": "tps-s2-d2", "topic": "third_person_s", "set": 2, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "He ___ every day.", "prompt_ru": "Он работает каждый день.", "hint_ru": "глагол work в 3-м лице",
+      "canonical": "work{s}", "accepted": ["works"],
+      "wrong": [
+        { "match": "work", "ru": "3-е лицо — с *-s*: *He works every day*." }
+      ],
+      "review_ru": "-s в 3-м лице", "ok_ru": "Да: *He works every day*." },
+
+    { "id": "pl-s1-w1", "topic": "plurals", "set": 1, "stage": "warmup", "type": "choose_form",
+      "prompt_fi": "I have two ___.", "hint_ru": "(собака)",
+      "options": [
+        { "fi": "dogs" },
+        { "fi": "dog", "why_ru": "После числа больше одного — мн. число: *two dogs*." },
+        { "fi": "doges", "why_ru": "После обычного согласного — просто *-s*: *dogs*." }
+      ],
+      "answer": "dogs", "ok_ru": "Верно: *two dogs* — после числа множественное." },
+
+    { "id": "pl-s1-d1", "topic": "plurals", "set": 1, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "two ___", "prompt_ru": "две сестры", "hint_ru": "мн. число от sister",
+      "canonical": "sister{s}", "accepted": ["sisters"],
+      "wrong": [
+        { "match": "sister", "ru": "После числа — мн. число: *two sisters*." }
+      ],
+      "review_ru": "множественное -s", "ok_ru": "Да: *two sisters*." },
+
+    { "id": "pl-s2-w1", "topic": "plurals", "set": 2, "stage": "warmup", "type": "choose_form",
+      "prompt_fi": "We have two ___.", "hint_ru": "(ребёнок)",
+      "options": [
+        { "fi": "children" },
+        { "fi": "childs", "why_ru": "*child* — особая форма: *children*, не *childs*." },
+        { "fi": "childrens", "why_ru": "*children* уже мн. число — без второго *-s*." }
+      ],
+      "answer": "children", "ok_ru": "Верно: *child -> children* (особая форма)." },
+
+    { "id": "pl-s2-d1", "topic": "plurals", "set": 2, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "five ___", "prompt_ru": "пять дней", "hint_ru": "мн. число от day",
+      "canonical": "day{s}", "accepted": ["days"],
+      "wrong": [
+        { "match": "day", "ru": "После числа — мн. число: *five days*." }
+      ],
+      "review_ru": "множественное -s", "ok_ru": "Да: *five days*." },
+
+    { "id": "pl-s2-d2", "topic": "plurals", "set": 2, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "three ___", "prompt_ru": "три женщины", "hint_ru": "мн. число от woman",
+      "canonical": "[women]", "accepted": ["women"],
+      "wrong": [
+        { "match": "womans", "ru": "*woman* — особая форма: *women*, не *womans*." },
+        { "match": "woman", "ru": "После числа — мн. число: *three women*." }
+      ],
+      "review_ru": "особые формы мн. числа", "ok_ru": "Да: *woman -> women*." },
+
+    { "id": "tt-s1-w1", "topic": "this_these", "set": 1, "stage": "warmup", "type": "choose_form",
+      "prompt_fi": "___ apples are tasty.", "hint_ru": "(эти)",
+      "options": [
+        { "fi": "These" },
+        { "fi": "This", "why_ru": "*this* — для ед. числа. Для мн. — *these*." },
+        { "fi": "That", "why_ru": "*that* — для ед. числа (тот). Для мн. — *those*." }
+      ],
+      "answer": "These", "ok_ru": "Верно: *These apples* — мн. число *these*." },
+
+    { "id": "tt-s1-d1", "topic": "this_these", "set": 1, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "These apples ___ tasty.", "prompt_ru": "Эти яблоки вкусные.", "hint_ru": "форма to be",
+      "canonical": "{are}", "accepted": ["are"],
+      "wrong": [
+        { "match": "is", "ru": "Мн. число: *apples are* (не *is*)." }
+      ],
+      "review_ru": "these + are", "ok_ru": "Да: *These apples are tasty*." },
+
+    { "id": "tt-s2-w1", "topic": "this_these", "set": 2, "stage": "warmup", "type": "choose_form",
+      "prompt_fi": "This ___ my friend.", "hint_ru": "(это … мой друг)",
+      "options": [
+        { "fi": "is" },
+        { "fi": "are", "why_ru": "*this* — ед. число: *This is*." },
+        { "fi": "am", "why_ru": "*am* — только для *I*. У *this* — *is*." }
+      ],
+      "answer": "is", "ok_ru": "Верно: *This is my friend*." },
+
+    { "id": "tt-s2-d1", "topic": "this_these", "set": 2, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "Those ___ are big.", "prompt_ru": "Те собаки большие.", "hint_ru": "мн. число от dog",
+      "canonical": "dog{s}", "accepted": ["dogs"],
+      "wrong": [
+        { "match": "dog", "ru": "Мн. число: *Those dogs are big*." }
+      ],
+      "review_ru": "those + мн. число", "ok_ru": "Да: *Those dogs are big*." },
+
+    { "id": "tt-s2-d2", "topic": "this_these", "set": 2, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "___ is my sister.", "prompt_ru": "Это моя сестра.", "hint_ru": "ед. число: «это»",
+      "canonical": "This", "accepted": ["this"],
+      "wrong": [
+        { "match": "these", "ru": "Ед. число — *this*: *This is my sister*." }
+      ],
+      "review_ru": "this (ед. число)", "ok_ru": "Да: *This is my sister*." },
+
+    { "id": "dq-s1-w1", "topic": "do_questions", "set": 1, "stage": "warmup", "type": "choose_form",
+      "prompt_fi": "___ you speak English?", "hint_ru": "(вопрос)",
+      "options": [
+        { "fi": "Do" },
+        { "fi": "Are", "why_ru": "Со смысловым глаголом вопрос — через *do*: *Do you speak…?*" },
+        { "fi": "Does", "why_ru": "*does* — для he/she/it. Для *you* — *do*." }
+      ],
+      "answer": "Do", "ok_ru": "Верно: *Do you speak English?*" },
+
+    { "id": "dq-s1-d1", "topic": "do_questions", "set": 1, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "___ you like coffee?", "prompt_ru": "Ты любишь кофе?", "hint_ru": "вспомогательный глагол",
+      "canonical": "Do", "accepted": ["do"],
+      "wrong": [
+        { "match": "are", "ru": "Со смысловым глаголом — *do*: *Do you like coffee?*" },
+        { "match": "does", "ru": "Для *you* — *do*, а не *does*." }
+      ],
+      "review_ru": "вопрос с do", "ok_ru": "Да: *Do you like coffee?*" },
+
+    { "id": "dq-s1-d2", "topic": "do_questions", "set": 1, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "I ___ drink tea.", "prompt_ru": "Я не пью чай.", "hint_ru": "отрицание",
+      "canonical": "don{'t}", "accepted": ["don't", "do not"],
+      "wrong": [
+        { "match": "not", "ru": "Отрицание — через *don't*: *I don't drink tea*." },
+        { "match": "doesn't", "ru": "Для *I* — *don't*, а не *doesn't*." }
+      ],
+      "review_ru": "отрицание don't", "ok_ru": "Да: *I don't drink tea*." },
+
+    { "id": "dq-s2-w1", "topic": "do_questions", "set": 2, "stage": "warmup", "type": "choose_form",
+      "prompt_fi": "___ she like tea?", "hint_ru": "(вопрос, she)",
+      "options": [
+        { "fi": "Does" },
+        { "fi": "Do", "why_ru": "Для he/she/it — *does*: *Does she like…?*" },
+        { "fi": "Is", "why_ru": "Со смысловым глаголом вопрос — через *does*, не *is*." }
+      ],
+      "answer": "Does", "ok_ru": "Верно: *Does she like tea?*" },
+
+    { "id": "dq-s2-d1", "topic": "do_questions", "set": 2, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "He ___ like coffee.", "prompt_ru": "Он не любит кофе.", "hint_ru": "отрицание в 3-м лице",
+      "canonical": "doesn{'t}", "accepted": ["doesn't", "does not"],
+      "wrong": [
+        { "match": "don't", "ru": "Для he/she/it — *doesn't*, не *don't*." },
+        { "match": "not", "ru": "Отрицание в 3-м лице — *doesn't*: *He doesn't like…*" }
+      ],
+      "review_ru": "отрицание doesn't", "ok_ru": "Да: *He doesn't like coffee*." },
+
+    { "id": "dq-s2-d2", "topic": "do_questions", "set": 2, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "Where ___ you live?", "prompt_ru": "Где ты живёшь?", "hint_ru": "вспомогательный глагол",
+      "canonical": "do", "accepted": ["do"],
+      "wrong": [
+        { "match": "are", "ru": "Со смысловым глаголом — *do*: *Where do you live?*" },
+        { "match": "does", "ru": "Для *you* — *do*: *Where do you live?*" }
+      ],
+      "review_ru": "вопрос с do", "ok_ru": "Да: *Where do you live?*" },
+
+    { "id": "can-s1-w1", "topic": "can", "set": 1, "stage": "warmup", "type": "choose_form",
+      "prompt_fi": "I can ___ English.", "hint_ru": "(говорить)",
+      "options": [
+        { "fi": "speak" },
+        { "fi": "to speak", "why_ru": "После *can* — без *to*: *can speak*." },
+        { "fi": "speaks", "why_ru": "После *can* — базовая форма: *can speak*, не *speaks*." }
+      ],
+      "answer": "speak", "ok_ru": "Верно: *I can speak English* — после *can* базовая форма." },
+
+    { "id": "can-s1-d1", "topic": "can", "set": 1, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "She can ___.", "prompt_ru": "Она умеет готовить.", "hint_ru": "глагол cook после can",
+      "canonical": "cook", "accepted": ["cook"],
+      "wrong": [
+        { "match": "cooks", "ru": "После *can* — базовая форма: *can cook*." },
+        { "match": "to cook", "ru": "После *can* — без *to*: *can cook*." }
+      ],
+      "review_ru": "can + базовая форма", "ok_ru": "Да: *She can cook*." },
+
+    { "id": "can-s2-w1", "topic": "can", "set": 2, "stage": "warmup", "type": "choose_form",
+      "prompt_fi": "___ you help me?", "hint_ru": "(можешь?)",
+      "options": [
+        { "fi": "Can" },
+        { "fi": "Do", "why_ru": "С *can* вопрос — *Can you…?* (без *do*)." },
+        { "fi": "Are", "why_ru": "*can* — это глагол сам по себе: *Can you help?*" }
+      ],
+      "answer": "Can", "ok_ru": "Верно: *Can you help me?*" },
+
+    { "id": "can-s2-d1", "topic": "can", "set": 2, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "I ___ come.", "prompt_ru": "Я не могу прийти.", "hint_ru": "отрицание can",
+      "canonical": "can{'t}", "accepted": ["can't", "cannot", "can not"],
+      "wrong": [
+        { "match": "don't can", "ru": "*can* не использует *do*: отрицание — *can't*: *I can't come*." }
+      ],
+      "review_ru": "can't (без do)", "ok_ru": "Да: *I can't come*." },
+
+    { "id": "can-s2-d2", "topic": "can", "set": 2, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "___ you help?", "prompt_ru": "Ты можешь помочь?", "hint_ru": "вопрос с can",
+      "canonical": "Can", "accepted": ["can"],
+      "wrong": [
+        { "match": "do", "ru": "С *can* — *Can you help?* (без *do*)." }
+      ],
+      "review_ru": "can (вопрос без do)", "ok_ru": "Да: *Can you help?*" },
+
+    { "id": "ti-s1-w1", "topic": "there_is_are", "set": 1, "stage": "warmup", "type": "choose_form",
+      "prompt_fi": "There ___ a table in the room.", "hint_ru": "(есть, ед.)",
+      "options": [
+        { "fi": "is" },
+        { "fi": "are", "why_ru": "*a table* — ед. число: *There is*." },
+        { "fi": "have", "why_ru": "«Есть» здесь — *there is*, не *have*." }
+      ],
+      "answer": "is", "ok_ru": "Верно: *There is a table in the room*." },
+
+    { "id": "ti-s1-d1", "topic": "there_is_are", "set": 1, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "There ___ a window in the room.", "prompt_ru": "В комнате есть окно.", "hint_ru": "ед. число",
+      "canonical": "{is}", "accepted": ["is"],
+      "wrong": [
+        { "match": "are", "ru": "*a window* — ед. число: *There is*." },
+        { "match": "have", "ru": "Оборот — *There is*, не *have*." }
+      ],
+      "review_ru": "there is (ед.)", "ok_ru": "Да: *There is a window in the room*." },
+
+    { "id": "ti-s2-w1", "topic": "there_is_are", "set": 2, "stage": "warmup", "type": "choose_form",
+      "prompt_fi": "There ___ seven days in a week.", "hint_ru": "(есть, мн.)",
+      "options": [
+        { "fi": "are" },
+        { "fi": "is", "why_ru": "*seven days* — мн. число: *There are*." }
+      ],
+      "answer": "are", "ok_ru": "Верно: *There are seven days in a week*." },
+
+    { "id": "ti-s2-d1", "topic": "there_is_are", "set": 2, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "There ___ two parks in the city.", "prompt_ru": "В городе два парка.", "hint_ru": "мн. число",
+      "canonical": "{are}", "accepted": ["are"],
+      "wrong": [
+        { "match": "is", "ru": "*two parks* — мн. число: *There are*." }
+      ],
+      "review_ru": "there are (мн.)", "ok_ru": "Да: *There are two parks in the city*." },
+
+    { "id": "ti-s2-d2", "topic": "there_is_are", "set": 2, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "There is ___ book on the table.", "prompt_ru": "На столе книга.", "hint_ru": "артикль после there is",
+      "canonical": "{a}", "accepted": ["a"],
+      "wrong": [
+        { "match": "the", "ru": "После *there is* у исчисляемого впервые — *a*: *a book*." }
+      ],
+      "review_ru": "there is + a", "ok_ru": "Да: *There is a book on the table*." },
+
+    { "id": "pst-s1-w1", "topic": "past_simple", "set": 1, "stage": "warmup", "type": "choose_form",
+      "prompt_fi": "Yesterday I ___ to the shop.", "hint_ru": "(идти, прош.)",
+      "options": [
+        { "fi": "went" },
+        { "fi": "go", "why_ru": "О прошлом — *went* (прош. от *go*)." },
+        { "fi": "goed", "why_ru": "*go* — неправильный глагол: *went*, не *goed*." }
+      ],
+      "answer": "went", "ok_ru": "Верно: *I went to the shop* (go -> went)." },
+
+    { "id": "pst-s1-d1", "topic": "past_simple", "set": 1, "stage": "drill", "type": "fill_table",
+      "prompt_fi": "be · прошедшее время", "prompt_ru": "Поставьте was или were.",
+      "review_ru": "was / were",
+      "cells": [
+        { "l": "I", "canonical": "{was}", "accepted": ["was"] },
+        { "l": "you", "canonical": "{were}", "accepted": ["were"] },
+        { "l": "he", "canonical": "{was}", "accepted": ["was"] },
+        { "l": "we", "canonical": "{were}", "accepted": ["were"] },
+        { "l": "they", "canonical": "{were}", "accepted": ["were"] }
+      ],
+      "summary_ru": "*was* — I/he/she/it; *were* — you/we/they." },
+
+    { "id": "pst-s2-w1", "topic": "past_simple", "set": 2, "stage": "warmup", "type": "choose_form",
+      "prompt_fi": "She ___ a new shirt.", "hint_ru": "(купить, прош.)",
+      "options": [
+        { "fi": "bought" },
+        { "fi": "buyed", "why_ru": "*buy* — неправильный глагол: *bought*, не *buyed*." },
+        { "fi": "buy", "why_ru": "О прошлом — *bought*: *She bought a new shirt*." }
+      ],
+      "answer": "bought", "ok_ru": "Верно: *She bought a new shirt* (buy -> bought)." },
+
+    { "id": "pst-s2-d1", "topic": "past_simple", "set": 2, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "Yesterday we ___ at home.", "prompt_ru": "Вчера мы были дома.", "hint_ru": "be в прошедшем (we)",
+      "canonical": "[were]", "accepted": ["were"],
+      "wrong": [
+        { "match": "was", "ru": "Для *we* в прошлом — *were*: *we were*." },
+        { "match": "are", "ru": "О прошлом — *were*, не *are*." }
+      ],
+      "review_ru": "was / were", "ok_ru": "Да: *Yesterday we were at home*." },
+
+    { "id": "pst-s2-d2", "topic": "past_simple", "set": 2, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "He ___ yesterday.", "prompt_ru": "Он работал вчера.", "hint_ru": "work в прошедшем",
+      "canonical": "work{ed}", "accepted": ["worked"],
+      "wrong": [
+        { "match": "work", "ru": "Прошедшее правильного глагола — с *-ed*: *worked*." },
+        { "match": "was work", "ru": "Прошедшее — это *worked*, без *was*: *He worked yesterday*." }
+      ],
+      "review_ru": "правильное -ed", "ok_ru": "Да: *He worked yesterday*." },
+
+    { "id": "pc-s1-w1", "topic": "present_continuous", "set": 1, "stage": "warmup", "type": "choose_form",
+      "prompt_fi": "I ___ reading now.", "hint_ru": "(сейчас читаю)",
+      "options": [
+        { "fi": "am" },
+        { "fi": "is", "why_ru": "Для *I* — *am*: *I am reading*." },
+        { "fi": "are", "why_ru": "Для *I* — *am*, не *are*." }
+      ],
+      "answer": "am", "ok_ru": "Верно: *I am reading now*." },
+
+    { "id": "pc-s1-d1", "topic": "present_continuous", "set": 1, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "She is ___ now.", "prompt_ru": "Она сейчас готовит.", "hint_ru": "cook + -ing",
+      "canonical": "cook{ing}", "accepted": ["cooking"],
+      "wrong": [
+        { "match": "cook", "ru": "Present Continuous — с *-ing*: *is cooking*." },
+        { "match": "cooks", "ru": "Сейчас, в момент речи — *is cooking*, а не *cooks*." }
+      ],
+      "review_ru": "be + -ing", "ok_ru": "Да: *She is cooking now*." },
+
+    { "id": "pc-s2-w1", "topic": "present_continuous", "set": 2, "stage": "warmup", "type": "choose_form",
+      "prompt_fi": "They ___ playing.", "hint_ru": "(они играют)",
+      "options": [
+        { "fi": "are" },
+        { "fi": "is", "why_ru": "*they* — мн. число: *They are playing*." },
+        { "fi": "am", "why_ru": "*am* — только для *I*." }
+      ],
+      "answer": "are", "ok_ru": "Верно: *They are playing*." },
+
+    { "id": "pc-s2-d1", "topic": "present_continuous", "set": 2, "stage": "drill", "type": "fill_table",
+      "prompt_fi": "read · сейчас (be + V-ing)", "prompt_ru": "Поставьте форму to be + reading.",
+      "review_ru": "be + -ing",
+      "cells": [
+        { "l": "I", "canonical": "{am} reading", "accepted": ["am reading"] },
+        { "l": "you", "canonical": "{are} reading", "accepted": ["are reading"] },
+        { "l": "he", "canonical": "{is} reading", "accepted": ["is reading"] },
+        { "l": "they", "canonical": "{are} reading", "accepted": ["are reading"] }
+      ],
+      "summary_ru": "*am/is/are* + глагол с *-ing*: *I am reading, he is reading*." },
+
+    { "id": "pc-s2-d2", "topic": "present_continuous", "set": 2, "stage": "drill", "type": "produce_form",
+      "prompt_fi": "We are ___ home.", "prompt_ru": "Мы сейчас идём домой.", "hint_ru": "go + -ing",
+      "canonical": "go{ing}", "accepted": ["going"],
+      "wrong": [
+        { "match": "go", "ru": "С *-ing*: *We are going home*." },
+        { "match": "goes", "ru": "В Present Continuous — *going*, а не *goes*." }
+      ],
+      "review_ru": "be + -ing", "ok_ru": "Да: *We are going home*." }
+  ]
+}

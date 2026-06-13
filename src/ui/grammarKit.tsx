@@ -85,6 +85,12 @@ const TAG_LABEL: Record<GrammarTag, string> = {
   neg: "коннегатив",
   part: "партитив",
   vh: "гармония гласных",
+  tense: "время",
+  modal: "модальный глагол",
+  article: "артикль",
+  plural: "мн. число",
+  pron: "местоимения",
+  syntax: "порядок слов",
 };
 
 export function GTagChip({ kind, label }: { kind: GrammarTag; label?: string }) {

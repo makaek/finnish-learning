@@ -3711,6 +3711,13 @@ body {
 .gtag--neg { --c: var(--weak-deep); }
 .gtag--part { --c: var(--read); }
 .gtag--vh { --c: var(--rd-green); }
+/* English-curriculum concept tags (reuse the same hue palette) */
+.gtag--tense { --c: var(--rd-violet); }
+.gtag--modal { --c: var(--gold); }
+.gtag--article { --c: var(--rd-teal); }
+.gtag--plural { --c: var(--read); }
+.gtag--pron { --c: var(--rd-green); }
+.gtag--syntax { --c: var(--weak-deep); }
 
 /* ---- Explanation block (the learning moment; reused everywhere) ---- */
 .gx {

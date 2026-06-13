@@ -1025,6 +1025,118 @@
         { "match": "i paid the tickets", "ru": "Глагол «pay» требует предлог «for»: «pay for the tickets»." }
       ],
       "teaches": "pay FOR + irregular past (paid)"
+    },
+    {
+      "id": "s75",
+      "ru": "Я сейчас читаю книгу.",
+      "uses": ["p1", "v6", "n12", "f14"],
+      "level": 7,
+      "theme": "hobbies",
+      "canonical": "I am reading a book now.",
+      "accepted": ["I am reading a book now.", "I'm reading a book now."],
+      "wrong": [
+        { "match": "i read a book now", "ru": "Действие прямо сейчас — Present Continuous: «I am reading a book now»." },
+        { "match": "i am read a book now", "ru": "Нужна форма с «-ing»: «I am reading»." }
+      ],
+      "teaches": "present continuous — now"
+    },
+    {
+      "id": "s76",
+      "ru": "Она готовит ужин.",
+      "uses": ["p4", "v15", "n39"],
+      "level": 7,
+      "theme": "food",
+      "canonical": "She is cooking dinner.",
+      "accepted": ["She is cooking dinner.", "She's cooking dinner."],
+      "wrong": [
+        { "match": "she cooks dinner", "ru": "Сейчас, в момент речи — «She is cooking dinner»." },
+        { "match": "she cooking dinner", "ru": "Нужен «is»: «She is cooking dinner»." }
+      ],
+      "teaches": "present continuous — is + -ing"
+    },
+    {
+      "id": "s77",
+      "ru": "Они играют в парке.",
+      "uses": ["p6", "v21", "f15", "n57"],
+      "level": 7,
+      "theme": "hobbies",
+      "canonical": "They are playing in the park.",
+      "accepted": ["They are playing in the park.", "They're playing in the park."],
+      "wrong": [
+        { "match": "they play in the park", "ru": "Действие сейчас — «They are playing in the park»." },
+        { "match": "they are play in the park", "ru": "С «-ing»: «are playing»." }
+      ],
+      "teaches": "present continuous — are + -ing"
+    },
+    {
+      "id": "s78",
+      "ru": "Он сейчас работает.",
+      "uses": ["p3", "v13", "f14"],
+      "level": 7,
+      "theme": "work",
+      "canonical": "He is working now.",
+      "accepted": ["He is working now.", "He's working now."],
+      "wrong": [
+        { "match": "he works now", "ru": "Сейчас — «He is working now»." },
+        { "match": "he is work now", "ru": "С «-ing»: «is working»." }
+      ],
+      "teaches": "present continuous — now"
+    },
+    {
+      "id": "s79",
+      "ru": "Идёт дождь.",
+      "uses": ["p7", "v43"],
+      "level": 7,
+      "theme": "weather",
+      "canonical": "It is raining.",
+      "accepted": ["It is raining.", "It's raining."],
+      "wrong": [
+        { "match": "it rains", "ru": "Сейчас, в момент речи — «It is raining»." },
+        { "match": "it raining", "ru": "Нужен «is»: «It is raining»." }
+      ],
+      "teaches": "present continuous — weather (it)"
+    },
+    {
+      "id": "s80",
+      "ru": "Мы сейчас идём домой.",
+      "uses": ["p5", "v4", "n11", "f14"],
+      "level": 7,
+      "theme": "directions",
+      "canonical": "We are going home now.",
+      "accepted": ["We are going home now.", "We're going home now."],
+      "wrong": [
+        { "match": "we go home now", "ru": "Прямо сейчас — «We are going home now»." },
+        { "match": "we are go home now", "ru": "С «-ing»: «are going»." }
+      ],
+      "teaches": "present continuous — going"
+    },
+    {
+      "id": "s81",
+      "ru": "Она слушает музыку.",
+      "uses": ["p4", "v40", "f53"],
+      "level": 7,
+      "theme": "hobbies",
+      "canonical": "She is listening to music.",
+      "accepted": ["She is listening to music.", "She's listening to music."],
+      "wrong": [
+        { "match": "she listens music", "ru": "Сейчас — «She is listening»; и «listen» требует «to»: «listen to music»." },
+        { "match": "she is listening music", "ru": "После «listen» нужен предлог «to»: «listening to music»." }
+      ],
+      "teaches": "present continuous + listen to"
+    },
+    {
+      "id": "s82",
+      "ru": "Я пишу письмо.",
+      "uses": ["p1", "v38"],
+      "level": 7,
+      "theme": "hobbies",
+      "canonical": "I am writing a letter.",
+      "accepted": ["I am writing a letter.", "I'm writing a letter."],
+      "wrong": [
+        { "match": "i write a letter", "ru": "Сейчас, в момент речи — «I am writing a letter»." },
+        { "match": "i am writing letter", "ru": "Перед «letter» нужен артикль «a»: «a letter»." }
+      ],
+      "teaches": "present continuous — writing"
     }
   ]
 }

@@ -28,8 +28,25 @@ export const GRAMMAR_KIND = "grammar" as const;
 
 /* ===================================================================== content types */
 
-/** Concept-tag vocabulary (colour roles are fixed app-wide — see the gtag CSS). */
-export type GrammarTag = "verbtype" | "case" | "grad" | "neg" | "part" | "vh";
+/**
+ * Concept-tag vocabulary (colour roles are fixed app-wide — see the gtag CSS).
+ * The first six are Finnish-specific; the rest are the English-curriculum concepts
+ * (tense / modal / article / plural / pronoun / syntax). Tags are cosmetic labels only —
+ * adding one needs a matching CSS `.gtag--X` and a `TAG_LABEL` entry (grammarKit.tsx).
+ */
+export type GrammarTag =
+  | "verbtype"
+  | "case"
+  | "grad"
+  | "neg"
+  | "part"
+  | "vh"
+  | "tense"
+  | "modal"
+  | "article"
+  | "plural"
+  | "pron"
+  | "syntax";
 
 export type GrammarStage = "warmup" | "drill";
 
@@ -195,7 +212,20 @@ export interface RawGrammarFile {
   items?: unknown;
 }
 
-const TAGS: readonly GrammarTag[] = ["verbtype", "case", "grad", "neg", "part", "vh"];
+const TAGS: readonly GrammarTag[] = [
+  "verbtype",
+  "case",
+  "grad",
+  "neg",
+  "part",
+  "vh",
+  "tense",
+  "modal",
+  "article",
+  "plural",
+  "pron",
+  "syntax",
+];
 
 function isStringArray(v: unknown): v is string[] {
   return Array.isArray(v) && v.every((x) => typeof x === "string");

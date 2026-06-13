@@ -12,8 +12,10 @@ import dictSeed from "../../../data/en/dictionary.seed.json";
 import sentenceSeed from "../../../data/en/sentences.seed.json";
 import textSeed from "../../../data/en/texts.seed.json";
 import ruleSeed from "../../../data/en/rules.seed.json";
+import grammarSeed from "../../../data/en/grammar.seed.json";
 
 import { flattenDictionary, type RawDictionary } from "../../core/dictionary";
+import { flattenGrammar, type RawGrammarFile } from "../../core/grammar";
 import {
   makeSentenceIndex,
   makeGrader,
@@ -43,7 +45,14 @@ const gradeQuestion = makeGrader(makeSentenceIndex(questions, NO_PRONOUNS));
 
 const rules = flattenRules(ruleSeed as RawRulesFile);
 
-/** A1 topic titles (levels 1–6). The `fi` field holds the TARGET (English) topic name. */
+const grammar = flattenGrammar(grammarSeed as RawGrammarFile);
+
+/**
+ * Topic titles per level (the `fi` field holds the TARGET English topic name). Per curriculum.ts
+ * banding (A1.1 → L1-3, A1.2 → L4-7), levels 1-3 are A1.1 and 4-7 are A1.2. Level 7 (Present
+ * Continuous + "actions happening now") is the newest step along the CEFR path; reaching A1.3
+ * (L8+) / A2 (L12+) is future content.
+ */
 const TITLES: Readonly<Record<number, LevelTitle>> = {
   1: { fi: "Greetings", ru: "Приветствия" },
   2: { fi: "Family & home", ru: "Семья и дом" },
@@ -51,6 +60,7 @@ const TITLES: Readonly<Record<number, LevelTitle>> = {
   4: { fi: "Numbers & time", ru: "Числа и время" },
   5: { fi: "City & directions", ru: "Город и направления" },
   6: { fi: "Past & shopping", ru: "Прошедшее время и покупки" },
+  7: { fi: "Happening now", ru: "Происходит сейчас" },
 };
 
 export const enPack: LanguagePack = {
@@ -63,8 +73,7 @@ export const enPack: LanguagePack = {
   sentences,
   texts,
   rules,
-  // No grammar lessons authored for English yet — the mode simply doesn't surface.
-  grammar: { modules: [], topics: [], items: [] },
+  grammar,
   grade,
   gradeQuestion,
   pronouns: NO_PRONOUNS,

@@ -43,3 +43,12 @@ Verified error patterns and conventions for the English-for-Russian-speakers con
   Polish: s17 add "I'd like water, please."; a12 gloss reword; n54 "o'clock" pos noun→adv;
   t16 "I work from Monday." reads awkward (deck lacks Friday so left as-is). All `wrong` patterns
   verified genuinely incorrect; rules.seed.json fully accurate. Safe to clear needs_review after s35.
+- 2026-06-13: Verified the NEW grammar-mode deck (data/en/grammar.seed.json — 12 topics/61 items,
+  to_be…present_continuous, levels 1–7) + dict v38–v43/f52–f53 + sentences s75–s82 (L7 Present
+  Continuous). Verdict: linguistically sound. All -ing/-s/-es/irregular forms, articles, contractions,
+  do/does/don't/doesn't, was/were, can/can't/cannot correct; theory copy accurate (a/an by sound,
+  uncountables, -es after o/s/sh/ch/x, irregular plurals). Fixes: pst-s2-d2 wrong.match "worgit"
+  explanation tidied + added "was work" distractor; art-s1-d1 "the"-reason reworded (apple is
+  first-mention, not "generic"). Cleared needs_review (meta + all 12 topics). Note for grammar items:
+  `Tom{'s}` accepts both "tom's" and "toms" (normalizer strips the apostrophe) — intentional.
+  All new sentence themes (hobbies/weather/sports/clothes/work) are registered in themes.seed.json.
