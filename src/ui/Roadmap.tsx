@@ -20,7 +20,7 @@ import {
   type VocabLike,
 } from "../core/levels";
 import { computeBalance, type ModeInput } from "../core/balance";
-import { grammarStats, weakestTopic, type GrammarContent } from "../core/grammar";
+import { grammarStats, mandatoryGrammarTopic, type GrammarContent } from "../core/grammar";
 import { cefrProgress, cefrOfLevel, CEFR_ORDER, cefrBandSizes } from "../core/curriculum";
 import { bandName } from "../data/levelTitles";
 import CefrMeter, { type CefrBand, type CefrState } from "./CefrMeter";
@@ -235,10 +235,14 @@ export default function Roadmap({
     "read:dialog": finish.dialog,
   };
 
-  // Grammar action-card rollup: the weakest startable topic ACROSS the whole tree (the card is a
-  // deep link into the curriculum, not a current-level stat — the ring spoke covers that).
+  // Grammar action-card rollup. The deep-link target is LEVEL-ANCHORED: the weakest startable
+  // topic at the gated current level (what's blocking the next level), falling forward to the
+  // next level with work and to undefined (→ open the map) when everything reachable is mastered.
   const gram = useMemo(() => grammarStats(grammar.topics, progress), [grammar.topics, progress]);
-  const gramWeak = useMemo(() => weakestTopic(grammar.topics, progress), [grammar.topics, progress]);
+  const gramNext = useMemo(
+    () => mandatoryGrammarTopic(grammar.topics, progress, active),
+    [grammar.topics, progress, active],
+  );
 
   // Ring spokes for the redesigned BalanceRing: fixed-orbit chips whose fill = mastery and badge =
   // items left. Built from the balance cells (ordered words→sent→read→gram, so the group arcs are
@@ -271,7 +275,7 @@ export default function Roadmap({
   const startById = (id: string) => {
     if (id === "read:text") return onOpenReading("text");
     if (id === "read:dialog") return onOpenReading("dialog");
-    if (id === "grammar") return onOpenGrammar();
+    if (id === "grammar") return onOpenGrammar(gramNext?.id);
     return onStart(id as Mode);
   };
 
@@ -406,12 +410,13 @@ export default function Roadmap({
         />
       </div>
 
-      {/* Грамматика — full-width action card deep-linking into the weakest topic's lesson. */}
+      {/* Грамматика — full-width action card deep-linking into the lesson that gates the next
+          level (undefined target → opens the topic map). */}
       {gram.total > 0 && (
         <button
           type="button"
           className="ctacard ctacard--gram ctacard--row"
-          onClick={() => onOpenGrammar(gramWeak?.id)}
+          onClick={() => onOpenGrammar(gramNext?.id)}
         >
           <span className="ctacard__tile" aria-hidden="true">
             <UiIcon name="pen" size={21} strokeWidth={1.85} />
@@ -419,10 +424,10 @@ export default function Roadmap({
           <span className="ctacard__main">
             <span className="ctacard__kicker">Грамматика</span>
             <span className="ctacard__title">
-              {gramWeak ? `Слабая тема: ${gramWeak.title}` : "Все темы освоены"}
+              {gramNext ? gramNext.title : "Все темы освоены"}
             </span>
             <span className="ctacard__sub">
-              {gramWeak ? "3–5 мин · продолжить урок" : "открыть карту тем"}
+              {gramNext ? `Уровень ${gramNext.level} · 3–5 мин` : "открыть карту тем"}
             </span>
           </span>
           <span className="ctacard__play" aria-hidden="true">

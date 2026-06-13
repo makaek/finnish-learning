@@ -12,6 +12,7 @@ import {
   gradeTyped,
   grammarStats,
   lessonItems,
+  mandatoryGrammarTopic,
   newlyUnlocked,
   parseForm,
   parseRu,
@@ -385,6 +386,38 @@ describe("rollups", () => {
     expect(weakestTopic(content.topics, p)?.id).toBe("vt1");
     const done = progressWith({ endings: GRAMMAR_MASTERED_BOX, vt1: GRAMMAR_MASTERED_BOX });
     expect(weakestTopic(content.topics, done)).toBeUndefined();
+  });
+
+  it("mandatoryGrammarTopic picks the weakest startable topic AT the gated level", () => {
+    const endings = content.topics.find((t) => t.id === "endings")!;
+    const vt1 = content.topics.find((t) => t.id === "vt1")!;
+    const leveled: GrammarTopic[] = [
+      { ...endings, level: 1 },
+      { ...vt1, level: 2 },
+    ];
+    // Level 1, fresh: only endings is startable there (vt1 is locked + a level up).
+    expect(mandatoryGrammarTopic(leveled, new Map(), 1)?.id).toBe("endings");
+    // Level 1 done → nothing startable AT level 1, so it falls forward to level 2's vt1
+    // (now unlocked because its prereq endings is mastered).
+    const l1done = progressWith({ endings: GRAMMAR_MASTERED_BOX });
+    expect(mandatoryGrammarTopic(leveled, l1done, 1)?.id).toBe("vt1");
+    // Gated at level 2 with vt1 in progress → vt1.
+    const l2 = progressWith({ endings: GRAMMAR_MASTERED_BOX, vt1: 1 });
+    expect(mandatoryGrammarTopic(leveled, l2, 2)?.id).toBe("vt1");
+    // Everything mastered → nothing to deep-link into (callers open the map).
+    const allDone = progressWith({ endings: GRAMMAR_MASTERED_BOX, vt1: GRAMMAR_MASTERED_BOX });
+    expect(mandatoryGrammarTopic(leveled, allDone, 2)).toBeUndefined();
+  });
+
+  it("mandatoryGrammarTopic breaks ties on curriculum order within a level", () => {
+    const endings = content.topics.find((t) => t.id === "endings")!;
+    // Two unlocked, equally-fresh topics on the same level. Like weakestTopic, the input is the
+    // curriculum-ordered topic list (flattenGrammar sorts by `order`), so the earlier one wins.
+    const sameLevel: GrammarTopic[] = [
+      { ...endings, id: "a", order: 1, prereq: [], level: 1 },
+      { ...endings, id: "b", order: 2, prereq: [], level: 1 },
+    ];
+    expect(mandatoryGrammarTopic(sameLevel, new Map(), 1)?.id).toBe("a");
   });
 
   it("newlyUnlocked reports topics whose lock lifted between two progress states", () => {

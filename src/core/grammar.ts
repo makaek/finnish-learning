@@ -742,6 +742,49 @@ export function weakestTopic(
 }
 
 /**
+ * The grammar topic the learner should do NEXT to advance, given the gated current level:
+ * the weakest STARTABLE (available/in-progress) topic AT that level — the one whose mastery
+ * is gating the level's grammar spoke. When the current level's grammar is fully done (or it
+ * has none), it scans forward to the lowest higher level that still has a startable, not-yet-
+ * mastered topic. Returns undefined only when nothing reachable is left to drill (→ callers
+ * open the topic map instead of deep-linking a lesson). Ties break on curriculum order.
+ *
+ * This is the level-anchored counterpart to {@link weakestTopic} (which ignores levels): the
+ * home grammar entry uses THIS so a tap jumps straight into the lesson blocking the next level.
+ */
+export function mandatoryGrammarTopic(
+  topics: readonly GrammarTopic[],
+  progress: ProgressMap,
+  gatedLevel: number,
+): GrammarTopic | undefined {
+  const states = topicStates(topics, progress);
+  const weakestAt = (level: number): GrammarTopic | undefined => {
+    let best: GrammarTopic | undefined;
+    let bestPct = Infinity;
+    for (const t of topics) {
+      if (t.level !== level) continue;
+      const st = states.get(t.id);
+      if (st !== "available" && st !== "in-progress") continue;
+      const pct = topicMasteryPct(progress, t.id);
+      if (pct < bestPct) {
+        bestPct = pct;
+        best = t;
+      }
+    }
+    return best;
+  };
+  const here = weakestAt(gatedLevel);
+  if (here) return here;
+  // Current level's grammar is done (or empty) — jump to the next level that still has work.
+  const higher = [...new Set(topics.map((t) => t.level))].filter((l) => l > gatedLevel).sort((a, b) => a - b);
+  for (const level of higher) {
+    const next = weakestAt(level);
+    if (next) return next;
+  }
+  return undefined;
+}
+
+/**
  * Topics that BECOME unlocked by mastering `masteredId` — i.e. were locked before and are
  * non-locked in the updated progress. Drives the summary's «Открыта тема» banner.
  */

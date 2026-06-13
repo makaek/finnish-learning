@@ -3991,10 +3991,30 @@ body {
   flex: 1;
   min-width: 0;
 }
+.gtopic__titrow {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
 .gtopic__title {
   font-size: 0.95rem;
   font-weight: 800;
   letter-spacing: -0.01em;
+}
+.gtopic__lvl {
+  flex: none;
+  padding: 1px 7px;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--gram);
+  background: color-mix(in srgb, var(--gram) 14%, var(--card));
+  border-radius: 999px;
+}
+.gtopic--locked .gtopic__lvl,
+.gtopic--mastered .gtopic__lvl {
+  color: var(--muted);
+  background: var(--surface-2);
 }
 .gtopic__sub {
   margin-top: 1px;

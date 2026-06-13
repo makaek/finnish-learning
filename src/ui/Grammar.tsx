@@ -294,7 +294,10 @@ function TopicCard({
         )}
       </span>
       <span className="gtopic__main">
-        <span className="gtopic__title">{topic.title}</span>
+        <span className="gtopic__titrow">
+          <span className="gtopic__title">{topic.title}</span>
+          <span className="gtopic__lvl">Ур. {topic.level}</span>
+        </span>
         <span className="gtopic__sub">{topic.summary}</span>
         {!locked && topic.tags.length > 0 && (
           <span className="gtags gtopic__tags">

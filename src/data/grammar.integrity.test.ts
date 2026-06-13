@@ -86,6 +86,17 @@ describe("grammar seed: shape", () => {
     }
   });
 
+  it("spreads grammar evenly: every level up to the last has 1–3 topics (no empty levels, no dumps)", () => {
+    const byLevel = new Map<number, number>();
+    for (const t of content.topics) byLevel.set(t.level, (byLevel.get(t.level) ?? 0) + 1);
+    const last = Math.max(...content.topics.map((t) => t.level));
+    for (let l = 1; l <= last; l++) {
+      const n = byLevel.get(l) ?? 0;
+      expect(n, `level ${l} has no grammar topic (gap in the curriculum)`).toBeGreaterThanOrEqual(1);
+      expect(n, `level ${l} dumps ${n} topics at once`).toBeLessThanOrEqual(3);
+    }
+  });
+
   it("attaches every item to an existing topic", () => {
     const ids = new Set(content.topics.map((t) => t.id));
     for (const i of content.items) expect(ids.has(i.topic), `${i.id}: unknown topic ${i.topic}`).toBe(true);
