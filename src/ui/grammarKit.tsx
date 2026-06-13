@@ -265,39 +265,6 @@ export function LessonTop({
 
 /* ------------------------------------------------------------------ typed-input help */
 
-/** ä / ö quick-insert keys above the system keyboard; inserts at the caret. */
-export function QuickKeys({
-  inputRef,
-  onChange,
-  disabled,
-}: {
-  inputRef: { current: HTMLInputElement | null };
-  onChange: (value: string) => void;
-  disabled?: boolean;
-}) {
-  const insert = (letter: string) => {
-    const el = inputRef.current;
-    if (!el) return;
-    const start = el.selectionStart ?? el.value.length;
-    const end = el.selectionEnd ?? el.value.length;
-    const next = el.value.slice(0, start) + letter + el.value.slice(end);
-    onChange(next);
-    requestAnimationFrame(() => {
-      el.focus();
-      el.setSelectionRange(start + 1, start + 1);
-    });
-  };
-  return (
-    <div className="gkeys">
-      {["ä", "ö"].map((l) => (
-        <button key={l} type="button" className="gkey" lang="fi" disabled={disabled} onClick={() => insert(l)}>
-          {l}
-        </button>
-      ))}
-    </div>
-  );
-}
-
 /** Canonical correct answer row («ВЕРНО · nukkuu»), with the theory-table highlights. */
 export function GCanon({ canonical }: { canonical: string }) {
   return (

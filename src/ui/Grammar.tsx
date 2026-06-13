@@ -55,7 +55,6 @@ import {
   MasteryRing,
   ParadigmTable,
   ParaKey,
-  QuickKeys,
   RuText,
 } from "./grammarKit";
 
@@ -739,7 +738,6 @@ function TypedCard({
             disabled={graded}
             onChange={(e) => setValue(e.target.value)}
           />
-          {!graded && <QuickKeys inputRef={inputRef} onChange={setValue} />}
           {voiceReady && (
             <button
               type="button"
@@ -805,9 +803,6 @@ function FillTableCard({
 }) {
   const [values, setValues] = useState<string[]>(() => item.cells.map(() => ""));
   const [graded, setGraded] = useState<boolean[] | null>(null);
-  // The ä/ö quick keys insert into whichever cell was focused last.
-  const focusedRef = useRef<HTMLInputElement | null>(null);
-  const focusedIdx = useRef(0);
   const allFilled = values.every((v) => v.trim() !== "");
   const okCount = graded ? graded.filter(Boolean).length : 0;
   const allOk = graded !== null && okCount === item.cells.length;
@@ -846,10 +841,6 @@ function FillTableCard({
                   placeholder="…"
                   value={values[i]}
                   disabled={graded !== null}
-                  onFocus={(e) => {
-                    focusedRef.current = e.currentTarget;
-                    focusedIdx.current = i;
-                  }}
                   onChange={(e) =>
                     setValues((prev) => prev.map((v, j) => (j === i ? e.target.value : v)))
                   }
@@ -866,16 +857,6 @@ function FillTableCard({
             </span>
           ))}
         </div>
-        {!graded && (
-          <div style={{ marginTop: "0.9rem" }}>
-            <QuickKeys
-              inputRef={focusedRef}
-              onChange={(next) =>
-                setValues((prev) => prev.map((v, j) => (j === focusedIdx.current ? next : v)))
-              }
-            />
-          </div>
-        )}
         {graded && (
           <div className="gxstack">
             <GExplain tone={allOk ? "ok" : "near"}>

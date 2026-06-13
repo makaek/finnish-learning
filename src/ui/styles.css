@@ -4292,28 +4292,6 @@ mark.ghl--alt {
   background: var(--known-soft) !important;
 }
 
-/* Quick-insert keys (ä / ö) */
-.gkeys {
-  display: flex;
-  gap: 8px;
-}
-.gkey {
-  flex: 1;
-  min-height: 44px;
-  font: inherit;
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--text);
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  box-shadow: var(--shadow-sm);
-  cursor: pointer;
-}
-.gkey:active {
-  transform: scale(0.95);
-}
-
 /* Canonical correct answer (after wrong / near-miss) */
 .gcanon {
   display: flex;
