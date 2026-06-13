@@ -69,6 +69,7 @@ import Levels from "./Levels";
 import RulesBook from "./RulesBook";
 import Reading from "./Reading";
 import Grammar, { type GrammarLessonRecord } from "./Grammar";
+import GrammarTrainer from "./GrammarTrainer";
 import BottomNav, { type HomeScreen } from "./BottomNav";
 import { UiIcon } from "./icons";
 import RecognitionCard from "./RecognitionCard";
@@ -109,6 +110,8 @@ export default function App() {
   // When grammar is opened from the home action card, the topic whose lesson to deep-link into
   // (undefined = open the topic map). Keyed per open, so re-entering resets the deep link.
   const [grammarTopic, setGrammarTopic] = useState<string | undefined>(undefined);
+  // Which screen the grammar trainer returns to on exit (home / grammar tab / metrics).
+  const [trainerReturn, setTrainerReturn] = useState<HomeScreen>("roadmap");
   // In-lesson grammar overlay: open over the current card, highlighting the relevant rules.
   const [rulesOpen, setRulesOpen] = useState(false);
   const [seed, setSeed] = useState(() => Date.now());
@@ -927,7 +930,22 @@ export default function App() {
           cefr={cefrOfLevel(gLevel)}
           initialTopicId={grammarTopic}
           onBack={() => setHomeScreen("roadmap")}
+          onOpenTrainer={() => {
+            setTrainerReturn("grammar");
+            setHomeScreen("trainer");
+          }}
           onLessonDone={recordGrammarLesson}
+        />
+      );
+    } else if (homeScreen === "trainer") {
+      // Free grammar review — reads progress to weight the queue, writes nothing back.
+      screen = (
+        <GrammarTrainer
+          content={pack.grammar}
+          rules={pack.rules}
+          progress={progressView}
+          speechLang={pack.speechLang}
+          onExit={() => setHomeScreen(trainerReturn)}
         />
       );
     } else if (homeScreen === "rules") {
@@ -952,6 +970,10 @@ export default function App() {
           onOpenGrammar={() => {
             setGrammarTopic(undefined);
             setHomeScreen("grammar");
+          }}
+          onOpenTrainer={() => {
+            setTrainerReturn("dashboard");
+            setHomeScreen("trainer");
           }}
         />
       );
@@ -998,6 +1020,10 @@ export default function App() {
             setGrammarTopic(topicId);
             setHomeScreen("grammar");
           }}
+          onOpenTrainer={() => {
+            setTrainerReturn("roadmap");
+            setHomeScreen("trainer");
+          }}
           onTestFill={fillAllMastered}
           onShowStats={() => setHomeScreen("dashboard")}
         />
@@ -1007,7 +1033,14 @@ export default function App() {
       <div className="home">
         {syncBanner}
         {screen}
-        <BottomNav active={homeScreen} onSelect={setHomeScreen} />
+        <BottomNav
+          active={homeScreen}
+          onSelect={(s) => {
+            // The Грамматика tab always opens the topic map, never a stale deep-linked lesson.
+            if (s === "grammar") setGrammarTopic(undefined);
+            setHomeScreen(s);
+          }}
+        />
       </div>
     );
   }

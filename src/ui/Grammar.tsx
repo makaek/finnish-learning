@@ -9,43 +9,30 @@
  * summary screen.
  */
 
-import { useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { useMemo, useState, type KeyboardEvent } from "react";
 import {
   activeSet,
-  choiceOrder,
-  gradeCell,
-  gradeTyped,
   grammarStats,
   lessonItems,
   reviewPatterns,
   errorWord,
   setCount,
-  stripForm,
   topicMasteryPct,
   topicStates,
   weakestTopic,
   GRAMMAR_MASTERED_BOX,
-  type ChoiceRuItem,
-  type ChooseFormItem,
-  type FillTableItem,
   type GrammarContent,
   type GrammarItem,
   type GrammarTopic,
-  type TypedFormItem,
-  type TypedGrade,
   type TopicState,
 } from "../core/grammar";
 import type { ItemProgress, ProgressMap } from "../core/progress";
 import type { RuleItem } from "../core/rules";
-import { normalizeFi } from "../core/normalize";
-import { pickBestSpoken } from "../core/spokenNumber";
 import RulesBook from "./RulesBook";
 import { useOnline } from "./useOnline";
-import { speechTroubleRu, useSpeechRecognition } from "./useSpeechRecognition";
 import { UiIcon } from "./icons";
+import { ItemScreen } from "./GrammarCards";
 import {
-  FormText,
-  GCanon,
   GExample,
   GExplain,
   GTagChip,
@@ -76,6 +63,8 @@ interface GrammarProps {
   /** Deep link: open this topic's lesson immediately (the home card's weak topic). */
   initialTopicId?: string;
   onBack: () => void;
+  /** Open the decoupled review trainer (from the topic-map banner). */
+  onOpenTrainer: () => void;
   /** Persist a finished lesson; returns the record delta + newly unlocked topics. */
   onLessonDone: (topicId: string, score: number, total: number) => GrammarLessonRecord;
 }
@@ -100,6 +89,7 @@ export default function Grammar({
   cefr,
   initialTopicId,
   onBack,
+  onOpenTrainer,
   onLessonDone,
 }: GrammarProps) {
   // Voice input availability for the typed items: the cloud recognizer needs the network.
@@ -157,9 +147,11 @@ export default function Grammar({
   return (
     <TopicMap
       content={content}
+      rules={rules}
       progress={progress}
       cefr={cefr}
       onBack={onBack}
+      onOpenTrainer={onOpenTrainer}
       onOpen={(topicId) => setView({ kind: "lesson", topicId, run: 0 })}
     />
   );
@@ -177,15 +169,19 @@ const TOPIC_WORD = (n: number): string => {
 
 function TopicMap({
   content,
+  rules,
   progress,
   cefr,
   onBack,
+  onOpenTrainer,
   onOpen,
 }: {
   content: GrammarContent;
+  rules: RuleItem[];
   progress: ProgressMap;
   cefr?: string;
   onBack: () => void;
+  onOpenTrainer: () => void;
   onOpen: (topicId: string) => void;
 }) {
   const states = useMemo(() => topicStates(content.topics, progress), [content.topics, progress]);
@@ -193,9 +189,12 @@ function TopicMap({
   const weak = useMemo(() => weakestTopic(content.topics, progress), [content.topics, progress]);
   const titleOf = (id: string) => content.topics.find((t) => t.id === id)?.title ?? id;
   const modules = [...content.modules].sort((a, b) => a.n - b.n);
+  // Rules are link-only now (no standalone tab): a topic row's 📖 link opens the rules book as
+  // an overlay with that topic's rules surfaced first. Held here so the map owns its own overlay.
+  const [ruleIds, setRuleIds] = useState<readonly string[] | null>(null);
 
   return (
-    <main className="app app--home">
+    <main className="app app--home tr-root">
       <div className="gmap__head">
         <button type="button" className="gexit" aria-label="Назад" onClick={onBack}>
           <UiIcon name="back" size={17} />
@@ -203,6 +202,21 @@ function TopicMap({
         <h1 className="gmap__title">Грамматика</h1>
         {cefr && <span className="glevel">{cefr}</span>}
       </div>
+
+      {/* Trainer banner — free 10-card review over studied topics, decoupled from level progress. */}
+      <button type="button" className="tr-banner" onClick={onOpenTrainer}>
+        <span className="tr-banner__tile" aria-hidden="true">
+          <UiIcon name="refresh" size={20} strokeWidth={2} />
+        </span>
+        <span className="tr-banner__main">
+          <span className="tr-banner__k">Тренажёр · повторение</span>
+          <span className="tr-banner__t">10 заданий из всех тем</span>
+          <span className="tr-banner__s">слабые и давно не повторённые · не влияет на уровень</span>
+        </span>
+        <span className="tr-banner__play" aria-hidden="true">
+          <UiIcon name="play" size={15} strokeWidth={2.4} />
+        </span>
+      </button>
 
       <div className="ghero">
         <MasteryRing pct={stats.mastery} size={46} />
@@ -250,12 +264,21 @@ function TopicMap({
                     .filter((p) => states.get(p) !== "mastered" && states.has(p))
                     .map(titleOf)}
                   onOpen={() => onOpen(t.id)}
+                  onOpenRule={t.ruleIds.length > 0 ? () => setRuleIds(t.ruleIds) : undefined}
                 />
               ))}
             </div>
           </div>
         );
       })}
+
+      <p className="hint" style={{ textAlign: "center" }}>
+        Правила открываются из темы — отдельной вкладки больше нет.
+      </p>
+
+      {ruleIds && (
+        <RulesBook rules={rules} highlightIds={ruleIds} overlay onClose={() => setRuleIds(null)} />
+      )}
     </main>
   );
 }
@@ -266,23 +289,40 @@ function TopicCard({
   pct,
   lockedPrereqs,
   onOpen,
+  onOpenRule,
 }: {
   topic: GrammarTopic;
   state: TopicState;
   pct: number;
   lockedPrereqs: string[];
   onOpen: () => void;
+  /** Opens the topic's rule (rules are link-only now); absent when the topic has no rule. */
+  onOpenRule?: () => void;
 }) {
   const locked = state === "locked";
   const stateClass =
     state === "mastered" ? " gtopic--mastered" : locked ? " gtopic--locked" : "";
+  // Tappable rows START the lesson (decision: rows stay actionable). A nested <button> for the
+  // rule link can't live inside a <button>, so the row is a div with role="button" + keyboard
+  // activation; the rule link stops propagation so it never also triggers the lesson.
+  const rowProps = locked
+    ? {}
+    : {
+        role: "button",
+        tabIndex: 0,
+        onClick: onOpen,
+        onKeyDown: (e: KeyboardEvent) => {
+          // Only the row itself activates — ignore keys bubbling up from the nested rule-link
+          // button (otherwise Enter on «Правила» would also start the lesson).
+          if (e.target !== e.currentTarget) return;
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onOpen();
+          }
+        },
+      };
   return (
-    <button
-      type="button"
-      className={"gtopic" + stateClass}
-      disabled={locked}
-      onClick={locked ? undefined : onOpen}
-    >
+    <div className={"gtopic" + stateClass} {...rowProps}>
       <span className="gtopic__tile" aria-hidden="true">
         {state === "mastered" ? (
           <UiIcon name="check" size={19} strokeWidth={2.4} />
@@ -305,6 +345,20 @@ function TopicCard({
             ))}
           </span>
         )}
+        {!locked && onOpenRule && (
+          <span className="gtopic__links">
+            <button
+              type="button"
+              className="tr-rulelink"
+              onClick={(e) => {
+                e.stopPropagation();
+                onOpenRule();
+              }}
+            >
+              <UiIcon name="rules" size={13} /> Правила
+            </button>
+          </span>
+        )}
         {locked && lockedPrereqs.length > 0 && (
           <span className="gtopic__hint">
             <UiIcon name="lock" size={12} strokeWidth={2.2} /> Сначала пройдите:{" "}
@@ -319,7 +373,7 @@ function TopicCard({
           <UiIcon name="chevR" size={18} />
         </span>
       )}
-    </button>
+    </div>
   );
 }
 
@@ -472,420 +526,8 @@ function TheoryScreen({
   );
 }
 
-/* --------------------------------------------------------------------- items */
-
-function ItemScreen({
-  item,
-  speechLang,
-  online,
-  onComplete,
-}: {
-  item: GrammarItem;
-  speechLang: string;
-  online: boolean;
-  onComplete: (item: GrammarItem, correct: boolean) => void;
-}) {
-  switch (item.type) {
-    case "classify":
-    case "case_id":
-      return <ChoiceRuCard item={item} onComplete={onComplete} />;
-    case "choose_form":
-      return <ChooseFormCard item={item} onComplete={onComplete} />;
-    case "produce_form":
-    case "transform":
-      return <TypedCard item={item} speechLang={speechLang} online={online} onComplete={onComplete} />;
-    case "fill_table":
-      return <FillTableCard item={item} onComplete={onComplete} />;
-  }
-}
-
-/** Footer: the bottom-anchored primary button below the flex spacer. */
-function Footer({ children }: { children: ReactNode }) {
-  return (
-    <>
-      <div className="gspacer" />
-      {children}
-    </>
-  );
-}
-
-/** classify / case_id — multiple choice over Russian labels (chips for verb types). */
-function ChoiceRuCard({
-  item,
-  onComplete,
-}: {
-  item: ChoiceRuItem;
-  onComplete: (item: GrammarItem, correct: boolean) => void;
-}) {
-  const [picked, setPicked] = useState<number | null>(null);
-  const answered = picked !== null;
-  const correct = picked === item.answer;
-  const chips = item.type === "classify";
-  const pickedReason = picked !== null ? item.reasonsRu[picked] : undefined;
-  // case_id options are authored answer-first — render in the item's deterministic shuffle.
-  const order = useMemo(() => choiceOrder(item), [item]);
-
-  return (
-    <>
-      <section className="card gcard">
-        <p className="gprompt">
-          <span className="fi" lang="fi">
-            {item.type === "case_id" ? <FormText text={item.promptFi} /> : item.promptFi}
-          </span>{" "}
-          — {item.promptRu}
-        </p>
-        <div className={"options" + (chips ? " options--chips" : "")}>
-          {order.map((i) => {
-            let cls = "option" + (chips ? " option--chip" : "");
-            if (answered) {
-              if (i === item.answer) cls += " option--correct";
-              else if (i === picked) cls += " option--wrong";
-              else cls += " option--muted";
-            }
-            return (
-              <button
-                key={i}
-                type="button"
-                className={cls}
-                disabled={answered}
-                onClick={() => setPicked(i)}
-              >
-                {item.optionsRu[i]}
-              </button>
-            );
-          })}
-        </div>
-        {answered && (
-          <div className="gxstack">
-            {correct ? (
-              <GExplain tone="ok">
-                <RuText text={item.okRu} />
-              </GExplain>
-            ) : (
-              <>
-                {pickedReason && (
-                  <GExplain tone="no">
-                    <RuText text={pickedReason} />
-                  </GExplain>
-                )}
-                <GExplain tone="ok">
-                  <RuText text={item.correctRu} />
-                </GExplain>
-              </>
-            )}
-          </div>
-        )}
-      </section>
-      {answered && (
-        <Footer>
-          <button type="button" className="gnext" onClick={() => onComplete(item, correct)}>
-            Дальше
-          </button>
-        </Footer>
-      )}
-    </>
-  );
-}
-
-/** choose_form — the gap prompt + full-width Finnish options. */
-function ChooseFormCard({
-  item,
-  onComplete,
-}: {
-  item: ChooseFormItem;
-  onComplete: (item: GrammarItem, correct: boolean) => void;
-}) {
-  const [picked, setPicked] = useState<string | null>(null);
-  const answered = picked !== null;
-  const correct = picked === item.answer;
-  const [before, after = ""] = item.promptFi.split("___");
-
-  return (
-    <>
-      <section className="card gcard">
-        <p className="gprompt" lang="fi">
-          {before}
-          {answered && correct ? (
-            <span className="gfill-in">{item.answer}</span>
-          ) : (
-            <span className="gblank" aria-label="пропуск" />
-          )}
-          {after}
-          {item.hintRu && (
-            <span className="gprompt__hint" lang="ru">
-              {item.hintRu}
-            </span>
-          )}
-        </p>
-        <div className="options">
-          {item.options.map((o) => {
-            let cls = "option";
-            if (answered) {
-              if (o.fi === item.answer) cls += " option--correct";
-              else if (o.fi === picked) cls += " option--wrong";
-              else cls += " option--muted";
-            }
-            return (
-              <button
-                key={o.fi}
-                type="button"
-                className={cls}
-                disabled={answered}
-                lang="fi"
-                onClick={() => setPicked(o.fi)}
-              >
-                {o.fi}
-                {answered && o.fi === picked && !correct && o.whyRu && (
-                  <span className="option__why" lang="ru">
-                    <RuText text={o.whyRu} />
-                  </span>
-                )}
-              </button>
-            );
-          })}
-        </div>
-        {answered && (
-          <div className="gxstack">
-            {correct ? (
-              <GExplain tone="ok">
-                <RuText text={item.okRu} />
-              </GExplain>
-            ) : (
-              <GExplain tone="ok">
-                Правильный ответ: <span className="fi">{item.answer}</span>.
-              </GExplain>
-            )}
-          </div>
-        )}
-      </section>
-      {answered && (
-        <Footer>
-          <button type="button" className="gnext" onClick={() => onComplete(item, correct)}>
-            Дальше
-          </button>
-        </Footer>
-      )}
-    </>
-  );
-}
-
-/** produce_form / transform — typed input with ä/ö keys, optional voice input, near-miss grading. */
-function TypedCard({
-  item,
-  speechLang,
-  online,
-  onComplete,
-}: {
-  item: TypedFormItem;
-  speechLang: string;
-  online: boolean;
-  onComplete: (item: GrammarItem, correct: boolean) => void;
-}) {
-  const [value, setValue] = useState("");
-  const [grade, setGrade] = useState<TypedGrade | null>(null);
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const graded = grade !== null;
-
-  // Voice input (free Web Speech API): the mic fills the input — grading stays the same typed
-  // path. Per the project rule, transcripts go through pickBestSpoken so the recognizer's N-best
-  // list is searched for a hypothesis the item actually accepts (digits→Finnish words included).
-  const accepts = (candidate: string) =>
-    item.accepted.some((a) => normalizeFi(a) === normalizeFi(candidate));
-  const speech = useSpeechRecognition({
-    lang: speechLang,
-    enabled: online && !graded,
-    onResult: (alternatives) => setValue(pickBestSpoken(alternatives, accepts)),
-  });
-  const voiceReady = online && speech.supported && !graded;
-  const speechHint = speechTroubleRu(online, speech.error);
-
-  const submit = (e?: FormEvent) => {
-    e?.preventDefault();
-    if (graded || value.trim() === "") return;
-    setGrade(gradeTyped(value, item));
-  };
-
-  const inputState =
-    grade === null
-      ? ""
-      : grade.verdict === "correct"
-        ? " ginput--ok"
-        : grade.verdict === "near"
-          ? " ginput--near"
-          : " ginput--no";
-
-  return (
-    <>
-      <section className="card gcard">
-        <p className="gprompt">
-          <span className="fi" lang="fi">
-            {item.promptFi}
-          </span>
-          {item.promptRu && <> → {item.promptRu}</>}
-          {item.hintRu && <span className="gprompt__hint">{item.hintRu}</span>}
-        </p>
-        <form className="produce" onSubmit={submit}>
-          <input
-            ref={inputRef}
-            className={"produce__input" + inputState}
-            type="text"
-            lang="fi"
-            autoCapitalize="none"
-            autoCorrect="off"
-            spellCheck={false}
-            placeholder={item.type === "transform" ? "Введите фразу…" : "Введите форму…"}
-            value={value}
-            disabled={graded}
-            onChange={(e) => setValue(e.target.value)}
-          />
-          {voiceReady && (
-            <button
-              type="button"
-              className={"mic" + (speech.listening ? " mic--on" : "")}
-              onClick={speech.listening ? speech.stop : speech.start}
-            >
-              {speech.listening ? "Говорите…" : "🎤 Сказать вслух"}
-            </button>
-          )}
-          {speechHint && !graded && <p className="gprompt__hint">{speechHint}</p>}
-        </form>
-        {grade && (
-          <div className="gxstack">
-            {grade.verdict === "correct" ? (
-              <GExplain tone="ok">
-                <RuText text={grade.explainRu ?? item.okRu} />
-              </GExplain>
-            ) : (
-              <>
-                <GExplain tone={grade.verdict === "near" ? "near" : "no"}>
-                  {grade.explainRu ? (
-                    <RuText text={grade.explainRu} />
-                  ) : grade.verdict === "near" ? (
-                    <>Почти! Сравните с правильной формой ниже.</>
-                  ) : (
-                    <>Сравните свой ответ с правильной формой ниже.</>
-                  )}
-                </GExplain>
-                <GCanon canonical={item.canonical} />
-              </>
-            )}
-          </div>
-        )}
-      </section>
-      <Footer>
-        {graded ? (
-          /* A near-miss is amber in the UI but counts as a MISS for the lesson score —
-             the gentle tone is feedback, not credit (per the design handoff). */
-          <button
-            type="button"
-            className="gnext"
-            onClick={() => onComplete(item, grade!.verdict === "correct")}
-          >
-            Дальше
-          </button>
-        ) : (
-          <button type="button" className="gnext" disabled={value.trim() === ""} onClick={() => submit()}>
-            Проверить
-          </button>
-        )}
-      </Footer>
-    </>
-  );
-}
-
-/** fill_table — complete the paradigm; every cell graded independently. */
-function FillTableCard({
-  item,
-  onComplete,
-}: {
-  item: FillTableItem;
-  onComplete: (item: GrammarItem, correct: boolean) => void;
-}) {
-  const [values, setValues] = useState<string[]>(() => item.cells.map(() => ""));
-  const [graded, setGraded] = useState<boolean[] | null>(null);
-  const allFilled = values.every((v) => v.trim() !== "");
-  const okCount = graded ? graded.filter(Boolean).length : 0;
-  const allOk = graded !== null && okCount === item.cells.length;
-
-  const submit = () => {
-    if (graded || !allFilled) return;
-    setGraded(item.cells.map((c, i) => gradeCell(values[i]!, c)));
-  };
-
-  return (
-    <>
-      <section className="card gcard">
-        <p className="gprompt">
-          <span className="fi" lang="fi">
-            {item.promptFi}
-          </span>
-          {item.promptRu && <> — {item.promptRu}</>}
-          {item.hintRu && <span className="gprompt__hint">{item.hintRu}</span>}
-        </p>
-        <div className="gfills">
-          {item.cells.map((c, i) => (
-            <span key={c.l} style={{ display: "contents" }}>
-              <div className="gfill">
-                <span className="gfill__p" lang="fi">
-                  {c.l}
-                </span>
-                <input
-                  className={
-                    "gfill__in" + (graded ? (graded[i] ? " ginput--ok" : " ginput--no") : "")
-                  }
-                  type="text"
-                  lang="fi"
-                  autoCapitalize="none"
-                  autoCorrect="off"
-                  spellCheck={false}
-                  placeholder="…"
-                  value={values[i]}
-                  disabled={graded !== null}
-                  onChange={(e) =>
-                    setValues((prev) => prev.map((v, j) => (j === i ? e.target.value : v)))
-                  }
-                />
-              </div>
-              {graded && !graded[i] && (
-                <div className="gfill">
-                  <span />
-                  <span className="gfill__fix" lang="fi">
-                    → {stripForm(c.canonical)}
-                  </span>
-                </div>
-              )}
-            </span>
-          ))}
-        </div>
-        {graded && (
-          <div className="gxstack">
-            <GExplain tone={allOk ? "ok" : "near"}>
-              {allOk ? (
-                <>Все формы верны!</>
-              ) : (
-                <>
-                  {okCount} из {item.cells.length} верно.{" "}
-                  {item.summaryRu && <RuText text={item.summaryRu} />}
-                </>
-              )}
-            </GExplain>
-          </div>
-        )}
-      </section>
-      <Footer>
-        {graded ? (
-          <button type="button" className="gnext" onClick={() => onComplete(item, allOk)}>
-            Дальше
-          </button>
-        ) : (
-          <button type="button" className="gnext" disabled={!allFilled} onClick={submit}>
-            Проверить
-          </button>
-        )}
-      </Footer>
-    </>
-  );
-}
+/* The six exercise cards (ItemScreen + the four card types) live in GrammarCards.tsx,
+   shared with the decoupled review trainer (GrammarTrainer.tsx). */
 
 /* ===================================================================== summary */
 

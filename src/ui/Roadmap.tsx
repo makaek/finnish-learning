@@ -107,6 +107,8 @@ interface RoadmapProps {
   onOpenReading: (type: "text" | "dialog") => void;
   /** Open the grammar topic map (optionally deep-linked into a topic's lesson). */
   onOpenGrammar: (topicId?: string) => void;
+  /** Open the decoupled grammar review trainer. */
+  onOpenTrainer: () => void;
   /** Open the Метрики screen (the streak strip taps through to it). */
   onShowStats: () => void;
   /** Test-mode only: mark everything mastered, to exercise unlocks without grinding. */
@@ -130,6 +132,7 @@ export default function Roadmap({
   onStart,
   onOpenReading,
   onOpenGrammar,
+  onOpenTrainer,
   onShowStats,
   onTestFill,
 }: RoadmapProps) {
@@ -405,6 +408,27 @@ export default function Roadmap({
             <span className="ctacard__sub">
               {gramNext ? `Уровень ${gramNext.level} · 3–5 мин` : "открыть карту тем"}
             </span>
+          </span>
+          <span className="ctacard__play" aria-hidden="true">
+            <UiIcon name="play" size={15} strokeWidth={2.4} />
+          </span>
+        </button>
+      )}
+
+      {/* Грамматика · тренажёр — free review over studied topics, decoupled from level progress. */}
+      {gram.total > 0 && (
+        <button
+          type="button"
+          className="ctacard ctacard--gram ctacard--row ctacard--trainer"
+          onClick={onOpenTrainer}
+        >
+          <span className="ctacard__tile" aria-hidden="true">
+            <UiIcon name="refresh" size={20} strokeWidth={2} />
+          </span>
+          <span className="ctacard__main">
+            <span className="ctacard__kicker">Грамматика · тренажёр</span>
+            <span className="ctacard__title">Повторить пройденное</span>
+            <span className="ctacard__sub">10 заданий · без влияния на уровень</span>
           </span>
           <span className="ctacard__play" aria-hidden="true">
             <UiIcon name="play" size={15} strokeWidth={2.4} />

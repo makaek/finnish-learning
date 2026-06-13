@@ -4456,3 +4456,429 @@ mark.ghl--alt {
     transition: none;
   }
 }
+
+/* ============================================================ Грамматика · тренажёр
+   (design_handoff_grammar_trainer): a free review session decoupled from level progress.
+   Reuses the gram-* tokens; adds tr-* chrome for the entry banner/CTA, intro, session and
+   summary. The prototype's device-shell classes are intentionally NOT ported. */
+
+/* — session top bar (exit · eyebrow + counter · continuous progress) — */
+.tr-top {
+  display: grid;
+  gap: 11px;
+  flex: none;
+}
+.tr-toprow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tr-mid {
+  flex: 1;
+  min-width: 0;
+}
+.tr-eyebrow {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gram);
+}
+.tr-stage {
+  font-size: 0.98rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.tr-count {
+  flex: none;
+  padding: 4px 10px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: var(--muted);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--pill);
+  font-variant-numeric: tabular-nums;
+}
+.tr-prog {
+  height: 6px;
+  border-radius: var(--pill);
+  background: var(--surface-2);
+  overflow: hidden;
+}
+.tr-prog__fill {
+  height: 100%;
+  border-radius: var(--pill);
+  background: var(--gram);
+  transition: width 0.35s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.tr-card-topwrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* — "повторение · без влияния на уровень" badge — */
+.tr-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px 4px 8px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: var(--gram-deep);
+  background: var(--gram-soft);
+  border: 1px solid var(--gram-line);
+  border-radius: var(--pill);
+  white-space: nowrap;
+}
+.tr-badge svg {
+  flex: none;
+}
+
+/* — intro (card-centric) — */
+.tr-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.tr-introtop {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tr-herocard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 5px;
+  padding: 1.6rem 1.3rem 1.4rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r, 22px);
+  box-shadow: var(--shadow-sm);
+}
+.tr-disc {
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  margin-bottom: 6px;
+  border-radius: 20px;
+  color: var(--gram);
+  background: var(--gram-soft);
+  border: 1px solid var(--gram-line);
+}
+.tr-kicker {
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--gram);
+}
+.tr-title {
+  margin: 1px 0 0;
+  font-size: 1.7rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.tr-sub {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--muted);
+  max-width: 21rem;
+}
+.tr-metarow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+.tr-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--text);
+  background: var(--surface);
+  border-radius: var(--pill);
+}
+.tr-meta svg {
+  flex: none;
+  color: var(--muted);
+}
+
+/* — "в фокусе сессии" chip strip — */
+.tr-focus {
+  display: grid;
+  gap: 9px;
+  padding: 13px 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm, 14px);
+  box-shadow: var(--shadow-sm);
+}
+.tr-focus__h {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.tr-focus__h svg {
+  color: var(--weak);
+}
+.tr-fchips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.tr-fchip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 11px 6px 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--pill);
+}
+.tr-fchip__pct {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--gram);
+  font-variant-numeric: tabular-nums;
+}
+.tr-fchip__pct--low {
+  color: var(--weak);
+}
+
+/* — topic-map launch banner — */
+.tr-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 13px 14px;
+  text-align: left;
+  color: var(--text);
+  background: linear-gradient(180deg, var(--gram-soft), var(--card));
+  border: 1px solid var(--gram-line);
+  border-radius: var(--r-sm, 14px);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  font: inherit;
+  transition: transform 0.08s ease;
+}
+.tr-banner:active {
+  transform: scale(0.99);
+}
+.tr-banner__tile {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  color: #fff;
+  background: var(--gram);
+}
+.tr-banner__main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.tr-banner__k {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--gram);
+}
+.tr-banner__t {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.tr-banner__s {
+  margin-top: 1px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.tr-banner__play {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  color: var(--gram);
+  background: var(--card);
+  border: 1px solid var(--gram-line);
+}
+
+/* — home trainer CTA: a gram-filled tile (distinct from the lesson card's outline tile) — */
+.ctacard--trainer {
+  cursor: pointer;
+}
+.ctacard--trainer .ctacard__tile {
+  color: #fff;
+  background: var(--gram);
+  border-color: transparent;
+}
+
+/* — summary: topics-to-review list (deep-links to a rule; no level/unlock rewards) — */
+.tr-rev {
+  display: grid;
+  gap: 8px;
+}
+.tr-revrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tr-revrow__ic {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  color: var(--gram);
+  background: var(--gram-soft);
+}
+.tr-revrow__name {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-align: left;
+}
+.tr-revrow__acc {
+  flex: none;
+  font-size: 0.78rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.tr-revrow--btn {
+  width: 100%;
+  font: inherit;
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-radius: 11px;
+  padding: 5px 7px;
+  margin: 0 -7px;
+  cursor: pointer;
+  transition: background 0.14s ease;
+}
+.tr-revrow--btn:not(:disabled):hover {
+  background: var(--surface);
+}
+.tr-revrow--btn:not(:disabled):active {
+  background: var(--surface-2);
+}
+.tr-revrow--btn:disabled {
+  cursor: default;
+}
+.tr-revrow__go {
+  flex: none;
+  display: inline-flex;
+  color: var(--muted);
+  margin-left: -2px;
+}
+.tr-acc--green {
+  color: var(--ok);
+}
+.tr-acc--amber {
+  color: var(--known);
+}
+.tr-acc--red {
+  color: var(--no);
+}
+.tr-allgood {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--ok);
+}
+.tr-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 2px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-align: center;
+}
+.tr-note svg {
+  flex: none;
+}
+
+/* — «Уже знаю / пропустить» skip pill on a session card — */
+.tr-skip {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  font: inherit;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--muted);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--pill);
+  cursor: pointer;
+}
+.tr-skip svg {
+  flex: none;
+}
+
+/* — topic-row rule link (rules are link-only now) — */
+.gtopic__links {
+  margin-top: 8px;
+  display: flex;
+}
+.tr-rulelink {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 9%, var(--card));
+  border: 1px solid color-mix(in srgb, var(--accent) 24%, var(--border));
+  border-radius: var(--pill);
+  cursor: pointer;
+  transition: background 0.14s ease, transform 0.08s ease;
+}
+.tr-rulelink:active {
+  transform: scale(0.96);
+}
+.tr-rulelink svg {
+  flex: none;
+}

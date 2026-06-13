@@ -44,6 +44,8 @@ interface DashboardProps {
   onOpenReading: (type: "text" | "dialog") => void;
   /** Open the grammar topic map when the weakest mode is grammar. */
   onOpenGrammar: () => void;
+  /** Open the decoupled grammar review trainer (secondary entry). */
+  onOpenTrainer: () => void;
 }
 
 const pct = (x: number) => `${Math.round(x * 100)}%`;
@@ -100,6 +102,7 @@ export default function Dashboard({
   onStart,
   onOpenReading,
   onOpenGrammar,
+  onOpenTrainer,
 }: DashboardProps) {
   const d = useMemo(
     () =>
@@ -370,6 +373,18 @@ export default function Dashboard({
           </div>
         </div>
       </section>
+
+      {/* Secondary trainer entry — free grammar review, no effect on level/progress. */}
+      {grammar.length > 0 && (
+        <button
+          type="button"
+          className="gnext"
+          style={{ marginTop: "0.2rem" }}
+          onClick={onOpenTrainer}
+        >
+          Тренажёр грамматики · 10
+        </button>
+      )}
     </main>
   );
 }

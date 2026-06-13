@@ -1,0 +1,522 @@
+/* trainer.css — «Грамматика · тренажёр»: a free 10-card review session that
+   reuses the grammar item types but is decoupled from level progress.
+   Extends grammar.css; adds tr-* classes for the entry/intro/session chrome. */
+
+/* ---- Session top bar (exit · eyebrow + counter · continuous progress) ---- */
+.tr-top {
+  display: grid;
+  gap: 11px;
+  flex: none;
+}
+.tr-toprow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tr-mid {
+  flex: 1;
+  min-width: 0;
+}
+.tr-eyebrow {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gram);
+}
+.tr-stage {
+  font-size: 0.98rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.tr-count {
+  flex: none;
+  padding: 4px 10px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: var(--muted);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--pill);
+  font-variant-numeric: tabular-nums;
+}
+.tr-prog {
+  height: 6px;
+  border-radius: var(--pill);
+  background: var(--surface-2);
+  overflow: hidden;
+}
+.tr-prog__fill {
+  height: 100%;
+  border-radius: var(--pill);
+  background: var(--gram);
+  transition: width 0.35s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+/* ---- Scrollable card region (top bar + footer stay put) ---- */
+.tr-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  margin: 0 -2px;
+  padding: 2px;
+}
+.tr-card-topwrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 0.7rem;
+}
+
+/* ---- "повторение · без влияния на уровень" badge ---- */
+.tr-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px 4px 8px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: var(--gram-deep);
+  background: var(--gram-soft);
+  border: 1px solid var(--gram-line);
+  border-radius: var(--pill);
+  white-space: nowrap;
+}
+.tr-badge svg { flex: none; }
+.tr-badge--muted {
+  color: var(--muted);
+  background: var(--surface-2);
+  border-color: transparent;
+}
+
+/* ---- Intro (variant A — card-centric) ---- */
+.tr-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.tr-introtop {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tr-herocard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 5px;
+  padding: 1.6rem 1.3rem 1.4rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  box-shadow: var(--shadow-sm);
+}
+.tr-disc {
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  margin-bottom: 6px;
+  border-radius: 20px;
+  color: var(--gram);
+  background: var(--gram-soft);
+  border: 1px solid var(--gram-line);
+}
+.tr-kicker {
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--gram);
+}
+.tr-title {
+  margin: 1px 0 0;
+  font-size: 1.7rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.tr-sub {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--muted);
+  max-width: 21rem;
+}
+.tr-metarow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+.tr-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--text);
+  background: var(--surface);
+  border-radius: var(--pill);
+}
+.tr-meta svg { flex: none; color: var(--muted); }
+
+/* "focus topics" chip strip shared by both intros */
+.tr-focus {
+  display: grid;
+  gap: 9px;
+  padding: 13px 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  box-shadow: var(--shadow-sm);
+}
+.tr-focus__h {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.tr-focus__h svg { color: var(--weak, #ce6a57); }
+.tr-fchips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.tr-fchip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 11px 6px 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--pill);
+}
+.tr-fchip__pct {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--gram);
+  font-variant-numeric: tabular-nums;
+}
+.tr-fchip__pct--low { color: var(--weak, #ce6a57); }
+
+/* ---- Intro (variant B — session queue preview) ---- */
+.tr-queue {
+  display: grid;
+  gap: 7px;
+}
+.tr-qrow {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  box-shadow: var(--shadow-sm);
+}
+.tr-qnum {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: var(--muted);
+  background: var(--surface-2);
+  border-radius: 8px;
+  font-variant-numeric: tabular-nums;
+}
+.tr-qmain { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.tr-qtopic {
+  font-size: 0.86rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.tr-qtype {
+  margin-top: 1px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.tr-qflag {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--weak, #ce6a57);
+  background: color-mix(in srgb, var(--weak, #ce6a57) 12%, var(--card));
+  border-radius: var(--pill);
+}
+.tr-qicon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  color: var(--gram);
+  background: var(--gram-soft);
+  border: 1px solid var(--gram-line);
+}
+
+/* topic-map launch banner (variant B entry) */
+.tr-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 13px 14px;
+  text-align: left;
+  color: var(--text);
+  background: linear-gradient(180deg, var(--gram-soft), var(--card));
+  border: 1px solid var(--gram-line);
+  border-radius: var(--r-sm);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  font: inherit;
+  transition: transform 0.08s ease;
+}
+.tr-banner:active { transform: scale(0.99); }
+.tr-banner__tile {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  color: #fff;
+  background: var(--gram);
+}
+.tr-banner__main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.tr-banner__k {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--gram);
+}
+.tr-banner__t {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.tr-banner__s {
+  margin-top: 1px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.tr-banner__play {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  color: var(--gram);
+  background: var(--card);
+  border: 1px solid var(--gram-line);
+}
+
+/* ---- Home CTA (variant A entry) ---- */
+.ctacard--trainer { cursor: pointer; }
+.ctacard--trainer .ctacard__tile {
+  color: #fff;
+  background: var(--gram);
+  border-color: transparent;
+}
+
+/* ---- Summary: topics-to-review list (no level / unlock rewards) ---- */
+.tr-rev {
+  display: grid;
+  gap: 8px;
+}
+.tr-revrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tr-revrow__ic {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  color: var(--gram);
+  background: var(--gram-soft);
+}
+.tr-revrow__name {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+.tr-revrow__acc {
+  flex: none;
+  font-size: 0.78rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.tr-revrow--btn {
+  width: 100%;
+  font: inherit;
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-radius: 11px;
+  padding: 5px 7px;
+  margin: 0 -7px;
+  cursor: pointer;
+  transition: background 0.14s ease;
+}
+.tr-revrow--btn:not(:disabled):hover { background: var(--surface); }
+.tr-revrow--btn:not(:disabled):active { background: var(--surface-2); }
+.tr-revrow--btn:disabled { cursor: default; }
+.tr-revrow__go { flex: none; display: inline-flex; color: var(--muted); margin-left: -2px; }
+.tr-acc--green { color: var(--ok); }
+.tr-acc--amber { color: var(--known); }
+.tr-acc--red { color: var(--no); }
+.tr-allgood {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--ok);
+}
+.tr-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 2px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-align: center;
+}
+.tr-note svg { flex: none; }
+
+/* known-answer "Уже знаю / пропустить" skip pill on a card */
+.tr-skip {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  font: inherit;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--muted);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--pill);
+  cursor: pointer;
+}
+.tr-skip svg { flex: none; }
+.tr-no-know .tr-skip { display: none; }
+
+/* topic-row text spans stack (scoped to the trainer so the DS file is untouched) */
+.tr-root .gtopic__title,
+.tr-root .gtopic__sub { display: block; }
+
+/* ──────────────── Option A app shell ──────────────── */
+.tr-viewport {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  box-sizing: border-box;
+  background: linear-gradient(160deg, #efe7d9, #e3d4bf);
+}
+.tr-device {
+  position: relative;
+  width: 390px;
+  max-width: 100%;
+  height: min(844px, calc(100vh - 36px));
+  background: var(--bg);
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(78, 52, 24, 0.28), 0 0 0 1px var(--border);
+}
+.tr-root { position: relative; }
+.tr-app {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(120% 60% at 50% -8%, var(--bg-2), transparent 60%), var(--bg);
+}
+.tr-app__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  padding: 16px 18px 18px;
+  scrollbar-width: none;
+}
+.tr-app__body::-webkit-scrollbar { display: none; }
+.tr-app .bnav { position: static; flex: none; }
+.gram-phone-host { width: 100%; height: 100%; }
+
+/* rule link (navigation accent — rules live behind links now) */
+.gtopic__links { margin-top: 8px; display: flex; }
+.tr-rulelink {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 9%, var(--card));
+  border: 1px solid color-mix(in srgb, var(--accent) 24%, var(--border));
+  border-radius: var(--pill);
+  cursor: pointer;
+  transition: background 0.14s ease, transform 0.08s ease;
+}
+.tr-rulelink:active { transform: scale(0.96); }
+.tr-rulelink svg { flex: none; }
+.gtopic--static { cursor: default; }
+.gtopic--static:active:not(:disabled) { transform: none; }
+
+/* rule-detail eyebrow */
+.tr-rule-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.tr-rule-eyebrow svg { flex: none; }
